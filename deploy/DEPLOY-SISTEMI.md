@@ -14,4 +14,4 @@ Gerekli: GitHub Secrets (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PATH`, `DEPLOY_SS
 
 `yerel-geri-yukle.bat` — geliştirme modu
 
-Ayrıntı: `GITHUB-KURULUM.md`
+GitHub: yeni repo `kosarticaret` (kosargrup değil). Ayrıntı: `GITHUB-KURULUM.md`

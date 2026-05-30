@@ -1,118 +1,106 @@
-# GitHub + canlı site kurulumu (sıfırdan)
+# GitHub + kosarticaret.com
 
-**Site:** https://kosarticaret.com  
-**GitHub repo (sizin):** `kosarteknikservis-pixel/kosargrup-site`
+**Canlı site:** https://kosarticaret.com  
+**GitHub:** Yeni repo oluşturacaksınız — `kosargrup` / `kosargrup-site` **kullanılmayacak.**
 
----
-
-## Önemli: GitHub ekranında ne seçeceksiniz?
-
-Actions → “Choose a workflow” ekranında **Laravel / PHP şablonuna tıklamayın.**
-
-Kod push edilince **`Canlıya gönder`** workflow’u otomatik görünür (`.github/workflows/canliya-gonder.yml`).
+Önerilen repo adı: **`kosarticaret`** veya **`kosarticaret-site`**
 
 ---
 
-## Bölüm 1 — Bilgisayar → GitHub (ilk kez)
+## 1) GitHub’da yeni repo oluşturun
 
-### 1) Git kurulu mu?
+1. https://github.com/new  
+2. **Repository name:** `kosarticaret` (veya `kosarticaret-site`)  
+3. **Private** seçin (önerilir)  
+4. **README, .gitignore, license EKLEMEYİN** (boş repo)  
+5. **Create repository**
 
-CMD:
+Oluşan adres örneği:
 
-```cmd
-git --version
-```
+`https://github.com/kosarteknikservis-pixel/kosarticaret.git`
 
-### 2) Projeyi Git’e bağla
+---
+
+## 2) Bilgisayardan GitHub’a bağlayın
+
+CMD — her satır ayrı Enter:
 
 ```cmd
 cd /d c:\xampp\htdocs\kosarticaretpanelli\kosar
-git init
-git branch -M main
+```
+
+```cmd
 git add .
-git commit -m "Kosar e-ticaret ilk commit"
-git remote add origin https://github.com/kosarteknikservis-pixel/kosargrup-site.git
+```
+
+```cmd
+git commit -m "Kosar e-ticaret ilk yukleme"
+```
+
+```cmd
+git remote add origin https://github.com/kosarteknikservis-pixel/kosarticaret.git
+```
+
+```cmd
 git push -u origin main
 ```
 
-GitHub girişi istenirse tarayıcıdan onaylayın.
+> `kosarteknikservis-pixel` yerine kendi GitHub kullanıcı/organizasyon adınızı yazın.  
+> Repo adını `kosarticaret-site` yaptıysanız URL’de onu kullanın.
 
-> **Not:** `database.sqlite` ve ürün görselleri Git’e **girmez** (boyut + güvenlik). İlk canlı kurulum zip ile yapılır.
+`remote add` “already exists” derse:
+
+```cmd
+git remote remove origin
+git remote add origin https://github.com/kosarteknikservis-pixel/kosarticaret.git
+git push -u origin main
+```
+
+Push bitince GitHub → **Actions** → **Canlıya gönder** görünür.
 
 ---
 
-## Bölüm 2 — İlk canlı kurulum (ürünler + görseller)
+## 3) İlk canlı kurulum (zip — GitHub şart değil)
 
-GitHub kod güncellemesi **görselleri taşımaz**. İlk kez:
-
-1. `canli-paket-hazirla.bat` → çift tık  
+1. **`canli-paket-hazirla.bat`** çift tık  
 2. `deploy/kosarticaret-canli-....zip` → DirectAdmin  
-3. `domains/kosarticaret.com/` içinde aç → `kosar` + `public_html`  
+3. `domains/kosarticaret.com/` içinde aç  
 4. Document Root: `public_html`, PHP 8.3  
-5. `kosar/.env` → `ADMIN_PASSWORD` güçlü şifre  
+5. `kosar/.env` → `ADMIN_PASSWORD`  
 
 Detay: `deploy/KURULUM-CANLI.md`
 
 ---
 
-## Bölüm 3 — Sonraki güncellemeler (GitHub → sunucu)
+## 4) Sonraki güncellemeler (isteğe bağlı)
 
-### Sunucuda SSH açık olmalı
+GitHub → Settings → Secrets → Actions:
 
-DirectAdmin veya hosting firmasından SSH bilgisi alın.
-
-### GitHub Secrets ekle
-
-Repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
-
-| Secret | Örnek değer |
-|--------|-------------|
-| `DEPLOY_HOST` | Sunucu IP veya `kosarticaret.com` |
+| Secret | Örnek |
+|--------|--------|
+| `DEPLOY_HOST` | Sunucu IP |
 | `DEPLOY_USER` | `admin` |
 | `DEPLOY_PATH` | `/home/admin/domains/kosarticaret.com` |
-| `DEPLOY_SSH_KEY` | SSH private key (tam metin, `-----BEGIN...`) |
+| `DEPLOY_SSH_KEY` | SSH private key |
 
-### Canlıya gönder
-
-1. Kodu değiştirin → `git add .` → `git commit` → `git push`  
-2. GitHub → **Actions** → **Canlıya gönder** → **Run workflow**  
-3. Onay kutusuna: **`canli`** yazın → Run  
-
-Sunucuya gider: `app`, `resources`, `vendor`, `public/css`, `public/js` vb.  
-**Dokunulmaz:** sunucudaki `.env`, `database.sqlite`, `storage/app/public` (görseller).
+Actions → **Canlıya gönder** → onay: `canli`
 
 ---
 
-## Bölüm 4 — Yerel geliştirme
+## Yerel geliştirme
 
 | İş | Dosya |
 |----|--------|
-| Canlı zip üret | `canli-paket-hazirla.bat` |
-| Yerelde test araçları | `yerel-geri-yukle.bat` |
-| Yerel site | `php artisan serve --port=8001` |
-
-Paket script’i bitince yerelde `composer install` (dev) otomatik çalışır.
+| Canlı zip | `canli-paket-hazirla.bat` |
+| Yerel mod | `yerel-geri-yukle.bat` |
 
 ---
 
-## Cursor ile “canlıya gönder”
+## Özet
 
-Push + Actions çalıştırma talimatını bana yazabilirsiniz; adımları hatırlatırım. Tam otomatik SSH sizin Secrets tanımlamanıza bağlı.
-
----
-
-## Özet akış
-
-```
-[Yerel kod] ──git push──► [GitHub]
-                              │
-         İlk kurulum          │  Sonraki güncellemeler
-              │               │
-              ▼               ▼
-    canli-paket-hazirla.bat   Actions: Canlıya gönder
-              │               │
-              ▼               ▼
-         DirectAdmin zip      SSH rsync
-              │               │
-              └──────► kosarticaret.com
-```
+| Konu | Doğru |
+|------|--------|
+| Repo | **Yeni:** `kosarticaret` |
+| Kullanılmayacak | `kosargrup-site`, `kosargrup` |
+| İlk canlı | Zip + DirectAdmin |
+| GitHub bağlantısı | Siz `git push` ile yaparsınız |
