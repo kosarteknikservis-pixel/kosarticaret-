@@ -7,7 +7,8 @@ Set-Location $root
 
 $date = Get-Date -Format "yyyy-MM-dd"
 $outDir = Join-Path $root "deploy"
-$stagingRoot = Join-Path $outDir "_canli_staging"
+# Staging deploy/ icinde degil — kilitlenme ve karisiklik onlenir
+$stagingRoot = Join-Path $env:TEMP "kosar_canli_staging"
 $stagingKosar = Join-Path $stagingRoot "kosar"
 $stagingPublic = Join-Path $stagingRoot "public_html"
 $zipPath = Join-Path $outDir "kosarticaret-canli-$date.zip"
@@ -22,13 +23,18 @@ cmd /c "composer install --no-dev --optimize-autoloader --no-interaction"
 if ($LASTEXITCODE -ne 0) { throw "composer install failed" }
 
 if (Test-Path $stagingRoot) {
-    Remove-Item $stagingRoot -Recurse -Force
+    cmd /c "rmdir /s /q `"$stagingRoot`"" 2>$null
+    if (Test-Path $stagingRoot) {
+        $stagingRoot = Join-Path $outDir ("_canli_staging_" + (Get-Date -Format "HHmmss"))
+    }
 }
+$stagingKosar = Join-Path $stagingRoot "kosar"
+$stagingPublic = Join-Path $stagingRoot "public_html"
 New-Item -ItemType Directory -Path $stagingKosar -Force | Out-Null
 New-Item -ItemType Directory -Path $stagingPublic -Force | Out-Null
 
 Write-Host "==> kosar/ kopyalaniyor..."
-robocopy $root $stagingKosar /E /XD node_modules .git .idea .vscode .cursor .codex .phpunit.cache tests deploy scripts _canli_staging "public\storage" `
+robocopy $root $stagingKosar /E /XD node_modules .git .idea .vscode .cursor .codex .phpunit.cache tests deploy scripts "public\storage" `
     /XF .env .env.backup *.log .phpunit.result.cache wc-product-export*.csv tmp-*.php phpunit.xml canli-*.bat yerel-*.bat `
     /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
 if ($LASTEXITCODE -ge 8) { throw "robocopy kosar failed" }
@@ -86,13 +92,15 @@ Copy-Item (Join-Path $root "deploy\sunucu-kurulum.sh") (Join-Path $stagingRoot "
 if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir -Force | Out-Null }
 if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 
-Write-Host "==> Zip olusturuluyor..."
-Set-Location $stagingRoot
-tar.exe -a -cf $zipPath -C $stagingRoot "kosar" "public_html" "KURULUM.md" "sunucu-kurulum.sh"
-Set-Location $root
+Write-Host "==> Zip olusturuluyor (2-5 dk, bekleyin)..."
+$tar = Join-Path $env:SystemRoot "System32\tar.exe"
+if (-not (Test-Path $tar)) { throw "tar.exe bulunamadi (Windows 10+ gerekli)" }
+& $tar -a -cf $zipPath -C $stagingRoot kosar public_html KURULUM.md sunucu-kurulum.sh 2>&1 | Out-Null
 if (-not (Test-Path $zipPath)) { throw "zip olusturulamadi" }
+$zipMbCheck = (Get-Item $zipPath).Length / 1MB
+if ($zipMbCheck -lt 50) { throw "zip cok kucuk ($([math]::Round($zipMbCheck,1)) MB) - eksik paket, tekrar deneyin" }
 
-Remove-Item $stagingRoot -Recurse -Force
+cmd /c "rmdir /s /q `"$stagingRoot`"" 2>$null
 
 $sqliteMb = [math]::Round((Get-Item $sqliteSource).Length / 1MB, 2)
 $zipMb = [math]::Round((Get-Item $zipPath).Length / 1MB, 2)

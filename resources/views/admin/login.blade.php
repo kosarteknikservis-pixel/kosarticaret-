@@ -8,42 +8,62 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ @filemtime(public_path('css/admin.css')) ?: 1 }}">
 </head>
-<body class="admin-body min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900">
-    <div class="w-full max-w-md">
-        <div class="text-center mb-8">
-            @if($logoUrl = \App\Support\SiteLogo::url())
-                <img src="{{ $logoUrl }}" alt="Kosar" class="mx-auto h-14 max-w-[180px] object-contain rounded-xl bg-white/10 p-2">
-            @else
-                <span class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-500 text-white font-bold text-2xl shadow-xl shadow-teal-900/50">K</span>
-            @endif
-            <h1 class="mt-4 text-2xl font-bold text-white">Kosar Panel</h1>
-            <p class="text-teal-200/70 text-sm mt-1">Mağaza ve sipariş yönetimi</p>
-        </div>
+<body class="admin-login-page">
+    <div class="admin-login-bg" aria-hidden="true">
+        <span class="admin-login-orb admin-login-orb--1"></span>
+        <span class="admin-login-orb admin-login-orb--2"></span>
+        <span class="admin-login-grid"></span>
+    </div>
 
-        <form method="post" action="{{ route('admin.login') }}" class="admin-card p-8 shadow-2xl">
+    <main class="admin-login-wrap">
+        <header class="admin-login-brand admin-login-reveal">
+            <div class="admin-login-logo" aria-hidden="false">
+                <span class="admin-login-logo__glow" aria-hidden="true"></span>
+                <span class="admin-login-logo__shine" aria-hidden="true"></span>
+                @if($logoUrl = \App\Support\SiteLogo::url())
+                    <img src="{{ $logoUrl }}" alt="{{ \App\Support\SiteLogo::alt() }}" class="admin-login-logo__img" width="160" height="48" decoding="async">
+                @else
+                    <span class="admin-login-logo-fallback">K</span>
+                @endif
+            </div>
+            <p class="admin-login-eyebrow">Yönetim paneli</p>
+            <h1 class="admin-login-title">Kosar Panel</h1>
+            <p class="admin-login-sub">Mağaza, sipariş ve katalog yönetimi</p>
+        </header>
+
+        <form method="post" action="{{ route('admin.login') }}" class="admin-login-card admin-login-reveal admin-login-reveal--2">
             @csrf
             @if($errors->any())
-                <p class="admin-alert-error mb-4">{{ $errors->first() }}</p>
+                <p class="admin-alert-error admin-login-alert" role="alert">{{ $errors->first() }}</p>
             @endif
-            <div class="space-y-4">
-                <div>
-                    <label class="admin-label">E-posta</label>
-                    <input type="email" name="email" value="{{ old('email', 'admin@kosar.com.tr') }}" required class="admin-input" autocomplete="username">
+
+            <div class="admin-login-field">
+                <label class="admin-label" for="admin-email">E-posta</label>
+                <div class="admin-login-input-wrap">
+                    <svg class="admin-login-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M4 6h16v12H4V6Z"/><path d="m4 7 8 6 8-6"/></svg>
+                    <input id="admin-email" type="email" name="email" value="{{ old('email', 'admin@kosar.com.tr') }}" required class="admin-input admin-login-input" autocomplete="username" placeholder="ornek@kosar.com.tr">
                 </div>
-                <div>
-                    <label class="admin-label">Şifre</label>
-                    <input type="password" name="password" required class="admin-input" autocomplete="current-password">
-                </div>
-                <button type="submit" class="admin-btn admin-btn-primary w-full py-3 text-base mt-2">Giriş yap</button>
             </div>
+
+            <div class="admin-login-field">
+                <label class="admin-label" for="admin-password">Şifre</label>
+                <div class="admin-login-input-wrap">
+                    <svg class="admin-login-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 118 0v3"/></svg>
+                    <input id="admin-password" type="password" name="password" required class="admin-input admin-login-input" autocomplete="current-password" placeholder="••••••••">
+                </div>
+            </div>
+
+            <button type="submit" class="admin-btn admin-btn-primary admin-login-submit">
+                <span>Giriş yap</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
         </form>
 
-        <p class="mt-6 text-center">
-            <a href="{{ route('home') }}" class="text-sm text-teal-300/80 hover:text-white transition-colors">← Mağazaya dön</a>
+        <p class="admin-login-back admin-login-reveal admin-login-reveal--3">
+            <a href="{{ route('home') }}">← Mağazaya dön</a>
         </p>
-    </div>
+    </main>
 </body>
 </html>

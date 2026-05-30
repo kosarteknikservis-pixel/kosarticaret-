@@ -1,9 +1,13 @@
-<div class="p-4 border-b border-white/10">
-    <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
-        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-500 text-white font-bold text-lg shadow-lg shadow-teal-900/30">K</span>
-        <div>
-            <p class="font-bold text-white leading-tight">Kosar Panel</p>
-            <p class="text-[11px] text-teal-200/80">E-ticaret yönetimi</p>
+<div class="admin-sidebar-brand">
+    <a href="{{ route('admin.dashboard') }}" class="admin-sidebar-brand__link">
+        @if($logoUrl = \App\Support\SiteLogo::url())
+            <img src="{{ $logoUrl }}" alt="{{ \App\Support\SiteLogo::alt() }}" class="admin-sidebar-brand__logo" width="120" height="36">
+        @else
+            <span class="admin-sidebar-brand__mark">K</span>
+        @endif
+        <div class="admin-sidebar-brand__text">
+            <p class="admin-sidebar-brand__title">Kosar Panel</p>
+            <p class="admin-sidebar-brand__sub">E-ticaret yönetimi</p>
         </div>
     </a>
 </div>

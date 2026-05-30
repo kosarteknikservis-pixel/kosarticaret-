@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ @filemtime(public_path('css/admin.css')) ?: 1 }}">
     @stack('head')
 </head>
 <body class="admin-body text-slate-900 min-h-screen">
@@ -21,7 +21,7 @@
             @include('admin.partials.sidebar-brand')
             @include('admin.partials.sidebar-nav')
             <div class="p-3 border-t border-white/10 mt-auto">
-                <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-nav-link text-teal-300/90">
+                <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-nav-link admin-nav-link--store">
                     <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
                     Mağazayı aç
                 </a>
@@ -59,7 +59,7 @@
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
                     </button>
                     <div class="min-w-0">
-                        <p class="text-xs font-semibold text-teal-700 uppercase tracking-wide">Kosar Panel</p>
+                        <p class="admin-topbar-eyebrow">Kosar Panel</p>
                         <h1 class="admin-page-title truncate text-lg lg:text-xl">@yield('title', 'Panel')</h1>
                     </div>
                 </div>

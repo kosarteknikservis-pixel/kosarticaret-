@@ -6,14 +6,14 @@
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <div class="admin-card admin-stat">
-            <p class="admin-stat-value text-teal-700">{{ $productCount }}</p>
+            <p class="admin-stat-value admin-stat-value--accent">{{ $productCount }}</p>
             <p class="admin-stat-label">Toplam ürün</p>
-            <a href="{{ route('admin.products.index') }}" class="text-xs font-semibold text-teal-600 hover:underline mt-2 inline-block">Ürünleri yönet →</a>
+            <a href="{{ route('admin.products.index') }}" class="admin-link mt-2 inline-block">Ürünleri yönet →</a>
         </div>
         <div class="admin-card admin-stat">
             <p class="admin-stat-value">{{ $orderCount }}</p>
             <p class="admin-stat-label">Toplam sipariş</p>
-            <a href="{{ route('admin.orders.index') }}" class="text-xs font-semibold text-teal-600 hover:underline mt-2 inline-block">Siparişler →</a>
+            <a href="{{ route('admin.orders.index') }}" class="admin-link mt-2 inline-block">Siparişler →</a>
         </div>
         <div class="admin-card admin-stat">
             <p class="admin-stat-value text-amber-600">{{ $lowStock->count() + $outOfStock->count() }}</p>
@@ -24,14 +24,14 @@
             <p class="admin-stat-value text-rose-600">{{ $pendingReviews }}</p>
             <p class="admin-stat-label">Onay bekleyen yorum</p>
             @if($pendingReviews > 0)
-                <a href="{{ route('admin.reviews.index') }}" class="text-xs font-semibold text-teal-600 hover:underline mt-2 inline-block">İncele →</a>
+                <a href="{{ route('admin.reviews.index') }}" class="admin-link mt-2 inline-block">İncele →</a>
             @endif
         </div>
         <div class="admin-card admin-stat">
-            <p class="admin-stat-value text-teal-600">{{ $unreadContactMessages }}</p>
+            <p class="admin-stat-value admin-stat-value--accent">{{ $unreadContactMessages }}</p>
             <p class="admin-stat-label">Yeni iletişim</p>
             @if($unreadContactMessages > 0)
-                <a href="{{ route('admin.contact-messages.index') }}" class="text-xs font-semibold text-teal-600 hover:underline mt-2 inline-block">Mesajlar →</a>
+                <a href="{{ route('admin.contact-messages.index') }}" class="admin-link mt-2 inline-block">Mesajlar →</a>
             @endif
         </div>
     </div>
@@ -40,7 +40,7 @@
         <section class="admin-card overflow-hidden">
             <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
                 <h2 class="font-bold text-slate-900">Son siparişler</h2>
-                <a href="{{ route('admin.orders.index') }}" class="text-sm font-semibold text-teal-700 hover:underline">Tümü</a>
+                <a href="{{ route('admin.orders.index') }}" class="admin-link text-sm">Tümü</a>
             </div>
             @if($recentOrders->isEmpty())
                 <p class="p-6 text-sm text-slate-500">Henüz sipariş yok.</p>

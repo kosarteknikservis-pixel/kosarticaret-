@@ -7,7 +7,7 @@ echo.
 echo  ============================================
 echo   CANLI PAKET (kosarticaret.com)
 echo  ============================================
-echo   Bu islem 2-5 dakika surebilir.
+echo   Zip adimi 2-5 dakika (Compress-Archive kullanilmaz).
 echo   Bittikten sonra yerel gelistirme otomatik acilir.
 echo.
 
