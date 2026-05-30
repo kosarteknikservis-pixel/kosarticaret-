@@ -1,0 +1,71 @@
+# Manuel: GitHub → Actions → "Canlıya gönder" → Run workflow
+# İlk kurulum (ürün + görseller): yerelde canli-paket-hazirla.bat → DirectAdmin zip
+
+name: Canlıya gönder
+
+on:
+  workflow_dispatch:
+    inputs:
+      onay:
+        description: 'Onay için "canli" yazın'
+        required: true
+        default: ''
+
+jobs:
+  deploy:
+    if: github.event.inputs.onay == 'canli'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Kodu al
+        uses: actions/checkout@v4
+
+      - name: PHP 8.3 + Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+          coverage: none
+
+      - name: Production bağımlılıklar
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: SSH anahtarı
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
+
+      - name: kosar/ kodunu sunucuya gönder
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          RSYNC="rsync -avz --no-perms --omit-dir-times"
+          EXCLUDE="--exclude .env --exclude database/database.sqlite --exclude storage/app/public --exclude storage/logs --exclude storage/framework --exclude node_modules --exclude .git --exclude tests --exclude deploy"
+          $RSYNC $EXCLUDE ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/kosar/"
+
+      - name: public_html/ (css, js, giriş dosyaları)
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          RSYNC="rsync -avz --no-perms --omit-dir-times"
+          $RSYNC public/css public/js public/favicon.svg public/robots.txt \
+            "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/" 2>/dev/null || true
+          scp deploy/public_html/index.php deploy/public_html/.htaccess \
+            "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/"
+
+      - name: Sunucuda önbellek temizle
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            (command -v php >/dev/null && php artisan config:cache && php artisan route:cache && php artisan view:cache) || \
+            (/usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache)"
