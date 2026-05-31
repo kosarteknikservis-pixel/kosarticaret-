@@ -814,8 +814,9 @@ body.shop-body {
         gap: 0.5rem;
     }
 }
-/* Giriş yap / Hesabım CTA butonu dar ekranlarda gizle (ikon zaten erişim sağlar) */
-@media (max-width: 479px) {
+/* Giriş yap / Hesabım CTA butonu mobilde gizle — kullanıcı ikonu erişimi sağlar.
+   768px altında 3 ikon + buton birlikte sığmaz, favori ikonu kesilir. */
+@media (max-width: 767px) {
     .shop-header-auth--cta {
         display: none;
     }
@@ -5150,8 +5151,15 @@ a.kfooter__contact:hover .kfooter__contact-icon {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    /* Mobilde ortala; masaüstünde sola hizala */
+    justify-content: center;
     gap: 0.75rem 1.25rem;
     padding: 1rem 0;
+}
+@media (min-width: 1024px) {
+    .kft__inner {
+        justify-content: flex-start;
+    }
 }
 
 /* Card logos */
@@ -5159,10 +5167,14 @@ a.kfooter__contact:hover .kfooter__contact-icon {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: 0.4rem;
     list-style: none;
     margin: 0;
     padding: 0;
+}
+@media (min-width: 1024px) {
+    .kft__cards { justify-content: flex-start; }
 }
 .kft__cards li {
     display: flex;
@@ -5233,10 +5245,14 @@ a.kfooter__contact:hover .kfooter__contact-icon {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: 0.4rem;
     list-style: none;
     margin: 0;
     padding: 0;
+}
+@media (min-width: 1024px) {
+    .kft__badges { justify-content: flex-start; }
 }
 .kft__badge {
     display: inline-flex;
