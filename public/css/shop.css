@@ -712,7 +712,10 @@ body.shop-body {
     transform-origin: left center;
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.shop-site-header__brand { min-width: 0; }
+.shop-site-header__brand {
+    min-width: 0;
+    flex-shrink: 0; /* Logo küçülmesin */
+}
 
 /* ─── Search ─── */
 .shop-site-header__search,
@@ -800,9 +803,24 @@ body.shop-body {
 .shop-header-toolbar {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.35rem;
     margin-left: auto;
     flex-shrink: 0;
+    min-width: 0;
+}
+@media (min-width: 640px) {
+    .shop-header-toolbar {
+        gap: 0.5rem;
+    }
+}
+/* Giriş yap / Hesabım CTA butonu dar ekranlarda gizle (ikon zaten erişim sağlar) */
+@media (max-width: 479px) {
+    .shop-header-auth--cta {
+        display: none;
+    }
+    .shop-header-toolbar__divider {
+        display: none;
+    }
 }
 .shop-header-toolbar__divider {
     width: 1px;
@@ -888,8 +906,9 @@ body.shop-body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    /* Mobilde kompakt, masaüstünde geniş */
+    width: 2.25rem;
+    height: 2.25rem;
     border: none;
     border-radius: 9999px;
     background: transparent;
@@ -901,6 +920,9 @@ body.shop-body {
         background 0.22s ease,
         transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
         box-shadow 0.22s ease;
+}
+@media (min-width: 480px) {
+    .shop-header-icon { width: 2.5rem; height: 2.5rem; }
 }
 @media (min-width: 640px) {
     .shop-header-icon { width: 2.625rem; height: 2.625rem; }
@@ -4771,11 +4793,15 @@ body.shop-body {
 /* 4-col grid */
 .kfooter__grid {
     display: grid;
-    gap: 2.5rem 2rem;
+    /* Mobilde tek sütun, tam genişlik */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    width: 100%;
 }
 @media (min-width: 640px) {
     .kfooter__grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2.5rem 2rem;
     }
 }
 @media (min-width: 1024px) {
@@ -4889,6 +4915,9 @@ a.kfooter__contact:hover .kfooter__contact-icon {
 }
 .kfooter__contact-text {
     padding-top: 0.25rem;
+    min-width: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 .kfooter__contact-text--email {
     word-break: break-all;
@@ -4912,6 +4941,8 @@ a.kfooter__contact:hover .kfooter__contact-icon {
 .kfooter__col {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    min-width: 0;
 }
 .kfooter__heading {
     font-size: 0.6875rem;
@@ -5139,8 +5170,10 @@ a.kfooter__contact:hover .kfooter__contact-icon {
 .kfooter__bar-inner {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 1.1rem 0;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1rem 0;
+    width: 100%;
 }
 @media (min-width: 640px) {
     .kfooter__bar-inner {
@@ -5148,6 +5181,7 @@ a.kfooter__contact:hover .kfooter__contact-icon {
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
+        padding: 1.1rem 0;
     }
 }
 .kfooter__copy {
