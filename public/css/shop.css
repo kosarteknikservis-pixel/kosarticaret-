@@ -880,6 +880,13 @@ body.shop-body {
     box-shadow: 0 5px 16px rgb(30 58 95 / 0.24);
     transform: translateY(-1px);
 }
+/* Bu kural .shop-header-auth display stilinden sonra durmalı; mobilde ikonların kesilmesini engeller. */
+@media (max-width: 767px) {
+    .shop-header-toolbar > .shop-header-auth--cta,
+    .shop-header-toolbar > .shop-header-toolbar__divider {
+        display: none;
+    }
+}
 .shop-header-auth--admin {
     padding: 0.5rem 1rem;
     border-radius: 9999px;
@@ -5161,6 +5168,11 @@ a.kfooter__contact:hover .kfooter__contact-icon {
         justify-content: flex-start;
     }
 }
+@media (max-width: 1023px) {
+    .kft__inner {
+        text-align: center;
+    }
+}
 
 /* Card logos */
 .kft__cards {
@@ -5175,6 +5187,12 @@ a.kfooter__contact:hover .kfooter__contact-icon {
 }
 @media (min-width: 1024px) {
     .kft__cards { justify-content: flex-start; }
+}
+@media (max-width: 1023px) {
+    .kft__cards {
+        width: 100%;
+        justify-content: center;
+    }
 }
 .kft__cards li {
     display: flex;
@@ -5253,6 +5271,12 @@ a.kfooter__contact:hover .kfooter__contact-icon {
 }
 @media (min-width: 1024px) {
     .kft__badges { justify-content: flex-start; }
+}
+@media (max-width: 1023px) {
+    .kft__badges {
+        width: 100%;
+        justify-content: center;
+    }
 }
 .kft__badge {
     display: inline-flex;

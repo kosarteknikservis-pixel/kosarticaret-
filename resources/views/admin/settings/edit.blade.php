@@ -441,6 +441,27 @@
                         @endforeach
                     </select>
                 </div>
+
+                <h3 class="admin-section-title mt-8">Brevo e-bülten</h3>
+                @if(app(\App\Services\BrevoNewsletterService::class)->isConfigured())
+                    <p class="admin-alert-success mb-4 text-sm">Brevo bağlantısı aktif. Yeni aboneler hem yerel listeye hem Brevo listesine kaydedilir.</p>
+                @else
+                    <p class="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-4">Brevo henüz tam yapılandırılmadı. API anahtarı ve liste ID girilene kadar aboneler sadece paneldeki yerel listeye kaydedilir.</p>
+                @endif
+                <label class="admin-checkbox font-semibold text-slate-800">
+                    <input type="checkbox" name="brevo_enabled" value="1" @checked(($values['brevo_enabled'] ?? '0') === '1')>
+                    Brevo senkronizasyonunu aç
+                </label>
+                <div class="mt-4">
+                    <label class="admin-label">Brevo API anahtarı</label>
+                    <input type="password" name="brevo_api_key" value="" class="admin-input font-mono text-sm" autocomplete="new-password" placeholder="{{ !empty($values['brevo_api_key']) ? 'Kayıtlı — değiştirmek için yeni anahtar yazın' : 'xkeysib-...' }}">
+                    <p class="text-xs text-slate-500 mt-1">Brevo panelinde SMTP & API → API Keys bölümünden alınır. Boş bırakırsanız kayıtlı anahtar korunur.</p>
+                </div>
+                <div class="mt-4">
+                    <label class="admin-label">Brevo liste ID</label>
+                    <input type="number" min="1" name="brevo_list_id" value="{{ $values['brevo_list_id'] ?? '' }}" class="admin-input max-w-xs" placeholder="Örn. 3">
+                    <p class="text-xs text-slate-500 mt-1">Brevo Contacts → Lists ekranındaki listenin sayısal ID değeri.</p>
+                </div>
             </div>
 
 

@@ -42,6 +42,7 @@ class SettingController extends Controller
         'legal_name',
         'footer_trust_cards', 'footer_trust_compliance', 'footer_etbis_url', 'footer_kvkk_url',
         'openai_api_key', 'openai_model',
+        'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
         'shop_maintenance_enabled', 'shop_maintenance_title', 'shop_maintenance_message',
     ];
 
@@ -137,6 +138,9 @@ class SettingController extends Controller
             'footer_kvkk_url' => ['nullable', 'url', 'max:500'],
             'openai_api_key' => ['nullable', 'string', 'max:255'],
             'openai_model' => ['nullable', 'string', 'max:64'],
+            'brevo_enabled' => ['sometimes', 'boolean'],
+            'brevo_api_key' => ['nullable', 'string', 'max:255'],
+            'brevo_list_id' => ['nullable', 'integer', 'min:1'],
             'footer_extra_card_label' => ['nullable', 'string', 'max:80'],
             'footer_extra_card_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1024'],
             'remove_footer_extra_card' => ['nullable', 'string', 'max:64'],
@@ -163,6 +167,7 @@ class SettingController extends Controller
         $data['pdp_whatsapp_order_enabled'] = $request->boolean('pdp_whatsapp_order_enabled') ? '1' : '0';
         $data['shop_show_stock_quantity'] = $request->boolean('shop_show_stock_quantity') ? '1' : '0';
         $data['shop_maintenance_enabled'] = $request->boolean('shop_maintenance_enabled') ? '1' : '0';
+        $data['brevo_enabled'] = $request->boolean('brevo_enabled') ? '1' : '0';
         $selectedCards = $request->input('footer_trust_cards', []);
         $extraKeys = array_column(FooterPaymentCards::extraStored(), 'key');
         $data['footer_trust_cards'] = implode(',', array_values(array_unique(array_merge($selectedCards, $extraKeys))));
@@ -201,6 +206,10 @@ class SettingController extends Controller
 
         if (! $request->filled('openai_api_key')) {
             unset($data['openai_api_key']);
+        }
+
+        if (! $request->filled('brevo_api_key')) {
+            unset($data['brevo_api_key']);
         }
 
         foreach ($data as $key => $value) {
