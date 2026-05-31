@@ -118,6 +118,45 @@
         </div>
     </div>
 
+    {{-- ─── NEWSLETTER ─── --}}
+    @php $nlEnabled = \App\Models\SiteSetting::get('newsletter_enabled', '1') === '1'; @endphp
+    @if($nlEnabled)
+    <div class="kfooter__nl">
+        <div class="shop-container kfooter__nl-inner">
+            <div class="kfooter__nl-text">
+                <p class="kfooter__nl-title">
+                    {{ \App\Models\SiteSetting::get('newsletter_title', __('shop.newsletter_default_title')) }}
+                </p>
+                <p class="kfooter__nl-sub">{{ __('shop.newsletter_sub') }}</p>
+            </div>
+            <form
+                method="post"
+                action="{{ route('newsletter.subscribe') }}"
+                class="kfooter__nl-form"
+                novalidate
+            >
+                @csrf
+                <label class="sr-only" for="footer-newsletter-email">{{ __('shop.newsletter_placeholder') }}</label>
+                <div class="kfooter__nl-field">
+                    <input
+                        id="footer-newsletter-email"
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="{{ __('shop.newsletter_placeholder') }}"
+                        class="kfooter__nl-input"
+                        autocomplete="email"
+                    >
+                    <button type="submit" class="kfooter__nl-btn">
+                        {{ __('shop.newsletter_btn') }}
+                        <x-shop.icon name="chevron-right" class="w-4 h-4 shrink-0" />
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    @endif
+
     {{-- ─── TRUST STRIP ─── --}}
     @include('shop.partials.footer-trust')
 

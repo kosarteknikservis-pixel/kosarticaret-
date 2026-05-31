@@ -427,7 +427,8 @@ body.shop-body {
     .kfooter__topline,
     .shop-topbar,
     .shop-site-header,
-    .shop-footer__trust-shine::after {
+    .shop-footer__trust-shine::after,
+    .kfooter__nl-btn:hover {
         animation: none;
     }
     .kfooter__bar-cta:hover svg {
@@ -4989,6 +4990,141 @@ a.kfooter__contact:hover .kfooter__contact-icon {
 }
 .kfooter__link:hover::before {
     width: 0.75rem;
+}
+
+/* ─── kfooter__nl: Newsletter bölümü ─── */
+.kfooter__nl {
+    position: relative;
+    z-index: 1;
+    background: rgb(255 255 255 / 0.04);
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.kfooter__nl-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2rem 0;
+}
+
+@media (min-width: 768px) {
+    .kfooter__nl-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+}
+
+.kfooter__nl-text {
+    min-width: 0;
+}
+
+.kfooter__nl-title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+}
+
+.kfooter__nl-sub {
+    margin: 0.25rem 0 0;
+    font-size: 0.8125rem;
+    color: rgb(255 255 255 / 0.5);
+    line-height: 1.5;
+}
+
+/* Form — input + buton yan yana */
+.kfooter__nl-form {
+    flex-shrink: 0;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .kfooter__nl-form {
+        width: auto;
+        min-width: 22rem;
+        max-width: 28rem;
+    }
+}
+
+.kfooter__nl-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.kfooter__nl-input {
+    width: 100%;
+    height: 2.875rem;
+    padding: 0 9rem 0 1.1rem;
+    border-radius: 9999px;
+    border: 1.5px solid rgb(255 255 255 / 0.15);
+    background: rgb(255 255 255 / 0.07);
+    color: #fff;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition:
+        border-color 0.22s ease,
+        background 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.kfooter__nl-input::placeholder {
+    color: rgb(255 255 255 / 0.35);
+}
+
+.kfooter__nl-input:focus {
+    outline: none;
+    border-color: rgb(255 255 255 / 0.4);
+    background: rgb(255 255 255 / 0.1);
+    box-shadow: 0 0 0 3px rgb(255 255 255 / 0.06);
+}
+
+/* iOS zoom: mobilde 16px */
+@media (max-width: 767px) {
+    .kfooter__nl-input {
+        font-size: 1rem;
+    }
+}
+
+.kfooter__nl-btn {
+    position: absolute;
+    right: 0.3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    height: 2.25rem;
+    padding: 0 1rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--kosar-accent), var(--kosar-primary-dark));
+    border: 1px solid rgb(255 255 255 / 0.15);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-family: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        filter 0.22s ease,
+        box-shadow 0.22s ease,
+        transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.kfooter__nl-btn:hover {
+    filter: brightness(1.15);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.3);
+    transform: translateY(-50%) scale(1.03);
+}
+
+.kfooter__nl-btn:active {
+    transform: translateY(-50%) scale(0.97);
 }
 
 /* ─── kft: Trust strip (footer) ─── */

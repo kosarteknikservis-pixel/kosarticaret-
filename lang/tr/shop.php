@@ -102,6 +102,8 @@ return [
     'banner_prev' => 'Önceki banner',
     'banner_next' => 'Sonraki banner',
     'banner_goto' => 'Banner :num',
+    'newsletter_default_title' => 'Kampanyalardan haberdar olun',
+    'newsletter_success' => 'Bülten aboneliğiniz kaydedildi.',
     'newsletter_sub' => 'İndirim ve yeni ürünler e-posta ile.',
     'newsletter_placeholder' => 'E-posta adresiniz',
     'newsletter_btn' => 'Abone Ol',

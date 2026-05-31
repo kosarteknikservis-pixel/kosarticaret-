@@ -20,6 +20,6 @@ class NewsletterController extends Controller
             ['active' => true],
         );
 
-        return back()->with('success', 'Bülten aboneliğiniz kaydedildi.');
+        return back()->with('success', __('shop.newsletter_success'));
     }
 }

@@ -102,6 +102,8 @@ return [
     'banner_prev' => 'Previous banner',
     'banner_next' => 'Next banner',
     'banner_goto' => 'Banner :num',
+    'newsletter_default_title' => 'Stay in the loop',
+    'newsletter_success' => 'You have been subscribed to our newsletter.',
     'newsletter_sub' => 'Deals and new arrivals by email.',
     'newsletter_placeholder' => 'Your email',
     'newsletter_btn' => 'Subscribe',
