@@ -5191,6 +5191,67 @@ a.kfooter__contact:hover .kfooter__contact-icon {
     transform: translateY(-50%) scale(0.97);
 }
 
+/* Newsletter mobil yerleşim: desktop absolute buton kurallarını kesin ezer */
+@media (max-width: 767px) {
+    .kfooter__nl {
+        background: rgb(255 255 255 / 0.055);
+    }
+
+    .kfooter__nl-inner {
+        padding: 1.75rem 0;
+        gap: 1rem;
+    }
+
+    .kfooter__nl-text {
+        padding: 0 0.125rem;
+    }
+
+    .kfooter__nl-title {
+        font-size: 1rem;
+    }
+
+    .kfooter__nl-sub {
+        font-size: 0.8rem;
+    }
+
+    .kfooter__nl-form {
+        width: 100%;
+        max-width: none;
+    }
+
+    .kfooter__nl-field {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .kfooter__nl-input {
+        height: 3rem;
+        padding: 0 1rem;
+        border-radius: 0.95rem;
+        font-size: 1rem;
+        background: rgb(255 255 255 / 0.075);
+    }
+
+    .kfooter__nl-btn {
+        position: static;
+        inset: auto;
+        transform: none;
+        width: 100%;
+        height: 2.875rem;
+        justify-content: center;
+        border-radius: 0.95rem;
+        box-shadow: 0 8px 22px rgb(0 0 0 / 0.16);
+    }
+
+    .kfooter__nl-btn:hover,
+    .kfooter__nl-btn:active {
+        transform: none;
+    }
+}
+
 /* ─── kft: Trust strip (footer) ─── */
 .kft {
     position: relative;
