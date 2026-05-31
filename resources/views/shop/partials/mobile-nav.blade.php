@@ -37,10 +37,13 @@
                 <a href="{{ $link->url }}" class="shop-mobile-nav__link--sub" @if($link->open_in_new_tab) target="_blank" rel="noopener" @endif>{{ $link->label }}</a>
             @endforeach
 
-            <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
-                <a href="{{ route('locale.switch', 'tr') }}" class="shop-mobile-nav__locale {{ app()->getLocale() === 'tr' ? 'is-active' : '' }}">TR</a>
-                <a href="{{ route('locale.switch', 'en') }}" class="shop-mobile-nav__locale {{ app()->getLocale() === 'en' ? 'is-active' : '' }}">EN</a>
-            </div>
+            @if(count(config('kosar.locales', ['tr'])) > 1)
+                <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
+                    @foreach(config('kosar.locales', ['tr']) as $locale)
+                        <a href="{{ route('locale.switch', $locale) }}" class="shop-mobile-nav__locale {{ app()->getLocale() === $locale ? 'is-active' : '' }}">{{ strtoupper($locale) }}</a>
+                    @endforeach
+                </div>
+            @endif
         </nav>
 
         <div class="shop-mobile-nav__foot space-y-2">

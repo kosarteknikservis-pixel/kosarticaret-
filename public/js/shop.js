@@ -634,9 +634,30 @@
         window.addEventListener('scroll', onScroll, { passive: true });
     }
 
-    /* Scroll reveal */
+    /* Yukarı çık butonu */
+    const scrollTopButton = document.querySelector('[data-scroll-top]');
+    if (scrollTopButton) {
+        let ticking = false;
+        const toggleScrollTop = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                scrollTopButton.classList.toggle('is-visible', window.scrollY > 360);
+                ticking = false;
+            });
+        };
+
+        scrollTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        toggleScrollTop();
+        window.addEventListener('scroll', toggleScrollTop, { passive: true });
+    }
+
+    /* Scroll reveal — tüm varyantlar dahil */
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const revealSelectors = '.shop-reveal, .shop-reveal-group';
+    const revealSelectors = '.shop-reveal, .shop-reveal-group, .shop-reveal--left, .shop-reveal--right, .shop-reveal--scale';
     if (!prefersReduced && 'IntersectionObserver' in window) {
         const revealObserver = new IntersectionObserver(
             (entries) => {
@@ -783,4 +804,77 @@
 
         apply();
     });
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   FAQ ACCORDION
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('[data-faq-trigger]');
+        if (!btn) return;
+
+        const item = btn.closest('.shop-faq__item');
+        if (!item) return;
+
+        const isOpen = item.classList.contains('is-open');
+
+        // Close all open items in this list
+        const list = item.closest('.shop-faq__list');
+        if (list) {
+            list.querySelectorAll('.shop-faq__item.is-open').forEach(function (openItem) {
+                if (openItem !== item) {
+                    openItem.classList.remove('is-open');
+                    const openBtn = openItem.querySelector('[data-faq-trigger]');
+                    const openPanel = openItem.querySelector('.shop-faq__a');
+                    if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+                    if (openPanel) openPanel.setAttribute('aria-hidden', 'true');
+                }
+            });
+        }
+
+        // Toggle current item
+        item.classList.toggle('is-open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        const panel = item.querySelector('.shop-faq__a');
+        if (panel) panel.setAttribute('aria-hidden', String(isOpen));
+    });
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   READING PROGRESS BAR
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+    const bar = document.querySelector('.shop-reading-progress__bar');
+    if (!bar) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) { bar.style.width = '100%'; return; }
+
+    function updateProgress() {
+        const doc = document.documentElement;
+        const scrollTop = window.scrollY || doc.scrollTop;
+        const scrollHeight = doc.scrollHeight - doc.clientHeight;
+        const pct = scrollHeight > 0 ? Math.min(100, (scrollTop / scrollHeight) * 100) : 0;
+        bar.style.width = pct + '%';
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   ESTIMATED READING TIME
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+    const target = document.querySelector('[data-reading-time]');
+    if (!target) return;
+
+    const contentEl = document.querySelector('.shop-panel--prose');
+    if (!contentEl) return;
+
+    const text = contentEl.innerText || contentEl.textContent || '';
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    const minutes = Math.max(1, Math.round(words / 200));
+    target.textContent = minutes + ' dk okuma';
 })();

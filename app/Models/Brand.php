@@ -16,7 +16,7 @@ class Brand extends Model
     protected $fillable = [
         'slug', 'name', 'description', 'translations', 'logo_url',
         'featured', 'active', 'sort_order',
-        'meta_title', 'meta_description',
+        'meta_title', 'meta_description', 'faq',
     ];
 
     protected function casts(): array
@@ -25,6 +25,7 @@ class Brand extends Model
             'featured' => 'boolean',
             'active' => 'boolean',
             'translations' => 'array',
+            'faq' => 'array',
         ];
     }
 

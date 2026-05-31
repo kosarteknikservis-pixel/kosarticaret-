@@ -203,6 +203,13 @@
 
                 <div class="mt-4"><label class="admin-label">Üst promo şerit metni</label><input name="promo_text" value="{{ $values['promo_text'] }}" class="admin-input" placeholder="1000 TL üzeri kargo bedava"></div>
 
+                <h3 class="admin-section-title mt-8">Yüzen arayüz butonları</h3>
+                <label class="admin-checkbox font-semibold text-slate-800">
+                    <input type="checkbox" name="scroll_top_enabled" value="1" @checked(($values['scroll_top_enabled'] ?? '1') === '1')>
+                    Sağ altta «Yukarı çık» butonu göster
+                </label>
+                <p class="text-sm text-slate-600 mt-2">Ziyaretçi sayfada aşağı indikten sonra görünür; tıklayınca sayfanın en üstüne çıkar.</p>
+
                 <h3 class="admin-section-title mt-8">Çerez bildirimi</h3>
 
                 <div><label class="admin-label">Metin</label><textarea name="cookie_text" rows="2" class="admin-input">{{ $values['cookie_text'] }}</textarea></div>
@@ -388,6 +395,14 @@
                 <div class="mt-4"><label class="admin-label">E-posta</label><input name="contact_email" value="{{ $values['contact_email'] }}" class="admin-input"></div>
 
                 <div class="mt-4"><label class="admin-label">WhatsApp (ülke kodu ile, boşluksuz)</label><input name="contact_whatsapp" value="{{ $values['contact_whatsapp'] }}" class="admin-input" placeholder="905554443000"></div>
+
+                <div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 space-y-3">
+                    <label class="admin-checkbox font-semibold text-slate-800">
+                        <input type="checkbox" name="floating_whatsapp_enabled" value="1" @checked(($values['floating_whatsapp_enabled'] ?? '1') === '1')>
+                        Sol altta yüzen WhatsApp butonu göster
+                    </label>
+                    <p class="text-sm text-slate-600">Butonun görünmesi için WhatsApp numarası da dolu olmalıdır.</p>
+                </div>
 
                 <div class="mt-6 rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 space-y-3">
                     <label class="admin-checkbox font-semibold text-slate-800">

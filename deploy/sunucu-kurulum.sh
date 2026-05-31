@@ -14,7 +14,8 @@ chmod -R 775 storage bootstrap/cache database
 $PHP artisan storage:link
 
 cd "$BASE"
-ln -sf ../kosar/storage/app/public public_html/storage
+rm -rf public_html/storage
+ln -s ../kosar/storage/app/public public_html/storage
 
 cd "$BASE/kosar"
 $PHP artisan config:cache

@@ -31,6 +31,7 @@ class SettingController extends Controller
 
     private const KEYS = [
         'site_name', 'site_description', 'contact_phone', 'contact_email', 'contact_whatsapp', 'contact_address',
+        'floating_whatsapp_enabled', 'scroll_top_enabled',
         'pdp_whatsapp_order_enabled', 'pdp_whatsapp_order_label',
         'shop_show_stock_quantity',
         'contact_page_intro', 'contact_meta_title', 'contact_meta_description',
@@ -75,7 +76,7 @@ class SettingController extends Controller
             if ($key === 'footer_trust_compliance' && $default === '') {
                 $default = implode(',', config('kosar.footer.default_compliance', []));
             }
-            if ($key === 'pdp_whatsapp_order_enabled' && $default === '') {
+            if (in_array($key, ['pdp_whatsapp_order_enabled', 'floating_whatsapp_enabled', 'scroll_top_enabled'], true) && $default === '') {
                 $default = '1';
             }
             $values[$key] = SiteSetting::get($key, $default);
@@ -108,6 +109,8 @@ class SettingController extends Controller
             'contact_phone' => ['nullable', 'string'],
             'contact_email' => ['nullable', 'email'],
             'contact_whatsapp' => ['nullable', 'string'],
+            'floating_whatsapp_enabled' => ['sometimes', 'boolean'],
+            'scroll_top_enabled' => ['sometimes', 'boolean'],
             'pdp_whatsapp_order_enabled' => ['sometimes', 'boolean'],
             'pdp_whatsapp_order_label' => ['nullable', 'string', 'max:80'],
             'shop_show_stock_quantity' => ['sometimes', 'boolean'],
@@ -165,6 +168,8 @@ class SettingController extends Controller
 
         $data['newsletter_enabled'] = $request->boolean('newsletter_enabled') ? '1' : '0';
         $data['pdp_whatsapp_order_enabled'] = $request->boolean('pdp_whatsapp_order_enabled') ? '1' : '0';
+        $data['floating_whatsapp_enabled'] = $request->boolean('floating_whatsapp_enabled') ? '1' : '0';
+        $data['scroll_top_enabled'] = $request->boolean('scroll_top_enabled') ? '1' : '0';
         $data['shop_show_stock_quantity'] = $request->boolean('shop_show_stock_quantity') ? '1' : '0';
         $data['shop_maintenance_enabled'] = $request->boolean('shop_maintenance_enabled') ? '1' : '0';
         $data['brevo_enabled'] = $request->boolean('brevo_enabled') ? '1' : '0';

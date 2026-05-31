@@ -13,6 +13,11 @@ on:
         description: 'Onay için "canli" yazın'
         required: true
         default: ''
+      blog_aktar:
+        description: 'database/blog-export.json varsa blog içeriklerini canlıya aktar'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   deploy:
@@ -86,3 +91,18 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             (command -v php >/dev/null && php artisan config:cache && php artisan route:cache && php artisan view:cache) || \
             (/usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache)"
+
+      - name: Blog içeriklerini içe aktar
+        if: github.event.inputs.blog_aktar == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            if [ -f database/blog-export.json ]; then \
+              (command -v php >/dev/null && php artisan blog:import database/blog-export.json --force) || \
+              (/usr/local/php83/bin/php artisan blog:import database/blog-export.json --force); \
+            else \
+              echo 'database/blog-export.json bulunamadı, blog import atlandı.'; \
+            fi"

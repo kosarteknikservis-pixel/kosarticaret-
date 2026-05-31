@@ -16,11 +16,14 @@
                     <a href="{{ route('admin.dashboard') }}" class="shop-topbar__auth shop-topbar__auth--admin-top">{{ __('shop.admin_panel') }}</a>
                 @endif
             @endauth
-            <span class="shop-topbar__sep" aria-hidden="true"></span>
-            <div class="shop-topbar__locale" role="group" aria-label="Dil">
-                <a href="{{ route('locale.switch', 'tr') }}" class="{{ app()->getLocale() === 'tr' ? 'is-active' : '' }}">TR</a>
-                <a href="{{ route('locale.switch', 'en') }}" class="{{ app()->getLocale() === 'en' ? 'is-active' : '' }}">EN</a>
-            </div>
+            @if(count(config('kosar.locales', ['tr'])) > 1)
+                <span class="shop-topbar__sep" aria-hidden="true"></span>
+                <div class="shop-topbar__locale" role="group" aria-label="Dil">
+                    @foreach(config('kosar.locales', ['tr']) as $locale)
+                        <a href="{{ route('locale.switch', $locale) }}" class="{{ app()->getLocale() === $locale ? 'is-active' : '' }}">{{ strtoupper($locale) }}</a>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
 </div>

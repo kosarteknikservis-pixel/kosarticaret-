@@ -31,6 +31,7 @@ Thumbs.db
 /deploy/_canli_staging/
 /deploy/_staging/
 
+
 # Veritabani ve yuklenen dosyalar (canlida kalir; Git'e girmez)
 /database/database.sqlite
 /storage/app/public/*

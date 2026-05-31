@@ -84,6 +84,9 @@ class CategoryController extends Controller
             'meta_title' => ['nullable', 'string'],
             'meta_description' => ['nullable', 'string'],
             'image_file' => ['nullable', 'image', 'max:5120'],
+            'faq' => ['nullable', 'array'],
+            'faq.*.q' => ['nullable', 'string', 'max:500'],
+            'faq.*.a' => ['nullable', 'string', 'max:5000'],
         ]);
 
         $data['slug'] = SlugHelper::assign('categories', $data['slug'] ?? null, $data['name'], $category?->id);
@@ -107,6 +110,12 @@ class CategoryController extends Controller
         unset($data['image_file']);
 
         $data['description'] = RichContent::normalize($data['description'] ?? null);
+
+        // Clean FAQ: remove items with empty question
+        $rawFaq = $data['faq'] ?? [];
+        $data['faq'] = array_values(
+            array_filter($rawFaq, fn ($item) => filled($item['q'] ?? null))
+        ) ?: null;
 
         return $data;
     }

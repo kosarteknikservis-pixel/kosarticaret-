@@ -18,7 +18,7 @@ class Category extends Model
     protected $fillable = [
         'slug', 'name', 'description', 'image', 'translations', 'parent_id',
         'featured', 'show_in_menu', 'active', 'sort_order',
-        'meta_title', 'meta_description',
+        'meta_title', 'meta_description', 'faq',
     ];
 
     protected function casts(): array
@@ -28,6 +28,7 @@ class Category extends Model
             'show_in_menu' => 'boolean',
             'active' => 'boolean',
             'translations' => 'array',
+            'faq' => 'array',
         ];
     }
 

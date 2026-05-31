@@ -1,4 +1,4 @@
-@props(['title', 'subtitle' => null, 'intro' => null, 'breadcrumbs' => null, 'products', 'brands' => collect()])
+@props(['title', 'subtitle' => null, 'intro' => null, 'faq' => [], 'breadcrumbs' => null, 'products', 'brands' => collect()])
 
 <div class="shop-page shop-page--catalog">
 @if($breadcrumbs)
@@ -56,5 +56,9 @@
     <section class="shop-catalog-intro shop-reveal" aria-label="{{ __('shop.tab_description') }}">
         <x-shop.rich-content :content="$intro" />
     </section>
+@endif
+
+@if(!empty($faq))
+    <x-shop.faq :items="$faq" />
 @endif
 </div>

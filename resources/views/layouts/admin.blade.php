@@ -67,7 +67,9 @@
                     @if(session('preview_settings'))
                         <span class="hidden sm:inline text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">Önizleme aktif</span>
                     @endif
-                    <span class="hidden md:inline text-sm text-slate-500">{{ auth()->user()?->email }}</span>
+                    <a href="{{ route('admin.profile.edit') }}" class="hidden md:inline text-sm font-semibold text-slate-500 hover:text-teal-700 transition-colors">
+                        {{ auth()->user()?->email }}
+                    </a>
                     <a href="{{ route('home') }}" target="_blank" class="admin-btn admin-btn-secondary text-xs py-2">Mağaza</a>
                 </div>
             </header>

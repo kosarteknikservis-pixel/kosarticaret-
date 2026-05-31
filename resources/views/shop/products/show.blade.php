@@ -153,9 +153,9 @@
     </section>
 
     @if($related->isNotEmpty())
-        <section class="mt-16 pt-12 border-t border-slate-200" aria-labelledby="related-heading">
-            <h2 id="related-heading" class="text-2xl font-bold text-slate-900">{{ __('shop.related_products') }}</h2>
-            <div class="mt-6 grid gap-4 grid-cols-2 md:grid-cols-4">
+        <section class="shop-related-section mt-16 pt-12 border-t border-slate-200 shop-reveal" aria-labelledby="related-heading">
+            <h2 id="related-heading">{{ __('shop.related_products') }}</h2>
+            <div class="mt-6 grid gap-4 grid-cols-2 md:grid-cols-4 shop-reveal-group">
                 @foreach($related as $item)
                     @include('shop.partials.product-card', ['product' => $item])
                 @endforeach

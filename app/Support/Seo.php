@@ -194,7 +194,7 @@ class Seo
 
                 'areaServed' => 'TR',
 
-                'availableLanguage' => ['Turkish', 'English'],
+                'availableLanguage' => ['Turkish'],
 
             ],
 

@@ -106,7 +106,8 @@
             return checkItem(id, label, Math.round(pts * 0.75), pts, `${len} karakter; kısaltın (${max}).`);
         };
 
-        checks.push(checkItem('name', 'Ad', name ? 10 : 0, 10, name ? 'Tamam.' : 'Zorunlu alan.'));
+        const nameLabel = type === 'blog' ? 'Başlık' : (type === 'page' ? 'Sayfa başlığı' : 'Ad');
+        checks.push(checkItem('name', nameLabel, name ? 10 : 0, 10, name ? 'Tamam.' : 'Zorunlu alan.'));
         checks.push(checkItem('slug', 'Slug', data.slug ? 5 : 0, 5, data.slug ? 'Tamam.' : 'Slug girin.'));
 
         if (type === 'product') {
@@ -129,11 +130,16 @@
         } else {
             checks.push(lenScore(metaTitle, 45, 65, 20, 'SEO başlık', 'meta_title'));
             checks.push(lenScore(metaDesc, 120, 165, 20, 'SEO açıklama', 'meta_description'));
-            const minW = type === 'brand' ? 100 : 120;
+            if (type === 'blog') {
+                checks.push(lenScore(data.excerpt || '', 80, 200, 15, 'Özet', 'excerpt'));
+            }
+            const minW = type === 'blog' ? 300 : (type === 'page' ? 150 : (type === 'brand' ? 100 : 120));
             const words = wordCount(body);
-            if (words >= minW) checks.push(checkItem('description', 'Açıklama', 20, 20, `${words} kelime.`));
-            else if (words >= minW * 0.4) checks.push(checkItem('description', 'Açıklama', 11, 20, `${words} kelime; hedef ${minW}+.`));
-            else checks.push(checkItem('description', 'Açıklama', 0, 20, `En az ${minW} kelime.`));
+            const bodyLabel = type === 'blog' ? 'İçerik' : (type === 'page' ? 'Sayfa içeriği' : 'Açıklama');
+            const bodyMax = type === 'blog' ? 25 : 20;
+            if (words >= minW) checks.push(checkItem('description', bodyLabel, bodyMax, bodyMax, `${words} kelime.`));
+            else if (words >= minW * 0.4) checks.push(checkItem('description', bodyLabel, Math.round(bodyMax * 0.55), bodyMax, `${words} kelime; hedef ${minW}+.`));
+            else checks.push(checkItem('description', bodyLabel, 0, bodyMax, `En az ${minW} kelime.`));
             if (hasHeading(body)) checks.push(checkItem('description_structure', 'Başlık yapısı', 10, 10, 'H2/H3 var.'));
             else checks.push(checkItem('description_structure', 'Başlık yapısı', 0, 10, 'H2/H3 ekleyin.'));
             const imgLabel = type === 'brand' ? 'Logo' : 'Görsel';
@@ -154,13 +160,16 @@
 
     function collectData(form, type) {
         const val = (n) => form.querySelector(`[name="${n}"]`)?.value?.trim() ?? '';
+        const primaryName = type === 'blog' || type === 'page' ? val('title') : val('name');
+        const body = type === 'blog' || type === 'page' ? val('content') : val('description');
         return {
-            name: val('name'),
+            name: primaryName,
             slug: val('slug'),
             meta_title: val('meta_title'),
             meta_description: val('meta_description'),
             short_description: val('short_description'),
-            description: val('description'),
+            description: body,
+            excerpt: val('excerpt'),
             tags: val('tags'),
             sku: val('sku'),
             has_image: form.dataset.seoHasImage === '1',

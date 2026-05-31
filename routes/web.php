@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\HomeBannerController as AdminHomeBannerController
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PreviewController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\PromotionController as AdminPromotionController;
 use App\Http\Controllers\Admin\NavigationController as AdminNavigationController;
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
@@ -139,6 +140,8 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
 
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('profil', [AdminProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profil', [AdminProfileController::class, 'update'])->name('profile.update');
         Route::resource('urunler', AdminProductController::class)
             ->except(['show'])
             ->parameters(['urunler' => 'product'])

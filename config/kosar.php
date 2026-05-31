@@ -19,7 +19,7 @@ return [
     'order_prefix' => env('KOSAR_ORDER_PREFIX', 'KOS'),
 
     'default_locale' => env('KOSAR_DEFAULT_LOCALE', 'tr'),
-    'locales' => ['tr', 'en'],
+    'locales' => ['tr'],
 
     'defaults' => [
         'hero_badge' => 'Havalandırma ve Sulama E-Ticaret',

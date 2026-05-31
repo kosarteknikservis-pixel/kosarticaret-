@@ -52,9 +52,9 @@ kosarticaret-canli.zip          ← zip’i domains/kosarticaret.com/ içine yü
 
 Yerelde **`canli-paket-hazirla.bat`** dosyasına çift tıklayın.
 
-Çıktı: `deploy/kosarticaret-canli-YYYY-MM-DD.zip`  
-İçinde `kosar`, `public_html` (görseller dahil), `.env`, `KURULUM.md` hazır gelir.  
-Yerel geliştirme paket sonrası otomatik açılır; gerekirse `yerel-geri-yukle.bat`.
+Ne yapar: composer --no-dev çalıştırır → staging oluşturur → APP_KEY kopyalar → ZIP üretir → `deploy\` klasörünü açar.
+
+Çıktı: `deploy/kosarticaret-canli-YYYY-MM-DD.zip`
 
 ---
 
