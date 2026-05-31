@@ -24,7 +24,7 @@
 
     @unless($hasLogo)
         <span class="shop-brand-text">
-            <span class="shop-brand-name">{{ \App\Models\SiteSetting::get('site_name', config('kosar.name')) }}</span>
+            <span class="shop-brand-name">{{ \App\Support\SiteName::get() }}</span>
             @if($variant === 'header')
                 <span class="shop-brand-tagline">{{ $tagline }}</span>
             @endif

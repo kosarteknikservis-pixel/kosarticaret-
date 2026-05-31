@@ -20,7 +20,7 @@ class HomeController extends Controller
                 ->where('active', true)
                 ->orderBy('sort_order')
                 ->get(),
-            'metaTitle' => SiteSetting::get('site_name', config('kosar.name')),
+            'metaTitle' => \App\Support\SiteName::get(),
             'metaDescription' => Seo::description([
                 SiteSetting::get('site_description'),
                 config('kosar.description'),

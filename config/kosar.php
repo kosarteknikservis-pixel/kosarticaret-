@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => env('KOSAR_NAME', 'Kosar'),
+    'name' => env('KOSAR_NAME', 'Koşar'),
     'legal_name' => env('KOSAR_LEGAL_NAME', 'Kosar Havalandırma ve Sulama Sistemi'),
     'description' => env(
         'KOSAR_DESCRIPTION',

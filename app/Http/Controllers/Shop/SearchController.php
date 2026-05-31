@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Services\CatalogQuery;
 use App\Support\CatalogPaginationSeo;
 use App\Support\Seo;
+use App\Support\SiteName;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -36,7 +37,7 @@ class SearchController extends Controller
             'jsonLd' => $jsonLd,
             'metaTitle' => $q ? "“{$q}” arama sonuçları" : 'Ürün Ara',
             'metaDescription' => Seo::description([
-                $q ? "{$q} için ".config('kosar.name').' ürün arama sonuçları.' : null,
+                $q ? "{$q} için ".SiteName::get().' ürün arama sonuçları.' : null,
                 config('kosar.description'),
             ]),
             'canonical' => route('search', $q ? ['q' => $q] : []),

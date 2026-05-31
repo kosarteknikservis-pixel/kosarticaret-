@@ -13,6 +13,7 @@ use App\Models\ContactMessage;
 use App\Models\SiteSetting;
 
 use App\Support\Seo;
+use App\Support\SiteName;
 
 use Illuminate\Http\RedirectResponse;
 
@@ -44,7 +45,7 @@ class ContactController extends Controller
 
 
 
-        $metaTitle = SiteSetting::get('contact_meta_title', 'İletişim — '.config('kosar.name'));
+        $metaTitle = SiteSetting::get('contact_meta_title', 'İletişim — '.SiteName::get());
 
         $metaDescription = Seo::description([
 

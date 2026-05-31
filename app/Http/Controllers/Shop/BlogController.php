@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
 use App\Support\CatalogPaginationSeo;
 use App\Support\Seo;
+use App\Support\SiteName;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -20,7 +21,7 @@ class BlogController extends Controller
             'posts' => $posts,
             'metaTitle' => 'Blog',
             'metaDescription' => Seo::description([
-                config('kosar.name').' blog — pompa, hidrofor ve sulama rehberleri.',
+                SiteName::get().' blog — pompa, hidrofor ve sulama rehberleri.',
             ]),
             'canonical' => route('blog.index'),
             'jsonLd' => [Seo::webPage('Blog', Seo::description(['Blog']), route('blog.index'))],

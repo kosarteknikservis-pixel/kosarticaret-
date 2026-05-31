@@ -58,11 +58,21 @@ class Seo
 
     {
 
-        $site = config('kosar.name');
+        $site = SiteName::get();
+
+        $title = SiteName::normalize($title);
 
 
 
-        return $title === $site ? $title : "{$title} | {$site}";
+        if ($title === $site || strcasecmp($title, $site) === 0) {
+
+            return $site;
+
+        }
+
+
+
+        return "{$title} | {$site}";
 
     }
 
@@ -164,7 +174,7 @@ class Seo
 
             'name' => SiteSetting::get('legal_name', config('kosar.legal_name')),
 
-            'alternateName' => config('kosar.name'),
+            'alternateName' => SiteName::get(),
 
             'url' => self::siteUrl(),
 
@@ -208,7 +218,7 @@ class Seo
 
             '@id' => self::siteUrl().'/#website',
 
-            'name' => config('kosar.name'),
+            'name' => SiteName::get(),
 
             'url' => self::siteUrl(),
 
@@ -252,7 +262,7 @@ class Seo
 
             '@id' => self::siteUrl().'/#store',
 
-            'name' => config('kosar.name'),
+            'name' => SiteName::get(),
 
             'url' => self::siteUrl(),
 
@@ -688,7 +698,7 @@ class Seo
 
                 '@type' => 'Organization',
 
-                'name' => config('kosar.name'),
+                'name' => SiteName::get(),
 
             ],
 

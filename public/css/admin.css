@@ -17,6 +17,17 @@ body.admin-body {
     font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     background: var(--admin-bg);
+    overflow-x: clip;
+}
+
+/* iOS auto-zoom engeli: font-size < 16px olan inputlar zoom tetikler */
+@media (max-width: 767px) {
+    body.admin-body input,
+    body.admin-body select,
+    body.admin-body textarea,
+    body.admin-body .admin-input {
+        font-size: 1rem !important;
+    }
 }
 
 .admin-sidebar {
@@ -243,13 +254,15 @@ body.admin-body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* Yatay taşmayı engelle */
+    overflow-x: clip;
 }
 
 .admin-topbar {
     background: rgb(255 255 255 / 0.92);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid #e2e8f0;
-    padding: 0.875rem 1.5rem;
+    padding: 0.75rem 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -258,6 +271,14 @@ body.admin-body {
     top: 0;
     z-index: 30;
     box-shadow: 0 1px 0 rgb(15 23 42 / 0.04);
+    /* İçerik taşmasın */
+    overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+    .admin-topbar {
+        padding: 0.875rem 1.5rem;
+    }
 }
 
 .admin-content {
@@ -373,6 +394,27 @@ body.admin-body {
     font-weight: 600;
     color: #475569;
     margin-bottom: 0.375rem;
+}
+
+/*
+ * Mobilde tablolar yatay scroll yapabilir.
+ * admin-table-wrap: blade'e elle eklenmiş tablolar için.
+ * :has() seçicisi: tüm modern tarayıcılarda (Chrome 105+, Safari 15.4+, FF 121+) çalışır.
+ */
+.admin-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--admin-radius);
+}
+
+@media (max-width: 1023px) {
+    /* Tablo içeren card'ları kendi scroll alanına çevir */
+    .admin-card:has(> .admin-table),
+    .admin-card:has(> div > .admin-table),
+    .admin-card:has(> .admin-table-wrap) {
+        overflow-x: auto;
+        overflow-y: clip;
+    }
 }
 
 .admin-table {

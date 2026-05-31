@@ -19,6 +19,7 @@ use App\Services\Payment\InstallmentOptionsService;
 use App\Support\CatalogPaginationSeo;
 
 use App\Support\Seo;
+use App\Support\SiteName;
 
 use Illuminate\Http\Request;
 
@@ -58,7 +59,7 @@ class ProductController extends Controller
 
             'metaDescription' => Seo::description([
 
-                'Tüm ürünler — '.config('kosar.name').' kataloğu. Pompa, hidrofor, fan ve sulama ekipmanları.',
+                'Tüm ürünler — '.SiteName::get().' kataloğu. Pompa, hidrofor, fan ve sulama ekipmanları.',
 
             ]),
 

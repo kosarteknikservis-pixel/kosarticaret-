@@ -41,7 +41,7 @@ class SiteLogo
 
     public static function alt(): string
     {
-        return (string) SiteSetting::get('site_name', config('kosar.name'));
+        return SiteName::get();
     }
 
     public static function has(): bool

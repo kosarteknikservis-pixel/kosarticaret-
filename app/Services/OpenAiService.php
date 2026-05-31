@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\SiteSetting;
+use App\Support\SiteName;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -64,7 +65,7 @@ class OpenAiService
      */
     public function suggestMeta(string $type, array $context): array
     {
-        $site = (string) SiteSetting::get('site_name', config('kosar.name'));
+        $site = SiteName::get();
         $json = $this->chat(
             'Sen Türkçe e-ticaret SEO uzmanısın. Yalnızca geçerli JSON döndür: {"meta_title":"...","meta_description":"..."}. meta_title en fazla 60 karakter, meta_description 140-160 karakter. Anahtar kelimeleri doğal kullan.',
             $this->contextBlock($type, $context, $site)."\n\nGörev: Bu kayıt için Google arama sonucu meta başlık ve açıklama üret.",
@@ -79,7 +80,7 @@ class OpenAiService
      */
     public function generateField(string $type, string $field, array $context): string
     {
-        $site = (string) SiteSetting::get('site_name', config('kosar.name'));
+        $site = SiteName::get();
         $instructions = $this->fieldInstructions($type, $field);
 
         $content = $this->chat(

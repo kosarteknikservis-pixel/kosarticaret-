@@ -13,7 +13,7 @@ class MetaSuggestion
      */
     public static function suggest(string $type, array $context): array
     {
-        $site = (string) SiteSetting::get('site_name', config('kosar.name'));
+        $site = \App\Support\SiteName::get();
         $name = self::primaryName($type, $context);
 
         return [

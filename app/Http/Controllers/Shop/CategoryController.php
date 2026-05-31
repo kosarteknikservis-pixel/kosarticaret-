@@ -9,6 +9,7 @@ use App\Services\CatalogQuery;
 use App\Support\CatalogPaginationSeo;
 use App\Support\CategoryBreadcrumbs;
 use App\Support\Seo;
+use App\Support\SiteName;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -22,7 +23,7 @@ class CategoryController extends Controller
             'categories' => Category::query()->whereNull('parent_id')->where('active', true)->orderBy('sort_order')->get(),
             'metaTitle' => 'Kategoriler',
             'metaDescription' => Seo::description([
-                config('kosar.name').' ürün kategorileri — pompa, hidrofor, fan ve ekipman grupları.',
+                SiteName::get().' ürün kategorileri — pompa, hidrofor, fan ve ekipman grupları.',
             ]),
             'canonical' => route('categories.index'),
             'jsonLd' => [
@@ -59,9 +60,9 @@ class CategoryController extends Controller
             'metaDescription' => Seo::description([
                 $category->meta_description,
                 $category->description,
-                $category->name.' ürünleri — '.config('kosar.name'),
+                $category->name.' ürünleri — '.SiteName::get(),
             ]),
-            'metaKeywords' => Seo::keywords([$category->name, config('kosar.name')]),
+            'metaKeywords' => Seo::keywords([$category->name, SiteName::get()]),
             'canonical' => $pageUrl,
             'ogImage' => $category->imageUrl(),
             'jsonLd' => array_filter([

@@ -1,6 +1,6 @@
 @php
 
-    $pageTitle = $metaTitle ?? (trim($__env->yieldContent('title')) ?: config('kosar.name'));
+    $pageTitle = $metaTitle ?? (trim($__env->yieldContent('title')) ?: \App\Support\SiteName::get());
 
     $pageDesc = $metaDescription ?? (trim($__env->yieldContent('meta_description')) ?: config('kosar.description'));
 
@@ -59,7 +59,7 @@
 
 <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale() === 'tr' ? 'tr_TR' : app()->getLocale()) }}">
 
-<meta property="og:site_name" content="{{ config('kosar.name') }}">
+<meta property="og:site_name" content="{{ \App\Support\SiteName::get() }}">
 
 <meta property="og:title" content="{{ $fullTitle }}">
 

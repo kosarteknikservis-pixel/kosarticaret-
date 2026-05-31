@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Services\CatalogQuery;
 use App\Support\CatalogPaginationSeo;
 use App\Support\Seo;
+use App\Support\SiteName;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -18,7 +19,7 @@ class BrandController extends Controller
             'brands' => Brand::query()->where('active', true)->orderBy('sort_order')->get(),
             'metaTitle' => 'Markalar',
             'metaDescription' => Seo::description([
-                config('kosar.name').' distribütör ve üretici markaları — orijinal ürün garantisi.',
+                SiteName::get().' distribütör ve üretici markaları — orijinal ürün garantisi.',
             ]),
             'canonical' => route('brands.index'),
             'jsonLd' => [
@@ -51,9 +52,9 @@ class BrandController extends Controller
             'metaDescription' => Seo::description([
                 $brand->meta_description,
                 $brand->description,
-                $brand->name.' marka ürünleri — '.config('kosar.name'),
+                $brand->name.' marka ürünleri — '.SiteName::get(),
             ]),
-            'metaKeywords' => Seo::keywords([$brand->name, config('kosar.name')]),
+            'metaKeywords' => Seo::keywords([$brand->name, SiteName::get()]),
             'canonical' => $pageUrl,
             'ogImage' => $brand->logoUrl(),
             'jsonLd' => array_filter([
