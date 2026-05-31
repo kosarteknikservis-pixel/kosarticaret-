@@ -40,16 +40,30 @@ jobs:
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
+          # SSH bağlantı sağlamlık ayarları
+          cat >> ~/.ssh/config <<'EOF'
+          Host *
+            ConnectTimeout 30
+            ServerAliveInterval 20
+            ServerAliveCountMax 6
+            StrictHostKeyChecking no
+          EOF
 
       - name: kosar/ kodunu sunucuya gönder
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        # Bağlantı kopunca 3 kere dener (30s, 60s, 90s bekleme)
         run: |
-          RSYNC="rsync -avz --no-perms --omit-dir-times"
+          RSYNC="rsync -avz --no-perms --omit-dir-times --timeout=120"
           EXCLUDE="--exclude .env --exclude database/database.sqlite --exclude storage/app/public --exclude storage/logs --exclude storage/framework --exclude node_modules --exclude .git --exclude tests --exclude deploy"
-          $RSYNC $EXCLUDE ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/kosar/"
+
+          for attempt in 1 2 3; do
+            echo "Deneme $attempt/3..."
+            $RSYNC $EXCLUDE ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/kosar/" && break
+            [ $attempt -lt 3 ] && echo "Bağlantı hatası, ${attempt}0sn bekleniyor..." && sleep $((attempt * 30))
+          done
 
       - name: public_html/ (css, js, giriş dosyaları)
         env:
@@ -57,7 +71,7 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          RSYNC="rsync -avz --no-perms --omit-dir-times"
+          RSYNC="rsync -avz --no-perms --omit-dir-times --timeout=60"
           $RSYNC public/css public/js public/favicon.svg public/robots.txt \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/" 2>/dev/null || true
           scp deploy/public_html/index.php deploy/public_html/.htaccess \
