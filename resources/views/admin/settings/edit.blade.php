@@ -140,6 +140,22 @@
 
                 <h3 class="admin-section-title mt-8">Google</h3>
                 <div><label class="admin-label">Search Console doğrulama kodu</label><input name="google_site_verification" value="{{ $values['google_site_verification'] }}" class="admin-input font-mono text-sm" placeholder="meta content değeri"></div>
+                <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <div class="flex flex-col gap-4 md:grid md:grid-cols-2">
+                        <div>
+                            <label class="admin-label">HTML doğrulama dosya adı</label>
+                            <input name="google_verification_file_name" value="{{ $values['google_verification_file_name'] }}" class="admin-input font-mono text-sm" placeholder="googlexxxxxxxxxxxxxxxx.html">
+                        </div>
+                        <div>
+                            <label class="admin-label">HTML doğrulama dosya içeriği</label>
+                            <input name="google_verification_file_content" value="{{ $values['google_verification_file_content'] }}" class="admin-input font-mono text-sm" placeholder="google-site-verification: googlexxxxxxxxxxxxxxxx.html">
+                        </div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-500">Google Search Console HTML dosyası yönteminde kullanılır. Kaldırmak için iki alanı da boş bırakın.</p>
+                    @if(!empty($values['google_verification_file_name']))
+                        <a class="mt-2 inline-flex text-xs font-semibold text-teal-700 hover:text-teal-900" href="{{ url($values['google_verification_file_name']) }}" target="_blank" rel="noopener">Doğrulama dosyasını aç</a>
+                    @endif
+                </div>
                 <div class="mt-4"><label class="admin-label">Google Analytics (GA4) ölçüm kimliği</label><input name="google_analytics_id" value="{{ $values['google_analytics_id'] }}" class="admin-input font-mono text-sm" placeholder="G-XXXXXXXXXX"></div>
 
             </div>

@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\SiteSetting;
 use App\Support\Seo;
 use Illuminate\Http\Response;
 
@@ -69,5 +70,18 @@ class SeoController extends Controller
         ];
 
         return response(implode("\n", $lines), 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+    }
+
+    public function verificationFile(string $file): Response
+    {
+        $storedFile = SiteSetting::get('google_verification_file_name');
+        $content = SiteSetting::get('google_verification_file_content');
+
+        abort_unless($storedFile && $content && hash_equals($storedFile, $file), 404);
+
+        return response(trim($content)."\n", 200, [
+            'Content-Type' => 'text/plain; charset=UTF-8',
+            'X-Robots-Tag' => 'noindex',
+        ]);
     }
 }
