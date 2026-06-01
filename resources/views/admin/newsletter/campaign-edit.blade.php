@@ -56,17 +56,22 @@
 @endsection
 
 @push('scripts')
+    @php
+        $emailCampaignTemplates = $templates->mapWithKeys(function ($template) {
+            return [
+                $template->id => [
+                    'title' => $template->title,
+                    'subject' => $template->subject,
+                    'preheader' => $template->preheader,
+                    'body' => $template->body,
+                    'button_label' => $template->button_label,
+                    'button_url' => $template->button_url,
+                ],
+            ];
+        });
+    @endphp
     <script>
-        window.emailCampaignTemplates = @json($templates->mapWithKeys(fn ($template) => [
-            $template->id => [
-                'title' => $template->title,
-                'subject' => $template->subject,
-                'preheader' => $template->preheader,
-                'body' => $template->body,
-                'button_label' => $template->button_label,
-                'button_url' => $template->button_url,
-            ],
-        ]));
+        window.emailCampaignTemplates = @js($emailCampaignTemplates);
 
         document.querySelector('[data-campaign-template-select]')?.addEventListener('change', function () {
             const template = window.emailCampaignTemplates?.[this.value];
