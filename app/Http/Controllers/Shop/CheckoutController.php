@@ -62,13 +62,15 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index');
         }
 
+        $districtsByCity = config('turkiye.cities', []);
+
         $data = $request->validate([
             'ad' => ['required', 'string', 'max:100'],
             'soyad' => ['required', 'string', 'max:100'],
             'eposta' => ['required', 'email'],
             'telefon' => ['required', 'string', 'max:30'],
-            'il' => ['required', 'string'],
-            'ilce' => ['required', 'string', 'max:100'],
+            'il' => ['required', 'string', Rule::in(array_keys($districtsByCity))],
+            'ilce' => ['required', 'string', 'max:100', Rule::in($districtsByCity[$request->input('il')] ?? [])],
             'adres' => ['required', 'string', 'max:500'],
             'posta_kodu' => ['nullable', 'string', 'max:10'],
             'kurumsal_fatura' => ['sometimes', 'boolean'],
@@ -188,6 +190,7 @@ class CheckoutController extends Controller
         $breakdown = $this->pricing->breakdown();
         $coupon = $this->coupons->findValid($this->coupons->appliedCode() ?? '');
         $shippingMethods = $this->shippingMethodsForCheckout();
+        $districtsByCity = config('turkiye.cities', []);
         $defaultShipping = old('kargo_yontemi', $shippingMethods[0]['id'] ?? 'standart');
         $defaultPayment = old('odeme_yontemi', $paymentMethods[0]['id']);
         if (! in_array($defaultPayment, array_column($paymentMethods, 'id'), true)) {
@@ -206,7 +209,8 @@ class CheckoutController extends Controller
             'pricing' => $breakdown,
             'totals' => $totals,
             'coupon' => $coupon,
-            'cities' => config('shipping.cities'),
+            'cities' => array_keys($districtsByCity),
+            'districtsByCity' => $districtsByCity,
             'shippingMethods' => $shippingMethods,
             'paymentMethods' => $paymentMethods,
             'defaultPayment' => $defaultPayment,

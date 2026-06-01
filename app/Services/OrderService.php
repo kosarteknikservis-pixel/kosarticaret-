@@ -100,9 +100,6 @@ class OrderService
                 $p->decrement('stock', $line['quantity']);
             }
 
-            $this->cart->clear();
-            $this->coupons->remove();
-
             $order = $order->fresh('items');
             $paymentUrl = null;
 
@@ -115,6 +112,9 @@ class OrderService
             } else {
                 $this->mail->sendOrderConfirmation($order);
             }
+
+            $this->cart->clear();
+            $this->coupons->remove();
 
             return ['order' => $order, 'payment_url' => $paymentUrl];
         });

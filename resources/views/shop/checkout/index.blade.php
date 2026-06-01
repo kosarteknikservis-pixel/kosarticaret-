@@ -26,12 +26,19 @@
                     <div><label class="shop-label">E-posta</label><input type="email" name="eposta" value="{{ old('eposta', auth()->user()?->email) }}" required class="shop-input mt-1"></div>
                     <div><label class="shop-label">{{ __('shop.phone') }}</label><input name="telefon" value="{{ old('telefon') }}" required class="shop-input mt-1"></div>
                     <div><label class="shop-label">{{ __('shop.city') }}</label>
-                        <select name="il" required class="shop-input mt-1">
+                        <select id="checkout-city" name="il" required class="shop-input mt-1">
                             <option value="">{{ __('shop.select') }}</option>
                             @foreach($cities as $il)<option value="{{ $il }}" @selected(old('il')==$il)>{{ $il }}</option>@endforeach
                         </select>
                     </div>
-                    <div><label class="shop-label">{{ __('shop.district') }}</label><input name="ilce" value="{{ old('ilce') }}" required class="shop-input mt-1"></div>
+                    <div><label class="shop-label">{{ __('shop.district') }}</label>
+                        <select id="checkout-district" name="ilce" required class="shop-input mt-1" data-selected="{{ old('ilce') }}">
+                            <option value="">{{ __('shop.select') }}</option>
+                            @foreach(($districtsByCity[old('il')] ?? []) as $ilce)
+                                <option value="{{ $ilce }}" @selected(old('ilce')==$ilce)>{{ $ilce }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div><label class="shop-label">{{ __('shop.address') }}</label><textarea name="adres" rows="3" required class="shop-input mt-1">{{ old('adres') }}</textarea></div>
                 <div><label class="shop-label">{{ __('shop.postal_code') }}</label><input name="posta_kodu" value="{{ old('posta_kodu') }}" class="shop-input mt-1 max-w-xs"></div>
@@ -172,6 +179,34 @@
         </aside>
     </div>
     <script>
+        (function () {
+            const districtsByCity = @json($districtsByCity, JSON_UNESCAPED_UNICODE);
+            const citySelect = document.getElementById('checkout-city');
+            const districtSelect = document.getElementById('checkout-district');
+            if (!citySelect || !districtSelect) return;
+
+            function fillDistricts() {
+                const selectedDistrict = districtSelect.dataset.selected || districtSelect.value;
+                const districts = districtsByCity[citySelect.value] || [];
+                districtSelect.innerHTML = '<option value="">{{ __('shop.select') }}</option>';
+                districts.forEach(function (district) {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    option.selected = district === selectedDistrict;
+                    districtSelect.appendChild(option);
+                });
+                districtSelect.disabled = districts.length === 0;
+                districtSelect.dataset.selected = '';
+            }
+
+            citySelect.addEventListener('change', function () {
+                districtSelect.dataset.selected = '';
+                fillDistricts();
+            });
+            fillDistricts();
+        })();
+
         (function () {
             const toggle = document.getElementById('corporate-invoice-toggle');
             const wrapper = document.querySelector('[data-corporate-invoice]');
