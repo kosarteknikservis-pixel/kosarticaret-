@@ -90,6 +90,7 @@ jobs:
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_140000_create_order_logs_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_170000_create_email_marketing_tables.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_171500_add_html_mode_to_email_marketing_tables.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_183000_add_parasut_fields_to_orders_table.php"
