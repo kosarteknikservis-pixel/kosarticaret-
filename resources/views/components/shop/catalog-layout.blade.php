@@ -7,7 +7,7 @@
 
 <x-shop.page-hero :title="$title" :subtitle="$subtitle" />
 
-<div class="lg:grid lg:grid-cols-4 lg:gap-8 shop-catalog-grid">
+<div class="shop-catalog-grid">
     <div id="filter-drawer-overlay" class="fixed inset-0 z-50 hidden lg:hidden bg-slate-900/40 backdrop-blur-sm" aria-hidden="true">
         <aside id="filter-drawer-panel" class="absolute left-0 top-0 h-full w-[min(100%,20rem)] bg-white shadow-2xl overflow-y-auto p-4 translate-x-[-100%]">
             <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
@@ -20,17 +20,17 @@
         </aside>
     </div>
 
-    <aside class="hidden lg:block lg:col-span-1">
+    <aside class="shop-catalog-sidebar hidden lg:block">
         <div class="sticky top-28">
             @include('shop.partials.catalog-filters', ['brands' => $brands])
         </div>
     </aside>
 
-    <div class="lg:col-span-3 shop-catalog-main">
+    <div class="shop-catalog-main">
         @include('shop.partials.catalog-active-filters', ['brands' => $brands])
         @include('shop.partials.catalog-toolbar', ['products' => $products])
 
-        <div class="grid gap-4 grid-cols-2 md:grid-cols-3 shop-reveal-group">
+        <div class="shop-catalog-products shop-reveal-group">
             @forelse($products as $p)
                 @include('shop.partials.product-card', ['product' => $p])
             @empty

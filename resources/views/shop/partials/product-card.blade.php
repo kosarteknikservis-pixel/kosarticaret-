@@ -4,7 +4,7 @@
     @endif
     <button type="button" data-toggle-favorite="{{ $product->slug }}" aria-pressed="false" aria-label="{{ __('shop.add_favorite') }}"
             class="shop-product-card__fav">
-        <x-shop.icon name="heart" class="w-5 h-5" />
+        <x-shop.icon name="heart" class="w-4 h-4" />
     </button>
     <a href="{{ route('products.show', $product) }}" class="shop-product-card__link">
         <div class="shop-product-card__media aspect-square">
@@ -17,22 +17,22 @@
         @if($product->brand)
             <p class="shop-product-card__brand">{{ $product->brand->name }}</p>
         @endif
-        <h2 class="shop-product-card__title line-clamp-2 mt-1">{{ $product->name }}</h2>
+        <h2 class="shop-product-card__title line-clamp-3 mt-1.5">{{ $product->name }}</h2>
         @if($product->review_count > 0)
             <div class="mt-2">
                 @include('shop.partials.product-rating', ['rating' => $product->rating, 'count' => $product->review_count])
             </div>
         @endif
-        <div class="mt-2.5 flex items-baseline gap-2 flex-wrap">
+        <div class="shop-product-card__price-row">
             <p class="shop-product-card__price">{{ number_format($product->price, 2, ',', '.') }} ₺</p>
             @if($product->hasDiscount())
                 <p class="shop-product-card__compare">{{ number_format($product->compare_at_price, 2, ',', '.') }} ₺</p>
             @endif
         </div>
         @if(!$product->inStock())
-            <p class="text-xs font-medium text-red-600 mt-2">{{ __('shop.out_of_stock') }}</p>
+            <p class="shop-product-card__stock shop-product-card__stock--out">{{ __('shop.out_of_stock') }}</p>
         @elseif(\App\Support\ShopStockDisplay::showQuantity())
-            <p class="text-xs font-medium text-emerald-700 mt-2">{{ \App\Support\ShopStockDisplay::storefrontLabel($product) }}</p>
+            <p class="shop-product-card__stock shop-product-card__stock--in">{{ \App\Support\ShopStockDisplay::storefrontLabel($product) }}</p>
         @endif
     </a>
     @if($product->inStock())

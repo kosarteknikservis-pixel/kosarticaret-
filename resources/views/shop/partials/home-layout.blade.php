@@ -6,11 +6,11 @@
                 $hasContent = $columns->flatten()->contains(fn ($b) => $b->canDisplay() && ($b->isProductList() || $b->imageUrl()));
             @endphp
             @if($hasContent)
-                <div class="shop-home-layout__row">
-                    <div class="shop-home-layout__grid">
+                <div class="shop-home-layout__row" data-home-layout-row>
+                    <div class="shop-home-layout__grid" data-home-layout-grid>
                         @foreach($row->columns as $colIndex => $span)
                             @php $colBlocks = $columns->get($colIndex, collect()); @endphp
-                            <div class="shop-home-layout__col" style="--col-span: {{ $span }}">
+                            <div class="shop-home-layout__col" style="--col-span: {{ $span }}" data-home-layout-col>
                                 @foreach($colBlocks as $block)
                                     @if($block->canDisplay())
                                         @if($block->isProductList())

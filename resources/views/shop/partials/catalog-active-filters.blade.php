@@ -27,14 +27,14 @@
 @endphp
 
 @if(count($chips) > 0)
-    <div class="flex flex-wrap items-center gap-2 mb-4" aria-label="{{ __('shop.active_filters') }}">
-        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">{{ __('shop.active_filters') }}:</span>
+    <div class="shop-active-filters" aria-label="{{ __('shop.active_filters') }}">
+        <span class="shop-active-filters__label">{{ __('shop.active_filters') }}:</span>
         @foreach($chips as $chip)
             <a href="{{ request()->url() }}?{{ http_build_query($chip['remove']) }}" class="shop-filter-chip">
                 {{ $chip['label'] }}
                 <x-shop.icon name="x" class="w-3.5 h-3.5" />
             </a>
         @endforeach
-        <a href="{{ request()->url() }}" class="text-xs font-semibold text-slate-500 hover:text-brand-700 ml-1">{{ __('shop.clear_filters') }}</a>
+        <a href="{{ request()->url() }}" class="shop-active-filters__clear">{{ __('shop.clear_filters') }}</a>
     </div>
 @endif

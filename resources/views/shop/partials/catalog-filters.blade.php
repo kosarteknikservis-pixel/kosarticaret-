@@ -1,4 +1,12 @@
-<form method="get" action="{{ request()->url() }}" class="shop-filter-panel space-y-4 text-sm">
+@php
+    $hasActiveFilters = request()->filled('marka')
+        || request()->filled('min')
+        || request()->filled('max')
+        || request()->boolean('stokta')
+        || request()->filled('siralama');
+@endphp
+
+<form method="get" action="{{ request()->url() }}" class="shop-filter-panel">
     @foreach(request()->except(['marka', 'min', 'max', 'stokta', 'siralama', 'page']) as $key => $value)
         @if(is_array($value))
             @foreach($value as $v)
@@ -28,7 +36,7 @@
 
     <div class="shop-filter-field">
         <label>{{ __('shop.filter_price') }}</label>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="shop-filter-price-grid">
             <input type="number" name="min" value="{{ request('min') }}" placeholder="Min" min="0" class="shop-filter-control">
             <input type="number" name="max" value="{{ request('max') }}" placeholder="Max" min="0" class="shop-filter-control">
         </div>
@@ -49,5 +57,10 @@
         </select>
     </div>
 
-    <button type="submit" class="btn-primary w-full py-3">{{ __('shop.apply_filters') }}</button>
+    <div class="shop-filter-actions">
+        <button type="submit" class="btn-primary shop-filter-submit">{{ __('shop.apply_filters') }}</button>
+        @if($hasActiveFilters)
+            <a href="{{ request()->url() }}" class="shop-filter-clear">{{ __('shop.clear_filters') }}</a>
+        @endif
+    </div>
 </form>
