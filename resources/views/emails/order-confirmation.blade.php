@@ -1,22 +1,33 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head><meta charset="utf-8"><title>Sipariş Onayı</title></head>
-<body style="font-family:sans-serif;line-height:1.5;color:#334155">
-    <h2>Siparişiniz alındı</h2>
-    <p>Merhaba {{ $order->customer_name }},</p>
-    <p><strong>{{ $order->order_number }}</strong> numaralı siparişiniz kaydedildi.</p>
-    <p>Toplam: <strong>{{ number_format($order->total, 2, ',', '.') }} ₺</strong></p>
-    <p>Ödeme: {{ $order->payment_method }} — Durum: {{ $order->status }}</p>
-    @php $kurumsalFatura = $order->shipping_address['teslimat']['kurumsalFatura'] ?? null; @endphp
-    @if($kurumsalFatura)
-        <p><strong>Kurumsal fatura:</strong> {{ $kurumsalFatura['firmaAdi'] ?? '' }} · Vergi No: {{ $kurumsalFatura['vergiNumarasi'] ?? '' }} · Vergi Dairesi: {{ $kurumsalFatura['vergiDairesi'] ?? '' }}</p>
+@php
+    $settings = $template->settings ?? [];
+    $subject = $template->render('subject', $params);
+    $preheader = $template->render('preheader', $params);
+    $title = $template->render('title', $params);
+    $body = \App\Support\SafeMailHtml::render($template->render('body', $params), $template->body_is_html);
+    $buttonLabel = $template->render('button_label', $params);
+    $buttonUrl = $template->render('button_url', $params);
+    $footerNote = $template->render('footer_note', $params);
+    $kurumsalFatura = $order->shipping_address['teslimat']['kurumsalFatura'] ?? null;
+@endphp
+
+@extends('emails.layouts.kosar')
+
+@section('details')
+    @if(($settings['show_items'] ?? true) && $order->items->isNotEmpty())
+        <div style="margin-top:26px;border:1px solid #e5edf5;border-radius:18px;overflow:hidden;">
+            <div style="background:#f7fafc;padding:13px 16px;font-weight:700;color:#142033;">Sipariş özeti</div>
+            @foreach($order->items as $item)
+                <div style="padding:13px 16px;border-top:1px solid #e5edf5;font-size:14px;color:#46566b;">
+                    <strong style="color:#142033;">{{ $item->product_name }}</strong><br>
+                    {{ $item->quantity }} adet · {{ number_format($item->line_total, 2, ',', '.') }} ₺
+                </div>
+            @endforeach
+            <div style="background:#f7fafc;padding:13px 16px;text-align:right;font-weight:800;color:#14345a;">
+                Toplam: {{ number_format($order->total, 2, ',', '.') }} ₺
+            </div>
+        </div>
     @endif
-    <ul>
-        @foreach($order->items as $item)
-            <li>{{ $item->product_name }} × {{ $item->quantity }} — {{ number_format($item->line_total, 2, ',', '.') }} ₺</li>
-        @endforeach
-    </ul>
-    <p><a href="{{ route('tracking.show') }}">Sipariş takip</a></p>
-    <p style="font-size:12px;color:#94a3b8">{{ config('kosar.name') }} — {{ config('kosar.contact.email') }}</p>
-</body>
-</html>
+    @if($kurumsalFatura)
+        <p style="margin:18px 0 0;font-size:13px;color:#718096;"><strong>Kurumsal fatura:</strong> {{ $kurumsalFatura['firmaAdi'] ?? '' }} · Vergi No: {{ $kurumsalFatura['vergiNumarasi'] ?? '' }} · Vergi Dairesi: {{ $kurumsalFatura['vergiDairesi'] ?? '' }}</p>
+    @endif
+@endsection

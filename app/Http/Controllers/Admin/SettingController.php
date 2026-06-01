@@ -49,6 +49,9 @@ class SettingController extends Controller
         'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
         'smtp_enabled', 'smtp_host', 'smtp_port', 'smtp_encryption', 'smtp_username', 'smtp_password',
         'smtp_from_address', 'smtp_from_name',
+        'parasut_enabled', 'parasut_client_id', 'parasut_client_secret', 'parasut_company_id',
+        'parasut_username', 'parasut_password', 'parasut_redirect_uri',
+        'parasut_access_token', 'parasut_refresh_token', 'parasut_token_expires_at',
         'shop_maintenance_enabled', 'shop_maintenance_title', 'shop_maintenance_message',
     ];
 
@@ -159,6 +162,13 @@ class SettingController extends Controller
             'smtp_password' => ['nullable', 'string', 'max:255'],
             'smtp_from_address' => ['nullable', 'email', 'max:255'],
             'smtp_from_name' => ['nullable', 'string', 'max:120'],
+            'parasut_enabled' => ['sometimes', 'boolean'],
+            'parasut_client_id' => ['nullable', 'string', 'max:255'],
+            'parasut_client_secret' => ['nullable', 'string', 'max:255'],
+            'parasut_company_id' => ['nullable', 'string', 'max:64'],
+            'parasut_username' => ['nullable', 'string', 'max:255'],
+            'parasut_password' => ['nullable', 'string', 'max:255'],
+            'parasut_redirect_uri' => ['nullable', 'string', 'max:255'],
             'footer_extra_card_label' => ['nullable', 'string', 'max:80'],
             'footer_extra_card_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1024'],
             'remove_footer_extra_card' => ['nullable', 'string', 'max:64'],
@@ -189,6 +199,7 @@ class SettingController extends Controller
         $data['shop_maintenance_enabled'] = $request->boolean('shop_maintenance_enabled') ? '1' : '0';
         $data['brevo_enabled'] = $request->boolean('brevo_enabled') ? '1' : '0';
         $data['smtp_enabled'] = $request->boolean('smtp_enabled') ? '1' : '0';
+        $data['parasut_enabled'] = $request->boolean('parasut_enabled') ? '1' : '0';
         $selectedCards = $request->input('footer_trust_cards', []);
         $extraKeys = array_column(FooterPaymentCards::extraStored(), 'key');
         $data['footer_trust_cards'] = implode(',', array_values(array_unique(array_merge($selectedCards, $extraKeys))));
@@ -235,6 +246,14 @@ class SettingController extends Controller
 
         if (! $request->filled('smtp_password')) {
             unset($data['smtp_password']);
+        }
+
+        if (! $request->filled('parasut_client_secret')) {
+            unset($data['parasut_client_secret']);
+        }
+
+        if (! $request->filled('parasut_password')) {
+            unset($data['parasut_password']);
         }
 
         foreach ($data as $key => $value) {

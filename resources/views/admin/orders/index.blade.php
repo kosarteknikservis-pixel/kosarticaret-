@@ -55,9 +55,17 @@
         @if($orders->isEmpty())
             <p class="p-8 text-center text-slate-500">Sipariş bulunamadı.</p>
         @else
+            <div class="px-4 py-3 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50">
+                <p class="text-sm text-slate-600">Seçili siparişleri toplu silebilirsiniz. Paraşüt’e aktarılmış taslak faturalar Paraşüt tarafında ayrıca kalır.</p>
+                <button type="submit" form="bulk-order-delete-form" class="admin-btn admin-btn-danger text-sm px-4 py-2" onclick="return confirm('Seçili siparişler silinsin mi? Bu işlem geri alınamaz. Paraşüt taslak faturaları silinmez.');">Seçili siparişleri sil</button>
+            </div>
+            <form id="bulk-order-delete-form" method="post" action="{{ route('admin.orders.bulk-destroy') }}">
+                @csrf @method('DELETE')
+            </form>
             <table class="admin-table">
                 <thead>
                     <tr>
+                        <th><input type="checkbox" data-order-check-all aria-label="Tümünü seç"></th>
                         <th>Sipariş no</th>
                         <th>Müşteri</th>
                         <th>Tarih</th>
@@ -65,12 +73,14 @@
                         <th>Durum</th>
                         <th>Ödeme</th>
                         <th>Kargo</th>
+                        <th>Paraşüt</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($orders as $o)
                         <tr>
+                            <td><input type="checkbox" name="orders[]" value="{{ $o->id }}" form="bulk-order-delete-form" data-order-check aria-label="{{ $o->order_number }} seç"></td>
                             <td><a href="{{ route('admin.orders.show', $o) }}" class="link font-mono text-xs">{{ $o->order_number }}</a></td>
                             <td class="max-w-[220px]">
                                 <p class="font-semibold truncate">{{ $o->customer_name ?: '—' }}</p>
@@ -81,8 +91,29 @@
                             <td><span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold">{{ \App\Support\OrderStatus::label($o->status) }}</span></td>
                             <td><span class="rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-0.5 text-xs font-semibold">{{ \App\Support\PaymentStatus::label($o->payment_status) }}</span></td>
                             <td class="text-xs text-slate-500">{{ $o->shipping_tracking ? 'Takip var' : 'Takip yok' }}</td>
+                            <td>
+                                @if($o->parasut_sales_invoice_id)
+                                    <span class="rounded-full bg-blue-50 text-blue-700 px-2.5 py-0.5 text-xs font-semibold">Aktarıldı</span>
+                                @elseif($o->parasut_status === 'failed')
+                                    <span class="rounded-full bg-red-50 text-red-700 px-2.5 py-0.5 text-xs font-semibold">Hata</span>
+                                @else
+                                    <span class="rounded-full bg-slate-100 text-slate-600 px-2.5 py-0.5 text-xs font-semibold">Bekliyor</span>
+                                @endif
+                            </td>
                             <td class="text-right">
-                                <a href="{{ route('admin.orders.show', $o) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Detay</a>
+                                <div class="flex flex-wrap justify-end gap-2">
+                                    @if(!$o->parasut_sales_invoice_id)
+                                        <form method="post" action="{{ route('admin.orders.parasut.sync', $o) }}" onsubmit="return confirm('Bu sipariş Paraşüt’e taslak satış faturası olarak aktarılsın mı?');">
+                                            @csrf
+                                            <button class="admin-btn admin-btn-secondary text-xs py-1.5">Paraşüt’e gönder</button>
+                                        </form>
+                                    @endif
+                                    <a href="{{ route('admin.orders.show', $o) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Detay</a>
+                                    <form method="post" action="{{ route('admin.orders.destroy', $o) }}" onsubmit="return confirm('{{ $o->order_number }} numaralı sipariş silinsin mi? Bu işlem geri alınamaz. Paraşüt taslak faturası varsa silinmez.');">
+                                        @csrf @method('DELETE')
+                                        <button class="admin-btn admin-btn-danger text-xs py-1.5">Sil</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -91,4 +122,14 @@
             <div class="p-4 border-t border-slate-100">{{ $orders->links() }}</div>
         @endif
     </div>
+
+    @push('scripts')
+        <script>
+            document.querySelector('[data-order-check-all]')?.addEventListener('change', function () {
+                document.querySelectorAll('[data-order-check]').forEach((checkbox) => {
+                    checkbox.checked = this.checked;
+                });
+            });
+        </script>
+    @endpush
 @endsection

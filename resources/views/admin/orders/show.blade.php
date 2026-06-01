@@ -155,32 +155,60 @@
             </div>
 
             <aside>
-                <div class="admin-card p-5 sm:p-6 space-y-4 sticky top-24">
-                    <h2 class="font-bold text-slate-900">Sipariş yönetimi</h2>
-                    <div>
-                        <label class="admin-label">Durum</label>
-                        <select name="status" class="admin-input">
-                            @foreach($statuses as $value => $label)
-                                <option value="{{ $value }}" @selected(old('status', $order->status) === $value)>{{ $label }}</option>
-                            @endforeach
-                        </select>
+                <div class="sticky top-24 space-y-4 overflow-y-auto pr-1" style="max-height: calc(100vh - 7rem);">
+                    <div class="admin-card p-5 sm:p-6 space-y-4">
+                        <h2 class="font-bold text-slate-900">Sipariş yönetimi</h2>
+                        <div>
+                            <label class="admin-label">Durum</label>
+                            <select name="status" class="admin-input">
+                                @foreach($statuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(old('status', $order->status) === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="admin-label">Ödeme durumu</label>
+                            <select name="payment_status" class="admin-input">
+                                @foreach($paymentStatuses as $value => $label)
+                                    <option value="{{ $value }}" @selected(old('payment_status', $order->payment_status) === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div><label class="admin-label">Kargo takip no</label><input name="shipping_tracking" value="{{ old('shipping_tracking', $order->shipping_tracking) }}" class="admin-input font-mono"></div>
+                        <div><label class="admin-label">Admin notu</label><textarea name="admin_note" rows="4" class="admin-input">{{ old('admin_note', $order->admin_note) }}</textarea></div>
+                        <button type="submit" class="admin-btn admin-btn-primary w-full py-2.5">Siparişi güncelle</button>
+                        <p class="text-xs text-slate-500 leading-relaxed">Durum veya takip no değişirse müşteriye otomatik e-posta gönderilir.</p>
                     </div>
-                    <div>
-                        <label class="admin-label">Ödeme durumu</label>
-                        <select name="payment_status" class="admin-input">
-                            @foreach($paymentStatuses as $value => $label)
-                                <option value="{{ $value }}" @selected(old('payment_status', $order->payment_status) === $value)>{{ $label }}</option>
-                            @endforeach
-                        </select>
+
+                    <div class="admin-card p-5 sm:p-6 space-y-4">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wide text-slate-400">Muhasebe</p>
+                            <h2 class="font-bold text-slate-900 mt-1">Paraşüt</h2>
+                        </div>
+                        @if($order->parasut_sales_invoice_id)
+                            <p class="admin-alert-success text-sm">Taslak satış faturası oluşturuldu.</p>
+                            <dl class="text-sm text-slate-600 space-y-1">
+                                <div><dt class="inline font-semibold">Fatura ID:</dt> <dd class="inline font-mono">{{ $order->parasut_sales_invoice_id }}</dd></div>
+                                <div><dt class="inline font-semibold">Aktarım:</dt> <dd class="inline">{{ $order->parasut_synced_at?->format('d.m.Y H:i') }}</dd></div>
+                            </dl>
+                        @else
+                            <p class="text-sm text-slate-600">Bu sipariş Paraşüt’e henüz aktarılmadı.</p>
+                            <button type="submit" form="parasut-sync-form" class="admin-btn admin-btn-secondary w-full py-2.5" onclick="return confirm('Bu sipariş Paraşüt’e taslak satış faturası olarak aktarılsın mı?');">Paraşüt’e aktar</button>
+                        @endif
+                        @if($order->parasut_error)
+                            <p class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{{ $order->parasut_error }}</p>
+                        @endif
+                        <p class="text-xs text-slate-500 leading-relaxed">Aktarım manuel çalışır ve Paraşüt tarafında taslak satış faturası oluşturur.</p>
                     </div>
-                    <div><label class="admin-label">Kargo takip no</label><input name="shipping_tracking" value="{{ old('shipping_tracking', $order->shipping_tracking) }}" class="admin-input font-mono"></div>
-                    <div><label class="admin-label">Admin notu</label><textarea name="admin_note" rows="4" class="admin-input">{{ old('admin_note', $order->admin_note) }}</textarea></div>
-                    <button type="submit" class="admin-btn admin-btn-primary w-full py-2.5">Siparişi güncelle</button>
-                    <p class="text-xs text-slate-500 leading-relaxed">Durum veya takip no değişirse müşteriye otomatik e-posta gönderilir.</p>
+
+                    <a href="{{ route('admin.orders.index') }}" class="block text-center text-sm font-semibold text-teal-700 hover:underline">← Sipariş listesi</a>
                 </div>
-                <a href="{{ route('admin.orders.index') }}" class="mt-4 block text-center text-sm font-semibold text-teal-700 hover:underline">← Sipariş listesi</a>
             </aside>
         </div>
+    </form>
+
+    <form id="parasut-sync-form" method="post" action="{{ route('admin.orders.parasut.sync', $order) }}" class="hidden">
+        @csrf
     </form>
 
     @push('scripts')

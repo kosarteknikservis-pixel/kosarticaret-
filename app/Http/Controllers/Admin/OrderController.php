@@ -10,6 +10,7 @@ use App\Support\OrderStatus;
 use App\Support\PaymentStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -119,5 +120,38 @@ class OrderController extends Controller
             ->with('success', $result['notify']
                 ? 'Sipariş güncellendi ve müşteriye e-posta gönderildi.'
                 : 'Sipariş güncellendi.');
+    }
+
+    public function destroy(Order $order): RedirectResponse
+    {
+        $orderNumber = $order->order_number;
+        $order->delete();
+
+        return redirect()
+            ->route('admin.orders.index')
+            ->with('success', "{$orderNumber} numaralı sipariş silindi.");
+    }
+
+    public function bulkDestroy(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'orders' => ['required', 'array', 'min:1'],
+            'orders.*' => ['integer', 'exists:orders,id'],
+        ]);
+
+        $count = DB::transaction(function () use ($data): int {
+            $orders = Order::query()->whereIn('id', $data['orders'])->get();
+            $count = $orders->count();
+
+            foreach ($orders as $order) {
+                $order->delete();
+            }
+
+            return $count;
+        });
+
+        return redirect()
+            ->route('admin.orders.index')
+            ->with('success', "{$count} sipariş silindi.");
     }
 }

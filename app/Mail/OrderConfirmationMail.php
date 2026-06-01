@@ -2,7 +2,9 @@
 
 namespace App\Mail;
 
+use App\Models\EmailTemplate;
 use App\Models\Order;
+use App\Support\EmailTemplateParams;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -15,10 +17,23 @@ class OrderConfirmationMail extends Mailable
 
     public function __construct(public Order $order) {}
 
+    public function template(): EmailTemplate
+    {
+        return EmailTemplate::forKey('order_confirmation');
+    }
+
+    /** @return array<string, string> */
+    public function params(): array
+    {
+        return EmailTemplateParams::order($this->order);
+    }
+
     public function envelope(): Envelope
     {
+        $template = $this->template();
+
         return new Envelope(
-            subject: "Siparişiniz alındı — {$this->order->order_number}",
+            subject: $template->render('subject', $this->params()),
         );
     }
 
@@ -26,6 +41,10 @@ class OrderConfirmationMail extends Mailable
     {
         return new Content(
             view: 'emails.order-confirmation',
+            with: [
+                'template' => $this->template(),
+                'params' => $this->params(),
+            ],
         );
     }
 }

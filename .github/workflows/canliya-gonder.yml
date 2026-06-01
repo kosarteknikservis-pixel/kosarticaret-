@@ -82,6 +82,16 @@ jobs:
           scp deploy/public_html/index.php deploy/public_html/.htaccess \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/"
 
+      - name: Sunucuda migration çalıştır
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            (command -v php >/dev/null && php artisan migrate --force) || \
+            (/usr/local/php83/bin/php artisan migrate --force)"
+
       - name: Sunucuda önbellek temizle
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}

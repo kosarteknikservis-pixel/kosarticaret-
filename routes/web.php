@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
 use App\Http\Controllers\Admin\HomeBannerController as AdminHomeBannerController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\PromotionController as AdminPromotionController;
 use App\Http\Controllers\Admin\NavigationController as AdminNavigationController;
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
+use App\Http\Controllers\Admin\ParasutIntegrationController as AdminParasutIntegrationController;
 use App\Http\Controllers\Admin\BulkProductUpdateController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
@@ -159,6 +161,19 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::patch('yorumlar/{review}/onayla', [AdminReviewController::class, 'approve'])->name('reviews.approve');
         Route::delete('yorumlar/{review}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
         Route::get('bulten', [AdminNewsletterController::class, 'index'])->name('newsletter.index');
+        Route::post('bulten/kampanya', [AdminNewsletterController::class, 'storeCampaign'])->name('newsletter.campaigns.store');
+        Route::post('bulten/kampanya/{campaign}/test', [AdminNewsletterController::class, 'testCampaign'])->name('newsletter.campaigns.test');
+        Route::get('bulten/kampanya/{campaign}/duzenle', [AdminNewsletterController::class, 'editCampaign'])->name('newsletter.campaigns.edit');
+        Route::put('bulten/kampanya/{campaign}', [AdminNewsletterController::class, 'updateCampaign'])->name('newsletter.campaigns.update');
+        Route::delete('bulten/kampanya/{campaign}', [AdminNewsletterController::class, 'destroyCampaign'])->name('newsletter.campaigns.destroy');
+        Route::get('bulten/kampanya/{campaign}/onizle', [AdminNewsletterController::class, 'previewCampaign'])->name('newsletter.campaigns.preview');
+        Route::post('bulten/kampanya/{campaign}/gonder', [AdminNewsletterController::class, 'sendCampaign'])->name('newsletter.campaigns.send');
+        Route::get('eposta-sablonlari', [AdminEmailTemplateController::class, 'index'])->name('email-templates.index');
+        Route::get('eposta-sablonlari/yeni', [AdminEmailTemplateController::class, 'create'])->name('email-templates.create');
+        Route::post('eposta-sablonlari', [AdminEmailTemplateController::class, 'store'])->name('email-templates.store');
+        Route::get('eposta-sablonlari/{emailTemplate}/duzenle', [AdminEmailTemplateController::class, 'edit'])->name('email-templates.edit');
+        Route::get('eposta-sablonlari/{emailTemplate}/onizle', [AdminEmailTemplateController::class, 'preview'])->name('email-templates.preview');
+        Route::put('eposta-sablonlari/{emailTemplate}', [AdminEmailTemplateController::class, 'update'])->name('email-templates.update');
         Route::resource('kategoriler', AdminCategoryController::class)
             ->except(['show'])
             ->parameters(['kategoriler' => 'category'])
@@ -196,6 +211,9 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::redirect('odeme/iyzico', 'entegrasyonlar/odeme/iyzico');
         Route::prefix('entegrasyonlar')->name('integrations.')->group(function () {
             Route::get('/', fn () => redirect()->route('admin.integrations.payment.index'))->name('index');
+            Route::get('parasut/baglan', [AdminParasutIntegrationController::class, 'connect'])->name('parasut.connect');
+            Route::get('parasut/callback', [AdminParasutIntegrationController::class, 'callback'])->name('parasut.callback');
+            Route::delete('parasut/baglanti', [AdminParasutIntegrationController::class, 'disconnect'])->name('parasut.disconnect');
             Route::prefix('odeme')->name('payment.')->group(function () {
                 Route::get('/', [\App\Http\Controllers\Admin\PaymentSettingsController::class, 'indexPayment'])->name('index');
                 Route::get('paytr', [\App\Http\Controllers\Admin\PaymentSettingsController::class, 'editPaytr'])->name('paytr');
@@ -221,7 +239,10 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
             ->parameters(['kampanyalar' => 'promotion'])
             ->names('promotions');
         Route::get('siparisler', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::delete('siparisler/toplu-sil', [AdminOrderController::class, 'bulkDestroy'])->name('orders.bulk-destroy');
         Route::get('siparisler/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::patch('siparisler/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
+        Route::delete('siparisler/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
+        Route::post('siparisler/{order}/parasut', [AdminParasutIntegrationController::class, 'syncOrder'])->name('orders.parasut.sync');
     });
 });

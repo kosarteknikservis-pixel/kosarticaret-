@@ -12,6 +12,7 @@ class Order extends Model
         'user_id', 'order_number', 'email', 'status', 'payment_status', 'payment_method',
         'customer_name', 'phone', 'shipping_address', 'shipping_tracking',
         'admin_note', 'subtotal', 'shipping_cost', 'discount', 'total', 'coupon_code',
+        'parasut_sales_invoice_id', 'parasut_status', 'parasut_error', 'parasut_synced_at',
     ];
 
     protected function casts(): array
@@ -22,6 +23,7 @@ class Order extends Model
             'shipping_cost' => 'decimal:2',
             'discount' => 'decimal:2',
             'total' => 'decimal:2',
+            'parasut_synced_at' => 'datetime',
         ];
     }
 
