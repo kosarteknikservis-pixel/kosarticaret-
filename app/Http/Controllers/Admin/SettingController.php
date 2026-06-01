@@ -7,6 +7,7 @@ use App\Models\SiteSetting;
 use App\Support\FooterPaymentCards;
 use App\Support\LogoImageProcessor;
 use App\Support\PaymentMethodSettings;
+use App\Services\StoreConfig;
 use App\Support\SiteFavicon;
 use App\Support\SiteLogo;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +21,7 @@ class SettingController extends Controller
     public const TABS = ['general', 'header', 'footer', 'contact', 'home', 'maintenance', 'shipping', 'integrations'];
 
     private const SHIPPING_KEYS = [
-        'cod_fee', 'vat_rate',
+        'cod_fee', 'vat_rate', 'checkout_add_vat',
         'shipping_rate_standart', 'shipping_rate_hizli',
         'ship_standart_name', 'ship_standart_desc', 'ship_standart_eta',
         'ship_hizli_name', 'ship_hizli_desc', 'ship_hizli_eta',
@@ -95,7 +96,7 @@ class SettingController extends Controller
             'footerCardCatalog' => FooterPaymentCards::catalog(),
             'activeTab' => $tab,
             'shippingValues' => $this->shippingValues(),
-            'shippingMethods' => config('shipping.shipping_methods'),
+            'shippingMethods' => app(StoreConfig::class)->storedShippingMethods(),
             'paymentMethods' => config('shipping.payment_methods'),
             'paymentEnabled' => PaymentMethodSettings::enabledForAdmin(),
         ]);

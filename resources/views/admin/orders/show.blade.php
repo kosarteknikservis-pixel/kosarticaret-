@@ -27,6 +27,7 @@
             @php
                 $teslimat = $order->shipping_address['teslimat'] ?? [];
                 $kurumsalFatura = $teslimat['kurumsalFatura'] ?? null;
+                $kargoFirma = $order->shipping_address['kargo_firma']['name'] ?? $order->shipping_address['kargo_yontemi'] ?? '—';
             @endphp
             <section class="admin-card p-5 sm:p-6 text-sm space-y-2">
                 <h2 class="font-bold text-slate-900 mb-3">Teslimat</h2>
@@ -34,7 +35,7 @@
                 <p class="text-slate-600">{{ $order->phone ?? ($teslimat['telefon'] ?? '') }}</p>
                 <p class="text-slate-600">{{ $teslimat['adres'] ?? '' }}</p>
                 <p class="text-slate-600">{{ ($teslimat['ilce'] ?? '').' / '.($teslimat['il'] ?? '') }} {{ $teslimat['postaKodu'] ?? $teslimat['posta_kodu'] ?? '' }}</p>
-                <p class="text-xs text-slate-500 mt-2">Kargo: {{ $order->shipping_address['kargo_yontemi'] ?? '—' }} · Ödeme: {{ $order->payment_method }}</p>
+                <p class="text-xs text-slate-500 mt-2">Kargo: {{ $kargoFirma }} · Ödeme: {{ $order->payment_method }}</p>
             </section>
 
             @if($kurumsalFatura)

@@ -16,6 +16,7 @@ class OrderService
         private CartPricingService $pricing,
         private PaymentManager $payments,
         private OrderMailService $mail,
+        private StoreConfig $store,
     ) {}
 
     /**
@@ -44,10 +45,13 @@ class OrderService
 
         $orderNumber = $this->calculator->orderNumber();
         $creditCard = $paymentMethod === 'kredi_karti';
+        $shippingMethodData = collect($this->store->shippingMethods(true))
+            ->firstWhere('id', $shippingMethod);
 
         return DB::transaction(function () use (
             $teslimat,
             $shippingMethod,
+            $shippingMethodData,
             $paymentMethod,
             $totals,
             $pricing,
@@ -67,6 +71,7 @@ class OrderService
                 'shipping_address' => [
                     'teslimat' => $teslimat,
                     'kargo_yontemi' => $shippingMethod,
+                    'kargo_firma' => $shippingMethodData,
                     'kdv' => $totals['vat'],
                     'kapida_ucret' => $totals['cod_fee'],
                     'promotion_label' => $pricing['promotion_label'],

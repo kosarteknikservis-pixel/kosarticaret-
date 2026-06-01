@@ -69,10 +69,13 @@
                 </h2>
                 @foreach($shippingMethods as $k)
                     <label class="shop-checkout-option">
-                        <input type="radio" name="kargo_yontemi" value="{{ $k['id'] }}" @checked(old('kargo_yontemi', 'standart')==$k['id']) required class="mt-1 text-brand-700 focus:ring-brand-500/30">
+                        <input type="radio" name="kargo_yontemi" value="{{ $k['id'] }}" @checked(old('kargo_yontemi', $defaultShipping ?? $shippingMethods[0]['id'])==$k['id']) required class="mt-1 text-brand-700 focus:ring-brand-500/30">
                         <span>
                             <span class="font-semibold text-slate-900 block">{{ $k['name'] }}</span>
-                            <span class="text-sm text-slate-500 mt-0.5 block">{{ $k['desc'] }} · {{ $k['eta'] }}</span>
+                            <span class="text-sm text-slate-500 mt-0.5 block">
+                                {{ $k['desc'] }}@if(!empty($k['eta'])) · {{ $k['eta'] }}@endif
+                                · {{ (float) $k['fee'] <= 0 ? __('shop.free_shipping') : number_format((float) $k['fee'], 2, ',', '.').' ₺' }}
+                            </span>
                         </span>
                     </label>
                 @endforeach
@@ -133,10 +136,17 @@
                     @if($pricing['promotion_discount'] > 0)
                         <div class="flex justify-between text-emerald-700"><dt>{{ $pricing['promotion_label'] ?? 'Kampanya' }}</dt><dd>-{{ number_format($pricing['promotion_discount'], 2, ',', '.') }} ₺</dd></div>
                     @endif
-                    @if($pricing['free_shipping'])
+                    @if($totals['shipping'] > 0)
+                        <div class="flex justify-between text-slate-600"><dt>{{ __('shop.shipping') }}</dt><dd>{{ number_format($totals['shipping'], 2, ',', '.') }} ₺</dd></div>
+                    @else
                         <div class="flex justify-between text-emerald-700"><dt>{{ __('shop.shipping') }}</dt><dd>{{ __('shop.free_shipping') }}</dd></div>
                     @endif
-                    <div class="flex justify-between text-slate-600"><dt>{{ __('shop.shipping_vat_est') }}</dt><dd>{{ number_format($totals['shipping'] + $totals['vat'] + $totals['cod_fee'], 2, ',', '.') }} ₺</dd></div>
+                    @if($totals['vat'] > 0)
+                        <div class="flex justify-between text-slate-600"><dt>KDV</dt><dd>{{ number_format($totals['vat'], 2, ',', '.') }} ₺</dd></div>
+                    @endif
+                    @if($totals['cod_fee'] > 0)
+                        <div class="flex justify-between text-slate-600"><dt>Kapıda ödeme ücreti</dt><dd>{{ number_format($totals['cod_fee'], 2, ',', '.') }} ₺</dd></div>
+                    @endif
                     <div class="flex justify-between font-bold text-lg pt-3 border-t border-slate-200"><dt>{{ __('shop.total_est') }}</dt><dd class="text-brand-700">{{ number_format($totals['total'], 2, ',', '.') }} ₺</dd></div>
                 </dl>
                 <p class="mt-2 text-xs text-slate-500 leading-relaxed">{{ __('shop.checkout_estimate_note') }}</p>

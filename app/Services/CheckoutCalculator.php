@@ -17,14 +17,8 @@ class CheckoutCalculator
     public function shippingCost(float $subtotal, string $method, bool $forceFree = false): float
     {
         $rates = $this->store->shippingRates();
-        $fee = (float) ($rates[$method] ?? 0);
 
-        $freeMin = $this->store->freeShippingMin();
-        if ($forceFree || ($method === 'standart' && $subtotal >= $freeMin)) {
-            return 0;
-        }
-
-        return $fee;
+        return (float) ($rates[$method] ?? 0);
     }
 
     /**
@@ -41,7 +35,9 @@ class CheckoutCalculator
         $shipping = $this->shippingCost($subtotal, $shippingMethod, $freeShippingPromo);
         $codFee = $paymentMethod === 'kapida_odeme' ? $this->store->codFee() : 0;
         $vatBase = $subtotal + $shipping;
-        $vat = round($vatBase * $this->store->vatRate(), 2);
+        $vat = $this->store->shouldAddVat()
+            ? round($vatBase * $this->store->vatRate(), 2)
+            : 0.0;
         $total = round($vatBase + $vat + $codFee, 2);
 
         return [

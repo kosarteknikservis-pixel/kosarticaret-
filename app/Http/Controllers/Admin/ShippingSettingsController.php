@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
+use App\Services\StoreConfig;
 use App\Support\PaymentMethodSettings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,14 +33,13 @@ class ShippingSettingsController extends Controller
         $data = $request->validate([
             'cod_fee' => ['nullable', 'numeric', 'min:0'],
             'vat_rate' => ['nullable', 'numeric', 'min:0', 'max:1'],
-            'shipping_rate_standart' => ['nullable', 'numeric', 'min:0'],
-            'shipping_rate_hizli' => ['nullable', 'numeric', 'min:0'],
-            'ship_standart_name' => ['nullable', 'string', 'max:80'],
-            'ship_standart_desc' => ['nullable', 'string', 'max:200'],
-            'ship_standart_eta' => ['nullable', 'string', 'max:80'],
-            'ship_hizli_name' => ['nullable', 'string', 'max:80'],
-            'ship_hizli_desc' => ['nullable', 'string', 'max:200'],
-            'ship_hizli_eta' => ['nullable', 'string', 'max:80'],
+            'checkout_add_vat' => ['sometimes', 'boolean'],
+            'shipping_methods' => ['nullable', 'array'],
+            'shipping_methods.*.active' => ['nullable', 'boolean'],
+            'shipping_methods.*.name' => ['nullable', 'string', 'max:80'],
+            'shipping_methods.*.fee' => ['nullable', 'numeric', 'min:0'],
+            'shipping_methods.*.desc' => ['nullable', 'string', 'max:200'],
+            'shipping_methods.*.eta' => ['nullable', 'string', 'max:80'],
             'pay_kredi_karti_name' => ['nullable', 'string', 'max:80'],
             'pay_kredi_karti_desc' => ['nullable', 'string', 'max:200'],
             'pay_havale_name' => ['nullable', 'string', 'max:80'],
@@ -56,8 +56,10 @@ class ShippingSettingsController extends Controller
             $request->input('payment_checkout_enabled', []),
             $request->input('payment_footer_enabled', []),
         );
+        SiteSetting::set('shipping_methods_json', json_encode($this->cleanShippingMethods($request->input('shipping_methods', [])), JSON_UNESCAPED_UNICODE));
+        SiteSetting::set('checkout_add_vat', $request->boolean('checkout_add_vat') ? '1' : '0');
 
-        unset($data['payment_checkout_enabled'], $data['payment_footer_enabled']);
+        unset($data['payment_checkout_enabled'], $data['payment_footer_enabled'], $data['shipping_methods'], $data['checkout_add_vat']);
 
         foreach ($data as $key => $value) {
             SiteSetting::set($key, $value !== null ? (string) $value : null);
@@ -76,6 +78,9 @@ class ShippingSettingsController extends Controller
         }
         if ($key === 'vat_rate') {
             return (string) config('shipping.vat_rate');
+        }
+        if ($key === 'checkout_add_vat') {
+            return '0';
         }
         if (str_starts_with($key, 'shipping_rate_')) {
             $id = str_replace('shipping_rate_', '', $key);
@@ -105,5 +110,40 @@ class ShippingSettingsController extends Controller
         }
 
         return '';
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $methods
+     * @return array<int, array{id: string, name: string, desc: string, eta: string, fee: float, active: bool}>
+     */
+    private function cleanShippingMethods(array $methods): array
+    {
+        $clean = [];
+
+        foreach ($methods as $index => $method) {
+            $name = trim((string) ($method['name'] ?? ''));
+            if ($name === '') {
+                continue;
+            }
+
+            $clean[] = [
+                'id' => 'cargo_'.($index + 1),
+                'name' => $name,
+                'desc' => trim((string) ($method['desc'] ?? '')),
+                'eta' => trim((string) ($method['eta'] ?? '')),
+                'fee' => (float) str_replace(',', '.', (string) ($method['fee'] ?? 0)),
+                'active' => (bool) ($method['active'] ?? false),
+            ];
+        }
+
+        if ($clean === []) {
+            return app(StoreConfig::class)->storedShippingMethods();
+        }
+
+        if (! collect($clean)->contains(fn (array $method) => $method['active'])) {
+            $clean[0]['active'] = true;
+        }
+
+        return $clean;
     }
 }

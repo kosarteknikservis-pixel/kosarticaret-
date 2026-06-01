@@ -76,7 +76,7 @@ class CheckoutController extends Controller
             'vergi_numarasi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:30'],
             'vergi_dairesi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:120'],
             'fatura_adresi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:500'],
-            'kargo_yontemi' => ['required', 'in:standart,hizli'],
+            'kargo_yontemi' => ['required', Rule::in(array_column($this->shippingMethodsForCheckout(), 'id'))],
             'odeme_yontemi' => ['required', Rule::in($this->store->enabledPaymentIds())],
             'sozlesme' => ['accepted'],
         ]);
@@ -187,7 +187,8 @@ class CheckoutController extends Controller
 
         $breakdown = $this->pricing->breakdown();
         $coupon = $this->coupons->findValid($this->coupons->appliedCode() ?? '');
-        $defaultShipping = 'standart';
+        $shippingMethods = $this->shippingMethodsForCheckout();
+        $defaultShipping = old('kargo_yontemi', $shippingMethods[0]['id'] ?? 'standart');
         $defaultPayment = old('odeme_yontemi', $paymentMethods[0]['id']);
         if (! in_array($defaultPayment, array_column($paymentMethods, 'id'), true)) {
             $defaultPayment = $paymentMethods[0]['id'];
@@ -206,9 +207,10 @@ class CheckoutController extends Controller
             'totals' => $totals,
             'coupon' => $coupon,
             'cities' => config('shipping.cities'),
-            'shippingMethods' => $this->shippingMethodsForCheckout(),
+            'shippingMethods' => $shippingMethods,
             'paymentMethods' => $paymentMethods,
             'defaultPayment' => $defaultPayment,
+            'defaultShipping' => $defaultShipping,
         ]);
     }
 }

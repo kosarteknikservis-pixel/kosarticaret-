@@ -30,37 +30,59 @@ class StoreConfig
         return (float) $this->setting('vat_rate', config('shipping.vat_rate'));
     }
 
+    public function shouldAddVat(): bool
+    {
+        return $this->setting('checkout_add_vat', '0') === '1';
+    }
+
     /** @return array<string, float> */
     public function shippingRates(): array
     {
-        $defaults = config('shipping.shipping_rates');
-
-        return [
-            'standart' => (float) ($this->setting('shipping_rate_standart') ?? $defaults['standart'] ?? 0),
-            'hizli' => (float) ($this->setting('shipping_rate_hizli') ?? $defaults['hizli'] ?? 0),
-        ];
+        return collect($this->shippingMethods(true))
+            ->mapWithKeys(fn (array $method) => [$method['id'] => (float) ($method['fee'] ?? 0)])
+            ->all();
     }
 
-    /** @return array<int, array<string, string>> */
-    public function shippingMethods(): array
+    /** @return array<int, array{id: string, name: string, desc: string, eta: string, fee: float, active: bool}> */
+    public function shippingMethods(bool $includeInactive = false): array
+    {
+        $methods = $this->storedShippingMethods();
+
+        if (! $includeInactive) {
+            $methods = array_values(array_filter($methods, fn (array $method) => $method['active']));
+        }
+
+        return $methods;
+    }
+
+    /** @return array<int, array{id: string, name: string, desc: string, eta: string, fee: float, active: bool}> */
+    public function storedShippingMethods(): array
     {
         $freeMin = $this->freeShippingMin();
         $autoDesc = number_format($freeMin, 0, ',', '.').' TL üzeri ücretsiz';
+        $raw = $this->setting('shipping_methods_json');
+        $decoded = $raw ? json_decode($raw, true) : null;
 
-        return collect(config('shipping.shipping_methods'))
+        if (! is_array($decoded)) {
+            $decoded = config('shipping.shipping_methods');
+        }
+
+        return collect($decoded)
             ->map(function (array $method) use ($autoDesc) {
                 $id = $method['id'];
-                $method['name'] = $this->setting("ship_{$id}_name", $method['name']) ?: $method['name'];
-                $method['eta'] = $this->setting("ship_{$id}_eta", $method['eta']) ?: $method['eta'];
-                $customDesc = $this->setting("ship_{$id}_desc");
-                if ($id === 'standart' && ! $customDesc) {
-                    $method['desc'] = $autoDesc;
-                } else {
-                    $method['desc'] = $customDesc ?: ($method['desc'] ?? '');
-                }
+                $desc = trim((string) ($method['desc'] ?? ''));
 
-                return $method;
+                return [
+                    'id' => $id,
+                    'name' => trim((string) ($method['name'] ?? $id)) ?: $id,
+                    'desc' => $desc !== '' ? $desc : ($id === 'standart' ? $autoDesc : ''),
+                    'eta' => trim((string) ($method['eta'] ?? '')),
+                    'fee' => (float) ($method['fee'] ?? config("shipping.shipping_rates.{$id}", 0)),
+                    'active' => array_key_exists('active', $method) ? (bool) $method['active'] : true,
+                ];
             })
+            ->filter(fn (array $method) => $method['id'] !== '' && $method['name'] !== '')
+            ->values()
             ->all();
     }
 
@@ -85,9 +107,7 @@ class StoreConfig
                 $method['desc'] = str_replace('{fee}', $codFee, $desc);
                 if ($id === 'kredi_karti' && PaymentGatewayConfig::isLive()) {
                     $gateway = PaymentGatewayConfig::label();
-                    if (! str_contains(mb_strtolower($method['desc']), mb_strtolower($gateway))) {
-                        $method['desc'] = trim($method['desc'].' — '.$gateway.' 3D Secure');
-                    }
+                    $method['desc'] = "{$gateway} ile güvenli 3D Secure ödeme";
                 }
 
                 return $method;
