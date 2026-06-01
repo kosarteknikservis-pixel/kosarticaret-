@@ -40,12 +40,25 @@ class PaytrCallbackController extends Controller
         }
 
         if ($status === 'success' && $merchantOid) {
-            $order = Order::query()->where('order_number', $merchantOid)->first();
+            $order = Order::query()->where('order_number', $merchantOid)->first()
+                ?? Order::query()->where('order_number', $this->orderNumberFromMerchantOid($merchantOid))->first();
+
             if ($order && $order->payment_status !== 'basarili') {
                 $orders->confirmPayment($order);
             }
         }
 
         return response('OK');
+    }
+
+    private function orderNumberFromMerchantOid(string $merchantOid): string
+    {
+        $prefix = config('kosar.order_prefix', 'KOS');
+
+        if (str_starts_with($merchantOid, $prefix) && strlen($merchantOid) > strlen($prefix)) {
+            return $prefix.'-'.substr($merchantOid, strlen($prefix));
+        }
+
+        return $merchantOid;
     }
 }

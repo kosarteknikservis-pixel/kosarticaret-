@@ -26,6 +26,7 @@ class PaytrPaymentProvider implements PaymentProvider
         $soyad = $teslimat['soyad'] ?? 'Kosar';
         $adSoyad = trim("{$ad} {$soyad}");
         $tutarKurus = (int) round($order->total * 100);
+        $merchantOid = $this->merchantOid($order);
 
         $basket = base64_encode(json_encode(
             $order->items->map(fn ($item) => [
@@ -39,13 +40,13 @@ class PaytrPaymentProvider implements PaymentProvider
         $okUrl = route('checkout.success', ['order' => $order->order_number]);
         $failUrl = route('checkout.payment', ['order' => $order->order_number]).'?durum=hata';
 
-        $hashStr = $merchantId.$order->email.$tutarKurus.$order->order_number.$okUrl.$failUrl.$basket.'00'.$merchantSalt;
+        $hashStr = $merchantId.$order->email.$tutarKurus.$merchantOid.$okUrl.$failUrl.$basket.'00'.$merchantSalt;
         $paytrToken = base64_encode(hash_hmac('sha256', $hashStr, $merchantKey, true));
 
         $response = Http::asForm()->post('https://www.paytr.com/odeme/api/get-token', [
             'merchant_id' => $merchantId,
             'user_ip' => request()->ip() ?? '127.0.0.1',
-            'merchant_oid' => $order->order_number,
+            'merchant_oid' => $merchantOid,
             'email' => $order->email,
             'payment_amount' => $tutarKurus,
             'paytr_token' => $paytrToken,
@@ -82,5 +83,10 @@ class PaytrPaymentProvider implements PaymentProvider
             'demo' => false,
             'mesaj' => null,
         ];
+    }
+
+    public static function merchantOid(Order $order): string
+    {
+        return preg_replace('/[^A-Za-z0-9]/', '', $order->order_number) ?: (string) $order->id;
     }
 }
