@@ -149,8 +149,8 @@ class SettingController extends Controller
             'footer_extra_card_label' => ['nullable', 'string', 'max:80'],
             'footer_extra_card_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1024'],
             'remove_footer_extra_card' => ['nullable', 'string', 'max:64'],
-            'site_logo' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp,svg', 'max:2048'],
-            'site_favicon' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp,svg,ico', 'max:512'],
+            'site_logo' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
+            'site_favicon' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp,ico', 'max:512'],
         ]);
 
         if ($request->filled('remove_footer_extra_card')) {

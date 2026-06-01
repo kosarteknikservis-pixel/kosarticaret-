@@ -65,7 +65,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/urunler', [ProductController::class, 'index'])->name('products.index');
 Route::get('/urun/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/urun/{product:slug}/taksit', ProductInstallmentController::class)->name('products.installments');
-Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->name('products.review');
+Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:6,1')->name('products.review');
 Route::get('/kategoriler', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/kategoriler/{category}', [CategoryController::class, 'show'])
     ->where('category', '.*')
@@ -80,7 +80,7 @@ Route::post('/sepet/ekle/{product:slug}', [CartController::class, 'add'])->name(
 Route::patch('/sepet/{product:slug}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/sepet/{product:slug}', [CartController::class, 'remove'])->name('cart.remove');
 
-Route::post('/bulten', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::post('/bulten', [NewsletterController::class, 'subscribe'])->middleware('throttle:5,1')->name('newsletter.subscribe');
 
 Route::prefix('sepet/ajax')->name('cart.ajax.')->group(function () {
     Route::get('detay', [CartApiController::class, 'detail'])->name('detail');
@@ -102,7 +102,7 @@ Route::get('/odeme/sonuc/{order}', [CheckoutController::class, 'payment'])->name
 Route::post('/odeme/sonuc/{order}', [CheckoutController::class, 'completePayment'])->name('checkout.payment.complete');
 
 Route::get('/siparis-takip', [OrderTrackingController::class, 'show'])->name('tracking.show');
-Route::post('/siparis-takip', [OrderTrackingController::class, 'lookup'])->name('tracking.lookup');
+Route::post('/siparis-takip', [OrderTrackingController::class, 'lookup'])->middleware('throttle:10,1')->name('tracking.lookup');
 
 Route::post('/odeme/iyzico/callback', IyzicoCallbackController::class)->name('payment.iyzico.callback');
 Route::post('/odeme/paytr/callback', PaytrCallbackController::class)->name('payment.paytr.callback');
@@ -112,13 +112,13 @@ Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.sho
 Route::get('/sayfa/{page:slug}', [PageController::class, 'show'])->name('pages.show');
 
 Route::get('/iletisim', [ContactController::class, 'show'])->name('contact.show');
-Route::post('/iletisim', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/iletisim', [ContactController::class, 'store'])->middleware('throttle:3,1')->name('contact.store');
 
 Route::middleware('guest')->group(function () {
     Route::get('/giris', [CustomerAuthController::class, 'showLogin'])->name('login');
-    Route::post('/giris', [CustomerAuthController::class, 'login']);
+    Route::post('/giris', [CustomerAuthController::class, 'login'])->middleware('throttle:5,1');
     Route::get('/kayit', [CustomerAuthController::class, 'showRegister'])->name('register');
-    Route::post('/kayit', [CustomerAuthController::class, 'register']);
+    Route::post('/kayit', [CustomerAuthController::class, 'register'])->middleware('throttle:3,1');
 });
 
 Route::post('/cikis', [CustomerAuthController::class, 'logout'])->middleware('auth')->name('logout');
@@ -138,7 +138,7 @@ foreach ($legalSlugs as $slug) {
 
 Route::prefix('yonetim')->name('admin.')->group(function () {
     Route::get('giris', [AdminAuthController::class, 'showLogin'])->name('login');
-    Route::post('giris', [AdminAuthController::class, 'login']);
+    Route::post('giris', [AdminAuthController::class, 'login'])->middleware('throttle:5,1');
     Route::post('cikis', [AdminAuthController::class, 'logout'])->name('logout');
 
     Route::middleware(['auth', 'admin'])->group(function () {

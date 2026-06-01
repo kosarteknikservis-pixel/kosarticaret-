@@ -62,7 +62,7 @@ class BrandController extends Controller
             'slug' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'logo_url' => ['nullable', 'string', 'max:500'],
-            'logo_file' => ['nullable', 'image', 'max:5120'],
+            'logo_file' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
             'sort_order' => ['nullable', 'integer'],
             'meta_title' => ['nullable', 'string'],
             'meta_description' => ['nullable', 'string'],

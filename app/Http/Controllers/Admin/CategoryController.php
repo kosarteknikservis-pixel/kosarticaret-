@@ -83,7 +83,7 @@ class CategoryController extends Controller
             'sort_order' => ['nullable', 'integer'],
             'meta_title' => ['nullable', 'string'],
             'meta_description' => ['nullable', 'string'],
-            'image_file' => ['nullable', 'image', 'max:5120'],
+            'image_file' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
             'faq' => ['nullable', 'array'],
             'faq.*.q' => ['nullable', 'string', 'max:500'],
             'faq.*.a' => ['nullable', 'string', 'max:5000'],

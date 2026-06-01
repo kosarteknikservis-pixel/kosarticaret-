@@ -142,7 +142,7 @@ class BlogPostController extends Controller
 
             'meta_description' => ['nullable', 'string'],
 
-            'image_file' => ['nullable', 'image', 'max:5120'],
+            'image_file' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
 
         ]);
 

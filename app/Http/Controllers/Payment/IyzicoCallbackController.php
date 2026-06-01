@@ -22,6 +22,12 @@ class IyzicoCallbackController extends Controller
         $token = $request->input('token');
         $siparisNo = $request->input('conversationId') ?? $request->input('merchant_oid');
 
+        if (! $token) {
+            Log::warning('iyzico callback: token eksik', $request->all());
+
+            return redirect()->route('home')->with('error', 'Ödeme doğrulanamadı.');
+        }
+
         $order = null;
         if ($siparisNo) {
             $order = Order::query()->where('order_number', $siparisNo)->first();
@@ -38,16 +44,8 @@ class IyzicoCallbackController extends Controller
             return redirect()->route('home')->with('error', 'Sipariş bulunamadı.');
         }
 
-        $paid = false;
-        if ($token) {
-            $retrieve = $iyzico->retrieveCheckout($token);
-            $paid = $retrieve['ok'] && in_array($retrieve['paymentStatus'] ?? '', ['SUCCESS', 'success'], true);
-        }
-
-        $status = $request->input('status', $request->input('paymentStatus'));
-        if (! $paid && in_array($status, ['success', 'SUCCESS'], true)) {
-            $paid = true;
-        }
+        $retrieve = $iyzico->retrieveCheckout($token);
+        $paid = $retrieve['ok'] && in_array($retrieve['paymentStatus'] ?? '', ['SUCCESS', 'success'], true);
 
         if ($paid) {
             $orders->confirmPayment($order);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Order;
 use App\Services\CartService;
+use App\Services\CartPricingService;
 use App\Services\Payment\PaymentManager;
 use App\Services\StoreConfig;
 use App\Support\PaymentGatewayConfig;
@@ -144,6 +145,8 @@ class CheckoutController extends Controller
 
     public function completePayment(string $order): RedirectResponse
     {
+        abort_unless(! PaymentGatewayConfig::isLive() && request()->boolean('demo'), 404);
+
         $model = Order::query()->where('order_number', $order)->firstOrFail();
         if ($model->payment_status !== 'basarili') {
             $this->orders->confirmPayment($model);
