@@ -27,6 +27,11 @@ class PaytrPaymentProvider implements PaymentProvider
         $adSoyad = trim("{$ad} {$soyad}");
         $tutarKurus = (int) round($order->total * 100);
         $merchantOid = $this->merchantOid($order);
+        $userIp = request()->ip() ?? '127.0.0.1';
+        $noInstallment = '0';
+        $maxInstallment = '0';
+        $currency = 'TL';
+        $testMode = PaymentGatewayConfig::paytrTestMode() ? '1' : '0';
 
         $basket = base64_encode(json_encode(
             $order->items->map(fn ($item) => [
@@ -40,28 +45,29 @@ class PaytrPaymentProvider implements PaymentProvider
         $okUrl = route('checkout.success', ['order' => $order->order_number]);
         $failUrl = route('checkout.payment', ['order' => $order->order_number]).'?durum=hata';
 
-        $hashStr = $merchantId.$order->email.$tutarKurus.$merchantOid.$okUrl.$failUrl.$basket.'00'.$merchantSalt;
-        $paytrToken = base64_encode(hash_hmac('sha256', $hashStr, $merchantKey, true));
+        $hashStr = $merchantId.$userIp.$merchantOid.$order->email.$tutarKurus.$basket.$noInstallment.$maxInstallment.$currency.$testMode;
+        $paytrToken = base64_encode(hash_hmac('sha256', $hashStr.$merchantSalt, $merchantKey, true));
 
         $response = Http::asForm()->post('https://www.paytr.com/odeme/api/get-token', [
             'merchant_id' => $merchantId,
-            'user_ip' => request()->ip() ?? '127.0.0.1',
+            'user_ip' => $userIp,
             'merchant_oid' => $merchantOid,
             'email' => $order->email,
             'payment_amount' => $tutarKurus,
             'paytr_token' => $paytrToken,
             'user_basket' => $basket,
-            'debug_on' => PaymentGatewayConfig::paytrTestMode() ? '1' : '0',
-            'no_installment' => '0',
-            'max_installment' => '0',
+            'debug_on' => $testMode,
+            'no_installment' => $noInstallment,
+            'max_installment' => $maxInstallment,
             'user_name' => $adSoyad,
             'user_address' => $teslimat['adres'] ?? 'Turkiye',
             'user_phone' => preg_replace('/\D/', '', $order->phone ?? '5550000000'),
             'merchant_ok_url' => $okUrl,
             'merchant_fail_url' => $failUrl,
             'timeout_limit' => '30',
-            'currency' => 'TL',
-            'test_mode' => PaymentGatewayConfig::paytrTestMode() ? '1' : '0',
+            'currency' => $currency,
+            'test_mode' => $testMode,
+            'lang' => 'tr',
         ]);
 
         $data = $response->json();
