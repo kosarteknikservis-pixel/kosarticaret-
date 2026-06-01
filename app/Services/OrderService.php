@@ -122,6 +122,10 @@ class OrderService
 
     public function confirmPayment(Order $order): void
     {
+        if ($order->payment_status === 'basarili') {
+            return;
+        }
+
         $order->update([
             'status' => 'hazirlaniyor',
             'payment_status' => 'basarili',

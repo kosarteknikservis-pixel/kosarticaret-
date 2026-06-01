@@ -206,6 +206,7 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         });
         Route::get('ayarlar', [SettingController::class, 'edit'])->name('settings.edit');
         Route::put('ayarlar', [SettingController::class, 'update'])->name('settings.update');
+        Route::post('ayarlar/smtp-test', [SettingController::class, 'testSmtp'])->name('settings.smtp-test');
         Route::get('kargo-odeme', [ShippingSettingsController::class, 'edit'])->name('shipping-settings.edit');
         Route::put('kargo-odeme', [ShippingSettingsController::class, 'update'])->name('shipping-settings.update');
         Route::get('musteriler', [AdminCustomerController::class, 'index'])->name('customers.index');

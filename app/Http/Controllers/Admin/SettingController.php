@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
 use App\Support\FooterPaymentCards;
 use App\Support\LogoImageProcessor;
+use App\Support\MailSettings;
 use App\Support\PaymentMethodSettings;
 use App\Services\StoreConfig;
 use App\Support\SiteFavicon;
@@ -13,6 +14,7 @@ use App\Support\SiteLogo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -45,6 +47,8 @@ class SettingController extends Controller
         'footer_trust_cards', 'footer_trust_compliance', 'footer_etbis_url', 'footer_kvkk_url',
         'openai_api_key', 'openai_model',
         'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
+        'smtp_enabled', 'smtp_host', 'smtp_port', 'smtp_encryption', 'smtp_username', 'smtp_password',
+        'smtp_from_address', 'smtp_from_name',
         'shop_maintenance_enabled', 'shop_maintenance_title', 'shop_maintenance_message',
     ];
 
@@ -147,6 +151,14 @@ class SettingController extends Controller
             'brevo_enabled' => ['sometimes', 'boolean'],
             'brevo_api_key' => ['nullable', 'string', 'max:255'],
             'brevo_list_id' => ['nullable', 'integer', 'min:1'],
+            'smtp_enabled' => ['sometimes', 'boolean'],
+            'smtp_host' => ['nullable', 'string', 'max:255'],
+            'smtp_port' => ['nullable', 'integer', 'min:1', 'max:65535'],
+            'smtp_encryption' => ['nullable', 'string', 'in:tls,ssl'],
+            'smtp_username' => ['nullable', 'string', 'max:255'],
+            'smtp_password' => ['nullable', 'string', 'max:255'],
+            'smtp_from_address' => ['nullable', 'email', 'max:255'],
+            'smtp_from_name' => ['nullable', 'string', 'max:120'],
             'footer_extra_card_label' => ['nullable', 'string', 'max:80'],
             'footer_extra_card_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1024'],
             'remove_footer_extra_card' => ['nullable', 'string', 'max:64'],
@@ -176,6 +188,7 @@ class SettingController extends Controller
         $data['shop_show_stock_quantity'] = $request->boolean('shop_show_stock_quantity') ? '1' : '0';
         $data['shop_maintenance_enabled'] = $request->boolean('shop_maintenance_enabled') ? '1' : '0';
         $data['brevo_enabled'] = $request->boolean('brevo_enabled') ? '1' : '0';
+        $data['smtp_enabled'] = $request->boolean('smtp_enabled') ? '1' : '0';
         $selectedCards = $request->input('footer_trust_cards', []);
         $extraKeys = array_column(FooterPaymentCards::extraStored(), 'key');
         $data['footer_trust_cards'] = implode(',', array_values(array_unique(array_merge($selectedCards, $extraKeys))));
@@ -220,6 +233,10 @@ class SettingController extends Controller
             unset($data['brevo_api_key']);
         }
 
+        if (! $request->filled('smtp_password')) {
+            unset($data['smtp_password']);
+        }
+
         foreach ($data as $key => $value) {
             SiteSetting::set($key, $value !== null ? (string) $value : null);
         }
@@ -238,6 +255,28 @@ class SettingController extends Controller
         return redirect()
             ->route('admin.settings.edit', ['tab' => $tab])
             ->with('success', $message);
+    }
+
+    public function testSmtp(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'smtp_test_email' => ['required', 'email', 'max:255'],
+        ]);
+
+        if (! MailSettings::isConfigured()) {
+            return $this->redirectToTab($request, 'integrations', 'SMTP ayarları eksik. Önce SMTP ayarlarını kaydedin.');
+        }
+
+        try {
+            MailSettings::apply();
+            Mail::raw('KOŞAR SMTP test e-postası başarıyla gönderildi.', function ($message) use ($data) {
+                $message->to($data['smtp_test_email'])->subject('KOŞAR SMTP Test');
+            });
+        } catch (\Throwable $e) {
+            return $this->redirectToTab($request, 'integrations', 'SMTP test e-postası gönderilemedi: '.$e->getMessage());
+        }
+
+        return $this->redirectToTab($request, 'integrations', 'SMTP test e-postası gönderildi.');
     }
 
     /** @return array<string, string> */

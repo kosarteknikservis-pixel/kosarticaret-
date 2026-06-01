@@ -493,6 +493,34 @@
                     <input type="number" min="1" name="brevo_list_id" value="{{ $values['brevo_list_id'] ?? '' }}" class="admin-input max-w-xs" placeholder="Örn. 3">
                     <p class="text-xs text-slate-500 mt-1">Brevo Contacts → Lists ekranındaki listenin sayısal ID değeri.</p>
                 </div>
+
+                <h3 class="admin-section-title mt-8">SMTP e-posta gönderimi</h3>
+                @if(\App\Support\MailSettings::isConfigured())
+                    <p class="admin-alert-success mb-4 text-sm">SMTP ayarları aktif. Sipariş ve durum e-postaları bu bilgilerle gönderilir.</p>
+                @else
+                    <p class="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-4">SMTP ayarları eksik veya kapalı. Sipariş e-postaları gerçek gönderim yerine varsayılan mail ayarına düşer.</p>
+                @endif
+                <label class="admin-checkbox font-semibold text-slate-800">
+                    <input type="checkbox" name="smtp_enabled" value="1" @checked(($values['smtp_enabled'] ?? '0') === '1')>
+                    Sipariş e-postaları için SMTP kullan
+                </label>
+                <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div><label class="admin-label">SMTP host</label><input name="smtp_host" value="{{ $values['smtp_host'] ?? '' }}" class="admin-input font-mono text-sm" placeholder="smtp.domain.com"></div>
+                    <div><label class="admin-label">SMTP port</label><input type="number" min="1" max="65535" name="smtp_port" value="{{ $values['smtp_port'] ?? '587' }}" class="admin-input max-w-xs" placeholder="587"></div>
+                    <div>
+                        <label class="admin-label">Şifreleme</label>
+                        <select name="smtp_encryption" class="admin-input">
+                            <option value="" @selected(($values['smtp_encryption'] ?? '') === '')>Yok / otomatik</option>
+                            <option value="tls" @selected(($values['smtp_encryption'] ?? '') === 'tls')>TLS</option>
+                            <option value="ssl" @selected(($values['smtp_encryption'] ?? '') === 'ssl')>SSL</option>
+                        </select>
+                    </div>
+                    <div><label class="admin-label">SMTP kullanıcı adı</label><input name="smtp_username" value="{{ $values['smtp_username'] ?? '' }}" class="admin-input font-mono text-sm" autocomplete="username"></div>
+                    <div><label class="admin-label">SMTP şifre</label><input type="password" name="smtp_password" value="" class="admin-input font-mono text-sm" autocomplete="new-password" placeholder="{{ !empty($values['smtp_password']) ? 'Kayıtlı — değiştirmek için yeni şifre yazın' : 'SMTP şifresi' }}"></div>
+                    <div><label class="admin-label">Gönderen e-posta</label><input type="email" name="smtp_from_address" value="{{ $values['smtp_from_address'] ?? '' }}" class="admin-input" placeholder="siparis@domain.com"></div>
+                    <div><label class="admin-label">Gönderen adı</label><input name="smtp_from_name" value="{{ $values['smtp_from_name'] ?? config('app.name') }}" class="admin-input" placeholder="KOŞAR Ticaret"></div>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Şifre alanını boş bırakırsanız kayıtlı SMTP şifresi korunur. Test e-postası göndermeden önce ayarları kaydedin.</p>
             </div>
 
 
@@ -605,6 +633,20 @@
 
             </div>
 
+        </form>
+
+        <form method="post"
+              action="{{ route('admin.settings.smtp-test') }}"
+              class="admin-card p-6 sm:p-8 mt-4 {{ $activeTab !== 'integrations' ? 'hidden' : '' }}"
+              @if($activeTab !== 'integrations') hidden @endif>
+            @csrf
+            <input type="hidden" name="_tab" value="integrations">
+            <h3 class="font-bold text-slate-900">SMTP test e-postası</h3>
+            <p class="text-sm text-slate-600 mt-1">Kayıtlı SMTP ayarlarıyla bir test e-postası gönderir.</p>
+            <div class="mt-4 flex flex-col gap-3 sm:flex-row">
+                <input type="email" name="smtp_test_email" value="{{ auth()->user()?->email }}" required class="admin-input sm:max-w-md" placeholder="test@domain.com">
+                <button type="submit" class="admin-btn admin-btn-secondary px-5 py-2.5">Test e-postası gönder</button>
+            </div>
         </form>
 
 

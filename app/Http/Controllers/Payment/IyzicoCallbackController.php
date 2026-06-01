@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Services\OrderMailService;
 use App\Services\OrderService;
 use App\Services\Payment\IyzicoPaymentProvider;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +15,6 @@ class IyzicoCallbackController extends Controller
     public function __invoke(
         Request $request,
         OrderService $orders,
-        OrderMailService $mail,
         IyzicoPaymentProvider $iyzico,
     ): RedirectResponse {
         $token = $request->input('token');
@@ -49,7 +47,6 @@ class IyzicoCallbackController extends Controller
 
         if ($paid) {
             $orders->confirmPayment($order);
-            $mail->sendOrderConfirmation($order->fresh('items'));
 
             return redirect()->route('checkout.success', ['order' => $order->order_number]);
         }
