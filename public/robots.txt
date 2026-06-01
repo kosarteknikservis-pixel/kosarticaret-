@@ -10,4 +10,4 @@ Disallow: /hesabim
 Disallow: /giris
 Disallow: /kayit
 
-Sitemap: https://kosar.com.tr/sitemap.xml
+Sitemap: https://kosarticaret.com/sitemap.xml
