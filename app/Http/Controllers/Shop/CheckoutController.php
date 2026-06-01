@@ -71,6 +71,11 @@ class CheckoutController extends Controller
             'ilce' => ['required', 'string', 'max:100'],
             'adres' => ['required', 'string', 'max:500'],
             'posta_kodu' => ['nullable', 'string', 'max:10'],
+            'kurumsal_fatura' => ['sometimes', 'boolean'],
+            'firma_adi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:200'],
+            'vergi_numarasi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:30'],
+            'vergi_dairesi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:120'],
+            'fatura_adresi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:500'],
             'kargo_yontemi' => ['required', 'in:standart,hizli'],
             'odeme_yontemi' => ['required', Rule::in($this->store->enabledPaymentIds())],
             'sozlesme' => ['accepted'],
@@ -86,6 +91,15 @@ class CheckoutController extends Controller
             'adres' => $data['adres'],
             'postaKodu' => $data['posta_kodu'] ?? null,
         ];
+
+        if ($request->boolean('kurumsal_fatura')) {
+            $teslimat['kurumsalFatura'] = [
+                'firmaAdi' => $data['firma_adi'],
+                'vergiNumarasi' => $data['vergi_numarasi'],
+                'vergiDairesi' => $data['vergi_dairesi'],
+                'faturaAdresi' => $data['fatura_adresi'],
+            ];
+        }
 
         try {
             $result = $this->orders->create(

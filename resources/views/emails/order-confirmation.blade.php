@@ -7,6 +7,10 @@
     <p><strong>{{ $order->order_number }}</strong> numaralı siparişiniz kaydedildi.</p>
     <p>Toplam: <strong>{{ number_format($order->total, 2, ',', '.') }} ₺</strong></p>
     <p>Ödeme: {{ $order->payment_method }} — Durum: {{ $order->status }}</p>
+    @php $kurumsalFatura = $order->shipping_address['teslimat']['kurumsalFatura'] ?? null; @endphp
+    @if($kurumsalFatura)
+        <p><strong>Kurumsal fatura:</strong> {{ $kurumsalFatura['firmaAdi'] ?? '' }} · Vergi No: {{ $kurumsalFatura['vergiNumarasi'] ?? '' }} · Vergi Dairesi: {{ $kurumsalFatura['vergiDairesi'] ?? '' }}</p>
+    @endif
     <ul>
         @foreach($order->items as $item)
             <li>{{ $item->product_name }} × {{ $item->quantity }} — {{ number_format($item->line_total, 2, ',', '.') }} ₺</li>

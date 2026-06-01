@@ -21,9 +21,12 @@ class IyzicoPaymentProvider implements PaymentProvider
 
         $order->load('items');
         $teslimat = $order->shipping_address['teslimat'] ?? [];
+        $kurumsalFatura = $teslimat['kurumsalFatura'] ?? [];
         $ad = $teslimat['ad'] ?? 'Musteri';
         $soyad = $teslimat['soyad'] ?? 'Kosar';
         $adSoyad = trim("{$ad} {$soyad}");
+        $faturaAdSoyad = $kurumsalFatura['firmaAdi'] ?? $adSoyad;
+        $faturaAdresi = $kurumsalFatura['faturaAdresi'] ?? ($teslimat['adres'] ?? 'Turkiye');
 
         $basketItems = $order->items->map(fn ($item, $i) => [
             'id' => (string) ($item->product_id ?? $i),
@@ -62,10 +65,10 @@ class IyzicoPaymentProvider implements PaymentProvider
                 'address' => $teslimat['adres'] ?? 'Turkiye',
             ],
             'billingAddress' => [
-                'contactName' => $adSoyad,
+                'contactName' => $faturaAdSoyad,
                 'city' => $teslimat['il'] ?? 'Istanbul',
                 'country' => 'Turkey',
-                'address' => $teslimat['adres'] ?? 'Turkiye',
+                'address' => $faturaAdresi,
             ],
             'basketItems' => $basketItems,
         ];

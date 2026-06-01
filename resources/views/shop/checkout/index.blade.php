@@ -12,9 +12,9 @@
 
     <x-shop.page-hero :title="__('shop.step_checkout')" />
 
-    <form method="post" action="{{ route('checkout.store') }}" class="grid gap-8 lg:grid-cols-3">
-        @csrf
-        <div class="lg:col-span-2 space-y-6">
+    <div class="grid gap-8 lg:grid-cols-3">
+        <form id="checkout-form" method="post" action="{{ route('checkout.store') }}" class="lg:col-span-2 space-y-6">
+            @csrf
             <section class="shop-panel space-y-5">
                 <h2 class="shop-checkout-section__head !mb-0">
                     <span class="shop-checkout-section__num">1</span>
@@ -35,6 +35,31 @@
                 </div>
                 <div><label class="shop-label">{{ __('shop.address') }}</label><textarea name="adres" rows="3" required class="shop-input mt-1">{{ old('adres') }}</textarea></div>
                 <div><label class="shop-label">{{ __('shop.postal_code') }}</label><input name="posta_kodu" value="{{ old('posta_kodu') }}" class="shop-input mt-1 max-w-xs"></div>
+
+                <div class="shop-corporate-invoice" data-corporate-invoice>
+                    <label class="shop-corporate-invoice__toggle">
+                        <input
+                            type="checkbox"
+                            id="corporate-invoice-toggle"
+                            name="kurumsal_fatura"
+                            value="1"
+                            @checked(old('kurumsal_fatura'))
+                        >
+                        <span class="shop-corporate-invoice__switch" aria-hidden="true"></span>
+                        <span>
+                            <strong>Kurumsal fatura</strong>
+                            <small>İsteğe bağlı olarak firma bilgilerinizi ekleyin.</small>
+                        </span>
+                    </label>
+                    <div class="shop-corporate-invoice__fields" data-corporate-invoice-fields>
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <div><label class="shop-label">Firma adı</label><input name="firma_adi" value="{{ old('firma_adi') }}" class="shop-input mt-1" data-corporate-field></div>
+                            <div><label class="shop-label">Vergi numarası</label><input name="vergi_numarasi" value="{{ old('vergi_numarasi') }}" class="shop-input mt-1" inputmode="numeric" data-corporate-field></div>
+                            <div><label class="shop-label">Vergi dairesi</label><input name="vergi_dairesi" value="{{ old('vergi_dairesi') }}" class="shop-input mt-1" data-corporate-field></div>
+                            <div class="sm:col-span-2"><label class="shop-label">Fatura adresi</label><textarea name="fatura_adresi" rows="3" class="shop-input mt-1" data-corporate-field>{{ old('fatura_adresi') }}</textarea></div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section class="shop-panel space-y-4">
@@ -80,10 +105,11 @@
                     {{ __('shop.contract_accept') }}
                 </span>
             </label>
-        </div>
+        </form>
 
-        <aside class="space-y-4">
-            <div class="shop-panel shop-panel--sticky">
+        <aside class="shop-checkout-sidebar">
+            <div class="shop-checkout-sidebar__sticky space-y-4">
+            <div class="shop-panel">
                 <h2 class="shop-panel__title">{{ __('shop.order_summary') }}</h2>
                 <ul class="mt-4 space-y-3 text-sm max-h-48 overflow-y-auto">
                     @foreach($lines as $line)
@@ -114,7 +140,7 @@
                     <div class="flex justify-between font-bold text-lg pt-3 border-t border-slate-200"><dt>{{ __('shop.total_est') }}</dt><dd class="text-brand-700">{{ number_format($totals['total'], 2, ',', '.') }} ₺</dd></div>
                 </dl>
                 <p class="mt-2 text-xs text-slate-500 leading-relaxed">{{ __('shop.checkout_estimate_note') }}</p>
-                <button type="submit" class="mt-6 btn-primary w-full py-3.5">{{ __('shop.place_order') }}</button>
+                <button type="submit" form="checkout-form" class="mt-6 btn-primary w-full py-3.5">{{ __('shop.place_order') }}</button>
             </div>
 
             <div class="shop-panel">
@@ -132,7 +158,29 @@
                     </form>
                 @endif
             </div>
+            </div>
         </aside>
-    </form>
+    </div>
+    <script>
+        (function () {
+            const toggle = document.getElementById('corporate-invoice-toggle');
+            const wrapper = document.querySelector('[data-corporate-invoice]');
+            const fields = document.querySelectorAll('[data-corporate-field]');
+            if (!toggle || !fields.length) return;
+
+            function syncCorporateFields() {
+                if (wrapper) {
+                    wrapper.classList.toggle('is-open', toggle.checked);
+                }
+                fields.forEach(function (field) {
+                    field.required = toggle.checked;
+                    field.disabled = !toggle.checked;
+                });
+            }
+
+            toggle.addEventListener('change', syncCorporateFields);
+            syncCorporateFields();
+        })();
+    </script>
     </div>
 @endsection
