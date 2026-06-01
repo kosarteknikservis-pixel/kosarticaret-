@@ -77,7 +77,7 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           RSYNC="rsync -avz --no-perms --omit-dir-times --timeout=60"
-          $RSYNC public/css public/js public/favicon.svg public/robots.txt \
+          $RSYNC public/css public/js public/*.html public/favicon.svg public/robots.txt \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/" 2>/dev/null || true
           scp deploy/public_html/index.php deploy/public_html/.htaccess \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/"
