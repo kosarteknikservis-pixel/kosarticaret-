@@ -138,6 +138,13 @@ foreach ($legalSlugs as $slug) {
     Route::redirect('/'.$slug, '/sayfa/'.$slug, 301);
 }
 
+Route::get('/admin', function () {
+    return auth()->check() && auth()->user()?->is_admin
+        ? redirect()->route('admin.dashboard')
+        : redirect()->route('admin.login');
+});
+Route::redirect('/admin/giris', '/yonetim/giris', 301);
+
 Route::prefix('yonetim')->name('admin.')->group(function () {
     Route::get('giris', [AdminAuthController::class, 'showLogin'])->name('login');
     Route::post('giris', [AdminAuthController::class, 'login'])->middleware('throttle:5,1');

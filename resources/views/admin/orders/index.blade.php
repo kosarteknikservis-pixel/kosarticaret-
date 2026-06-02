@@ -55,14 +55,14 @@
         @if($orders->isEmpty())
             <p class="p-8 text-center text-slate-500">Sipariş bulunamadı.</p>
         @else
-            <div class="px-4 py-3 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50">
+            <div class="admin-table-toolbar px-4 py-3 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50">
                 <p class="text-sm text-slate-600">Seçili siparişleri toplu silebilirsiniz. Paraşüt’e aktarılmış taslak faturalar Paraşüt tarafında ayrıca kalır.</p>
                 <button type="submit" form="bulk-order-delete-form" class="admin-btn admin-btn-danger text-sm px-4 py-2" onclick="return confirm('Seçili siparişler silinsin mi? Bu işlem geri alınamaz. Paraşüt taslak faturaları silinmez.');">Seçili siparişleri sil</button>
             </div>
             <form id="bulk-order-delete-form" method="post" action="{{ route('admin.orders.bulk-destroy') }}">
                 @csrf @method('DELETE')
             </form>
-            <table class="admin-table">
+            <table class="admin-table admin-table--stack admin-orders-table">
                 <thead>
                     <tr>
                         <th><input type="checkbox" data-order-check-all aria-label="Tümünü seç"></th>
@@ -80,18 +80,18 @@
                 <tbody>
                     @foreach($orders as $o)
                         <tr>
-                            <td><input type="checkbox" name="orders[]" value="{{ $o->id }}" form="bulk-order-delete-form" data-order-check aria-label="{{ $o->order_number }} seç"></td>
-                            <td><a href="{{ route('admin.orders.show', $o) }}" class="link font-mono text-xs">{{ $o->order_number }}</a></td>
-                            <td class="max-w-[220px]">
+                            <td data-label="Seç"><input type="checkbox" name="orders[]" value="{{ $o->id }}" form="bulk-order-delete-form" data-order-check aria-label="{{ $o->order_number }} seç"></td>
+                            <td data-label="Sipariş no"><a href="{{ route('admin.orders.show', $o) }}" class="link font-mono text-xs">{{ $o->order_number }}</a></td>
+                            <td data-label="Müşteri" class="max-w-[220px]">
                                 <p class="font-semibold truncate">{{ $o->customer_name ?: '—' }}</p>
                                 <p class="text-xs text-slate-500 truncate">{{ $o->email }}</p>
                             </td>
-                            <td class="text-slate-500 text-xs">{{ $o->created_at->format('d.m.Y H:i') }}</td>
-                            <td class="font-semibold">{{ number_format($o->total, 2, ',', '.') }} ₺</td>
-                            <td><span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold">{{ \App\Support\OrderStatus::label($o->status) }}</span></td>
-                            <td><span class="rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-0.5 text-xs font-semibold">{{ \App\Support\PaymentStatus::label($o->payment_status) }}</span></td>
-                            <td class="text-xs text-slate-500">{{ $o->shipping_tracking ? 'Takip var' : 'Takip yok' }}</td>
-                            <td>
+                            <td data-label="Tarih" class="text-slate-500 text-xs">{{ $o->created_at->format('d.m.Y H:i') }}</td>
+                            <td data-label="Tutar" class="font-semibold">{{ number_format($o->total, 2, ',', '.') }} ₺</td>
+                            <td data-label="Durum"><span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold">{{ \App\Support\OrderStatus::label($o->status) }}</span></td>
+                            <td data-label="Ödeme"><span class="rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-0.5 text-xs font-semibold">{{ \App\Support\PaymentStatus::label($o->payment_status) }}</span></td>
+                            <td data-label="Kargo" class="text-xs text-slate-500">{{ $o->shipping_tracking ? 'Takip var' : 'Takip yok' }}</td>
+                            <td data-label="Paraşüt">
                                 @if($o->parasut_sales_invoice_id)
                                     <span class="rounded-full bg-blue-50 text-blue-700 px-2.5 py-0.5 text-xs font-semibold">Aktarıldı</span>
                                 @elseif($o->parasut_status === 'failed')
@@ -100,8 +100,8 @@
                                     <span class="rounded-full bg-slate-100 text-slate-600 px-2.5 py-0.5 text-xs font-semibold">Bekliyor</span>
                                 @endif
                             </td>
-                            <td class="text-right">
-                                <div class="flex flex-wrap justify-end gap-2">
+                            <td data-label="İşlemler" class="text-right">
+                                <div class="admin-row-actions">
                                     @if(!$o->parasut_sales_invoice_id)
                                         <form method="post" action="{{ route('admin.orders.parasut.sync', $o) }}" onsubmit="return confirm('Bu sipariş Paraşüt’e taslak satış faturası olarak aktarılsın mı?');">
                                             @csrf

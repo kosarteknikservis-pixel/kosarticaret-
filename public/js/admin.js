@@ -79,4 +79,54 @@
         };
         maintToggle.addEventListener('change', syncMaint);
     }
+
+    const chart = document.querySelector('[data-dashboard-chart]');
+    if (chart) {
+        let series = {};
+        try {
+            series = JSON.parse(chart.dataset.chartSeries || '{}');
+        } catch {
+            series = {};
+        }
+
+        const totalEl = document.querySelector('[data-dashboard-chart-total]');
+        const ordersEl = document.querySelector('[data-dashboard-chart-orders]');
+        const currency = (value) => Number(value || 0).toLocaleString('tr-TR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+
+        function renderChart(range) {
+            const points = series[range]?.points || [];
+            const max = Math.max(1, ...points.map((point) => Number(point.revenue || 0)));
+            const total = points.reduce((sum, point) => sum + Number(point.revenue || 0), 0);
+            const orderCount = points.reduce((sum, point) => sum + Number(point.orders || 0), 0);
+
+            chart.classList.remove('is-animating');
+            chart.innerHTML = points.map((point) => {
+                const revenue = Number(point.revenue || 0);
+                const height = Math.max(8, Math.round((revenue / max) * 100));
+
+                return `
+                    <div class="admin-sales-chart__bar-wrap">
+                        <span class="admin-sales-chart__tooltip">${currency(revenue)} ₺ · ${point.orders || 0} sipariş</span>
+                        <span class="admin-sales-chart__bar" style="height: ${height}%"></span>
+                        <span class="admin-sales-chart__label">${point.label || ''}</span>
+                    </div>
+                `;
+            }).join('');
+
+            if (totalEl) totalEl.textContent = `Toplam: ${currency(total)} ₺`;
+            if (ordersEl) ordersEl.textContent = `${orderCount} sipariş`;
+            requestAnimationFrame(() => chart.classList.add('is-animating'));
+        }
+
+        document.querySelectorAll('[data-dashboard-chart-range]').forEach((button) => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('[data-dashboard-chart-range]').forEach((item) => item.classList.remove('is-active'));
+                button.classList.add('is-active');
+                renderChart(button.dataset.dashboardChartRange || 'month');
+            });
+        });
+    }
 })();

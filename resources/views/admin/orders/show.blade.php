@@ -155,7 +155,7 @@
             </div>
 
             <aside>
-                <div class="sticky top-24 space-y-4 overflow-y-auto pr-1" style="max-height: calc(100vh - 7rem);">
+                <div class="admin-order-sidebar-stack space-y-4">
                     <div class="admin-card p-5 sm:p-6 space-y-4">
                         <h2 class="font-bold text-slate-900">Sipariş yönetimi</h2>
                         <div>

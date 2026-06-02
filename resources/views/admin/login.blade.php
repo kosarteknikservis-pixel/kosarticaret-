@@ -43,7 +43,7 @@
                 <label class="admin-label" for="admin-email">E-posta</label>
                 <div class="admin-login-input-wrap">
                     <svg class="admin-login-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M4 6h16v12H4V6Z"/><path d="m4 7 8 6 8-6"/></svg>
-                    <input id="admin-email" type="email" name="email" value="{{ old('email', 'admin@kosar.com.tr') }}" required class="admin-input admin-login-input" autocomplete="username" placeholder="ornek@kosar.com.tr">
+                    <input id="admin-email" type="email" name="email" value="{{ old('email') }}" required class="admin-input admin-login-input" autocomplete="username" placeholder="ornek@kosar.com.tr">
                 </div>
             </div>
 
