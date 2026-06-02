@@ -1633,8 +1633,28 @@ body.shop-body {
     .shop-home-product-carousel {
         padding-inline: 0;
     }
+    .shop-home-product-carousel__viewport {
+        overflow-x: auto;
+        overflow-y: hidden;
+        margin-inline: -0.25rem;
+        padding: 0.1rem 0.25rem 0.65rem;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 0.25rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .shop-home-product-carousel__viewport::-webkit-scrollbar {
+        display: none;
+    }
     .shop-home-product-carousel__track {
         gap: 0.85rem;
+        transform: none !important;
+        transition: none;
+    }
+    .shop-home-product-carousel__item {
+        width: min(72vw, 12rem);
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
     }
 }
 @media (prefers-reduced-motion: reduce) {

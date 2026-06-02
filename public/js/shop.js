@@ -838,6 +838,7 @@
 
         let offset = 0;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const mobileCarousel = window.matchMedia('(max-width: 639px)');
 
         function maxOffset() {
             return Math.max(0, track.scrollWidth - viewport.clientWidth);
@@ -853,6 +854,15 @@
         }
 
         function apply() {
+            if (mobileCarousel.matches) {
+                offset = 0;
+                track.style.transform = 'none';
+                root.classList.remove('is-static');
+                if (prevBtn) prevBtn.disabled = true;
+                if (nextBtn) nextBtn.disabled = true;
+                return;
+            }
+
             const max = maxOffset();
             offset = Math.max(0, Math.min(offset, max));
             track.style.transform = `translate3d(${-offset}px, 0, 0)`;
@@ -875,6 +885,7 @@
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(apply, 120);
         });
+        mobileCarousel.addEventListener?.('change', apply);
 
         if (reducedMotion) {
             track.style.transition = 'none';
