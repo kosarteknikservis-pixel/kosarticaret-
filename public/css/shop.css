@@ -287,6 +287,19 @@ body.shop-body {
     width: 2.5rem;
     font-size: 1.125rem;
 }
+@media (max-width: 767px) {
+    .shop-brand--has-logo .shop-logo--header,
+    .shop-logo--header {
+        height: 2.42rem;
+        max-width: 9.5rem;
+    }
+
+    .shop-logo--header.shop-logo-fallback,
+    .shop-logo-fallback.shop-logo--header {
+        height: 2.35rem;
+        width: 2.35rem;
+    }
+}
 .shop-logo--footer.shop-logo-fallback,
 .shop-logo-fallback.shop-logo--footer {
     height: 2.5rem;
@@ -721,6 +734,13 @@ body.shop-body {
     min-width: 0;
     flex-shrink: 0; /* Logo küçülmesin */
 }
+@media (max-width: 767px) {
+    .shop-site-header__row {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+}
 
 /* ─── Search ─── */
 .shop-site-header__search,
@@ -803,6 +823,37 @@ body.shop-body {
 .shop-search-submit:active {
     transform: translateY(-50%) scale(0.97);
 }
+@media (max-width: 767px) {
+    .shop-site-header__search-mobile {
+        padding-bottom: 0.65rem !important;
+    }
+
+    .shop-site-header__search-mobile .shop-search-form__icon {
+        left: 0.9rem;
+    }
+
+    .shop-site-header__search-mobile .shop-search-form__icon svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    .shop-site-header__search-mobile .shop-search-input {
+        height: 2.55rem;
+        padding-left: 2.45rem;
+        padding-right: 4.85rem;
+        font-size: 0.95rem;
+        border-width: 1px;
+        box-shadow: 0 1px 8px rgb(30 58 95 / 0.045);
+    }
+
+    .shop-site-header__search-mobile .shop-search-submit {
+        right: 0.25rem;
+        height: 1.95rem;
+        padding: 0 0.95rem;
+        font-size: 0.7rem;
+        box-shadow: 0 2px 8px rgb(30 58 95 / 0.18);
+    }
+}
 
 /* ─── Toolbar ─── */
 .shop-header-toolbar {
@@ -826,6 +877,12 @@ body.shop-body {
     }
     .shop-header-toolbar__divider {
         display: none;
+    }
+
+    .shop-header-toolbar__icons {
+        gap: 0.02rem;
+        padding: 0.14rem;
+        transform: translateY(-1px);
     }
 }
 .shop-header-toolbar__divider {
@@ -934,6 +991,26 @@ body.shop-body {
         transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
         box-shadow 0.22s ease;
 }
+@media (max-width: 767px) {
+    .shop-header-toolbar {
+        align-self: center;
+    }
+
+    .shop-header-icon {
+        width: 2.05rem;
+        height: 2.05rem;
+    }
+
+    .shop-header-icon__svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    .shop-header-icon--emphasis .shop-header-icon__svg {
+        width: 1.12rem;
+        height: 1.12rem;
+    }
+}
 .shop-header-icon__halo {
     position: absolute;
     inset: 0.25rem;
@@ -948,10 +1025,10 @@ body.shop-body {
         transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
     pointer-events: none;
 }
-@media (min-width: 480px) {
+@media (min-width: 768px) {
     .shop-header-icon { width: 2.5rem; height: 2.5rem; }
 }
-@media (min-width: 640px) {
+@media (min-width: 1024px) {
     .shop-header-icon { width: 2.625rem; height: 2.625rem; }
 }
 .shop-header-icon:hover {
@@ -993,6 +1070,17 @@ body.shop-body {
     stroke-width: 2;
 }
 .shop-header-icon--emphasis .shop-header-icon__svg { width: 1.3rem; height: 1.3rem; }
+@media (max-width: 767px) {
+    .shop-header-icon__svg {
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    .shop-header-icon--emphasis .shop-header-icon__svg {
+        width: 1.12rem;
+        height: 1.12rem;
+    }
+}
 
 .shop-header-icon__badge {
     position: absolute;
@@ -5185,18 +5273,105 @@ body.shop-body {
 @media (max-width: 479px) {
     .shop-auth-modal {
         align-items: end;
-        padding: 0.75rem;
+        padding: 0.55rem 0.7rem calc(0.7rem + env(safe-area-inset-bottom));
     }
     .shop-auth-modal__dialog {
-        width: 100%;
-        max-height: calc(100vh - 1.5rem);
-        border-radius: 1.25rem;
-        padding: 1.2rem;
+        width: min(100%, 23.5rem);
+        max-height: min(82vh, 35rem);
+        margin-inline: auto;
+        overscroll-behavior: contain;
+        border-radius: 1.05rem;
+        padding: 0.9rem;
+        border-color: rgb(226 232 240 / 0.9);
+        box-shadow: 0 16px 46px rgb(15 23 42 / 0.24);
+        -webkit-overflow-scrolling: touch;
     }
     .shop-auth-modal__brand {
         justify-content: flex-start;
         padding-left: 0;
-        padding-right: 2.75rem;
+        padding-right: 2.25rem;
+        margin-bottom: 0.65rem;
+    }
+    .shop-auth-modal__brand .shop-logo--header {
+        height: 1.85rem;
+        max-width: 7.4rem;
+    }
+    .shop-auth-modal__close {
+        top: 0.72rem;
+        right: 0.72rem;
+        width: 2rem;
+        height: 2rem;
+        border-color: #edf2f7;
+        box-shadow: 0 5px 14px rgb(15 23 42 / 0.07);
+    }
+    .shop-auth-modal__close svg {
+        width: 0.95rem;
+        height: 0.95rem;
+    }
+    .shop-auth-modal__tabs {
+        gap: 0.25rem;
+        margin-bottom: 0.85rem;
+        padding: 0.22rem;
+        background: #f1f5f9;
+    }
+    .shop-auth-modal__tab {
+        min-height: 2.05rem;
+        font-size: 0.78rem;
+    }
+    .shop-auth-modal__panel > .text-center {
+        margin-bottom: 0.85rem;
+    }
+    .shop-auth-modal__title {
+        font-size: 1.15rem;
+        line-height: 1.15;
+    }
+    .shop-auth-modal__subtitle {
+        margin-top: 0.25rem;
+        font-size: 0.78rem;
+    }
+    .shop-auth-modal form.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.65rem;
+    }
+    .shop-auth-modal .shop-label {
+        font-size: 0.78rem;
+        margin-bottom: 0.22rem;
+    }
+    .shop-auth-modal .shop-input {
+        min-height: 2.55rem;
+        padding: 0.64rem 0.85rem;
+        border-radius: 0.75rem;
+        font-size: 1rem;
+    }
+    .shop-auth-modal label.flex {
+        align-items: center;
+        font-size: 0.78rem;
+    }
+    .shop-auth-modal .btn-primary {
+        min-height: 2.6rem;
+        padding-top: 0.64rem;
+        padding-bottom: 0.64rem;
+        border-radius: 0.75rem;
+        font-size: 0.86rem;
+    }
+    .shop-auth-modal form + p {
+        margin-top: 0.85rem;
+        font-size: 0.78rem;
+    }
+}
+
+@supports (height: 100dvh) {
+    @media (max-width: 479px) {
+        .shop-auth-modal {
+            min-height: 100dvh;
+        }
+
+        .shop-auth-modal__dialog {
+            max-height: calc(100dvh - 1.25rem - env(safe-area-inset-bottom));
+        }
+
+        .shop-auth-modal .shop-input:focus {
+            scroll-margin-bottom: 8rem;
+        }
     }
 }
 /* Blog */
