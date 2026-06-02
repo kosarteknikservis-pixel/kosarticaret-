@@ -5275,6 +5275,11 @@ body.shop-body {
         align-items: end;
         padding: 0.55rem 0.7rem calc(0.7rem + env(safe-area-inset-bottom));
     }
+    .shop-auth-modal__backdrop {
+        background: rgb(15 23 42 / 0.46);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
     .shop-auth-modal__dialog {
         width: min(100%, 23.5rem);
         max-height: min(82vh, 35rem);
@@ -5341,6 +5346,7 @@ body.shop-body {
         padding: 0.64rem 0.85rem;
         border-radius: 0.75rem;
         font-size: 1rem;
+        transition: border-color 0.15s ease, background-color 0.15s ease;
     }
     .shop-auth-modal label.flex {
         align-items: center;

@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <form id="order-update-form" method="post" action="{{ route('admin.orders.update', $order) }}">
+    <form id="order-update-form" method="post" action="{{ route('admin.orders.update', $order) }}" class="admin-order-detail">
         @csrf @method('PATCH')
         <div class="grid gap-6 lg:grid-cols-3">
             <div class="lg:col-span-2 space-y-6">
@@ -44,8 +44,8 @@
                             <span class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-3 py-1">Teslim edilmiş sipariş</span>
                         @endif
                     </div>
-                    <div class="admin-table-wrap">
-                        <table class="admin-table">
+                    <div class="admin-table-wrap admin-order-items-wrap">
+                        <table class="admin-table admin-order-items-table">
                             <thead>
                                 <tr>
                                     <th>Ürün</th>
@@ -57,36 +57,50 @@
                             <tbody>
                                 @foreach($order->items as $i => $item)
                                     <tr>
-                                        <td>
+                                        <td data-label="Ürün">
                                             <input type="hidden" name="items[{{ $i }}][id]" value="{{ $item->id }}">
                                             <p class="font-semibold text-slate-900">{{ $item->product_name }}</p>
                                             <p class="text-xs text-slate-500">{{ $item->sku ?: 'SKU yok' }}</p>
                                         </td>
-                                        <td><input type="number" min="1" name="items[{{ $i }}][quantity]" value="{{ $item->quantity }}" class="admin-input w-24"></td>
-                                        <td><input type="number" min="0" step="0.01" name="items[{{ $i }}][unit_price]" value="{{ $item->unit_price }}" class="admin-input w-32"></td>
-                                        <td><label class="admin-checkbox"><input type="checkbox" name="items[{{ $i }}][remove]" value="1"> Sil</label></td>
+                                        <td data-label="Adet"><input type="number" min="1" name="items[{{ $i }}][quantity]" value="{{ $item->quantity }}" class="admin-input w-24"></td>
+                                        <td data-label="Birim fiyat"><input type="number" min="0" step="0.01" name="items[{{ $i }}][unit_price]" value="{{ $item->unit_price }}" class="admin-input w-32"></td>
+                                        <td data-label="Sil"><label class="admin-checkbox"><input type="checkbox" name="items[{{ $i }}][remove]" value="1"> Sil</label></td>
                                     </tr>
                                 @endforeach
-                                @for($j = 0; $j < 3; $j++)
+                                @for($j = 0; $j < 1; $j++)
                                     @php $i = $nextItemIndex + $j; @endphp
                                     <tr>
-                                        <td>
-                                            <select name="items[{{ $i }}][product_id]" class="admin-input js-order-product-select">
-                                                <option value="">Yeni ürün ekle</option>
-                                                @foreach($products as $product)
-                                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }} @if($product->sku) · {{ $product->sku }} @endif (Stok: {{ $product->stock }})</option>
-                                                @endforeach
-                                            </select>
+                                        <td data-label="Ürün">
+                                            <div class="admin-product-picker js-order-product-picker">
+                                                <input type="hidden" name="items[{{ $i }}][product_id]" class="js-order-product-id">
+                                                <button type="button" class="admin-product-picker__button" aria-expanded="false">
+                                                    <span class="admin-product-picker__label" data-picker-label>Yeni ürün ekle</span>
+                                                    <span class="admin-product-picker__chevron" aria-hidden="true">⌄</span>
+                                                </button>
+                                                <div class="admin-product-picker__panel" hidden>
+                                                    <input type="search" class="admin-input admin-product-picker__search" placeholder="Ürün ara">
+                                                    <div class="admin-product-picker__list">
+                                                        @foreach($products as $product)
+                                                            @php
+                                                                $productOptionLabel = $product->name.($product->sku ? ' - '.$product->sku : '').' (Stok: '.$product->stock.')';
+                                                            @endphp
+                                                            <button type="button" class="admin-product-picker__option" data-product-id="{{ $product->id }}" data-price="{{ $product->price }}" data-label="{{ $productOptionLabel }}" data-search="{{ \Illuminate\Support\Str::lower($productOptionLabel) }}">
+                                                                {{ $productOptionLabel }}
+                                                            </button>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td><input type="number" min="1" name="items[{{ $i }}][quantity]" value="1" class="admin-input w-24"></td>
-                                        <td><input type="number" min="0" step="0.01" name="items[{{ $i }}][unit_price]" value="0" class="admin-input w-32 js-order-unit-price"></td>
-                                        <td><span class="text-xs text-slate-400">Boşsa eklenmez</span></td>
+                                        <td data-label="Adet"><input type="number" min="1" name="items[{{ $i }}][quantity]" value="1" class="admin-input w-24"></td>
+                                        <td data-label="Birim fiyat"><input type="number" min="0" step="0.01" name="items[{{ $i }}][unit_price]" value="0" class="admin-input w-32 js-order-unit-price"></td>
+                                        <td data-label="Not"><span class="text-xs text-slate-400">Boşsa eklenmez</span></td>
                                     </tr>
                                 @endfor
                             </tbody>
                         </table>
                     </div>
-                    <div class="px-5 py-4 border-t border-slate-100 grid gap-2 sm:grid-cols-2 text-sm">
+                    <div class="admin-order-totals px-5 py-4 border-t border-slate-100 grid gap-2 sm:grid-cols-2 text-sm">
                         <div class="text-slate-500">Ara toplam: <strong class="text-slate-900">{{ number_format($order->subtotal, 2, ',', '.') }} ₺</strong></div>
                         <div class="text-slate-500">Kargo: <strong class="text-slate-900">{{ number_format($order->shipping_cost, 2, ',', '.') }} ₺</strong></div>
                         <div class="text-slate-500">İndirim: <strong class="text-slate-900">{{ number_format($order->discount, 2, ',', '.') }} ₺</strong></div>
@@ -247,12 +261,60 @@
                     syncCorporate();
                 }
 
-                document.querySelectorAll('.js-order-product-select').forEach(function (select) {
-                    select.addEventListener('change', function () {
-                        const price = select.options[select.selectedIndex]?.dataset.price || '';
-                        const input = select.closest('tr')?.querySelector('.js-order-unit-price');
-                        if (input && price && (input.value === '0' || input.value === '')) {
-                            input.value = price;
+                document.querySelectorAll('.js-order-product-picker').forEach(function (picker) {
+                    const trigger = picker.querySelector('.admin-product-picker__button');
+                    const panel = picker.querySelector('.admin-product-picker__panel');
+                    const search = picker.querySelector('.admin-product-picker__search');
+                    const hiddenInput = picker.querySelector('.js-order-product-id');
+                    const label = picker.querySelector('[data-picker-label]');
+                    const options = picker.querySelectorAll('.admin-product-picker__option');
+
+                    function closePicker() {
+                        panel.hidden = true;
+                        trigger.setAttribute('aria-expanded', 'false');
+                    }
+
+                    function openPicker() {
+                        panel.hidden = false;
+                        trigger.setAttribute('aria-expanded', 'true');
+                        search.focus();
+                    }
+
+                    trigger.addEventListener('click', function () {
+                        panel.hidden ? openPicker() : closePicker();
+                    });
+
+                    search.addEventListener('input', function () {
+                        const term = search.value.trim().toLocaleLowerCase('tr-TR');
+                        options.forEach(function (option) {
+                            option.hidden = term !== '' && !option.dataset.search.includes(term);
+                        });
+                    });
+
+                    options.forEach(function (option) {
+                        option.addEventListener('click', function () {
+                            hiddenInput.value = option.dataset.productId || '';
+                            label.textContent = option.dataset.label || 'Yeni ürün ekle';
+
+                            const priceInput = picker.closest('tr')?.querySelector('.js-order-unit-price');
+                            if (priceInput && option.dataset.price && (priceInput.value === '0' || priceInput.value === '')) {
+                                priceInput.value = option.dataset.price;
+                            }
+
+                            closePicker();
+                        });
+                    });
+
+                    document.addEventListener('click', function (event) {
+                        if (!picker.contains(event.target)) {
+                            closePicker();
+                        }
+                    });
+
+                    picker.addEventListener('keydown', function (event) {
+                        if (event.key === 'Escape') {
+                            closePicker();
+                            trigger.focus();
                         }
                     });
                 });
