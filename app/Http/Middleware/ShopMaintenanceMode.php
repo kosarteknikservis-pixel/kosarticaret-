@@ -34,7 +34,7 @@ class ShopMaintenanceMode
 
     private function shouldBypass(Request $request): bool
     {
-        if ($request->is('yonetim', 'yonetim/*')) {
+        if ($request->is('yonetim', 'yonetim/*', 'admin', 'admin/*')) {
             return true;
         }
 

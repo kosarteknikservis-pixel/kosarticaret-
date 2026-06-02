@@ -34,6 +34,7 @@ class ShopMaintenanceTest extends TestCase
         SiteSetting::set('shop_maintenance_enabled', '1');
 
         $this->get('/yonetim/giris')->assertOk();
+        $this->get('/admin')->assertRedirect('/yonetim/giris');
     }
 
     public function test_admin_user_can_preview_storefront_during_maintenance(): void
