@@ -54,8 +54,8 @@
                     <a href="{{ route('account.index') }}" class="btn-outline w-full text-center">{{ __('shop.account') }}</a>
                 @endif
             @else
-                <a href="{{ route('login') }}" class="btn-outline w-full text-center">{{ __('shop.login_cta') }}</a>
-                <a href="{{ route('register') }}" class="btn-primary w-full text-center">{{ __('shop.register') }}</a>
+                <a href="{{ route('login') }}" class="btn-outline w-full text-center" data-open-auth-modal data-auth-mode="login">{{ __('shop.login_cta') }}</a>
+                <a href="{{ route('register') }}" class="btn-primary w-full text-center" data-open-auth-modal data-auth-mode="register">{{ __('shop.register') }}</a>
             @endauth
         </div>
     </div>

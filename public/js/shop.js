@@ -191,6 +191,7 @@
             if (data.ok) {
                 updateFavoriteBadge(data.count);
                 btn.setAttribute('aria-pressed', data.added ? 'true' : 'false');
+                btn.classList.toggle('is-favorite', data.added);
                 btn.classList.toggle('text-rose-600', data.added);
                 btn.classList.toggle('bg-rose-50', data.added);
                 toast(data.message);
@@ -250,6 +251,83 @@
     mobileOverlay?.addEventListener('click', (e) => {
         if (e.target === mobileOverlay) closeMobileNav();
     });
+
+    /* Auth modal */
+    const authModal = document.getElementById('shop-auth-modal');
+    const authDialog = authModal?.querySelector('.shop-auth-modal__dialog');
+    const authPanels = authModal ? [...authModal.querySelectorAll('[data-auth-panel]')] : [];
+    const authTabs = authModal ? [...authModal.querySelectorAll('.shop-auth-modal__tab')] : [];
+    let lastAuthTrigger = null;
+
+    function setAuthMode(mode) {
+        if (!authModal) return;
+        const nextMode = mode === 'register' ? 'register' : 'login';
+        authPanels.forEach((panel) => panel.classList.toggle('hidden', panel.dataset.authPanel !== nextMode));
+        authTabs.forEach((tab) => {
+            const active = tab.dataset.authSwitch === nextMode;
+            tab.classList.toggle('is-active', active);
+            tab.setAttribute('aria-selected', active ? 'true' : 'false');
+            tab.setAttribute('tabindex', active ? '0' : '-1');
+        });
+    }
+
+    function openAuthModal(mode = 'login', trigger = null) {
+        if (!authModal) return;
+        lastAuthTrigger = trigger || document.activeElement;
+        setAuthMode(mode);
+        closeMobileNav();
+        authModal.classList.remove('hidden');
+        authModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('overflow-hidden');
+        window.requestAnimationFrame(() => {
+            authDialog?.focus();
+            const firstInput = authModal.querySelector(`[data-auth-panel="${mode === 'register' ? 'register' : 'login'}"] input:not([type="hidden"])`);
+            firstInput?.focus({ preventScroll: true });
+        });
+    }
+
+    function closeAuthModal() {
+        if (!authModal) return;
+        authModal.classList.add('hidden');
+        authModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('overflow-hidden');
+        if (lastAuthTrigger && typeof lastAuthTrigger.focus === 'function') {
+            lastAuthTrigger.focus({ preventScroll: true });
+        }
+    }
+
+    document.querySelectorAll('[data-open-auth-modal]').forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+            if (!authModal) return;
+            e.preventDefault();
+            openAuthModal(trigger.dataset.authMode || 'login', trigger);
+        });
+    });
+
+    authModal?.querySelectorAll('[data-auth-close]').forEach((trigger) => {
+        trigger.addEventListener('click', closeAuthModal);
+    });
+
+    authModal?.querySelectorAll('[data-auth-switch]').forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            setAuthMode(trigger.dataset.authSwitch || 'login');
+            const panel = authModal.querySelector(`[data-auth-panel="${trigger.dataset.authSwitch}"]`);
+            panel?.querySelector('input:not([type="hidden"])')?.focus({ preventScroll: true });
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && authModal && !authModal.classList.contains('hidden')) {
+            closeAuthModal();
+        }
+    });
+
+    if (authModal?.hasAttribute('data-auth-open-on-load')) {
+        openAuthModal(authModal.dataset.authDefaultMode || 'login');
+    } else {
+        setAuthMode(authModal?.dataset.authDefaultMode || 'login');
+    }
 
     /* PDP gallery */
     const pdpMain = document.getElementById('pdp-main-img');

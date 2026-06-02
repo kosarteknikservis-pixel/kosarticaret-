@@ -32,6 +32,7 @@
     <div class="shop-container">
         <div class="shop-site-header__row">
             <button type="button" id="mobile-menu-open" class="shop-header-icon lg:hidden" aria-label="{{ __('shop.menu_open') }}" aria-controls="mobile-nav-panel" aria-expanded="false">
+                <span class="shop-header-icon__halo" aria-hidden="true"></span>
                 <x-shop.icon name="menu" class="shop-header-icon__svg" />
             </button>
 
@@ -57,19 +58,29 @@
                     @if(!auth()->user()->is_admin)
                         <a href="{{ route('account.index') }}" class="shop-header-auth shop-header-auth--cta">{{ __('shop.my_account') }}</a>
                     @endif
-                @else
-                    <a href="{{ route('login') }}" class="shop-header-auth shop-header-auth--cta">{{ __('shop.login_cta') }}</a>
                 @endauth
 
-                <span class="shop-header-toolbar__divider" aria-hidden="true"></span>
+                @auth
+                    <span class="shop-header-toolbar__divider" aria-hidden="true"></span>
+                @endauth
 
                 <div class="shop-header-toolbar__icons">
                     @unless(auth()->check() && auth()->user()->is_admin)
-                        <x-shop.header-action
-                            icon="user"
-                            :href="auth()->check() ? route('account.index') : route('login')"
-                            :aria-label="auth()->check() ? __('shop.account') : __('shop.login_cta')"
-                        />
+                        @auth
+                            <x-shop.header-action
+                                icon="user"
+                                :href="route('account.index')"
+                                :aria-label="__('shop.account')"
+                            />
+                        @else
+                            <x-shop.header-action
+                                icon="user"
+                                :href="route('login')"
+                                :aria-label="__('shop.login_cta')"
+                                data-open-auth-modal
+                                data-auth-mode="login"
+                            />
+                        @endauth
                     @endunless
 
                     <x-shop.header-action icon="heart" :href="route('favorites.index')" aria-label="{{ __('shop.favorites') }}">

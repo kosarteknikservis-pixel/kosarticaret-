@@ -60,6 +60,7 @@
 
     @include('shop.partials.header')
     @include('shop.partials.mobile-nav')
+    @include('shop.partials.auth-modal')
 
     @include('shop.partials.cart-drawer')
     <div id="shop-toast" class="hidden fixed bottom-24 right-4 z-[60] rounded-xl bg-brand-800 text-white text-sm px-4 py-3 shadow-xl max-w-xs" role="status"></div>
