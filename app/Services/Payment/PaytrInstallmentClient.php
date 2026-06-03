@@ -11,7 +11,48 @@ class PaytrInstallmentClient
 {
     private const RATES_URL = 'https://www.paytr.com/odeme/taksit-oranlari';
 
-    private const CACHE_KEY = 'paytr:installment_rates';
+    public const CACHE_KEY = 'paytr:installment_rates';
+
+    /** @var list<string> */
+    private const RATE_KEYS = [
+        'oran',
+        'rate',
+        'commission_rate',
+        'commissionRate',
+        'komisyon_orani',
+        'komisyon',
+        'installment_rate',
+        'installmentRate',
+        'percent',
+        'percentage',
+    ];
+
+    /** @var list<string> */
+    private const INSTALLMENT_KEYS = [
+        'taksit',
+        'installment',
+        'installment_count',
+        'installmentCount',
+        'installment_number',
+        'installmentNumber',
+        'taksit_sayisi',
+        'vade',
+    ];
+
+    /** @var list<string> */
+    private const CARD_KEYS = [
+        'card',
+        'card_type',
+        'cardType',
+        'card_family',
+        'cardFamily',
+        'cardFamilyName',
+        'kart',
+        'kart_tipi',
+        'banka',
+        'bank',
+        'brand',
+    ];
 
     /** @var array<string, string> */
     private const CARD_LABELS = [
@@ -72,13 +113,21 @@ class PaytrInstallmentClient
         $ratesPayload = $data['rates'] ?? $data['oranlar'] ?? [];
         $rates = is_array($ratesPayload) ? $ratesPayload : [];
 
+        $normalizedRates = $this->normalizeRates($rates);
         $result = [
             'ok' => true,
-            'rates' => $this->normalizeRates($rates),
+            'rates' => $normalizedRates,
             'max_installment' => (int) ($data['max_inst_non_bus'] ?? 12),
         ];
 
-        Cache::put(self::CACHE_KEY, $result, now()->addDay());
+        if ($normalizedRates !== []) {
+            Cache::put(self::CACHE_KEY, $result, now()->addDay());
+        } else {
+            Log::warning('paytr installment rates empty', [
+                'response_keys' => array_keys($data),
+                'rates_keys' => array_keys($rates),
+            ]);
+        }
 
         return $result;
     }
@@ -96,19 +145,129 @@ class PaytrInstallmentClient
                 continue;
             }
 
-            $card = strtolower((string) $cardKey);
-            $normalized[$card] = [];
+            if (is_int($cardKey) || is_numeric($cardKey)) {
+                $this->addRateRow($normalized, $installments);
+
+                continue;
+            }
+
+            $card = $this->normalizeCardKey((string) $cardKey);
 
             foreach ($installments as $instKey => $rate) {
                 $count = $this->parseInstallmentCount((string) $instKey);
-                if ($count === null || ! is_numeric($rate)) {
+                $rateValue = $this->extractRateValue($rate);
+
+                if ($count === null && is_array($rate)) {
+                    $count = $this->extractInstallmentCount($rate);
+                }
+
+                if ($count === null || $rateValue === null) {
                     continue;
                 }
-                $normalized[$card]['taksit_'.$count] = (float) $rate;
+
+                $this->addNormalizedRate($normalized, $card, $count, $rateValue);
             }
         }
 
         return $normalized;
+    }
+
+    /**
+     * @param  array<string, array<string, float>>  $normalized
+     * @param  array<string, mixed>  $row
+     */
+    private function addRateRow(array &$normalized, array $row): void
+    {
+        $card = $this->extractCardKey($row);
+        $count = $this->extractInstallmentCount($row);
+        $rate = $this->extractRateValue($row);
+
+        if ($card === null || $count === null || $rate === null) {
+            return;
+        }
+
+        $this->addNormalizedRate($normalized, $card, $count, $rate);
+    }
+
+    /**
+     * @param  array<string, array<string, float>>  $normalized
+     */
+    private function addNormalizedRate(array &$normalized, string $card, int $count, float $rate): void
+    {
+        $card = $this->normalizeCardKey($card);
+
+        if ($card === '' || $count < 1 || $count > 12) {
+            return;
+        }
+
+        $normalized[$card]['taksit_'.$count] = $rate;
+    }
+
+    /**
+     * @param  array<string, mixed>  $row
+     */
+    private function extractCardKey(array $row): ?string
+    {
+        foreach (self::CARD_KEYS as $key) {
+            if (array_key_exists($key, $row) && trim((string) $row[$key]) !== '') {
+                return (string) $row[$key];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  mixed  $value
+     */
+    private function extractRateValue(mixed $value): ?float
+    {
+        if (is_numeric($value)) {
+            return (float) $value;
+        }
+
+        if (is_string($value)) {
+            $normalized = str_replace(['%', ' '], '', $value);
+            $normalized = str_replace(',', '.', $normalized);
+
+            return is_numeric($normalized) ? (float) $normalized : null;
+        }
+
+        if (! is_array($value)) {
+            return null;
+        }
+
+        foreach (self::RATE_KEYS as $key) {
+            if (array_key_exists($key, $value)) {
+                return $this->extractRateValue($value[$key]);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  array<string, mixed>  $row
+     */
+    private function extractInstallmentCount(array $row): ?int
+    {
+        foreach (self::INSTALLMENT_KEYS as $key) {
+            if (! array_key_exists($key, $row)) {
+                continue;
+            }
+
+            $count = $this->parseInstallmentCount((string) $row[$key]);
+            if ($count !== null) {
+                return $count;
+            }
+        }
+
+        return null;
+    }
+
+    private function normalizeCardKey(string $card): string
+    {
+        return strtolower(trim($card));
     }
 
     private function parseInstallmentCount(string $key): ?int

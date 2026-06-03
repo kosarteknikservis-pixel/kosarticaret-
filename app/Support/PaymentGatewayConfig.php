@@ -70,6 +70,11 @@ class PaymentGatewayConfig
         return (bool) config('payment.paytr.test_mode', true);
     }
 
+    public static function paytrInstallmentTableToken(): string
+    {
+        return trim((string) SiteSetting::get('paytr_installment_table_token', ''));
+    }
+
     public static function iyzicoApiKey(): string
     {
         return self::credential('iyzico_api_key', 'payment.iyzico.api_key');
@@ -123,6 +128,7 @@ class PaymentGatewayConfig
         return [
             'payment_gateway' => self::activeProvider(),
             'paytr_merchant_id' => self::paytrMerchantId(),
+            'paytr_installment_table_token' => self::paytrInstallmentTableToken(),
             'paytr_test_mode' => self::paytrTestMode() ? '1' : '0',
             'iyzico_sandbox' => self::iyzicoSandbox() ? '1' : '0',
             'iyzico_base_url' => trim((string) SiteSetting::get('iyzico_base_url', '')),

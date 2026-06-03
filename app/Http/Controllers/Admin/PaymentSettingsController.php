@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
+use App\Services\Payment\PaytrInstallmentClient;
 use App\Support\PaymentGatewayConfig;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -59,6 +60,7 @@ class PaymentSettingsController extends Controller
             'paytr_merchant_id' => ['nullable', 'string', 'max:64'],
             'paytr_merchant_key' => ['nullable', 'string', 'max:255'],
             'paytr_merchant_salt' => ['nullable', 'string', 'max:255'],
+            'paytr_installment_table_token' => ['nullable', 'string', 'max:255'],
             'paytr_test_mode' => ['sometimes', 'boolean'],
             'payment_gateway' => ['nullable', Rule::in(PaymentGatewayConfig::PROVIDERS)],
         ]);
@@ -85,6 +87,7 @@ class PaymentSettingsController extends Controller
         }
 
         Cache::forget('settings.all');
+        Cache::forget(PaytrInstallmentClient::CACHE_KEY);
 
         return redirect()
             ->route('admin.integrations.payment.paytr')

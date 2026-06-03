@@ -4445,6 +4445,18 @@ body.shop-body {
     line-height: 1.55;
     color: #94a3b8;
 }
+.shop-paytr-installments-shell {
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #dbe4ef;
+    border-radius: 1.25rem;
+    background: #f8fafc;
+}
+.shop-paytr-installments-table {
+    min-width: 0;
+    max-width: 100%;
+}
 .shop-pdp-installments__empty {
     display: flex;
     flex-direction: column;

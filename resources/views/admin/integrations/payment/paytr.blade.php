@@ -52,6 +52,20 @@
             <input type="text" readonly value="{{ $callbackUrl }}" class="admin-input font-mono text-xs bg-slate-50" onclick="this.select()">
         </div>
 
+        <div>
+            <label class="admin-label">Taksit tablosu token</label>
+            <input
+                name="paytr_installment_table_token"
+                value="{{ old('paytr_installment_table_token', $values['paytr_installment_table_token']) }}"
+                class="admin-input font-mono text-sm"
+                autocomplete="off"
+                placeholder="PayTR panelindeki Taksit Tablosu için Token"
+            >
+            <p class="mt-2 text-xs leading-5 text-slate-500">
+                PayTR panelindeki "Taksit Tablosu için Token" değerini buraya ekleyin. Bu alan doluysa ürün sayfasında resmi PayTR taksit tablosu kullanılır.
+            </p>
+        </div>
+
         <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
             <label class="admin-checkbox font-semibold">
                 <input type="checkbox" name="set_active" value="1" @checked($isActive)> Kredi kartı için PayTR'yi aktif sağlayıcı yap

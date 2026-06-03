@@ -507,6 +507,7 @@
     /* PDP taksit tablosu — adet değişince güncelle */
     const installmentsRoot = document.querySelector('[data-installments]');
     if (installmentsRoot) {
+        const mode = installmentsRoot.dataset.installmentsMode || 'api';
         const url = installmentsRoot.dataset.installmentsUrl;
         const qtySel = installmentsRoot.dataset.installmentsQty;
         const bodyEl = installmentsRoot.querySelector('[data-installments-body]');
@@ -514,10 +515,50 @@
         const unitPrice = parseFloat(installmentsRoot.dataset.installmentsAmount || '0');
         let installmentTimer;
 
-        function refreshInstallments() {
-            if (!url || !bodyEl) return;
+        function currentInstallmentQty() {
             const qtyInput = qtySel ? document.querySelector(qtySel) : null;
-            const qty = qtyInput ? Math.max(1, parseInt(qtyInput.value || '1', 10)) : 1;
+            return qtyInput ? Math.max(1, parseInt(qtyInput.value || '1', 10)) : 1;
+        }
+
+        function formatTry(amount) {
+            return new Intl.NumberFormat('tr-TR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }).format(amount) + ' ₺';
+        }
+
+        function loadPaytrTable() {
+            if (!bodyEl) return;
+            const token = installmentsRoot.dataset.paytrTableToken;
+            const merchantId = installmentsRoot.dataset.paytrMerchantId;
+            if (!token || !merchantId) return;
+
+            const amount = Math.max(0, unitPrice * currentInstallmentQty());
+            if (amountLabel) amountLabel.textContent = formatTry(amount);
+
+            bodyEl.innerHTML = '<div class="shop-paytr-installments-shell"><div id="paytr_taksit_tablosu" class="shop-paytr-installments-table"></div></div>';
+
+            const params = new URLSearchParams({
+                token,
+                merchant_id: merchantId,
+                amount: amount.toFixed(2),
+                taksit: '0',
+                tumu: '1',
+            });
+            const script = document.createElement('script');
+            script.src = `https://www.paytr.com/odeme/taksit-tablosu/v2?${params.toString()}`;
+            script.async = true;
+            bodyEl.appendChild(script);
+        }
+
+        function refreshInstallments() {
+            if (mode === 'paytr-table') {
+                loadPaytrTable();
+                return;
+            }
+
+            if (!url || !bodyEl) return;
+            const qty = currentInstallmentQty();
             installmentsRoot.classList.add('is-loading');
 
             fetch(`${url}?qty=${qty}`, { headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
@@ -544,6 +585,10 @@
                 installmentTimer = setTimeout(refreshInstallments, 350);
             });
         });
+
+        if (mode === 'paytr-table') {
+            loadPaytrTable();
+        }
     }
 
     /* PDP yıldız puanı */
