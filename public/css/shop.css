@@ -403,6 +403,21 @@ body.shop-body {
     .shop-product-card__fav:hover {
         transform: none;
     }
+    .search-suggest-item:hover img,
+    .search-suggest-item[aria-selected="true"] img,
+    .shop-banner-slide__frame:hover .shop-banner-slide__img,
+    .shop-brands-band__item:hover .shop-brands-band__logo,
+    .shop-cart-line:hover .shop-cart-line__thumb img,
+    .shop-checkout-summary-img:hover,
+    .shop-brand-tile:hover .shop-brand-tile__logo,
+    .shop-blog-card:hover .shop-blog-card__media img,
+    .shop-home-block__link:hover .shop-home-block__img,
+    .shop-home-promo:hover .shop-home-promo__img,
+    .shop-category-card--has-media:hover .shop-category-card__img,
+    .shop-product-card:hover .shop-product-card__img,
+    .shop-pdp-gallery__main:not(:disabled):hover .shop-pdp-gallery__img {
+        transform: none !important;
+    }
     .shop-hero-item,
     .shop-hero__accent,
     .shop-reveal {
@@ -1254,6 +1269,11 @@ body.shop-body {
     object-fit: cover;
     border-radius: 0.5rem;
     background: #f1f5f9;
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.search-suggest-item:hover img,
+.search-suggest-item[aria-selected="true"] img {
+    transform: scale(1.05);
 }
 .search-suggest-meta {
     font-size: 0.75rem;
@@ -1467,6 +1487,10 @@ body.shop-body {
     object-position: center;
     display: block;
     background: #fff;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shop-banner-slide__frame:hover .shop-banner-slide__img {
+    transform: scale(1.018);
 }
 .shop-banner-slide__overlay {
     position: absolute;
@@ -2388,11 +2412,15 @@ body.shop-body {
     object-fit: contain;
     filter: grayscale(0.15);
     opacity: 0.88;
-    transition: opacity 0.2s ease, filter 0.2s ease;
+    transition:
+        opacity 0.2s ease,
+        filter 0.2s ease,
+        transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .shop-brands-band__item:hover .shop-brands-band__logo {
     opacity: 1;
     filter: none;
+    transform: scale(1.04);
 }
 .shop-brands-band__name {
     font-size: 1.25rem;
@@ -4796,6 +4824,14 @@ body.shop-body {
     background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
     overflow: hidden;
 }
+.shop-cart-line__thumb img,
+.shop-checkout-summary-img {
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shop-cart-line:hover .shop-cart-line__thumb img,
+.shop-checkout-summary-img:hover {
+    transform: scale(1.055);
+}
 @media (min-width: 640px) {
     .shop-cart-line__thumb {
         width: 6rem;
@@ -5457,6 +5493,12 @@ body.shop-body {
         var(--kosar-shadow),
         0 0 0 1px rgb(30 58 95 / 0.1);
     transform: translateY(-2px);
+}
+.shop-brand-tile__logo {
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.shop-brand-tile:hover .shop-brand-tile__logo {
+    transform: scale(1.045);
 }
 .shop-brand-tile__name {
     font-weight: 600;

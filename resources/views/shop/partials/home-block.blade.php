@@ -1,6 +1,6 @@
 @php
     $href = $block->targetUrl();
-    $span = $block->columnSpan();
+    $span = (int) ($mediaSpan ?? $block->columnSpan());
     $bannerSpec = \App\Support\HomeBannerSpec::all();
 @endphp
 @if($block->isSlider() && $span >= 12)
