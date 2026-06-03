@@ -17,7 +17,7 @@ class AnalyticsController extends Controller
     public function index(Request $request): View
     {
         $today = now()->startOfDay();
-        $activeSince = now()->subMinutes(5);
+        $activeSince = now()->subMinutes(2);
         $period = $request->query('period', 'today');
         $periods = $this->periods();
         if (! array_key_exists($period, $periods)) {
@@ -122,6 +122,7 @@ class AnalyticsController extends Controller
 
         $recentEvents = AnalyticsEvent::query()
             ->with(['visitor:id,device_type,last_url,last_seen_at', 'product:id,name,slug', 'order:id,order_number,total'])
+            ->where('event_type', '!=', 'visitor_heartbeat')
             ->latest('occurred_at')
             ->take(80)
             ->get()
@@ -133,11 +134,15 @@ class AnalyticsController extends Controller
 
         $recentVisitorSummaries = $this->visitorSummaries($recentEvents);
 
-        $activeVisitorsRaw = AnalyticsVisitor::query()
-            ->where('last_seen_at', '>=', $activeSince)
-            ->latest('last_seen_at')
-            ->get(['id', 'ip_hash', 'device_type', 'utm_source', 'last_url', 'last_seen_at']);
-        $activeUniqueVisitors = $activeVisitorsRaw
+        $activeHeartbeatEvents = AnalyticsEvent::query()
+            ->with('visitor:id,ip_hash,device_type,utm_source,last_url,last_seen_at')
+            ->where('event_type', 'visitor_heartbeat')
+            ->where('occurred_at', '>=', $activeSince)
+            ->latest('occurred_at')
+            ->get();
+        $activeUniqueVisitors = $activeHeartbeatEvents
+            ->pluck('visitor')
+            ->filter()
             ->unique(fn (AnalyticsVisitor $visitor) => $visitor->ip_hash ?: $visitor->id)
             ->values();
         $activeVisitorList = $activeUniqueVisitors->take(12);

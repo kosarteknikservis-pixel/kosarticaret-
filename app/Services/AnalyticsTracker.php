@@ -44,6 +44,35 @@ class AnalyticsTracker
         $this->syncCart($request, $cart, 'checkout');
     }
 
+    public function trackHeartbeat(Request $request, ?string $currentUrl = null): void
+    {
+        if (! $this->available() || $this->isAdminRequest($request) || $this->isBot((string) $request->userAgent())) {
+            return;
+        }
+
+        try {
+            $visitor = $this->visitor($request);
+            $url = Str::limit($currentUrl ?: $request->headers->get('referer') ?: $request->fullUrl(), 1000, '');
+
+            $visitor->forceFill([
+                'last_url' => $url,
+                'last_seen_at' => now(),
+            ])->save();
+
+            AnalyticsEvent::query()->create([
+                'visitor_id' => $visitor->id,
+                'user_id' => $request->user()?->id,
+                'event_type' => 'visitor_heartbeat',
+                'url' => $url,
+                'referrer' => $request->headers->get('referer'),
+                'metadata' => null,
+                'occurred_at' => now(),
+            ]);
+        } catch (Throwable) {
+            // Active visitor pings must never affect storefront performance.
+        }
+    }
+
     /**
      * @param array<string, mixed> $data
      */
@@ -236,7 +265,7 @@ class AnalyticsTracker
             return false;
         }
 
-        if ($request->user()?->is_admin) {
+        if ($this->isAdminRequest($request)) {
             return false;
         }
 
@@ -285,7 +314,17 @@ class AnalyticsTracker
         return str_contains($agent, 'bot')
             || str_contains($agent, 'crawler')
             || str_contains($agent, 'spider')
-            || str_contains($agent, 'preview');
+            || str_contains($agent, 'preview')
+            || str_contains($agent, 'headless')
+            || str_contains($agent, 'lighthouse')
+            || str_contains($agent, 'pagespeed')
+            || str_contains($agent, 'uptime')
+            || str_contains($agent, 'monitor');
+    }
+
+    private function isAdminRequest(Request $request): bool
+    {
+        return (bool) $request->user()?->is_admin;
     }
 
     private function sourceFromReferrer(?string $referrer): string

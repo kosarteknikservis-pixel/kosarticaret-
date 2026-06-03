@@ -29,6 +29,7 @@ use App\Http\Controllers\Payment\IyzicoCallbackController;
 use App\Http\Controllers\Payment\PaytrCallbackController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\Shop\AccountController;
+use App\Http\Controllers\Shop\AnalyticsHeartbeatController;
 use App\Http\Controllers\Shop\BlogController;
 use App\Http\Controllers\Shop\BrandController;
 use App\Http\Controllers\Shop\CartApiController;
@@ -77,6 +78,7 @@ Route::get('/markalar', [BrandController::class, 'index'])->name('brands.index')
 Route::get('/marka/{brand:slug}', [BrandController::class, 'show'])->name('brands.show');
 Route::get('/ara', SearchController::class)->name('search');
 Route::get('/ara/oneri', SearchSuggestController::class)->name('search.suggest');
+Route::post('/analitik/aktif', AnalyticsHeartbeatController::class)->middleware('throttle:12,1')->name('analytics.heartbeat');
 
 Route::get('/sepet', [CartController::class, 'index'])->name('cart.index');
 Route::post('/sepet/ekle/{product:slug}', [CartController::class, 'add'])->name('cart.add');

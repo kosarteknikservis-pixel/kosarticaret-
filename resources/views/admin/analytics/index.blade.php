@@ -29,7 +29,7 @@
             <span class="admin-metric-card__icon">●</span>
             <span class="admin-metric-card__label">Anlık ziyaretçi</span>
             <strong>{{ $activeVisitors }}</strong>
-            <small>Son 5 dakikadaki tekil ziyaretçi</small>
+            <small>Son 2 dakikadaki gerçek tarayıcı sinyali</small>
         </div>
         <div class="admin-metric-card admin-analytics-metric">
             <span class="admin-metric-card__icon">↗</span>
@@ -118,7 +118,7 @@
                     <strong>{{ $visitor->last_seen_at?->diffForHumans(null, true) }}</strong>
                 </a>
             @empty
-                <p class="text-sm text-slate-500">Son 5 dakikada aktif ziyaretçi görünmüyor.</p>
+                <p class="text-sm text-slate-500">Son 2 dakikada gerçek tarayıcı sinyali görünmüyor.</p>
             @endforelse
         </div>
     </section>

@@ -148,6 +148,42 @@
         </div>
     </div>
 
+    <script>
+        (() => {
+            if (navigator.webdriver) {
+                return;
+            }
+
+            const endpoint = @json(route('analytics.heartbeat'));
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            const ping = () => {
+                if (!token || document.visibilityState === 'hidden') {
+                    return;
+                }
+
+                fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ url: window.location.href }),
+                    credentials: 'same-origin',
+                    keepalive: true,
+                }).catch(() => {});
+            };
+
+            window.setTimeout(ping, 2500);
+            window.setInterval(ping, 60000);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    ping();
+                }
+            });
+        })();
+    </script>
     <script src="{{ asset('js/shop.js') }}" defer></script>
     @stack('scripts')
 </body>
