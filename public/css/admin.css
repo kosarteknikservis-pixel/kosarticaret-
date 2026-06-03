@@ -706,6 +706,7 @@ body.admin-body {
 .admin-analytics-card {
     display: flex;
     flex-direction: column;
+    scroll-margin-top: 1.5rem;
 }
 .admin-analytics-card .admin-top-products {
     flex: 1;

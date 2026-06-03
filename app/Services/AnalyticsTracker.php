@@ -236,6 +236,10 @@ class AnalyticsTracker
             return false;
         }
 
+        if ($request->user()?->is_admin) {
+            return false;
+        }
+
         if ($request->is('yonetim', 'yonetim/*', 'admin', 'admin/*', 'storage/*', 'sitemap.xml', 'robots.txt')) {
             return false;
         }

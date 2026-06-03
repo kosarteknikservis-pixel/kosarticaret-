@@ -29,7 +29,7 @@
             <span class="admin-metric-card__icon">●</span>
             <span class="admin-metric-card__label">Anlık ziyaretçi</span>
             <strong>{{ $activeVisitors }}</strong>
-            <small>Son 5 dakika içinde aktif</small>
+            <small>Son 5 dakikadaki tekil ziyaretçi</small>
         </div>
         <div class="admin-metric-card admin-analytics-metric">
             <span class="admin-metric-card__icon">↗</span>
@@ -43,12 +43,12 @@
             <strong>{{ $periodCartAdds }}</strong>
             <small>{{ $periodLabel }} sepete ekleme</small>
         </div>
-        <div class="admin-metric-card admin-analytics-metric">
+        <a href="#yarim-kalan-sepetler" class="admin-metric-card admin-analytics-metric" aria-label="Yarım kalan sepetleri görüntüle">
             <span class="admin-metric-card__icon">!</span>
             <span class="admin-metric-card__label">Yarım kalanlar</span>
             <strong>{{ $abandonedCartCount }}</strong>
-            <small>{{ $periodLabel }} aktif veya checkout aşamasında kalan sepet</small>
-        </div>
+            <small>{{ $periodLabel }} aktif veya checkout aşamasında kalan sepet · Listeye git</small>
+        </a>
     </div>
 
     <div class="admin-dashboard-grid mt-6">
@@ -190,7 +190,7 @@
             </div>
         </section>
 
-        <section class="admin-card admin-dashboard-panel admin-analytics-card">
+        <section id="yarim-kalan-sepetler" class="admin-card admin-dashboard-panel admin-analytics-card">
             <div class="admin-panel-head">
                 <div>
                     <p class="admin-dashboard-eyebrow">Yarım sepet</p>

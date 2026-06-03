@@ -133,14 +133,17 @@ class AnalyticsController extends Controller
 
         $recentVisitorSummaries = $this->visitorSummaries($recentEvents);
 
-        $activeVisitorList = AnalyticsVisitor::query()
+        $activeVisitorsRaw = AnalyticsVisitor::query()
             ->where('last_seen_at', '>=', $activeSince)
             ->latest('last_seen_at')
-            ->take(12)
-            ->get(['id', 'device_type', 'utm_source', 'last_url', 'last_seen_at']);
+            ->get(['id', 'ip_hash', 'device_type', 'utm_source', 'last_url', 'last_seen_at']);
+        $activeUniqueVisitors = $activeVisitorsRaw
+            ->unique(fn (AnalyticsVisitor $visitor) => $visitor->ip_hash ?: $visitor->id)
+            ->values();
+        $activeVisitorList = $activeUniqueVisitors->take(12);
 
         return view('admin.analytics.index', [
-            'activeVisitors' => AnalyticsVisitor::query()->where('last_seen_at', '>=', $activeSince)->count(),
+            'activeVisitors' => $activeUniqueVisitors->count(),
             'todayVisitors' => AnalyticsVisitor::query()->where('first_seen_at', '>=', $today)->count(),
             'periodVisitors' => AnalyticsVisitor::query()->where('first_seen_at', '>=', $periodStart)->count(),
             'todayPageViews' => (clone $events)->where('event_type', 'page_view')->where('occurred_at', '>=', $today)->count(),
