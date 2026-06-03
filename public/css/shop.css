@@ -1780,8 +1780,7 @@ body.shop-body {
     transition: transform 0.35s ease;
 }
 .shop-home-block--span-12 .shop-home-block__img,
-.shop-home-block--slider .shop-home-block__img,
-.shop-home-block--banner .shop-home-block__img {
+.shop-home-block--slider .shop-home-block__img {
     object-fit: contain;
     background: #fff;
 }
@@ -1789,8 +1788,7 @@ body.shop-body {
     transform: scale(1.03);
 }
 .shop-home-block--span-12 .shop-home-block__link:hover .shop-home-block__img,
-.shop-home-block--slider .shop-home-block__link:hover .shop-home-block__img,
-.shop-home-block--banner .shop-home-block__link:hover .shop-home-block__img {
+.shop-home-block--slider .shop-home-block__link:hover .shop-home-block__img {
     transform: none;
 }
 .shop-home-block__shade {

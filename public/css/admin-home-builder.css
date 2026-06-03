@@ -323,7 +323,7 @@
     display: block;
 }
 
-.hp-block[data-type="banner"] .hp-block__img {
+.hp-block[data-type="banner"].hp-block--wide .hp-block__img {
     object-fit: contain;
     background: #fff;
 }
