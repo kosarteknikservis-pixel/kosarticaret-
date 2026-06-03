@@ -7,6 +7,7 @@ use App\Models\AbandonedCart;
 use App\Models\AnalyticsEvent;
 use App\Models\AnalyticsVisitor;
 use App\Models\Order;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -194,6 +195,13 @@ class AnalyticsController extends Controller
             'orders' => $orders,
             'carts' => $carts,
         ]);
+    }
+
+    public function destroyAbandonedCart(AbandonedCart $cart): RedirectResponse
+    {
+        $cart->delete();
+
+        return back()->with('success', 'Yarım kalan sepet kaydı silindi.');
     }
 
     /**

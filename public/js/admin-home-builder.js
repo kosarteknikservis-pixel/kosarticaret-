@@ -44,7 +44,82 @@ function initHomeBannerPanel(root) {
 
     type.addEventListener('change', sync);
     listSource?.addEventListener('change', syncListSource);
+    initProductSorter(scope);
     sync();
+}
+
+function initProductSorter(scope) {
+    const select = scope.querySelector('[data-product-picker-select]');
+    const list = scope.querySelector('[data-product-sort-list]');
+    if (!select || !list) return;
+
+    function selectedOptionIds() {
+        return [...select.selectedOptions].map((option) => option.value);
+    }
+
+    function ensureSelectedOptions() {
+        const ids = new Set([...list.querySelectorAll('[data-product-id]')].map((item) => item.dataset.productId));
+        [...select.options].forEach((option) => {
+            option.selected = ids.has(option.value);
+        });
+    }
+
+    function itemTemplate(option) {
+        const item = document.createElement('div');
+        item.className = 'hp-product-sort-item';
+        item.dataset.productId = option.value;
+        item.innerHTML = `
+            <span class="hp-product-sort-item__handle" aria-hidden="true">⋮⋮</span>
+            <span class="hp-product-sort-item__name"></span>
+            <button type="button" class="hp-product-sort-item__remove" data-product-remove aria-label="Ürünü listeden çıkar">×</button>
+            <input type="hidden" name="product_ids[]" value="${option.value}">
+        `;
+        item.querySelector('.hp-product-sort-item__name').textContent = option.textContent.trim();
+
+        return item;
+    }
+
+    function syncListFromSelect() {
+        const selectedIds = new Set(selectedOptionIds());
+
+        [...list.querySelectorAll('[data-product-id]')].forEach((item) => {
+            if (!selectedIds.has(item.dataset.productId)) {
+                item.remove();
+            }
+        });
+
+        selectedIds.forEach((id) => {
+            const exists = [...list.querySelectorAll('[data-product-id]')].some((item) => item.dataset.productId === id);
+            if (exists) return;
+            const option = [...select.options].find((candidate) => candidate.value === id);
+            if (option) list.appendChild(itemTemplate(option));
+        });
+    }
+
+    select.addEventListener('change', syncListFromSelect);
+    list.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-product-remove]');
+        if (!button) return;
+
+        const item = button.closest('[data-product-id]');
+        const id = item?.dataset.productId;
+        if (id) {
+            const option = [...select.options].find((candidate) => candidate.value === id);
+            if (option) option.selected = false;
+        }
+        item?.remove();
+    });
+
+    if (typeof Sortable !== 'undefined') {
+        new Sortable(list, {
+            animation: 150,
+            handle: '.hp-product-sort-item__handle',
+            ghostClass: 'sortable-ghost',
+            onEnd: ensureSelectedOptions,
+        });
+    }
+
+    ensureSelectedOptions();
 }
 
 (function () {
@@ -150,9 +225,6 @@ function initHomeBannerPanel(root) {
             const res = await fetch(url, { headers: { Accept: 'text/html' } });
             panelContent.innerHTML = await res.text();
             panelContent.querySelector('#panel-close')?.addEventListener('click', closePanel);
-            panelContent.querySelector('form')?.addEventListener('submit', () => {
-                setTimeout(() => window.location.reload(), 600);
-            });
             initHomeBannerPanel(panelContent);
         } catch (_) {
             panelContent.innerHTML = '<p class="text-red-600 text-sm">Yüklenemedi.</p>';

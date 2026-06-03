@@ -71,14 +71,34 @@
                     @endforeach
                 </select>
             </div>
-            <div id="panel-list-manual" class="space-y-1" @if($panelType !== 'product_list' || $panelSource !== 'manual') hidden @endif>
-                <label class="admin-label">Ürünler (Ctrl ile çoklu seçim)</label>
-                @php $selectedIds = old('product_ids', $banner->product_ids ?? []); @endphp
-                <select name="product_ids[]" class="admin-input font-mono text-xs" multiple size="8">
+            <div id="panel-list-manual" class="space-y-2" @if($panelType !== 'product_list' || $panelSource !== 'manual') hidden @endif>
+                <label class="admin-label">Ürünleri seç</label>
+                @php
+                    $selectedIds = collect(old('product_ids', $banner->product_ids ?? []))
+                        ->map(fn ($id) => (int) $id)
+                        ->filter()
+                        ->unique()
+                        ->values();
+                    $selectedProducts = $selectedIds
+                        ->map(fn ($id) => $products->firstWhere('id', $id))
+                        ->filter();
+                @endphp
+                <select class="admin-input font-mono text-xs" multiple size="8" data-product-picker-select>
                     @foreach($products as $p)
-                        <option value="{{ $p->id }}" @selected(in_array($p->id, $selectedIds, true))>{{ $p->name }}</option>
+                        <option value="{{ $p->id }}" @selected($selectedIds->contains((int) $p->id))>{{ $p->name }}</option>
                     @endforeach
                 </select>
+                <p class="text-xs text-teal-800/80">Seçilen ürünler aşağıda görünür. Vitrindeki sıralamayı değiştirmek için ürün kartlarını sürükleyin.</p>
+                <div class="hp-product-sort-list" data-product-sort-list>
+                    @foreach($selectedProducts as $selectedProduct)
+                        <div class="hp-product-sort-item" data-product-id="{{ $selectedProduct->id }}">
+                            <span class="hp-product-sort-item__handle" aria-hidden="true">⋮⋮</span>
+                            <span class="hp-product-sort-item__name">{{ $selectedProduct->name }}</span>
+                            <button type="button" class="hp-product-sort-item__remove" data-product-remove aria-label="Ürünü listeden çıkar">×</button>
+                            <input type="hidden" name="product_ids[]" value="{{ $selectedProduct->id }}">
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
 
@@ -105,10 +125,18 @@
                 <x-admin.image-spec :bannerType="old('type', $banner->type ?? 'slider')" />
             </div>
             @if($banner->imageUrl())
-                <img src="{{ $banner->imageUrl() }}" alt="" class="w-full max-h-28 object-cover rounded-lg border mb-2">
-                @if($banner->image)
-                    <label class="admin-checkbox text-xs block"><input type="checkbox" name="remove_image" value="1"> Özel görseli kaldır</label>
-                @endif
+                <div class="rounded-xl border border-slate-200 bg-white p-2 space-y-2 mb-2">
+                    <img src="{{ $banner->imageUrl() }}" alt="" class="w-full max-h-28 object-contain rounded-lg bg-slate-50">
+                    @if($banner->image)
+                        <button type="submit"
+                                name="remove_image"
+                                value="1"
+                                class="admin-btn admin-btn-danger w-full text-xs py-1.5"
+                                onclick="return confirm('Bu bloğun görseli silinsin mi?');">
+                            Görseli sil
+                        </button>
+                    @endif
+                </div>
             @endif
             <input type="file" name="image_file" accept="image/jpeg,image/png,image/webp" class="admin-input text-xs">
         </div>

@@ -200,13 +200,23 @@
             <div class="admin-top-products">
                 @forelse($abandonedCarts->take(6) as $cart)
                     @php($customerInfo = collect([$cart->customer_name, $cart->email, $cart->phone])->filter()->implode(' · ') ?: 'Müşteri bilgisi yok')
-                    <a href="{{ $cart->visitor ? route('admin.analytics.visitor', $cart->visitor) : '#' }}" class="admin-analytics-row">
+                    <div class="admin-analytics-row admin-analytics-row--actions">
                         <div class="admin-analytics-row__body">
                             <p>{{ collect($cart->items ?? [])->pluck('name')->take(2)->implode(', ') ?: 'Sepet' }}</p>
                             <span>{{ $customerInfo }} · {{ $cart->last_activity_at?->diffForHumans() }}</span>
                         </div>
-                        <strong>{{ number_format((float) $cart->subtotal, 2, ',', '.') }} ₺</strong>
-                    </a>
+                        <div class="admin-analytics-row__actions">
+                            <strong>{{ number_format((float) $cart->subtotal, 2, ',', '.') }} ₺</strong>
+                            @if($cart->visitor)
+                                <a href="{{ route('admin.analytics.visitor', $cart->visitor) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Detay</a>
+                            @endif
+                            <form method="post" action="{{ route('admin.analytics.abandoned-carts.destroy', $cart) }}" onsubmit="return confirm('Bu yarım kalan sepet kaydı silinsin mi? Bu işlem geri alınamaz.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="admin-btn admin-btn-danger text-xs py-1.5">Sil</button>
+                            </form>
+                        </div>
+                    </div>
                 @empty
                     <p class="text-sm text-slate-500">Yarım kalan sepet görünmüyor.</p>
                 @endforelse

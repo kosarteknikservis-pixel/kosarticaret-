@@ -1463,9 +1463,10 @@ body.shop-body {
 .shop-banner-slide__img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
     display: block;
+    background: #fff;
 }
 .shop-banner-slide__overlay {
     position: absolute;
@@ -1778,8 +1779,19 @@ body.shop-body {
     object-fit: cover;
     transition: transform 0.35s ease;
 }
+.shop-home-block--span-12 .shop-home-block__img,
+.shop-home-block--slider .shop-home-block__img,
+.shop-home-block--banner.shop-home-block--span-12 .shop-home-block__img {
+    object-fit: contain;
+    background: #fff;
+}
 .shop-home-block__link:hover .shop-home-block__img {
     transform: scale(1.03);
+}
+.shop-home-block--span-12 .shop-home-block__link:hover .shop-home-block__img,
+.shop-home-block--slider .shop-home-block__link:hover .shop-home-block__img,
+.shop-home-block--banner.shop-home-block--span-12 .shop-home-block__link:hover .shop-home-block__img {
+    transform: none;
 }
 .shop-home-block__shade {
     position: absolute;

@@ -30,7 +30,14 @@
                                 <p class="admin-dashboard-eyebrow">Sepet tutarı</p>
                                 <strong>{{ number_format((float) $cart->subtotal, 2, ',', '.') }} ₺</strong>
                             </div>
-                            <span>{{ $cart->status === 'checkout' ? 'Checkout aşaması' : 'Sepet aşaması' }}</span>
+                            <div class="admin-analytics-row__actions">
+                                <span>{{ $cart->status === 'checkout' ? 'Checkout aşaması' : 'Sepet aşaması' }}</span>
+                                <form method="post" action="{{ route('admin.analytics.abandoned-carts.destroy', $cart) }}" onsubmit="return confirm('Bu yarım kalan sepet kaydı silinsin mi? Bu işlem geri alınamaz.');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="admin-btn admin-btn-danger text-xs py-1.5">Sil</button>
+                                </form>
+                            </div>
                         </div>
 
                         <div class="admin-analytics-contact-grid">

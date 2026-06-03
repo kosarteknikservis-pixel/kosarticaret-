@@ -372,3 +372,59 @@
 .hp-panel-form .admin-label {
     font-size: 0.6875rem;
 }
+
+.hp-product-sort-list {
+    display: grid;
+    gap: 0.45rem;
+    max-height: 16rem;
+    overflow-y: auto;
+    padding: 0.35rem;
+    border: 1px dashed #99f6e4;
+    border-radius: 0.85rem;
+    background: rgb(240 253 250 / 0.72);
+}
+
+.hp-product-sort-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    border: 1px solid #ccfbf1;
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 0.55rem 0.65rem;
+    box-shadow: 0 6px 18px rgb(15 23 42 / 0.05);
+}
+
+.hp-product-sort-item__handle {
+    color: #94a3b8;
+    cursor: grab;
+    font-weight: 800;
+    letter-spacing: -0.12em;
+}
+
+.hp-product-sort-item__name {
+    min-width: 0;
+    overflow: hidden;
+    color: #0f172a;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hp-product-sort-item__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.65rem;
+    height: 1.65rem;
+    border-radius: 999px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1;
+}

@@ -735,6 +735,14 @@ body.admin-body {
 .admin-analytics-row__body {
     min-width: 0;
 }
+.admin-analytics-row__actions {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    min-width: 0;
+    flex-wrap: wrap;
+}
 .admin-analytics-row p {
     color: #0f172a;
     font-size: 0.86rem;
@@ -937,6 +945,10 @@ body.admin-body {
         gap: 0.5rem;
         min-height: 0;
         padding: 0.85rem;
+    }
+    .admin-analytics-row__actions {
+        justify-content: flex-start;
+        width: 100%;
     }
     .admin-analytics-row strong {
         justify-self: start;
