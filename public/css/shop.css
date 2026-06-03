@@ -4448,14 +4448,163 @@ body.shop-body {
 .shop-paytr-installments-shell {
     overflow-x: auto;
     max-width: 100%;
-    padding: 0.75rem;
+    padding: 1rem;
     border: 1px solid #dbe4ef;
     border-radius: 1.25rem;
-    background: #f8fafc;
+    background:
+        radial-gradient(circle at top left, rgba(14, 165, 233, 0.08), transparent 32rem),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: var(--kosar-shadow-soft);
+    -webkit-overflow-scrolling: touch;
 }
 .shop-paytr-installments-table {
     min-width: 0;
     max-width: 100%;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(8.75rem, 1fr)) !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    text-align: initial !important;
+    font-family: inherit !important;
+    font-size: 0.8125rem !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu::before {
+    content: "Banka kart programlarına göre tahmini taksit seçenekleri";
+    grid-column: 1 / -1;
+    display: block;
+    margin-bottom: 0.15rem;
+    color: #64748b;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tablosu-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0.7rem !important;
+    overflow: hidden !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 1rem !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06) !important;
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tablosu-wrapper:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(28, 64, 115, 0.22) !important;
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.1) !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-logo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 2.4rem !important;
+    margin: 0 0 0.55rem !important;
+    padding-bottom: 0.55rem !important;
+    border-bottom: 1px solid #eef2f7 !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-logo img {
+    max-width: 6.5rem !important;
+    max-height: 2rem !important;
+    object-fit: contain !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.45rem !important;
+    width: 100% !important;
+    margin: 0.35rem 0 0 !important;
+    padding: 0.55rem 0.65rem !important;
+    border: 1px solid #edf2f7 !important;
+    border-radius: 0.8rem !important;
+    background: #f8fafc !important;
+    color: #334155 !important;
+    cursor: default !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-wrapper:hover {
+    background: #f1f5f9 !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.1rem !important;
+    min-width: 0 !important;
+    color: #475569 !important;
+    font-size: 0.72rem !important;
+    line-height: 1.2 !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-bold,
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-text {
+    width: auto !important;
+    min-width: 0 !important;
+    float: none !important;
+    color: inherit !important;
+    line-height: 1.25 !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-bold {
+    color: var(--kosar-primary) !important;
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.01em !important;
+    white-space: nowrap !important;
+}
+.shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-text {
+    color: #64748b !important;
+    font-size: 0.7rem !important;
+}
+@media (max-width: 640px) {
+    .shop-paytr-installments-shell {
+        margin-inline: -0.15rem;
+        padding: 0.7rem;
+        border-radius: 1rem;
+    }
+    .shop-paytr-installments-shell #paytr_taksit_tablosu {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.55rem !important;
+        font-size: 0.75rem !important;
+    }
+    .shop-paytr-installments-shell #paytr_taksit_tablosu::before {
+        margin-bottom: 0.1rem;
+        font-size: 0.75rem;
+    }
+    .shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tablosu-wrapper {
+        padding: 0.55rem !important;
+        border-radius: 0.9rem !important;
+    }
+    .shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-logo {
+        min-height: 2rem !important;
+        margin-bottom: 0.4rem !important;
+        padding-bottom: 0.4rem !important;
+    }
+    .shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-logo img {
+        max-width: 5.4rem !important;
+        max-height: 1.6rem !important;
+    }
+    .shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-wrapper {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.15rem !important;
+        padding: 0.45rem 0.5rem !important;
+        border-radius: 0.7rem !important;
+    }
+    .shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-bold {
+        font-size: 0.78rem !important;
+    }
+    .shop-paytr-installments-shell #paytr_taksit_tablosu .taksit-tutar-text {
+        font-size: 0.66rem !important;
+    }
+}
+@media (max-width: 360px) {
+    .shop-paytr-installments-shell #paytr_taksit_tablosu {
+        grid-template-columns: 1fr !important;
+    }
 }
 .shop-pdp-installments__empty {
     display: flex;
