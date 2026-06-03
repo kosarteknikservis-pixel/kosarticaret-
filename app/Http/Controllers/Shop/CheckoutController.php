@@ -14,6 +14,7 @@ use App\Support\PaymentGatewayConfig;
 use App\Services\CheckoutCalculator;
 use App\Services\CouponService;
 use App\Services\OrderService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -57,6 +58,24 @@ class CheckoutController extends Controller
         $this->coupons->remove();
 
         return back()->with('success', 'Kupon kaldırıldı.');
+    }
+
+    public function saveContact(Request $request): JsonResponse
+    {
+        if ($this->cart->isEmpty()) {
+            return response()->json(['ok' => false]);
+        }
+
+        $data = $request->validate([
+            'ad' => ['nullable', 'string', 'max:100'],
+            'soyad' => ['nullable', 'string', 'max:100'],
+            'eposta' => ['nullable', 'string', 'max:190'],
+            'telefon' => ['nullable', 'string', 'max:30'],
+        ]);
+
+        app(AnalyticsTracker::class)->updateCheckoutContact($request, $this->cart, $data);
+
+        return response()->json(['ok' => true]);
     }
 
     public function store(Request $request): RedirectResponse

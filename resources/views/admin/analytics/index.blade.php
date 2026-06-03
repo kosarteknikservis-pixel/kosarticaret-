@@ -9,30 +9,45 @@
         </x-slot:actions>
     </x-admin.page-header>
 
+    <div class="admin-analytics-page">
+    <div class="admin-card admin-analytics-periods mb-5">
+        <div>
+            <p class="admin-dashboard-eyebrow">Rapor dönemi</p>
+            <strong>{{ $periodLabel }} müşteri hareketleri</strong>
+        </div>
+        <div class="admin-chart-toolbar">
+            @foreach($periods as $key => $periodOption)
+                <a href="{{ route('admin.analytics.index', ['period' => $key]) }}" class="admin-chart-range {{ $period === $key ? 'is-active' : '' }}">
+                    {{ $periodOption['label'] }}
+                </a>
+            @endforeach
+        </div>
+    </div>
+
     <div class="admin-dashboard-stats">
-        <div class="admin-metric-card admin-metric-card--primary">
+        <div class="admin-metric-card admin-metric-card--primary admin-analytics-metric">
             <span class="admin-metric-card__icon">●</span>
             <span class="admin-metric-card__label">Anlık ziyaretçi</span>
             <strong>{{ $activeVisitors }}</strong>
             <small>Son 5 dakika içinde aktif</small>
         </div>
-        <div class="admin-metric-card">
+        <div class="admin-metric-card admin-analytics-metric">
             <span class="admin-metric-card__icon">↗</span>
-            <span class="admin-metric-card__label">Bugün trafik</span>
-            <strong>{{ $todayVisitors }}</strong>
-            <small>{{ $todayPageViews }} sayfa · {{ $todayProductViews }} ürün görüntüleme</small>
+            <span class="admin-metric-card__label">{{ $periodLabel }} trafik</span>
+            <strong>{{ $periodVisitors }}</strong>
+            <small>{{ $periodPageViews }} sayfa · {{ $periodProductViews }} ürün görüntüleme</small>
         </div>
-        <div class="admin-metric-card">
+        <div class="admin-metric-card admin-analytics-metric">
             <span class="admin-metric-card__icon">□</span>
             <span class="admin-metric-card__label">Sepet sinyali</span>
-            <strong>{{ $todayCartAdds }}</strong>
-            <small>Bugünkü sepete ekleme</small>
+            <strong>{{ $periodCartAdds }}</strong>
+            <small>{{ $periodLabel }} sepete ekleme</small>
         </div>
-        <div class="admin-metric-card">
+        <div class="admin-metric-card admin-analytics-metric">
             <span class="admin-metric-card__icon">!</span>
             <span class="admin-metric-card__label">Yarım kalanlar</span>
             <strong>{{ $abandonedCartCount }}</strong>
-            <small>Aktif veya checkout aşamasında kalan sepet</small>
+            <small>{{ $periodLabel }} aktif veya checkout aşamasında kalan sepet</small>
         </div>
     </div>
 
@@ -41,14 +56,14 @@
             <div class="admin-panel-head">
                 <div>
                     <p class="admin-dashboard-eyebrow">Dönüşüm hunisi</p>
-                    <h2>Bu ay müşteri akışı</h2>
+                    <h2>{{ $periodLabel }} müşteri akışı</h2>
                 </div>
             </div>
             <div class="admin-analytics-funnel">
                 <div>
                     <span>Ziyaretçi</span>
-                    <strong>{{ $monthVisitors }}</strong>
-                    <small>{{ $monthPageViews }} sayfa görüntüleme</small>
+                    <strong>{{ $periodVisitors }}</strong>
+                    <small>{{ $periodPageViews }} sayfa görüntüleme</small>
                 </div>
                 <div>
                     <span>Checkout başlangıcı</span>
@@ -57,8 +72,8 @@
                 </div>
                 <div>
                     <span>Sipariş</span>
-                    <strong>{{ $ordersThisMonth }}</strong>
-                    <small>Bu ay oluşan sipariş</small>
+                    <strong>{{ $ordersThisPeriod }}</strong>
+                    <small>{{ $periodLabel }} oluşan sipariş</small>
                 </div>
             </div>
         </section>
@@ -75,7 +90,7 @@
                     <div class="admin-action-row">
                         <span class="min-w-0">
                             <span class="block truncate">{{ $source['source'] }}</span>
-                            <small>{{ number_format($source['revenue'], 2, ',', '.') }} ₺ · dönüşüm {{ $source['conversion'] ?? '—' }}%</small>
+                            <small>{{ $periodLabel }} · {{ number_format($source['revenue'], 2, ',', '.') }} ₺ · dönüşüm {{ $source['conversion'] ?? '—' }}%</small>
                         </span>
                         <strong>{{ $source['orders'] }} sipariş</strong>
                     </div>
@@ -86,7 +101,7 @@
         </section>
     </div>
 
-    <section class="admin-card admin-dashboard-panel mt-6">
+    <section class="admin-card admin-dashboard-panel admin-analytics-live mt-6">
         <div class="admin-panel-head">
             <div>
                 <p class="admin-dashboard-eyebrow">Anlık trafik</p>
@@ -95,9 +110,9 @@
         </div>
         <div class="admin-top-products">
             @forelse($activeVisitorList as $visitor)
-                <a href="{{ route('admin.analytics.visitor', $visitor) }}" class="admin-top-product">
-                    <div class="min-w-0">
-                        <p class="truncate">{{ $visitor->last_url }}</p>
+                <a href="{{ route('admin.analytics.visitor', $visitor) }}" class="admin-analytics-row">
+                    <div class="admin-analytics-row__body">
+                        <p>{{ $visitor->last_url }}</p>
                         <span>{{ $visitor->device_type ?: 'cihaz bilinmiyor' }} · {{ $visitor->utm_source ?: 'direct' }}</span>
                     </div>
                     <strong>{{ $visitor->last_seen_at?->diffForHumans(null, true) }}</strong>
@@ -108,8 +123,8 @@
         </div>
     </section>
 
-    <div class="admin-dashboard-grid admin-dashboard-grid--secondary mt-6">
-        <section class="admin-card admin-dashboard-panel">
+    <div class="admin-analytics-insights mt-6">
+        <section class="admin-card admin-dashboard-panel admin-analytics-card">
             <div class="admin-panel-head">
                 <div>
                     <p class="admin-dashboard-eyebrow">Ürün ilgisi</p>
@@ -118,10 +133,10 @@
             </div>
             <div class="admin-top-products">
                 @forelse($topViewedProducts as $product)
-                    <a href="{{ route('products.show', $product->slug) }}" target="_blank" class="admin-top-product">
-                        <div class="min-w-0">
-                            <p class="truncate">{{ $product->name }}</p>
-                            <span>Son 30 gün ürün görüntüleme</span>
+                    <a href="{{ route('products.show', $product->slug) }}" target="_blank" class="admin-analytics-row">
+                        <div class="admin-analytics-row__body">
+                            <p>{{ $product->name }}</p>
+                            <span>{{ $periodLabel }} ürün görüntüleme</span>
                         </div>
                         <strong>{{ (int) $product->views }}</strong>
                     </a>
@@ -131,7 +146,7 @@
             </div>
         </section>
 
-        <section class="admin-card admin-dashboard-panel">
+        <section class="admin-card admin-dashboard-panel admin-analytics-card">
             <div class="admin-panel-head">
                 <div>
                     <p class="admin-dashboard-eyebrow">Dönüşüm</p>
@@ -140,9 +155,9 @@
             </div>
             <div class="admin-top-products">
                 @forelse($productConversions as $product)
-                    <a href="{{ route('products.show', $product['slug']) }}" target="_blank" class="admin-top-product">
-                        <div class="min-w-0">
-                            <p class="truncate">{{ $product['name'] }}</p>
+                    <a href="{{ route('products.show', $product['slug']) }}" target="_blank" class="admin-analytics-row">
+                        <div class="admin-analytics-row__body">
+                            <p>{{ $product['name'] }}</p>
                             <span>{{ $product['views'] }} görüntüleme · {{ $product['cart_adds'] }} sepete ekleme</span>
                         </div>
                         <strong>%{{ $product['rate'] }}</strong>
@@ -153,7 +168,7 @@
             </div>
         </section>
 
-        <section class="admin-card admin-dashboard-panel">
+        <section class="admin-card admin-dashboard-panel admin-analytics-card">
             <div class="admin-panel-head">
                 <div>
                     <p class="admin-dashboard-eyebrow">Sepet ilgisi</p>
@@ -162,10 +177,10 @@
             </div>
             <div class="admin-top-products">
                 @forelse($topCartProducts as $product)
-                    <a href="{{ route('products.show', $product->slug) }}" target="_blank" class="admin-top-product">
-                        <div class="min-w-0">
-                            <p class="truncate">{{ $product->name }}</p>
-                            <span>Son 30 gün sepete ekleme</span>
+                    <a href="{{ route('products.show', $product->slug) }}" target="_blank" class="admin-analytics-row">
+                        <div class="admin-analytics-row__body">
+                            <p>{{ $product->name }}</p>
+                            <span>{{ $periodLabel }} sepete ekleme</span>
                         </div>
                         <strong>{{ (int) $product->cart_adds }}</strong>
                     </a>
@@ -175,7 +190,7 @@
             </div>
         </section>
 
-        <section class="admin-card admin-dashboard-panel">
+        <section class="admin-card admin-dashboard-panel admin-analytics-card">
             <div class="admin-panel-head">
                 <div>
                     <p class="admin-dashboard-eyebrow">Yarım sepet</p>
@@ -184,10 +199,11 @@
             </div>
             <div class="admin-top-products">
                 @forelse($abandonedCarts->take(6) as $cart)
-                    <a href="{{ $cart->visitor ? route('admin.analytics.visitor', $cart->visitor) : '#' }}" class="admin-top-product">
-                        <div class="min-w-0">
-                            <p class="truncate">{{ collect($cart->items ?? [])->pluck('name')->take(2)->implode(', ') ?: 'Sepet' }}</p>
-                            <span>{{ $cart->email ?: ($cart->phone ?: 'Anonim') }} · {{ $cart->last_activity_at?->diffForHumans() }}</span>
+                    @php($customerInfo = collect([$cart->customer_name, $cart->email, $cart->phone])->filter()->implode(' · ') ?: 'Müşteri bilgisi yok')
+                    <a href="{{ $cart->visitor ? route('admin.analytics.visitor', $cart->visitor) : '#' }}" class="admin-analytics-row">
+                        <div class="admin-analytics-row__body">
+                            <p>{{ collect($cart->items ?? [])->pluck('name')->take(2)->implode(', ') ?: 'Sepet' }}</p>
+                            <span>{{ $customerInfo }} · {{ $cart->last_activity_at?->diffForHumans() }}</span>
                         </div>
                         <strong>{{ number_format((float) $cart->subtotal, 2, ',', '.') }} ₺</strong>
                     </a>
@@ -198,40 +214,38 @@
         </section>
     </div>
 
-    <section class="admin-card mt-6 overflow-hidden">
+    <section class="admin-card admin-analytics-events mt-6 overflow-hidden">
         <div class="px-5 py-4 border-b border-slate-100 bg-slate-50">
             <p class="admin-dashboard-eyebrow">Canlı akış</p>
-            <h2 class="font-bold text-slate-900 mt-1">Son müşteri hareketleri</h2>
+            <h2 class="font-bold text-slate-900 mt-1">Son müşteri özetleri</h2>
+            <p class="mt-1 text-xs text-slate-500">Tek tek olaylar yerine ziyaretçi bazlı özet gösterilir; detay için zaman bilgisindeki bağlantıya tıklayın.</p>
         </div>
         <div class="admin-table-wrap">
             <table class="admin-table admin-table--stack">
                 <thead>
                     <tr>
-                        <th>Olay</th>
-                        <th>Ürün / Sipariş</th>
-                        <th>Adres</th>
-                        <th>Zaman</th>
+                        <th>Son hareket</th>
+                        <th>Özet</th>
+                        <th>Son sayfa</th>
+                        <th>Detay</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($recentEvents as $event)
+                    @forelse($recentVisitorSummaries as $summary)
                         <tr>
-                            <td data-label="Olay">{{ str_replace('_', ' ', $event->event_type) }}</td>
-                            <td data-label="Ürün / Sipariş">
-                                @if($event->product)
-                                    <a href="{{ route('products.show', $event->product->slug) }}" target="_blank" class="link">{{ $event->product->name }}</a>
-                                @elseif($event->order)
-                                    <a href="{{ route('admin.orders.show', $event->order) }}" class="link">{{ $event->order->order_number }}</a>
-                                @else
-                                    <span class="text-slate-400">-</span>
-                                @endif
+                            <td data-label="Son hareket"><span class="admin-analytics-event-pill">{{ $summary['last_label'] }}</span></td>
+                            <td data-label="Özet">
+                                <div class="admin-analytics-flow-summary">
+                                    <strong>{{ $summary['summary'] ?: 'Tek hareket' }}</strong>
+                                    <span>{{ $summary['latest']->visitor?->device_type ?: 'cihaz bilinmiyor' }} · {{ $summary['latest']->visitor?->utm_source ?: 'direct' }}</span>
+                                </div>
                             </td>
-                            <td data-label="Adres" class="max-w-[280px] truncate">{{ $event->url }}</td>
-                            <td data-label="Zaman">
-                                @if($event->visitor)
-                                    <a href="{{ route('admin.analytics.visitor', $event->visitor) }}" class="link">{{ $event->occurred_at?->format('d.m.Y H:i') }}</a>
+                            <td data-label="Son sayfa" class="admin-analytics-url">{{ $summary['latest']->visitor?->last_url ?: $summary['latest']->url }}</td>
+                            <td data-label="Detay">
+                                @if($summary['visitor'])
+                                    <a href="{{ route('admin.analytics.visitor', $summary['visitor']) }}" class="link">{{ $summary['latest']->occurred_at?->format('d.m.Y H:i') }}</a>
                                 @else
-                                    {{ $event->occurred_at?->format('d.m.Y H:i') }}
+                                    {{ $summary['latest']->occurred_at?->format('d.m.Y H:i') }}
                                 @endif
                             </td>
                         </tr>
@@ -244,4 +258,5 @@
             </table>
         </div>
     </section>
+    </div>
 @endsection

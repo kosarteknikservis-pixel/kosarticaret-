@@ -226,6 +226,57 @@
             toggle.addEventListener('change', syncCorporateFields);
             syncCorporateFields();
         })();
+
+        (function () {
+            const form = document.getElementById('checkout-form');
+            if (!form) return;
+
+            const fields = ['ad', 'soyad', 'eposta', 'telefon']
+                .map(function (name) { return form.elements.namedItem(name); })
+                .filter(Boolean);
+            if (!fields.length) return;
+
+            let timer = null;
+            function payload() {
+                return fields.reduce(function (data, field) {
+                    data[field.name] = field.value || '';
+                    return data;
+                }, {});
+            }
+
+            function hasContact(data) {
+                return Object.values(data).some(function (value) {
+                    return String(value).trim().length >= 2;
+                });
+            }
+
+            function saveContact() {
+                const data = payload();
+                if (!hasContact(data)) return;
+
+                fetch('{{ route('checkout.contact-save') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(data),
+                    keepalive: true
+                }).catch(function () {});
+            }
+
+            function scheduleSave() {
+                window.clearTimeout(timer);
+                timer = window.setTimeout(saveContact, 700);
+            }
+
+            fields.forEach(function (field) {
+                field.addEventListener('input', scheduleSave);
+                field.addEventListener('change', saveContact);
+                field.addEventListener('blur', saveContact);
+            });
+        })();
     </script>
     </div>
 @endsection

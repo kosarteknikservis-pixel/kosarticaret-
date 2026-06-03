@@ -65,6 +65,7 @@ class AnalyticsTracker
                 ->first();
 
             $cartSnapshot?->update([
+                'customer_name' => trim(($data['ad'] ?? '').' '.($data['soyad'] ?? '')) ?: null,
                 'email' => $data['eposta'] ?? null,
                 'phone' => $data['telefon'] ?? null,
                 'last_activity_at' => now(),

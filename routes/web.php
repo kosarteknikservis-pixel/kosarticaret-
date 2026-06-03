@@ -97,6 +97,7 @@ Route::get('/favoriler', [FavoriteController::class, 'index'])->name('favorites.
 Route::post('/favoriler/{product:slug}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 
 Route::get('/odeme', [CheckoutController::class, 'show'])->name('checkout.show');
+Route::post('/odeme/iletisim-kaydet', [CheckoutController::class, 'saveContact'])->middleware('throttle:30,1')->name('checkout.contact-save');
 Route::post('/odeme', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::post('/odeme/kupon', [CheckoutController::class, 'applyCoupon'])->name('checkout.coupon');
 Route::delete('/odeme/kupon', [CheckoutController::class, 'removeCoupon'])->name('checkout.coupon.remove');

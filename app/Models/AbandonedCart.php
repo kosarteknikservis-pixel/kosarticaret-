@@ -11,6 +11,7 @@ class AbandonedCart extends Model
         'visitor_id',
         'user_id',
         'converted_order_id',
+        'customer_name',
         'email',
         'phone',
         'item_count',
