@@ -182,8 +182,15 @@ function initProductSorter(scope) {
         saveTimer = setTimeout(saveLayout, 400);
     }
 
-    function initSortables() {
-        if (typeof Sortable === 'undefined') return;
+    function initSortables(attempt = 0) {
+        if (typeof Sortable === 'undefined') {
+            if (attempt < 20) {
+                window.setTimeout(() => initSortables(attempt + 1), 150);
+            } else {
+                setStatus('Sürükle-bırak yüklenemedi');
+            }
+            return;
+        }
 
         const blockGroup = {
             name: 'hp-blocks',
@@ -192,16 +199,22 @@ function initProductSorter(scope) {
         };
 
         canvas?.querySelectorAll('.hp-col__drop').forEach((drop) => {
+            if (drop.dataset.sortableReady === '1') return;
+            drop.dataset.sortableReady = '1';
+
             new Sortable(drop, {
                 group: blockGroup,
                 animation: 150,
-                handle: '.hp-block__handle',
+                handle: '.hp-block',
+                filter: '.hp-block__active-input, .hp-block__toggle',
                 ghostClass: 'sortable-ghost',
                 onEnd: scheduleSave,
             });
         });
 
-        if (canvas) {
+        if (canvas && canvas.dataset.sortableReady !== '1') {
+            canvas.dataset.sortableReady = '1';
+
             new Sortable(canvas, {
                 animation: 150,
                 handle: '.hp-row__handle',
