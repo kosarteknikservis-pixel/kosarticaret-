@@ -111,4 +111,37 @@ class ProductInstallmentTest extends TestCase
         $this->assertSame('Bonus', $rows[0]['label']);
         $this->assertTrue(PaymentGatewayConfig::isLive());
     }
+
+    #[Test]
+    public function installment_api_accepts_paytr_turkish_rates_payload(): void
+    {
+        SiteSetting::set('payment_gateway', 'paytr');
+        SiteSetting::set('paytr_merchant_id', '12345');
+        SiteSetting::set('paytr_merchant_key', 'test-key');
+        SiteSetting::set('paytr_merchant_salt', 'test-salt');
+
+        Http::fake([
+            'www.paytr.com/odeme/taksit-oranlari' => Http::response([
+                'status' => 'Success',
+                'max_inst_non_bus' => 6,
+                'oranlar' => [
+                    'world' => [
+                        'taksit_2' => 2.4,
+                        'taksit_6' => 5.2,
+                    ],
+                ],
+            ]),
+        ]);
+
+        $product = Product::query()->where('is_active', true)->first();
+
+        $response = $this->getJson(route('products.installments', ['product' => $product, 'amount' => 1000]));
+        $response->assertOk()
+            ->assertJsonPath('available', true)
+            ->assertJsonPath('provider', 'paytr');
+
+        $rows = $response->json('rows');
+        $this->assertNotEmpty($rows);
+        $this->assertSame('World', $rows[0]['label']);
+    }
 }

@@ -58,7 +58,9 @@ class PaytrInstallmentClient
 
         $data = $response->json();
 
-        if (! is_array($data) || ($data['status'] ?? '') !== 'success') {
+        $status = strtolower((string) ($data['status'] ?? ''));
+
+        if (! is_array($data) || $status !== 'success') {
             Log::warning('paytr installment rates failed', ['response' => $data]);
 
             return [
@@ -67,7 +69,8 @@ class PaytrInstallmentClient
             ];
         }
 
-        $rates = is_array($data['rates'] ?? null) ? $data['rates'] : [];
+        $ratesPayload = $data['rates'] ?? $data['oranlar'] ?? [];
+        $rates = is_array($ratesPayload) ? $ratesPayload : [];
 
         $result = [
             'ok' => true,
