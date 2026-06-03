@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\AnalyticsTracker;
 use App\Services\CartService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,6 +30,8 @@ class CartController extends Controller
         $cart = session('cart', []);
         $cart[$product->id] = ($cart[$product->id] ?? 0) + $qty;
         session(['cart' => $cart]);
+        app(AnalyticsTracker::class)->trackCartAction($request, 'cart_add', $product, $qty);
+        app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
         return back()->with('success', 'Ürün sepete eklendi.');
     }
@@ -43,15 +46,19 @@ class CartController extends Controller
             $cart[$product->id] = min($qty, $product->stock);
         }
         session(['cart' => $cart]);
+        app(AnalyticsTracker::class)->trackCartAction($request, $qty === 0 ? 'cart_remove' : 'cart_update', $product, $qty);
+        app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
         return redirect()->route('cart.index');
     }
 
-    public function remove(Product $product): RedirectResponse
+    public function remove(Request $request, Product $product): RedirectResponse
     {
         $cart = session('cart', []);
         unset($cart[$product->id]);
         session(['cart' => $cart]);
+        app(AnalyticsTracker::class)->trackCartAction($request, 'cart_remove', $product, 0);
+        app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
         return redirect()->route('cart.index');
     }

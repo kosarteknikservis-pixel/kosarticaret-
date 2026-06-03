@@ -12,6 +12,7 @@ class Order extends Model
         'user_id', 'order_number', 'email', 'status', 'payment_status', 'payment_method',
         'customer_name', 'phone', 'shipping_address', 'shipping_tracking',
         'admin_note', 'subtotal', 'shipping_cost', 'discount', 'total', 'coupon_code',
+        'analytics_visitor_id', 'order_source', 'order_medium', 'order_campaign', 'landing_url', 'referrer_url',
         'parasut_sales_invoice_id', 'parasut_status', 'parasut_error', 'parasut_synced_at',
     ];
 
@@ -40,5 +41,10 @@ class Order extends Model
     public function logs(): HasMany
     {
         return $this->hasMany(OrderLog::class)->latest();
+    }
+
+    public function analyticsVisitor(): BelongsTo
+    {
+        return $this->belongsTo(AnalyticsVisitor::class, 'analytics_visitor_id');
     }
 }

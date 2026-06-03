@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\AnalyticsController as AdminAnalyticsController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -152,6 +153,8 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
 
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('musteri-hareketleri', [AdminAnalyticsController::class, 'index'])->name('analytics.index');
+        Route::get('musteri-hareketleri/ziyaretci/{visitor}', [AdminAnalyticsController::class, 'showVisitor'])->name('analytics.visitor');
         Route::get('profil', [AdminProfileController::class, 'edit'])->name('profile.edit');
         Route::put('profil', [AdminProfileController::class, 'update'])->name('profile.update');
         Route::resource('urunler', AdminProductController::class)

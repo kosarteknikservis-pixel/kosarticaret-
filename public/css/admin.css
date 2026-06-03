@@ -638,6 +638,114 @@ body.admin-body {
     font-weight: 800;
     white-space: nowrap;
 }
+.admin-analytics-funnel {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+.admin-analytics-funnel > div {
+    min-width: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #fff, #f8fafc);
+    padding: 1rem;
+}
+.admin-analytics-funnel span {
+    display: block;
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.admin-analytics-funnel strong {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--admin-ink);
+    font-size: clamp(1.65rem, 4vw, 2.35rem);
+    line-height: 1;
+}
+.admin-analytics-funnel small {
+    display: block;
+    margin-top: 0.45rem;
+    color: #64748b;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+.admin-journey-timeline {
+    display: grid;
+    gap: 0.8rem;
+}
+.admin-journey-event {
+    position: relative;
+    min-width: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+}
+.admin-journey-event::before {
+    content: '';
+    position: absolute;
+    top: 1rem;
+    left: -0.42rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 9999px;
+    background: var(--admin-primary);
+    box-shadow: 0 0 0 4px #e6f5f3;
+}
+.admin-journey-event > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.admin-journey-event strong {
+    color: var(--admin-ink);
+}
+.admin-journey-event span {
+    color: #64748b;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+.admin-journey-event p {
+    margin-top: 0.5rem;
+    color: #64748b;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+.admin-journey-event dl {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 0.7rem;
+    border-radius: 0.75rem;
+    background: #f8fafc;
+    padding: 0.65rem;
+    color: #475569;
+    font-size: 0.78rem;
+}
+.admin-journey-event dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+.admin-journey-event dt {
+    font-weight: 800;
+}
+@media (min-width: 768px) {
+    .admin-analytics-funnel {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+@media (max-width: 767px) {
+    .admin-journey-event::before {
+        left: 0.8rem;
+        top: -0.35rem;
+    }
+}
 .admin-chart-toolbar,
 .admin-chart-summary {
     display: flex;
@@ -781,6 +889,14 @@ body.admin-body {
 .admin-top-product strong {
     flex-shrink: 0;
     font-weight: 900;
+}
+.admin-action-row small {
+    display: block;
+    margin-top: 0.2rem;
+    color: #64748b;
+    font-size: 0.76rem;
+    font-weight: 650;
+    line-height: 1.35;
 }
 .admin-action-row--danger strong,
 .admin-stock-row--danger strong { color: #dc2626; }

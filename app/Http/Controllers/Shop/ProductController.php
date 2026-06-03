@@ -12,6 +12,7 @@ use App\Models\Brand;
 
 use App\Models\Product;
 
+use App\Services\AnalyticsTracker;
 use App\Services\CatalogQuery;
 
 use App\Services\Payment\InstallmentOptionsService;
@@ -86,6 +87,8 @@ class ProductController extends Controller
     {
 
         abort_unless($product->is_active, 404);
+
+        app(AnalyticsTracker::class)->trackProductView($request, $product);
 
 
 

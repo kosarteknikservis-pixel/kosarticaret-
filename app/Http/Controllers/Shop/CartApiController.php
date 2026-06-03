@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Services\AnalyticsTracker;
 use App\Services\CartService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -42,6 +43,8 @@ class CartApiController extends Controller
         $cart = session('cart', []);
         $cart[$product->id] = ($cart[$product->id] ?? 0) + $qty;
         session(['cart' => $cart]);
+        app(AnalyticsTracker::class)->trackCartAction($request, 'cart_add', $product, $qty);
+        app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
         return response()->json($this->payload('Ürün sepete eklendi.'));
     }
@@ -56,15 +59,19 @@ class CartApiController extends Controller
             $cart[$product->id] = min($qty, $product->stock);
         }
         session(['cart' => $cart]);
+        app(AnalyticsTracker::class)->trackCartAction($request, $qty === 0 ? 'cart_remove' : 'cart_update', $product, $qty);
+        app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
         return response()->json($this->payload());
     }
 
-    public function remove(Product $product): JsonResponse
+    public function remove(Request $request, Product $product): JsonResponse
     {
         $cart = session('cart', []);
         unset($cart[$product->id]);
         session(['cart' => $cart]);
+        app(AnalyticsTracker::class)->trackCartAction($request, 'cart_remove', $product, 0);
+        app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
         return response()->json($this->payload('Ürün sepetten kaldırıldı.'));
     }

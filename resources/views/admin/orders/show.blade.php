@@ -215,6 +215,29 @@
                         <p class="text-xs text-slate-500 leading-relaxed">Aktarım manuel çalışır ve Paraşüt tarafında taslak satış faturası oluşturur.</p>
                     </div>
 
+                    <div class="admin-card p-5 sm:p-6 space-y-3">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wide text-slate-400">Müşteri kaynağı</p>
+                            <h2 class="font-bold text-slate-900 mt-1">Sipariş izi</h2>
+                        </div>
+                        <dl class="text-sm text-slate-600 space-y-2">
+                            <div><dt class="font-semibold text-slate-900">Kaynak</dt><dd>{{ $order->order_source ?: 'Bilinmiyor / eski sipariş' }}</dd></div>
+                            @if($order->order_medium)
+                                <div><dt class="font-semibold text-slate-900">Medium</dt><dd>{{ $order->order_medium }}</dd></div>
+                            @endif
+                            @if($order->order_campaign)
+                                <div><dt class="font-semibold text-slate-900">Kampanya</dt><dd>{{ $order->order_campaign }}</dd></div>
+                            @endif
+                            @if($order->landing_url)
+                                <div><dt class="font-semibold text-slate-900">İlk giriş</dt><dd class="break-words">{{ $order->landing_url }}</dd></div>
+                            @endif
+                            @if($order->referrer_url)
+                                <div><dt class="font-semibold text-slate-900">Referans</dt><dd class="break-words">{{ $order->referrer_url }}</dd></div>
+                            @endif
+                        </dl>
+                        <p class="text-xs text-slate-500 leading-relaxed">Bu alan yeni siparişlerde ziyaretçi kaynağından otomatik dolar.</p>
+                    </div>
+
                     <a href="{{ route('admin.orders.index') }}" class="block text-center text-sm font-semibold text-teal-700 hover:underline">← Sipariş listesi</a>
                 </div>
             </aside>

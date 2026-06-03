@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Order;
+use App\Services\AnalyticsTracker;
 use App\Services\CartService;
 use App\Services\CartPricingService;
 use App\Services\Payment\PaymentManager;
@@ -29,11 +30,13 @@ class CheckoutController extends Controller
         private StoreConfig $store,
     ) {}
 
-    public function show(): View|RedirectResponse
+    public function show(Request $request): View|RedirectResponse
     {
         if ($this->cart->isEmpty()) {
             return redirect()->route('cart.index')->withErrors(['cart' => 'Sepetiniz boş.']);
         }
+
+        app(AnalyticsTracker::class)->trackCheckoutStarted($request, $this->cart);
 
         return $this->checkoutView();
     }
@@ -103,6 +106,8 @@ class CheckoutController extends Controller
             ];
         }
 
+        app(AnalyticsTracker::class)->updateCheckoutContact($request, $this->cart, $data);
+
         try {
             $result = $this->orders->create(
                 $teslimat,
@@ -114,6 +119,7 @@ class CheckoutController extends Controller
         }
 
         $order = $result['order'];
+        app(AnalyticsTracker::class)->attachOrder($request, $order);
         session(['last_order_email' => $order->email]);
 
         if ($result['payment_url']) {
