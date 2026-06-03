@@ -1,4 +1,5 @@
-<div class="hp-block {{ !$banner->active ? 'hp-block--off' : '' }} {{ $banner->isBanner() ? 'hp-block--wide' : '' }}"
+@php($blockSpan = (int) ($span ?? $banner->columnSpan()))
+<div class="hp-block {{ !$banner->active ? 'hp-block--off' : '' }} {{ $banner->isBanner() && $blockSpan >= 8 ? 'hp-block--wide' : '' }}"
      data-id="{{ $banner->id }}"
      data-type="{{ $banner->type }}"
      data-panel-url="{{ route('admin.home-banners.panel', $banner) }}"

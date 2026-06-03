@@ -323,6 +323,11 @@
     display: block;
 }
 
+.hp-block[data-type="banner"] .hp-block__img {
+    object-fit: contain;
+    background: #fff;
+}
+
 .hp-block__empty {
     height: 100%;
     display: flex;

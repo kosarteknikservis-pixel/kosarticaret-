@@ -16,7 +16,7 @@
                 </div>
                 <div class="hp-col__drop" data-row-id="{{ $row->id }}" data-col-index="{{ $colIndex }}">
                     @foreach($colBlocks as $banner)
-                        @include('admin.home-banners.partials.block-card', ['banner' => $banner])
+                        @include('admin.home-banners.partials.block-card', ['banner' => $banner, 'span' => $span])
                     @endforeach
                 </div>
                 <button type="button"

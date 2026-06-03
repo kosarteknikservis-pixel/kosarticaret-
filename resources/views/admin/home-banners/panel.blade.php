@@ -1,6 +1,11 @@
 @php
     $panelType = old('type', $banner->type ?? 'slider');
     $panelSource = old('product_source', $banner->product_source ?? 'latest');
+    $currentRowId = (int) old('home_row_id', $banner->home_row_id);
+    $currentColIndex = (int) old('col_index', $banner->col_index ?? 0);
+    $currentRow = $rows->firstWhere('id', $currentRowId);
+    $currentSpan = (int) ($currentRow?->columns[$currentColIndex] ?? $banner->columnSpan());
+    $bannerImageSpecKey = $currentSpan >= 8 ? 'home_banner_slider' : 'home_banner_tile';
 @endphp
 <div class="hp-panel-form">
     <div class="flex items-center justify-between gap-2 mb-4">
@@ -118,11 +123,19 @@
 
             @foreach(\App\Models\HomeBanner::TYPES as $t)
                 <template id="admin-spec-tpl-{{ $t }}">
-                    <x-admin.image-spec :bannerType="$t" />
+                    @if($t === \App\Models\HomeBanner::TYPE_BANNER)
+                        <x-admin.image-spec :key="$bannerImageSpecKey" />
+                    @else
+                        <x-admin.image-spec :bannerType="$t" />
+                    @endif
                 </template>
             @endforeach
             <div id="panel-image-spec-slot">
-                <x-admin.image-spec :bannerType="old('type', $banner->type ?? 'slider')" />
+                @if(old('type', $banner->type ?? 'slider') === \App\Models\HomeBanner::TYPE_BANNER)
+                    <x-admin.image-spec :key="$bannerImageSpecKey" />
+                @else
+                    <x-admin.image-spec :bannerType="old('type', $banner->type ?? 'slider')" />
+                @endif
             </div>
             @if($banner->imageUrl())
                 <div class="rounded-xl border border-slate-200 bg-white p-2 space-y-2 mb-2">
