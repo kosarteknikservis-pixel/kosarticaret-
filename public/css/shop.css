@@ -3698,8 +3698,9 @@ body.shop-body {
 }
 @media (min-width: 1024px) {
     .shop-pdp-gallery {
-        position: sticky;
-        top: calc(var(--kosar-header-h) + 1.25rem);
+        position: relative;
+        top: auto;
+        align-self: start;
     }
 }
 .shop-pdp-gallery--thumbs {
