@@ -44,7 +44,9 @@ class Category extends Model
 
     public function activeChildren(): HasMany
     {
-        return $this->children()->where('active', true);
+        return $this->children()
+            ->where('active', true)
+            ->with('activeChildren');
     }
 
     /**

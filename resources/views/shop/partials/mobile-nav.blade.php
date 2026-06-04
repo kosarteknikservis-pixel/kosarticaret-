@@ -16,15 +16,37 @@
 
             <p class="shop-mobile-nav__section">{{ __('shop.categories') }}</p>
             @foreach(($menuCategories ?? []) as $cat)
-                <a href="{{ $cat->storefrontUrl() }}" class="shop-mobile-nav__link--sub shop-mobile-nav__link--parent">
-                    {{ $cat->name }}
-                    <x-shop.icon name="chevron-right" class="w-4 h-4 text-slate-300 shrink-0" />
-                </a>
-                @foreach($cat->activeChildren as $child)
-                    <a href="{{ $child->storefrontUrl() }}" class="shop-mobile-nav__link--child">
-                        {{ $child->name }}
-                    </a>
-                @endforeach
+                <details class="shop-mobile-nav__category">
+                    <summary class="shop-mobile-nav__category-summary">
+                        <span>{{ $cat->name }}</span>
+                        <x-shop.icon name="chevron-down" class="shop-mobile-nav__category-icon" />
+                    </summary>
+                    <div class="shop-mobile-nav__category-panel">
+                        <a href="{{ $cat->storefrontUrl() }}" class="shop-mobile-nav__category-all">Tümünü Gör</a>
+                        @foreach($cat->activeChildren as $child)
+                            @if($child->activeChildren->isNotEmpty())
+                                <details class="shop-mobile-nav__subcategory">
+                                    <summary class="shop-mobile-nav__subcategory-summary">
+                                        <span>{{ $child->name }}</span>
+                                        <x-shop.icon name="chevron-down" class="shop-mobile-nav__subcategory-icon" />
+                                    </summary>
+                                    <div class="shop-mobile-nav__subcategory-panel">
+                                        <a href="{{ $child->storefrontUrl() }}" class="shop-mobile-nav__link--child shop-mobile-nav__link--child-all">Tüm {{ $child->name }}</a>
+                                        @foreach($child->activeChildren as $grandchild)
+                                            <a href="{{ $grandchild->storefrontUrl() }}" class="shop-mobile-nav__link--grandchild">
+                                                {{ $grandchild->name }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </details>
+                            @else
+                                <a href="{{ $child->storefrontUrl() }}" class="shop-mobile-nav__link--child">
+                                    {{ $child->name }}
+                                </a>
+                            @endif
+                        @endforeach
+                    </div>
+                </details>
             @endforeach
             <a href="{{ route('categories.index') }}" class="block py-2 text-sm font-semibold text-brand-700">{{ __('shop.view_all_categories') }}</a>
 

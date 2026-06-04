@@ -124,8 +124,17 @@
                                     @if($cat->activeChildren->isNotEmpty())
                                         <ul class="shop-mega-panel__children">
                                             @foreach($cat->activeChildren as $child)
-                                                <li>
-                                                    <a href="{{ $child->storefrontUrl() }}" class="shop-mega-panel__child">{{ $child->name }}</a>
+                                                <li class="shop-mega-panel__child-item">
+                                                    <a href="{{ $child->storefrontUrl() }}" class="shop-mega-panel__child {{ $child->activeChildren->isNotEmpty() ? 'shop-mega-panel__child--has-children' : '' }}">{{ $child->name }}</a>
+                                                    @if($child->activeChildren->isNotEmpty())
+                                                        <ul class="shop-mega-panel__grandchildren" aria-label="{{ $child->name }} alt kategorileri">
+                                                            @foreach($child->activeChildren as $grandchild)
+                                                                <li>
+                                                                    <a href="{{ $grandchild->storefrontUrl() }}" class="shop-mega-panel__grandchild">{{ $grandchild->name }}</a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
                                                 </li>
                                             @endforeach
                                         </ul>
