@@ -141,6 +141,25 @@ final class ImageVariant
         return $saved;
     }
 
+    public static function originalNeedsOptimization(?string $path, string $type): bool
+    {
+        if (! self::canProcess($path)) {
+            return false;
+        }
+
+        $spec = self::ORIGINAL_SPECS[$type] ?? null;
+        if ($spec === null) {
+            return false;
+        }
+
+        $size = @getimagesize(Storage::disk('public')->path((string) $path));
+        if (! is_array($size)) {
+            return false;
+        }
+
+        return ((int) ($size[0] ?? 0) > $spec['w']) || ((int) ($size[1] ?? 0) > $spec['h']);
+    }
+
     public static function delete(?string $path): void
     {
         if ($path === null || $path === '' || str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {

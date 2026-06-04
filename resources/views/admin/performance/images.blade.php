@@ -42,7 +42,7 @@
                 <h2 class="text-xl font-bold text-slate-900">Optimize varyantları üret</h2>
                 <p class="mt-2 text-sm leading-6 text-slate-500">
                     Orijinal dosyalara dokunmadan ürün kartı, ürün detay, thumbnail, banner ve logo için küçük WebP dosyaları üretir.
-                    Yeni yüklenen görsellerde bu otomatik çalışır; bu buton mevcut eski görselleri tamamlar.
+                    Canlı sunucuda timeout yaşamamak için işlem küçük güvenli turlar halinde çalışır; kalan varsa butona tekrar basın.
                 </p>
             </div>
             <form method="post" action="{{ route('admin.performance.images.optimize') }}">
@@ -60,11 +60,11 @@
                 <h2 class="text-xl font-bold text-slate-900">Büyük orijinalleri küçült</h2>
                 <p class="mt-2 text-sm leading-6 text-slate-600">
                     Çok büyük orijinal görselleri güvenli maksimum ölçülere indirir, ardından WebP varyantlarını yeniden üretir.
-                    Veritabanındaki dosya yolları değişmez. İşlem ilk çalıştırmada uzun sürebilir.
+                    Veritabanındaki dosya yolları değişmez. Büyük dosyalarda işlem küçük turlara bölünür.
                 </p>
             </div>
             <form method="post" action="{{ route('admin.performance.images.optimize') }}"
-                  onsubmit="return confirm('Büyük orijinal görseller küçültülecek ve varyantlar yeniden oluşturulacak. Devam edilsin mi?')">
+                onsubmit="return confirm('Büyük orijinal görseller güvenli turlar halinde küçültülecek ve varyantlar yeniden oluşturulacak. Devam edilsin mi?')">
                 @csrf
                 <input type="hidden" name="mode" value="shrink">
                 <button type="submit" class="admin-btn admin-btn-secondary" @disabled(! $webpSupported)>
