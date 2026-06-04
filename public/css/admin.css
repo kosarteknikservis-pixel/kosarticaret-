@@ -596,6 +596,261 @@ body.admin-body {
 .admin-metric-card--primary small {
     color: rgb(226 232 240 / 0.86);
 }
+
+/* Image optimization maintenance page */
+.admin-image-optimizer {
+    display: grid;
+    gap: 1.1rem;
+    max-width: 82rem;
+    margin-inline: auto;
+}
+
+.admin-image-optimizer__hero,
+.admin-image-optimizer__stat,
+.admin-image-optimizer__action-card,
+.admin-image-optimizer__info {
+    border: 1px solid rgb(226 232 240 / 0.9);
+    box-shadow: var(--admin-shadow-card);
+}
+
+.admin-image-optimizer__hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    border-radius: 1.35rem;
+    background:
+        radial-gradient(circle at 88% 8%, rgb(45 74 115 / 0.12), transparent 24rem),
+        linear-gradient(135deg, #fff 0%, #f7fafd 58%, #eef4fb 100%);
+    padding: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.admin-image-optimizer__hero-copy {
+    max-width: 48rem;
+}
+
+.admin-image-optimizer__hero h2 {
+    margin-top: 0.25rem;
+    color: var(--admin-ink);
+    font-size: clamp(1.55rem, 2.8vw, 2.45rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+}
+
+.admin-image-optimizer__hero p:not(.admin-dashboard-eyebrow) {
+    margin-top: 0.55rem;
+    color: var(--admin-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.admin-image-optimizer__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.admin-image-optimizer__stat {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    min-height: 9.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 1.15rem;
+    background: rgb(255 255 255 / 0.94);
+    padding: 1.15rem;
+}
+
+.admin-image-optimizer__stat::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--admin-primary-dark), var(--admin-primary-light), #d6e2f3);
+}
+
+.admin-image-optimizer__stat.is-warning::before {
+    background: linear-gradient(90deg, #b45309, #f59e0b, #fde68a);
+}
+
+.admin-image-optimizer__stat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.4rem;
+    height: 2.4rem;
+    padding-inline: 0.45rem;
+    border-radius: 0.85rem;
+    background: #eef4fb;
+    color: var(--admin-primary);
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.admin-image-optimizer__stat-label {
+    display: block;
+    margin-top: 0.95rem;
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+}
+
+.admin-image-optimizer__stat strong {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--admin-ink);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+}
+
+.admin-image-optimizer__stat small {
+    display: block;
+    margin-top: 0.5rem;
+    color: #64748b;
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+.admin-image-optimizer__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.admin-image-optimizer__action-card {
+    display: flex;
+    min-height: 16rem;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-radius: 1.15rem;
+    background: #fff;
+    padding: clamp(1.1rem, 2vw, 1.45rem);
+}
+
+.admin-image-optimizer__action-card--warm {
+    border-color: rgb(253 230 138 / 0.9);
+    background:
+        radial-gradient(circle at 92% 8%, rgb(245 158 11 / 0.11), transparent 17rem),
+        #fffdf7;
+}
+
+.admin-image-optimizer__action-card h2,
+.admin-image-optimizer__info h2 {
+    margin-top: 0.25rem;
+    color: var(--admin-ink);
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.admin-image-optimizer__action-card p {
+    margin-top: 0.65rem;
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.75;
+}
+
+.admin-image-optimizer__action-card form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.admin-image-optimizer__info {
+    border-radius: 1.15rem;
+    background: #fff;
+    padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.admin-image-optimizer__info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+}
+
+.admin-image-optimizer__info-grid > div {
+    min-height: 6.25rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    background: #f8fafc;
+    padding: 1rem;
+}
+
+.admin-image-optimizer__info-grid strong {
+    display: block;
+    color: var(--admin-ink);
+    font-size: 0.88rem;
+    font-weight: 850;
+    line-height: 1.35;
+}
+
+.admin-image-optimizer__info-grid span {
+    display: block;
+    margin-top: 0.45rem;
+    color: #64748b;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 1023px) {
+    .admin-image-optimizer__hero {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-image-optimizer__stats,
+    .admin-image-optimizer__actions,
+    .admin-image-optimizer__info-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-image-optimizer__stat,
+    .admin-image-optimizer__action-card {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .admin-image-optimizer {
+        gap: 0.85rem;
+    }
+
+    .admin-image-optimizer__hero,
+    .admin-image-optimizer__stat,
+    .admin-image-optimizer__action-card,
+    .admin-image-optimizer__info {
+        border-radius: 1rem;
+    }
+
+    .admin-image-optimizer__hero {
+        padding: 1rem;
+    }
+
+    .admin-image-optimizer__hero h2 {
+        font-size: 1.55rem;
+    }
+
+    .admin-image-optimizer__hero .admin-btn,
+    .admin-image-optimizer__action-card .admin-btn {
+        width: 100%;
+        white-space: normal;
+    }
+
+    .admin-image-optimizer__action-card form {
+        width: 100%;
+    }
+}
 .admin-dashboard-grid {
     display: grid;
     gap: 1.25rem;
