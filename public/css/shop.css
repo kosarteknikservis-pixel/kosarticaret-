@@ -36,19 +36,18 @@ body.shop-body {
 }
 
 .shop-promo-bar {
-    background: linear-gradient(
-        90deg,
-        var(--kosar-primary-dark) 0%,
-        var(--kosar-primary) 35%,
-        var(--kosar-accent) 50%,
-        var(--kosar-primary) 65%,
-        var(--kosar-primary-dark) 100%
-    );
-    background-size: 200% 100%;
+    display: block;
+    min-height: 2.25rem;
+    padding: 0.625rem 1rem;
+    background: var(--kosar-primary-dark);
     color: #fff;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 650;
+    line-height: 1.35;
     letter-spacing: 0.02em;
+    text-align: center;
     box-shadow: 0 2px 12px rgb(30 58 95 / 0.2);
-    animation: shop-promo-shift 28s ease-in-out infinite;
     /* Uzun yazı mobilde taşmasın */
     overflow: hidden;
     white-space: nowrap;
@@ -61,16 +60,6 @@ body.shop-body {
         letter-spacing: 0;
     }
 }
-@keyframes shop-promo-shift {
-    0%,
-    100% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-}
-
 #main-content.shop-main {
     position: relative;
 }

@@ -32,7 +32,7 @@
             <form method="post" action="{{ route('admin.preview.stop') }}" class="inline ml-2">@csrf<button type="submit" class="underline">Kapat</button></form>
         </div>
     @elseif($promo)
-        <div class="shop-promo-bar text-center text-xs py-2.5 px-4 font-medium" role="region" aria-label="Kampanya">{{ $promo }}</div>
+        <div class="shop-promo-bar" role="region" aria-label="Kampanya">{{ $promo }}</div>
     @endif
 
     @include('shop.partials.header')
