@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Support\ImageVariant;
 use App\Support\RichContent;
 use App\Support\SlugHelper;
 use App\Models\Product;
@@ -62,6 +63,7 @@ class CategoryController extends Controller
         }
 
         if ($category->image && ! str_starts_with($category->image, 'http')) {
+            ImageVariant::delete($category->image);
             Storage::disk('public')->delete($category->image);
         }
         $category->delete();
@@ -97,14 +99,17 @@ class CategoryController extends Controller
 
         if ($request->boolean('remove_image') && $category?->image) {
             if (! str_starts_with($category->image, 'http')) {
+                ImageVariant::delete($category->image);
                 Storage::disk('public')->delete($category->image);
             }
             $data['image'] = null;
         } elseif ($request->hasFile('image_file')) {
             if ($category?->image && ! str_starts_with($category->image, 'http')) {
+                ImageVariant::delete($category->image);
                 Storage::disk('public')->delete($category->image);
             }
             $data['image'] = $request->file('image_file')->store('categories', 'public');
+            ImageVariant::generate($data['image'], ImageVariant::presetsFor('category'));
         }
 
         unset($data['image_file']);

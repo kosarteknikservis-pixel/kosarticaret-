@@ -351,6 +351,11 @@
         pdpGalleryIndex = index;
         pdpMainWrap?.classList.add('is-switching');
         pdpMain.src = item.url;
+        if (item.srcset) {
+            pdpMain.srcset = item.srcset;
+        } else {
+            pdpMain.removeAttribute('srcset');
+        }
         if (item.alt) pdpMain.alt = item.alt;
         pdpMain.addEventListener('load', () => pdpMainWrap?.classList.remove('is-switching'), { once: true });
         document.querySelectorAll('.pdp-thumb').forEach((t, i) => {

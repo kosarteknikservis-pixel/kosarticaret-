@@ -37,6 +37,15 @@ class ShopMaintenanceTest extends TestCase
         $this->get('/admin')->assertRedirect('/yonetim/giris');
     }
 
+    public function test_expired_admin_session_redirects_to_admin_login(): void
+    {
+        $this->get('/yonetim')
+            ->assertRedirect('/yonetim/giris');
+
+        $this->get('/hesabim')
+            ->assertRedirect('/giris');
+    }
+
     public function test_admin_user_can_preview_storefront_during_maintenance(): void
     {
         SiteSetting::set('shop_maintenance_enabled', '1');

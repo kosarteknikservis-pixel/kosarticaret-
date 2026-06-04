@@ -9,31 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
-                    colors: {
-                        brand: {
-                            50: '#f4f7fb',
-                            100: '#e8eef6',
-                            200: '#c5d4e8',
-                            300: '#93a8c9',
-                            400: '#6b84a8',
-                            500: '#4a6489',
-                            600: '#2d4a73',
-                            700: '#1e3a5f',
-                            800: '#1a3254',
-                            900: '#152a47',
-                        },
-                    },
-                    maxWidth: { '8xl': '80rem' },
-                },
-            },
-        };
-    </script>
+    @vite(['resources/css/app.css'])
     @php $shopCssVer = @filemtime(public_path('css/shop.css')) ?: time(); @endphp
     <link rel="stylesheet" href="{{ asset('css/shop.css') }}?v={{ $shopCssVer }}">
     @php $gaId = \App\Models\SiteSetting::get('google_analytics_id'); @endphp
@@ -184,7 +160,8 @@
             });
         })();
     </script>
-    <script src="{{ asset('js/shop.js') }}" defer></script>
+    @php $shopJsVer = @filemtime(public_path('js/shop.js')) ?: time(); @endphp
+    <script src="{{ asset('js/shop.js') }}?v={{ $shopJsVer }}" defer></script>
     @stack('scripts')
 </body>
 </html>

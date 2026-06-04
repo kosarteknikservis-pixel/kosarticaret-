@@ -157,8 +157,13 @@ class Category extends Model
         return $query->where('featured', true)->where('active', true);
     }
 
-    public function imageUrl(): ?string
+    public function imageUrl(?string $variant = null): ?string
     {
-        return PublicAssetUrl::resolve($this->image);
+        return PublicAssetUrl::resolve($this->image, $variant);
+    }
+
+    public function imageSrcset(array $variants = ['category-card' => 720]): ?string
+    {
+        return PublicAssetUrl::srcset($this->image, $variants);
     }
 }

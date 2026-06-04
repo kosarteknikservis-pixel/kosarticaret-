@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\HasTranslations;
+use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
 
 class BlogPost extends Model
@@ -41,16 +42,13 @@ class BlogPost extends Model
             ->orderByDesc('published_at');
     }
 
-    public function imageUrl(): ?string
+    public function imageUrl(?string $variant = null): ?string
     {
-        if (! $this->image) {
-            return null;
-        }
+        return PublicAssetUrl::resolve($this->image, $variant);
+    }
 
-        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
-            return $this->image;
-        }
-
-        return asset('storage/'.$this->image);
+    public function imageSrcset(array $variants = ['blog-card' => 960]): ?string
+    {
+        return PublicAssetUrl::srcset($this->image, $variants);
     }
 }

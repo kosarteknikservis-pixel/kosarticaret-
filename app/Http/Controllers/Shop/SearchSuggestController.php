@@ -35,7 +35,7 @@ class SearchSuggestController extends Controller
                 'meta' => $p->brand?->name,
                 'url' => route('products.show', $p),
                 'price' => number_format($p->price, 2, ',', '.').' ₺',
-                'image' => $p->imageUrl(),
+                'image' => $p->imageUrl('product-thumb'),
             ]);
 
         $categories = Category::query()

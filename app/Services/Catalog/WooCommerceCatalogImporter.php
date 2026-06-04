@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductReview;
+use App\Support\ImageVariant;
 use App\Support\RichContent;
 use App\Support\SlugHelper;
 use Illuminate\Support\Facades\DB;
@@ -957,6 +958,7 @@ class WooCommerceCatalogImporter
 
             $path = 'products/import/'.Str::slug($sku).'.'.$ext;
             Storage::disk('public')->put($path, $response->body());
+            ImageVariant::generate($path, ImageVariant::presetsFor(str_contains($sku, '-g') ? 'product-gallery' : 'product'));
             $this->stats['images_ok']++;
 
             return $path;

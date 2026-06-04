@@ -9,7 +9,15 @@
     <a href="{{ route('products.show', $product) }}" class="shop-product-card__link">
         <div class="shop-product-card__media aspect-square">
             @if($product->imageUrl())
-                <img src="{{ $product->imageUrl() }}" alt="{{ $product->imageAltText() }}" loading="lazy" width="400" height="400" class="shop-product-card__img">
+                <img
+                    src="{{ $product->imageUrl('product-card') }}"
+                    @if($srcset = $product->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 639px) 76vw, (max-width: 1023px) 13rem, 15rem" @endif
+                    alt="{{ $product->imageAltText() }}"
+                    loading="lazy"
+                    decoding="async"
+                    width="400"
+                    height="400"
+                    class="shop-product-card__img">
             @else
                 <x-shop.icon name="grid" class="w-12 h-12 text-slate-300" />
             @endif

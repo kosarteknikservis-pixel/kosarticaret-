@@ -30,7 +30,7 @@
                         <article class="shop-cart-line" data-cart-line data-slug="{{ $p->slug }}" data-max="{{ $p->stock }}" data-unit-price="{{ $p->price }}">
                             <a href="{{ route('products.show', $p) }}" class="shop-cart-line__thumb block">
                                 @if($p->imageUrl())
-                                    <img src="{{ $p->imageUrl() }}" alt="" class="w-full h-full object-cover">
+                                    <img src="{{ $p->imageUrl('product-thumb') }}" alt="" loading="lazy" decoding="async" width="96" height="96" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center"><x-shop.icon name="grid" class="w-8 h-8 text-slate-300" /></div>
                                 @endif

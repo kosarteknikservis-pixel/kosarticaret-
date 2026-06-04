@@ -21,7 +21,7 @@ class SiteLogo
         return $path !== '' && $path !== null ? $path : null;
     }
 
-    public static function url(): ?string
+    public static function url(?string $variant = null): ?string
     {
         $path = self::path();
         if ($path === null) {
@@ -36,7 +36,12 @@ class SiteLogo
             return null;
         }
 
-        return asset('storage/'.$path);
+        return ImageVariant::url($path, $variant);
+    }
+
+    public static function srcset(array $variants = ['site-logo' => 420]): ?string
+    {
+        return ImageVariant::srcset(self::path(), $variants);
     }
 
     public static function alt(): string
@@ -53,6 +58,7 @@ class SiteLogo
     {
         $path = SiteSetting::get('site_logo');
         if ($path && ! str_starts_with($path, 'http')) {
+            ImageVariant::delete($path);
             Storage::disk('public')->delete($path);
         }
         SiteSetting::set('site_logo', null);

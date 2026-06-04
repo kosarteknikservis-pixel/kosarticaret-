@@ -15,7 +15,7 @@
                 <article class="shop-blog-card">
                     @if($post->imageUrl())
                         <a href="{{ route('blog.show', $post) }}" class="shop-blog-card__media block aspect-[16/9] rounded-xl mb-0" aria-hidden="true" tabindex="-1">
-                            <img src="{{ $post->imageUrl() }}" alt="{{ $post->image_alt ?: $post->title }}" loading="lazy" class="w-full h-full object-cover">
+                            <img src="{{ $post->imageUrl('blog-card') }}" @if($srcset = $post->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 767px) 100vw, 24rem" @endif alt="{{ $post->image_alt ?: $post->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover">
                         </a>
                     @endif
                     <div class="shop-blog-card__body">

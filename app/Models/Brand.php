@@ -39,8 +39,13 @@ class Brand extends Model
         return 'slug';
     }
 
-    public function logoUrl(): ?string
+    public function logoUrl(?string $variant = null): ?string
     {
-        return PublicAssetUrl::resolve($this->logo_url);
+        return PublicAssetUrl::resolve($this->logo_url, $variant);
+    }
+
+    public function logoSrcset(array $variants = ['brand-logo' => 360]): ?string
+    {
+        return PublicAssetUrl::srcset($this->logo_url, $variants);
     }
 }

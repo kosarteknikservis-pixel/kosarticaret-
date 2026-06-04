@@ -1,7 +1,15 @@
 <a href="{{ $category->storefrontUrl() }}" class="shop-category-card group rounded-2xl block {{ $category->imageUrl() ? 'shop-category-card--has-media' : 'p-6' }}">
     @if($category->imageUrl())
         <div class="shop-category-card__media">
-            <img src="{{ $category->imageUrl() }}" alt="{{ $category->name }}" loading="lazy" width="480" height="270" class="shop-category-card__img">
+            <img
+                src="{{ $category->imageUrl('category-card') }}"
+                @if($srcset = $category->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 639px) 100vw, 24rem" @endif
+                alt="{{ $category->name }}"
+                loading="lazy"
+                decoding="async"
+                width="480"
+                height="270"
+                class="shop-category-card__img">
         </div>
         <div class="shop-category-card__body p-6 pt-4">
             <p class="font-bold text-slate-900 group-hover:text-brand-700">{{ $category->name }}</p>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Support\ImageVariant;
 use App\Support\RichContent;
 use App\Support\SlugHelper;
 use Illuminate\Http\RedirectResponse;
@@ -48,6 +49,7 @@ class BrandController extends Controller
     public function destroy(Brand $brand): RedirectResponse
     {
         if ($brand->logo_url && ! str_starts_with($brand->logo_url, 'http')) {
+            ImageVariant::delete($brand->logo_url);
             Storage::disk('public')->delete($brand->logo_url);
         }
         $brand->delete();
@@ -75,14 +77,17 @@ class BrandController extends Controller
 
         if ($request->boolean('remove_logo') && $brand?->logo_url) {
             if (! str_starts_with($brand->logo_url, 'http')) {
+                ImageVariant::delete($brand->logo_url);
                 Storage::disk('public')->delete($brand->logo_url);
             }
             $data['logo_url'] = null;
         } elseif ($request->hasFile('logo_file')) {
             if ($brand?->logo_url && ! str_starts_with($brand->logo_url, 'http')) {
+                ImageVariant::delete($brand->logo_url);
                 Storage::disk('public')->delete($brand->logo_url);
             }
             $data['logo_url'] = $request->file('logo_file')->store('brands', 'public');
+            ImageVariant::generate($data['logo_url'], ImageVariant::presetsFor('brand'));
         } elseif (! $request->filled('logo_url') && $brand) {
             unset($data['logo_url']);
         }

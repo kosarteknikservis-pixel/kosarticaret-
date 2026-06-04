@@ -10,6 +10,7 @@ use App\Models\HomeRow;
 use App\Models\Product;
 use App\Support\HomeBannerSpec;
 use App\Support\HomeProductList;
+use App\Support\ImageVariant;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -377,6 +378,7 @@ class HomeBannerController extends Controller
                 $this->deleteUploadedImage($banner->image);
             }
             $data['image'] = $request->file('image_file')->store('banners', 'public');
+            ImageVariant::generate($data['image'], ImageVariant::presetsFor('banner'));
         } elseif ($banner) {
             unset($data['image']);
         }
@@ -389,6 +391,7 @@ class HomeBannerController extends Controller
     private function deleteUploadedImage(?string $path): void
     {
         if ($path && ! str_starts_with($path, 'http') && str_starts_with($path, 'banners/')) {
+            ImageVariant::delete($path);
             Storage::disk('public')->delete($path);
         }
     }

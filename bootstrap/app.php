@@ -25,6 +25,11 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\TrackStorefrontVisit::class,
             \App\Http\Middleware\SecurityHeaders::class,
         ]);
+        $middleware->redirectGuestsTo(function (Request $request): string {
+            return $request->is('admin', 'admin/*', 'yonetim', 'yonetim/*')
+                ? route('admin.login')
+                : route('login');
+        });
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'shop.customer' => \App\Http\Middleware\EnsureShopCustomer::class,

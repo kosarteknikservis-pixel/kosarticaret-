@@ -12,7 +12,7 @@
         {{-- Hero image with animation --}}
         @if($post->imageUrl())
             <div class="shop-article-hero shop-reveal--scale">
-                <img src="{{ $post->imageUrl() }}" alt="{{ $post->image_alt ?: $post->title }}">
+                <img src="{{ $post->imageUrl('blog-card') }}" @if($srcset = $post->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 767px) 100vw, 52rem" @endif alt="{{ $post->image_alt ?: $post->title }}" decoding="async" fetchpriority="high">
             </div>
         @endif
 

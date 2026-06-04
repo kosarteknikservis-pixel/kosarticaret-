@@ -131,18 +131,35 @@ class HomeBanner extends Model
         };
     }
 
-    public function imageUrl(): ?string
+    public function imageUrl(?string $variant = null): ?string
     {
         if ($this->image) {
-            return PublicAssetUrl::resolve($this->image);
+            return PublicAssetUrl::resolve($this->image, $variant);
         }
 
         if ($this->isProduct() && $this->relationLoaded('product') && $this->product) {
-            return $this->product->imageUrl();
+            return $this->product->imageUrl($variant);
         }
 
         if ($this->isCategory() && $this->relationLoaded('category') && $this->category) {
-            return $this->category->imageUrl();
+            return $this->category->imageUrl($variant);
+        }
+
+        return null;
+    }
+
+    public function imageSrcset(array $variants = ['banner' => 1440]): ?string
+    {
+        if ($this->image) {
+            return PublicAssetUrl::srcset($this->image, $variants);
+        }
+
+        if ($this->isProduct() && $this->relationLoaded('product') && $this->product) {
+            return $this->product->imageSrcset();
+        }
+
+        if ($this->isCategory() && $this->relationLoaded('category') && $this->category) {
+            return $this->category->imageSrcset();
         }
 
         return null;

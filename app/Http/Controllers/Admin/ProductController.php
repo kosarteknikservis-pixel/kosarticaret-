@@ -9,6 +9,7 @@ use App\Support\SlugHelper;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Support\ImageVariant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -129,9 +130,11 @@ class ProductController extends Controller
     {
         if ($request->hasFile('image_file')) {
             if ($product?->image && ! str_starts_with($product->image, 'http')) {
+                ImageVariant::delete($product->image);
                 Storage::disk('public')->delete($product->image);
             }
             $data['image'] = $request->file('image_file')->store('products', 'public');
+            ImageVariant::generate($data['image'], ImageVariant::presetsFor('product'));
         } elseif (! $request->filled('image') && $product) {
             unset($data['image']);
         }
@@ -148,9 +151,12 @@ class ProductController extends Controller
         $sort = (int) $product->images()->max('sort_order');
         foreach ($request->file('gallery_files') as $file) {
             $sort++;
+            $path = $file->store('products/gallery', 'public');
+            ImageVariant::generate($path, ImageVariant::presetsFor('product-gallery'));
+
             ProductImage::query()->create([
                 'product_id' => $product->id,
-                'path' => $file->store('products/gallery', 'public'),
+                'path' => $path,
                 'sort_order' => $sort,
             ]);
         }
@@ -159,6 +165,7 @@ class ProductController extends Controller
     public function destroyImage(Product $product, ProductImage $image): RedirectResponse
     {
         abort_unless($image->product_id === $product->id, 404);
+        ImageVariant::delete($image->path);
         Storage::disk('public')->delete($image->path);
         $image->delete();
 

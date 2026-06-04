@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\BlogPost;
 
+use App\Support\ImageVariant;
+
 use App\Support\RichContent;
 
 use App\Support\SlugHelper;
@@ -104,6 +106,8 @@ class BlogPostController extends Controller
 
         if ($blog->image && ! str_starts_with($blog->image, 'http')) {
 
+            ImageVariant::delete($blog->image);
+
             Storage::disk('public')->delete($blog->image);
 
         }
@@ -188,11 +192,15 @@ class BlogPostController extends Controller
 
             if ($post?->image && ! str_starts_with($post->image, 'http')) {
 
+                ImageVariant::delete($post->image);
+
                 Storage::disk('public')->delete($post->image);
 
             }
 
             $data['image'] = $request->file('image_file')->store('blog', 'public');
+
+            ImageVariant::generate($data['image'], ImageVariant::presetsFor('blog'));
 
         }
 

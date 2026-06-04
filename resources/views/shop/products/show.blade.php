@@ -8,12 +8,22 @@
         @php
             $thumbs = collect();
             if ($product->imageUrl()) {
-                $thumbs->push(['url' => $product->imageUrl(), 'alt' => $product->imageAltText()]);
+                $thumbs->push([
+                    'url' => $product->imageUrl('product-pdp'),
+                    'thumb' => $product->imageUrl('product-thumb'),
+                    'srcset' => $product->imageSrcset(),
+                    'alt' => $product->imageAltText(),
+                ]);
             }
             foreach ($product->images as $img) {
-                $url = $img->url();
+                $url = $img->url('product-pdp');
                 if (! $thumbs->contains(fn ($t) => $t['url'] === $url)) {
-                    $thumbs->push(['url' => $url, 'alt' => $img->alt ?? $product->name]);
+                    $thumbs->push([
+                        'url' => $url,
+                        'thumb' => $img->url('product-thumb'),
+                        'srcset' => $img->srcset(),
+                        'alt' => $img->alt ?? $product->name,
+                    ]);
                 }
             }
         @endphp
@@ -26,7 +36,7 @@
                     aria-label="{{ __('shop.enlarge_image') }}">
                 @if($thumbs->isNotEmpty())
                     <span class="shop-pdp-gallery__figure">
-                        <img src="{{ $thumbs->first()['url'] }}" alt="{{ $thumbs->first()['alt'] }}" class="shop-pdp-gallery__img" id="pdp-main-img" decoding="async" fetchpriority="high">
+                        <img src="{{ $thumbs->first()['url'] }}" @if($thumbs->first()['srcset']) srcset="{{ $thumbs->first()['srcset'] }}" sizes="(max-width: 767px) 100vw, 42rem" @endif alt="{{ $thumbs->first()['alt'] }}" class="shop-pdp-gallery__img" id="pdp-main-img" decoding="async" fetchpriority="high">
                     </span>
                 @else
                     <x-shop.icon name="grid" class="w-24 h-24 text-slate-300" />
@@ -40,7 +50,7 @@
                                 data-gallery-thumb="{{ $thumb['url'] }}"
                                 aria-label="{{ __('shop.image') }} {{ $i + 1 }}"
                                 aria-current="{{ $i === 0 ? 'true' : 'false' }}">
-                            <img src="{{ $thumb['url'] }}" alt="{{ $thumb['alt'] }}" class="shop-pdp-thumb__img" loading="lazy" width="80" height="80">
+                            <img src="{{ $thumb['thumb'] ?? $thumb['url'] }}" alt="{{ $thumb['alt'] }}" class="shop-pdp-thumb__img" loading="lazy" decoding="async" width="80" height="80">
                         </button>
                     @endforeach
                 </div>

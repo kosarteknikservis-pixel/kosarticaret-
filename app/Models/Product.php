@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\HasTranslations;
+use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -98,7 +99,7 @@ class Product extends Model
         return (int) round((((float) $this->compare_at_price - (float) $this->price) / (float) $this->compare_at_price) * 100);
     }
 
-    public function imageUrl(): ?string
+    public function imageUrl(?string $variant = null): ?string
     {
         if (! $this->image) {
             return null;
@@ -108,6 +109,11 @@ class Product extends Model
             return $this->image;
         }
 
-        return asset('storage/'.$this->image);
+        return PublicAssetUrl::resolve($this->image, $variant);
+    }
+
+    public function imageSrcset(array $variants = ['product-card' => 480, 'product-pdp' => 1200]): ?string
+    {
+        return PublicAssetUrl::srcset($this->image, $variants);
     }
 }

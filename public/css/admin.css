@@ -1316,6 +1316,33 @@ body.admin-body {
     font-size: 0.875rem;
 }
 
+.admin-card,
+.admin-card *,
+.admin-page-header,
+.admin-table-toolbar,
+.admin-form-actions {
+    min-width: 0;
+}
+
+.admin-card p,
+.admin-card dd,
+.admin-card td,
+.admin-card li,
+.admin-alert-success,
+.admin-alert-error {
+    overflow-wrap: anywhere;
+}
+
+.admin-input[multiple],
+.admin-input[size] {
+    min-height: 8.5rem;
+    overflow-x: hidden;
+}
+
+.admin-input option {
+    white-space: normal;
+}
+
 .admin-page-header {
     min-width: 0;
 }
@@ -1329,6 +1356,14 @@ body.admin-body {
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 0.5rem;
+}
+
+.admin-row-actions form {
+    min-width: 0;
+}
+
+.admin-row-actions .admin-btn {
+    max-width: 100%;
 }
 
 .admin-order-sidebar-stack {
@@ -1382,6 +1417,29 @@ body.admin-body {
     .admin-card .flex.flex-wrap {
         min-width: 0;
     }
+
+    .admin-card form.flex {
+        flex-wrap: wrap;
+    }
+
+    .admin-card form.flex > .admin-btn,
+    .admin-card form.flex > button,
+    .admin-card form.flex > a {
+        width: 100%;
+    }
+
+    .admin-card .grid.grid-cols-2,
+    .admin-card .grid.grid-cols-3,
+    .admin-card .grid.grid-cols-4 {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .admin-input.min-w-\[160px\],
+    .admin-input.max-w-xs,
+    .admin-input.max-w-\[6rem\] {
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
 }
 
 .admin-input:focus {
@@ -1424,6 +1482,15 @@ body.admin-body {
     width: 100%;
     font-size: 0.875rem;
     text-align: left;
+}
+
+.admin-table th,
+.admin-table td {
+    min-width: 0;
+}
+
+.admin-table td {
+    overflow-wrap: anywhere;
 }
 
 .admin-table thead {
@@ -1599,6 +1666,7 @@ body.admin-body {
         padding: 0.75rem 0.9rem;
         border-top: 1px solid #eef2f7;
         text-align: right;
+        min-width: 0;
     }
 
     .admin-table--stack td:first-child {
@@ -1608,12 +1676,17 @@ body.admin-body {
     .admin-table--stack td::before {
         content: attr(data-label);
         flex: 0 0 auto;
+        max-width: 45%;
         color: #64748b;
         font-size: 0.72rem;
         font-weight: 800;
         letter-spacing: 0.04em;
         text-align: left;
         text-transform: uppercase;
+    }
+
+    .admin-table--stack td > *:not(form) {
+        min-width: 0;
     }
 
     .admin-table--stack td[data-label="Müşteri"] {
@@ -2337,6 +2410,14 @@ body.admin-body {
     display: grid;
     gap: 1.25rem;
     align-items: start;
+    min-width: 0;
+}
+
+.bulk-update-layout__filters,
+.bulk-update-layout__actions,
+.bulk-action-block,
+.bulk-action-block__body {
+    min-width: 0;
 }
 
 @media (min-width: 1024px) {
@@ -2392,6 +2473,11 @@ body.admin-body {
     list-style: none;
 }
 
+.bulk-action-block__head span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
 .bulk-action-block__head::-webkit-details-marker {
     display: none;
 }
@@ -2412,6 +2498,30 @@ body.admin-body {
 .bulk-csv-hint {
     line-height: 1.6;
     word-break: break-all;
+}
+
+@media (max-width: 767px) {
+    .bulk-tabs {
+        max-width: none;
+        width: 100%;
+    }
+
+    .bulk-tabs__tab {
+        padding-inline: 0.55rem;
+        font-size: 0.78rem;
+    }
+
+    .bulk-update-layout {
+        gap: 1rem;
+    }
+
+    .bulk-action-block__body.grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .bulk-confirm-card .admin-btn {
+        width: 100%;
+    }
 }
 
 .admin-delete-form {

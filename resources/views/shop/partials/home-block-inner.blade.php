@@ -1,5 +1,11 @@
 <div class="shop-home-block__media">
-    <img src="{{ $block->imageUrl() }}" alt="{{ $block->displayAlt() }}" loading="lazy" decoding="async" class="shop-home-block__img">
+    <img
+        src="{{ $block->imageUrl('banner') }}"
+        @if($srcset = $block->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 767px) 100vw, 50vw" @endif
+        alt="{{ $block->displayAlt() }}"
+        loading="lazy"
+        decoding="async"
+        class="shop-home-block__img">
     <span class="shop-home-block__shade" aria-hidden="true"></span>
 </div>
 @if($block->hasOverlay())

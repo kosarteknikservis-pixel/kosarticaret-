@@ -125,7 +125,7 @@
                     @foreach($lines as $line)
                         <li class="flex gap-3">
                             @if($line['product']->imageUrl())
-                                <img src="{{ $line['product']->imageUrl() }}" alt="" class="shop-checkout-summary-img w-12 h-12 rounded-lg object-cover shrink-0 border border-slate-100">
+                                <img src="{{ $line['product']->imageUrl('product-thumb') }}" alt="" loading="lazy" decoding="async" width="48" height="48" class="shop-checkout-summary-img w-12 h-12 rounded-lg object-cover shrink-0 border border-slate-100">
                             @endif
                             <div class="flex-1 min-w-0">
                                 <p class="line-clamp-2 font-medium text-slate-800">{{ $line['product']->name }}</p>

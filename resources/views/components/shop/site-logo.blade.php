@@ -15,7 +15,8 @@
 
 @if($logoUrl)
     <img
-        src="{{ $logoUrl }}"
+        src="{{ \App\Support\SiteLogo::url('site-logo') }}"
+        @if($srcset = \App\Support\SiteLogo::srcset()) srcset="{{ $srcset }}" sizes="(max-width: 767px) 8.5rem, 11.5rem" @endif
         alt="{{ $siteName }}"
         {{ $attributes->class([$variantClass]) }}
         width="200"

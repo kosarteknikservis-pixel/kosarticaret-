@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
 use App\Support\FooterPaymentCards;
+use App\Support\ImageVariant;
 use App\Support\LogoImageProcessor;
 use App\Support\MailSettings;
 use App\Support\PaymentMethodSettings;
@@ -210,12 +211,14 @@ class SettingController extends Controller
         } elseif ($request->hasFile('site_logo')) {
             $old = SiteSetting::get('site_logo');
             if ($old && ! str_starts_with($old, 'http')) {
+                ImageVariant::delete($old);
                 Storage::disk('public')->delete($old);
             }
             $path = $request->file('site_logo')->store('branding', 'public');
             if ($request->boolean('logo_strip_white')) {
                 LogoImageProcessor::stripLightBackground(storage_path('app/public/'.$path));
             }
+            ImageVariant::generate($path, ImageVariant::presetsFor('site-logo'));
             SiteSetting::set('site_logo', $path);
             Cache::forget('setting.site_logo');
         }

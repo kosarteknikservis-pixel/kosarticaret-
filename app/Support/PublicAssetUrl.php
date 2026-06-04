@@ -4,16 +4,13 @@ namespace App\Support;
 
 final class PublicAssetUrl
 {
-    public static function resolve(?string $path): ?string
+    public static function resolve(?string $path, ?string $variant = null): ?string
     {
-        if ($path === null || $path === '') {
-            return null;
-        }
+        return ImageVariant::url($path, $variant);
+    }
 
-        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            return $path;
-        }
-
-        return asset('storage/'.$path);
+    public static function srcset(?string $path, array $variants): ?string
+    {
+        return ImageVariant::srcset($path, $variants);
     }
 }
