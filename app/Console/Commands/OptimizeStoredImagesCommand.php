@@ -15,9 +15,11 @@ use Illuminate\Support\Facades\Storage;
 
 class OptimizeStoredImagesCommand extends Command
 {
-    protected $signature = 'images:optimize-stored {--force : Mevcut varyantları silip yeniden üret}';
+    protected $signature = 'images:optimize-stored
+        {--force : Mevcut varyantları silip yeniden üret}
+        {--shrink-originals : Büyük orijinal görselleri güvenli maksimum ölçülere küçült}';
 
-    protected $description = 'Storage altındaki mevcut vitrin görselleri için optimize WebP varyantları üretir.';
+    protected $description = 'Storage altındaki mevcut vitrin görselleri için optimize WebP varyantları üretir ve gerekirse orijinalleri küçültür.';
 
     public function handle(): int
     {
@@ -30,6 +32,7 @@ class OptimizeStoredImagesCommand extends Command
         $items = $this->imageItems();
         $done = 0;
         $skipped = 0;
+        $shrunk = 0;
 
         $bar = $this->output->createProgressBar(count($items));
         $bar->start();
@@ -47,6 +50,11 @@ class OptimizeStoredImagesCommand extends Command
                 ImageVariant::delete($path);
             }
 
+            if ($this->option('shrink-originals') && ImageVariant::optimizeOriginal($path, $item['type'])) {
+                $shrunk++;
+                ImageVariant::delete($path);
+            }
+
             ImageVariant::generate($path, ImageVariant::presetsFor($item['type']));
             $done++;
             $bar->advance();
@@ -55,6 +63,9 @@ class OptimizeStoredImagesCommand extends Command
         $bar->finish();
         $this->newLine(2);
         $this->info("Optimize edilen kaynak: {$done}");
+        if ($this->option('shrink-originals')) {
+            $this->info("Küçültülen orijinal: {$shrunk}");
+        }
         if ($skipped > 0) {
             $this->line("Atlanan kaynak: {$skipped}");
         }

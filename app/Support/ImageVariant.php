@@ -18,6 +18,17 @@ final class ImageVariant
         'blog-card' => ['w' => 960, 'h' => 540, 'mode' => 'cover', 'quality' => 82],
     ];
 
+    /** @var array<string, array{w:int,h:int,quality:int}> */
+    private const ORIGINAL_SPECS = [
+        'product' => ['w' => 1600, 'h' => 1600, 'quality' => 84],
+        'product-gallery' => ['w' => 1600, 'h' => 1600, 'quality' => 84],
+        'category' => ['w' => 1400, 'h' => 788, 'quality' => 84],
+        'brand' => ['w' => 720, 'h' => 288, 'quality' => 84],
+        'site-logo' => ['w' => 640, 'h' => 220, 'quality' => 84],
+        'banner' => ['w' => 1920, 'h' => 900, 'quality' => 84],
+        'blog' => ['w' => 1400, 'h' => 788, 'quality' => 84],
+    ];
+
     /** @return list<string> */
     public static function presetsFor(string $type): array
     {
@@ -79,6 +90,55 @@ final class ImageVariant
         foreach ($variants as $variant) {
             self::generateOne((string) $path, (string) $variant);
         }
+    }
+
+    public static function optimizeOriginal(?string $path, string $type): bool
+    {
+        if (! self::canProcess($path)) {
+            return false;
+        }
+
+        $spec = self::ORIGINAL_SPECS[$type] ?? null;
+        if ($spec === null) {
+            return false;
+        }
+
+        $sourcePath = Storage::disk('public')->path((string) $path);
+        $source = self::load($sourcePath);
+        if (! $source) {
+            return false;
+        }
+
+        $srcW = imagesx($source);
+        $srcH = imagesy($source);
+        if ($srcW <= $spec['w'] && $srcH <= $spec['h']) {
+            imagedestroy($source);
+
+            return false;
+        }
+
+        $scale = min($spec['w'] / $srcW, $spec['h'] / $srcH);
+        $targetW = max(1, (int) round($srcW * $scale));
+        $targetH = max(1, (int) round($srcH * $scale));
+        $canvas = imagecreatetruecolor($targetW, $targetH);
+
+        $transparent = in_array(strtolower(pathinfo((string) $path, PATHINFO_EXTENSION)), ['png', 'webp'], true);
+        if ($transparent) {
+            imagealphablending($canvas, false);
+            imagesavealpha($canvas, true);
+            $fill = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
+        } else {
+            $fill = imagecolorallocate($canvas, 255, 255, 255);
+        }
+        imagefill($canvas, 0, 0, $fill);
+        imagecopyresampled($canvas, $source, 0, 0, 0, 0, $targetW, $targetH, $srcW, $srcH);
+
+        $saved = self::save($canvas, $sourcePath, strtolower(pathinfo((string) $path, PATHINFO_EXTENSION)), $spec['quality']);
+
+        imagedestroy($source);
+        imagedestroy($canvas);
+
+        return $saved;
     }
 
     public static function delete(?string $path): void
@@ -175,6 +235,17 @@ final class ImageVariant
         }
 
         return $image;
+    }
+
+    /** @param resource|\GdImage $image */
+    private static function save($image, string $path, string $ext, int $quality): bool
+    {
+        return match ($ext) {
+            'jpg', 'jpeg' => function_exists('imagejpeg') ? imagejpeg($image, $path, $quality) : false,
+            'png' => function_exists('imagepng') ? imagepng($image, $path, 7) : false,
+            'webp' => function_exists('imagewebp') ? imagewebp($image, $path, $quality) : false,
+            default => false,
+        };
     }
 
     /**

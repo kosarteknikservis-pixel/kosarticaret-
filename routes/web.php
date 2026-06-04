@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
 use App\Http\Controllers\Admin\HomeBannerController as AdminHomeBannerController;
+use App\Http\Controllers\Admin\ImageOptimizationController as AdminImageOptimizationController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PreviewController;
@@ -239,6 +240,8 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::get('ayarlar', [SettingController::class, 'edit'])->name('settings.edit');
         Route::put('ayarlar', [SettingController::class, 'update'])->name('settings.update');
         Route::post('ayarlar/smtp-test', [SettingController::class, 'testSmtp'])->name('settings.smtp-test');
+        Route::get('performans/gorseller', [AdminImageOptimizationController::class, 'index'])->name('performance.images');
+        Route::post('performans/gorseller/optimize', [AdminImageOptimizationController::class, 'optimize'])->name('performance.images.optimize');
         Route::get('kargo-odeme', [ShippingSettingsController::class, 'edit'])->name('shipping-settings.edit');
         Route::put('kargo-odeme', [ShippingSettingsController::class, 'update'])->name('shipping-settings.update');
         Route::get('musteriler', [AdminCustomerController::class, 'index'])->name('customers.index');
