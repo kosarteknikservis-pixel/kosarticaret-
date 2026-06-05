@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\SiteSetting;
 use App\Support\FooterPaymentCards;
 use App\Support\ImageVariant;
@@ -107,6 +108,13 @@ class SettingController extends Controller
             'shippingMethods' => app(StoreConfig::class)->storedShippingMethods(),
             'paymentMethods' => config('shipping.payment_methods'),
             'paymentEnabled' => PaymentMethodSettings::enabledForAdmin(),
+            'merchantFeedUrl' => route('merchant.feed'),
+            'merchantFeedProductCount' => Product::query()
+                ->active()
+                ->where('stock', '>', 0)
+                ->whereNotNull('image')
+                ->where('image', '!=', '')
+                ->count(),
         ]);
     }
 

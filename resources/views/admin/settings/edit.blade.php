@@ -194,6 +194,50 @@
                 </div>
                 <div class="mt-4"><label class="admin-label">Google Analytics (GA4) ölçüm kimliği</label><input name="google_analytics_id" value="{{ $values['google_analytics_id'] }}" class="admin-input font-mono text-sm" placeholder="G-XXXXXXXXXX"></div>
 
+                <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <h4 class="text-sm font-bold text-slate-900">Google Merchant Center ürün feed’i</h4>
+                    <p class="mt-2 text-sm text-slate-600">
+                        Aktif ve stoklu ürünleriniz otomatik XML feed olarak üretilir. Google Merchant Center’da bir kez bağladıktan sonra ürün güncellemeleri panelden yapılır; feed kendiliğinden güncellenir.
+                    </p>
+
+                    <div class="mt-4">
+                        <label class="admin-label">Feed URL</label>
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+                            <input
+                                id="merchant-feed-url"
+                                type="text"
+                                readonly
+                                value="{{ $merchantFeedUrl }}"
+                                class="admin-input font-mono text-xs bg-white sm:flex-1"
+                                onclick="this.select()"
+                            >
+                            <button type="button" class="admin-btn admin-btn-secondary shrink-0" data-copy-merchant-feed>
+                                Kopyala
+                            </button>
+                        </div>
+                        <p class="mt-2 text-xs text-slate-500">
+                            Şu an feed’e uygun ürün: <strong>{{ number_format($merchantFeedProductCount, 0, ',', '.') }}</strong>
+                            (yayında, stokta ve görseli olan ürünler)
+                        </p>
+                    </div>
+
+                    <div class="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                        <a href="{{ $merchantFeedUrl }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">
+                            Feed’i test et
+                        </a>
+                        <a href="https://merchants.google.com/mc/products/sources" target="_blank" rel="noopener" class="admin-btn admin-btn-primary">
+                            Google Merchant Center’a ekle
+                        </a>
+                    </div>
+
+                    <ol class="mt-4 list-decimal list-inside space-y-1 text-xs text-slate-600">
+                        <li>Google Merchant Center → <strong>Veri kaynakları</strong> → <strong>Ekle</strong></li>
+                        <li><strong>Dosya veya feed URL’si</strong> seçin</li>
+                        <li>Feed URL alanına yukarıdaki adresi yapıştırın</li>
+                        <li>Dil: Türkçe, ülke: Türkiye, güncelleme: günde 1</li>
+                    </ol>
+                </div>
+
             </div>
 
 
@@ -840,4 +884,40 @@
 
 @endsection
 
+@push('scripts')
+<script>
+    (function () {
+        var copyBtn = document.querySelector('[data-copy-merchant-feed]');
+        var feedInput = document.getElementById('merchant-feed-url');
+        if (!copyBtn || !feedInput) return;
+
+        copyBtn.addEventListener('click', function () {
+            var value = feedInput.value;
+            if (!value) return;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(value).then(showCopied).catch(fallbackCopy);
+                return;
+            }
+
+            fallbackCopy();
+
+            function fallbackCopy() {
+                feedInput.focus();
+                feedInput.select();
+                try { document.execCommand('copy'); } catch (e) {}
+                showCopied();
+            }
+
+            function showCopied() {
+                var original = copyBtn.textContent;
+                copyBtn.textContent = 'Kopyalandı';
+                window.setTimeout(function () {
+                    copyBtn.textContent = original;
+                }, 1800);
+            }
+        });
+    })();
+</script>
+@endpush
 
