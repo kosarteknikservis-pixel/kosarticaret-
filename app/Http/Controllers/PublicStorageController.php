@@ -14,6 +14,10 @@ class PublicStorageController extends Controller
 
         abort_unless(Storage::disk('public')->exists($path), 404);
 
-        return Storage::disk('public')->response($path);
+        $response = Storage::disk('public')->response($path);
+        $response->headers->set('Cache-Control', 'public, max-age=31536000, immutable');
+        $response->headers->set('Expires', now()->addYear()->toRfc7231String());
+
+        return $response;
     }
 }

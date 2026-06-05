@@ -15,7 +15,7 @@
             @if($product->imageUrl())
                 <img
                     src="{{ $product->imageUrl('product-card') }}"
-                    @if($srcset = $product->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 639px) 76vw, (max-width: 1023px) 13rem, 15rem" @endif
+                    @if($srcset = $product->cardImageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 639px) 76vw, (max-width: 1023px) 13rem, 15rem" @endif
                     alt="{{ $product->imageAltText() }}"
                     loading="{{ $imagePriority ? 'eager' : 'lazy' }}"
                     @if($imagePriority) fetchpriority="high" @endif

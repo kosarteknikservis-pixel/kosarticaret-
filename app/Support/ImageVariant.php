@@ -8,6 +8,7 @@ final class ImageVariant
 {
     /** @var array<string, array{w:int,h:int,mode:string,quality:int}> */
     private const SPECS = [
+        'product-card-sm' => ['w' => 320, 'h' => 320, 'mode' => 'contain', 'quality' => 80],
         'product-card' => ['w' => 480, 'h' => 480, 'mode' => 'contain', 'quality' => 82],
         'product-pdp' => ['w' => 1200, 'h' => 1200, 'mode' => 'contain', 'quality' => 84],
         'product-thumb' => ['w' => 160, 'h' => 160, 'mode' => 'contain', 'quality' => 78],
@@ -33,7 +34,7 @@ final class ImageVariant
     public static function presetsFor(string $type): array
     {
         return match ($type) {
-            'product' => ['product-card', 'product-pdp', 'product-thumb'],
+            'product' => ['product-card-sm', 'product-card', 'product-pdp', 'product-thumb'],
             'product-gallery' => ['product-pdp', 'product-thumb'],
             'category' => ['category-card'],
             'brand' => ['brand-logo'],

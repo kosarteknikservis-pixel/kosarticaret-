@@ -116,4 +116,9 @@ class Product extends Model
     {
         return PublicAssetUrl::srcset($this->image, $variants);
     }
+
+    public function cardImageSrcset(): ?string
+    {
+        return $this->imageSrcset(['product-card-sm' => 320, 'product-card' => 480]);
+    }
 }
