@@ -17,7 +17,10 @@ class AnalyticsController extends Controller
 {
     public function index(Request $request): View
     {
-        $today = now()->startOfDay();
+        // Dönem sınırları yerel saat dilimine (Europe/Istanbul) göre hesaplanır,
+        // ardından UTC'ye çevrilir çünkü veritabanı UTC ile kayıt eder.
+        $reportTz = config('kosar.report_timezone', 'Europe/Istanbul');
+        $today = now($reportTz)->startOfDay()->utc();
         $activeSince = now()->subMinutes(2);
         $period = $request->query('period', 'today');
         $periods = $this->periods();
@@ -222,11 +225,15 @@ class AnalyticsController extends Controller
      */
     private function periods(): array
     {
+        // Dönem başlangıçları yerel saat dilimine göre hesaplanır (gece 00:00 Istanbul),
+        // sonra UTC'ye dönüştürülür. Veritabanı tüm zaman damgalarını UTC saklar.
+        $tz = config('kosar.report_timezone', 'Europe/Istanbul');
+
         return [
-            'today' => ['label' => 'Bugün', 'start' => now()->startOfDay()],
-            'week' => ['label' => 'Son 7 gün', 'start' => now()->subDays(6)->startOfDay()],
-            'month' => ['label' => 'Bu ay', 'start' => now()->startOfMonth()],
-            'year' => ['label' => 'Bu yıl', 'start' => now()->startOfYear()],
+            'today' => ['label' => 'Bugün',      'start' => now($tz)->startOfDay()->utc()],
+            'week'  => ['label' => 'Son 7 gün',  'start' => now($tz)->subDays(6)->startOfDay()->utc()],
+            'month' => ['label' => 'Bu ay',       'start' => now($tz)->startOfMonth()->utc()],
+            'year'  => ['label' => 'Bu yıl',      'start' => now($tz)->startOfYear()->utc()],
         ];
     }
 

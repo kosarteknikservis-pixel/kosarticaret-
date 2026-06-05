@@ -16,6 +16,11 @@ return [
         'address' => env('KOSAR_ADDRESS', 'Nilüfer, Bursa'),
     ],
     'admin_password' => env('ADMIN_PASSWORD', 'kosar-dev'),
+
+    // Rapor ve analitik ekranlarında kullanılan saat dilimi.
+    // Veritabanı UTC saklar; bu değer yalnızca dönem (gün/hafta/ay) sınırlarını
+    // doğru yerel saate çevirmek için kullanılır.
+    'report_timezone' => env('KOSAR_REPORT_TZ', 'Europe/Istanbul'),
     'order_prefix' => env('KOSAR_ORDER_PREFIX', 'KOS'),
 
     'default_locale' => env('KOSAR_DEFAULT_LOCALE', 'tr'),
