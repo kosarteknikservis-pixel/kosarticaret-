@@ -78,6 +78,9 @@
                 @if(session('success'))
                     <p class="admin-alert-success mb-4" role="alert">{{ session('success') }}</p>
                 @endif
+                @if(session('error'))
+                    <p class="admin-alert-error mb-4" role="alert">{{ session('error') }}</p>
+                @endif
                 @if($errors->any())
                     <div class="admin-alert-error mb-4 space-y-1" role="alert">
                         @foreach($errors->all() as $e)<p>{{ $e }}</p>@endforeach

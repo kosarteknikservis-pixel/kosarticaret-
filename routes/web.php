@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageCo
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShippingSettingsController;
+use App\Http\Controllers\Admin\SiteBackupController as AdminSiteBackupController;
 use App\Http\Controllers\PublicStorageController;
 use App\Http\Controllers\Payment\IyzicoCallbackController;
 use App\Http\Controllers\Payment\PaytrCallbackController;
@@ -207,6 +208,12 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
             ->names('pages');
         Route::resource('blog', AdminBlogPostController::class)->except(['show'])->parameters(['blog' => 'blog']);
         Route::get('bannerlar/duzenleyici', [AdminHomeBannerController::class, 'builder'])->name('home-banners.builder');
+        Route::get('site-yedekleri', [AdminSiteBackupController::class, 'index'])->name('site-backups.index');
+        Route::post('site-yedekleri', [AdminSiteBackupController::class, 'store'])->name('site-backups.store');
+        Route::post('site-yedekleri/yukle', [AdminSiteBackupController::class, 'upload'])->name('site-backups.upload');
+        Route::get('site-yedekleri/indir', [AdminSiteBackupController::class, 'download'])->name('site-backups.download');
+        Route::post('site-yedekleri/geri-yukle', [AdminSiteBackupController::class, 'restore'])->name('site-backups.restore');
+        Route::delete('site-yedekleri', [AdminSiteBackupController::class, 'destroy'])->name('site-backups.destroy');
         Route::post('bannerlar/duzen/kaydet', [AdminHomeBannerController::class, 'saveLayout'])->name('home-banners.layout.save');
         Route::post('bannerlar/satir', [AdminHomeBannerController::class, 'storeRow'])->name('home-banners.rows.store');
         Route::delete('bannerlar/satir/{homeRow}', [AdminHomeBannerController::class, 'destroyRow'])->name('home-banners.rows.destroy');
