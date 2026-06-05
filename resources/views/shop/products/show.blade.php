@@ -88,18 +88,20 @@
                 @endif
 
                 <div class="shop-pdp-price-box">
-                    <div class="flex flex-wrap items-end gap-3">
+                    <div class="pdp-pb__top">
                         <p class="shop-pdp-price-box__amount">{{ number_format($product->price, 2, ',', '.') }} ₺</p>
                         @if($product->hasDiscount())
-                            <p class="text-lg text-slate-400 line-through">{{ number_format($product->compare_at_price, 2, ',', '.') }} ₺</p>
                             <span class="shop-pdp-price-box__badge">-%{{ $product->discountPercent() }}</span>
                         @endif
                     </div>
+                    @if($product->hasDiscount())
+                        <p class="pdp-pb__compare">{{ number_format($product->compare_at_price, 2, ',', '.') }} ₺</p>
+                    @endif
                     @php $stockLabel = \App\Support\ShopStockDisplay::storefrontLabel($product); @endphp
                     @if($stockLabel)
-                        <p class="mt-3 text-sm font-medium flex items-center gap-2 {{ $product->inStock() ? 'text-emerald-700' : 'text-red-600 font-bold' }}">
+                        <p class="pdp-pb__stock {{ $product->inStock() ? 'pdp-pb__stock--in' : 'pdp-pb__stock--out' }}">
                             @if($product->inStock())
-                                <span class="h-2 w-2 rounded-full bg-emerald-500 shrink-0"></span>
+                                <span class="pdp-pb__dot"></span>
                             @endif
                             {{ $stockLabel }}
                         </p>

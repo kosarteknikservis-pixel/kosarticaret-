@@ -6,6 +6,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('shop.partials.meta')
     @include('partials.favicon-links')
+    @php
+        $themeValues = \App\Support\ThemeSettings::values();
+        $themeClasses = implode(' ', \App\Support\ThemeSettings::bodyClasses($themeValues));
+        $themeStyle = \App\Support\ThemeSettings::inlineStyle($themeValues);
+        $themeCustomCss = \App\Support\ThemeSettings::customCss();
+    @endphp
+    <style>:root{ {!! $themeStyle !!} }</style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -13,6 +20,9 @@
     @vite(['resources/css/app.css'])
     @php $shopCssVer = @filemtime(public_path('css/shop.css')) ?: time(); @endphp
     <link rel="stylesheet" href="{{ asset('css/shop.css') }}?v={{ $shopCssVer }}">
+    @if($themeCustomCss !== '')
+        <style id="theme-custom-css">{!! $themeCustomCss !!}</style>
+    @endif
     @php $gaId = \App\Models\SiteSetting::get('google_analytics_id'); @endphp
     @if(filled($gaId))
         <script>
@@ -23,7 +33,7 @@
     @endif
     @stack('head')
 </head>
-<body class="shop-body text-slate-900 min-h-screen flex flex-col">
+<body class="shop-body text-slate-900 min-h-screen flex flex-col {{ $themeClasses }}">
     @php $promo = \App\Models\SiteSetting::get('promo_text', config('kosar.defaults.promo_text')); @endphp
     @if(session('preview_settings'))
         <div class="bg-amber-500 text-amber-950 text-center text-xs py-2 px-4 font-medium">{{ __('shop.preview_banner') }}

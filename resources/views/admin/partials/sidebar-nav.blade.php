@@ -63,6 +63,10 @@ $integrationsOpen = request()->routeIs('admin.integrations.*');
         <svg class="w-5 h-5 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
         Ana sayfa düzenleyici
     </a>
+    <a href="{{ route('admin.theme.edit') }}" class="admin-nav-link {{ $nav('admin.theme.*') }}">
+        <svg class="w-5 h-5 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-3.404.495l-2.03 2.03A2.25 2.25 0 0 1 .878 15.43l2.03-2.03a3 3 0 0 0 .496-3.404l-.72-1.441a2.25 2.25 0 0 1 2.014-3.257h1.61a3 3 0 0 0 2.684-1.658l.72-1.441a2.25 2.25 0 0 1 4.028 0l.72 1.441a3 3 0 0 0 2.683 1.658h1.611a2.25 2.25 0 0 1 2.014 3.257l-.72 1.441a3 3 0 0 0 .496 3.404l2.03 2.03a2.25 2.25 0 0 1-3.182 3.182l-2.03-2.03a3 3 0 0 0-3.404-.495l-1.441.72a2.25 2.25 0 0 1-2.014 0l-1.441-.72Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 9.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"/></svg>
+        Tema Yönetimi
+    </a>
     <a href="{{ route('admin.pages.index') }}" class="admin-nav-link {{ $nav('admin.pages.*') }}">
         <svg class="w-5 h-5 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
         Sayfalar

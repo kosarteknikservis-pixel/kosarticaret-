@@ -61,7 +61,7 @@
             </div>
             <div class="admin-analytics-funnel">
                 <div>
-                    <span>Ziyaretçi</span>
+                    <span>Aktif ziyaretçi</span>
                     <strong>{{ $periodVisitors }}</strong>
                     <small>{{ $periodPageViews }} sayfa görüntüleme</small>
                 </div>
@@ -226,9 +226,9 @@
 
     <section class="admin-card admin-analytics-events mt-6 overflow-hidden">
         <div class="px-5 py-4 border-b border-slate-100 bg-slate-50">
-            <p class="admin-dashboard-eyebrow">Canlı akış</p>
+            <p class="admin-dashboard-eyebrow">{{ $periodLabel }} — müşteri akışı</p>
             <h2 class="font-bold text-slate-900 mt-1">Son müşteri özetleri</h2>
-            <p class="mt-1 text-xs text-slate-500">Tek tek olaylar yerine ziyaretçi bazlı özet gösterilir; detay için zaman bilgisindeki bağlantıya tıklayın.</p>
+            <p class="mt-1 text-xs text-slate-500">Seçilen döneme ait hareketler, ziyaretçi bazlı özetlenerek gösterilir. Detay için tarih bağlantısına tıklayın.</p>
         </div>
         <div class="admin-table-wrap">
             <table class="admin-table admin-table--stack">

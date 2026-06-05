@@ -59,9 +59,12 @@ class AnalyticsController extends Controller
             ->take(8)
             ->get();
 
-        $sourceVisitors = AnalyticsVisitor::query()
-            ->where('first_seen_at', '>=', $periodStart)
-            ->selectRaw("COALESCE(NULLIF(utm_source, ''), 'direct') as source, COUNT(*) as visitors")
+        // Kaynak ziyaretçi: dönem içinde eventi olan benzersiz ziyaretçi, UTM kaynağına göre
+        $sourceVisitors = AnalyticsEvent::query()
+            ->where('occurred_at', '>=', $periodStart)
+            ->whereNotNull('visitor_id')
+            ->join('analytics_visitors', 'analytics_visitors.id', '=', 'analytics_events.visitor_id')
+            ->selectRaw("COALESCE(NULLIF(analytics_visitors.utm_source, ''), 'direct') as source, COUNT(DISTINCT analytics_events.visitor_id) as visitors")
             ->groupBy('source')
             ->pluck('visitors', 'source');
 
@@ -124,6 +127,7 @@ class AnalyticsController extends Controller
         $recentEvents = AnalyticsEvent::query()
             ->with(['visitor:id,device_type,last_url,last_seen_at', 'product:id,name,slug', 'order:id,order_number,total'])
             ->where('event_type', '!=', 'visitor_heartbeat')
+            ->where('occurred_at', '>=', $periodStart)
             ->latest('occurred_at')
             ->take(80)
             ->get()
@@ -150,8 +154,17 @@ class AnalyticsController extends Controller
 
         return view('admin.analytics.index', [
             'activeVisitors' => $activeUniqueVisitors->count(),
-            'todayVisitors' => AnalyticsVisitor::query()->where('first_seen_at', '>=', $today)->count(),
-            'periodVisitors' => AnalyticsVisitor::query()->where('first_seen_at', '>=', $periodStart)->count(),
+            // Dönemde en az bir eventi olan benzersiz ziyaretçi (yeni + tekrar gelenler dahil)
+            'todayVisitors' => AnalyticsEvent::query()
+                ->where('occurred_at', '>=', $today)
+                ->whereNotNull('visitor_id')
+                ->distinct('visitor_id')
+                ->count('visitor_id'),
+            'periodVisitors' => AnalyticsEvent::query()
+                ->where('occurred_at', '>=', $periodStart)
+                ->whereNotNull('visitor_id')
+                ->distinct('visitor_id')
+                ->count('visitor_id'),
             'todayPageViews' => (clone $events)->where('event_type', 'page_view')->where('occurred_at', '>=', $today)->count(),
             'periodPageViews' => AnalyticsEvent::query()->where('event_type', 'page_view')->where('occurred_at', '>=', $periodStart)->count(),
             'periodProductViews' => AnalyticsEvent::query()->where('event_type', 'product_view')->where('occurred_at', '>=', $periodStart)->count(),
@@ -210,10 +223,10 @@ class AnalyticsController extends Controller
     private function periods(): array
     {
         return [
-            'today' => ['label' => 'Günlük', 'start' => now()->startOfDay()],
-            'week' => ['label' => 'Haftalık', 'start' => now()->subDays(6)->startOfDay()],
-            'month' => ['label' => 'Aylık', 'start' => now()->startOfMonth()],
-            'year' => ['label' => 'Yıllık', 'start' => now()->startOfYear()],
+            'today' => ['label' => 'Bugün', 'start' => now()->startOfDay()],
+            'week' => ['label' => 'Son 7 gün', 'start' => now()->subDays(6)->startOfDay()],
+            'month' => ['label' => 'Bu ay', 'start' => now()->startOfMonth()],
+            'year' => ['label' => 'Bu yıl', 'start' => now()->startOfYear()],
         ];
     }
 
