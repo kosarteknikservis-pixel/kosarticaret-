@@ -1,9 +1,12 @@
 @extends('layouts.shop')
 
 @php
-    $preloadImageBlock = $homeRows
+    $firstHomeBlock = $homeRows
         ->flatMap(fn ($row) => $row->banners)
-        ->first(fn ($block) => ! $block->isProductList() && $block->canDisplay() && $block->imageUrl());
+        ->first(fn ($block) => $block->canDisplay() && ($block->isProductList() || $block->imageUrl()));
+    $preloadImageBlock = $firstHomeBlock && ! $firstHomeBlock->isProductList() && $firstHomeBlock->imageUrl()
+        ? $firstHomeBlock
+        : null;
 @endphp
 
 @if($preloadImageBlock)

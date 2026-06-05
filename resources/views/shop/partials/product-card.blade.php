@@ -1,3 +1,7 @@
+@php
+    $imagePriority = (bool) ($priority ?? false);
+@endphp
+
 <article class="shop-product-card relative group flex flex-col h-full">
     @if($product->hasDiscount())
         <span class="shop-product-card__badge">-%{{ $product->discountPercent() }}</span>
@@ -13,7 +17,8 @@
                     src="{{ $product->imageUrl('product-card') }}"
                     @if($srcset = $product->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 639px) 76vw, (max-width: 1023px) 13rem, 15rem" @endif
                     alt="{{ $product->imageAltText() }}"
-                    loading="lazy"
+                    loading="{{ $imagePriority ? 'eager' : 'lazy' }}"
+                    @if($imagePriority) fetchpriority="high" @endif
                     decoding="async"
                     width="400"
                     height="400"

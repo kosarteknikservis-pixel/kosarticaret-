@@ -1,5 +1,6 @@
 @php
     $products = $block->listedProducts();
+    $priorityProductCards = (bool) ($priorityProductCards ?? false);
 @endphp
 
 <section class="shop-home-product-list shop-reveal" aria-label="{{ $block->displayTitle() ?: __('shop.banner_type_product_list') }}">
@@ -37,7 +38,7 @@
                 <div class="shop-home-product-carousel__track" data-product-carousel-track role="list">
                     @foreach($products as $product)
                         <div class="shop-home-product-carousel__item" role="listitem">
-                            @include('shop.partials.product-card', ['product' => $product])
+                            @include('shop.partials.product-card', ['product' => $product, 'priority' => $priorityProductCards && $loop->index < 2])
                         </div>
                     @endforeach
                 </div>

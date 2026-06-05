@@ -32,7 +32,7 @@
 
         <div class="shop-catalog-products shop-reveal-group">
             @forelse($products as $p)
-                @include('shop.partials.product-card', ['product' => $p])
+                @include('shop.partials.product-card', ['product' => $p, 'priority' => $loop->index < 2])
             @empty
                 <x-shop.empty-state
                     icon="search"

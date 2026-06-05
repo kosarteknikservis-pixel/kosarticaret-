@@ -1,5 +1,6 @@
 @if($homeRows->isNotEmpty())
     <div class="shop-home-layout shop-reveal mb-8 lg:mb-10">
+        @php $prioritizedHomeProductList = false; @endphp
         @foreach($homeRows as $row)
             @php
                 $columns = $row->bannersByColumn();
@@ -28,7 +29,8 @@
                             <div class="shop-home-layout__col" style="--col-span: {{ $displaySpan }}" data-home-layout-col>
                                 @foreach($column['blocks'] as $block)
                                     @if($block->isProductList())
-                                        @include('shop.partials.home-product-list', ['block' => $block])
+                                        @include('shop.partials.home-product-list', ['block' => $block, 'priorityProductCards' => ! $prioritizedHomeProductList])
+                                        @php $prioritizedHomeProductList = true; @endphp
                                     @elseif($block->imageUrl())
                                         @include('shop.partials.home-block', ['block' => $block, 'mediaSpan' => $column['span']])
                                     @endif
