@@ -10,22 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"></noscript>
-    <style>
-        :root{--kosar-primary-dark:#152a47;--kosar-primary:#1e3a5f;--kosar-ink:#0f172a}
-        html{overflow-x:clip}
-        body.shop-body{margin:0;min-height:100vh;display:flex;flex-direction:column;color:var(--kosar-ink);background:#eef2f7;font-family:'Plus Jakarta Sans',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
-        .hidden{display:none!important}.flex{display:flex}.flex-col{flex-direction:column}.flex-1{flex:1}.min-h-screen{min-height:100vh}.w-full{width:100%}
-        .shop-promo-bar{display:block;min-height:2.25rem;padding:.625rem 1rem;background:var(--kosar-primary-dark);color:#fff;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:.75rem;font-weight:650;line-height:1.35;letter-spacing:.02em;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-        .shop-container{width:min(100% - 1.5rem,80rem);margin-inline:auto}.shop-main{position:relative}
-    </style>
-    <link rel="preload" as="style" href="{{ \Illuminate\Support\Facades\Vite::asset('resources/css/app.css') }}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ \Illuminate\Support\Facades\Vite::asset('resources/css/app.css') }}"></noscript>
-    @php
-        $shopCssPath = file_exists(public_path('css/shop.min.css')) ? 'css/shop.min.css' : 'css/shop.css';
-        $shopCssVer = @filemtime(public_path($shopCssPath)) ?: time();
-    @endphp
-    <link rel="preload" as="style" href="{{ asset($shopCssPath) }}?v={{ $shopCssVer }}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset($shopCssPath) }}?v={{ $shopCssVer }}"></noscript>
+    @vite(['resources/css/app.css'])
+    @php $shopCssVer = @filemtime(public_path('css/shop.css')) ?: time(); @endphp
+    <link rel="stylesheet" href="{{ asset('css/shop.css') }}?v={{ $shopCssVer }}">
     @php $gaId = \App\Models\SiteSetting::get('google_analytics_id'); @endphp
     @if(filled($gaId))
         <script>
