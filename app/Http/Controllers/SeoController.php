@@ -72,6 +72,28 @@ class SeoController extends Controller
         return response(implode("\n", $lines), 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
     }
 
+    public function merchantFeed(): Response
+    {
+        $storeName = config('kosar.name', 'Koşar');
+        $storeUrl  = rtrim(config('app.url'), '/');
+
+        $products = Product::query()
+            ->active()
+            ->where('stock', '>', 0)
+            ->with(['brand:id,name', 'categories:id,name'])
+            ->select(['id', 'sku', 'slug', 'name', 'short_description', 'description',
+                      'price', 'compare_at_price', 'stock', 'image', 'brand_id', 'is_active'])
+            ->orderBy('id')
+            ->get();
+
+        $xml = view('seo.merchant-feed', compact('products', 'storeName', 'storeUrl'))->render();
+
+        return response($xml, 200, [
+            'Content-Type'  => 'application/xml; charset=UTF-8',
+            'Cache-Control' => 'public, max-age=3600',
+        ]);
+    }
+
     public function verificationFile(string $file): Response
     {
         $storedFile = SiteSetting::get('google_verification_file_name');

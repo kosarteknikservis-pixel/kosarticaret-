@@ -62,6 +62,7 @@ Route::get('/favicon.ico', fn () => redirect(\App\Support\SiteFavicon::url(), 30
 
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/urun-feed.xml', [SeoController::class, 'merchantFeed'])->name('merchant.feed');
 Route::get('/{file}', [SeoController::class, 'verificationFile'])
     ->where('file', 'google[a-zA-Z0-9_-]+\.html')
     ->name('google.verification-file');
