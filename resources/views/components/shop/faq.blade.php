@@ -1,20 +1,33 @@
 @props(['items' => [], 'title' => 'Sık Sorulan Sorular'])
 
-@if(!empty($items))
+@php
+    $validItems = array_values(array_filter($items, function (array $item): bool {
+        $question = trim(strip_tags((string) ($item['q'] ?? '')));
+        $answer = trim(strip_tags((string) ($item['a'] ?? '')));
 
+        return $question !== '' && $answer !== '';
+    }));
+@endphp
+
+@if(!empty($validItems))
 @php
     $faqSchema = json_encode([
         '@context' => 'https://schema.org',
-        '@type'    => 'FAQPage',
-        'mainEntity' => array_map(fn($item) => [
-            '@type' => 'Question',
-            'name'  => $item['q'] ?? '',
-            'acceptedAnswer' => [
-                '@type' => 'Answer',
-                'text'  => strip_tags($item['a'] ?? ''),
-            ],
-        ], $items),
-    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        '@type' => 'FAQPage',
+        'mainEntity' => array_map(static function (array $item): array {
+            $question = trim(strip_tags((string) ($item['q'] ?? '')));
+            $answer = trim((string) preg_replace('/\s+/', ' ', strip_tags((string) ($item['a'] ?? ''))));
+
+            return [
+                '@type' => 'Question',
+                'name' => $question,
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => $answer,
+                ],
+            ];
+        }, $validItems),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 @endphp
 
 <script type="application/ld+json">{!! $faqSchema !!}</script>
@@ -26,43 +39,19 @@
         <p class="shop-faq__sub">Müşterilerimizin en çok sorduğu soruların yanıtları</p>
     </div>
 
-    <div class="shop-faq__list" itemscope itemtype="https://schema.org/FAQPage">
-        @foreach($items as $index => $item)
-        <div
-            class="shop-faq__item"
-            itemscope
-            itemprop="mainEntity"
-            itemtype="https://schema.org/Question"
-        >
-            <button
-                type="button"
-                class="shop-faq__q"
-                aria-expanded="false"
-                aria-controls="faq-answer-{{ $index }}"
-                data-faq-trigger
-            >
-                <span class="shop-faq__q-num">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                <span class="shop-faq__q-text" itemprop="name">{{ $item['q'] ?? '' }}</span>
-                <span class="shop-faq__chevron" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
-                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
-                    </svg>
-                </span>
-            </button>
-            <div
-                class="shop-faq__a"
-                id="faq-answer-{{ $index }}"
-                role="region"
-                aria-hidden="true"
-                itemscope
-                itemprop="acceptedAnswer"
-                itemtype="https://schema.org/Answer"
-            >
-                <div class="shop-faq__a-inner" itemprop="text">
-                    {!! $item['a'] ?? '' !!}
+    <div class="shop-faq__list">
+        @foreach($validItems as $index => $item)
+            <article class="shop-faq__item">
+                <h3 class="shop-faq__q">
+                    <span class="shop-faq__q-num">{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                    <span class="shop-faq__q-text">{{ $item['q'] ?? '' }}</span>
+                </h3>
+                <div class="shop-faq__a">
+                    <div class="shop-faq__a-inner">
+                        {!! $item['a'] ?? '' !!}
+                    </div>
                 </div>
-            </div>
-        </div>
+            </article>
         @endforeach
     </div>
 </section>

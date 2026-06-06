@@ -946,41 +946,6 @@
 })();
 
 /* ═══════════════════════════════════════════════════════════════
-   FAQ ACCORDION
-   ═══════════════════════════════════════════════════════════════ */
-(function () {
-    document.addEventListener('click', function (e) {
-        const btn = e.target.closest('[data-faq-trigger]');
-        if (!btn) return;
-
-        const item = btn.closest('.shop-faq__item');
-        if (!item) return;
-
-        const isOpen = item.classList.contains('is-open');
-
-        // Close all open items in this list
-        const list = item.closest('.shop-faq__list');
-        if (list) {
-            list.querySelectorAll('.shop-faq__item.is-open').forEach(function (openItem) {
-                if (openItem !== item) {
-                    openItem.classList.remove('is-open');
-                    const openBtn = openItem.querySelector('[data-faq-trigger]');
-                    const openPanel = openItem.querySelector('.shop-faq__a');
-                    if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
-                    if (openPanel) openPanel.setAttribute('aria-hidden', 'true');
-                }
-            });
-        }
-
-        // Toggle current item
-        item.classList.toggle('is-open', !isOpen);
-        btn.setAttribute('aria-expanded', String(!isOpen));
-        const panel = item.querySelector('.shop-faq__a');
-        if (panel) panel.setAttribute('aria-hidden', String(isOpen));
-    });
-})();
-
-/* ═══════════════════════════════════════════════════════════════
    READING PROGRESS BAR
    ═══════════════════════════════════════════════════════════════ */
 (function () {

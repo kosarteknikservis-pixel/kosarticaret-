@@ -102,7 +102,7 @@
 
             {{-- ── FAQ REPEATER ── --}}
             <h3 class="admin-section-title mt-2">Sık Sorulan Sorular (SSS)</h3>
-            <p class="text-xs text-slate-500 -mt-1 mb-2">Kategori sayfasında akordeon + Google FAQPage şeması olarak gösterilir. Her soru/cevap çifti ayrı bir satır oluşturur.</p>
+            <p class="text-xs text-slate-500 -mt-1 mb-2">Kategori sayfasında görünür SSS bloğu ve Google FAQPage zengin sonuç şeması olarak kullanılır. Her soru/cevap çifti ayrı bir satır oluşturur.</p>
 
             <div id="faq-repeater" class="space-y-3">
                 @php $faqItems = old('faq', $category->faq ?? []); @endphp
