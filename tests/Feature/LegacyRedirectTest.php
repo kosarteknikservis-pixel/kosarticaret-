@@ -61,8 +61,9 @@ class LegacyRedirectTest extends TestCase
 
     public function test_legacy_markalar_paths_redirect_to_brand(): void
     {
-        $this->get('/markalar/sumak-pompa/')->assertRedirect('/marka/sumak');
-        $this->get('/markalar/winpo-jet-su-pompa/')->assertRedirect('/marka/winpo');
+        $this->get('/markalar/sumak-pompa')->assertRedirect('/marka/sumak');
+        $this->get('/markalar/winpo-jet-su-pompa')->assertRedirect('/marka/winpo');
+        $this->get('/markalar/sumak-santrifuj-pompa/page/2')->assertRedirect('/marka/sumak');
     }
 
     public function test_legacy_blog_root_posts_redirect(): void

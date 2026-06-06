@@ -75,10 +75,25 @@ Route::get('/urun/{product:slug}', [ProductController::class, 'show'])->name('pr
 Route::get('/urun/{product:slug}/taksit', ProductInstallmentController::class)->name('products.installments');
 Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:6,1')->name('products.review');
 Route::get('/kategoriler', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/urun-kategori/{legacyCategory}', function (Illuminate\Http\Request $request) {
+    $target = \App\Support\LegacyRedirectResolver::resolve($request);
+
+    return redirect()->to(url($target ?? '/kategoriler'), 301);
+})->where('legacyCategory', '.*');
 Route::get('/kategoriler/{category}', [CategoryController::class, 'show'])
     ->where('category', '.*')
     ->name('categories.show');
 Route::get('/markalar', [BrandController::class, 'index'])->name('brands.index');
+Route::get('/markalar/{legacyBrand}/page/{page}', function (string $legacyBrand) {
+    $slug = (string) (config('legacy_redirects.brand_aliases', [])[$legacyBrand] ?? $legacyBrand);
+
+    return redirect()->route('brands.show', ['brand' => $slug], 301);
+})->where('legacyBrand', '[^/]+')->whereNumber('page');
+Route::get('/markalar/{legacyBrand}', function (string $legacyBrand) {
+    $slug = (string) (config('legacy_redirects.brand_aliases', [])[$legacyBrand] ?? $legacyBrand);
+
+    return redirect()->route('brands.show', ['brand' => $slug], 301);
+})->where('legacyBrand', '[^/]+');
 Route::get('/marka/{brand:slug}', [BrandController::class, 'show'])->name('brands.show');
 Route::get('/ara', SearchController::class)->name('search');
 Route::get('/ara/oneri', SearchSuggestController::class)->name('search.suggest');
