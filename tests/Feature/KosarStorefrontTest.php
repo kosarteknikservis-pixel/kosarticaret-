@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\BlogPost;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\Product;
 use App\Models\SiteSetting;
@@ -58,6 +59,18 @@ class KosarStorefrontTest extends TestCase
         $this->get('/')->assertOk()
             ->assertSee('application/ld+json', false)
             ->assertSee('OnlineStore', false);
+    }
+
+    public function test_sitemap_uses_nested_category_urls(): void
+    {
+        $child = Category::query()->where('slug', 'ev-tipi-hidroforlar')->firstOrFail();
+        $nestedUrl = $child->storefrontUrl();
+        $flatUrl = route('categories.show', ['category' => $child->slug]);
+
+        $content = $this->get('/sitemap.xml')->assertOk()->getContent();
+
+        $this->assertStringContainsString('<loc>'.$nestedUrl.'</loc>', $content);
+        $this->assertStringNotContainsString('<loc>'.$flatUrl.'</loc>', $content);
     }
 
     public function test_product_page_rich_seo_markup(): void

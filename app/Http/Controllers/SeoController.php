@@ -32,7 +32,7 @@ class SeoController extends Controller
             }
         });
 
-        Category::query()->where('active', true)->select('slug', 'updated_at')->each(function ($c) use ($urls) {
+        Category::query()->where('active', true)->select('id', 'slug', 'parent_id', 'updated_at')->each(function ($c) use ($urls) {
             $urls->push(['loc' => $c->storefrontUrl(), 'lastmod' => $c->updated_at->toAtomString(), 'priority' => '0.7']);
         });
 
