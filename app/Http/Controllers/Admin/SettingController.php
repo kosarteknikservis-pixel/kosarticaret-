@@ -22,7 +22,46 @@ use Illuminate\View\View;
 
 class SettingController extends Controller
 {
-    public const TABS = ['general', 'header', 'footer', 'contact', 'home', 'maintenance', 'shipping', 'integrations'];
+    private const TABS = ['general', 'header', 'footer', 'contact', 'home', 'maintenance', 'shipping', 'integrations'];
+
+    /** @var array<string, list<string>> */
+    private const TAB_FIELDS = [
+        'general' => [
+            'site_name', 'free_shipping_min', 'shop_show_stock_quantity',
+            'google_site_verification', 'google_verification_file_name', 'google_verification_file_content', 'google_analytics_id',
+        ],
+        'header' => [
+            'tagline', 'promo_text', 'scroll_top_enabled', 'cookie_text', 'cookie_accept',
+        ],
+        'footer' => [
+            'site_description', 'legal_name',
+            'social_instagram_url', 'social_facebook_url', 'social_youtube_url', 'social_linkedin_url', 'social_x_url', 'social_tiktok_url',
+            'footer_trust_cards', 'footer_trust_compliance', 'footer_etbis_url', 'footer_kvkk_url',
+        ],
+        'contact' => [
+            'contact_phone', 'contact_email', 'contact_whatsapp', 'contact_address',
+            'floating_whatsapp_enabled', 'pdp_whatsapp_order_enabled', 'pdp_whatsapp_order_label',
+            'contact_page_intro', 'contact_meta_title', 'contact_meta_description',
+        ],
+        'home' => [
+            'home_brands_title', 'pump_selector_enabled', 'newsletter_enabled', 'newsletter_title',
+        ],
+        'maintenance' => [
+            'shop_maintenance_enabled', 'shop_maintenance_title', 'shop_maintenance_message',
+        ],
+        'integrations' => [
+            'openai_api_key', 'openai_model',
+            'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
+            'smtp_enabled', 'smtp_host', 'smtp_port', 'smtp_encryption', 'smtp_username', 'smtp_password', 'smtp_from_address', 'smtp_from_name',
+            'parasut_enabled', 'parasut_client_id', 'parasut_client_secret', 'parasut_company_id', 'parasut_username', 'parasut_password', 'parasut_redirect_uri',
+        ],
+    ];
+
+    /** @var list<string> */
+    private const BOOLEAN_FIELDS = [
+        'floating_whatsapp_enabled', 'scroll_top_enabled', 'pdp_whatsapp_order_enabled', 'shop_show_stock_quantity',
+        'newsletter_enabled', 'shop_maintenance_enabled', 'brevo_enabled', 'smtp_enabled', 'parasut_enabled', 'pump_selector_enabled',
+    ];
 
     private const SHIPPING_KEYS = [
         'cod_fee', 'vat_rate', 'checkout_add_vat',
@@ -123,7 +162,150 @@ class SettingController extends Controller
 
     public function update(Request $request): RedirectResponse
     {
-        $data = $request->validate([
+        $tab = $this->activeSettingsTab($request);
+
+        if ($tab === 'footer' && $request->filled('remove_footer_extra_card')) {
+            FooterPaymentCards::removeExtra((string) $request->input('remove_footer_extra_card'));
+
+            return $this->redirectToTab($request, 'footer', 'Kart görseli kaldırıldı.');
+        }
+
+        if ($tab === 'footer' && $request->hasFile('footer_extra_card_image')) {
+            $request->validate([
+                'footer_extra_card_label' => ['nullable', 'string', 'max:80'],
+                'footer_extra_card_image' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1024'],
+            ]);
+
+            FooterPaymentCards::addExtra(
+                (string) $request->input('footer_extra_card_label', 'Kart'),
+                $request->file('footer_extra_card_image')
+            );
+
+            return $this->redirectToTab($request, 'footer', 'Kart görseli eklendi.');
+        }
+
+        $data = $request->validate($this->rulesForTab($tab));
+
+        foreach (self::BOOLEAN_FIELDS as $field) {
+            if (! $this->tabHasField($tab, $field)) {
+                continue;
+            }
+            $data[$field] = $request->boolean($field) ? '1' : '0';
+        }
+
+        if ($tab === 'footer') {
+            $selectedCards = $request->input('footer_trust_cards', []);
+            $extraKeys = array_column(FooterPaymentCards::extraStored(), 'key');
+            $data['footer_trust_cards'] = implode(',', array_values(array_unique(array_merge($selectedCards, $extraKeys))));
+            $data['footer_trust_compliance'] = implode(',', $request->input('footer_trust_compliance', []));
+
+            foreach (\App\Support\SocialMediaLinks::settingKeys() as $socialKey) {
+                if (array_key_exists($socialKey, $data)) {
+                    $data[$socialKey] = trim((string) $data[$socialKey]);
+                }
+            }
+        }
+
+        if ($tab === 'header') {
+            if ($request->hasFile('site_logo')) {
+                $request->validate([
+                    'site_logo' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
+                ]);
+            }
+
+            if ($request->hasFile('site_favicon')) {
+                $request->validate([
+                    'site_favicon' => ['required', 'image', 'mimes:jpeg,jpg,png,webp,ico', 'max:512'],
+                ]);
+            }
+
+            if ($request->boolean('remove_site_logo')) {
+                SiteLogo::deleteStored();
+            } elseif ($request->hasFile('site_logo')) {
+                $old = SiteSetting::get('site_logo');
+                if ($old && ! str_starts_with($old, 'http')) {
+                    ImageVariant::delete($old);
+                    Storage::disk('public')->delete($old);
+                }
+                $path = $request->file('site_logo')->store('branding', 'public');
+                if ($request->boolean('logo_strip_white')) {
+                    LogoImageProcessor::stripLightBackground(storage_path('app/public/'.$path));
+                }
+                ImageVariant::generate($path, ImageVariant::presetsFor('site-logo'));
+                SiteSetting::set('site_logo', $path);
+                Cache::forget('setting.site_logo');
+            }
+
+            if ($request->boolean('remove_site_favicon')) {
+                SiteFavicon::deleteStored();
+            } elseif ($request->hasFile('site_favicon')) {
+                $old = SiteSetting::get('site_favicon');
+                if ($old && ! str_starts_with($old, 'http')) {
+                    Storage::disk('public')->delete($old);
+                }
+                $path = $request->file('site_favicon')->store('branding', 'public');
+                SiteSetting::set('site_favicon', $path);
+                Cache::forget('setting.site_favicon');
+            }
+        }
+
+        if ($tab === 'integrations' && ! $request->filled('openai_api_key')) {
+            unset($data['openai_api_key']);
+        }
+
+        if ($tab === 'integrations' && ! $request->filled('brevo_api_key')) {
+            unset($data['brevo_api_key']);
+        }
+
+        if ($tab === 'integrations' && ! $request->filled('smtp_password')) {
+            unset($data['smtp_password']);
+        }
+
+        if ($tab === 'integrations' && ! $request->filled('parasut_client_secret')) {
+            unset($data['parasut_client_secret']);
+        }
+
+        if ($tab === 'integrations' && ! $request->filled('parasut_password')) {
+            unset($data['parasut_password']);
+        }
+
+        foreach ($data as $key => $value) {
+            if (! $this->tabHasField($tab, $key)) {
+                continue;
+            }
+            SiteSetting::set($key, $value !== null ? (string) $value : null);
+        }
+
+        Cache::forget('settings.all');
+        \App\Support\PublicPageCache::forgetAll();
+
+        return $this->redirectToTab($request, null, 'Ayarlar kaydedildi.');
+    }
+
+    private function activeSettingsTab(Request $request): string
+    {
+        $tab = (string) $request->input('_tab', 'general');
+
+        return in_array($tab, self::TABS, true) && $tab !== 'shipping' ? $tab : 'general';
+    }
+
+    private function tabHasField(string $tab, string $field): bool
+    {
+        return in_array($field, self::TAB_FIELDS[$tab] ?? [], true);
+    }
+
+    /** @return array<string, mixed> */
+    private function rulesForTab(string $tab): array
+    {
+        $fields = self::TAB_FIELDS[$tab] ?? self::TAB_FIELDS['general'];
+
+        return array_intersect_key($this->settingValidationRules(), array_flip($fields));
+    }
+
+    /** @return array<string, mixed> */
+    private function settingValidationRules(): array
+    {
+        return [
             'site_name' => ['nullable', 'string'],
             'site_description' => ['nullable', 'string'],
             'contact_phone' => ['nullable', 'string'],
@@ -139,7 +321,7 @@ class SettingController extends Controller
             'contact_meta_title' => ['nullable', 'string', 'max:120'],
             'contact_meta_description' => ['nullable', 'string', 'max:320'],
             'google_site_verification' => ['nullable', 'string', 'max:120'],
-            'google_verification_file_name' => ['nullable', 'string', 'max:120', 'regex:/^google[a-zA-Z0-9_-]+\.html$/'],
+            'google_verification_file_name' => ['nullable', 'string', 'max:120', 'regex:/^$|^google[a-zA-Z0-9_-]+\.html$/'],
             'google_verification_file_content' => ['nullable', 'string', 'max:255'],
             'google_analytics_id' => ['nullable', 'string', 'max:32', 'regex:/^(G-[A-Z0-9]+)?$/'],
             'home_brands_title' => ['nullable', 'string', 'max:120'],
@@ -159,8 +341,8 @@ class SettingController extends Controller
             'footer_trust_cards.*' => ['string', 'max:32'],
             'footer_trust_compliance' => ['nullable', 'array'],
             'footer_trust_compliance.*' => ['string', 'max:32'],
-            'footer_etbis_url' => ['nullable', 'url', 'max:500'],
-            'footer_kvkk_url' => ['nullable', 'url', 'max:500'],
+            'footer_etbis_url' => ['nullable', 'string', 'max:500'],
+            'footer_kvkk_url' => ['nullable', 'string', 'max:500'],
             'social_instagram_url' => ['nullable', 'string', 'max:500'],
             'social_facebook_url' => ['nullable', 'string', 'max:500'],
             'social_youtube_url' => ['nullable', 'string', 'max:500'],
@@ -188,110 +370,10 @@ class SettingController extends Controller
             'parasut_password' => ['nullable', 'string', 'max:255'],
             'parasut_redirect_uri' => ['nullable', 'string', 'max:255'],
             'pump_selector_enabled' => ['sometimes', 'boolean'],
-            'footer_extra_card_label' => ['nullable', 'string', 'max:80'],
-            'footer_extra_card_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1024'],
-            'remove_footer_extra_card' => ['nullable', 'string', 'max:64'],
-            'site_logo' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
-            'site_favicon' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp,ico', 'max:512'],
-        ]);
-
-        if ($request->filled('remove_footer_extra_card')) {
-            FooterPaymentCards::removeExtra((string) $request->input('remove_footer_extra_card'));
-
-            return $this->redirectToTab($request, 'footer', 'Kart görseli kaldırıldı.');
-        }
-
-        if ($request->hasFile('footer_extra_card_image')) {
-            FooterPaymentCards::addExtra(
-                (string) $request->input('footer_extra_card_label', 'Kart'),
-                $request->file('footer_extra_card_image')
-            );
-
-            return $this->redirectToTab($request, 'footer', 'Kart görseli eklendi.');
-        }
-
-        $data['newsletter_enabled'] = $request->boolean('newsletter_enabled') ? '1' : '0';
-        $data['pdp_whatsapp_order_enabled'] = $request->boolean('pdp_whatsapp_order_enabled') ? '1' : '0';
-        $data['floating_whatsapp_enabled'] = $request->boolean('floating_whatsapp_enabled') ? '1' : '0';
-        $data['scroll_top_enabled'] = $request->boolean('scroll_top_enabled') ? '1' : '0';
-        $data['shop_show_stock_quantity'] = $request->boolean('shop_show_stock_quantity') ? '1' : '0';
-        $data['shop_maintenance_enabled'] = $request->boolean('shop_maintenance_enabled') ? '1' : '0';
-        $data['brevo_enabled'] = $request->boolean('brevo_enabled') ? '1' : '0';
-        $data['smtp_enabled'] = $request->boolean('smtp_enabled') ? '1' : '0';
-        $data['parasut_enabled'] = $request->boolean('parasut_enabled') ? '1' : '0';
-        $data['pump_selector_enabled'] = $request->boolean('pump_selector_enabled') ? '1' : '0';
-        $selectedCards = $request->input('footer_trust_cards', []);
-        $extraKeys = array_column(FooterPaymentCards::extraStored(), 'key');
-        $data['footer_trust_cards'] = implode(',', array_values(array_unique(array_merge($selectedCards, $extraKeys))));
-        $data['footer_trust_compliance'] = implode(',', $request->input('footer_trust_compliance', []));
-
-        foreach (\App\Support\SocialMediaLinks::settingKeys() as $socialKey) {
-            if (! array_key_exists($socialKey, $data)) {
-                continue;
-            }
-            $data[$socialKey] = trim((string) $data[$socialKey]);
-        }
-
-        if ($request->boolean('remove_site_logo')) {
-            SiteLogo::deleteStored();
-        } elseif ($request->hasFile('site_logo')) {
-            $old = SiteSetting::get('site_logo');
-            if ($old && ! str_starts_with($old, 'http')) {
-                ImageVariant::delete($old);
-                Storage::disk('public')->delete($old);
-            }
-            $path = $request->file('site_logo')->store('branding', 'public');
-            if ($request->boolean('logo_strip_white')) {
-                LogoImageProcessor::stripLightBackground(storage_path('app/public/'.$path));
-            }
-            ImageVariant::generate($path, ImageVariant::presetsFor('site-logo'));
-            SiteSetting::set('site_logo', $path);
-            Cache::forget('setting.site_logo');
-        }
-
-        unset($data['site_logo']);
-
-        if ($request->boolean('remove_site_favicon')) {
-            SiteFavicon::deleteStored();
-        } elseif ($request->hasFile('site_favicon')) {
-            $old = SiteSetting::get('site_favicon');
-            if ($old && ! str_starts_with($old, 'http')) {
-                Storage::disk('public')->delete($old);
-            }
-            $path = $request->file('site_favicon')->store('branding', 'public');
-            SiteSetting::set('site_favicon', $path);
-            Cache::forget('setting.site_favicon');
-        }
-
-        unset($data['site_favicon']);
-
-        if (! $request->filled('openai_api_key')) {
-            unset($data['openai_api_key']);
-        }
-
-        if (! $request->filled('brevo_api_key')) {
-            unset($data['brevo_api_key']);
-        }
-
-        if (! $request->filled('smtp_password')) {
-            unset($data['smtp_password']);
-        }
-
-        if (! $request->filled('parasut_client_secret')) {
-            unset($data['parasut_client_secret']);
-        }
-
-        if (! $request->filled('parasut_password')) {
-            unset($data['parasut_password']);
-        }
-
-        foreach ($data as $key => $value) {
-            SiteSetting::set($key, $value !== null ? (string) $value : null);
-        }
-        Cache::forget('settings.all');
-        \App\Support\PublicPageCache::forgetAll();
-
-        return $this->redirectToTab($request, null, 'Ayarlar kaydedildi.');
+            'shop_maintenance_enabled' => ['sometimes', 'boolean'],
+            'shop_maintenance_title' => ['nullable', 'string', 'max:120'],
+            'shop_maintenance_message' => ['nullable', 'string', 'max:1000'],
+        ];
     }
 
     private function redirectToTab(Request $request, ?string $fallbackTab, string $message): RedirectResponse

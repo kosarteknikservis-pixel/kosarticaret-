@@ -54,6 +54,12 @@
 
 
 
+    @if($errors->any())
+        <div class="admin-alert-error mb-4 space-y-1" role="alert">
+            @foreach($errors->all() as $e)<p>{{ $e }}</p>@endforeach
+        </div>
+    @endif
+
     @if(session('success'))
 
         <p class="admin-alert-success mb-4">{{ session('success') }}</p>
@@ -108,7 +114,7 @@
             </nav>
 
             <div class="admin-settings-sidebar__foot">
-                <p>İpucu: Kaydet tüm sekmelerdeki alanları birlikte gönderir. Kargo ve ödeme ayrı form olarak yönetilir.</p>
+                <p>İpucu: Kaydet yalnızca açık sekmedeki alanları günceller. Kargo ve ödeme ayrı form olarak yönetilir.</p>
             </div>
         </aside>
 
@@ -147,6 +153,8 @@
               class="admin-card p-6 sm:p-8 {{ $activeTab === 'shipping' ? 'hidden' : '' }}"
 
               data-ai-type="settings"
+
+              novalidate
 
               @if($activeTab === 'shipping') hidden @endif>
 
