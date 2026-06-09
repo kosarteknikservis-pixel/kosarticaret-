@@ -3661,13 +3661,32 @@ body.theme-motion-reduced *::after {
 }
 .shop-home-blog__viewport {
     min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-inline: -0.25rem;
+    padding: 0.1rem 0.25rem 0.65rem;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0.25rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-x;
+}
+.shop-home-blog__viewport::-webkit-scrollbar {
+    display: none;
 }
 .shop-home-blog__track {
-    display: grid;
-    gap: 1.25rem;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.85rem;
+    width: max-content;
 }
-@media (max-width: 767px) {
+.shop-home-blog__slide {
+    flex: 0 0 auto;
+    width: min(72vw, 14rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+@media (max-width: 1023px) {
     .shop-home-blog {
         padding: 2rem 0 2.5rem;
     }
@@ -3682,31 +3701,6 @@ body.theme-motion-reduced *::after {
     }
     .shop-home-blog__sub {
         font-size: 0.8125rem;
-    }
-    .shop-home-blog__viewport {
-        overflow-x: auto;
-        overflow-y: hidden;
-        margin-inline: -0.25rem;
-        padding: 0.1rem 0.25rem 0.65rem;
-        scroll-snap-type: x mandatory;
-        scroll-padding-inline: 0.25rem;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-    .shop-home-blog__viewport::-webkit-scrollbar {
-        display: none;
-    }
-    .shop-home-blog__track {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 0.85rem;
-        width: max-content;
-    }
-    .shop-home-blog__slide {
-        flex: 0 0 auto;
-        width: min(72vw, 14rem);
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
     }
     .shop-home-blog-card {
         height: 100%;
@@ -3733,18 +3727,34 @@ body.theme-motion-reduced *::after {
         font-size: 0.75rem;
     }
 }
-@media (min-width: 768px) {
-    .shop-home-blog__track {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (min-width: 768px) and (max-width: 1023px) {
+    .shop-home-blog__slide {
+        width: min(42vw, 16rem);
     }
     .shop-home-blog__title {
         font-size: 1.875rem;
     }
 }
 @media (min-width: 1024px) {
+    .shop-home-blog__viewport {
+        overflow: visible;
+        margin-inline: 0;
+        padding: 0;
+        scroll-snap-type: none;
+        touch-action: auto;
+    }
     .shop-home-blog__track {
+        display: grid;
+        width: 100%;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 1.5rem;
+    }
+    .shop-home-blog__slide {
+        width: auto;
+        scroll-snap-align: none;
+    }
+    .shop-home-blog__title {
+        font-size: 1.875rem;
     }
 }
 .shop-home-blog-card {
