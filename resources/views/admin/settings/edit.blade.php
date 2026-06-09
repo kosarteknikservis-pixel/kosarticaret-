@@ -703,6 +703,22 @@
 
                 <div><label class="admin-label">Bölüm başlığı</label><input name="home_brands_title" value="{{ $values['home_brands_title'] ?? __('shop.home_brands') }}" class="admin-input" placeholder="Güvenilir Markalar"></div>
 
+                <h3 class="admin-section-title mt-8">Pompa seçim programı</h3>
+
+                @php $pumpOn = ($values['pump_selector_enabled'] ?? '1') === '1'; @endphp
+
+                <div class="flex items-start gap-4 p-4 rounded-xl border {{ $pumpOn ? 'border-teal-200 bg-teal-50' : 'border-slate-200 bg-slate-50' }}">
+                    <label class="admin-switch flex-shrink-0 mt-0.5" aria-label="Pompa seçim programını aç/kapa">
+                        <input type="checkbox" name="pump_selector_enabled" value="1" class="admin-switch__input" @checked($pumpOn)>
+                        <span class="admin-switch__track" aria-hidden="true"></span>
+                    </label>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-800">{{ $pumpOn ? 'Açık' : 'Kapalı' }} — Ana sayfada ve /pompa-secici sayfasında göster</p>
+                        <p class="text-xs text-slate-500 mt-1">Kapalıyken teaser kartı gizlenir, pompa-seçici sayfası 404 döner.</p>
+                        <p class="text-xs text-slate-500 mt-1">Yeni ürün/kategori eklendiğinde otomatik algılar; ek bir işlem gerekmez.</p>
+                    </div>
+                </div>
+
                 <h3 class="admin-section-title mt-8">Bülten kutusu</h3>
 
                 <label class="admin-checkbox"><input type="checkbox" name="newsletter_enabled" value="1" @checked(($values['newsletter_enabled'] ?? '1') === '1')> Ana sayfada bülten kutusu göster</label>

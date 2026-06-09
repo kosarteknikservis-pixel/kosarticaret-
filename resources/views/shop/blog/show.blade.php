@@ -50,5 +50,16 @@
             <x-shop.rich-content :content="$post->content"
                 class="shop-panel shop-panel--prose prose prose-slate max-w-none prose-headings:text-slate-900 prose-a:text-brand-700" />
         </div>
+
+        @if($suggestedProducts->isNotEmpty())
+            <section class="shop-related-section mt-14 pt-10 border-t border-slate-200 shop-reveal" aria-labelledby="blog-products-heading">
+                <h2 id="blog-products-heading" class="shop-section-head__title">{{ __('shop.blog_suggested_products') }}</h2>
+                <div class="mt-6 grid gap-4 grid-cols-2 md:grid-cols-4 shop-reveal-group">
+                    @foreach($suggestedProducts as $item)
+                        @include('shop.partials.product-card', ['product' => $item])
+                    @endforeach
+                </div>
+            </section>
+        @endif
     </div>
 @endsection

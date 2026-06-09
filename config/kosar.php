@@ -21,6 +21,7 @@ return [
     // Veritabanı UTC saklar; bu değer yalnızca dönem (gün/hafta/ay) sınırlarını
     // doğru yerel saate çevirmek için kullanılır.
     'report_timezone' => env('KOSAR_REPORT_TZ', 'Europe/Istanbul'),
+    'public_page_cache' => env('KOSAR_PUBLIC_PAGE_CACHE', true),
     'order_prefix' => env('KOSAR_ORDER_PREFIX', 'KOS'),
 
     'default_locale' => env('KOSAR_DEFAULT_LOCALE', 'tr'),

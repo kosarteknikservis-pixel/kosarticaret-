@@ -70,6 +70,13 @@
 
             />
 
+            <x-admin.rich-editor
+                name="buying_guide"
+                label="Satın alma rehberi"
+                :value="old('buying_guide', $category->buying_guide)"
+                hint="Kategori sayfasında ürün listesinin altında uzun rehber içeriği olarak gösterilir."
+            />
+
             <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
 
                 <label class="admin-label">Kategori görseli (vitrin kartları)</label>

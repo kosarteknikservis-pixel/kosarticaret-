@@ -982,3 +982,276 @@
     const minutes = Math.max(1, Math.round(words / 200));
     target.textContent = minutes + ' dk okuma';
 })();
+
+/* ═══════════════════════════════════════════════════════════════
+   PUMP SELECTOR
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+    const root = document.querySelector('[data-pump-selector]');
+    if (!root) return;
+
+    const i18nEl = document.getElementById('pump-selector-i18n');
+    let i18n = {};
+    try {
+        i18n = i18nEl ? JSON.parse(i18nEl.textContent || '{}') : {};
+    } catch {
+        i18n = {};
+    }
+
+    const apiUrl = root.dataset.pumpApi;
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const syncUrl = root.classList.contains('shop-pump-selector--page');
+
+    let application = null;
+    let step = 1;
+
+    const panels = root.querySelectorAll('[data-pump-panel]');
+    const indicators = root.querySelectorAll('[data-pump-step-indicator]');
+    const railSteps = document.querySelectorAll('[data-pump-rail-step]');
+    const fieldsHost = root.querySelector('[data-pump-fields]');
+    const form = root.querySelector('[data-pump-form]');
+    const requirementsEl = root.querySelector('[data-pump-requirements]');
+    const detailsEl = root.querySelector('[data-pump-details]');
+    const resultsEl = root.querySelector('[data-pump-results]');
+    const emptyEl = root.querySelector('[data-pump-empty]');
+    const categoryLink = root.querySelector('[data-pump-category]');
+
+    function updateUrl() {
+        if (!syncUrl || !window.history?.replaceState) return;
+        const url = new URL(window.location.href);
+        if (application && step >= 2) {
+            url.searchParams.set('uygulama', application);
+        } else {
+            url.searchParams.delete('uygulama');
+        }
+        window.history.replaceState({}, '', url);
+    }
+
+    function setStep(next) {
+        step = next;
+        panels.forEach((panel) => {
+            const n = Number(panel.dataset.pumpPanel);
+            panel.hidden = n !== step;
+            panel.classList.toggle('is-active', n === step);
+        });
+        indicators.forEach((dot) => {
+            const n = Number(dot.dataset.pumpStepIndicator);
+            dot.classList.toggle('is-active', n === step);
+            dot.classList.toggle('is-done', n < step);
+        });
+        railSteps.forEach((item) => {
+            const n = Number(item.dataset.pumpRailStep);
+            item.classList.toggle('is-active', n === step);
+            item.classList.toggle('is-done', n < step);
+        });
+        updateUrl();
+    }
+
+    function selectApplication(appId, advance) {
+        if (!appId || !i18n.fieldSets?.[appId]) return;
+        application = appId;
+        root.querySelectorAll('[data-pump-application]').forEach((btn) => {
+            btn.classList.toggle('is-selected', btn.dataset.pumpApplication === appId);
+        });
+        buildFields();
+        if (advance) setStep(2);
+    }
+
+    function buildFields() {
+        if (!fieldsHost || !application) return;
+        fieldsHost.innerHTML = '';
+        const keys = (i18n.fieldSets && i18n.fieldSets[application]) || [];
+        keys.forEach((key) => {
+            const cfg = i18n.fields?.[key];
+            if (!cfg) return;
+            const wrap = document.createElement('div');
+            wrap.className = 'shop-pump-selector__field';
+            const label = document.createElement('label');
+            label.textContent = cfg.label;
+            label.setAttribute('for', 'pump-field-' + key);
+            wrap.appendChild(label);
+
+            let input;
+            if (cfg.type === 'select') {
+                input = document.createElement('select');
+                (cfg.options || []).forEach((opt) => {
+                    const o = document.createElement('option');
+                    o.value = opt.value;
+                    o.textContent = opt.label;
+                    input.appendChild(o);
+                });
+            } else {
+                input = document.createElement('input');
+                input.type = 'number';
+                if (cfg.min != null) input.min = String(cfg.min);
+                if (cfg.max != null) input.max = String(cfg.max);
+                if (cfg.default != null) input.value = String(cfg.default);
+            }
+            input.className = 'shop-input w-full';
+            input.id = 'pump-field-' + key;
+            input.name = key;
+            input.required = true;
+            wrap.appendChild(input);
+            fieldsHost.appendChild(wrap);
+        });
+    }
+
+    root.querySelectorAll('[data-pump-application]').forEach((btn) => {
+        btn.addEventListener('click', () => selectApplication(btn.dataset.pumpApplication, true));
+    });
+
+    root.querySelector('[data-pump-back]')?.addEventListener('click', () => setStep(1));
+    root.querySelector('[data-pump-restart]')?.addEventListener('click', () => {
+        application = null;
+        root.querySelectorAll('[data-pump-application]').forEach((b) => b.classList.remove('is-selected'));
+        if (resultsEl) resultsEl.innerHTML = '';
+        if (requirementsEl) requirementsEl.textContent = '';
+        if (detailsEl) { detailsEl.innerHTML = ''; detailsEl.hidden = true; }
+        if (emptyEl) emptyEl.hidden = true;
+        if (categoryLink) categoryLink.hidden = true;
+        setStep(1);
+    });
+
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!application || !apiUrl) return;
+
+        const fd = new FormData(form);
+        const payload = { application };
+        fd.forEach((value, key) => {
+            payload[key] = /^\d+$/.test(String(value)) ? Number(value) : value;
+        });
+
+        if (requirementsEl) requirementsEl.innerHTML = '<span class="shop-pump-selector__loading">' + (i18n.loading || '…') + '</span>';
+        if (resultsEl) resultsEl.innerHTML = '';
+        if (emptyEl) emptyEl.hidden = true;
+        setStep(3);
+
+        try {
+            const res = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrf,
+                },
+                body: JSON.stringify(payload),
+                credentials: 'same-origin',
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'error');
+
+            if (requirementsEl && data.requirements) {
+                requirementsEl.innerHTML = '<strong>' + (data.requirements.summary || '') + '</strong>';
+            }
+            if (detailsEl && Array.isArray(data.requirements?.details)) {
+                detailsEl.innerHTML = data.requirements.details.map((d) => '<li>' + d + '</li>').join('');
+                detailsEl.hidden = false;
+            }
+            if (categoryLink && data.category_url) {
+                categoryLink.href = data.category_url;
+                categoryLink.hidden = false;
+            }
+
+            const products = data.products || [];
+            if (products.length === 0) {
+                if (emptyEl) emptyEl.hidden = false;
+                return;
+            }
+
+            resultsEl.innerHTML = products.map((p, index) => `
+                <article class="shop-pump-selector__card">
+                    <span class="shop-pump-selector__card-rank">#${index + 1}</span>
+                    <a href="${p.url}" class="shop-pump-selector__card-media">${p.image ? `<img src="${p.image}" alt="" loading="lazy">` : ''}</a>
+                    <div class="shop-pump-selector__card-body">
+                        <h3 class="shop-pump-selector__card-title"><a href="${p.url}">${p.name}</a></h3>
+                        <p class="shop-pump-selector__card-meta">${p.spec_summary || ''}${p.brand ? ' · ' + p.brand : ''}</p>
+                        <p class="shop-pump-selector__card-price">${p.price_formatted}</p>
+                        ${p.match_score ? `<p class="shop-pump-selector__card-score">${i18n.matchLabel || 'Match'} ${p.match_score}%</p>` : ''}
+                        <p class="shop-pump-selector__card-reason">${p.match_reason || ''} · ${p.in_stock ? (i18n.inStock || '') : (i18n.outOfStock || '')}</p>
+                        <a href="${p.url}" class="shop-pump-selector__link">${i18n.viewProduct || ''}</a>
+                    </div>
+                </article>
+            `).join('');
+        } catch {
+            if (requirementsEl) requirementsEl.textContent = i18n.error || 'Error';
+        }
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const preApp = root.dataset.pumpPreselect || params.get('uygulama') || params.get('app');
+    if (preApp) {
+        selectApplication(preApp, true);
+    }
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   PRODUCT COMPARE
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+    const bar = document.querySelector('[data-compare-bar]');
+    const countEl = document.querySelector('[data-compare-count]');
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+    async function refreshBar() {
+        try {
+            const res = await fetch('/karsilastir/durum', { headers: { Accept: 'application/json' }, credentials: 'same-origin' });
+            const data = await res.json();
+            const count = data.count || 0;
+            if (countEl) countEl.textContent = String(count);
+            if (bar) bar.hidden = count < 1;
+        } catch { /* ignore */ }
+    }
+
+    document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('[data-compare-add]');
+        if (!btn) return;
+        e.preventDefault();
+        const slug = btn.dataset.compareAdd;
+        if (!slug) return;
+
+        try {
+            const res = await fetch('/karsilastir/' + encodeURIComponent(slug), {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': csrf,
+                },
+                credentials: 'same-origin',
+            });
+            if (res.ok) await refreshBar();
+        } catch { /* ignore */ }
+    });
+
+    document.querySelector('[data-compare-clear]')?.addEventListener('click', async () => {
+        try {
+            await fetch('/karsilastir', {
+                method: 'DELETE',
+                headers: {
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': csrf,
+                },
+                credentials: 'same-origin',
+            });
+            await refreshBar();
+        } catch { /* ignore */ }
+    });
+
+    refreshBar();
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   PDP STICKY BAR (mobile)
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+    const sticky = document.querySelector('[data-pdp-sticky]');
+    const actions = document.querySelector('.shop-pdp-actions');
+    if (!sticky || !actions) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+        sticky.classList.toggle('is-visible', !entry.isIntersecting);
+        sticky.setAttribute('aria-hidden', entry.isIntersecting ? 'true' : 'false');
+    }, { threshold: 0, rootMargin: '0px' });
+
+    observer.observe(actions);
+})();

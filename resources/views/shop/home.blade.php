@@ -29,9 +29,15 @@
     <div class="shop-page shop-page--home">
     @include('shop.partials.home-layout', ['homeRows' => $homeRows])
 
-
+    @include('shop.partials.home-pump-selector-teaser')
 
     @include('shop.partials.home-brands', ['brands' => $featuredBrands])
+
+    @include('shop.partials.home-references', ['references' => $projectReferences])
+
+    @include('shop.partials.home-prefooter', [
+        'recentBlogPosts' => $recentBlogPosts,
+    ])
     </div>
 @endsection
 

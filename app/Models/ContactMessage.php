@@ -7,19 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 class ContactMessage extends Model
 {
     protected $fillable = [
+        'type',
         'name',
         'email',
         'phone',
         'subject',
         'body',
+        'meta',
         'read_at',
     ];
 
     protected function casts(): array
     {
         return [
+            'meta' => 'array',
             'read_at' => 'datetime',
         ];
+    }
+
+    public function isQuote(): bool
+    {
+        return $this->type === 'quote';
     }
 
     public function markRead(): void

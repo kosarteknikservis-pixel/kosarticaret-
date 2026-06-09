@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PreviewController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\PromotionController as AdminPromotionController;
+use App\Http\Controllers\Admin\ProjectReferenceController as AdminProjectReferenceController;
+use App\Http\Controllers\Admin\SearchAnalyticsController as AdminSearchAnalyticsController;
 use App\Http\Controllers\Admin\NavigationController as AdminNavigationController;
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use App\Http\Controllers\Admin\ParasutIntegrationController as AdminParasutIntegrationController;
@@ -47,9 +49,12 @@ use App\Http\Controllers\Shop\LocaleController;
 use App\Http\Controllers\Shop\OrderTrackingController;
 use App\Http\Controllers\Shop\PageController;
 use App\Http\Controllers\Shop\NewsletterController;
+use App\Http\Controllers\Shop\ProductCompareController;
 use App\Http\Controllers\Shop\ProductController;
 use App\Http\Controllers\Shop\ProductInstallmentController;
 use App\Http\Controllers\Shop\ProductReviewController;
+use App\Http\Controllers\Shop\PumpSelectorController;
+use App\Http\Controllers\Shop\QuoteRequestController;
 use App\Http\Controllers\Shop\SearchController;
 use App\Http\Controllers\Shop\SearchSuggestController;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +77,13 @@ Route::get('/dil/{locale}', LocaleController::class)->name('locale.switch');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/urunler', [ProductController::class, 'index'])->name('products.index');
 Route::get('/urun/{product:slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/karsilastir', [ProductCompareController::class, 'index'])->name('compare.index');
+Route::post('/karsilastir/{product:slug}', [ProductCompareController::class, 'add'])->name('compare.add');
+Route::delete('/karsilastir', [ProductCompareController::class, 'clear'])->name('compare.clear');
+Route::delete('/karsilastir/{slug}', [ProductCompareController::class, 'remove'])->name('compare.remove');
+Route::get('/karsilastir/durum', [ProductCompareController::class, 'status'])->name('compare.status');
+Route::get('/pompa-secici', [PumpSelectorController::class, 'show'])->name('pump-selector.show');
+Route::post('/pompa-secici/oner', [PumpSelectorController::class, 'recommend'])->middleware('throttle:20,1')->name('pump-selector.recommend');
 Route::get('/urun/{product:slug}/taksit', ProductInstallmentController::class)->name('products.installments');
 Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:6,1')->name('products.review');
 Route::get('/kategoriler', [CategoryController::class, 'index'])->name('categories.index');
@@ -103,6 +115,7 @@ Route::get('/sepet', [CartController::class, 'index'])->name('cart.index');
 Route::post('/sepet/ekle/{product:slug}', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/sepet/{product:slug}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/sepet/{product:slug}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/sepet/teklif', [QuoteRequestController::class, 'store'])->middleware('throttle:3,1')->name('cart.quote');
 
 Route::post('/bulten', [NewsletterController::class, 'subscribe'])->middleware('throttle:5,1')->name('newsletter.subscribe');
 
@@ -176,6 +189,7 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('musteri-hareketleri', [AdminAnalyticsController::class, 'index'])->name('analytics.index');
+        Route::get('arama-analitigi', [AdminSearchAnalyticsController::class, 'index'])->name('search-analytics.index');
         Route::get('musteri-hareketleri/ziyaretci/{visitor}', [AdminAnalyticsController::class, 'showVisitor'])->name('analytics.visitor');
         Route::delete('musteri-hareketleri/yarim-sepet/{cart}', [AdminAnalyticsController::class, 'destroyAbandonedCart'])->name('analytics.abandoned-carts.destroy');
         Route::get('profil', [AdminProfileController::class, 'edit'])->name('profile.edit');
@@ -224,6 +238,10 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
             ->parameters(['sayfalar' => 'page'])
             ->names('pages');
         Route::resource('blog', AdminBlogPostController::class)->except(['show'])->parameters(['blog' => 'blog']);
+        Route::resource('referanslar', AdminProjectReferenceController::class)
+            ->except(['show'])
+            ->parameters(['referanslar' => 'project_reference'])
+            ->names('project-references');
         Route::get('tema', [AdminThemeController::class, 'edit'])->name('theme.edit');
         Route::post('tema', [AdminThemeController::class, 'update'])->name('theme.update');
         Route::post('tema/onizle', [AdminThemeController::class, 'preview'])->name('theme.preview');

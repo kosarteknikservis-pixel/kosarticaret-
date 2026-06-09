@@ -74,6 +74,7 @@
     </main>
 
     @include('shop.partials.footer')
+    @include('shop.partials.compare-bar')
 
     @php
         $wa = \App\Models\SiteSetting::get('contact_whatsapp', config('kosar.contact.whatsapp'));
@@ -204,7 +205,12 @@
         })();
     </script>
     @php
-        $shopJsPath = file_exists(public_path('js/shop.min.js')) ? 'js/shop.min.js' : 'js/shop.js';
+        $shopJsFull = public_path('js/shop.js');
+        $shopJsMin = public_path('js/shop.min.js');
+        $shopJsPath = 'js/shop.js';
+        if (file_exists($shopJsMin) && file_exists($shopJsFull) && filemtime($shopJsMin) >= filemtime($shopJsFull)) {
+            $shopJsPath = 'js/shop.min.js';
+        }
         $shopJsVer = @filemtime(public_path($shopJsPath)) ?: time();
     @endphp
     <script src="{{ asset($shopJsPath) }}?v={{ $shopJsVer }}" defer></script>

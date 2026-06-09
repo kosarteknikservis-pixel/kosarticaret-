@@ -87,6 +87,16 @@ foreach ($f in @("favicon.svg","robots.txt")) {
 Copy-Item "$ROOT\deploy\public_html\index.php" "$STAGING\public_html\" -Force
 Copy-Item "$ROOT\deploy\public_html\.htaccess" "$STAGING\public_html\" -Force
 
+$storagePublic = "$ROOT\storage\app\public"
+if (Test-Path $storagePublic) {
+    Write-Host "      public_html\storage gorselleri kopyalaniyor..." -ForegroundColor DarkYellow
+    & robocopy $storagePublic "$STAGING\public_html\storage" /E /NP /NFL /NDL /NJH /NJS | Out-Null
+    if ($LASTEXITCODE -ge 8) {
+        Write-Host "HATA: public_html\storage kopyalanamadi! Kod: $LASTEXITCODE" -ForegroundColor Red
+        exit 1
+    }
+}
+
 Write-Host "      [OK] public_html\ hazir." -ForegroundColor Green
 
 # === 5) .env + APP_KEY ===

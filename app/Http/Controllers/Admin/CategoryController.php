@@ -81,6 +81,7 @@ class CategoryController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'buying_guide' => ['nullable', 'string'],
             'parent_id' => ['nullable', 'exists:categories,id'],
             'sort_order' => ['nullable', 'integer'],
             'meta_title' => ['nullable', 'string'],
@@ -115,6 +116,7 @@ class CategoryController extends Controller
         unset($data['image_file']);
 
         $data['description'] = RichContent::normalize($data['description'] ?? null);
+        $data['buying_guide'] = RichContent::normalize($data['buying_guide'] ?? null);
 
         // Clean FAQ: remove items with empty question
         $rawFaq = $data['faq'] ?? [];

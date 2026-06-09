@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\ClearsPublicPageCache;
 use App\Concerns\HasTranslations;
 use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
@@ -11,12 +12,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    use HasTranslations;
+    use ClearsPublicPageCache, HasTranslations;
 
     protected array $translatable = ['name', 'description', 'meta_title', 'meta_description'];
 
     protected $fillable = [
-        'slug', 'name', 'description', 'image', 'translations', 'parent_id',
+        'slug', 'name', 'description', 'buying_guide', 'image', 'translations', 'parent_id',
         'featured', 'show_in_menu', 'active', 'sort_order',
         'meta_title', 'meta_description', 'faq',
     ];

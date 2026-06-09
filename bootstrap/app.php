@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\ShopMaintenanceMode::class,
+            \App\Http\Middleware\CachePublicPages::class,
             \App\Http\Middleware\TrackStorefrontVisit::class,
             \App\Http\Middleware\SecurityHeaders::class,
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\ClearsPublicPageCache;
 use App\Concerns\HasTranslations;
 use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
-    use HasTranslations;
+    use ClearsPublicPageCache, HasTranslations;
 
     protected array $translatable = [
         'name', 'short_description', 'description', 'meta_title', 'meta_description',

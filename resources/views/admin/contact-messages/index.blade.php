@@ -7,6 +7,7 @@
         <table class="admin-table">
             <thead>
                 <tr>
+                    <th>Tür</th>
                     <th>Durum</th>
                     <th>Gönderen</th>
                     <th>Konu</th>
@@ -17,6 +18,13 @@
             <tbody>
                 @forelse($messages as $msg)
                     <tr class="{{ $msg->isUnread() ? 'bg-amber-50/50' : '' }}">
+                        <td>
+                            @if($msg->isQuote())
+                                <span class="inline-flex rounded-full bg-brand-100 text-brand-800 text-xs font-semibold px-2 py-0.5">Teklif</span>
+                            @else
+                                <span class="text-xs text-slate-400">İletişim</span>
+                            @endif
+                        </td>
                         <td>
                             @if($msg->isUnread())
                                 <span class="inline-flex rounded-full bg-amber-100 text-amber-800 text-xs font-semibold px-2 py-0.5">Yeni</span>
@@ -35,7 +43,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="text-center py-10 text-slate-500">Henüz mesaj yok.</td></tr>
+                    <tr><td colspan="6" class="text-center py-10 text-slate-500">Henüz mesaj yok.</td></tr>
                 @endforelse
             </tbody>
         </table>

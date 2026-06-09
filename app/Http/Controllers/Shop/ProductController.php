@@ -112,7 +112,7 @@ class ProductController extends Controller
 
             )
 
-            ->take(4)
+            ->take(6)
 
             ->get();
 

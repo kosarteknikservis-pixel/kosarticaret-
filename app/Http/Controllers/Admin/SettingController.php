@@ -55,6 +55,7 @@ class SettingController extends Controller
         'parasut_username', 'parasut_password', 'parasut_redirect_uri',
         'parasut_access_token', 'parasut_refresh_token', 'parasut_token_expires_at',
         'shop_maintenance_enabled', 'shop_maintenance_title', 'shop_maintenance_message',
+        'pump_selector_enabled',
     ];
 
     private const LANG_DEFAULTS = [
@@ -178,6 +179,7 @@ class SettingController extends Controller
             'parasut_username' => ['nullable', 'string', 'max:255'],
             'parasut_password' => ['nullable', 'string', 'max:255'],
             'parasut_redirect_uri' => ['nullable', 'string', 'max:255'],
+            'pump_selector_enabled' => ['sometimes', 'boolean'],
             'footer_extra_card_label' => ['nullable', 'string', 'max:80'],
             'footer_extra_card_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1024'],
             'remove_footer_extra_card' => ['nullable', 'string', 'max:64'],
@@ -209,6 +211,7 @@ class SettingController extends Controller
         $data['brevo_enabled'] = $request->boolean('brevo_enabled') ? '1' : '0';
         $data['smtp_enabled'] = $request->boolean('smtp_enabled') ? '1' : '0';
         $data['parasut_enabled'] = $request->boolean('parasut_enabled') ? '1' : '0';
+        $data['pump_selector_enabled'] = $request->boolean('pump_selector_enabled') ? '1' : '0';
         $selectedCards = $request->input('footer_trust_cards', []);
         $extraKeys = array_column(FooterPaymentCards::extraStored(), 'key');
         $data['footer_trust_cards'] = implode(',', array_values(array_unique(array_merge($selectedCards, $extraKeys))));
@@ -271,6 +274,7 @@ class SettingController extends Controller
             SiteSetting::set($key, $value !== null ? (string) $value : null);
         }
         Cache::forget('settings.all');
+        \App\Support\PublicPageCache::forgetAll();
 
         return $this->redirectToTab($request, null, 'Ayarlar kaydedildi.');
     }

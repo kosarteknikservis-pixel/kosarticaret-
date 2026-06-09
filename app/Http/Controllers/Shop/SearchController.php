@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Services\CatalogQuery;
+use App\Services\SearchAnalyticsService;
 use App\Support\CatalogPaginationSeo;
 use App\Support\Seo;
 use App\Support\SiteName;
@@ -21,6 +22,10 @@ class SearchController extends Controller
 
         $products = $query->paginate(12)->withQueryString();
         $paginationSeo = CatalogPaginationSeo::meta($request, $products);
+
+        if ($q !== '') {
+            app(SearchAnalyticsService::class)->record($request, (string) $q, $products->total());
+        }
 
         $jsonLd = [
             Seo::webSite(),

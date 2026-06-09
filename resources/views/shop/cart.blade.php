@@ -63,6 +63,8 @@
                         @include('shop.partials.pdp-trust')
                         <a href="{{ route('checkout.show') }}" class="mt-6 btn-primary w-full py-3.5 text-center block">{{ __('shop.checkout_cta') }}</a>
                         <a href="{{ route('products.index') }}" class="mt-3 block text-center text-sm font-semibold text-brand-700 hover:text-brand-800">{{ __('shop.continue_shopping') }}</a>
+
+                        @include('shop.partials.cart-quote-form')
                     </div>
                 </aside>
             </div>
