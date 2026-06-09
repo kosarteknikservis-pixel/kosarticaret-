@@ -68,6 +68,8 @@
                         @endif
                     </ul>
 
+                    @include('shop.partials.footer-social')
+
                     @if(filled($promoText))
                         <p class="kfooter__promo">
                             <x-shop.icon name="truck" class="w-3.5 h-3.5 shrink-0" />

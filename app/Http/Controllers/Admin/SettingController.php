@@ -47,6 +47,8 @@ class SettingController extends Controller
         'cookie_text', 'cookie_accept',
         'legal_name',
         'footer_trust_cards', 'footer_trust_compliance', 'footer_etbis_url', 'footer_kvkk_url',
+        'social_instagram_url', 'social_facebook_url', 'social_youtube_url',
+        'social_linkedin_url', 'social_x_url', 'social_tiktok_url',
         'openai_api_key', 'openai_model',
         'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
         'smtp_enabled', 'smtp_host', 'smtp_port', 'smtp_encryption', 'smtp_username', 'smtp_password',
@@ -159,6 +161,12 @@ class SettingController extends Controller
             'footer_trust_compliance.*' => ['string', 'max:32'],
             'footer_etbis_url' => ['nullable', 'url', 'max:500'],
             'footer_kvkk_url' => ['nullable', 'url', 'max:500'],
+            'social_instagram_url' => ['nullable', 'string', 'max:500'],
+            'social_facebook_url' => ['nullable', 'string', 'max:500'],
+            'social_youtube_url' => ['nullable', 'string', 'max:500'],
+            'social_linkedin_url' => ['nullable', 'string', 'max:500'],
+            'social_x_url' => ['nullable', 'string', 'max:500'],
+            'social_tiktok_url' => ['nullable', 'string', 'max:500'],
             'openai_api_key' => ['nullable', 'string', 'max:255'],
             'openai_model' => ['nullable', 'string', 'max:64'],
             'brevo_enabled' => ['sometimes', 'boolean'],
@@ -216,6 +224,13 @@ class SettingController extends Controller
         $extraKeys = array_column(FooterPaymentCards::extraStored(), 'key');
         $data['footer_trust_cards'] = implode(',', array_values(array_unique(array_merge($selectedCards, $extraKeys))));
         $data['footer_trust_compliance'] = implode(',', $request->input('footer_trust_compliance', []));
+
+        foreach (\App\Support\SocialMediaLinks::settingKeys() as $socialKey) {
+            if (! array_key_exists($socialKey, $data)) {
+                continue;
+            }
+            $data[$socialKey] = trim((string) $data[$socialKey]);
+        }
 
         if ($request->boolean('remove_site_logo')) {
             SiteLogo::deleteStored();

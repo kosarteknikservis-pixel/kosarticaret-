@@ -58,6 +58,7 @@ return [
     'footer_service' => 'Müşteri Hizmetleri',
     'footer_legal' => 'Yasal',
     'footer_rights' => 'Tüm hakları saklıdır.',
+    'footer_social_title' => 'Bizi takip edin',
     'footer_connect_title' => 'Size nasıl yardımcı olabiliriz?',
     'footer_connect_desc' => 'Sipariş, teknik destek ve teklif talepleriniz için ekibimize ulaşın.',
     'footer_connect_cta' => 'İletişim formu',

@@ -332,6 +332,35 @@
 
                 <div class="mt-4"><label class="admin-label">Telif / şirket unvanı (alt satır)</label><input name="legal_name" value="{{ $values['legal_name'] }}" class="admin-input"></div>
 
+                <h3 class="admin-section-title mt-8">Sosyal medya</h3>
+                <p class="text-sm text-slate-600 mb-4">Doldurduğunuz hesaplar footer’da marka sütununda ikon olarak görünür. Boş bırakılanlar listelenmez.</p>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <label class="admin-label">Instagram</label>
+                        <input name="social_instagram_url" value="{{ $values['social_instagram_url'] ?? '' }}" class="admin-input" placeholder="https://instagram.com/kosar">
+                    </div>
+                    <div>
+                        <label class="admin-label">Facebook</label>
+                        <input name="social_facebook_url" value="{{ $values['social_facebook_url'] ?? '' }}" class="admin-input" placeholder="https://facebook.com/kosar">
+                    </div>
+                    <div>
+                        <label class="admin-label">YouTube</label>
+                        <input name="social_youtube_url" value="{{ $values['social_youtube_url'] ?? '' }}" class="admin-input" placeholder="https://youtube.com/@kosar">
+                    </div>
+                    <div>
+                        <label class="admin-label">LinkedIn</label>
+                        <input name="social_linkedin_url" value="{{ $values['social_linkedin_url'] ?? '' }}" class="admin-input" placeholder="https://linkedin.com/company/kosar">
+                    </div>
+                    <div>
+                        <label class="admin-label">X (Twitter)</label>
+                        <input name="social_x_url" value="{{ $values['social_x_url'] ?? '' }}" class="admin-input" placeholder="https://x.com/kosar">
+                    </div>
+                    <div>
+                        <label class="admin-label">TikTok</label>
+                        <input name="social_tiktok_url" value="{{ $values['social_tiktok_url'] ?? '' }}" class="admin-input" placeholder="https://tiktok.com/@kosar">
+                    </div>
+                </div>
+
 
 
                 <h3 class="admin-section-title mt-8">Kartlar & güven rozetleri</h3>
