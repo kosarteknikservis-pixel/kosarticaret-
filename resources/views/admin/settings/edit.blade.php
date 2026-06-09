@@ -108,7 +108,7 @@
             </nav>
 
             <div class="admin-settings-sidebar__foot">
-                <p>İpucu: Sadece açık bölüm kaydedilir. Kargo ve ödeme ayrı form olarak yönetilir.</p>
+                <p>İpucu: Kaydet tüm sekmelerdeki alanları birlikte gönderir. Kargo ve ödeme ayrı form olarak yönetilir.</p>
             </div>
         </aside>
 
@@ -707,10 +707,12 @@
                         <div class="mt-4 flex flex-wrap gap-2">
                             <a href="{{ route('admin.integrations.parasut.connect') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Paraşüt bağlantısını test et</a>
                             @if(!empty($values['parasut_access_token']))
-                                <form method="post" action="{{ route('admin.integrations.parasut.disconnect') }}" onsubmit="return confirm('Paraşüt bağlantısı kaldırılsın mı?');">
-                                    @csrf @method('DELETE')
-                                    <button class="admin-btn admin-btn-danger px-5 py-2.5">Bağlantıyı kaldır</button>
-                                </form>
+                                <button type="submit"
+                                        form="parasut-disconnect-form"
+                                        class="admin-btn admin-btn-danger px-5 py-2.5"
+                                        onclick="return confirm('Paraşüt bağlantısı kaldırılsın mı?');">
+                                    Bağlantıyı kaldır
+                                </button>
                             @endif
                         </div>
                         <p class="text-xs text-slate-500 mt-3">Client ID/Secret için Paraşüt destekten API bilgileri alınır. Kullanıcı adı ve şifre Paraşüt paneline giriş bilgileridir. İlk sürümde otomatik fatura kesmez; manuel taslak satış faturası oluşturur.</p>
@@ -838,12 +840,16 @@
 
             <div class="admin-form-actions">
 
-                <button type="submit" class="admin-btn admin-btn-primary px-8 py-2.5">Kaydet</button>
+                <button type="submit" form="settings-form" class="admin-btn admin-btn-primary px-8 py-2.5">Kaydet</button>
 
-                <button type="submit" formaction="{{ route('admin.preview.start') }}" class="admin-btn admin-btn-secondary border-amber-300 text-amber-800">Önizle (kaydetmeden)</button>
+                <button type="submit" form="settings-form" formaction="{{ route('admin.preview.start') }}" class="admin-btn admin-btn-secondary border-amber-300 text-amber-800">Önizle (kaydetmeden)</button>
 
             </div>
 
+        </form>
+
+        <form id="parasut-disconnect-form" method="post" action="{{ route('admin.integrations.parasut.disconnect') }}" class="hidden" aria-hidden="true" tabindex="-1">
+            @csrf @method('DELETE')
         </form>
 
         <form method="post"
