@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Models\SiteSetting;
 use App\Services\PumpSelection\PumpRecommendationService;
+use App\Support\PumpSelectorUiConfig;
 use App\Support\Seo;
 use App\Support\SiteName;
 use Illuminate\Http\JsonResponse;
@@ -20,7 +20,7 @@ class PumpSelectorController extends Controller
 
     public function show(Request $request): View|\Illuminate\Http\RedirectResponse
     {
-        if (SiteSetting::get('pump_selector_enabled', '1') === '0') {
+        if (! PumpSelectorUiConfig::isEnabled()) {
             abort(404);
         }
 

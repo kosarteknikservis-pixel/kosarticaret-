@@ -2,8 +2,15 @@
 
 namespace App\Support;
 
+use App\Models\SiteSetting;
+
 class PumpSelectorUiConfig
 {
+    public static function isEnabled(): bool
+    {
+        return SiteSetting::get('pump_selector_enabled', '1') !== '0';
+    }
+
     /**
      * @return list<array{id: string, icon: string, label: string, featured: bool}>
      */

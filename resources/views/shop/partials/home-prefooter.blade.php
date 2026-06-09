@@ -19,8 +19,10 @@
                         <x-shop.icon name="chevron-right" class="w-4 h-4" />
                     </a>
                 </div>
-                <div class="shop-home-blog__grid shop-reveal-group">
+                <div class="shop-home-blog__viewport">
+                    <div class="shop-home-blog__track shop-reveal-group" role="list">
                     @foreach($recentBlogPosts as $post)
+                        <div class="shop-home-blog__slide" role="listitem">
                         <article class="shop-home-blog-card">
                             @if($post->imageUrl())
                                 <a href="{{ route('blog.show', $post) }}" class="shop-home-blog-card__media" tabindex="-1" aria-hidden="true">
@@ -52,7 +54,9 @@
                                 </a>
                             </div>
                         </article>
+                        </div>
                     @endforeach
+                    </div>
                 </div>
             </div>
         </section>

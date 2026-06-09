@@ -1,10 +1,10 @@
 @php
-    if (\App\Models\SiteSetting::get('pump_selector_enabled', '1') === '0') return;
+    if (! \App\Support\PumpSelectorUiConfig::isEnabled()) return;
     $applications = \App\Support\PumpSelectorUiConfig::applications();
     $featuredApps = array_values(array_filter($applications, fn ($app) => $app['featured']));
 @endphp
 
-<section class="shop-pump-teaser shop-reveal" aria-labelledby="pump-teaser-heading">
+<section class="shop-pump-teaser shop-pump-teaser--desktop shop-reveal" aria-labelledby="pump-teaser-heading">
     <div class="shop-pump-teaser__card">
         <div class="shop-pump-teaser__main">
             <div class="shop-pump-teaser__copy">

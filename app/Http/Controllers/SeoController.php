@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\SiteSetting;
+use App\Support\PumpSelectorUiConfig;
 use App\Support\Seo;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -25,6 +26,10 @@ class SeoController extends Controller
             ['loc' => route('blog.index'), 'priority' => '0.7'],
             ['loc' => route('contact.show'), 'priority' => '0.6'],
         ]);
+
+        if (PumpSelectorUiConfig::isEnabled()) {
+            $urls->push(['loc' => route('pump-selector.show'), 'priority' => '0.8']);
+        }
 
         Product::query()->active()->select('slug', 'updated_at')->orderBy('id')->chunk(100, function ($chunk) use ($urls) {
             foreach ($chunk as $p) {

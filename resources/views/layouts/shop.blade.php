@@ -91,6 +91,15 @@
         </a>
     @endif
 
+    @if(\App\Support\PumpSelectorUiConfig::isEnabled() && ! request()->routeIs('pump-selector.*'))
+        <a href="{{ route('pump-selector.show') }}"
+           class="shop-pump-scroll-pill"
+           aria-label="{{ __('shop.pump_selector_program') }}">
+            <span class="shop-pump-scroll-pill__text">{{ __('shop.pump_selector_program') }}</span>
+            <x-shop.icon name="chevron-right" class="shop-pump-scroll-pill__icon" />
+        </a>
+    @endif
+
     @if($scrollTopEnabled)
     <button type="button" class="shop-scroll-top" data-scroll-top aria-label="Yukarı çık">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

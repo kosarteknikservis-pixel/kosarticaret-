@@ -20,13 +20,23 @@ $paths = [
     'star' => 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z',
     'grid' => 'M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z',
     'lock' => 'M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z',
-    'credit-card' => 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z',
     'map-pin' => 'M15 10.5a3 3 0 11-6 0 3 3 0 016 0z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z',
 ];
 $stroke = $attributes->get('stroke', 'currentColor');
 $fill = $attributes->get('fill', 'none');
 @endphp
 
+@if($name === 'pump')
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ $stroke }}" {{ $attributes->merge(['class' => $class]) }} aria-hidden="true">
+    <rect x="3.25" y="10" width="5.25" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="13.75" cy="13.5" r="4.25" stroke-linecap="round" stroke-linejoin="round" />
+    <path stroke-linecap="round" d="M8.5 13.5h1.25" />
+    <path stroke-linecap="round" stroke-linejoin="round" d="M18 13.5h2.75M20.75 13.5V10" />
+    <path stroke-linecap="round" d="M13.75 17.75V20.5" />
+    <path stroke-linecap="round" stroke-linejoin="round" d="M20.75 10c0 .75-.75 1.5-1.25 2.25-.5-.75-1.25-1.5-1.25-2.25a1.25 1.25 0 012.5 0z" />
+</svg>
+@else
 <svg xmlns="http://www.w3.org/2000/svg" fill="{{ $fill }}" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ $stroke }}" {{ $attributes->merge(['class' => $class]) }} aria-hidden="true">
     <path stroke-linecap="round" stroke-linejoin="round" d="{{ $paths[$name] ?? $paths['grid'] }}" />
 </svg>
+@endif

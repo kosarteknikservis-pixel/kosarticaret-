@@ -713,8 +713,8 @@
                         <span class="admin-switch__track" aria-hidden="true"></span>
                     </label>
                     <div>
-                        <p class="text-sm font-semibold text-slate-800">{{ $pumpOn ? 'Açık' : 'Kapalı' }} — Ana sayfada ve /pompa-secici sayfasında göster</p>
-                        <p class="text-xs text-slate-500 mt-1">Kapalıyken teaser kartı gizlenir, pompa-seçici sayfası 404 döner.</p>
+                        <p class="text-sm font-semibold text-slate-800">{{ $pumpOn ? 'Açık' : 'Kapalı' }} — Header şeridi, nav pill ve /pompa-secici sayfası</p>
+                        <p class="text-xs text-slate-500 mt-1">Kapalıyken teaser kartı, menü linkleri ve /pompa-secici sayfası gizlenir.</p>
                         <p class="text-xs text-slate-500 mt-1">Yeni ürün/kategori eklendiğinde otomatik algılar; ek bir işlem gerekmez.</p>
                     </div>
                 </div>
