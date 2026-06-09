@@ -106,8 +106,6 @@
             <div id="search-suggest-mobile" class="search-suggest hidden" role="listbox"></div>
         </div>
 
-        @include('shop.partials.pump-selector-header-cta')
-
         <nav class="shop-main-nav hidden lg:flex" aria-label="{{ __('shop.main_nav') }}" data-header-nav>
             <a href="{{ route('products.index') }}" class="shop-nav-link {{ request()->routeIs('products.index', 'search') ? 'shop-nav-link--active' : '' }}">
                 {{ __('shop.all_products') }}
@@ -155,9 +153,6 @@
             @foreach(($headerNavItems ?? []) as $link)
                 <a href="{{ $link->url }}" class="shop-nav-link" @if($link->open_in_new_tab) target="_blank" rel="noopener" @endif>{{ $link->label }}</a>
             @endforeach
-            <div class="shop-main-nav__pump">
-                @include('shop.partials.pump-selector-nav-cta')
-            </div>
         </nav>
     </div>
 </header>
