@@ -11472,57 +11472,100 @@ input:focus-visible {
         font-size: 1.25rem;
     }
 }
+.shop-related-carousel .shop-home-product-carousel__viewport {
+    container-type: inline-size;
+    container-name: shop-related-carousel;
+}
 .shop-related-carousel .shop-home-product-carousel__track {
     align-items: stretch;
-    gap: 1rem;
+    gap: 0.85rem;
+    width: max-content;
+}
+.shop-related-carousel.is-static .shop-home-product-carousel__track {
+    width: max-content;
+    max-width: 100%;
 }
 .shop-related-carousel .shop-home-product-carousel__item {
     display: flex;
     flex-direction: column;
-    min-width: 0;
-    max-width: none;
     flex: 0 0 auto;
-    /* Kategori grid mobil: 2 esit kolon genisligi */
-    width: calc((100% - 0.85rem) / 2);
+    min-width: 0;
+    max-width: 11.5rem;
+    width: calc((100vw - 2.85rem) / 2);
 }
 .shop-related-carousel .shop-home-product-carousel__item .shop-product-card {
     flex: 1 1 auto;
     height: auto;
     width: 100%;
 }
-@media (min-width: 390px) {
+@supports (width: 1cqw) {
     .shop-related-carousel .shop-home-product-carousel__item {
-        width: calc((100% - 1rem) / 2);
+        width: calc((100cqw - 0.85rem) / 2);
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 390px) {
+    .shop-related-carousel .shop-home-product-carousel__track {
+        gap: 1rem;
+    }
+    .shop-related-carousel .shop-home-product-carousel__item {
+        max-width: 12rem;
+        width: calc((100vw - 3rem) / 2);
+    }
+    @supports (width: 1cqw) {
+        .shop-related-carousel .shop-home-product-carousel__item {
+            width: calc((100cqw - 1rem) / 2);
+        }
+    }
+}
+@media (min-width: 640px) {
+    .shop-related-carousel .shop-home-product-carousel__item {
+        width: 12rem;
+        max-width: 12rem;
+    }
+}
+@container shop-related-carousel (min-width: 768px) {
     .shop-related-carousel .shop-home-product-carousel__track {
         gap: 1.15rem;
     }
     .shop-related-carousel .shop-home-product-carousel__item {
-        width: calc((100% - 2 * 1.15rem) / 3);
+        width: calc((100cqw - 2 * 1.15rem) / 3);
+        max-width: 13.5rem;
     }
 }
-@media (min-width: 1024px) {
+@container shop-related-carousel (min-width: 1024px) {
     .shop-related-carousel .shop-home-product-carousel__track {
         gap: 1.25rem;
     }
-    /* Kategori sayfasindaki kart genisligi (~sidebar'li 3 kol) ile hizala */
     .shop-related-carousel .shop-home-product-carousel__item {
-        width: min(20.5rem, calc((100% - 2 * 1.25rem) / 3));
+        width: min(20.5rem, calc((100cqw - 2 * 1.25rem) / 3));
+        max-width: 20.5rem;
     }
 }
-@media (min-width: 1536px) {
+@container shop-related-carousel (min-width: 1280px) {
     .shop-related-carousel .shop-home-product-carousel__item {
-        width: min(20.5rem, calc((100% - 3 * 1.25rem) / 4));
+        width: min(20.5rem, calc((100cqw - 3 * 1.25rem) / 4));
     }
 }
 @media (max-width: 639px) {
+    .shop-related-carousel .shop-home-product-carousel__viewport {
+        overflow-x: auto;
+        overflow-y: hidden;
+        margin-inline: -0.25rem;
+        padding: 0.1rem 0.25rem 0.65rem;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 0.25rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .shop-related-carousel .shop-home-product-carousel__viewport::-webkit-scrollbar {
+        display: none;
+    }
     .shop-related-carousel .shop-home-product-carousel__track {
         gap: 0.85rem;
+        transform: none !important;
+        transition: none;
     }
     .shop-related-carousel .shop-home-product-carousel__item {
-        width: calc((100% - 0.85rem) / 2);
         scroll-snap-align: start;
         scroll-snap-stop: always;
     }
