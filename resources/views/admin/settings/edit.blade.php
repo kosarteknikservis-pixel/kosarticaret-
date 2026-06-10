@@ -634,6 +634,11 @@
                             <input type="password" name="pagespeed_api_key" value="" class="admin-input font-mono text-sm" autocomplete="new-password" placeholder="{{ !empty($values['pagespeed_api_key']) ? 'Kayıtlı — değiştirmek için yeni anahtar yazın' : 'AIza...' }}">
                             <p class="text-xs text-slate-500 mt-1">Google Cloud Console → APIs & Services → Credentials. Boş bırakırsanız kayıtlı anahtar korunur.</p>
                         </div>
+                        <div class="mt-4">
+                            <label class="admin-label">Ölçüm site adresi</label>
+                            <input type="url" name="pagespeed_audit_base_url" value="{{ $values['pagespeed_audit_base_url'] ?? '' }}" class="admin-input font-mono text-sm" placeholder="https://kosarticaret.com">
+                            <p class="text-xs text-slate-500 mt-1">Google sunucuları <strong>127.0.0.1 / localhost</strong> adresine erişemez. Canlı mağaza URL’sini yazın; panel yerelde olsa bile ölçüm bu adrese yapılır.</p>
+                        </div>
                     </section>
 
                     <section class="admin-settings-service-card">

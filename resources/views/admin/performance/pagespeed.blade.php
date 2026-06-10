@@ -38,7 +38,7 @@
             </div>
             <div class="admin-pagespeed__hero-actions">
                 <a href="{{ $reportUrl }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">PageSpeed.web.dev</a>
-                @if($configured)
+                @if($configured && $auditUrlReady)
                     <form method="post" action="{{ route('admin.performance.pagespeed.run') }}">
                         @csrf
                         <input type="hidden" name="force" value="1">
@@ -67,6 +67,20 @@
             </section>
         @endunless
 
+        @if($configured && ! $auditUrlReady)
+            <section class="admin-image-optimizer__action-card admin-pagespeed__setup">
+                <div>
+                    <p class="admin-dashboard-eyebrow">Adres gerekli</p>
+                    <h2>Canlı site URL’si tanımlayın</h2>
+                    <p>
+                        Ölçüm Google’ın sunucularından yapılır; <strong>127.0.0.1</strong> veya <strong>localhost</strong> adresine bağlanamaz.
+                        Bu yüzden <code>ERR_CONNECTION_FAILED</code> hatası alırsınız.
+                    </p>
+                    <a href="{{ route('admin.settings.edit', ['tab' => 'integrations']) }}" class="admin-btn admin-btn-primary mt-4">Entegrasyonlar → Ölçüm site adresi</a>
+                </div>
+            </section>
+        @endif
+
         <div class="admin-image-optimizer__stats">
             <div class="admin-image-optimizer__stat">
                 <span class="admin-image-optimizer__stat-icon">LAB</span>
@@ -88,7 +102,8 @@
             </div>
         </div>
 
-        @if($configured)
+        @if($configured && $auditUrlReady)
+            <p class="text-sm text-slate-600 mb-4">Ölçüm adresi: <strong>{{ $auditBaseUrl }}</strong></p>
             <section class="admin-card admin-pagespeed__table-wrap">
                 <div class="admin-panel-head">
                     <div>

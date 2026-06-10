@@ -5,7 +5,6 @@ namespace App\Support;
 use App\Models\BlogPost;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Support\Facades\URL;
 
 class PageSpeedTargets
 {
@@ -14,18 +13,27 @@ class PageSpeedTargets
      */
     public static function resolve(): array
     {
-        $targets = [
-            [
+        if (! PageSpeedAuditUrl::isConfigured()) {
+            return [];
+        }
+
+        $targets = [];
+
+        if ($home = PageSpeedAuditUrl::route('home')) {
+            $targets[] = [
                 'key' => 'home',
                 'label' => 'Ana sayfa',
-                'url' => URL::to(route('home', [], false)),
-            ],
-            [
+                'url' => $home,
+            ];
+        }
+
+        if ($productsIndex = PageSpeedAuditUrl::route('products.index')) {
+            $targets[] = [
                 'key' => 'products_index',
                 'label' => 'Tüm ürünler',
-                'url' => URL::to(route('products.index', [], false)),
-            ],
-        ];
+                'url' => $productsIndex,
+            ];
+        }
 
         $category = Category::query()
             ->where('active', true)
@@ -33,11 +41,11 @@ class PageSpeedTargets
             ->orderBy('sort_order')
             ->first();
 
-        if ($category) {
+        if ($category && ($categoryUrl = PageSpeedAuditUrl::route('categories.show', $category))) {
             $targets[] = [
                 'key' => 'category',
                 'label' => 'Kategori: '.$category->name,
-                'url' => URL::to(route('categories.show', $category, false)),
+                'url' => $categoryUrl,
             ];
         }
 
@@ -48,11 +56,11 @@ class PageSpeedTargets
             ->latest('id')
             ->first();
 
-        if ($product) {
+        if ($product && ($productUrl = PageSpeedAuditUrl::route('products.show', $product))) {
             $targets[] = [
                 'key' => 'product',
                 'label' => 'Ürün detay',
-                'url' => URL::to(route('products.show', $product, false)),
+                'url' => $productUrl,
             ];
         }
 
@@ -61,11 +69,11 @@ class PageSpeedTargets
             ->latest('published_at')
             ->first();
 
-        if ($blogPost) {
+        if ($blogPost && ($blogUrl = PageSpeedAuditUrl::route('blog.show', $blogPost))) {
             $targets[] = [
                 'key' => 'blog',
                 'label' => 'Blog yazısı',
-                'url' => URL::to(route('blog.show', $blogPost, false)),
+                'url' => $blogUrl,
             ];
         }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\PageSpeedAudit;
 use App\Services\PageSpeedInsightsService;
+use App\Support\PageSpeedAuditUrl;
 use App\Support\PageSpeedTargets;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,6 +38,8 @@ class PageSpeedController extends Controller
 
         return view('admin.performance.pagespeed', [
             'configured' => PageSpeedInsightsService::isConfigured(),
+            'auditBaseUrl' => PageSpeedAuditUrl::base(),
+            'auditUrlReady' => PageSpeedAuditUrl::isConfigured(),
             'targets' => $targets,
             'latest' => $latest,
             'history' => $history,
@@ -58,6 +61,12 @@ class PageSpeedController extends Controller
             'strategy' => ['nullable', 'in:mobile,desktop,both'],
             'force' => ['nullable', 'boolean'],
         ]);
+
+        if (! PageSpeedAuditUrl::isConfigured()) {
+            return back()->withErrors([
+                'pagespeed' => 'Google sunuculari localhost adresine erisemez. Site ayarlari → Entegrasyonlar → Google PageSpeed bolumune canli site adresini girin (ornek: https://kosarticaret.com).',
+            ]);
+        }
 
         @set_time_limit(600);
 

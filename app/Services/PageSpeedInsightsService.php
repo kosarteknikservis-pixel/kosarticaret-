@@ -299,6 +299,10 @@ class PageSpeedInsightsService
                 return 'Google PageSpeed API anahtarı geçersiz. Site ayarları → Entegrasyonlar bölümündeki anahtarı kontrol edin.';
             }
 
+            if (str_contains($message, 'FAILED_DOCUMENT_REQUEST') || str_contains($message, 'ERR_CONNECTION_FAILED')) {
+                return 'Google sunuculari bu adrese ulasamadi. Localhost yerine canli site URL\'sini Site ayarlari → Entegrasyonlar → Olcum site adresi alanina yazin.';
+            }
+
             return $message;
         }
 

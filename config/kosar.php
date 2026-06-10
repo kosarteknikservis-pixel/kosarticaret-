@@ -29,6 +29,7 @@ return [
     */
     'pagespeed' => [
         'api_key' => env('PAGESPEED_API_KEY'),
+        'audit_base_url' => env('PAGESPEED_AUDIT_BASE_URL'),
         'cache_minutes' => (int) env('PAGESPEED_CACHE_MINUTES', 360),
         'timeout_seconds' => (int) env('PAGESPEED_TIMEOUT_SECONDS', 120),
     ],

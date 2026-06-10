@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\PageSpeedInsightsService;
+use App\Support\PageSpeedAuditUrl;
 use App\Support\PageSpeedTargets;
 use Illuminate\Console\Command;
 
@@ -19,6 +20,12 @@ class RunPageSpeedAuditCommand extends Command
     {
         if (! PageSpeedInsightsService::isConfigured()) {
             $this->error('PageSpeed API anahtarı tanımlı değil. Site ayarları → Entegrasyonlar bölümünden ekleyin.');
+
+            return self::FAILURE;
+        }
+
+        if (! PageSpeedAuditUrl::isConfigured()) {
+            $this->error('Canlı site URL\'si tanımlı değil. Entegrasyonlar → Ölçüm site adresi alanına https://kosarticaret.com yazın.');
 
             return self::FAILURE;
         }
