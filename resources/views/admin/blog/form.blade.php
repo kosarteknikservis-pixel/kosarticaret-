@@ -30,6 +30,7 @@
 
             <div>
                 <label class="admin-label">Kapak görseli</label>
+                <x-admin.image-spec key="blog_cover" class="mt-1 mb-3" />
                 @if($post->imageUrl())
                     <img src="{{ $post->imageUrl() }}" alt="" class="mt-2 h-32 rounded-xl border object-cover max-w-full">
                 @endif

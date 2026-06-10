@@ -64,6 +64,10 @@
                     <span class="shop-header-toolbar__divider" aria-hidden="true"></span>
                 @endauth
 
+                <div class="shop-header-toolbar__pump">
+                    @include('shop.partials.pump-selector-nav-cta')
+                </div>
+
                 <div class="shop-header-toolbar__icons">
                     @unless(auth()->check() && auth()->user()->is_admin)
                         @auth

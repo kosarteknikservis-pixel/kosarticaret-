@@ -24,18 +24,25 @@
                     @foreach($recentBlogPosts as $post)
                         <div class="shop-home-blog__slide" role="listitem">
                         <article class="shop-home-blog-card">
-                            @if($post->imageUrl())
-                                <a href="{{ route('blog.show', $post) }}" class="shop-home-blog-card__media" tabindex="-1" aria-hidden="true">
+                            <a href="{{ route('blog.show', $post) }}"
+                               class="shop-home-blog-card__media{{ $post->imageUrl() ? '' : ' shop-home-blog-card__media--placeholder' }}"
+                               tabindex="-1"
+                               aria-hidden="true">
+                                @if($post->imageUrl())
                                     <img
                                         src="{{ $post->imageUrl('blog-card') }}"
-                                        @if($srcset = $post->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 767px) 100vw, 20rem" @endif
+                                        @if($srcset = $post->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 767px) 72vw, 20rem" @endif
                                         alt="{{ $post->image_alt ?: $post->title }}"
                                         loading="lazy"
                                         decoding="async"
-                                        width="400"
-                                        height="225">
-                                </a>
-                            @endif
+                                        width="960"
+                                        height="540">
+                                @else
+                                    <span class="shop-home-blog-card__media-ph" aria-hidden="true">
+                                        <x-shop.icon name="grid" class="w-8 h-8" />
+                                    </span>
+                                @endif
+                            </a>
                             <div class="shop-home-blog-card__body">
                                 @if($post->published_at)
                                     <time class="shop-home-blog-card__date" datetime="{{ $post->published_at->toDateString() }}">
@@ -45,9 +52,7 @@
                                 <h3 class="shop-home-blog-card__title">
                                     <a href="{{ route('blog.show', $post) }}">{{ $post->title }}</a>
                                 </h3>
-                                @if(filled($post->excerpt))
-                                    <p class="shop-home-blog-card__excerpt">{{ $post->excerpt }}</p>
-                                @endif
+                                <p class="shop-home-blog-card__excerpt">{{ $post->excerpt ?: ' ' }}</p>
                                 <a href="{{ route('blog.show', $post) }}" class="shop-home-blog-card__read">
                                     {{ __('shop.read_more') }}
                                     <x-shop.icon name="chevron-right" class="w-3.5 h-3.5" />

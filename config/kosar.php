@@ -24,6 +24,11 @@ return [
     'public_page_cache' => env('KOSAR_PUBLIC_PAGE_CACHE', true),
     'order_prefix' => env('KOSAR_ORDER_PREFIX', 'KOS'),
 
+    'turnstile' => [
+        'site_key' => env('TURNSTILE_SITE_KEY'),
+        'secret_key' => env('TURNSTILE_SECRET_KEY'),
+    ],
+
     'default_locale' => env('KOSAR_DEFAULT_LOCALE', 'tr'),
     'locales' => ['tr'],
 
@@ -109,6 +114,14 @@ return [
             'hint' => 'Hero sağ panel görseli (site ayarları). Slider ölçüsüyle uyumlu tutun.',
             'formats' => 'JPG, PNG veya WebP',
             'max_kb' => 5120,
+        ],
+        'blog_cover' => [
+            'width' => 960,
+            'height' => 540,
+            'hint' => 'Blog kapak görseli; ana sayfa kartları ve blog listesinde 16:9 oranında kırpılarak gösterilir.',
+            'formats' => 'JPG, PNG veya WebP',
+            'max_kb' => 2048,
+            'safe_zone' => 'Önemli konu ortada kalsın; kenarlar mobilde kırpılabilir.',
         ],
     ],
 

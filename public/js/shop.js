@@ -746,19 +746,41 @@
         .then((d) => { if (d.ok) updateCartBadge(d.count); })
         .catch(() => {});
 
-    /* Sticky header — scroll gölgesi */
+    /* Sticky header — scroll gölgesi (yalnızca masaüstü, histerezisli) */
     const siteHeader = document.getElementById('shop-site-header');
     if (siteHeader) {
+        const desktopHeaderMq = window.matchMedia('(min-width: 1024px)');
         let ticking = false;
+        let scrolled = false;
+
+        const syncHeaderScrollState = () => {
+            if (!desktopHeaderMq.matches) {
+                scrolled = false;
+                siteHeader.classList.remove('is-scrolled');
+                return;
+            }
+
+            const y = window.scrollY;
+            if (!scrolled && y > 28) {
+                scrolled = true;
+            } else if (scrolled && y < 8) {
+                scrolled = false;
+            }
+
+            siteHeader.classList.toggle('is-scrolled', scrolled);
+        };
+
         const onScroll = () => {
             if (ticking) return;
             ticking = true;
             requestAnimationFrame(() => {
-                siteHeader.classList.toggle('is-scrolled', window.scrollY > 12);
+                syncHeaderScrollState();
                 ticking = false;
             });
         };
-        onScroll();
+
+        desktopHeaderMq.addEventListener('change', syncHeaderScrollState);
+        syncHeaderScrollState();
         window.addEventListener('scroll', onScroll, { passive: true });
     }
 
@@ -776,7 +798,9 @@
         };
 
         scrollTopButton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const smooth = window.matchMedia('(min-width: 1024px)').matches
+                && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
         });
 
         toggleScrollTop();
