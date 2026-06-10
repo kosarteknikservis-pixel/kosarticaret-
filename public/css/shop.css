@@ -11432,6 +11432,87 @@ input:focus-visible {
 .shop-related-section {
     animation: shop-reveal-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+.shop-related-carousel__top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    min-width: 0;
+}
+.shop-related-section__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    line-height: 1.25;
+}
+.shop-related-section__title::after {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 3px;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    background: var(--kosar-primary, #1e3a5f);
+}
+@media (max-width: 639px) {
+    .shop-related-carousel__top {
+        margin-bottom: 0.85rem;
+    }
+    .shop-related-section__title {
+        font-size: 1.25rem;
+    }
+}
+.shop-related-carousel .shop-home-product-carousel__track {
+    align-items: stretch;
+    gap: 1rem;
+}
+.shop-related-carousel .shop-home-product-carousel__item {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: none;
+    /* Kategori grid ile ayni: mobil tek kol + hafif peek */
+    width: calc(100% - 2.25rem);
+}
+.shop-related-carousel .shop-home-product-carousel__item .shop-product-card {
+    flex: 1 1 auto;
+    height: auto;
+}
+@media (min-width: 390px) {
+    .shop-related-carousel .shop-home-product-carousel__item {
+        width: calc((100% - 1rem) / 2);
+    }
+}
+@media (min-width: 768px) {
+    .shop-related-carousel .shop-home-product-carousel__track {
+        gap: 1.15rem;
+    }
+    .shop-related-carousel .shop-home-product-carousel__item {
+        width: calc((100% - 2 * 1.15rem) / 3);
+    }
+}
+@media (min-width: 1024px) {
+    .shop-related-carousel .shop-home-product-carousel__track {
+        gap: 1.25rem;
+    }
+    /* Kategori sayfasindaki kart genisligi (~sidebar'li 3 kol) ile hizala */
+    .shop-related-carousel .shop-home-product-carousel__item {
+        width: min(20.5rem, calc((100% - 2 * 1.25rem) / 3));
+    }
+}
+@media (min-width: 1536px) {
+    .shop-related-carousel .shop-home-product-carousel__item {
+        width: min(20.5rem, calc((100% - 3 * 1.25rem) / 4));
+    }
+}
+@media (max-width: 639px) {
+    .shop-related-carousel .shop-home-product-carousel__track {
+        gap: 1rem;
+    }
+}
 @keyframes shop-reveal-up {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
