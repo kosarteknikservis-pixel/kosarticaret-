@@ -294,6 +294,8 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::post('ayarlar/smtp-test', [SettingController::class, 'testSmtp'])->name('settings.smtp-test');
         Route::get('performans/gorseller', [AdminImageOptimizationController::class, 'index'])->name('performance.images');
         Route::post('performans/gorseller/optimize', [AdminImageOptimizationController::class, 'optimize'])->name('performance.images.optimize');
+        Route::get('performans/site-hizi', [\App\Http\Controllers\Admin\PageSpeedController::class, 'index'])->name('performance.pagespeed');
+        Route::post('performans/site-hizi/olc', [\App\Http\Controllers\Admin\PageSpeedController::class, 'run'])->middleware('throttle:6,60')->name('performance.pagespeed.run');
         Route::get('kargo-odeme', [ShippingSettingsController::class, 'edit'])->name('shipping-settings.edit');
         Route::put('kargo-odeme', [ShippingSettingsController::class, 'update'])->name('shipping-settings.update');
         Route::get('musteriler', [AdminCustomerController::class, 'index'])->name('customers.index');

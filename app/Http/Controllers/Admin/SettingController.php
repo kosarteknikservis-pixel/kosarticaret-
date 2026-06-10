@@ -51,6 +51,7 @@ class SettingController extends Controller
         ],
         'integrations' => [
             'openai_api_key', 'openai_model',
+            'pagespeed_api_key',
             'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
             'smtp_enabled', 'smtp_host', 'smtp_port', 'smtp_encryption', 'smtp_username', 'smtp_password', 'smtp_from_address', 'smtp_from_name',
             'parasut_enabled', 'parasut_client_id', 'parasut_client_secret', 'parasut_company_id', 'parasut_username', 'parasut_password', 'parasut_redirect_uri',
@@ -89,6 +90,7 @@ class SettingController extends Controller
         'social_instagram_url', 'social_facebook_url', 'social_youtube_url',
         'social_linkedin_url', 'social_x_url', 'social_tiktok_url',
         'openai_api_key', 'openai_model',
+        'pagespeed_api_key',
         'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
         'smtp_enabled', 'smtp_host', 'smtp_port', 'smtp_encryption', 'smtp_username', 'smtp_password',
         'smtp_from_address', 'smtp_from_name',
@@ -253,6 +255,10 @@ class SettingController extends Controller
             unset($data['openai_api_key']);
         }
 
+        if ($tab === 'integrations' && ! $request->filled('pagespeed_api_key')) {
+            unset($data['pagespeed_api_key']);
+        }
+
         if ($tab === 'integrations' && ! $request->filled('brevo_api_key')) {
             unset($data['brevo_api_key']);
         }
@@ -351,6 +357,7 @@ class SettingController extends Controller
             'social_tiktok_url' => ['nullable', 'string', 'max:500'],
             'openai_api_key' => ['nullable', 'string', 'max:255'],
             'openai_model' => ['nullable', 'string', 'max:64'],
+            'pagespeed_api_key' => ['nullable', 'string', 'max:255'],
             'brevo_enabled' => ['sometimes', 'boolean'],
             'brevo_api_key' => ['nullable', 'string', 'max:255'],
             'brevo_list_id' => ['nullable', 'integer', 'min:1'],

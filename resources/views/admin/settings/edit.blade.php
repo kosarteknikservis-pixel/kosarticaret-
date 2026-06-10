@@ -609,6 +609,36 @@
                     <section class="admin-settings-service-card">
                         <div class="admin-settings-service-card__head">
                             <div>
+                                <span class="admin-settings-service-card__eyebrow">Performans izleme</span>
+                                <h3>Google PageSpeed</h3>
+                                <p>Panelde site hızı raporu için resmi PageSpeed Insights API anahtarı.</p>
+                            </div>
+                            @if(\App\Services\PageSpeedInsightsService::isConfigured())
+                                <span class="admin-status-pill admin-status-pill--ok">Aktif</span>
+                            @else
+                                <span class="admin-status-pill admin-status-pill--warn">Eksik</span>
+                            @endif
+                        </div>
+                        @if(\App\Services\PageSpeedInsightsService::isConfigured())
+                            <p class="admin-alert-success mt-4 text-sm">PageSpeed API yapılandırıldı. Raporlar için
+                                <a href="{{ route('admin.performance.pagespeed') }}" class="text-teal-700 font-semibold">Performans → Site hızı</a> ekranını açın.
+                            </p>
+                        @else
+                            <p class="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mt-4">
+                                API anahtarı girilene kadar site hızı ölçümü çalışmaz.
+                                <a href="https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com" target="_blank" rel="noopener" class="text-teal-700 font-semibold">PageSpeed Insights API</a>’yi etkinleştirip anahtar oluşturun.
+                            </p>
+                        @endif
+                        <div class="mt-4">
+                            <label class="admin-label">PageSpeed API anahtarı</label>
+                            <input type="password" name="pagespeed_api_key" value="" class="admin-input font-mono text-sm" autocomplete="new-password" placeholder="{{ !empty($values['pagespeed_api_key']) ? 'Kayıtlı — değiştirmek için yeni anahtar yazın' : 'AIza...' }}">
+                            <p class="text-xs text-slate-500 mt-1">Google Cloud Console → APIs & Services → Credentials. Boş bırakırsanız kayıtlı anahtar korunur.</p>
+                        </div>
+                    </section>
+
+                    <section class="admin-settings-service-card">
+                        <div class="admin-settings-service-card__head">
+                            <div>
                                 <span class="admin-settings-service-card__eyebrow">E-bülten listesi</span>
                                 <h3>Brevo</h3>
                                 <p>Yeni aboneleri Brevo listenize senkronize eder.</p>

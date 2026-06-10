@@ -22,6 +22,17 @@ return [
     // doğru yerel saate çevirmek için kullanılır.
     'report_timezone' => env('KOSAR_REPORT_TZ', 'Europe/Istanbul'),
     'public_page_cache' => env('KOSAR_PUBLIC_PAGE_CACHE', true),
+
+    /*
+    | Google PageSpeed Insights API — panelde site hızı raporu.
+    | API anahtarı: Google Cloud Console → PageSpeed Insights API
+    */
+    'pagespeed' => [
+        'api_key' => env('PAGESPEED_API_KEY'),
+        'cache_minutes' => (int) env('PAGESPEED_CACHE_MINUTES', 360),
+        'timeout_seconds' => (int) env('PAGESPEED_TIMEOUT_SECONDS', 120),
+    ],
+
     'order_prefix' => env('KOSAR_ORDER_PREFIX', 'KOS'),
 
     'turnstile' => [

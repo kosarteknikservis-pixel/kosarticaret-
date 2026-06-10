@@ -108,7 +108,8 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_183000_add_parasut_fields_to_orders_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_03_060000_create_customer_analytics_tables.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_03_100000_add_customer_name_to_abandoned_carts_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_100000_add_phase2_store_features.php"
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_100000_add_phase2_store_features.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_120000_create_page_speed_audits_table.php"
 
       - name: Sunucuda önbellek temizle
         env:
