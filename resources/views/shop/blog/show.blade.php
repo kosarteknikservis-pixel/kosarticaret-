@@ -6,7 +6,7 @@
         <div class="shop-reading-progress__bar"></div>
     </div>
 
-    <div class="shop-page shop-page--article max-w-3xl">
+    <div class="shop-page shop-page--article shop-article-layout max-w-3xl mx-auto">
         @include('shop.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 
         {{-- Hero image with animation --}}
@@ -50,15 +50,15 @@
             <x-shop.rich-content :content="$post->content"
                 class="shop-panel shop-panel--prose prose prose-slate max-w-none prose-headings:text-slate-900 prose-a:text-brand-700" />
         </div>
-
-        @if($suggestedProducts->isNotEmpty())
-            <section class="shop-related-section mt-14 pt-10 border-t border-slate-200 shop-reveal" aria-labelledby="blog-products-heading">
-                @include('shop.partials.product-carousel', [
-                    'products' => $suggestedProducts,
-                    'title' => __('shop.blog_suggested_products'),
-                    'headingId' => 'blog-products-heading',
-                ])
-            </section>
-        @endif
     </div>
+
+    @if($suggestedProducts->isNotEmpty())
+        <section class="shop-related-section shop-related-section--wide mt-14 pt-10 border-t border-slate-200 shop-reveal" aria-labelledby="blog-products-heading">
+            @include('shop.partials.product-carousel', [
+                'products' => $suggestedProducts,
+                'title' => __('shop.blog_suggested_products'),
+                'headingId' => 'blog-products-heading',
+            ])
+        </section>
+    @endif
 @endsection
