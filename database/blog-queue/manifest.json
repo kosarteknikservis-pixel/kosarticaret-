@@ -1,0 +1,60 @@
+{
+    "series": "hidrofor-seo-kumesi",
+    "note": "Her gün: php artisan blog:publish-due --force  (canlıda cron ile de çalıştırılabilir)",
+    "posts": [
+        {
+            "day": 1,
+            "file": "01-apartman-hidrofor-secimi.json",
+            "publish_on": "2026-06-10",
+            "title": "Apartman İçin Hidrofor Nasıl Seçilir?"
+        },
+        {
+            "day": 2,
+            "file": "02-ev-tipi-hidrofor-rehberi.json",
+            "publish_on": "2026-06-11",
+            "title": "Ev Tipi Hidrofor Rehberi: Müstakil Ev ve Villa"
+        },
+        {
+            "day": 3,
+            "file": "03-hidrofor-hidromat-farki.json",
+            "publish_on": "2026-06-12",
+            "title": "Hidrofor mu Hidromat mı?"
+        },
+        {
+            "day": 4,
+            "file": "04-apartmanda-su-basinci-dusuk.json",
+            "publish_on": "2026-06-13",
+            "title": "Apartmanda Su Basıncı Düşük: Hidrofor Gerekir mi?"
+        },
+        {
+            "day": 5,
+            "file": "05-hidrofor-surekli-calisyor.json",
+            "publish_on": "2026-06-14",
+            "title": "Hidrofor Sürekli Çalışıyor: Sebepler ve Çözüm"
+        },
+        {
+            "day": 6,
+            "file": "06-hidrofor-basinc-tanki-secimi.json",
+            "publish_on": "2026-06-15",
+            "title": "Hidrofor Basınç Tankı Seçimi"
+        },
+        {
+            "day": 7,
+            "file": "07-pedrollo-sumak-hidrofor-karsilastirma.json",
+            "publish_on": "2026-06-16",
+            "title": "Pedrollo mu Sumak Hidrofor mu?"
+        },
+        {
+            "day": 8,
+            "file": "08-hidrofor-bakim-rehberi.json",
+            "publish_on": "2026-06-17",
+            "title": "Hidrofor Bakım Rehberi"
+        },
+        {
+            "day": 9,
+            "file": "09-inverter-hidrofor-avantajlari.json",
+            "publish_on": "2026-06-18",
+            "title": "Frekans İnvertörlü Hidrofor Avantajları"
+        }
+    ]
+}
