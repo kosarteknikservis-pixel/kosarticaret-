@@ -18,7 +18,7 @@
         </label>
         <input type="text" name="meta_title" value="{{ old('meta_title', $metaTitle) }}" maxlength="70"
                class="admin-input" data-seo-field="title" placeholder="Google sonuç başlığı">
-        <p class="text-xs text-slate-500 mt-1">İdeal: 50–60 karakter, marka adı sonda kalabilir.</p>
+        <p class="text-xs text-slate-500 mt-1">İdeal: 50–60 karakter. Site adı ({{ \App\Support\SiteName::get() }}) vitrinde otomatik eklenir; buraya yalnızca ürün başlığını yazın.</p>
     </div>
     <div>
         <label class="admin-label flex justify-between gap-2">

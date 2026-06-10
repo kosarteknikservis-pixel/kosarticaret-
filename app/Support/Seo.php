@@ -60,11 +60,11 @@ class Seo
 
         $site = SiteName::get();
 
-        $title = SiteName::normalize($title);
+        $title = self::stripKnownSiteSuffixes(SiteName::normalize(trim($title)));
 
 
 
-        if ($title === $site || strcasecmp($title, $site) === 0) {
+        if ($title === '' || strcasecmp($title, $site) === 0) {
 
             return $site;
 
@@ -73,6 +73,130 @@ class Seo
 
 
         return "{$title} | {$site}";
+
+    }
+
+
+
+    /**
+
+     * WooCommerce/Yoast importlarında meta_title sonuna eklenmiş site adlarını temizler.
+
+     */
+
+    private static function stripKnownSiteSuffixes(string $title): string
+
+    {
+
+        if ($title === '') {
+
+            return '';
+
+        }
+
+
+
+        $candidates = self::siteNameSuffixCandidates();
+
+        $changed = true;
+
+
+
+        while ($changed) {
+
+            $changed = false;
+
+
+
+            foreach ($candidates as $candidate) {
+
+                if ($candidate === '') {
+
+                    continue;
+
+                }
+
+
+
+                $pattern = '/\s*[\|\-–—]\s*'.preg_quote($candidate, '/').'\s*$/iu';
+
+                $stripped = preg_replace($pattern, '', $title);
+
+
+
+                if (is_string($stripped) && $stripped !== $title) {
+
+                    $title = trim($stripped);
+
+                    $changed = true;
+
+                }
+
+            }
+
+        }
+
+
+
+        return trim($title);
+
+    }
+
+
+
+    /** @return list<string> */
+
+    private static function siteNameSuffixCandidates(): array
+
+    {
+
+        $raw = [
+
+            SiteName::get(),
+
+            (string) config('kosar.name'),
+
+            (string) config('kosar.legal_name'),
+
+            SiteSetting::get('site_name'),
+
+            SiteSetting::get('legal_name'),
+
+            'Koşar Ticaret',
+
+            'Kosar Ticaret',
+
+            'Koşar',
+
+            'Kosar',
+
+        ];
+
+
+
+        $normalized = [];
+
+
+
+        foreach ($raw as $name) {
+
+            $name = SiteName::normalize(trim((string) $name));
+
+            if ($name !== '') {
+
+                $normalized[] = $name;
+
+            }
+
+        }
+
+
+
+        usort($normalized, fn (string $a, string $b): int => strlen($b) <=> strlen($a));
+
+
+
+        return array_values(array_unique($normalized));
 
     }
 
