@@ -183,7 +183,7 @@ Route::redirect('/admin/giris', '/yonetim/giris', 301);
 
 Route::prefix('yonetim')->name('admin.')->group(function () {
     Route::get('giris', [AdminAuthController::class, 'showLogin'])->name('login');
-    Route::post('giris', [AdminAuthController::class, 'login'])->middleware('throttle:5,1');
+    Route::post('giris', [AdminAuthController::class, 'login'])->middleware('throttle:admin-login');
     Route::post('cikis', [AdminAuthController::class, 'logout'])->name('logout');
 
     Route::middleware(['auth', 'admin'])->group(function () {
