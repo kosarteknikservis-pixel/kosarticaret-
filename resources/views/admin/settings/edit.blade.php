@@ -172,7 +172,7 @@
 
                 <div><label class="admin-label">Site adı</label><input name="site_name" value="{{ $values['site_name'] }}" class="admin-input"></div>
 
-                <div class="mt-4"><label class="admin-label">Ücretsiz kargo limiti (₺)</label><input name="free_shipping_min" value="{{ $values['free_shipping_min'] }}" class="admin-input max-w-xs"><p class="text-xs text-slate-500 mt-1">Standart kargo açıklamasında kullanılır. Kargo ücretleri <strong>Kargo & ödeme</strong> sekmesindedir.</p></div>
+                <div class="mt-4"><label class="admin-label">Ücretsiz kargo limiti (₺)</label><input name="free_shipping_min" value="{{ $values['free_shipping_min'] }}" class="admin-input max-w-xs"><p class="text-xs text-slate-500 mt-1">Sepet tutarı bu limiti geçince standart kargo ücreti otomatik 0 ₺ olur. Alt limitteki kargo ücretleri <strong>Kargo & ödeme</strong> sekmesinden ayarlanır.</p></div>
 
                 <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <label class="admin-checkbox font-semibold text-slate-800">

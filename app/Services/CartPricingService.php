@@ -8,6 +8,7 @@ class CartPricingService
         private CartService $cart,
         private CouponService $coupons,
         private PromotionService $promotions,
+        private StoreConfig $store,
     ) {}
 
     /**
@@ -27,13 +28,17 @@ class CartPricingService
         $subtotal = $this->cart->subtotal();
         $couponDiscount = $this->coupons->discountAmount($subtotal);
         $promo = $this->promotions->autoBenefits($subtotal, $lines);
+        $netSubtotal = max(0, round($subtotal - $couponDiscount - $promo['discount'], 2));
+        $freeMin = $this->store->freeShippingMin();
+        $freeShipping = $promo['free_shipping']
+            || ($freeMin > 0 && $netSubtotal >= $freeMin);
 
         return [
             'subtotal' => $subtotal,
             'coupon_discount' => $couponDiscount,
             'promotion_discount' => $promo['discount'],
             'total_discount' => round($couponDiscount + $promo['discount'], 2),
-            'free_shipping' => $promo['free_shipping'],
+            'free_shipping' => $freeShipping,
             'promotion_label' => $promo['label'],
             'coupon_code' => $this->coupons->appliedCode(),
         ];

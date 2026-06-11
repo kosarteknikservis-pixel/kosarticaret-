@@ -17,8 +17,18 @@ class CheckoutCalculator
     public function shippingCost(float $subtotal, string $method, bool $forceFree = false): float
     {
         $rates = $this->store->shippingRates();
+        $fee = (float) ($rates[$method] ?? 0);
 
-        return (float) ($rates[$method] ?? 0);
+        if ($forceFree) {
+            return 0.0;
+        }
+
+        $freeMin = $this->store->freeShippingMin();
+        if ($freeMin > 0 && $subtotal >= $freeMin && $method !== 'hizli') {
+            return 0.0;
+        }
+
+        return $fee;
     }
 
     /**

@@ -4,9 +4,9 @@
 
 <div class="rounded-xl border border-slate-200 bg-slate-50/80 p-4 mb-6">
     <p class="text-sm text-slate-600">
-        <strong>Ücretsiz kargo limiti</strong> vitrin ve standart kargo metninde kullanılır — değeri
+        <strong>Ücretsiz kargo limiti</strong> sepet/ödeme hesabında ve vitrin metinlerinde kullanılır — değeri
         <a href="#settings-tab-general" class="text-teal-700 font-semibold admin-settings-tab-jump" data-tab="general">Genel</a>
-        sekmesindeki alandan kaydedilir (bu sekmede kaydetmeyin).
+        sekmesindeki alandan kaydedilir (bu sekmede kaydetmeyin). Limit aşıldığında aşağıdaki kargo ücretleri (hızlı kargo hariç) otomatik 0 ₺ olur.
     </p>
 </div>
 
