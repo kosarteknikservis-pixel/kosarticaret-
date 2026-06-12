@@ -18,6 +18,11 @@ on:
         required: true
         type: boolean
         default: false
+      analitik_sifirla:
+        description: 'Müşteri hareketleri analitik verilerini sıfırla (analytics:reset --force)'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   deploy:
@@ -120,6 +125,17 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             (command -v php >/dev/null && php artisan config:cache && php artisan route:cache && php artisan view:cache) || \
             (/usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache)"
+
+      - name: Müşteri hareketleri analitiğini sıfırla
+        if: github.event.inputs.analitik_sifirla == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            (command -v php >/dev/null && php artisan analytics:reset --force) || \
+            (/usr/local/php83/bin/php artisan analytics:reset --force)"
 
       - name: Vadesi gelen blog yazılarını yayınla
         env:
