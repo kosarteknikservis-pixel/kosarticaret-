@@ -26,7 +26,7 @@ class PromotionService
             match ($promo->type) {
                 Promotion::TYPE_PERCENT => $discount += round($cartSubtotal * ((float) $promo->value / 100), 2),
                 Promotion::TYPE_FIXED => $discount += min((float) $promo->value, $cartSubtotal),
-                Promotion::TYPE_FREE_SHIPPING => $freeShipping = true,
+                Promotion::TYPE_FREE_SHIPPING => null,
                 Promotion::TYPE_BUY_X_GET_Y => $discount += $this->buyXGetYDiscount($lines, (int) $promo->buy_qty, (int) $promo->free_qty),
                 default => null,
             };

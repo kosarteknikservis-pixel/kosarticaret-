@@ -97,11 +97,19 @@ Route::get('/kategoriler/{category}', [CategoryController::class, 'show'])
     ->name('categories.show');
 Route::get('/markalar', [BrandController::class, 'index'])->name('brands.index');
 Route::get('/markalar/{legacyBrand}/page/{page}', function (string $legacyBrand) {
+    if ($legacyBrand === 'marmara') {
+        return redirect()->route('brands.index', [], 301);
+    }
+
     $slug = (string) (config('legacy_redirects.brand_aliases', [])[$legacyBrand] ?? $legacyBrand);
 
     return redirect()->route('brands.show', ['brand' => $slug], 301);
 })->where('legacyBrand', '[^/]+')->whereNumber('page');
 Route::get('/markalar/{legacyBrand}', function (string $legacyBrand) {
+    if ($legacyBrand === 'marmara') {
+        return redirect()->route('brands.index', [], 301);
+    }
+
     $slug = (string) (config('legacy_redirects.brand_aliases', [])[$legacyBrand] ?? $legacyBrand);
 
     return redirect()->route('brands.show', ['brand' => $slug], 301);
@@ -151,6 +159,21 @@ Route::get('/sayfa/{page:slug}', [PageController::class, 'show'])->name('pages.s
 
 Route::get('/iletisim', [ContactController::class, 'show'])->name('contact.show');
 Route::post('/iletisim', [ContactController::class, 'store'])->middleware('throttle:3,1')->name('contact.store');
+
+$legacyBlogPattern = collect(config('legacy_redirects.blog_posts', []))
+    ->keys()
+    ->map(fn (string $path) => ltrim($path, '/'))
+    ->filter()
+    ->implode('|');
+
+if ($legacyBlogPattern !== '') {
+    Route::get('/{legacyBlogPost}', function (string $legacyBlogPost) {
+        $target = config('legacy_redirects.blog_posts')['/'.$legacyBlogPost] ?? null;
+        abort_unless(is_string($target) && $target !== '', 404);
+
+        return redirect(url($target), 301);
+    })->where('legacyBlogPost', $legacyBlogPattern);
+}
 
 Route::middleware('guest')->group(function () {
     Route::get('/giris', [CustomerAuthController::class, 'showLogin'])->name('login');

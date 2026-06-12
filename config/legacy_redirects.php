@@ -21,6 +21,21 @@ return [
         '/urun/winpo-wnp-cmi-8-40-t-full-paslanmaz-cok-kademeli-santrifuj-pompa' => '/kategoriler/su-pompalari/kademeli-pompalar',
         '/urun/elektrikli-soba-isitici-1600-w' => '/urunler',
         '/urun/etna-ear4-65-32-75-yatay-monoblok-tek-kademeli-pompa-ear-serisi' => '/marka/etna',
+        '/marka/marmara' => '/markalar',
+    ],
+
+    'removed_product_fallback' => '/urunler',
+
+    /** Eski urun slug on eki → marka slug (null = removed_product_fallback) */
+    'product_brand_prefixes' => [
+        'pedrollo' => 'pedrollo',
+        'sumak' => 'sumak',
+        'winpo' => 'winpo',
+        'kaysu' => 'kaysu',
+        'kosar' => 'kosar',
+        'etna' => 'etna',
+        'horoz' => null,
+        'mss' => null,
     ],
 
     'patterns' => [],

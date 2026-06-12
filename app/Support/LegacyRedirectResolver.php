@@ -92,6 +92,17 @@ final class LegacyRedirectResolver
             return self::normalizeTarget('/urun/'.$matches[1]);
         }
 
+        if (preg_match('#^/urun/([^/]+)$#', $path, $matches) && ! self::hasLegacyProductQuery($request)) {
+            $removedProductTarget = LegacyRemovedProductRedirect::targetForSlug($matches[1]);
+            if ($removedProductTarget !== null) {
+                return self::normalizeTarget($removedProductTarget);
+            }
+        }
+
+        if (preg_match('#^/shop(?:/page/\d+)?$#', $path)) {
+            return self::normalizeTarget('/urunler');
+        }
+
         return null;
     }
 
@@ -127,10 +138,18 @@ final class LegacyRedirectResolver
     private static function resolveLegacyBrandPath(string $path, Request $request): ?string
     {
         if (preg_match('#^/markalar/([^/]+)(?:/page/\d+)?$#', $path, $matches)) {
+            if ($matches[1] === 'marmara') {
+                return self::normalizeTarget('/markalar');
+            }
+
             return self::normalizeTarget('/marka/'.self::resolveBrandSlug($matches[1]));
         }
 
         if (preg_match('#^/marka/([^/]+)/page/\d+$#', $path, $matches)) {
+            if ($matches[1] === 'marmara') {
+                return self::normalizeTarget('/markalar');
+            }
+
             return self::normalizeTarget('/marka/'.self::resolveBrandSlug($matches[1]));
         }
 
@@ -139,8 +158,14 @@ final class LegacyRedirectResolver
         }
 
         $aliases = config('legacy_redirects.brand_aliases', []);
-        if (preg_match('#^/marka/([^/]+)$#', $path, $matches) && isset($aliases[$matches[1]])) {
-            return self::normalizeTarget('/marka/'.$aliases[$matches[1]]);
+        if (preg_match('#^/marka/([^/]+)$#', $path, $matches)) {
+            if ($matches[1] === 'marmara') {
+                return self::normalizeTarget('/markalar');
+            }
+
+            if (isset($aliases[$matches[1]])) {
+                return self::normalizeTarget('/marka/'.$aliases[$matches[1]]);
+            }
         }
 
         return null;

@@ -29,6 +29,6 @@ class ProjectReference extends Model
 
     public function imageUrl(?string $variant = null): ?string
     {
-        return PublicAssetUrl::for($this->image, $variant);
+        return PublicAssetUrl::resolve($this->image, $variant);
     }
 }

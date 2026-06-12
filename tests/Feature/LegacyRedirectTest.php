@@ -90,4 +90,19 @@ class LegacyRedirectTest extends TestCase
         $this->get('/markalar/sumak-keson-kuyu-dalgic-pompa/')
             ->assertRedirect('/marka/sumak');
     }
+
+    public function test_removed_product_slug_redirects_to_brand_or_products(): void
+    {
+        $this->get('/urun/pedrollo-kaldirilmis-eski-urun-slug')
+            ->assertRedirect('/marka/pedrollo');
+
+        $this->get('/marka/sumak-bicakli-foseptik-dalgic-pompa')
+            ->assertRedirect('/marka/sumak');
+
+        $this->get('/markalar/marmara/page/37')
+            ->assertRedirect('/markalar');
+
+        $this->get('/shop/page/28')
+            ->assertRedirect('/urunler');
+    }
 }
