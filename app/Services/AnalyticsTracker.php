@@ -8,6 +8,7 @@ use App\Models\AnalyticsVisitor;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Throwable;
@@ -230,19 +231,49 @@ class AnalyticsTracker
         }
     }
 
+    public function linkAuthenticatedUser(Request $request): void
+    {
+        if (! $this->available() || ! $this->shouldTrackInteraction($request)) {
+            return;
+        }
+
+        $user = $request->user();
+        if (! $user || $user->is_admin) {
+            return;
+        }
+
+        try {
+            $this->ensureSessionVisitor($request);
+
+            $visitorId = $request->session()->get('analytics_visitor_id');
+            if (! $visitorId) {
+                return;
+            }
+
+            AnalyticsVisitor::query()
+                ->where('id', $visitorId)
+                ->update(['user_id' => $user->id]);
+
+            AnalyticsEvent::query()
+                ->where('visitor_id', $visitorId)
+                ->whereNull('user_id')
+                ->update(['user_id' => $user->id]);
+        } catch (Throwable) {
+            // Login must never fail because of analytics linking.
+        }
+    }
+
     public function visitor(Request $request): AnalyticsVisitor
     {
-        $id = $request->session()->get('analytics_visitor_id');
-        if (! $id) {
-            $id = (string) Str::uuid();
-            $request->session()->put('analytics_visitor_id', $id);
-        }
+        $this->ensureSessionVisitor($request);
+
+        $id = (string) $request->session()->get('analytics_visitor_id');
 
         $visitor = AnalyticsVisitor::query()->firstOrNew(['id' => $id]);
         $firstSeen = $visitor->exists ? $visitor->first_seen_at : now();
 
         $visitor->fill([
-            'user_id' => $request->user()?->id,
+            'user_id' => $request->user()?->id ?? $visitor->user_id,
             'ip_hash' => $this->ipHash($request),
             'device_type' => $this->deviceType((string) $request->userAgent()),
             'user_agent' => Str::limit((string) $request->userAgent(), 1000, ''),
@@ -299,6 +330,22 @@ class AnalyticsTracker
         } catch (Throwable) {
             return self::$available = false;
         }
+    }
+
+    private function ensureSessionVisitor(Request $request): void
+    {
+        $id = $request->session()->get('analytics_visitor_id');
+        $lastActivity = (int) $request->session()->get('analytics_last_activity_at', 0);
+        $timeoutMinutes = max(5, (int) config('kosar.analytics_session_timeout_minutes', 30));
+
+        $timedOut = $lastActivity > 0
+            && Carbon::createFromTimestamp($lastActivity)->diffInMinutes(now()) >= $timeoutMinutes;
+
+        if (! $id || $timedOut) {
+            $request->session()->put('analytics_visitor_id', (string) Str::uuid());
+        }
+
+        $request->session()->put('analytics_last_activity_at', now()->timestamp);
     }
 
     private function ipHash(Request $request): ?string

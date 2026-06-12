@@ -7,6 +7,7 @@ use App\Models\AbandonedCart;
 use App\Models\AnalyticsEvent;
 use App\Models\AnalyticsVisitor;
 use App\Models\Order;
+use App\Support\AnalyticsIdentity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -307,7 +308,7 @@ class AnalyticsController extends Controller
             }));
         }
 
-        return (int) $query->distinct('visitor_id')->count('visitor_id');
+        return AnalyticsIdentity::countDistinct($query);
     }
 
     private function countOrganicPageViews(\Illuminate\Support\Carbon $since): int

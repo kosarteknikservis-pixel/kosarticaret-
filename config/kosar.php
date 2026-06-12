@@ -23,6 +23,9 @@ return [
     'report_timezone' => env('KOSAR_REPORT_TZ', 'Europe/Istanbul'),
     'public_page_cache' => env('KOSAR_PUBLIC_PAGE_CACHE', true),
 
+    // Müşteri hareketleri: oturum hareketsizlik süresi (GA4 benzeri yeni oturum eşiği).
+    'analytics_session_timeout_minutes' => (int) env('KOSAR_ANALYTICS_SESSION_TIMEOUT', 30),
+
     /*
     | Google PageSpeed Insights API — panelde site hızı raporu.
     | API anahtarı: Google Cloud Console → PageSpeed Insights API

@@ -29,6 +29,7 @@
             <strong class="text-slate-800">Not:</strong>
             Bu ekran mağazadaki gerçek ziyaretçi davranışını ölçer (doğrudan giriş, reklam, sosyal medya, Google arama vb.).
             Google Search Console ise yalnızca <em>Google arama sonuçlarından gelen tıklamaları</em> sayar; bu yüzden rakamlar birebir aynı olmaz.
+            Ziyaretçi sayımı oturum çerezi ile yapılır; 30 dakika hareketsizlikten sonra yeni oturum başlar. Giriş yapmış müşteriler hesap bazında birleştirilir.
             Organik Google trafiği için aşağıdaki ayrı kartı Search Console ile karşılaştırın.
         </p>
     </div>

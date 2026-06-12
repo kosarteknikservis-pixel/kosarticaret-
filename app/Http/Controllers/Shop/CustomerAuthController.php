@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\AnalyticsTracker;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,8 @@ class CustomerAuthController extends Controller
 
                 return back()->withErrors(['email' => 'Mağaza girişi için müşteri hesabı kullanın. Yönetim paneli: /yonetim/giris']);
             }
+
+            app(AnalyticsTracker::class)->linkAuthenticatedUser($request);
 
             return redirect()->intended(route('account.index'));
         }
@@ -60,6 +63,8 @@ class CustomerAuthController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
+
+        app(AnalyticsTracker::class)->linkAuthenticatedUser($request);
 
         return redirect()->route('account.index')->with('success', 'Hesabınız oluşturuldu.');
     }
