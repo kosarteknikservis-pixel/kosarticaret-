@@ -155,19 +155,22 @@ class AnalyticsController extends Controller
             ->values();
         $activeVisitorList = $activeUniqueVisitors->take(12);
 
+        $humanEventTypes = [
+            'page_view',
+            'visitor_heartbeat',
+            'cart_add',
+            'cart_update',
+            'cart_remove',
+            'checkout_started',
+            'order_created',
+        ];
+
         return view('admin.analytics.index', [
             'activeVisitors' => $activeUniqueVisitors->count(),
-            // Dönemde en az bir eventi olan benzersiz ziyaretçi (yeni + tekrar gelenler dahil)
-            'todayVisitors' => AnalyticsEvent::query()
-                ->where('occurred_at', '>=', $today)
-                ->whereNotNull('visitor_id')
-                ->distinct('visitor_id')
-                ->count('visitor_id'),
-            'periodVisitors' => AnalyticsEvent::query()
-                ->where('occurred_at', '>=', $periodStart)
-                ->whereNotNull('visitor_id')
-                ->distinct('visitor_id')
-                ->count('visitor_id'),
+            'todayVisitors' => $this->countDistinctVisitors($today, $humanEventTypes),
+            'periodVisitors' => $this->countDistinctVisitors($periodStart, $humanEventTypes),
+            'periodOrganicVisitors' => $this->countDistinctVisitors($periodStart, $humanEventTypes, organicOnly: true),
+            'periodOrganicPageViews' => $this->countOrganicPageViews($periodStart),
             'todayPageViews' => (clone $events)->where('event_type', 'page_view')->where('occurred_at', '>=', $today)->count(),
             'periodPageViews' => AnalyticsEvent::query()->where('event_type', 'page_view')->where('occurred_at', '>=', $periodStart)->count(),
             'periodProductViews' => AnalyticsEvent::query()->where('event_type', 'product_view')->where('occurred_at', '>=', $periodStart)->count(),
@@ -283,5 +286,41 @@ class AnalyticsController extends Controller
             'order_created' => 'Sipariş oluşturuldu',
             default => str_replace('_', ' ', $eventType),
         };
+    }
+
+    /**
+     * @param  list<string>  $eventTypes
+     */
+    private function countDistinctVisitors(\Illuminate\Support\Carbon $since, array $eventTypes, bool $organicOnly = false): int
+    {
+        $query = AnalyticsEvent::query()
+            ->where('occurred_at', '>=', $since)
+            ->whereNotNull('visitor_id')
+            ->whereIn('event_type', $eventTypes);
+
+        if ($organicOnly) {
+            $query->whereHas('visitor', fn ($visitorQuery) => $visitorQuery->where(function ($q): void {
+                $q->where('referrer', 'like', '%google.%')
+                    ->orWhere('referrer', 'like', '%//google.%')
+                    ->orWhere('utm_source', 'google')
+                    ->orWhere('utm_medium', 'organic');
+            }));
+        }
+
+        return (int) $query->distinct('visitor_id')->count('visitor_id');
+    }
+
+    private function countOrganicPageViews(\Illuminate\Support\Carbon $since): int
+    {
+        return (int) AnalyticsEvent::query()
+            ->where('event_type', 'page_view')
+            ->where('occurred_at', '>=', $since)
+            ->whereHas('visitor', fn ($visitorQuery) => $visitorQuery->where(function ($q): void {
+                $q->where('referrer', 'like', '%google.%')
+                    ->orWhere('referrer', 'like', '%//google.%')
+                    ->orWhere('utm_source', 'google')
+                    ->orWhere('utm_medium', 'organic');
+            }))
+            ->count();
     }
 }

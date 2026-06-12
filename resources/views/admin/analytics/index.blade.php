@@ -24,6 +24,15 @@
         </div>
     </div>
 
+    <div class="admin-card admin-analytics-note mb-5 p-4 sm:p-5">
+        <p class="text-sm text-slate-600 leading-relaxed">
+            <strong class="text-slate-800">Not:</strong>
+            Bu ekran mağazadaki gerçek ziyaretçi davranışını ölçer (doğrudan giriş, reklam, sosyal medya, Google arama vb.).
+            Google Search Console ise yalnızca <em>Google arama sonuçlarından gelen tıklamaları</em> sayar; bu yüzden rakamlar birebir aynı olmaz.
+            Organik Google trafiği için aşağıdaki ayrı kartı Search Console ile karşılaştırın.
+        </p>
+    </div>
+
     <div class="admin-dashboard-stats">
         <div class="admin-metric-card admin-metric-card--primary admin-analytics-metric">
             <span class="admin-metric-card__icon">●</span>
@@ -33,9 +42,15 @@
         </div>
         <div class="admin-metric-card admin-analytics-metric">
             <span class="admin-metric-card__icon">↗</span>
-            <span class="admin-metric-card__label">{{ $periodLabel }} trafik</span>
+            <span class="admin-metric-card__label">{{ $periodLabel }} ziyaretçi</span>
             <strong>{{ $periodVisitors }}</strong>
-            <small>{{ $periodPageViews }} sayfa · {{ $periodProductViews }} ürün görüntüleme</small>
+            <small>{{ $periodPageViews }} sayfa · {{ $periodProductViews }} ürün görüntüleme · tüm kaynaklar</small>
+        </div>
+        <div class="admin-metric-card admin-analytics-metric">
+            <span class="admin-metric-card__icon">G</span>
+            <span class="admin-metric-card__label">{{ $periodLabel }} Google organik</span>
+            <strong>{{ $periodOrganicVisitors }}</strong>
+            <small>{{ $periodOrganicPageViews }} sayfa · Search Console tıklamalarıyla karşılaştırın</small>
         </div>
         <div class="admin-metric-card admin-analytics-metric">
             <span class="admin-metric-card__icon">□</span>

@@ -46,7 +46,7 @@ class AnalyticsTracker
 
     public function trackHeartbeat(Request $request, ?string $currentUrl = null): void
     {
-        if (! $this->available() || $this->isAdminRequest($request) || $this->isBot((string) $request->userAgent())) {
+        if (! $this->available() || ! $this->shouldTrackInteraction($request)) {
             return;
         }
 
@@ -78,7 +78,7 @@ class AnalyticsTracker
      */
     public function updateCheckoutContact(Request $request, CartService $cart, array $data): void
     {
-        if (! $this->available()) {
+        if (! $this->available() || ! $this->shouldTrackInteraction($request)) {
             return;
         }
 
@@ -106,7 +106,7 @@ class AnalyticsTracker
 
     public function syncCart(Request $request, CartService $cart, string $status = 'active'): void
     {
-        if (! $this->available()) {
+        if (! $this->available() || ! $this->shouldTrackInteraction($request)) {
             return;
         }
 
@@ -165,7 +165,7 @@ class AnalyticsTracker
 
     public function attachOrder(Request $request, Order $order): void
     {
-        if (! $this->available()) {
+        if (! $this->available() || ! $this->shouldTrackInteraction($request)) {
             return;
         }
 
@@ -207,7 +207,7 @@ class AnalyticsTracker
         array $metadata = [],
         ?Order $order = null,
     ): void {
-        if (! $this->available()) {
+        if (! $this->available() || ! $this->shouldTrackInteraction($request)) {
             return;
         }
 
@@ -265,11 +265,21 @@ class AnalyticsTracker
             return false;
         }
 
+        return $this->shouldTrackInteraction($request)
+            && ! $request->is('storage/*', 'sitemap.xml', 'robots.txt');
+    }
+
+    public function shouldTrackInteraction(Request $request): bool
+    {
         if ($this->isAdminRequest($request)) {
             return false;
         }
 
-        if ($request->is('yonetim', 'yonetim/*', 'admin', 'admin/*', 'storage/*', 'sitemap.xml', 'robots.txt')) {
+        if ($request->is('yonetim', 'yonetim/*', 'admin', 'admin/*')) {
+            return false;
+        }
+
+        if ($this->isPrefetchRequest($request)) {
             return false;
         }
 
@@ -309,17 +319,44 @@ class AnalyticsTracker
 
     private function isBot(string $userAgent): bool
     {
-        $agent = Str::lower($userAgent);
+        $agent = Str::lower(trim($userAgent));
 
-        return str_contains($agent, 'bot')
-            || str_contains($agent, 'crawler')
-            || str_contains($agent, 'spider')
-            || str_contains($agent, 'preview')
-            || str_contains($agent, 'headless')
-            || str_contains($agent, 'lighthouse')
-            || str_contains($agent, 'pagespeed')
-            || str_contains($agent, 'uptime')
-            || str_contains($agent, 'monitor');
+        if ($agent === '') {
+            return true;
+        }
+
+        $signals = [
+            'bot', 'crawler', 'spider', 'slurp', 'preview', 'headless',
+            'lighthouse', 'pagespeed', 'uptime', 'monitor', 'pingdom',
+            'statuscake', 'semrush', 'ahrefs', 'mj12bot', 'dotbot',
+            'petalbot', 'bytespider', 'yandex', 'baiduspider', 'duckduck',
+            'facebookexternalhit', 'embedly', 'wget', 'curl/', 'python-requests',
+            'httpx', 'go-http-client', 'libwww', 'scrapy', 'archive.org',
+            'google-inspectiontool', 'googleother', 'bingpreview', 'adsbot',
+            'mediapartners-google', 'apis-google', 'feedfetcher', 'gptbot',
+            'claudebot', 'anthropic', 'chatgpt', 'perplexity',
+        ];
+
+        foreach ($signals as $signal) {
+            if (str_contains($agent, $signal)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isPrefetchRequest(Request $request): bool
+    {
+        foreach (['Purpose', 'Sec-Purpose', 'X-Purpose'] as $header) {
+            $value = Str::lower((string) $request->headers->get($header, ''));
+
+            if (str_contains($value, 'prefetch') || str_contains($value, 'preview')) {
+                return true;
+            }
+        }
+
+        return $request->headers->get('Sec-Fetch-Dest') === 'prefetch';
     }
 
     private function isAdminRequest(Request $request): bool
