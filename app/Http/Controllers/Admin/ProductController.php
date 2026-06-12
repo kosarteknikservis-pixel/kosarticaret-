@@ -4,25 +4,62 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
-use App\Support\RichContent;
-use App\Support\SlugHelper;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Services\Catalog\BulkProductUpdateService;
+use App\Services\Catalog\ProductCsvExporter;
 use App\Support\ImageVariant;
+use App\Support\RichContent;
+use App\Support\SlugHelper;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProductController extends Controller
 {
-    public function index(): View
+    public function __construct(
+        private BulkProductUpdateService $bulk,
+        private ProductCsvExporter $exporter,
+    ) {}
+
+    public function index(Request $request): View
     {
+        $filters = $this->catalogFilters($request);
+        $query = $this->applySorting($this->bulk->filterQuery($filters), $request);
+
         return view('admin.products.index', [
-            'products' => Product::query()->with('brand')->latest()->paginate(20),
+            'products' => $query->with(['brand:id,name', 'categories:id,name'])
+                ->paginate($this->perPage($request))
+                ->withQueryString(),
+            'filters' => $this->displayFilters($request),
+            'brands' => Brand::query()->orderBy('name')->get(['id', 'name']),
+            'categories' => Category::query()->orderBy('name')->get(['id', 'name']),
         ]);
+    }
+
+    public function export(Request $request): StreamedResponse
+    {
+        $filters = $this->catalogFilters($request);
+
+        $ids = $request->input('ids', []);
+        if (! is_array($ids)) {
+            $ids = array_filter(explode(',', (string) $ids));
+        }
+        if ($ids !== []) {
+            $filters['product_ids'] = array_values(array_filter(array_map('intval', $ids)));
+        }
+
+        $query = $this->applySorting($this->bulk->filterQuery($filters), $request);
+
+        return $this->exporter->download(
+            $query,
+            'urunler-'.now()->format('Y-m-d-His').'.csv'
+        );
     }
 
     public function create(): View
@@ -170,5 +207,62 @@ class ProductController extends Controller
         $image->delete();
 
         return back()->with('success', 'Galeri görseli silindi.');
+    }
+
+    /** @return array<string, mixed> */
+    private function catalogFilters(Request $request): array
+    {
+        $categoryId = (int) $request->input('category_id', 0);
+
+        return [
+            'category_ids' => $categoryId > 0 ? [$categoryId] : [],
+            'brand_id' => $request->input('brand_id'),
+            'stock' => $request->filled('stock') ? $request->input('stock') : 'any',
+            'stock_low_max' => 5,
+            'featured' => $request->filled('featured') ? $request->input('featured') : 'any',
+            'is_active' => $request->filled('is_active') ? $request->input('is_active') : 'any',
+            'search' => $request->input('q'),
+            'sku_list' => $request->input('sku_list'),
+            'product_ids' => [],
+        ];
+    }
+
+    /** @return array<string, mixed> */
+    private function displayFilters(Request $request): array
+    {
+        return [
+            'q' => (string) $request->input('q', ''),
+            'brand_id' => $request->input('brand_id', ''),
+            'category_id' => $request->input('category_id', ''),
+            'stock' => (string) $request->input('stock', ''),
+            'is_active' => (string) $request->input('is_active', ''),
+            'featured' => (string) $request->input('featured', ''),
+            'sort' => (string) $request->input('sort', 'latest'),
+            'per_page' => (string) $request->input('per_page', '20'),
+            'sku_list' => (string) $request->input('sku_list', ''),
+        ];
+    }
+
+    /** @param  Builder<Product>  $query */
+    private function applySorting(Builder $query, Request $request): Builder
+    {
+        return match ($request->input('sort', 'latest')) {
+            'name_asc' => $query->orderBy('name'),
+            'name_desc' => $query->orderByDesc('name'),
+            'price_asc' => $query->orderBy('price'),
+            'price_desc' => $query->orderByDesc('price'),
+            'stock_asc' => $query->orderBy('stock'),
+            'stock_desc' => $query->orderByDesc('stock'),
+            default => $query->latest(),
+        };
+    }
+
+    private function perPage(Request $request): int
+    {
+        return match ((int) $request->input('per_page', 20)) {
+            50 => 50,
+            100 => 100,
+            default => 20,
+        };
     }
 }

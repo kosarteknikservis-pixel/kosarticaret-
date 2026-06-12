@@ -177,7 +177,8 @@ class BulkProductUpdateService
         if ($search !== '') {
             $query->where(function (Builder $q) use ($search): void {
                 $q->where('name', 'like', '%'.$search.'%')
-                    ->orWhere('sku', 'like', '%'.$search.'%');
+                    ->orWhere('sku', 'like', '%'.$search.'%')
+                    ->orWhere('slug', 'like', '%'.$search.'%');
             });
         }
 

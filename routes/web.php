@@ -217,6 +217,7 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::delete('musteri-hareketleri/yarim-sepet/{cart}', [AdminAnalyticsController::class, 'destroyAbandonedCart'])->name('analytics.abandoned-carts.destroy');
         Route::get('profil', [AdminProfileController::class, 'edit'])->name('profile.edit');
         Route::put('profil', [AdminProfileController::class, 'update'])->name('profile.update');
+        Route::get('urunler/disa-aktar', [AdminProductController::class, 'export'])->name('products.export');
         Route::resource('urunler', AdminProductController::class)
             ->except(['show'])
             ->parameters(['urunler' => 'product'])
