@@ -37,6 +37,11 @@ class LegacyRedirect
             return redirect()->to($url, 301);
         }
 
+        $trailingTarget = LegacyRedirectResolver::trailingSlashRedirectTarget($request);
+        if ($trailingTarget !== null) {
+            return redirect()->to(url($trailingTarget), 301);
+        }
+
         return $next($request);
     }
 }

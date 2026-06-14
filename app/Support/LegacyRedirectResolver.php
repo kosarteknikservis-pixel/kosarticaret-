@@ -58,7 +58,7 @@ final class LegacyRedirectResolver
         }
 
         if (preg_match('#^/sepet/page/\d+$#', $path)) {
-            return self::normalizeTarget('/urunler');
+            return self::normalizeTarget('/sepet');
         }
 
         if (preg_match('#^/urun-etiket(?:/|$)#', $path)) {
@@ -81,7 +81,12 @@ final class LegacyRedirectResolver
         }
 
         if ($path === '/sepet' && self::hasLegacyCartQuery($request)) {
-            return self::normalizeTarget('/urunler');
+            return self::normalizeTarget('/sepet');
+        }
+
+        $legacyCatalogTarget = self::resolveLegacyCatalogQuery($request, $path);
+        if ($legacyCatalogTarget !== null) {
+            return $legacyCatalogTarget;
         }
 
         if (preg_match('#^/urun/([^/]+)$#', $path, $matches) && self::hasLegacyProductQuery($request)) {
@@ -93,6 +98,11 @@ final class LegacyRedirectResolver
         }
 
         if (preg_match('#^/urun/([^/]+)$#', $path, $matches) && ! self::hasLegacyProductQuery($request)) {
+            $matchedTarget = LegacyProductSlugMatcher::targetForLegacySlug($matches[1]);
+            if ($matchedTarget !== null && $matchedTarget !== self::normalizeTarget('/urun/'.$matches[1])) {
+                return self::normalizeTarget($matchedTarget);
+            }
+
             $removedProductTarget = LegacyRemovedProductRedirect::targetForSlug($matches[1]);
             if ($removedProductTarget !== null) {
                 return self::normalizeTarget($removedProductTarget);
@@ -157,6 +167,10 @@ final class LegacyRedirectResolver
             return self::normalizeTarget('/marka/'.self::resolveBrandSlug($matches[1]));
         }
 
+        if (preg_match('#^/marka/([^/]+)$#', $path, $matches) && $request->hasAny(['filter_product_brand', 'filter_cat', 'shop_view', 'on_sale', 'stock_status'])) {
+            return self::normalizeTarget('/marka/'.self::resolveBrandSlug($matches[1]));
+        }
+
         $aliases = config('legacy_redirects.brand_aliases', []);
         if (preg_match('#^/marka/([^/]+)$#', $path, $matches)) {
             if ($matches[1] === 'marmara') {
@@ -185,6 +199,42 @@ final class LegacyRedirectResolver
         return $path === '/' ? '/' : rtrim($path, '/');
     }
 
+    private static function resolveLegacyCatalogQuery(Request $request, string $path): ?string
+    {
+        if (! preg_match('#^/(kategoriler|marka|urunler)(?:/|$)#', $path)) {
+            return null;
+        }
+
+        $legacyParams = [
+            'filtering',
+            'filter_product_brand',
+            'filter_cat',
+            'shop_view',
+            'on_sale',
+            'stock_status',
+            'add-to-cart',
+            'remove_item',
+            '_wpnonce',
+            'gridcookie',
+            'product_cat',
+            'per_row',
+            'per_page',
+            'shop_view',
+        ];
+
+        if ($request->hasAny($legacyParams)) {
+            $page = max(1, (int) $request->query('page', 1));
+
+            return self::normalizeTarget($page > 1 ? $path.'?page='.$page : $path);
+        }
+
+        if ($request->query('page') === '1' && count($request->query()) === 1) {
+            return self::normalizeTarget($path);
+        }
+
+        return null;
+    }
+
     private static function hasLegacyCartQuery(Request $request): bool
     {
         return $request->hasAny([
@@ -208,6 +258,22 @@ final class LegacyRedirectResolver
             'add-to-compare',
             'added-to-cart',
         ]);
+    }
+
+    public static function trailingSlashRedirectTarget(Request $request): ?string
+    {
+        $uri = $request->getRequestUri();
+        $path = parse_url($uri, PHP_URL_PATH);
+
+        if (! is_string($path) || $path === '/' || ! str_ends_with($path, '/')) {
+            return null;
+        }
+
+        $normalized = rtrim($path, '/');
+        $query = parse_url($uri, PHP_URL_QUERY);
+        $target = $normalized.($query ? '?'.$query : '');
+
+        return $target === $uri ? null : $target;
     }
 
     private static function normalizeTarget(string $target): string

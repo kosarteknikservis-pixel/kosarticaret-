@@ -72,6 +72,12 @@ class SeoController extends Controller
             'Disallow: /hesabim',
             'Disallow: /giris',
             'Disallow: /kayit',
+            'Disallow: /urun-kategori',
+            'Disallow: /urun-etiket',
+            'Disallow: /tag/',
+            'Disallow: /page/',
+            'Disallow: /magaza',
+            'Disallow: /shop',
             '',
             'Sitemap: '.Seo::absolute('/sitemap.xml'),
         ];

@@ -90,6 +90,25 @@
 
             </div>
 
+            <h3 class="admin-section-title">Pazaryeri & lojistik</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div><label class="admin-label">Barkod (EAN/GTIN)</label><input name="barcode" value="{{ old('barcode', $product->barcode) }}" class="admin-input font-mono text-sm" placeholder="8690000000000"></div>
+                <div><label class="admin-label">KDV (%)</label><input type="number" step="0.01" min="0" max="100" name="vat_rate" value="{{ old('vat_rate', $product->vat_rate ?? config('marketplace.default_vat_rate', 20)) }}" class="admin-input"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div><label class="admin-label">Ağırlık (kg)</label><input type="number" step="0.001" min="0" name="weight_kg" value="{{ old('weight_kg', $product->weight_kg) }}" class="admin-input"></div>
+                <div><label class="admin-label">En (cm)</label><input type="number" step="0.01" min="0" name="width_cm" value="{{ old('width_cm', $product->width_cm) }}" class="admin-input"></div>
+                <div><label class="admin-label">Boy (cm)</label><input type="number" step="0.01" min="0" name="height_cm" value="{{ old('height_cm', $product->height_cm) }}" class="admin-input"></div>
+                <div><label class="admin-label">Yükseklik (cm)</label><input type="number" step="0.01" min="0" name="depth_cm" value="{{ old('depth_cm', $product->depth_cm) }}" class="admin-input"></div>
+            </div>
+            @if($product->desi())
+                <p class="text-xs text-slate-500">Hesaplanan desi: <strong>{{ number_format($product->desi(), 2, ',', '.') }}</strong></p>
+            @endif
+            <label class="flex items-center gap-3 text-sm font-medium text-slate-700">
+                <input type="checkbox" name="marketplace_enabled" value="1" @checked(old('marketplace_enabled', $product->marketplace_enabled ?? true)) class="rounded border-slate-300">
+                Pazaryerlerine gönderime açık
+            </label>
+
 
 
             <h3 class="admin-section-title">Görseller</h3>

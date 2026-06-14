@@ -36,6 +36,15 @@
                 <label class="admin-label">Bitiş</label>
                 <input type="date" name="date_to" value="{{ $filters['date_to'] ?? '' }}" class="admin-input">
             </div>
+            <div>
+                <label class="admin-label">Satış kanalı</label>
+                <select name="sales_channel" class="admin-input">
+                    <option value="">Tümü</option>
+                    @foreach($salesChannels as $value => $label)
+                        <option value="{{ $value }}" @selected(($filters['sales_channel'] ?? '') === $value)>{{ $label }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div class="mt-3 flex flex-wrap gap-2 items-end">
             <div>
@@ -67,6 +76,7 @@
                     <tr>
                         <th><input type="checkbox" data-order-check-all aria-label="Tümünü seç"></th>
                         <th>Sipariş no</th>
+                        <th>Kanal</th>
                         <th>Müşteri</th>
                         <th>Tarih</th>
                         <th>Tutar</th>
@@ -82,6 +92,9 @@
                         <tr>
                             <td data-label="Seç"><input type="checkbox" name="orders[]" value="{{ $o->id }}" form="bulk-order-delete-form" data-order-check aria-label="{{ $o->order_number }} seç"></td>
                             <td data-label="Sipariş no"><a href="{{ route('admin.orders.show', $o) }}" class="link font-mono text-xs">{{ $o->order_number }}</a></td>
+                            <td data-label="Kanal" class="text-xs">
+                                <span class="rounded-full bg-slate-100 px-2 py-0.5 font-medium">{{ config('marketplace.sales_channels.'.$o->sales_channel, $o->sales_channel ?: 'website') }}</span>
+                            </td>
                             <td data-label="Müşteri" class="max-w-[220px]">
                                 <p class="font-semibold truncate">{{ $o->customer_name ?: '—' }}</p>
                                 <p class="text-xs text-slate-500 truncate">{{ $o->email }}</p>

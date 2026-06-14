@@ -23,6 +23,7 @@ class Product extends Model
         'brand_id', 'price', 'compare_at_price', 'stock',
         'rating', 'review_count', 'badges', 'specs', 'tags',
         'featured', 'is_active', 'image', 'image_alt', 'meta_title', 'meta_description',
+        'barcode', 'weight_kg', 'width_cm', 'height_cm', 'depth_cm', 'vat_rate', 'marketplace_enabled',
     ];
 
     protected function casts(): array
@@ -36,6 +37,12 @@ class Product extends Model
             'tags' => 'array',
             'featured' => 'boolean',
             'is_active' => 'boolean',
+            'marketplace_enabled' => 'boolean',
+            'weight_kg' => 'decimal:3',
+            'width_cm' => 'decimal:2',
+            'height_cm' => 'decimal:2',
+            'depth_cm' => 'decimal:2',
+            'vat_rate' => 'decimal:2',
             'translations' => 'array',
         ];
     }
@@ -73,6 +80,29 @@ class Product extends Model
     public function approvedReviews(): HasMany
     {
         return $this->reviews()->where('approved', true)->latest();
+    }
+
+    public function marketplaceListings(): HasMany
+    {
+        return $this->hasMany(MarketplaceListing::class);
+    }
+
+    public function vatRateValue(): float
+    {
+        return (float) ($this->vat_rate ?? config('marketplace.default_vat_rate', 20));
+    }
+
+    public function desi(): ?float
+    {
+        if ($this->width_cm && $this->height_cm && $this->depth_cm) {
+            return round(((float) $this->width_cm * (float) $this->height_cm * (float) $this->depth_cm) / 3000, 2);
+        }
+
+        if ($this->weight_kg) {
+            return round((float) $this->weight_kg, 2);
+        }
+
+        return null;
     }
 
     public function getRouteKeyName(): string

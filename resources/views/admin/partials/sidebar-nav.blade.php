@@ -25,6 +25,10 @@ $integrationsOpen = request()->routeIs('admin.integrations.*');
         <svg class="w-5 h-5 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"/></svg>
         Markalar
     </a>
+    <a href="{{ route('admin.integrations.marketplace.index') }}" class="admin-nav-link {{ $nav('admin.integrations.marketplace.*') }}">
+        <svg class="w-5 h-5 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64M3 21h1.5M3 7.5v13.5m0-13.5A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v13.5M9 10.5h.008v.008H9V10.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm3.375 0h.008v.008H12.75V10.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+        Pazaryerleri
+    </a>
 
     <p class="admin-nav-section mt-4">Satış</p>
     <a href="{{ route('admin.orders.index') }}" class="admin-nav-link {{ $nav('admin.orders.*') }}">
@@ -54,6 +58,10 @@ $integrationsOpen = request()->routeIs('admin.integrations.*');
             <a href="{{ route('admin.integrations.payment.index') }}"
                class="admin-nav-link admin-nav-link--child {{ request()->routeIs('admin.integrations.payment.*') ? 'is-active' : '' }}">
                 Ödeme
+            </a>
+            <a href="{{ route('admin.integrations.marketplace.index') }}"
+               class="admin-nav-link admin-nav-link--child {{ request()->routeIs('admin.integrations.marketplace.*') ? 'is-active' : '' }}">
+                Pazaryerleri
             </a>
         </div>
     </div>

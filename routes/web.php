@@ -312,6 +312,43 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
                 Route::get('iyzico', [\App\Http\Controllers\Admin\PaymentSettingsController::class, 'editIyzico'])->name('iyzico');
                 Route::put('iyzico', [\App\Http\Controllers\Admin\PaymentSettingsController::class, 'updateIyzico'])->name('iyzico.update');
             });
+            Route::prefix('pazaryerleri')->name('marketplace.')->group(function () {
+                Route::get('/', \App\Http\Controllers\Admin\Marketplace\MarketplaceDashboardController::class)->name('index');
+                Route::get('hazirlik', \App\Http\Controllers\Admin\Marketplace\MarketplaceReadinessController::class)->name('readiness');
+                Route::get('barkod-import', [\App\Http\Controllers\Admin\Marketplace\MarketplaceLogisticsImportController::class, 'create'])->name('logistics-import');
+                Route::post('barkod-import', [\App\Http\Controllers\Admin\Marketplace\MarketplaceLogisticsImportController::class, 'store'])->name('logistics-import.store');
+                Route::get('loglar', \App\Http\Controllers\Admin\Marketplace\MarketplaceSyncLogController::class)->name('logs');
+                Route::get('kanallar', [\App\Http\Controllers\Admin\Marketplace\MarketplaceChannelController::class, 'index'])->name('channels.index');
+                Route::get('kanallar/{channel}', [\App\Http\Controllers\Admin\Marketplace\MarketplaceChannelController::class, 'edit'])->name('channels.edit');
+                Route::put('kanallar/{channel}', [\App\Http\Controllers\Admin\Marketplace\MarketplaceChannelController::class, 'update'])->name('channels.update');
+                Route::post('kanallar/{channel}/test', [\App\Http\Controllers\Admin\Marketplace\MarketplaceChannelController::class, 'testConnection'])->name('channels.test');
+
+                Route::prefix('eslestirmeler')->name('mappings.')->group(function () {
+                    Route::get('/', \App\Http\Controllers\Admin\Marketplace\MarketplaceMappingHubController::class)->name('index');
+                    Route::get('kategoriler', [\App\Http\Controllers\Admin\Marketplace\MarketplaceCategoryMappingController::class, 'index'])->name('categories');
+                    Route::post('kategoriler', [\App\Http\Controllers\Admin\Marketplace\MarketplaceCategoryMappingController::class, 'store'])->name('categories.store');
+                    Route::delete('kategoriler/{mapping}', [\App\Http\Controllers\Admin\Marketplace\MarketplaceCategoryMappingController::class, 'destroy'])->name('categories.destroy');
+                    Route::post('kategoriler/oner', [\App\Http\Controllers\Admin\Marketplace\MarketplaceCategoryMappingController::class, 'suggest'])->name('categories.suggest');
+                    Route::post('kategoriler/harici-import', [\App\Http\Controllers\Admin\Marketplace\MarketplaceCategoryMappingController::class, 'importExternal'])->name('categories.import-external');
+                    Route::get('markalar', [\App\Http\Controllers\Admin\Marketplace\MarketplaceBrandMappingController::class, 'index'])->name('brands');
+                    Route::post('markalar', [\App\Http\Controllers\Admin\Marketplace\MarketplaceBrandMappingController::class, 'store'])->name('brands.store');
+                    Route::delete('markalar/{mapping}', [\App\Http\Controllers\Admin\Marketplace\MarketplaceBrandMappingController::class, 'destroy'])->name('brands.destroy');
+                    Route::post('markalar/oner', [\App\Http\Controllers\Admin\Marketplace\MarketplaceBrandMappingController::class, 'suggest'])->name('brands.suggest');
+                    Route::get('ozellikler', [\App\Http\Controllers\Admin\Marketplace\MarketplaceAttributeMappingController::class, 'index'])->name('attributes');
+                    Route::post('ozellikler', [\App\Http\Controllers\Admin\Marketplace\MarketplaceAttributeMappingController::class, 'store'])->name('attributes.store');
+                    Route::delete('ozellikler/{mapping}', [\App\Http\Controllers\Admin\Marketplace\MarketplaceAttributeMappingController::class, 'destroy'])->name('attributes.destroy');
+                    Route::get('yedek/indir', [\App\Http\Controllers\Admin\Marketplace\MarketplaceMappingBackupController::class, 'export'])->name('export');
+                    Route::post('yedek/yukle', [\App\Http\Controllers\Admin\Marketplace\MarketplaceMappingBackupController::class, 'import'])->name('import');
+                });
+
+                Route::get('listelemeler', [\App\Http\Controllers\Admin\Marketplace\MarketplaceListingController::class, 'index'])->name('listings.index');
+                Route::post('listelemeler/gonder', [\App\Http\Controllers\Admin\Marketplace\MarketplaceListingController::class, 'publish'])->name('listings.publish');
+                Route::post('listelemeler/toplu-gonder', [\App\Http\Controllers\Admin\Marketplace\MarketplaceListingController::class, 'bulkPublish'])->name('listings.bulk-publish');
+                Route::post('listelemeler/{listing}/yeniden-dene', [\App\Http\Controllers\Admin\Marketplace\MarketplaceListingController::class, 'retry'])->name('listings.retry');
+
+                Route::get('siparisler', [\App\Http\Controllers\Admin\Marketplace\MarketplaceOrderSyncController::class, 'index'])->name('orders.index');
+                Route::post('siparisler/import', [\App\Http\Controllers\Admin\Marketplace\MarketplaceOrderSyncController::class, 'import'])->name('orders.import');
+            });
         });
         Route::get('ayarlar', [SettingController::class, 'edit'])->name('settings.edit');
         Route::put('ayarlar', [SettingController::class, 'update'])->name('settings.update');

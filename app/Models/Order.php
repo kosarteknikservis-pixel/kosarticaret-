@@ -13,6 +13,7 @@ class Order extends Model
         'customer_name', 'phone', 'shipping_address', 'shipping_tracking',
         'admin_note', 'subtotal', 'shipping_cost', 'discount', 'total', 'coupon_code',
         'analytics_visitor_id', 'order_source', 'order_medium', 'order_campaign', 'landing_url', 'referrer_url',
+        'sales_channel', 'external_order_id', 'external_package_id', 'marketplace_commission', 'marketplace_payload',
         'parasut_sales_invoice_id', 'parasut_status', 'parasut_error', 'parasut_synced_at',
     ];
 
@@ -24,6 +25,8 @@ class Order extends Model
             'shipping_cost' => 'decimal:2',
             'discount' => 'decimal:2',
             'total' => 'decimal:2',
+            'marketplace_commission' => 'decimal:2',
+            'marketplace_payload' => 'array',
             'parasut_synced_at' => 'datetime',
         ];
     }

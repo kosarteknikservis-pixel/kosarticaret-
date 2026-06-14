@@ -53,11 +53,16 @@ class OrderController extends Controller
             $query->whereDate('created_at', '<=', $to);
         }
 
+        if ($salesChannel = $request->query('sales_channel')) {
+            $query->where('sales_channel', $salesChannel);
+        }
+
         return view('admin.orders.index', [
             'orders' => $query->paginate(20)->withQueryString(),
             'statuses' => OrderStatus::labels(),
             'paymentStatuses' => PaymentStatus::labels(),
-            'filters' => $request->only(['q', 'status', 'payment_status', 'tracking', 'date_from', 'date_to']),
+            'salesChannels' => config('marketplace.sales_channels', []),
+            'filters' => $request->only(['q', 'status', 'payment_status', 'tracking', 'date_from', 'date_to', 'sales_channel']),
         ]);
     }
 

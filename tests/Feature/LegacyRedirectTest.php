@@ -12,16 +12,16 @@ class LegacyRedirectTest extends TestCase
             ->assertRedirect('/marka/sumak');
     }
 
-    public function test_legacy_cart_filter_urls_redirect_to_products(): void
+    public function test_legacy_cart_filter_urls_redirect_to_cart(): void
     {
         $this->get('/sepet?filtering=1&filter_product_brand=189')
-            ->assertRedirect('/urunler');
+            ->assertRedirect('/sepet');
     }
 
-    public function test_legacy_cart_pagination_redirects_to_products(): void
+    public function test_legacy_cart_pagination_redirects_to_cart(): void
     {
         $this->get('/sepet/page/3?remove_item=abc&_wpnonce=xyz')
-            ->assertRedirect('/urunler');
+            ->assertRedirect('/sepet');
     }
 
     public function test_plain_cart_page_is_not_redirected(): void
@@ -104,5 +104,25 @@ class LegacyRedirectTest extends TestCase
 
         $this->get('/shop/page/28')
             ->assertRedirect('/urunler');
+    }
+
+    public function test_trailing_slash_redirects_to_canonical_product_url(): void
+    {
+        $product = \App\Models\Product::query()->active()->first();
+        if ($product === null) {
+            $this->markTestSkipped('Aktif urun yok.');
+        }
+
+        $this->get('/urun/'.$product->slug.'/')
+            ->assertRedirect('/urun/'.$product->slug);
+    }
+
+    public function test_legacy_catalog_query_params_are_stripped(): void
+    {
+        $this->get('/marka/pedrollo?filtering=1&filter_product_brand=194&page=29')
+            ->assertRedirect('/marka/pedrollo?page=29');
+
+        $this->get('/kategoriler/su-pompalari/kademeli-pompalar?page=1')
+            ->assertRedirect('/kategoriler/su-pompalari/kademeli-pompalar');
     }
 }

@@ -133,6 +133,13 @@ class ProductController extends Controller
             'gallery_files.*' => ['image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
             'featured' => ['sometimes', 'boolean'],
             'is_active' => ['sometimes', 'boolean'],
+            'marketplace_enabled' => ['sometimes', 'boolean'],
+            'barcode' => ['nullable', 'string', 'max:32'],
+            'weight_kg' => ['nullable', 'numeric', 'min:0'],
+            'width_cm' => ['nullable', 'numeric', 'min:0'],
+            'height_cm' => ['nullable', 'numeric', 'min:0'],
+            'depth_cm' => ['nullable', 'numeric', 'min:0'],
+            'vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'image_alt' => ['nullable', 'string', 'max:255'],
             'meta_title' => ['nullable', 'string', 'max:70'],
             'meta_description' => ['nullable', 'string', 'max:320'],
@@ -142,6 +149,7 @@ class ProductController extends Controller
         $data['slug'] = SlugHelper::assign('products', $data['slug'] ?? null, $data['name'], $product?->id);
         $data['featured'] = $request->boolean('featured');
         $data['is_active'] = $request->boolean('is_active', true);
+        $data['marketplace_enabled'] = $request->boolean('marketplace_enabled', true);
         $data['tags'] = $request->filled('tags')
             ? array_values(array_filter(array_map('trim', explode(',', (string) $request->input('tags')))))
             : [];
