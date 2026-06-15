@@ -108,6 +108,32 @@ class PaymentPendingOrderTest extends TestCase
     }
 
     #[Test]
+    public function admin_default_order_list_hides_pending_payment_orders(): void
+    {
+        $admin = User::query()->where('is_admin', true)->first();
+        $this->makePendingOrder();
+        Order::query()->create([
+            'order_number' => 'KOS-PAID001',
+            'email' => 'paid@example.com',
+            'status' => 'hazirlaniyor',
+            'payment_status' => 'basarili',
+            'payment_method' => 'kredi_karti',
+            'customer_name' => 'Paid User',
+            'shipping_address' => ['teslimat' => []],
+            'subtotal' => 100,
+            'shipping_cost' => 0,
+            'discount' => 0,
+            'total' => 100,
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.orders.index'))
+            ->assertOk()
+            ->assertDontSee('KOS-TEST001', false)
+            ->assertSee('KOS-PAID001', false);
+    }
+
+    #[Test]
     public function admin_can_filter_pending_payment_orders(): void
     {
         $admin = User::query()->where('is_admin', true)->first();

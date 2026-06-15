@@ -13,6 +13,7 @@ class AccountController extends Controller
     {
         $orders = Order::query()
             ->where('email', $request->user()->email)
+            ->excludePendingPayment()
             ->latest()
             ->paginate(10);
 

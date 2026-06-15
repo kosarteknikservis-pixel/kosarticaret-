@@ -84,4 +84,14 @@ class Order extends Model
                 ->orWhere('sales_channel', 'website');
         });
     }
+
+    /** @param  \Illuminate\Database\Eloquent\Builder<Order>  $query */
+    public function scopeExcludePendingPayment($query)
+    {
+        return $query->where(function ($inner) {
+            $inner->where('payment_method', '!=', 'kredi_karti')
+                ->orWhere('status', '!=', 'odeme_bekliyor')
+                ->orWhereNotIn('payment_status', ['bekliyor', 'basarisiz']);
+        });
+    }
 }

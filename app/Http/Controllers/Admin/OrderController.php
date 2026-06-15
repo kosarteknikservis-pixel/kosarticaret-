@@ -60,6 +60,8 @@ class OrderController extends Controller
 
         if ($request->query('pending_payment') === '1') {
             $query->pendingPayment();
+        } elseif (! $this->shouldIncludePendingPaymentOrders($request)) {
+            $query->excludePendingPayment();
         }
 
         return view('admin.orders.index', [
@@ -184,5 +186,15 @@ class OrderController extends Controller
         ]);
 
         return back()->with('success', 'Ödeme hatırlatma e-postası müşteriye gönderildi.');
+    }
+
+    private function shouldIncludePendingPaymentOrders(Request $request): bool
+    {
+        if (trim((string) $request->query('q', '')) !== '') {
+            return true;
+        }
+
+        return filled($request->query('status'))
+            || filled($request->query('payment_status'));
     }
 }
