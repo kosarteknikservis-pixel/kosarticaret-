@@ -39,9 +39,12 @@ class OrderPaymentReminderMail extends Mailable
 
     public function content(): Content
     {
+        $order = $this->order->loadMissing('items');
+
         return new Content(
             view: 'emails.payment-reminder',
             with: [
+                'order' => $order,
                 'template' => $this->template(),
                 'params' => $this->params(),
             ],

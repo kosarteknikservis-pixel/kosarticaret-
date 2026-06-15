@@ -108,6 +108,50 @@ class PaymentPendingOrderTest extends TestCase
     }
 
     #[Test]
+    public function admin_payment_reminder_route_sends_mail_for_pending_order(): void
+    {
+        Mail::fake();
+
+        SiteSetting::set('smtp_enabled', '1');
+        SiteSetting::set('smtp_host', 'smtp.zoho.eu');
+        SiteSetting::set('smtp_port', '587');
+        SiteSetting::set('smtp_encryption', 'tls');
+        SiteSetting::set('smtp_username', 'info@kosarticaret.com');
+        SiteSetting::set('smtp_password', 'secret');
+        SiteSetting::set('smtp_from_address', 'info@kosarticaret.com');
+        SiteSetting::set('smtp_from_name', 'Koşar Ticaret');
+
+        $admin = User::query()->where('is_admin', true)->first();
+        $order = $this->makePendingOrder();
+
+        $this->actingAs($admin)
+            ->post(route('admin.orders.payment-reminder', $order))
+            ->assertRedirect()
+            ->assertSessionHas('success');
+
+        $order->refresh();
+        $this->assertNotNull($order->payment_reminder_sent_at);
+        $this->assertTrue($order->logs()->where('type', 'payment_reminder')->exists());
+        Mail::assertSent(\App\Mail\OrderPaymentReminderMail::class, 1);
+    }
+
+    #[Test]
+    public function admin_order_detail_includes_payment_reminder_form_outside_update_form(): void
+    {
+        $admin = User::query()->where('is_admin', true)->first();
+        $order = $this->makePendingOrder();
+
+        $html = $this->actingAs($admin)
+            ->get(route('admin.orders.show', $order))
+            ->assertOk()
+            ->getContent();
+
+        $this->assertStringContainsString('id="payment-reminder-form"', $html);
+        $this->assertStringContainsString('form="payment-reminder-form"', $html);
+        $this->assertSame(1, substr_count($html, 'id="payment-reminder-form"'));
+    }
+
+    #[Test]
     public function admin_default_order_list_hides_pending_payment_orders(): void
     {
         $admin = User::query()->where('is_admin', true)->first();

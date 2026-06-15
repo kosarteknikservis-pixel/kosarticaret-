@@ -181,7 +181,7 @@
             </div>
 
             <aside>
-                <div class="admin-order-sidebar-stack space-y-4">
+                <div class="admin-order-sidebar-stack space-y-4 min-w-0">
                     <div class="admin-card p-5 sm:p-6 space-y-4">
                         <h2 class="font-bold text-slate-900">Sipariş yönetimi</h2>
                         <div>
@@ -224,23 +224,26 @@
                                     </dd>
                                 </div>
                                 <div>
-                                    <dt class="font-semibold text-slate-900">Alıcı</dt>
-                                    <dd>{{ $order->email }}</dd>
-                                </div>
-                                <div>
                                     <dt class="font-semibold text-slate-900">Müşteri ödeme sayfası</dt>
                                     <dd class="mt-1 break-all font-mono text-xs">{{ $order->paymentPageUrl() }}</dd>
                                 </div>
                             </dl>
                             <p class="text-xs text-slate-600 leading-relaxed">
-                                Otomatik hatırlatma: siparişten <strong>{{ config('kosar.payment_reminder.delay_hours', 2) }} saat</strong> sonra bir kez gönderilir.
-                                Mail <strong>{{ $order->email }}</strong> adresine gider (SMTP testinde yazdığınız adres değil).
-                                Durum ve hatalar aşağıdaki <strong>İşlem geçmişi</strong> bölümünde kayıtlıdır.
+                                Otomatik hatırlatma siparişten <strong>{{ config('kosar.payment_reminder.delay_hours', 2) }} saat</strong> sonra bir kez gider.
+                                Durum ve hatalar soldaki <strong>İşlem geçmişi</strong> bölümünde kayıtlıdır.
                             </p>
-                            <form method="post" action="{{ route('admin.orders.payment-reminder', $order) }}" class="mt-4" onsubmit="return confirm('Ödeme hatırlatması {{ $order->email }} adresine gönderilsin mi?');">
-                                @csrf
-                                <button type="submit" class="admin-btn admin-btn-secondary w-full py-2.5">Hatırlatmayı şimdi gönder ({{ $order->email }})</button>
-                            </form>
+                            <div class="rounded-xl border border-amber-200/80 bg-white/80 px-3 py-2.5 min-w-0">
+                                <p class="text-[11px] font-semibold uppercase tracking-wide text-amber-800">Alıcı</p>
+                                <p class="text-sm font-medium text-slate-900 break-all">{{ $order->email }}</p>
+                            </div>
+                            <button
+                                type="submit"
+                                form="payment-reminder-form"
+                                class="admin-btn admin-btn-secondary w-full py-2.5 min-h-[44px]"
+                                onclick="return confirm('Ödeme hatırlatması bu adrese gönderilsin mi?\n\n{{ $order->email }}');"
+                            >
+                                Hatırlatmayı şimdi gönder
+                            </button>
                         </div>
                     @endif
 
@@ -297,6 +300,12 @@
     <form id="parasut-sync-form" method="post" action="{{ route('admin.orders.parasut.sync', $order) }}" class="hidden">
         @csrf
     </form>
+
+    @if($order->isPendingPayment())
+        <form id="payment-reminder-form" method="post" action="{{ route('admin.orders.payment-reminder', $order) }}" class="hidden">
+            @csrf
+        </form>
+    @endif
 
     @push('scripts')
         <script>
