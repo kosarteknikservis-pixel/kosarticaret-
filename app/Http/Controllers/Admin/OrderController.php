@@ -189,7 +189,7 @@ class OrderController extends Controller
 
         OrderPaymentReminder::logSuccess($order, 'manual', auth()->id());
 
-        return back()->with('success', 'Ödeme hatırlatma e-postası müşteriye gönderildi.');
+        return back()->with('success', 'Ödeme hatırlatma e-postası gönderildi: '.$order->email);
     }
 
     private function shouldIncludePendingPaymentOrders(Request $request): bool

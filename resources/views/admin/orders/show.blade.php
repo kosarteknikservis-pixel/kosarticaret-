@@ -234,15 +234,13 @@
                             </dl>
                             <p class="text-xs text-slate-600 leading-relaxed">
                                 Otomatik hatırlatma: siparişten <strong>{{ config('kosar.payment_reminder.delay_hours', 2) }} saat</strong> sonra bir kez gönderilir.
+                                Mail <strong>{{ $order->email }}</strong> adresine gider (SMTP testinde yazdığınız adres değil).
                                 Durum ve hatalar aşağıdaki <strong>İşlem geçmişi</strong> bölümünde kayıtlıdır.
                             </p>
-                            <details class="text-sm">
-                                <summary class="cursor-pointer font-semibold text-slate-700">Manuel tekrar gönder</summary>
-                                <form method="post" action="{{ route('admin.orders.payment-reminder', $order) }}" class="mt-3" onsubmit="return confirm('Ödeme hatırlatma e-postası müşteriye tekrar gönderilsin mi?');">
-                                    @csrf
-                                    <button type="submit" class="admin-btn admin-btn-secondary w-full py-2.5">Hatırlatmayı şimdi gönder</button>
-                                </form>
-                            </details>
+                            <form method="post" action="{{ route('admin.orders.payment-reminder', $order) }}" class="mt-4" onsubmit="return confirm('Ödeme hatırlatması {{ $order->email }} adresine gönderilsin mi?');">
+                                @csrf
+                                <button type="submit" class="admin-btn admin-btn-secondary w-full py-2.5">Hatırlatmayı şimdi gönder ({{ $order->email }})</button>
+                            </form>
                         </div>
                     @endif
 
