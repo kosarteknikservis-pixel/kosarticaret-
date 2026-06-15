@@ -9,6 +9,12 @@ final class LegacyRedirectResolver
     public static function resolve(Request $request): ?string
     {
         $path = self::normalizePath($request->path());
+
+        $strippedQueryTarget = self::resolveStrippedLegacyQuery($request, $path);
+        if ($strippedQueryTarget !== null) {
+            return $strippedQueryTarget;
+        }
+
         if ($path === '/') {
             return self::resolveHomeLegacyQuery($request);
         }
@@ -69,6 +75,13 @@ final class LegacyRedirectResolver
             return self::normalizeTarget('/blog');
         }
 
+        if (preg_match('#^/kategoriler/([^/]+)$#', $path, $matches)) {
+            $flat = config('legacy_redirects.category_flat_paths', []);
+            if (isset($flat[$matches[1]])) {
+                return self::normalizeTarget('/kategoriler/'.$flat[$matches[1]]);
+            }
+        }
+
         if (preg_match('#^/kategori/([^/]+)$#', $path, $matches)) {
             $aliases = config('legacy_redirects.category_aliases', []);
             $target = $aliases[$matches[1]] ?? null;
@@ -123,6 +136,61 @@ final class LegacyRedirectResolver
         }
 
         return null;
+    }
+
+    private static function resolveStrippedLegacyQuery(Request $request, string $path): ?string
+    {
+        $legacyKeys = self::legacyQueryKeys();
+
+        if (! $request->hasAny($legacyKeys)) {
+            if ($request->query('page') === '1' && count($request->query()) === 1) {
+                return self::normalizeTarget($path);
+            }
+
+            return null;
+        }
+
+        if ($path === '/') {
+            return self::normalizeTarget('/');
+        }
+
+        if ($path === '/sepet' || preg_match('#^/sepet/page/\d+$#', $path)) {
+            return self::normalizeTarget('/sepet');
+        }
+
+        $page = max(0, (int) $request->query('page', 0));
+        $remaining = collect($request->query())->except(array_merge($legacyKeys, ['page']))->filter()->all();
+
+        if ($remaining !== []) {
+            return null;
+        }
+
+        return self::normalizeTarget($page > 1 ? $path.'?page='.$page : $path);
+    }
+
+    /** @return list<string> */
+    private static function legacyQueryKeys(): array
+    {
+        return [
+            'lang',
+            'add-to-cart',
+            'add-to-compare',
+            'added-to-cart',
+            'product_cat',
+            'filtering',
+            'filter_product_brand',
+            'filter_cat',
+            'shop_view',
+            'on_sale',
+            'stock_status',
+            'remove_item',
+            '_wpnonce',
+            'gridcookie',
+            'per_row',
+            'per_page',
+            'shop_view',
+            'elementor_library',
+        ];
     }
 
     private static function resolveLegacyCategoryPath(string $path): ?string

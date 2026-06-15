@@ -70,6 +70,12 @@ return [
         'yedek-parca' => 'yedek-parca-ve-aksesuarlar',
     ],
 
+    /** Eski düz /kategoriler/{slug} → iç içe yol (GSC 2026-06-15) */
+    'category_flat_paths' => [
+        'drenaj-dalgic-pompa' => 'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
+        'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
+    ],
+
     /**
      * /urun-kategori/{key} → /kategoriler/{value}
      * Sayfalama (/page/N) otomatik temizlenir.

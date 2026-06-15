@@ -125,4 +125,28 @@ class LegacyRedirectTest extends TestCase
         $this->get('/kategoriler/su-pompalari/kademeli-pompalar?page=1')
             ->assertRedirect('/kategoriler/su-pompalari/kademeli-pompalar');
     }
+
+    public function test_home_add_to_cart_and_lang_tr_redirect_to_home(): void
+    {
+        $this->get('/?add-to-cart=9233')
+            ->assertRedirect('/');
+
+        $this->get('/?add-to-cart=7274&lang=tr')
+            ->assertRedirect('/');
+    }
+
+    public function test_product_lang_tr_query_is_stripped(): void
+    {
+        $this->get('/urun/sumak-smjk100-jet-pompa?lang=tr')
+            ->assertRedirect('/urun/sumak-smjk100-jet-pompa');
+    }
+
+    public function test_flat_category_paths_redirect_to_nested(): void
+    {
+        $this->get('/kategoriler/drenaj-dalgic-pompa')
+            ->assertRedirect('/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa');
+
+        $this->get('/kategoriler/hidroforlar')
+            ->assertRedirect('/kategoriler/hidrofor-sistemleri/hidroforlar');
+    }
 }
