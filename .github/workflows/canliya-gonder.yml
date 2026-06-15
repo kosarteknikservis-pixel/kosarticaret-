@@ -129,6 +129,17 @@ jobs:
             (command -v php >/dev/null && php artisan config:cache && php artisan route:cache && php artisan view:cache) || \
             (/usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache)"
 
+      - name: Zamanlayıcı görevlerini çalıştır (ödeme hatırlatma vb.)
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan schedule:run && \
+            echo 'NOT: Saatlik otomatik hatırlatma icin sunucu cron: * * * * * cd ${DEPLOY_PATH}/kosar && php artisan schedule:run'"
+
       - name: Müşteri hareketleri analitiğini sıfırla
         if: github.event.inputs.analitik_sifirla == 'true'
         env:

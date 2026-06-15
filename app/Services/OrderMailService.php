@@ -24,24 +24,32 @@ class OrderMailService
         }
     }
 
-    public function sendPaymentReminder(Order $order): bool
+    public function sendPaymentReminder(Order $order): array
     {
-        if (! $order->isPendingPayment() || ! $order->email) {
-            return false;
+        if (! $order->isPendingPayment()) {
+            return ['ok' => false, 'error' => 'Sipariş ödeme bekliyor durumunda değil.'];
+        }
+
+        if (! $order->email) {
+            return ['ok' => false, 'error' => 'Siparişte müşteri e-postası yok.'];
+        }
+
+        if (! MailSettings::isConfigured()) {
+            return ['ok' => false, 'error' => 'SMTP ayarları yapılandırılmamış. Site ayarlarından e-posta gönderimini açın.'];
         }
 
         try {
             MailSettings::apply();
             Mail::to($order->email)->send(new OrderPaymentReminderMail($order->load('items')));
 
-            return true;
+            return ['ok' => true, 'error' => null];
         } catch (\Throwable $e) {
             Log::error('Ödeme hatırlatma e-postası gönderilemedi', [
                 'order' => $order->order_number,
                 'error' => $e->getMessage(),
             ]);
 
-            return false;
+            return ['ok' => false, 'error' => $e->getMessage()];
         }
     }
 }

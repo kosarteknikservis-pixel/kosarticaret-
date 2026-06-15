@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Order;
 use App\Services\OrderMailService;
+use App\Support\OrderPaymentReminder;
 use Illuminate\Console\Command;
 
 class SendPaymentRemindersCommand extends Command
@@ -51,23 +52,25 @@ class SendPaymentRemindersCommand extends Command
         }
 
         $sent = 0;
+        $failed = 0;
 
-        $query->chunkById(50, function ($orders) use ($mail, &$sent): void {
+        $query->chunkById(50, function ($orders) use ($mail, &$sent, &$failed): void {
             foreach ($orders as $order) {
-                if (! $mail->sendPaymentReminder($order)) {
+                $result = $mail->sendPaymentReminder($order);
+
+                if ($result['ok']) {
+                    OrderPaymentReminder::logSuccess($order, 'automatic');
+                    $sent++;
+
                     continue;
                 }
 
-                $order->update(['payment_reminder_sent_at' => now()]);
-                $order->logs()->create([
-                    'type' => 'payment_reminder',
-                    'message' => 'Ödeme hatırlatma e-postası gönderildi.',
-                ]);
-                $sent++;
+                OrderPaymentReminder::logFailure($order, 'automatic', $result['error'] ?? 'Bilinmeyen hata');
+                $failed++;
             }
         });
 
-        $this->info("{$sent} hatırlatma e-postası gönderildi (aday: {$candidates}).");
+        $this->info("{$sent} hatırlatma gönderildi, {$failed} başarısız (aday: {$candidates}).");
 
         return self::SUCCESS;
     }

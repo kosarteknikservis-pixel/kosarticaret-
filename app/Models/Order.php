@@ -94,4 +94,35 @@ class Order extends Model
                 ->orWhereNotIn('payment_status', ['bekliyor', 'basarisiz']);
         });
     }
+
+    public function scheduledPaymentReminderAt(): ?\Illuminate\Support\Carbon
+    {
+        if (! $this->isPendingPayment() || $this->payment_reminder_sent_at) {
+            return null;
+        }
+
+        return $this->created_at->copy()->addHours(max(1, (int) config('kosar.payment_reminder.delay_hours', 2)));
+    }
+
+    public function isEligibleForAutoPaymentReminder(): bool
+    {
+        if (! $this->isPendingPayment() || $this->payment_reminder_sent_at) {
+            return false;
+        }
+
+        $delayHours = max(1, (int) config('kosar.payment_reminder.delay_hours', 2));
+        $maxAgeDays = max(1, (int) config('kosar.payment_reminder.max_age_days', 7));
+
+        return $this->created_at <= now()->subHours($delayHours)
+            && $this->created_at >= now()->subDays($maxAgeDays);
+    }
+
+    public function lastPaymentReminderFailureLog(): ?OrderLog
+    {
+        if ($this->relationLoaded('logs')) {
+            return $this->logs->firstWhere('type', 'payment_reminder_failed');
+        }
+
+        return $this->logs()->where('type', 'payment_reminder_failed')->latest('id')->first();
+    }
 }

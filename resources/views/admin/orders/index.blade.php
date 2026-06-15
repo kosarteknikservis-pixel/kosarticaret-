@@ -8,7 +8,7 @@
         <div class="admin-card p-4 sm:p-5 mb-5 border-amber-200 bg-amber-50/70 flex flex-wrap items-center justify-between gap-3">
             <div>
                 <p class="font-bold text-amber-900">{{ $pendingPaymentCount }} sipariş ödeme bekliyor</p>
-                <p class="text-sm text-amber-800 mt-1">Kredi kartı seçilip PayTR ödemesi tamamlanmamış siparişler. Kargoya vermeyin.</p>
+                <p class="text-sm text-amber-800 mt-1">Otomatik hatırlatma e-postası siparişten {{ config('kosar.payment_reminder.delay_hours', 2) }} saat sonra bir kez gider. Gönderim durumu sipariş detayı → İşlem geçmişi.</p>
             </div>
             <a href="{{ route('admin.orders.index', ['pending_payment' => '1']) }}"
                class="admin-btn admin-btn-secondary px-4 py-2.5 {{ ($filters['pending_payment'] ?? '') === '1' ? 'ring-2 ring-amber-300' : '' }}">
@@ -101,6 +101,9 @@
                         <th>Tutar</th>
                         <th>Durum</th>
                         <th>Ödeme</th>
+                        @if(($filters['pending_payment'] ?? '') === '1')
+                            <th>Hatırlatma</th>
+                        @endif
                         <th>Kargo</th>
                         <th>Paraşüt</th>
                         <th></th>
@@ -122,6 +125,15 @@
                             <td data-label="Tutar" class="font-semibold">{{ number_format($o->total, 2, ',', '.') }} ₺</td>
                             <td data-label="Durum"><span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\OrderStatus::badgeClasses($o->status) }}">{{ \App\Support\OrderStatus::label($o->status) }}</span></td>
                             <td data-label="Ödeme"><span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\PaymentStatus::badgeClasses($o->payment_status) }}">{{ \App\Support\PaymentStatus::label($o->payment_status) }}</span></td>
+                            @if(($filters['pending_payment'] ?? '') === '1')
+                                @php($reminderStatus = \App\Support\OrderPaymentReminder::status($o))
+                                <td data-label="Hatırlatma">
+                                    <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\OrderPaymentReminder::badgeClasses($reminderStatus['tone']) }}">{{ $reminderStatus['label'] }}</span>
+                                    @if($reminderStatus['detail'])
+                                        <p class="text-[11px] text-slate-500 mt-1">{{ $reminderStatus['detail'] }}</p>
+                                    @endif
+                                </td>
+                            @endif
                             <td data-label="Kargo" class="text-xs text-slate-500">{{ $o->shipping_tracking ? 'Takip var' : 'Takip yok' }}</td>
                             <td data-label="Paraşüt">
                                 @if($o->parasut_sales_invoice_id)

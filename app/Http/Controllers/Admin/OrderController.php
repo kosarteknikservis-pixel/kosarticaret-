@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Services\AdminOrderEditor;
 use App\Services\OrderMailService;
+use App\Support\OrderPaymentReminder;
 use App\Support\OrderStatus;
 use App\Support\PaymentStatus;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,10 @@ class OrderController extends Controller
     public function index(Request $request): View
     {
         $query = Order::query()->with('items')->latest();
+
+        if ($request->query('pending_payment') === '1') {
+            $query->with('logs');
+        }
 
         if ($search = trim((string) $request->query('q', ''))) {
             $query->where(function ($q) use ($search) {
@@ -174,16 +179,15 @@ class OrderController extends Controller
             return back()->withErrors(['order' => 'Bu sipariş için ödeme hatırlatması gönderilemez.']);
         }
 
-        if (! $mail->sendPaymentReminder($order)) {
-            return back()->withErrors(['order' => 'Hatırlatma e-postası gönderilemedi. E-posta ayarlarını kontrol edin.']);
+        $result = $mail->sendPaymentReminder($order);
+
+        if (! $result['ok']) {
+            OrderPaymentReminder::logFailure($order, 'manual', $result['error'] ?? 'Bilinmeyen hata', auth()->id());
+
+            return back()->withErrors(['order' => $result['error'] ?? 'Hatırlatma e-postası gönderilemedi.']);
         }
 
-        $order->update(['payment_reminder_sent_at' => now()]);
-        $order->logs()->create([
-            'user_id' => auth()->id(),
-            'type' => 'payment_reminder',
-            'message' => 'Ödeme hatırlatma e-postası panelden gönderildi.',
-        ]);
+        OrderPaymentReminder::logSuccess($order, 'manual', auth()->id());
 
         return back()->with('success', 'Ödeme hatırlatma e-postası müşteriye gönderildi.');
     }
