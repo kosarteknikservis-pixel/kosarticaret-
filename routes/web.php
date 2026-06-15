@@ -374,6 +374,7 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::delete('siparisler/toplu-sil', [AdminOrderController::class, 'bulkDestroy'])->name('orders.bulk-destroy');
         Route::get('siparisler/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::patch('siparisler/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
+        Route::post('siparisler/{order}/odeme-hatirlat', [AdminOrderController::class, 'sendPaymentReminder'])->name('orders.payment-reminder');
         Route::delete('siparisler/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
         Route::post('siparisler/{order}/parasut', [AdminParasutIntegrationController::class, 'syncOrder'])->name('orders.parasut.sync');
     });

@@ -158,12 +158,17 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function payment(string $order, PaymentManager $payments): View|RedirectResponse
+    public function payment(string $order, PaymentManager $payments, OrderService $orders): View|RedirectResponse
     {
         $model = Order::query()->where('order_number', $order)->firstOrFail();
 
         if ($model->payment_status === 'basarili') {
             return redirect()->route('checkout.success', ['order' => $model->order_number]);
+        }
+
+        if (request('durum') === 'hata') {
+            $orders->markPaymentFailed($model, 'paytr_return');
+            $model->refresh();
         }
 
         $isDemo = ! PaymentGatewayConfig::isLive();

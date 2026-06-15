@@ -47,6 +47,17 @@ class EmailTemplate extends Model
                 'footer_note' => 'Durum ve kargo hareketleri panelden güncellendikçe bilgilendirileceksiniz.',
                 'settings' => ['show_items' => true, 'show_tracking' => true],
             ],
+            'payment_reminder' => [
+                'name' => 'Ödeme hatırlatması',
+                'subject' => 'Siparişiniz için ödeme bekleniyor — {{order_number}}',
+                'preheader' => 'Siparişinizi tamamlamak için güvenli ödeme sayfasına dönebilirsiniz.',
+                'title' => 'Ödemeniz henüz tamamlanmadı',
+                'body' => "Merhaba {{customer_name}},\n\n{{order_number}} numaralı siparişiniz kaydedildi ancak ödeme henüz alınmadı. Toplam tutar: {{total}}.\n\nAşağıdaki butona tıklayarak PayTR güvenli ödeme sayfasından işleminizi tamamlayabilirsiniz.",
+                'button_label' => 'Ödemeyi tamamla',
+                'button_url' => '{{payment_url}}',
+                'footer_note' => 'Ödeme tamamlandığında sipariş onay e-postası ayrıca gönderilecektir.',
+                'settings' => ['show_items' => true, 'show_tracking' => false],
+            ],
             'campaign_default' => [
                 'name' => 'Kampanya duyurusu',
                 'subject' => '{{campaign_title}}',

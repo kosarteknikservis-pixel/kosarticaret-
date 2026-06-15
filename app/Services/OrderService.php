@@ -129,7 +129,41 @@ class OrderService
         $order->update([
             'status' => 'hazirlaniyor',
             'payment_status' => 'basarili',
+            'payment_failed_at' => null,
         ]);
         $this->mail->sendOrderConfirmation($order->fresh('items'));
+    }
+
+    public function markPaymentFailed(Order $order, string $source = 'paytr_callback', ?string $reason = null): void
+    {
+        if ($order->payment_status === 'basarili') {
+            return;
+        }
+
+        $alreadyFailed = $order->payment_status === 'basarisiz';
+
+        $order->update([
+            'payment_status' => 'basarisiz',
+            'status' => 'odeme_bekliyor',
+            'payment_failed_at' => $order->payment_failed_at ?? now(),
+        ]);
+
+        if ($alreadyFailed) {
+            return;
+        }
+
+        $message = match ($source) {
+            'paytr_return' => 'Müşteri PayTR hata sayfasına yönlendirildi.',
+            default => 'PayTR ödeme bildirimi başarısız.',
+        };
+
+        $order->logs()->create([
+            'type' => 'payment_failed',
+            'message' => $message,
+            'new_values' => array_filter([
+                'source' => $source,
+                'reason' => $reason,
+            ]),
+        ]);
     }
 }

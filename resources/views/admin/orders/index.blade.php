@@ -4,7 +4,23 @@
 @section('content')
     <x-admin.page-header title="Siparişler" subtitle="Mağaza sipariş geçmişi" />
 
+    @if(($pendingPaymentCount ?? 0) > 0)
+        <div class="admin-card p-4 sm:p-5 mb-5 border-amber-200 bg-amber-50/70 flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <p class="font-bold text-amber-900">{{ $pendingPaymentCount }} sipariş ödeme bekliyor</p>
+                <p class="text-sm text-amber-800 mt-1">Kredi kartı seçilip PayTR ödemesi tamamlanmamış siparişler. Kargoya vermeyin.</p>
+            </div>
+            <a href="{{ route('admin.orders.index', ['pending_payment' => '1']) }}"
+               class="admin-btn admin-btn-secondary px-4 py-2.5 {{ ($filters['pending_payment'] ?? '') === '1' ? 'ring-2 ring-amber-300' : '' }}">
+                Ödeme bekleyenleri göster
+            </a>
+        </div>
+    @endif
+
     <form method="get" class="admin-card p-4 sm:p-5 mb-5">
+        @if(($filters['pending_payment'] ?? '') === '1')
+            <input type="hidden" name="pending_payment" value="1">
+        @endif
         <div class="grid gap-3 md:grid-cols-6">
             <div class="md:col-span-2">
                 <label class="admin-label">Arama</label>
@@ -57,6 +73,9 @@
             </div>
             <button class="admin-btn admin-btn-primary px-5 py-2.5">Filtrele</button>
             <a href="{{ route('admin.orders.index') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Temizle</a>
+            @if(($filters['pending_payment'] ?? '') !== '1')
+                <a href="{{ route('admin.orders.index', ['pending_payment' => '1']) }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Ödeme bekleyenler</a>
+            @endif
         </div>
     </form>
 
@@ -101,8 +120,8 @@
                             </td>
                             <td data-label="Tarih" class="text-slate-500 text-xs">{{ $o->created_at->format('d.m.Y H:i') }}</td>
                             <td data-label="Tutar" class="font-semibold">{{ number_format($o->total, 2, ',', '.') }} ₺</td>
-                            <td data-label="Durum"><span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold">{{ \App\Support\OrderStatus::label($o->status) }}</span></td>
-                            <td data-label="Ödeme"><span class="rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-0.5 text-xs font-semibold">{{ \App\Support\PaymentStatus::label($o->payment_status) }}</span></td>
+                            <td data-label="Durum"><span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\OrderStatus::badgeClasses($o->status) }}">{{ \App\Support\OrderStatus::label($o->status) }}</span></td>
+                            <td data-label="Ödeme"><span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\PaymentStatus::badgeClasses($o->payment_status) }}">{{ \App\Support\PaymentStatus::label($o->payment_status) }}</span></td>
                             <td data-label="Kargo" class="text-xs text-slate-500">{{ $o->shipping_tracking ? 'Takip var' : 'Takip yok' }}</td>
                             <td data-label="Paraşüt">
                                 @if($o->parasut_sales_invoice_id)

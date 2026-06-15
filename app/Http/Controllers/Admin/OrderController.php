@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\AdminOrderEditor;
+use App\Services\OrderMailService;
 use App\Support\OrderStatus;
 use App\Support\PaymentStatus;
 use Illuminate\Http\RedirectResponse;
@@ -57,12 +58,17 @@ class OrderController extends Controller
             $query->where('sales_channel', $salesChannel);
         }
 
+        if ($request->query('pending_payment') === '1') {
+            $query->pendingPayment();
+        }
+
         return view('admin.orders.index', [
             'orders' => $query->paginate(20)->withQueryString(),
             'statuses' => OrderStatus::labels(),
             'paymentStatuses' => PaymentStatus::labels(),
             'salesChannels' => config('marketplace.sales_channels', []),
-            'filters' => $request->only(['q', 'status', 'payment_status', 'tracking', 'date_from', 'date_to', 'sales_channel']),
+            'filters' => $request->only(['q', 'status', 'payment_status', 'tracking', 'date_from', 'date_to', 'sales_channel', 'pending_payment']),
+            'pendingPaymentCount' => Order::query()->pendingPayment()->websiteChannel()->count(),
         ]);
     }
 
@@ -158,5 +164,25 @@ class OrderController extends Controller
         return redirect()
             ->route('admin.orders.index')
             ->with('success', "{$count} sipariş silindi.");
+    }
+
+    public function sendPaymentReminder(Order $order, OrderMailService $mail): RedirectResponse
+    {
+        if (! $order->isPendingPayment()) {
+            return back()->withErrors(['order' => 'Bu sipariş için ödeme hatırlatması gönderilemez.']);
+        }
+
+        if (! $mail->sendPaymentReminder($order)) {
+            return back()->withErrors(['order' => 'Hatırlatma e-postası gönderilemedi. E-posta ayarlarını kontrol edin.']);
+        }
+
+        $order->update(['payment_reminder_sent_at' => now()]);
+        $order->logs()->create([
+            'user_id' => auth()->id(),
+            'type' => 'payment_reminder',
+            'message' => 'Ödeme hatırlatma e-postası panelden gönderildi.',
+        ]);
+
+        return back()->with('success', 'Ödeme hatırlatma e-postası müşteriye gönderildi.');
     }
 }

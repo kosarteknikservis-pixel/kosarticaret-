@@ -21,6 +21,7 @@ class EmailTemplateParams
             'tracking_number' => $tracking,
             'tracking_text' => $tracking !== '' ? 'Kargo takip numaranız: '.$tracking : 'Kargo takip numarası eklendiğinde ayrıca bilgilendirileceksiniz.',
             'tracking_url' => route('tracking.show'),
+            'payment_url' => route('checkout.payment', ['order' => $order->order_number]),
         ];
     }
 

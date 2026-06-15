@@ -39,6 +39,15 @@ return [
 
     'order_prefix' => env('KOSAR_ORDER_PREFIX', 'KOS'),
 
+    /*
+    | Ödeme bekleyen kredi kartı siparişleri için otomatik hatırlatma e-postası.
+    */
+    'payment_reminder' => [
+        'enabled' => env('KOSAR_PAYMENT_REMINDER_ENABLED', true),
+        'delay_hours' => (int) env('KOSAR_PAYMENT_REMINDER_DELAY_HOURS', 2),
+        'max_age_days' => (int) env('KOSAR_PAYMENT_REMINDER_MAX_AGE_DAYS', 7),
+    ],
+
     'turnstile' => [
         'site_key' => env('TURNSTILE_SITE_KEY'),
         'secret_key' => env('TURNSTILE_SECRET_KEY'),

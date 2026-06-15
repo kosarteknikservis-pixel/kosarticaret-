@@ -39,16 +39,33 @@ class PaytrCallbackController extends Controller
             return response('HASH HATALI', 400);
         }
 
-        if ($status === 'success' && $merchantOid) {
-            $order = Order::query()->where('order_number', $merchantOid)->first()
-                ?? Order::query()->where('order_number', $this->orderNumberFromMerchantOid($merchantOid))->first();
+        if ($merchantOid === '') {
+            return response('OK');
+        }
 
-            if ($order && $order->payment_status !== 'basarili') {
+        $order = $this->findOrder($merchantOid);
+        if ($order === null) {
+            Log::warning('paytr callback: order not found', ['oid' => $merchantOid]);
+
+            return response('OK');
+        }
+
+        if ($status === 'success') {
+            if ($order->payment_status !== 'basarili') {
                 $orders->confirmPayment($order);
             }
+        } elseif ($status === 'failed') {
+            $reason = $request->input('failed_reason_msg') ?: $request->input('failed_reason_code');
+            $orders->markPaymentFailed($order, 'paytr_callback', is_string($reason) ? $reason : null);
         }
 
         return response('OK');
+    }
+
+    private function findOrder(string $merchantOid): ?Order
+    {
+        return Order::query()->where('order_number', $merchantOid)->first()
+            ?? Order::query()->where('order_number', $this->orderNumberFromMerchantOid($merchantOid))->first();
     }
 
     private function orderNumberFromMerchantOid(string $merchantOid): string

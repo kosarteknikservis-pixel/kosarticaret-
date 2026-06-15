@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\OrderConfirmationMail;
+use App\Mail\OrderPaymentReminderMail;
 use App\Models\Order;
 use App\Support\MailSettings;
 use Illuminate\Support\Facades\Log;
@@ -20,6 +21,27 @@ class OrderMailService
                 'order' => $order->order_number,
                 'error' => $e->getMessage(),
             ]);
+        }
+    }
+
+    public function sendPaymentReminder(Order $order): bool
+    {
+        if (! $order->isPendingPayment() || ! $order->email) {
+            return false;
+        }
+
+        try {
+            MailSettings::apply();
+            Mail::to($order->email)->send(new OrderPaymentReminderMail($order->load('items')));
+
+            return true;
+        } catch (\Throwable $e) {
+            Log::error('Ödeme hatırlatma e-postası gönderilemedi', [
+                'order' => $order->order_number,
+                'error' => $e->getMessage(),
+            ]);
+
+            return false;
         }
     }
 }

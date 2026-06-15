@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('marketplace:import-trendyol-orders --sync')
             ->everyTenMinutes()
             ->withoutOverlapping();
+
+        $schedule->command('orders:send-payment-reminders')
+            ->hourly()
+            ->withoutOverlapping();
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->validateCsrfTokens(except: [

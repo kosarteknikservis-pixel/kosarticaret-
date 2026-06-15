@@ -19,6 +19,9 @@
         <div class="admin-card p-4">
             <p class="text-xs font-bold uppercase tracking-wide text-slate-400">Ödeme</p>
             <p class="mt-1 font-extrabold text-slate-900">{{ \App\Support\PaymentStatus::label($order->payment_status) }}</p>
+            @if($order->payment_failed_at)
+                <p class="mt-1 text-xs text-red-700">Son başarısız deneme: {{ $order->payment_failed_at->format('d.m.Y H:i') }}</p>
+            @endif
         </div>
         <div class="admin-card p-4">
             <p class="text-xs font-bold uppercase tracking-wide text-slate-400">Kargo</p>
@@ -193,6 +196,32 @@
                         <button type="submit" class="admin-btn admin-btn-primary w-full py-2.5">Siparişi güncelle</button>
                         <p class="text-xs text-slate-500 leading-relaxed">Durum veya takip no değişirse müşteriye otomatik e-posta gönderilir.</p>
                     </div>
+
+                    @if($order->isPendingPayment())
+                        <div class="admin-card p-5 sm:p-6 space-y-4 border-amber-200 bg-amber-50/50">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-wide text-amber-700">Ödeme bekleniyor</p>
+                                <h2 class="font-bold text-slate-900 mt-1">PayTR ödemesi tamamlanmadı</h2>
+                            </div>
+                            <dl class="text-sm text-slate-700 space-y-2">
+                                <div>
+                                    <dt class="font-semibold text-slate-900">Müşteri ödeme sayfası</dt>
+                                    <dd class="mt-1 break-all font-mono text-xs">{{ $order->paymentPageUrl() }}</dd>
+                                </div>
+                                @if($order->payment_reminder_sent_at)
+                                    <div>
+                                        <dt class="font-semibold text-slate-900">Hatırlatma e-postası</dt>
+                                        <dd>{{ $order->payment_reminder_sent_at->format('d.m.Y H:i') }} gönderildi</dd>
+                                    </div>
+                                @endif
+                            </dl>
+                            <form method="post" action="{{ route('admin.orders.payment-reminder', $order) }}" onsubmit="return confirm('Ödeme hatırlatma e-postası müşteriye gönderilsin mi?');">
+                                @csrf
+                                <button type="submit" class="admin-btn admin-btn-secondary w-full py-2.5">Ödeme hatırlatması gönder</button>
+                            </form>
+                            <p class="text-xs text-slate-500 leading-relaxed">Otomatik hatırlatma siparişten {{ config('kosar.payment_reminder.delay_hours', 2) }} saat sonra bir kez gönderilir.</p>
+                        </div>
+                    @endif
 
                     <div class="admin-card p-5 sm:p-6 space-y-4">
                         <div>
