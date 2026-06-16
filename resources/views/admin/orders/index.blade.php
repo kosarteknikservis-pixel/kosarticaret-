@@ -152,6 +152,7 @@
                                             <button class="admin-btn admin-btn-secondary text-xs py-1.5">Paraşüt’e gönder</button>
                                         </form>
                                     @endif
+                                    <a href="{{ route('admin.orders.shipping-label', ['order' => $o, 'yazdir' => 1]) }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary text-xs py-1.5">Etiket</a>
                                     <a href="{{ route('admin.orders.show', $o) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Detay</a>
                                     <form method="post" action="{{ route('admin.orders.destroy', $o) }}" onsubmit="return confirm('{{ $o->order_number }} numaralı sipariş silinsin mi? Bu işlem geri alınamaz. Paraşüt taslak faturası varsa silinmez.');">
                                         @csrf @method('DELETE')

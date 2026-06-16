@@ -2,7 +2,17 @@
 @section('title', 'Sipariş '.$order->order_number)
 
 @section('content')
-    <x-admin.page-header :title="'Sipariş '.$order->order_number" :subtitle="$order->email.' · '.$order->created_at->format('d.m.Y H:i')" />
+    <x-admin.page-header :title="'Sipariş '.$order->order_number" :subtitle="$order->email.' · '.$order->created_at->format('d.m.Y H:i')">
+        <x-slot:actions>
+            <a href="{{ route('admin.orders.shipping-label', ['order' => $order, 'yazdir' => 1]) }}"
+               target="_blank"
+               rel="noopener"
+               class="admin-btn admin-btn-secondary px-4 py-2.5">
+                Kargo etiketi
+            </a>
+            <a href="{{ route('admin.orders.index') }}" class="admin-btn admin-btn-secondary px-4 py-2.5">Siparişlere dön</a>
+        </x-slot:actions>
+    </x-admin.page-header>
 
     @php
         $teslimat = $order->shipping_address['teslimat'] ?? [];

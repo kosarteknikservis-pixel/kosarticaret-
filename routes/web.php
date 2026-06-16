@@ -372,6 +372,7 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
             ->names('promotions');
         Route::get('siparisler', [AdminOrderController::class, 'index'])->name('orders.index');
         Route::delete('siparisler/toplu-sil', [AdminOrderController::class, 'bulkDestroy'])->name('orders.bulk-destroy');
+        Route::get('siparisler/{order}/kargo-etiketi', [AdminOrderController::class, 'shippingLabel'])->name('orders.shipping-label');
         Route::get('siparisler/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::patch('siparisler/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
         Route::post('siparisler/{order}/odeme-hatirlat', [AdminOrderController::class, 'sendPaymentReminder'])->name('orders.payment-reminder');

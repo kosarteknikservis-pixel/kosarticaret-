@@ -7,7 +7,9 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Services\AdminOrderEditor;
 use App\Services\OrderMailService;
+use App\Support\Code128Barcode;
 use App\Support\OrderPaymentReminder;
+use App\Support\OrderShippingLabel;
 use App\Support\OrderStatus;
 use App\Support\PaymentStatus;
 use Illuminate\Http\RedirectResponse;
@@ -76,6 +78,17 @@ class OrderController extends Controller
             'salesChannels' => config('marketplace.sales_channels', []),
             'filters' => $request->only(['q', 'status', 'payment_status', 'tracking', 'date_from', 'date_to', 'sales_channel', 'pending_payment']),
             'pendingPaymentCount' => Order::query()->pendingPayment()->websiteChannel()->count(),
+        ]);
+    }
+
+    public function shippingLabel(Request $request, Order $order): View
+    {
+        $label = OrderShippingLabel::for($order);
+
+        return view('admin.orders.shipping-label', [
+            'label' => $label,
+            'barcodeSvg' => Code128Barcode::svg($label->barcodeValue(), 7.8, 0.24),
+            'autoPrint' => $request->boolean('yazdir'),
         ]);
     }
 
