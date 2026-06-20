@@ -66,6 +66,7 @@ Route::get('/storage/{path}', PublicStorageController::class)
 Route::get('/favicon.ico', fn () => redirect(\App\Support\SiteFavicon::url(), 302))->name('favicon');
 
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/sitemap-{chunk}.xml', [SeoController::class, 'sitemapChunk'])->name('sitemap.chunk');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 Route::get('/urun-feed.xml', [SeoController::class, 'merchantFeed'])->name('merchant.feed');
 Route::get('/{file}', [SeoController::class, 'verificationFile'])

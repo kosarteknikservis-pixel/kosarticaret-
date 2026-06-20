@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\ContactMessage;
+use App\Support\Seo;
 use App\Models\NavigationItem;
 use App\Models\ProductReview;
 use App\Services\CartService;
@@ -54,6 +55,10 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return $category;
+        });
+
+        View::composer('errors::404', function ($view): void {
+            $view->with(Seo::noIndexMeta());
         });
 
         View::composer('layouts.shop', function ($view) {

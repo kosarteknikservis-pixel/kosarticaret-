@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Services\AnalyticsTracker;
 use App\Services\CartService;
+use App\Support\Seo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -21,7 +22,7 @@ class CartController extends Controller
             'menuCategories' => Category::menu()->get(),
             'lines' => $this->cart->lines(),
             'subtotal' => $this->cart->subtotal(),
-            'robots' => 'noindex, follow',
+            'robots' => Seo::ROBOTS_NOINDEX,
         ]);
     }
 

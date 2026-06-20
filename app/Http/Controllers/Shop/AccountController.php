@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Support\Seo;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -20,6 +21,8 @@ class AccountController extends Controller
         return view('shop.account.index', [
             'user' => $request->user(),
             'orders' => $orders,
+            'metaTitle' => 'Hesabım',
+            ...Seo::noIndexMeta(),
         ]);
     }
 
@@ -31,6 +34,10 @@ class AccountController extends Controller
             ->with('items')
             ->firstOrFail();
 
-        return view('shop.account.order', ['order' => $order]);
+        return view('shop.account.order', [
+            'order' => $order,
+            'metaTitle' => 'Sipariş '.$order->order_number,
+            ...Seo::noIndexMeta(),
+        ]);
     }
 }

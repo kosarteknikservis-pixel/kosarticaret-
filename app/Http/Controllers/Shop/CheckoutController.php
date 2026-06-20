@@ -11,6 +11,7 @@ use App\Services\CartPricingService;
 use App\Services\Payment\PaymentManager;
 use App\Services\StoreConfig;
 use App\Support\PaymentGatewayConfig;
+use App\Support\Seo;
 use App\Services\CheckoutCalculator;
 use App\Services\CouponService;
 use App\Services\OrderService;
@@ -155,6 +156,8 @@ class CheckoutController extends Controller
         return view('shop.checkout.success', [
             'menuCategories' => Category::menu()->get(),
             'order' => $model,
+            'metaTitle' => 'Sipariş onayı',
+            ...Seo::noIndexMeta(),
         ]);
     }
 
@@ -186,6 +189,8 @@ class CheckoutController extends Controller
             'isDemo' => $isDemo,
             'gatewayLabel' => PaymentGatewayConfig::label(),
             'retryUrl' => $retryUrl,
+            'metaTitle' => 'Ödeme',
+            ...Seo::noIndexMeta(),
         ]);
     }
 
@@ -245,6 +250,8 @@ class CheckoutController extends Controller
             'paymentMethods' => $paymentMethods,
             'defaultPayment' => $defaultPayment,
             'defaultShipping' => $defaultShipping,
+            'metaTitle' => 'Ödeme',
+            ...Seo::noIndexMeta(),
         ]);
     }
 }

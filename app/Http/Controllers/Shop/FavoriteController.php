@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Services\FavoriteService;
+use App\Support\Seo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
@@ -16,6 +17,8 @@ class FavoriteController extends Controller
     {
         return view('shop.favorites.index', [
             'products' => $this->favorites->products(),
+            'metaTitle' => 'Favoriler',
+            ...Seo::noIndexMeta(),
         ]);
     }
 

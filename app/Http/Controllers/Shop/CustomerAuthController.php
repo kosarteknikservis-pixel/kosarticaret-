@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\Seo;
 use App\Services\AnalyticsTracker;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,7 +16,10 @@ class CustomerAuthController extends Controller
 {
     public function showLogin(): View
     {
-        return view('shop.auth.login');
+        return view('shop.auth.login', [
+            'metaTitle' => 'Giriş',
+            ...Seo::noIndexMeta(),
+        ]);
     }
 
     public function login(Request $request): RedirectResponse
@@ -43,7 +47,10 @@ class CustomerAuthController extends Controller
 
     public function showRegister(): View
     {
-        return view('shop.auth.register');
+        return view('shop.auth.register', [
+            'metaTitle' => 'Kayıt ol',
+            ...Seo::noIndexMeta(),
+        ]);
     }
 
     public function register(Request $request): RedirectResponse

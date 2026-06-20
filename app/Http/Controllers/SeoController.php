@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BlogPost;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Page;
 use App\Models\Product;
 use App\Models\SiteSetting;
-use App\Support\PumpSelectorUiConfig;
 use App\Support\Seo;
+use App\Support\SitemapGenerator;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
@@ -18,41 +14,36 @@ class SeoController extends Controller
 {
     public function sitemap(): Response
     {
-        $urls = collect([
-            ['loc' => route('home'), 'priority' => '1.0'],
-            ['loc' => route('products.index'), 'priority' => '0.9'],
-            ['loc' => route('categories.index'), 'priority' => '0.8'],
-            ['loc' => route('brands.index'), 'priority' => '0.8'],
-            ['loc' => route('blog.index'), 'priority' => '0.7'],
-            ['loc' => route('contact.show'), 'priority' => '0.6'],
-        ]);
+        if (SitemapGenerator::usesIndex()) {
+            $xml = view('seo.sitemap-index', [
+                'entries' => SitemapGenerator::indexEntries(),
+            ])->render();
 
-        if (PumpSelectorUiConfig::isEnabled()) {
-            $urls->push(['loc' => route('pump-selector.show'), 'priority' => '0.8']);
+            return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
         }
 
-        Product::query()->active()->select('slug', 'updated_at')->orderBy('id')->chunk(100, function ($chunk) use ($urls) {
-            foreach ($chunk as $p) {
-                $urls->push(['loc' => route('products.show', $p), 'lastmod' => $p->updated_at->toAtomString(), 'priority' => '0.8']);
-            }
-        });
+        return $this->urlsetResponse(SitemapGenerator::allUrls());
+    }
 
-        Category::query()->where('active', true)->select('id', 'slug', 'parent_id', 'updated_at')->each(function ($c) use ($urls) {
-            $urls->push(['loc' => $c->storefrontUrl(), 'lastmod' => $c->updated_at->toAtomString(), 'priority' => '0.7']);
-        });
+    public function sitemapChunk(string $chunk): Response
+    {
+        if (! SitemapGenerator::usesIndex()) {
+            abort(404);
+        }
 
-        Brand::query()->where('active', true)->select('slug', 'updated_at')->each(function ($b) use ($urls) {
-            $urls->push(['loc' => route('brands.show', $b), 'lastmod' => $b->updated_at->toAtomString(), 'priority' => '0.7']);
-        });
+        $urls = SitemapGenerator::chunkUrls($chunk);
+        if ($urls->isEmpty()) {
+            abort(404);
+        }
 
-        BlogPost::published()->select('slug', 'updated_at')->each(function ($post) use ($urls) {
-            $urls->push(['loc' => route('blog.show', $post), 'lastmod' => $post->updated_at->toAtomString(), 'priority' => '0.6']);
-        });
+        return $this->urlsetResponse($urls->all());
+    }
 
-        Page::query()->where('published', true)->select('slug', 'updated_at')->each(function ($page) use ($urls) {
-            $urls->push(['loc' => route('pages.show', $page), 'lastmod' => $page->updated_at->toAtomString(), 'priority' => '0.5']);
-        });
-
+    /**
+     * @param  list<array{loc: string, lastmod?: string, priority?: string}>  $urls
+     */
+    private function urlsetResponse(array $urls): Response
+    {
         $xml = view('seo.sitemap', ['urls' => $urls])->render();
 
         return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
@@ -72,6 +63,8 @@ class SeoController extends Controller
             'Disallow: /hesabim',
             'Disallow: /giris',
             'Disallow: /kayit',
+            'Disallow: /siparis-takip',
+            'Disallow: /siparis-onay',
             'Disallow: /urun-kategori',
             'Disallow: /urun-etiket',
             'Disallow: /tag/',

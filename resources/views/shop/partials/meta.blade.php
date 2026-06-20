@@ -48,12 +48,13 @@
 @endif
 
 @foreach(config('kosar.locales', ['tr']) as $loc)
-
-    <link rel="alternate" hreflang="{{ $loc === 'tr' ? 'tr-TR' : $loc }}" href="{{ request()->fullUrlWithQuery(['lang' => $loc]) }}">
-
+    @if(count(config('kosar.locales', ['tr'])) > 1)
+        <link rel="alternate" hreflang="{{ $loc === 'tr' ? 'tr-TR' : $loc }}" href="{{ request()->fullUrlWithQuery(['lang' => $loc]) }}">
+    @endif
 @endforeach
-
-<link rel="alternate" hreflang="x-default" href="{{ url('/') }}">
+@if(count(config('kosar.locales', ['tr'])) > 1)
+    <link rel="alternate" hreflang="x-default" href="{{ $canonical }}">
+@endif
 
 <meta property="og:type" content="{{ $ogType }}">
 

@@ -21,11 +21,10 @@
 
 
 
-@section('title', 'Ana Sayfa')
-
 
 
 @section('content')
+    <h1 class="sr-only">{{ \App\Support\SiteName::get() }}</h1>
     <div class="shop-page shop-page--home">
     @include('shop.partials.home-layout', ['homeRows' => $homeRows])
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Order;
+use App\Support\Seo;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -14,6 +15,8 @@ class OrderTrackingController extends Controller
     {
         return view('shop.tracking.index', [
             'menuCategories' => Category::menu()->get(),
+            'metaTitle' => 'Sipariş takip',
+            ...Seo::noIndexMeta(),
         ]);
     }
 
@@ -34,6 +37,8 @@ class OrderTrackingController extends Controller
             'menuCategories' => Category::menu()->get(),
             'order' => $order,
             'searched' => true,
+            'metaTitle' => 'Sipariş takip',
+            ...Seo::noIndexMeta(),
         ]);
     }
 }

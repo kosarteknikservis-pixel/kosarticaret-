@@ -19,6 +19,8 @@ use App\Services\Payment\InstallmentOptionsService;
 
 use App\Support\CatalogPaginationSeo;
 
+use App\Support\CategoryBreadcrumbs;
+
 use App\Support\Seo;
 use App\Support\SiteName;
 
@@ -94,10 +96,6 @@ class ProductController extends Controller
 
         $product->load(['brand', 'categories', 'images', 'approvedReviews']);
 
-        $categoryName = $product->categories->first()?->name;
-
-
-
         $related = CatalogQuery::products()
 
             ->where('id', '!=', $product->id)
@@ -118,21 +116,15 @@ class ProductController extends Controller
 
 
 
-        $breadcrumbs = [
+        $primaryCategory = $product->primaryCategory();
 
-            ['name' => 'Ana Sayfa', 'url' => route('home')],
-
-            ['name' => 'Ürünler', 'url' => route('products.index')],
-
-        ];
-
-        if ($categoryName && $product->categories->first()) {
-
-            $breadcrumbs[] = ['name' => $categoryName, 'url' => $product->categories->first()->storefrontUrl()];
-
-        }
-
-        $breadcrumbs[] = ['name' => $product->name];
+        $breadcrumbs = $primaryCategory
+            ? array_merge(CategoryBreadcrumbs::for($primaryCategory), [['name' => $product->name]])
+            : [
+                ['name' => 'Ana Sayfa', 'url' => route('home')],
+                ['name' => 'Ürünler', 'url' => route('products.index')],
+                ['name' => $product->name],
+            ];
 
 
 

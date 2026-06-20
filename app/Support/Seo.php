@@ -26,6 +26,16 @@ class Seo
 
 {
 
+    public const ROBOTS_INDEX = 'index, follow';
+
+    public const ROBOTS_NOINDEX = 'noindex, follow';
+
+    /** @return array{robots: string} */
+    public static function noIndexMeta(): array
+    {
+        return ['robots' => self::ROBOTS_NOINDEX];
+    }
+
     public static function siteUrl(): string
 
     {
@@ -562,7 +572,7 @@ class Seo
 
 
 
-        if ($category = $product->categories->first()) {
+        if ($category = $product->primaryCategory() ?? $product->categories->first()) {
 
             $schema['category'] = $category->name;
 
@@ -606,7 +616,18 @@ class Seo
 
         }
 
+        if ($gtin = self::normalizeGtin($product->barcode)) {
+            $schema['gtin'.$gtin['length']] = $gtin['value'];
+        }
 
+        if ($product->hasDiscount()) {
+            $schema['offers']['priceSpecification'] = [
+                '@type' => 'UnitPriceSpecification',
+                'price' => number_format((float) $product->compare_at_price, 2, '.', ''),
+                'priceCurrency' => 'TRY',
+                'priceType' => 'https://schema.org/ListPrice',
+            ];
+        }
 
         return $schema;
 
@@ -808,7 +829,7 @@ class Seo
 
             '@context' => 'https://schema.org',
 
-            '@type' => 'Article',
+            '@type' => 'BlogPosting',
 
             'headline' => $post->meta_title ?: $post->title,
 
@@ -847,6 +868,10 @@ class Seo
             'inLanguage' => 'tr-TR',
 
             'image' => $post->imageUrl(),
+
+            'articleBody' => RichContent::plainText($post->content),
+
+            'keywords' => self::keywords(is_array($post->tags) ? $post->tags : []),
 
         ]);
 
@@ -907,6 +932,28 @@ class Seo
 
         ];
 
+    }
+
+    /** @return array{length: int, value: string}|null */
+    private static function normalizeGtin(?string $barcode): ?array
+    {
+        $digits = preg_replace('/\D+/', '', (string) $barcode) ?? '';
+        if ($digits === '') {
+            return null;
+        }
+
+        if (strlen($digits) === 12) {
+            $digits = '0'.$digits;
+        }
+
+        if (! in_array(strlen($digits), [8, 12, 13, 14], true)) {
+            return null;
+        }
+
+        return [
+            'length' => strlen($digits),
+            'value' => $digits,
+        ];
     }
 
 }

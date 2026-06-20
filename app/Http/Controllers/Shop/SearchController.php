@@ -46,9 +46,7 @@ class SearchController extends Controller
                 config('kosar.description'),
             ]),
             'canonical' => route('search', $q ? ['q' => $q] : []),
-            'robots' => $q !== '' ? 'noindex, follow' : $paginationSeo['robots'],
-            'paginationPrev' => $paginationSeo['paginationPrev'],
-            'paginationNext' => $paginationSeo['paginationNext'],
+            ...$paginationSeo,
         ]);
     }
 }

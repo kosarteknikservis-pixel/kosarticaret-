@@ -96,6 +96,51 @@ class KosarStorefrontTest extends TestCase
             ->assertSee('noindex', false);
     }
 
+    public function test_catalog_filter_urls_are_noindex(): void
+    {
+        $brand = Brand::query()->where('active', true)->firstOrFail();
+
+        $this->get('/urunler?marka='.$brand->slug)
+            ->assertOk()
+            ->assertSee('noindex', false);
+
+        $category = Category::query()->where('active', true)->firstOrFail();
+
+        $this->get($category->storefrontUrl().'?stokta=1')
+            ->assertOk()
+            ->assertSee('noindex', false);
+    }
+
+    public function test_homepage_has_semantic_h1(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('<h1', false);
+    }
+
+    public function test_checkout_and_account_pages_are_noindex(): void
+    {
+        $this->get('/giris')->assertOk()->assertSee('noindex', false);
+        $this->get('/kayit')->assertOk()->assertSee('noindex', false);
+        $this->get('/siparis-takip')->assertOk()->assertSee('noindex', false);
+    }
+
+    public function test_not_found_page_is_noindex(): void
+    {
+        $this->get('/bu-sayfa-yok-404-test')
+            ->assertNotFound()
+            ->assertSee('noindex', false);
+    }
+
+    public function test_blog_detail_uses_blog_posting_schema(): void
+    {
+        $post = BlogPost::query()->firstOrFail();
+
+        $this->get('/blog/'.$post->slug)
+            ->assertOk()
+            ->assertSee('BlogPosting', false);
+    }
+
     public function test_product_and_blog_detail_pages(): void
     {
         $product = Product::query()->firstOrFail();

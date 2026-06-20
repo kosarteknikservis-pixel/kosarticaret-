@@ -152,4 +152,15 @@ class Product extends Model
     {
         return $this->imageSrcset(['product-card-sm' => 320, 'product-card' => 480]);
     }
+
+    public function primaryCategory(): ?Category
+    {
+        if (! $this->relationLoaded('categories')) {
+            $this->load('categories.parent');
+        }
+
+        return $this->categories
+            ->sortByDesc(fn (Category $category) => count($category->ancestorsAndSelf()))
+            ->first();
+    }
 }
