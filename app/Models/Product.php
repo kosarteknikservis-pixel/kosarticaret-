@@ -23,7 +23,7 @@ class Product extends Model
         'brand_id', 'price', 'compare_at_price', 'stock',
         'rating', 'review_count', 'badges', 'specs', 'tags',
         'featured', 'is_active', 'image', 'image_alt', 'meta_title', 'meta_description',
-        'barcode', 'weight_kg', 'width_cm', 'height_cm', 'depth_cm', 'vat_rate', 'marketplace_enabled',
+        'barcode', 'weight_kg', 'width_cm', 'height_cm', 'depth_cm', 'units_per_carton', 'vat_rate', 'marketplace_enabled',
     ];
 
     protected function casts(): array

@@ -148,6 +148,10 @@
                     </div>
                 </section>
 
+                @if(! $order->isPendingPayment())
+                    @include('admin.orders.partials.shipments')
+                @endif
+
                 <section class="admin-card p-5 sm:p-6">
                     <label class="admin-checkbox mb-4">
                         <input id="admin-corporate-toggle" type="checkbox" name="kurumsal_fatura" value="1" @checked(old('kurumsal_fatura', (bool) $kurumsalFatura))>

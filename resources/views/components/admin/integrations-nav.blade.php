@@ -6,6 +6,8 @@
         <span class="admin-integrations-nav__sep">/</span>
         @if(str_starts_with($active, 'marketplace'))
             <span class="admin-integrations-nav__current">Pazaryerleri</span>
+        @elseif(str_starts_with($active, 'shipping'))
+            <span class="admin-integrations-nav__current">Kargo</span>
         @elseif($active === 'index')
             <span class="admin-integrations-nav__current">Ödeme</span>
         @else
@@ -18,6 +20,8 @@
     <div class="admin-integrations-nav__tabs">
         <a href="{{ route('admin.integrations.payment.index') }}"
            class="admin-integrations-nav__tab {{ $active === 'index' || in_array($active, ['paytr', 'iyzico'], true) ? 'is-active' : '' }}">Ödeme</a>
+        <a href="{{ route('admin.integrations.shipping.dhl') }}"
+           class="admin-integrations-nav__tab {{ str_starts_with($active, 'shipping') ? 'is-active' : '' }}">Kargo</a>
         <a href="{{ route('admin.integrations.marketplace.index') }}"
            class="admin-integrations-nav__tab {{ str_starts_with($active, 'marketplace') ? 'is-active' : '' }}">Pazaryerleri</a>
     </div>
@@ -32,6 +36,11 @@
             <a href="{{ route('admin.integrations.marketplace.listings.index') }}" class="admin-integrations-nav__tab {{ $active === 'marketplace-listings' ? 'is-active' : '' }}">Listelemeler</a>
             <a href="{{ route('admin.integrations.marketplace.orders.index') }}" class="admin-integrations-nav__tab {{ $active === 'marketplace-orders' ? 'is-active' : '' }}">Sipariş sync</a>
             <a href="{{ route('admin.integrations.marketplace.logs') }}" class="admin-integrations-nav__tab {{ $active === 'marketplace-logs' ? 'is-active' : '' }}">Loglar</a>
+        </div>
+    @elseif(str_starts_with($active, 'shipping'))
+        <div class="admin-integrations-nav__tabs mt-2">
+            <a href="{{ route('admin.integrations.shipping.dhl') }}"
+               class="admin-integrations-nav__tab {{ $active === 'shipping-dhl' ? 'is-active' : '' }}">DHL eCommerce</a>
         </div>
     @elseif($active !== 'index')
         <div class="admin-integrations-nav__tabs mt-2">

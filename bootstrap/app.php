@@ -20,6 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('orders:send-payment-reminders')
             ->hourly()
             ->withoutOverlapping();
+
+        $schedule->command('shipments:sync-status')
+            ->everyFifteenMinutes()
+            ->withoutOverlapping();
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->validateCsrfTokens(except: [

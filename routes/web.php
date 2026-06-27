@@ -21,6 +21,8 @@ use App\Http\Controllers\Admin\NavigationController as AdminNavigationController
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use App\Http\Controllers\Admin\ParasutIntegrationController as AdminParasutIntegrationController;
 use App\Http\Controllers\Admin\BulkProductUpdateController;
+use App\Http\Controllers\Admin\CarrierIntegrationController;
+use App\Http\Controllers\Admin\OrderShipmentController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
@@ -313,6 +315,11 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
                 Route::get('iyzico', [\App\Http\Controllers\Admin\PaymentSettingsController::class, 'editIyzico'])->name('iyzico');
                 Route::put('iyzico', [\App\Http\Controllers\Admin\PaymentSettingsController::class, 'updateIyzico'])->name('iyzico.update');
             });
+            Route::prefix('kargo')->name('shipping.')->group(function () {
+                Route::get('dhl', [CarrierIntegrationController::class, 'editDhl'])->name('dhl');
+                Route::put('dhl', [CarrierIntegrationController::class, 'updateDhl'])->name('dhl.update');
+                Route::post('dhl/test', [CarrierIntegrationController::class, 'testDhl'])->name('dhl.test');
+            });
             Route::prefix('pazaryerleri')->name('marketplace.')->group(function () {
                 Route::get('/', \App\Http\Controllers\Admin\Marketplace\MarketplaceDashboardController::class)->name('index');
                 Route::get('hazirlik', \App\Http\Controllers\Admin\Marketplace\MarketplaceReadinessController::class)->name('readiness');
@@ -374,6 +381,12 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::get('siparisler', [AdminOrderController::class, 'index'])->name('orders.index');
         Route::delete('siparisler/toplu-sil', [AdminOrderController::class, 'bulkDestroy'])->name('orders.bulk-destroy');
         Route::get('siparisler/{order}/kargo-etiketi', [AdminOrderController::class, 'shippingLabel'])->name('orders.shipping-label');
+        Route::post('siparisler/{order}/kargo/plan', [OrderShipmentController::class, 'generatePlan'])->name('orders.shipments.plan');
+        Route::post('siparisler/{order}/kargo/plan-kaydet', [OrderShipmentController::class, 'savePlan'])->name('orders.shipments.save-plan');
+        Route::post('siparisler/{order}/kargo/tumunu-gonder', [OrderShipmentController::class, 'submitAll'])->name('orders.shipments.submit-all');
+        Route::post('siparisler/{order}/kargo/{shipment}/gonder', [OrderShipmentController::class, 'submit'])->name('orders.shipments.submit');
+        Route::post('siparisler/{order}/kargo/{shipment}/sync', [OrderShipmentController::class, 'sync'])->name('orders.shipments.sync');
+        Route::get('siparisler/{order}/kargo/{shipment}/etiket', [OrderShipmentController::class, 'label'])->name('orders.shipments.label');
         Route::get('siparisler/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::patch('siparisler/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
         Route::post('siparisler/{order}/odeme-hatirlat', [AdminOrderController::class, 'sendPaymentReminder'])->name('orders.payment-reminder');

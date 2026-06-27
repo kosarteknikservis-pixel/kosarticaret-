@@ -94,7 +94,7 @@ class OrderController extends Controller
 
     public function show(Order $order): View
     {
-        $order->load(['items.product', 'logs.user']);
+        $order->load(['items.product', 'logs.user', 'shipments.events']);
         $districtsByCity = config('turkiye.cities', []);
 
         return view('admin.orders.show', [

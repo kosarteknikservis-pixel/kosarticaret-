@@ -11,7 +11,8 @@ class Order extends Model
     protected $fillable = [
         'user_id', 'order_number', 'email', 'status', 'payment_status', 'payment_method',
         'payment_failed_at', 'payment_reminder_sent_at',
-        'customer_name', 'phone', 'shipping_address', 'shipping_tracking',
+        'customer_name', 'phone', 'shipping_address', 'shipping_tracking', 'shipping_carrier',
+        'shipment_sms_sent_at',
         'admin_note', 'subtotal', 'shipping_cost', 'discount', 'total', 'coupon_code',
         'analytics_visitor_id', 'order_source', 'order_medium', 'order_campaign', 'landing_url', 'referrer_url',
         'sales_channel', 'external_order_id', 'external_package_id', 'marketplace_commission', 'marketplace_payload',
@@ -31,6 +32,7 @@ class Order extends Model
             'parasut_synced_at' => 'datetime',
             'payment_failed_at' => 'datetime',
             'payment_reminder_sent_at' => 'datetime',
+            'shipment_sms_sent_at' => 'datetime',
         ];
     }
 
@@ -47,6 +49,11 @@ class Order extends Model
     public function logs(): HasMany
     {
         return $this->hasMany(OrderLog::class)->latest();
+    }
+
+    public function shipments(): HasMany
+    {
+        return $this->hasMany(OrderShipment::class)->orderBy('package_number');
     }
 
     public function analyticsVisitor(): BelongsTo
