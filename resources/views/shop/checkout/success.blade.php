@@ -54,4 +54,24 @@
             </div>
         </div>
     </div>
+
+    @php
+        $gaItems = $order->items->map(fn ($item) => [
+            'item_id' => $item->sku ?: 'KOS-'.$item->product_id,
+            'item_name' => $item->product_name,
+            'price' => (float) $item->unit_price,
+            'quantity' => (int) $item->quantity,
+        ])->values()->all();
+    @endphp
+    @include('shop.partials.ga4-ecommerce', [
+        'ga4Payload' => [
+            'event' => 'purchase',
+            'params' => [
+                'transaction_id' => $order->order_number,
+                'currency' => 'TRY',
+                'value' => (float) $order->total,
+                'items' => $gaItems,
+            ],
+        ],
+    ])
 @endsection

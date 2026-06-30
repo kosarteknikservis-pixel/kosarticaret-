@@ -115,7 +115,14 @@
                             <input type="number" id="pdp-qty" value="1" min="1" max="{{ $product->stock }}" aria-label="{{ __('shop.quantity') }}">
                             <button type="button" data-qty-plus aria-label="+">+</button>
                         </div>
-                        <button type="button" data-add-cart="{{ $product->slug }}" data-qty-from="#pdp-qty" class="shop-cart-btn btn-primary shop-btn-premium flex-1 min-w-[200px] py-3.5 text-base">
+                        <button type="button"
+                                data-add-cart="{{ $product->slug }}"
+                                data-qty-from="#pdp-qty"
+                                data-ga-item-id="{{ $product->sku ?: 'KOS-'.$product->id }}"
+                                data-ga-item-name="{{ $product->name }}"
+                                data-ga-price="{{ number_format((float) $product->price, 2, '.', '') }}"
+                                data-ga-brand="{{ $product->brand?->name }}"
+                                class="shop-cart-btn btn-primary shop-btn-premium flex-1 min-w-[200px] py-3.5 text-base">
                             <x-shop.icon name="cart" class="w-5 h-5" />
                             {{ __('shop.add_to_cart') }}
                         </button>
@@ -205,5 +212,23 @@
     @endif
     @include('shop.partials.pdp-sticky-bar', ['product' => $product])
     </div>
+
+    @include('shop.partials.ga4-ecommerce', [
+        'ga4Payload' => [
+            'event' => 'view_item',
+            'params' => [
+                'currency' => 'TRY',
+                'value' => (float) $product->price,
+                'items' => [[
+                    'item_id' => $product->sku ?: 'KOS-'.$product->id,
+                    'item_name' => $product->name,
+                    'item_brand' => $product->brand?->name,
+                    'item_category' => $product->categories->first()?->name,
+                    'price' => (float) $product->price,
+                    'quantity' => 1,
+                ]],
+            ],
+        ],
+    ])
 @endsection
 

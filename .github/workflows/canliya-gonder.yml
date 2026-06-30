@@ -93,10 +93,11 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           RSYNC="rsync -avz --no-perms --omit-dir-times --timeout=60"
-          $RSYNC public/css public/js public/build public/favicon.svg public/robots.txt \
+          $RSYNC public/css public/js public/build public/favicon.svg \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/" 2>/dev/null || true
           scp deploy/public_html/index.php deploy/public_html/.htaccess \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/"
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "rm -f ${DEPLOY_PATH}/public_html/robots.txt"
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "ln -sfn ../kosar/storage/app/public ${DEPLOY_PATH}/public_html/storage"
 
       - name: Sunucuda yeni migrationlari çalıştır
@@ -127,8 +128,8 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            (command -v php >/dev/null && php artisan config:cache && php artisan route:cache && php artisan view:cache) || \
-            (/usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache)"
+            (command -v php >/dev/null && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan seo:seed-buying-guides) || \
+            (/usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache && /usr/local/php83/bin/php artisan seo:seed-buying-guides)"
 
       - name: Zamanlayıcı görevlerini çalıştır (ödeme hatırlatma vb.)
         env:

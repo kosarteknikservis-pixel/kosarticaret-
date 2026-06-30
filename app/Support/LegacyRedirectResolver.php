@@ -210,6 +210,16 @@ final class LegacyRedirectResolver
                 : '/kategoriler/'.$target);
         }
 
+        $topLevel = config('legacy_redirects.category_top_level', []);
+        if (isset($topLevel[$relative])) {
+            return self::normalizeTarget('/kategoriler/'.$topLevel[$relative]);
+        }
+
+        $firstSegment = explode('/', $relative)[0] ?? '';
+        if ($firstSegment !== '' && isset($topLevel[$firstSegment])) {
+            return self::normalizeTarget('/kategoriler/'.$topLevel[$firstSegment]);
+        }
+
         return self::normalizeTarget('/kategoriler');
     }
 

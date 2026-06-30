@@ -4,9 +4,6 @@
 @section('content')
     <x-admin.page-header title="Pazaryerleri" subtitle="Trendyol, Hepsiburada, N11, Idefix, Pazarama ve Akakçe entegrasyon merkezi">
         <x-slot:actions>
-            <a href="{{ route('admin.integrations.marketplace.listings.index') }}" class="admin-btn admin-btn-secondary">Listelemeler</a>
-            <a href="{{ route('admin.integrations.marketplace.mappings.index') }}" class="admin-btn admin-btn-secondary">Eşleştirmeler</a>
-            <a href="{{ route('admin.integrations.marketplace.readiness') }}" class="admin-btn admin-btn-secondary">Katalog hazırlığı</a>
             <a href="{{ route('admin.integrations.marketplace.channels.index') }}" class="admin-btn admin-btn-primary">Kanal ayarları</a>
         </x-slot:actions>
     </x-admin.page-header>

@@ -35,11 +35,13 @@ class HomeController extends Controller
                 'brands' => Brand::query()->where('active', true)->count(),
                 'categories' => Category::query()->where('active', true)->count(),
             ],
-            'metaTitle' => \App\Support\SiteName::get(),
+            'metaTitle' => config('seo.homepage.title', \App\Support\SiteName::get()),
             'metaDescription' => Seo::description([
                 SiteSetting::get('site_description'),
+                config('seo.homepage.description'),
                 config('kosar.description'),
             ]),
+            'homeH1' => config('seo.homepage.h1', \App\Support\SiteName::get()),
             'canonical' => route('home'),
             'jsonLd' => [Seo::organization(), Seo::webSite(), Seo::onlineStore()],
         ]);

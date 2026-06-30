@@ -49,7 +49,7 @@ class SyncGscLegacyRedirectsCommand extends Command
 
             $target = LegacyProductSlugMatcher::targetForLegacySlug($legacySlug);
 
-            if ($target === null || $target === $source) {
+            if ($target === null || $target === $source || str_starts_with($target, '/marka/')) {
                 $skipped++;
 
                 continue;

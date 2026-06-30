@@ -20,7 +20,7 @@ return [
         '/urun/sumak-smh200-havuz-pompasi' => '/kategoriler/su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi',
         '/urun/winpo-wnp-cmi-8-40-t-full-paslanmaz-cok-kademeli-santrifuj-pompa' => '/kategoriler/su-pompalari/kademeli-pompalar',
         '/urun/elektrikli-soba-isitici-1600-w' => '/urunler',
-        '/urun/etna-ear4-65-32-75-yatay-monoblok-tek-kademeli-pompa-ear-serisi' => '/marka/etna',
+        '/urun/etna-ear4-65-32-75-yatay-monoblok-tek-kademeli-pompa-ear-serisi' => '/kategoriler/su-pompalari/kademeli-pompalar',
         '/marka/marmara' => '/markalar',
     ],
 
@@ -76,13 +76,45 @@ return [
         'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
     ],
 
+    /** WooCommerce üst kategori slug → yeni kategori yolu */
+    'category_top_level' => [
+        'su-pompalari' => 'su-pompalari',
+        'su-pompasi' => 'su-pompalari',
+        'su-pompasi-santrifuj-pompalar' => 'su-pompalari/santrifuj-pompalar',
+        'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
+        'hidrofor' => 'hidrofor-sistemleri',
+        'hidrofor-aksesuarlari' => 'hidrofor-sistemleri',
+        'vantilator' => 'vantilatorler',
+        'vantilatorler' => 'vantilatorler',
+        'endustriyel-urunler' => 'elektrik-ve-aydinlatma',
+        'bahce-yapi-market' => 'su-pompalari',
+        'dalgic-pompa' => 'su-pompalari/dalgic-pompalar',
+        'sirkulasyon-pompasi' => 'su-pompalari/sirkulasyon-pompalari',
+    ],
+
     /**
      * /urun-kategori/{key} → /kategoriler/{value}
      * Sayfalama (/page/N) otomatik temizlenir.
      */
     'category_paths' => [
+        'su-pompalari' => 'su-pompalari',
+        'su-pompasi' => 'su-pompalari',
+        'su-pompalari/dalgic-pompalar' => 'su-pompalari/dalgic-pompalar',
+        'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompasi' => 'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
+        'su-pompalari/dalgic-pompalar/temiz-su-dalgic-pompalari' => 'su-pompalari/dalgic-pompalar/temiz-su-dalgic-pompasi',
+        'su-pompalari/dalgic-pompalar/keson-kuyu-dalgic-pompalari' => 'su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa',
+        'su-pompalari/dalgic-pompalar/bicakli-foseptik-dalgic-pompalar' => 'su-pompalari/dalgic-pompalar/bicakli-dalgic-pompa',
+        'su-pompalari/kademeli-pompalar' => 'su-pompalari/kademeli-pompalar',
+        'su-pompalari/kademeli-pompalar/yatay-kademeli-pompalar' => 'su-pompalari/kademeli-pompalar/yatay-kademeli-pompalar',
+        'su-pompalari/sirkulasyon-pompalari' => 'su-pompalari/sirkulasyon-pompalari',
+        'su-pompalari/ozel-amacli-pompalar' => 'su-pompalari/ozel-amacli-pompalar',
+        'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
+        'hidroforlar/frekans-kontrollu-hidrofor' => 'hidrofor-sistemleri/frekans-kontrollu-hidroforlar',
+        'vantilator' => 'vantilatorler',
+        'vantilatorler/sanayi-tipi-vantilator' => 'vantilatorler/sanayi-tipi-vantilator',
+        'endustriyel-urunler' => 'elektrik-ve-aydinlatma',
+        'endustriyel-urunler/rezistans-ve-aksesuarlar' => 'elektrik-ve-aydinlatma',
         'bahce-yapi-market' => 'su-pompalari',
-        'bahce-yapi-market/dalgic-pompa' => 'su-pompalari/dalgic-pompalar',
         'bahce-yapi-market/dalgic-pompa/bicakli-foseptik-dalgic-pompalar' => 'su-pompalari/dalgic-pompalar/bicakli-dalgic-pompa',
         'bahce-yapi-market/dalgic-pompa/drenaj-dalgic-pompalari' => 'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
         'bahce-yapi-market/dalgic-pompa/keson-kuyu-dalgic-pompalari' => 'su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa',

@@ -48,7 +48,7 @@ class BrandController extends Controller
             'products' => $products,
             'brands' => Brand::query()->where('active', true)->orderBy('name')->get(),
             'breadcrumbs' => $breadcrumbs,
-            'metaTitle' => $brand->meta_title ?: $brand->name.' Ürünleri',
+            'metaTitle' => $brand->meta_title ?: $brand->name.' '.config('seo.brand_page_title_suffix', 'Ürünleri ve Fiyatları'),
             'metaDescription' => Seo::description([
                 $brand->meta_description,
                 $brand->description,

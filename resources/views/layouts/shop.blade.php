@@ -179,6 +179,7 @@
                 script.onload = () => {
                     window.gtag('js', new Date());
                     window.gtag('config', id);
+                    window.dispatchEvent(new CustomEvent('kosar:analytics-ready'));
                 };
                 document.head.appendChild(script);
             };

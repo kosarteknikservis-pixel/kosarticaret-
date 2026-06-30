@@ -91,10 +91,10 @@ class LegacyRedirectTest extends TestCase
             ->assertRedirect('/marka/sumak');
     }
 
-    public function test_removed_product_slug_redirects_to_brand_or_products(): void
+    public function test_removed_product_slug_redirects_to_category_or_products(): void
     {
         $this->get('/urun/pedrollo-kaldirilmis-eski-urun-slug')
-            ->assertRedirect('/marka/pedrollo');
+            ->assertRedirect('/kategoriler/su-pompalari');
 
         $this->get('/marka/sumak-bicakli-foseptik-dalgic-pompa')
             ->assertRedirect('/marka/sumak');
@@ -104,6 +104,15 @@ class LegacyRedirectTest extends TestCase
 
         $this->get('/shop/page/28')
             ->assertRedirect('/urunler');
+    }
+
+    public function test_legacy_top_level_category_redirects_to_specific_category(): void
+    {
+        $this->get('/urun-kategori/su-pompalari')
+            ->assertRedirect('/kategoriler/su-pompalari');
+
+        $this->get('/urun-kategori/hidroforlar')
+            ->assertRedirect('/kategoriler/hidrofor-sistemleri/hidroforlar');
     }
 
     public function test_trailing_slash_redirects_to_canonical_product_url(): void

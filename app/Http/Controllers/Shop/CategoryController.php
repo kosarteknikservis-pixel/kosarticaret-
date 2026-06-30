@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Services\CatalogQuery;
 use App\Support\CatalogPaginationSeo;
 use App\Support\CategoryBreadcrumbs;
+use App\Support\CategoryLandingPresenter;
 use App\Support\Seo;
 use App\Support\SiteName;
 use Illuminate\Http\RedirectResponse;
@@ -47,6 +48,9 @@ class CategoryController extends Controller
 
         $breadcrumbs = CategoryBreadcrumbs::for($category);
 
+        $category->load(['activeChildren' => fn ($q) => $q->orderBy('sort_order')]);
+        $landing = CategoryLandingPresenter::for($category);
+
         $products = $query->paginate(12)->withQueryString();
         $pageUrl = $category->storefrontUrl();
         $paginationSeo = CatalogPaginationSeo::meta($request, $products);
@@ -56,6 +60,10 @@ class CategoryController extends Controller
             'products' => $products,
             'brands' => Brand::query()->where('active', true)->orderBy('name')->get(),
             'breadcrumbs' => $breadcrumbs,
+            'heroSubtitle' => $landing['subtitle'],
+            'buyingGuide' => $landing['buying_guide'],
+            'trustPoints' => $landing['trust'],
+            'subcategories' => $category->activeChildren,
             'metaTitle' => $category->meta_title ?: $category->name,
             'metaDescription' => Seo::description([
                 $category->meta_description,

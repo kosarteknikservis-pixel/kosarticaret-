@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\SiteSetting;
+use App\Support\GoogleProductCategory;
 use App\Support\Seo;
 use App\Support\SitemapGenerator;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
 
@@ -14,15 +16,19 @@ class SeoController extends Controller
 {
     public function sitemap(): Response
     {
-        if (SitemapGenerator::usesIndex()) {
-            $xml = view('seo.sitemap-index', [
-                'entries' => SitemapGenerator::indexEntries(),
-            ])->render();
+        $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
 
-            return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
-        }
+        $xml = Cache::remember('seo.sitemap.xml', $cacheSeconds, function (): string {
+            if (SitemapGenerator::usesIndex()) {
+                return view('seo.sitemap-index', [
+                    'entries' => SitemapGenerator::indexEntries(),
+                ])->render();
+            }
 
-        return $this->urlsetResponse(SitemapGenerator::allUrls());
+            return view('seo.sitemap', ['urls' => SitemapGenerator::allUrls()])->render();
+        });
+
+        return response($xml, 200, $this->xmlHeaders($cacheSeconds));
     }
 
     public function sitemapChunk(string $chunk): Response
@@ -31,12 +37,23 @@ class SeoController extends Controller
             abort(404);
         }
 
-        $urls = SitemapGenerator::chunkUrls($chunk);
-        if ($urls->isEmpty()) {
+        $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
+        $cacheKey = 'seo.sitemap.chunk.'.$chunk;
+
+        $xml = Cache::remember($cacheKey, $cacheSeconds, function () use ($chunk): ?string {
+            $urls = SitemapGenerator::chunkUrls($chunk);
+            if ($urls->isEmpty()) {
+                return null;
+            }
+
+            return view('seo.sitemap', ['urls' => $urls->all()])->render();
+        });
+
+        if ($xml === null) {
             abort(404);
         }
 
-        return $this->urlsetResponse($urls->all());
+        return response($xml, 200, $this->xmlHeaders($cacheSeconds));
     }
 
     /**
@@ -44,38 +61,59 @@ class SeoController extends Controller
      */
     private function urlsetResponse(array $urls): Response
     {
+        $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
         $xml = view('seo.sitemap', ['urls' => $urls])->render();
 
-        return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
+        return response($xml, 200, $this->xmlHeaders($cacheSeconds));
+    }
+
+    /** @return array<string, string> */
+    private function xmlHeaders(int $cacheSeconds): array
+    {
+        return [
+            'Content-Type' => 'application/xml; charset=UTF-8',
+            'Cache-Control' => 'public, max-age='.$cacheSeconds,
+        ];
     }
 
     public function robots(): Response
     {
-        $lines = [
-            'User-agent: *',
-            'Allow: /',
-            'Disallow: /yonetim',
-            'Disallow: /odeme',
-            'Disallow: /sepet',
-            'Disallow: /sepet/ajax',
-            'Disallow: /ara',
-            'Disallow: /favoriler',
-            'Disallow: /hesabim',
-            'Disallow: /giris',
-            'Disallow: /kayit',
-            'Disallow: /siparis-takip',
-            'Disallow: /siparis-onay',
-            'Disallow: /urun-kategori',
-            'Disallow: /urun-etiket',
-            'Disallow: /tag/',
-            'Disallow: /page/',
-            'Disallow: /magaza',
-            'Disallow: /shop',
-            '',
-            'Sitemap: '.Seo::absolute('/sitemap.xml'),
-        ];
+        $cacheSeconds = (int) config('seo.robots_cache_seconds', 86400);
 
-        return response(implode("\n", $lines), 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        $body = Cache::remember('seo.robots.txt', $cacheSeconds, function (): string {
+            $lines = [
+                'User-agent: *',
+                'Allow: /',
+                'Disallow: /yonetim',
+                'Disallow: /odeme',
+                'Disallow: /sepet',
+                'Disallow: /sepet/ajax',
+                'Disallow: /ara',
+                'Disallow: /favoriler',
+                'Disallow: /hesabim',
+                'Disallow: /giris',
+                'Disallow: /kayit',
+                'Disallow: /siparis-takip',
+                'Disallow: /siparis-onay',
+                'Disallow: /urun-kategori',
+                'Disallow: /urun-etiket',
+                'Disallow: /tag/',
+                'Disallow: /page/',
+                'Disallow: /magaza',
+                'Disallow: /shop',
+                'Disallow: /*?add-to-cart*',
+                'Disallow: /*?*filter*',
+                '',
+                'Sitemap: '.Seo::absolute('/sitemap.xml'),
+            ];
+
+            return implode("\n", $lines);
+        });
+
+        return response($body, 200, [
+            'Content-Type' => 'text/plain; charset=UTF-8',
+            'Cache-Control' => 'public, max-age='.$cacheSeconds,
+        ]);
     }
 
     public function merchantFeed(): StreamedResponse
@@ -105,7 +143,7 @@ class SeoController extends Controller
             ->where('stock', '>', 0)
             ->whereNotNull('image')
             ->where('image', '!=', '')
-            ->with(['brand:id,name', 'categories:id,name'])
+            ->with(['brand:id,name', 'categories:id,name,slug,parent_id'])
             ->select([
                 'id', 'sku', 'slug', 'name', 'short_description',
                 'price', 'compare_at_price', 'stock', 'image', 'brand_id',
@@ -170,6 +208,7 @@ class SeoController extends Controller
         if ($category !== '') {
             echo '<g:product_type>'.$this->xmlCdata($category).'</g:product_type>';
         }
+        echo '<g:google_product_category>'.$this->xmlText((string) GoogleProductCategory::forProduct($product)).'</g:google_product_category>';
         echo '<g:shipping>';
         echo '<g:country>TR</g:country>';
         echo '<g:service>Standart Kargo</g:service>';

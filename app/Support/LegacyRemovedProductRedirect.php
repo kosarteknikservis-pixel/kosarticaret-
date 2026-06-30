@@ -24,14 +24,9 @@ final class LegacyRemovedProductRedirect
             return (string) $generated[$key];
         }
 
-        foreach (config('legacy_redirects.product_brand_prefixes', []) as $prefix => $brandSlug) {
-            if (! self::matchesBrandPrefix($slug, (string) $prefix)) {
-                continue;
-            }
-
-            return $brandSlug !== null && $brandSlug !== ''
-                ? '/marka/'.$brandSlug
-                : (string) config('legacy_redirects.removed_product_fallback', '/urunler');
+        $categoryTarget = LegacySlugCategoryGuesser::pathForSlug($slug);
+        if ($categoryTarget !== null) {
+            return $categoryTarget;
         }
 
         return (string) config('legacy_redirects.removed_product_fallback', '/urunler');

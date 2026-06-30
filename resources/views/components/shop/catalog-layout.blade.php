@@ -1,4 +1,15 @@
-@props(['title', 'subtitle' => null, 'intro' => null, 'buyingGuide' => null, 'faq' => [], 'breadcrumbs' => null, 'products', 'brands' => collect()])
+@props([
+    'title',
+    'subtitle' => null,
+    'intro' => null,
+    'buyingGuide' => null,
+    'faq' => [],
+    'breadcrumbs' => null,
+    'products',
+    'brands' => collect(),
+    'trustPoints' => [],
+    'subcategories' => collect(),
+])
 
 <div class="shop-page shop-page--catalog">
 @if($breadcrumbs)
@@ -6,6 +17,10 @@
 @endif
 
 <x-shop.page-hero :title="$title" :subtitle="$subtitle" />
+
+<x-shop.category-trust-strip :items="$trustPoints" />
+
+<x-shop.category-subnav :categories="$subcategories" />
 
 <div class="shop-catalog-grid">
     <div id="filter-drawer-overlay" class="fixed inset-0 z-50 hidden lg:hidden bg-slate-900/40 backdrop-blur-sm" aria-hidden="true">

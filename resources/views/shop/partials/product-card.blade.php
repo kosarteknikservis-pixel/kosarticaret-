@@ -50,7 +50,13 @@
     </a>
     @if($product->inStock())
         <div class="shop-product-card__footer">
-            <button type="button" data-add-cart="{{ $product->slug }}" class="shop-add-cart-btn shop-cart-btn">
+            <button type="button"
+                    data-add-cart="{{ $product->slug }}"
+                    data-ga-item-id="{{ $product->sku ?: 'KOS-'.$product->id }}"
+                    data-ga-item-name="{{ $product->name }}"
+                    data-ga-price="{{ number_format((float) $product->price, 2, '.', '') }}"
+                    data-ga-brand="{{ $product->brand?->name }}"
+                    class="shop-add-cart-btn shop-cart-btn">
                 <span class="shop-add-cart-btn__icon" aria-hidden="true">
                     <x-shop.icon name="cart" class="w-4 h-4" />
                 </span>

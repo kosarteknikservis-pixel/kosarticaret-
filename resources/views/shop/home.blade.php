@@ -24,7 +24,7 @@
 
 
 @section('content')
-    <h1 class="sr-only">{{ \App\Support\SiteName::get() }}</h1>
+    <h1 class="sr-only">{{ $homeH1 ?? \App\Support\SiteName::get() }}</h1>
     <div class="shop-page shop-page--home">
     @include('shop.partials.home-layout', ['homeRows' => $homeRows])
 

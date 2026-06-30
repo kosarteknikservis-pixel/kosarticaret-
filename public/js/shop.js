@@ -169,6 +169,20 @@
                 if (data.ok) {
                     updateCartBadge(data.count);
                     toast(data.message || 'Sepete eklendi');
+                    if (typeof window.gtag === 'function' && btn.dataset.gaItemId) {
+                        const price = parseFloat(btn.dataset.gaPrice || '0');
+                        window.gtag('event', 'add_to_cart', {
+                            currency: 'TRY',
+                            value: price * qty,
+                            items: [{
+                                item_id: btn.dataset.gaItemId,
+                                item_name: btn.dataset.gaItemName || '',
+                                item_brand: btn.dataset.gaBrand || undefined,
+                                price,
+                                quantity: qty,
+                            }],
+                        });
+                    }
                     btn.classList.remove('is-added');
                     void btn.offsetWidth;
                     btn.classList.add('is-added');

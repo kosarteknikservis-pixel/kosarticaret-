@@ -29,6 +29,11 @@ final class LegacyProductSlugMatcher
             return (string) $exact[$key];
         }
 
+        $tokenMatch = self::bestTokenMatch($slug);
+        if ($tokenMatch !== null) {
+            return '/urun/'.$tokenMatch;
+        }
+
         $bestSlug = null;
         $bestScore = 0.0;
 
@@ -40,7 +45,7 @@ final class LegacyProductSlugMatcher
             }
         }
 
-        if ($bestSlug !== null && $bestScore >= 82.0) {
+        if ($bestSlug !== null && $bestScore >= 78.0) {
             return '/urun/'.$bestSlug;
         }
 
@@ -79,5 +84,44 @@ final class LegacyProductSlugMatcher
         similar_text($left, $right, $percent);
 
         return (float) $percent;
+    }
+
+    private static function bestTokenMatch(string $slug): ?string
+    {
+        $sourceTokens = self::significantTokens($slug);
+        if (count($sourceTokens) < 3) {
+            return null;
+        }
+
+        $bestSlug = null;
+        $bestScore = 0.0;
+
+        foreach (self::activeSlugs()->keys() as $activeSlug) {
+            $targetTokens = self::significantTokens((string) $activeSlug);
+            if ($targetTokens === []) {
+                continue;
+            }
+
+            $overlap = count(array_intersect($sourceTokens, $targetTokens));
+            $score = $overlap / max(count($sourceTokens), count($targetTokens));
+
+            if ($score > $bestScore) {
+                $bestScore = $score;
+                $bestSlug = (string) $activeSlug;
+            }
+        }
+
+        return $bestScore >= 0.72 ? $bestSlug : null;
+    }
+
+    /** @return list<string> */
+    private static function significantTokens(string $slug): array
+    {
+        $stop = ['ve', 'ile', 'icin', 'the', 'hp', 'volt', 'monofaze', 'trifaze', '220', '380', 'serisi', 'komple'];
+
+        return array_values(array_filter(
+            explode('-', self::normalizeSlug($slug)),
+            fn (string $token) => strlen($token) >= 2 && ! in_array($token, $stop, true) && ! is_numeric($token)
+        ));
     }
 }

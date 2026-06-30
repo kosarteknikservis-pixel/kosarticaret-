@@ -9,6 +9,10 @@
             <button type="button"
                     data-add-cart="{{ $product->slug }}"
                     data-qty-from="#pdp-qty"
+                    data-ga-item-id="{{ $product->sku ?: 'KOS-'.$product->id }}"
+                    data-ga-item-name="{{ $product->name }}"
+                    data-ga-price="{{ number_format((float) $product->price, 2, '.', '') }}"
+                    data-ga-brand="{{ $product->brand?->name }}"
                     class="shop-pdp-sticky__cart btn-primary">
                 {{ __('shop.add_to_cart') }}
             </button>
