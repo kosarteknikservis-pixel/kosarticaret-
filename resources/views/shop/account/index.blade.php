@@ -2,7 +2,7 @@
 @section('title', __('shop.account'))
 
 @section('content')
-    <div class="shop-page">
+    <div class="shop-page shop-page--account">
         @include('shop.partials.breadcrumbs', ['breadcrumbs' => [
             ['name' => __('shop.home'), 'url' => route('home')],
             ['name' => __('shop.account')],
@@ -16,7 +16,7 @@
             </x-slot:actions>
         </x-shop.page-hero>
 
-        <div class="grid gap-4 sm:grid-cols-3">
+        <div class="grid gap-3 sm:gap-4 sm:grid-cols-3 min-w-0">
             <a href="{{ route('account.index') }}" class="shop-account-card is-active">
                 <span class="shop-account-card__icon-wrap">
                     <x-shop.icon name="cart" class="w-6 h-6" />

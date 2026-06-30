@@ -51,7 +51,7 @@
                     <div class="px-5 py-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between gap-3">
                         <div>
                             <h2 class="font-bold text-slate-900">Ürünler</h2>
-                            <p class="text-xs text-slate-500 mt-1">Adet ve fiyat değişirse toplamlar yeniden hesaplanır.</p>
+                            <p class="text-xs text-slate-500 mt-1">{{ $order->items->count() }} kalem · Adet ve fiyat değişirse toplamlar yeniden hesaplanır.</p>
                         </div>
                         @if($order->status === 'teslim_edildi')
                             <span class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-3 py-1">Teslim edilmiş sipariş</span>

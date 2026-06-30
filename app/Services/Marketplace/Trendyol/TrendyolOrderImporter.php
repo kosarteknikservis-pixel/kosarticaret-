@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Services\Marketplace\MarketplaceSyncLogger;
+use App\Services\Telegram\OrderTelegramNotifier;
 use Illuminate\Support\Facades\DB;
 
 class TrendyolOrderImporter
@@ -14,6 +15,7 @@ class TrendyolOrderImporter
     public function __construct(
         private TrendyolApiClient $apiClient,
         private MarketplaceSyncLogger $logger,
+        private OrderTelegramNotifier $telegram,
     ) {}
 
     /**
@@ -118,7 +120,9 @@ class TrendyolOrderImporter
             return 'updated';
         }
 
-        DB::transaction(function () use ($package, $orderNumber): void {
+        $createdOrderId = null;
+
+        DB::transaction(function () use ($package, $orderNumber, &$createdOrderId): void {
             $lines = collect($package['lines'] ?? [])->filter(fn ($line) => is_array($line));
 
             $subtotal = $lines->sum(fn (array $line) => (float) ($line['amount'] ?? $line['price'] ?? 0));
@@ -169,7 +173,13 @@ class TrendyolOrderImporter
                     $product->decrement('stock', min($quantity, max(0, (int) $product->stock)));
                 }
             }
+
+            $createdOrderId = $order->id;
         });
+
+        if ($createdOrderId) {
+            $this->telegram->queue($createdOrderId);
+        }
 
         return 'imported';
     }

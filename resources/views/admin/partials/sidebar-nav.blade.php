@@ -48,6 +48,10 @@ $nav = fn (string $pattern) => request()->routeIs($pattern) ? 'is-active' : '';
         <svg class="w-5 h-5 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a49.902 49.902 0 00-2.659-.814V9.75a3 3 0 00-3-3h-1.5a3 3 0 00-3 3v3.318c-.93.084-1.835.22-2.659.814a1.125 1.125 0 01-1.09-1.124V6.375c0-.621.504-1.125 1.125-1.125H17.25c.621 0 1.125.504 1.125 1.125v11.25z"/></svg>
         Kargo
     </a>
+    <a href="{{ route('admin.integrations.notifications.telegram') }}" class="admin-nav-link {{ request()->routeIs('admin.integrations.notifications.*') ? 'is-active' : '' }}">
+        <svg class="w-5 h-5 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg>
+        Bildirimler
+    </a>
     <a href="{{ route('admin.integrations.marketplace.index') }}" class="admin-nav-link {{ request()->routeIs('admin.integrations.marketplace.*') ? 'is-active' : '' }}">
         <svg class="w-5 h-5 shrink-0 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64M3 21h1.5M3 7.5v13.5m0-13.5A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v13.5M9 10.5h.008v.008H9V10.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm3.375 0h.008v.008H12.75V10.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
         Pazaryerleri

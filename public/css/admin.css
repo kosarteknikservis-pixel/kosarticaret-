@@ -2552,44 +2552,82 @@ body.admin-body {
         display: block;
         width: 100%;
         min-width: 0 !important;
-        background: #f8fafc;
+        background: transparent;
     }
 
     .admin-order-items-table thead {
         display: none;
     }
 
-    .admin-order-items-table tbody,
-    .admin-order-items-table tr,
-    .admin-order-items-table td {
+    .admin-order-items-table tbody {
         display: block;
         width: 100%;
-    }
-
-    .admin-order-items-table tbody {
-        padding: 0.85rem;
+        padding: 0;
+        border: 1px solid #e2e8f0;
+        border-radius: 1rem;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
     }
 
     .admin-order-items-table tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 0;
         overflow: visible;
-        border: 1px solid #e2e8f0;
-        border-radius: 1rem;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
         background: #fff;
-        box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 10px 24px rgb(21 42 71 / 0.06);
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .admin-order-items-table tr:last-child {
+        border-bottom: 0;
     }
 
     .admin-order-items-table tr + tr {
-        margin-top: 0.8rem;
+        margin-top: 0;
+    }
+
+    .admin-order-items-table tr:nth-child(even) {
+        background: #fafbfd;
     }
 
     .admin-order-items-table td {
-        padding: 0.75rem 0.9rem;
-        border-top: 1px solid #eef2f7;
+        display: block;
+        width: auto;
+        padding: 0.65rem 0.9rem;
+        border-top: 0;
         text-align: left;
     }
 
-    .admin-order-items-table td:first-child {
-        border-top: 0;
+    .admin-order-items-table td[data-label="Ürün"] {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        flex: 0 0 100%;
+        padding-top: 0.85rem;
+        padding-bottom: 0.35rem;
+        background: transparent;
+    }
+
+    .admin-order-items-table td[data-label="Adet"],
+    .admin-order-items-table td[data-label="Birim fiyat"],
+    .admin-order-items-table td[data-label="Sil"],
+    .admin-order-items-table td[data-label="Not"] {
+        flex: 1 1 calc(50% - 0.5rem);
+        min-width: 0;
+        padding-top: 0.35rem;
+        padding-bottom: 0.85rem;
+    }
+
+    .admin-order-items-table td[data-label="Adet"] .admin-input,
+    .admin-order-items-table td[data-label="Birim fiyat"] .admin-input {
+        width: 100%;
+        max-width: 100%;
     }
 
     .admin-order-items-table td::before {
@@ -2597,16 +2635,14 @@ body.admin-body {
         display: block;
         margin-bottom: 0.35rem;
         color: #64748b;
-        font-size: 0.7rem;
+        font-size: 0.68rem;
         font-weight: 800;
         letter-spacing: 0.04em;
         text-transform: uppercase;
     }
 
-    .admin-order-items-table td[data-label="Ürün"] {
-        position: relative;
-        z-index: 2;
-        background: linear-gradient(180deg, #fff, #fbfdff);
+    .admin-order-items-table td[data-label="Ürün"]::before {
+        content: none;
     }
 
     .admin-order-items-table .admin-input,

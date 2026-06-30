@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController
 use App\Http\Controllers\Admin\ParasutIntegrationController as AdminParasutIntegrationController;
 use App\Http\Controllers\Admin\BulkProductUpdateController;
 use App\Http\Controllers\Admin\CarrierIntegrationController;
+use App\Http\Controllers\Admin\TelegramIntegrationController;
 use App\Http\Controllers\Admin\OrderShipmentController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
@@ -319,6 +320,11 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
                 Route::get('dhl', [CarrierIntegrationController::class, 'editDhl'])->name('dhl');
                 Route::put('dhl', [CarrierIntegrationController::class, 'updateDhl'])->name('dhl.update');
                 Route::post('dhl/test', [CarrierIntegrationController::class, 'testDhl'])->name('dhl.test');
+            });
+            Route::prefix('bildirimler')->name('notifications.')->group(function () {
+                Route::get('telegram', [TelegramIntegrationController::class, 'edit'])->name('telegram');
+                Route::put('telegram', [TelegramIntegrationController::class, 'update'])->name('telegram.update');
+                Route::post('telegram/test', [TelegramIntegrationController::class, 'test'])->name('telegram.test');
             });
             Route::prefix('pazaryerleri')->name('marketplace.')->group(function () {
                 Route::get('/', \App\Http\Controllers\Admin\Marketplace\MarketplaceDashboardController::class)->name('index');

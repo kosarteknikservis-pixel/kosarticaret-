@@ -3,6 +3,7 @@
 @php
     $isPayment = $active === 'index' || in_array($active, ['paytr', 'iyzico'], true);
     $isShipping = str_starts_with($active, 'shipping');
+    $isNotifications = str_starts_with($active, 'notifications');
     $isMarketplace = str_starts_with($active, 'marketplace');
 @endphp
 
@@ -14,6 +15,8 @@
            class="admin-integrations-nav__tab {{ $isPayment ? 'is-active' : '' }}">Ödeme</a>
         <a href="{{ route('admin.integrations.shipping.dhl') }}"
            class="admin-integrations-nav__tab {{ $isShipping ? 'is-active' : '' }}">Kargo</a>
+        <a href="{{ route('admin.integrations.notifications.telegram') }}"
+           class="admin-integrations-nav__tab {{ $isNotifications ? 'is-active' : '' }}">Bildirimler</a>
         <a href="{{ route('admin.integrations.marketplace.index') }}"
            class="admin-integrations-nav__tab {{ $isMarketplace ? 'is-active' : '' }}">Pazaryerleri</a>
     </div>
@@ -26,6 +29,11 @@
                class="admin-integrations-nav__subtab {{ $active === 'paytr' ? 'is-active' : '' }}">PayTR</a>
             <a href="{{ route('admin.integrations.payment.iyzico') }}"
                class="admin-integrations-nav__subtab {{ $active === 'iyzico' ? 'is-active' : '' }}">iyzico</a>
+        </div>
+    @elseif($isNotifications)
+        <div class="admin-integrations-nav__secondary">
+            <a href="{{ route('admin.integrations.notifications.telegram') }}"
+               class="admin-integrations-nav__subtab {{ $active === 'notifications-telegram' ? 'is-active' : '' }}">Telegram</a>
         </div>
     @elseif($isMarketplace)
         <div class="admin-integrations-nav__secondary">

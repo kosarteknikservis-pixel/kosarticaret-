@@ -118,14 +118,7 @@
 
                                 <div class="shop-tracking-order__items">
                                     <h3 class="shop-section-title !mb-3">{{ __('shop.tracking_items_title') }}</h3>
-                                    <ul class="shop-tracking-items">
-                                        @foreach($order->items as $item)
-                                            <li class="shop-tracking-items__row">
-                                                <span class="shop-tracking-items__name">{{ $item->product_name }} × {{ $item->quantity }}</span>
-                                                <span class="shop-tracking-items__price">{{ number_format($item->line_total, 2, ',', '.') }} ₺</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <x-shop.order-items-list :items="$order->items" class="shop-order-items--tracking" />
                                 </div>
                             </article>
                         @else
