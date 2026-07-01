@@ -16,12 +16,6 @@
                     class="shop-pdp-sticky__cart btn-primary">
                 {{ __('shop.add_to_cart') }}
             </button>
-            <button type="button"
-                    data-compare-add="{{ $product->slug }}"
-                    class="shop-pdp-sticky__compare"
-                    title="{{ __('shop.compare_add') }}">
-                {{ __('shop.compare_short') }}
-            </button>
         </div>
     </div>
 </div>

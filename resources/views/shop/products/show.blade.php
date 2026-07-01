@@ -129,9 +129,6 @@
                         <button type="button" data-toggle-favorite="{{ $product->slug }}" class="shop-pdp-fav" aria-label="{{ __('shop.add_favorite') }}">
                             <x-shop.icon name="heart" class="w-6 h-6" />
                         </button>
-                        <button type="button" data-compare-add="{{ $product->slug }}" class="shop-pdp-compare" title="{{ __('shop.compare_add') }}">
-                            {{ __('shop.compare_short') }}
-                        </button>
                     </div>
 
                     @if(\App\Support\WhatsAppOrder::isEnabledForPdp())
@@ -210,7 +207,6 @@
             </div>
         </dialog>
     @endif
-    @include('shop.partials.pdp-sticky-bar', ['product' => $product])
     </div>
 
     @include('shop.partials.ga4-ecommerce', [

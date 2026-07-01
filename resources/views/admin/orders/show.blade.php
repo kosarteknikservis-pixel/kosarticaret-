@@ -47,78 +47,118 @@
         @csrf @method('PATCH')
         <div class="grid gap-6 lg:grid-cols-3">
             <div class="lg:col-span-2 space-y-6">
-                <section class="admin-card overflow-hidden">
-                    <div class="px-5 py-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between gap-3">
-                        <div>
-                            <h2 class="font-bold text-slate-900">Ürünler</h2>
-                            <p class="text-xs text-slate-500 mt-1">{{ $order->items->count() }} kalem · Adet ve fiyat değişirse toplamlar yeniden hesaplanır.</p>
+                <section class="admin-card admin-order-sheet overflow-hidden">
+                    <div class="admin-order-sheet__header">
+                        <div class="min-w-0">
+                            <p class="admin-order-sheet__eyebrow">Sipariş içeriği</p>
+                            <h2 class="admin-order-sheet__title">Ürünler</h2>
                         </div>
-                        @if($order->status === 'teslim_edildi')
-                            <span class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-3 py-1">Teslim edilmiş sipariş</span>
-                        @endif
+                        <div class="admin-order-sheet__meta">
+                            @if($order->status === 'teslim_edildi')
+                                <span class="admin-order-sheet__flag">Teslim edildi</span>
+                            @endif
+                        </div>
                     </div>
-                    <div class="admin-table-wrap admin-order-items-wrap">
-                        <table class="admin-table admin-order-items-table">
-                            <thead>
-                                <tr>
-                                    <th>Ürün</th>
-                                    <th>Adet</th>
-                                    <th>Birim fiyat</th>
-                                    <th>Sil</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($order->items as $i => $item)
-                                    <tr>
-                                        <td data-label="Ürün">
+
+                    <div class="admin-order-lines">
+                        @foreach($order->items as $i => $item)
+                            <article class="admin-order-line" data-order-line>
+                                <div class="admin-order-line__main">
+                                    <div class="admin-order-line__identity">
+                                        <span class="admin-order-line__index">{{ str_pad((string) ($loop->iteration), 2, '0', STR_PAD_LEFT) }}</span>
+                                        <div class="admin-order-line__copy min-w-0">
                                             <input type="hidden" name="items[{{ $i }}][id]" value="{{ $item->id }}">
-                                            <p class="font-semibold text-slate-900">{{ $item->product_name }}</p>
-                                            <p class="text-xs text-slate-500">{{ $item->sku ?: 'SKU yok' }}</p>
-                                        </td>
-                                        <td data-label="Adet"><input type="number" min="1" name="items[{{ $i }}][quantity]" value="{{ $item->quantity }}" class="admin-input w-24"></td>
-                                        <td data-label="Birim fiyat"><input type="number" min="0" step="0.01" name="items[{{ $i }}][unit_price]" value="{{ $item->unit_price }}" class="admin-input w-32"></td>
-                                        <td data-label="Sil"><label class="admin-checkbox"><input type="checkbox" name="items[{{ $i }}][remove]" value="1"> Sil</label></td>
-                                    </tr>
-                                @endforeach
-                                @for($j = 0; $j < 1; $j++)
-                                    @php $i = $nextItemIndex + $j; @endphp
-                                    <tr>
-                                        <td data-label="Ürün">
-                                            <div class="admin-product-picker js-order-product-picker">
-                                                <input type="hidden" name="items[{{ $i }}][product_id]" class="js-order-product-id">
-                                                <button type="button" class="admin-product-picker__button" aria-expanded="false">
-                                                    <span class="admin-product-picker__label" data-picker-label>Yeni ürün ekle</span>
-                                                    <span class="admin-product-picker__chevron" aria-hidden="true">⌄</span>
+                                            <p class="admin-order-line__name">{{ $item->product_name }}</p>
+                                            <p class="admin-order-line__sku">{{ $item->sku ?: 'SKU tanımsız' }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="admin-order-line__controls" role="group" aria-label="Adet ve birim fiyat">
+                                        <label class="admin-order-line__control">
+                                            <span class="admin-order-line__control-label">Adet</span>
+                                            <input type="number" min="1" name="items[{{ $i }}][quantity]" value="{{ $item->quantity }}" class="admin-input admin-order-line__input" data-qty>
+                                        </label>
+                                        <label class="admin-order-line__control">
+                                            <span class="admin-order-line__control-label">Birim fiyat</span>
+                                            <input type="number" min="0" step="0.01" name="items[{{ $i }}][unit_price]" value="{{ $item->unit_price }}" class="admin-input admin-order-line__input" data-price>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="admin-order-line__aside">
+                                    <p class="admin-order-line__amount" data-line-total>{{ number_format((float) $item->line_total, 2, ',', '.') }} ₺</p>
+                                    <label class="admin-order-line__delete">
+                                        <input type="checkbox" name="items[{{ $i }}][remove]" value="1" class="admin-sr-only">
+                                        <span class="admin-order-line__delete-btn">Kaldır</span>
+                                    </label>
+                                </div>
+                            </article>
+                        @endforeach
+
+                        @for($j = 0; $j < 1; $j++)
+                            @php $i = $nextItemIndex + $j; @endphp
+                            <article class="admin-order-line admin-order-line--add">
+                                <div class="admin-order-line__add-head">
+                                    <span class="admin-order-line__add-icon" aria-hidden="true">+</span>
+                                    <div>
+                                        <p class="admin-order-line__add-title">Yeni ürün ekle</p>
+                                        <p class="admin-order-line__add-sub">Ürün seçilmezse kayıt sırasında eklenmez.</p>
+                                    </div>
+                                </div>
+
+                                <div class="admin-product-picker js-order-product-picker admin-order-line__picker">
+                                    <input type="hidden" name="items[{{ $i }}][product_id]" class="js-order-product-id">
+                                    <button type="button" class="admin-product-picker__button" aria-expanded="false">
+                                        <span class="admin-product-picker__label" data-picker-label>Ürün ara ve seç</span>
+                                        <span class="admin-product-picker__chevron" aria-hidden="true">⌄</span>
+                                    </button>
+                                    <div class="admin-product-picker__panel" hidden>
+                                        <input type="search" class="admin-input admin-product-picker__search" placeholder="Ürün ara">
+                                        <div class="admin-product-picker__list">
+                                            @foreach($products as $product)
+                                                @php
+                                                    $productOptionLabel = $product->name.($product->sku ? ' - '.$product->sku : '').' (Stok: '.$product->stock.')';
+                                                @endphp
+                                                <button type="button" class="admin-product-picker__option" data-product-id="{{ $product->id }}" data-price="{{ $product->price }}" data-label="{{ $productOptionLabel }}" data-search="{{ \Illuminate\Support\Str::lower($productOptionLabel) }}">
+                                                    {{ $productOptionLabel }}
                                                 </button>
-                                                <div class="admin-product-picker__panel" hidden>
-                                                    <input type="search" class="admin-input admin-product-picker__search" placeholder="Ürün ara">
-                                                    <div class="admin-product-picker__list">
-                                                        @foreach($products as $product)
-                                                            @php
-                                                                $productOptionLabel = $product->name.($product->sku ? ' - '.$product->sku : '').' (Stok: '.$product->stock.')';
-                                                            @endphp
-                                                            <button type="button" class="admin-product-picker__option" data-product-id="{{ $product->id }}" data-price="{{ $product->price }}" data-label="{{ $productOptionLabel }}" data-search="{{ \Illuminate\Support\Str::lower($productOptionLabel) }}">
-                                                                {{ $productOptionLabel }}
-                                                            </button>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-label="Adet"><input type="number" min="1" name="items[{{ $i }}][quantity]" value="1" class="admin-input w-24"></td>
-                                        <td data-label="Birim fiyat"><input type="number" min="0" step="0.01" name="items[{{ $i }}][unit_price]" value="0" class="admin-input w-32 js-order-unit-price"></td>
-                                        <td data-label="Not"><span class="text-xs text-slate-400">Boşsa eklenmez</span></td>
-                                    </tr>
-                                @endfor
-                            </tbody>
-                        </table>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="admin-order-line__controls admin-order-line__controls--add" role="group" aria-label="Yeni ürün adet ve fiyat">
+                                    <label class="admin-order-line__control">
+                                        <span class="admin-order-line__control-label">Adet</span>
+                                        <input type="number" min="1" name="items[{{ $i }}][quantity]" value="1" class="admin-input admin-order-line__input">
+                                    </label>
+                                    <label class="admin-order-line__control">
+                                        <span class="admin-order-line__control-label">Birim fiyat</span>
+                                        <input type="number" min="0" step="0.01" name="items[{{ $i }}][unit_price]" value="0" class="admin-input admin-order-line__input js-order-unit-price">
+                                    </label>
+                                </div>
+                            </article>
+                        @endfor
                     </div>
-                    <div class="admin-order-totals px-5 py-4 border-t border-slate-100 grid gap-2 sm:grid-cols-2 text-sm">
-                        <div class="text-slate-500">Ara toplam: <strong class="text-slate-900">{{ number_format($order->subtotal, 2, ',', '.') }} ₺</strong></div>
-                        <div class="text-slate-500">Kargo: <strong class="text-slate-900">{{ number_format($order->shipping_cost, 2, ',', '.') }} ₺</strong></div>
-                        <div class="text-slate-500">İndirim: <strong class="text-slate-900">{{ number_format($order->discount, 2, ',', '.') }} ₺</strong></div>
-                        <div class="text-slate-500">Toplam: <strong class="text-teal-700">{{ number_format($order->total, 2, ',', '.') }} ₺</strong></div>
-                    </div>
+
+                    <footer class="admin-order-receipt">
+                        <div class="admin-order-receipt__row">
+                            <span>Ara toplam</span>
+                            <strong>{{ number_format($order->subtotal, 2, ',', '.') }} ₺</strong>
+                        </div>
+                        <div class="admin-order-receipt__row">
+                            <span>Kargo</span>
+                            <strong>{{ number_format($order->shipping_cost, 2, ',', '.') }} ₺</strong>
+                        </div>
+                        <div class="admin-order-receipt__row">
+                            <span>İndirim</span>
+                            <strong>-{{ number_format($order->discount, 2, ',', '.') }} ₺</strong>
+                        </div>
+                        <div class="admin-order-receipt__row admin-order-receipt__row--total">
+                            <span>Genel toplam</span>
+                            <strong>{{ number_format($order->total, 2, ',', '.') }} ₺</strong>
+                        </div>
+                    </footer>
                 </section>
 
                 <section class="admin-card p-5 sm:p-6">
@@ -357,6 +397,32 @@
                     syncCorporate();
                 }
 
+                document.querySelectorAll('[data-order-line]').forEach(function (line) {
+                    const qtyInput = line.querySelector('[data-qty]');
+                    const priceInput = line.querySelector('[data-price]');
+                    const totalEl = line.querySelector('[data-line-total]');
+
+                    if (!qtyInput || !priceInput || !totalEl) {
+                        return;
+                    }
+
+                    function formatMoney(value) {
+                        return new Intl.NumberFormat('tr-TR', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        }).format(value) + ' ₺';
+                    }
+
+                    function syncLineTotal() {
+                        const qty = parseFloat(qtyInput.value) || 0;
+                        const price = parseFloat(priceInput.value) || 0;
+                        totalEl.textContent = formatMoney(qty * price);
+                    }
+
+                    qtyInput.addEventListener('input', syncLineTotal);
+                    priceInput.addEventListener('input', syncLineTotal);
+                });
+
                 document.querySelectorAll('.js-order-product-picker').forEach(function (picker) {
                     const trigger = picker.querySelector('.admin-product-picker__button');
                     const panel = picker.querySelector('.admin-product-picker__panel');
@@ -392,7 +458,7 @@
                             hiddenInput.value = option.dataset.productId || '';
                             label.textContent = option.dataset.label || 'Yeni ürün ekle';
 
-                            const priceInput = picker.closest('tr')?.querySelector('.js-order-unit-price');
+                            const priceInput = picker.closest('.admin-order-line')?.querySelector('.js-order-unit-price');
                             if (priceInput && option.dataset.price && (priceInput.value === '0' || priceInput.value === '')) {
                                 priceInput.value = option.dataset.price;
                             }

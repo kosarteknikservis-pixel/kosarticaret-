@@ -3,22 +3,31 @@
     'showUnitPrice' => false,
 ])
 
-<ul {{ $attributes->class(['shop-order-items']) }}>
+<ul {{ $attributes->class(['shop-order-items', 'shop-order-items--with-unit' => $showUnitPrice]) }}>
     @foreach($items as $item)
         <li class="shop-order-items__row">
-            <div class="shop-order-items__main">
+            <div class="shop-order-items__body">
                 <p class="shop-order-items__name">{{ $item->product_name }}</p>
-                <p class="shop-order-items__meta">
-                    {{ $item->quantity }} adet
-                    @if($showUnitPrice)
-                        · {{ number_format((float) $item->unit_price, 2, ',', '.') }} ₺
-                    @endif
-                    @if(filled($item->sku))
-                        · {{ $item->sku }}
-                    @endif
-                </p>
+                @if(filled($item->sku))
+                    <p class="shop-order-items__sku">{{ $item->sku }}</p>
+                @endif
             </div>
-            <p class="shop-order-items__price">{{ number_format((float) $item->line_total, 2, ',', '.') }} ₺</p>
+            <div class="shop-order-items__details">
+                <div class="shop-order-items__detail">
+                    <span class="shop-order-items__detail-label">Adet</span>
+                    <span class="shop-order-items__detail-value">{{ $item->quantity }}</span>
+                </div>
+                @if($showUnitPrice)
+                    <div class="shop-order-items__detail">
+                        <span class="shop-order-items__detail-label">Birim</span>
+                        <span class="shop-order-items__detail-value">{{ number_format((float) $item->unit_price, 2, ',', '.') }} ₺</span>
+                    </div>
+                @endif
+                <div class="shop-order-items__detail shop-order-items__detail--total">
+                    <span class="shop-order-items__detail-label">Tutar</span>
+                    <span class="shop-order-items__detail-value">{{ number_format((float) $item->line_total, 2, ',', '.') }} ₺</span>
+                </div>
+            </div>
         </li>
     @endforeach
 </ul>

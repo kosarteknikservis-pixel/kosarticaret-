@@ -21,7 +21,7 @@
             <section class="shop-panel shop-panel--flush min-w-0">
                 <div class="shop-panel__header-row">
                     <h2 class="shop-panel__title !mb-0 !pb-0 !border-0">{{ __('shop.order_items') }}</h2>
-                    <span class="shop-order-items-count">{{ $order->items->count() }} kalem</span>
+                    <span class="shop-order-items-count">{{ $order->items->count() }} ürün</span>
                 </div>
                 <x-shop.order-items-list :items="$order->items" :show-unit-price="true" />
             </section>

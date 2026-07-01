@@ -74,7 +74,6 @@
     </main>
 
     @include('shop.partials.footer')
-    @include('shop.partials.compare-bar')
 
     @php
         $wa = \App\Models\SiteSetting::get('contact_whatsapp', config('kosar.contact.whatsapp'));
