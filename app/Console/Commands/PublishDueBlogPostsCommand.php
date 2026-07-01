@@ -10,6 +10,7 @@ class PublishDueBlogPostsCommand extends Command
 {
     protected $signature = 'blog:publish-due
                             {--dry-run : Yalnızca hangi yazıların yayınlanacağını göster}
+                            {--all : Manifestteki tüm yazıları içe aktar (tarih filtresi yok)}
                             {--force : Onay sormadan içe aktar}';
 
     protected $description = 'Blog kuyruğunda vadesi gelen yazıları slug bazlı yayınlar';
@@ -26,21 +27,27 @@ class PublishDueBlogPostsCommand extends Command
 
         $manifest = json_decode(File::get($manifestPath), true);
         $entries = collect($manifest['posts'] ?? []);
-        $today = now()->toDateString();
 
-        $due = $entries->filter(function (array $entry) use ($today) {
-            $publishOn = $entry['publish_on'] ?? null;
+        if ($this->option('all')) {
+            $due = $entries;
+        } else {
+            $today = now()->toDateString();
+            $due = $entries->filter(function (array $entry) use ($today) {
+                $publishOn = $entry['publish_on'] ?? null;
 
-            return filled($publishOn) && $publishOn <= $today;
-        });
+                return filled($publishOn) && $publishOn <= $today;
+            });
+        }
 
         if ($due->isEmpty()) {
-            $this->info('Bugün yayınlanacak blog yazısı yok.');
+            $this->info('Yayınlanacak blog yazısı yok.');
 
             return self::SUCCESS;
         }
 
-        $this->line("Tarih: {$today}");
+        if (! $this->option('all')) {
+            $this->line('Tarih: '.now()->toDateString());
+        }
         $this->line('Yayınlanacak: '.$due->count());
 
         foreach ($due as $entry) {
@@ -65,8 +72,17 @@ class PublishDueBlogPostsCommand extends Command
 
             if ($code !== self::SUCCESS) {
                 $this->error('Import başarısız: '.($entry['file'] ?? '?'));
+                $output = trim(Artisan::output());
+                if ($output !== '') {
+                    $this->line($output);
+                }
 
                 return self::FAILURE;
+            }
+
+            $output = trim(Artisan::output());
+            if ($output !== '') {
+                $this->line($output);
             }
         }
 

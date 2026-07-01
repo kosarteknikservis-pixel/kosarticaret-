@@ -89,7 +89,7 @@ Route::get('/karsilastir/durum', [ProductCompareController::class, 'status'])->n
 Route::get('/pompa-secici', [PumpSelectorController::class, 'show'])->name('pump-selector.show');
 Route::post('/pompa-secici/oner', [PumpSelectorController::class, 'recommend'])->middleware('throttle:20,1')->name('pump-selector.recommend');
 Route::get('/urun/{product:slug}/taksit', ProductInstallmentController::class)->name('products.installments');
-Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:6,1')->name('products.review');
+Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:3,1')->name('products.review');
 Route::get('/kategoriler', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/urun-kategori/{legacyCategory}', function (Illuminate\Http\Request $request) {
     $target = \App\Support\LegacyRedirectResolver::resolve($request);

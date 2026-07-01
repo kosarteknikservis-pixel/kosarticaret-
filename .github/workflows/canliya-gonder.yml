@@ -120,7 +120,8 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_11_100000_create_marketplace_external_categories_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_15_100000_add_payment_tracking_fields_to_orders_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_16_100000_create_order_shipments_tables.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_120000_add_telegram_notified_at_to_orders_table.php"
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_120000_add_telegram_notified_at_to_orders_table.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_01_100000_ensure_blog_posts_table.php"
 
       - name: Sunucuda önbellek temizle
         env:
@@ -161,8 +162,12 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            (command -v php >/dev/null && php artisan blog:publish-due --force) || \
-            (/usr/local/php83/bin/php artisan blog:publish-due --force)"
+            (command -v php >/dev/null && php artisan blog:publish-due --force --all) || \
+            (/usr/local/php83/bin/php artisan blog:publish-due --force --all) && \
+            if [ -f database/blog-export.json ]; then \
+              (command -v php >/dev/null && php artisan blog:import database/blog-export.json --force) || \
+              (/usr/local/php83/bin/php artisan blog:import database/blog-export.json --force); \
+            fi"
 
       - name: Mevcut görselleri optimize et
         env:

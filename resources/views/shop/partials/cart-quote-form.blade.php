@@ -4,6 +4,10 @@
 
     <form method="post" action="{{ route('cart.quote') }}" class="mt-4 space-y-3">
         @csrf
+        <x-shop.spam-fields context="quote" />
+        @if($errors->has('spam'))
+            <p class="text-sm text-red-600">{{ $errors->first('spam') }}</p>
+        @endif
         <div>
             <label class="shop-label" for="quote-name">{{ __('shop.full_name') }}</label>
             <input id="quote-name" name="name" type="text" required maxlength="120" value="{{ old('name', auth()->user()?->name) }}" class="shop-input">

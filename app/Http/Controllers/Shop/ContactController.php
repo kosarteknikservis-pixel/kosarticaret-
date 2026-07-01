@@ -39,16 +39,13 @@ class ContactController extends Controller
                 Seo::contactPage(),
                 Seo::breadcrumbs($breadcrumbs),
             ],
-            'contactFormToken' => ContactFormSpamGuard::beginForm(),
-            'turnstileEnabled' => ContactFormSpamGuard::turnstileEnabled(),
-            'turnstileSiteKey' => ContactFormSpamGuard::siteKey(),
         ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $spam = ContactFormSpamGuard::assess($request);
-        ContactFormSpamGuard::clearFormSession();
+        $spam = ContactFormSpamGuard::assess($request, 'contact');
+        ContactFormSpamGuard::clearFormSession('contact');
 
         if ($spam['blocked']) {
             if ($spam['silent']) {

@@ -52,10 +52,17 @@
 
         <form method="post" action="{{ route('products.review', $product) }}" class="shop-panel shop-pdp-reviews__form space-y-4" id="pdp-review-form">
             @csrf
+            <x-shop.spam-fields context="review" />
             <h3 class="shop-panel__title">{{ __('shop.write_review') }}</h3>
             <p class="shop-pdp-reviews__note">{{ __('shop.review_pending_note') }}</p>
 
-            @if($errors->any())
+            @if($errors->has('spam'))
+                <div class="shop-pdp-reviews__errors" role="alert">
+                    <p>{{ $errors->first('spam') }}</p>
+                </div>
+            @endif
+
+            @if($errors->any() && ! $errors->has('spam'))
                 <div class="shop-pdp-reviews__errors" role="alert">
                     @foreach($errors->all() as $error)
                         <p>{{ $error }}</p>

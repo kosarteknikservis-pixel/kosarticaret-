@@ -16,11 +16,7 @@
         <div class="shop-contact-grid shop-reveal-group">
             <form method="post" action="{{ route('contact.store') }}" class="shop-panel space-y-4">
                 @csrf
-                <input type="hidden" name="_form_token" value="{{ $contactFormToken }}">
-                <div class="shop-contact-honeypot" aria-hidden="true">
-                    <label for="website_url">Website</label>
-                    <input type="text" name="website_url" id="website_url" tabindex="-1" autocomplete="off">
-                </div>
+                <x-shop.spam-fields context="contact" />
                 <h2 class="shop-panel__title">{{ __('shop.send_message') }}</h2>
                 @if($errors->has('spam'))
                     <p class="shop-form-error">{{ $errors->first('spam') }}</p>
@@ -32,11 +28,6 @@
                 </div>
                 <div><label class="shop-label">Konu</label><input name="konu" value="{{ old('konu') }}" required class="shop-input mt-1"></div>
                 <div><label class="shop-label">Mesaj</label><textarea name="mesaj" rows="5" required class="shop-input mt-1">{{ old('mesaj') }}</textarea></div>
-                @if($turnstileEnabled)
-                    <div class="shop-contact-turnstile">
-                        <div class="cf-turnstile" data-sitekey="{{ $turnstileSiteKey }}" data-theme="light"></div>
-                    </div>
-                @endif
                 <button type="submit" class="btn-primary px-8 py-3">{{ __('shop.send_message') }}</button>
             </form>
 
@@ -64,9 +55,3 @@
         </div>
     </div>
 @endsection
-
-@if($turnstileEnabled)
-    @push('scripts')
-        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    @endpush
-@endif

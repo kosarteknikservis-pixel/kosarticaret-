@@ -218,6 +218,21 @@
                 </div>
 
                 <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <h4 class="text-sm font-bold text-slate-900">Form spam koruması (Cloudflare Turnstile)</h4>
+                    <p class="mt-2 text-sm text-slate-600">İletişim, ürün yorumu ve teklif formlarında bot engeli. Anahtarlar <a href="https://dash.cloudflare.com/" class="text-teal-700 font-semibold hover:text-teal-900" target="_blank" rel="noopener">Cloudflare Turnstile</a> panelinden alınır. Boş bırakılırsa honeypot + zaman kontrolü kullanılır.</p>
+                    <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label class="admin-label">Site key (public)</label>
+                            <input name="turnstile_site_key" value="{{ $values['turnstile_site_key'] ?? '' }}" class="admin-input font-mono text-sm" placeholder="0x4AAAAAAA...">
+                        </div>
+                        <div>
+                            <label class="admin-label">Secret key</label>
+                            <input name="turnstile_secret_key" value="{{ $values['turnstile_secret_key'] ?? '' }}" class="admin-input font-mono text-sm" placeholder="0x4AAAAAAA..." autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <h4 class="text-sm font-bold text-slate-900">Google Merchant Center ürün feed’i</h4>
                     <p class="mt-2 text-sm text-slate-600">
                         Aktif ve stoklu ürünleriniz otomatik XML feed olarak üretilir. Google Merchant Center’da bir kez bağladıktan sonra ürün güncellemeleri panelden yapılır; feed kendiliğinden güncellenir.
