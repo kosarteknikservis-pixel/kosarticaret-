@@ -73,7 +73,7 @@ Route::get('/sitemap-{chunk}.xml', [SeoController::class, 'sitemapChunk'])->name
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 Route::get('/urun-feed.xml', [SeoController::class, 'merchantFeed'])->name('merchant.feed');
 Route::get('/{file}', [SeoController::class, 'verificationFile'])
-    ->where('file', 'google[a-zA-Z0-9_-]+\.html')
+    ->where('file', 'google[a-zA-Z0-9_-]+\.html|[a-f0-9]{32}\.txt')
     ->name('google.verification-file');
 
 Route::get('/dil/{locale}', LocaleController::class)->name('locale.switch');

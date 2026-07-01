@@ -52,3 +52,7 @@ Site adını yazmayın; sistem sonuna otomatik `| Koşar` ekler.
 ```cron
 0 9,14 * * * cd /path/to/kosar && php artisan blog:publish-due --force
 ```
+
+## Otomatik index bildirimi
+
+Blog import ve panelden yayınlanan yazılar **IndexNow** ile otomatik bildirilir (Panel → Site ayarları → Genel → IndexNow). Google Indexing API için `.env` içinde `GOOGLE_INDEXING_ENABLED=true` ve service account JSON yolu gerekir.

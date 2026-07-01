@@ -29,6 +29,7 @@ class SettingController extends Controller
         'general' => [
             'site_name', 'free_shipping_min', 'shop_show_stock_quantity',
             'google_site_verification', 'google_verification_file_name', 'google_verification_file_content', 'google_analytics_id',
+            'indexnow_enabled', 'indexnow_key',
         ],
         'header' => [
             'tagline', 'promo_text', 'scroll_top_enabled', 'cookie_text', 'cookie_accept',
@@ -62,6 +63,7 @@ class SettingController extends Controller
     private const BOOLEAN_FIELDS = [
         'floating_whatsapp_enabled', 'scroll_top_enabled', 'pdp_whatsapp_order_enabled', 'shop_show_stock_quantity',
         'newsletter_enabled', 'shop_maintenance_enabled', 'brevo_enabled', 'smtp_enabled', 'parasut_enabled', 'pump_selector_enabled',
+        'indexnow_enabled',
     ];
 
     private const SHIPPING_KEYS = [
@@ -81,6 +83,7 @@ class SettingController extends Controller
         'shop_show_stock_quantity',
         'contact_page_intro', 'contact_meta_title', 'contact_meta_description',
         'google_site_verification', 'google_verification_file_name', 'google_verification_file_content', 'google_analytics_id',
+        'indexnow_enabled', 'indexnow_key',
         'home_brands_title', 'promo_text', 'free_shipping_min',
         'newsletter_enabled', 'newsletter_title',
         'tagline', 'trust_secure', 'trust_shipping', 'trust_returns', 'trust_support',
@@ -130,7 +133,7 @@ class SettingController extends Controller
             if ($key === 'footer_trust_compliance' && $default === '') {
                 $default = implode(',', config('kosar.footer.default_compliance', []));
             }
-            if (in_array($key, ['pdp_whatsapp_order_enabled', 'floating_whatsapp_enabled', 'scroll_top_enabled'], true) && $default === '') {
+            if (in_array($key, ['pdp_whatsapp_order_enabled', 'floating_whatsapp_enabled', 'scroll_top_enabled', 'indexnow_enabled'], true) && $default === '') {
                 $default = '1';
             }
             $values[$key] = SiteSetting::get($key, $default);
@@ -275,6 +278,14 @@ class SettingController extends Controller
             unset($data['parasut_password']);
         }
 
+        if ($tab === 'general' && ($data['indexnow_enabled'] ?? SiteSetting::get('indexnow_enabled', '1')) === '1') {
+            $existingKey = trim((string) SiteSetting::get('indexnow_key', ''));
+            $incomingKey = trim((string) ($data['indexnow_key'] ?? $existingKey));
+            if ($incomingKey === '') {
+                $data['indexnow_key'] = strtolower(str_replace('-', '', (string) \Illuminate\Support\Str::uuid()));
+            }
+        }
+
         foreach ($data as $key => $value) {
             if (! $this->tabHasField($tab, $key)) {
                 continue;
@@ -330,6 +341,8 @@ class SettingController extends Controller
             'google_verification_file_name' => ['nullable', 'string', 'max:120', 'regex:/^$|^google[a-zA-Z0-9_-]+\.html$/'],
             'google_verification_file_content' => ['nullable', 'string', 'max:255'],
             'google_analytics_id' => ['nullable', 'string', 'max:32', 'regex:/^(G-[A-Z0-9]+)?$/'],
+            'indexnow_enabled' => ['sometimes', 'boolean'],
+            'indexnow_key' => ['nullable', 'string', 'min:8', 'max:128', 'regex:/^[a-zA-Z0-9-]+$/'],
             'home_brands_title' => ['nullable', 'string', 'max:120'],
             'promo_text' => ['nullable', 'string'],
             'free_shipping_min' => ['nullable', 'numeric'],

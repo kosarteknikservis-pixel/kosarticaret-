@@ -48,4 +48,12 @@ return [
 
     'sitemap_cache_seconds' => (int) env('SEO_SITEMAP_CACHE_SECONDS', 3600),
     'robots_cache_seconds' => (int) env('SEO_ROBOTS_CACHE_SECONDS', 86400),
+
+    'indexing' => [
+        'indexnow_endpoint' => env('INDEXNOW_ENDPOINT', 'https://api.indexnow.org/indexnow'),
+        'google_enabled' => filter_var(env('GOOGLE_INDEXING_ENABLED', false), FILTER_VALIDATE_BOOL),
+        'google_credentials' => env('GOOGLE_INDEXING_CREDENTIALS', ''),
+        'max_urls_per_batch' => (int) env('INDEXING_MAX_URLS', 100),
+        'queue' => filter_var(env('INDEXING_USE_QUEUE', false), FILTER_VALIDATE_BOOL),
+    ],
 ];

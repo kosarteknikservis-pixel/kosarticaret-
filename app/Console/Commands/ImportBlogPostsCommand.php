@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\BlogPost;
+use App\Services\Seo\UrlIndexingNotifier;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -74,6 +75,8 @@ class ImportBlogPostsCommand extends Command
             });
         });
 
+        $this->notifyIndexing($posts);
+
         $this->info('Blog import tamamlandı.');
 
         return self::SUCCESS;
@@ -115,5 +118,21 @@ class ImportBlogPostsCommand extends Command
         }
 
         Storage::disk('public')->put($imageFile['path'], base64_decode($imageFile['base64'], true) ?: '');
+    }
+
+    /** @param  \Illuminate\Support\Collection<int, array<string, mixed>>  $posts */
+    private function notifyIndexing($posts): void
+    {
+        $urls = $posts
+            ->filter(fn (array $post) => (bool) ($post['published'] ?? true))
+            ->map(fn (array $post) => route('blog.show', ['post' => Str::slug($post['slug'])], absolute: true))
+            ->values()
+            ->all();
+
+        if ($urls === []) {
+            return;
+        }
+
+        app(UrlIndexingNotifier::class)->submit($urls);
     }
 }

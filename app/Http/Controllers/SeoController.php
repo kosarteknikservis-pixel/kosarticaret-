@@ -238,12 +238,28 @@ class SeoController extends Controller
 
     public function verificationFile(string $file): Response
     {
+        if (str_ends_with($file, '.txt')) {
+            return $this->indexNowKeyFile($file);
+        }
+
         $storedFile = SiteSetting::get('google_verification_file_name');
         $content = SiteSetting::get('google_verification_file_content');
 
         abort_unless($storedFile && $content && hash_equals($storedFile, $file), 404);
 
         return response(trim($content)."\n", 200, [
+            'Content-Type' => 'text/plain; charset=UTF-8',
+            'X-Robots-Tag' => 'noindex',
+        ]);
+    }
+
+    private function indexNowKeyFile(string $file): Response
+    {
+        $key = trim((string) SiteSetting::get('indexnow_key', ''));
+
+        abort_unless($key !== '' && hash_equals($key.'.txt', $file), 404);
+
+        return response($key."\n", 200, [
             'Content-Type' => 'text/plain; charset=UTF-8',
             'X-Robots-Tag' => 'noindex',
         ]);

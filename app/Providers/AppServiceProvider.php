@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\BlogPost;
 use App\Models\ContactMessage;
+use App\Models\Product;
+use App\Observers\BlogPostObserver;
+use App\Observers\ProductObserver;
 use App\Support\Seo;
 use App\Models\NavigationItem;
 use App\Models\ProductReview;
@@ -77,5 +81,8 @@ class AppServiceProvider extends ServiceProvider
                 'unreadContactMessages' => ContactMessage::query()->whereNull('read_at')->count(),
             ]);
         });
+
+        BlogPost::observe(BlogPostObserver::class);
+        Product::observe(ProductObserver::class);
     }
 }

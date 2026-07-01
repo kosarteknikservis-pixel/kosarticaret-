@@ -203,6 +203,21 @@
                 <div class="mt-4"><label class="admin-label">Google Analytics (GA4) ölçüm kimliği</label><input name="google_analytics_id" value="{{ $values['google_analytics_id'] }}" class="admin-input font-mono text-sm" placeholder="G-XXXXXXXXXX"></div>
 
                 <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <label class="admin-checkbox font-semibold text-slate-800">
+                        <input type="checkbox" name="indexnow_enabled" value="1" @checked(($values['indexnow_enabled'] ?? '1') === '1')>
+                        Otomatik index bildirimi (IndexNow)
+                    </label>
+                    <p class="text-sm text-slate-600 mt-2">Yeni veya güncellenen blog yazıları ile aktif ürünler IndexNow üzerinden bildirilir. Google Indexing API için isteğe bağlı .env ayarı kullanılabilir.</p>
+                    <div class="mt-4">
+                        <label class="admin-label">IndexNow anahtarı</label>
+                        <input name="indexnow_key" value="{{ $values['indexnow_key'] ?? '' }}" class="admin-input font-mono text-sm" placeholder="Boş bırakılırsa otomatik üretilir">
+                        @if(!empty($values['indexnow_key']))
+                            <a class="mt-2 inline-flex text-xs font-semibold text-teal-700 hover:text-teal-900" href="{{ url($values['indexnow_key'].'.txt') }}" target="_blank" rel="noopener">Anahtar dosyasını aç</a>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <h4 class="text-sm font-bold text-slate-900">Google Merchant Center ürün feed’i</h4>
                     <p class="mt-2 text-sm text-slate-600">
                         Aktif ve stoklu ürünleriniz otomatik XML feed olarak üretilir. Google Merchant Center’da bir kez bağladıktan sonra ürün güncellemeleri panelden yapılır; feed kendiliğinden güncellenir.
