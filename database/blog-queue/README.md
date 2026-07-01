@@ -1,38 +1,43 @@
 # Hidrofor blog kuyruğu
 
-Günde 1 yazı yayınlamak için hazırlanmış JSON dosyaları.
+Günde 1–3 yazı yayınlanabilir. Aynı `publish_on` tarihine sahip tüm dosyalar tek `blog:publish-due` çalıştırmasında içe aktarılır.
 
-## Günlük komut
+## İçerik uzunluğu standardı
+
+| Tip | Hedef |
+|-----|-------|
+| Cluster yazı (03–09) | **900–1200 kelime** — ne çok kısa ne gereksiz uzun |
+| Pillar (hidrofor-nedir…) | 1500–2000 kelime |
+| FAQ | 3–5 soru, cevap 2–4 cümle |
+
+Her yazıda: giriş, 3–5 H2, en az 6 iç link, Pompa Seçici + iletişim CTA.
+
+## Günlük 3 yazı spam olur mu?
+
+**Hayır** — Google frekansa değil kaliteye bakar. Koşullar:
+
+- Her yazı farklı konu ve farklı birincil anahtar kelime
+- Kopyala-yapıştır paragraf yok; tablo/liste yapısı yazıdan yazıya aynı olmamalı
+- İç linkler doğal; aynı anchor 5 yazıda tekrarlanmasın
+- Kapak görseli + benzersiz meta description
+
+## Komutlar
 
 ```bash
 php artisan blog:publish-due --force
-```
-
-Önizleme:
-
-```bash
 php artisan blog:publish-due --dry-run
+php artisan blog:import database/blog-queue/03-hidrofor-hidromat-farki.json --force
 ```
 
-Tek yazı manuel:
+## Takvim (günde 3)
 
-```bash
-php artisan blog:import database/blog-queue/01-apartman-hidrofor-secimi.json --force
-```
-
-## Takvim
-
-| Gün | Tarih | Dosya | Durum |
-|-----|-------|-------|-------|
-| 1 | 2026-06-10 | 01-apartman-hidrofor-secimi.json | Hazır |
-| 2 | 2026-06-11 | 02-ev-tipi-hidrofor-rehberi.json | Hazır |
-| 3 | 2026-06-12 | 03-hidrofor-hidromat-farki.json | Bekliyor |
-| 4 | 2026-06-13 | 04-apartmanda-su-basinci-dusuk.json | Bekliyor |
-| 5 | 2026-06-14 | 05-hidrofor-surekli-calisyor.json | Bekliyor |
-| 6 | 2026-06-15 | 06-hidrofor-basinc-tanki-secimi.json | Bekliyor |
-| 7 | 2026-06-16 | 07-pedrollo-sumak-hidrofor-karsilastirma.json | Bekliyor |
-| 8 | 2026-06-17 | 08-hidrofor-bakim-rehberi.json | Bekliyor |
-| 9 | 2026-06-18 | 09-inverter-hidrofor-avantajlari.json | Bekliyor |
+| Tarih | Dosyalar |
+|-------|----------|
+| 2026-06-10 | 01 |
+| 2026-06-11 | 02 |
+| 2026-06-12 | 03, 04, 05 |
+| 2026-06-13 | 06, 07, 08 |
+| 2026-06-14 | 09 |
 
 ## Kapak görseli
 
@@ -42,16 +47,8 @@ Panelden yüklerken: **960×540 px** (16:9), JPG/PNG/WebP.
 
 Site adını yazmayın; sistem sonuna otomatik `| Koşar` ekler.
 
-## Canlıya taşıma
-
-Workflow deploy sonrası sunucuda:
-
-```bash
-php artisan blog:publish-due --force
-```
-
-İsteğe bağlı cron (her gün 09:00):
+## Canlıda cron
 
 ```cron
-0 9 * * * cd /path/to/kosar && php artisan blog:publish-due --force
+0 9,14 * * * cd /path/to/kosar && php artisan blog:publish-due --force
 ```

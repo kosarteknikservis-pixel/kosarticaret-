@@ -1,6 +1,6 @@
 {
     "series": "hidrofor-seo-kumesi",
-    "note": "Her gün: php artisan blog:publish-due --force  (canlıda cron ile de çalıştırılabilir)",
+    "note": "Günde 3 yazı: aynı publish_on tarihli kayıtlar blog:publish-due ile birlikte yayınlanır. Kalite: ~900–1200 kelime, kopyala-yapıştır şablon yok.",
     "posts": [
         {
             "day": 1,
@@ -21,39 +21,39 @@
             "title": "Hidrofor mu Hidromat mı?"
         },
         {
-            "day": 4,
+            "day": 3,
             "file": "04-apartmanda-su-basinci-dusuk.json",
-            "publish_on": "2026-06-13",
+            "publish_on": "2026-06-12",
             "title": "Apartmanda Su Basıncı Düşük: Hidrofor Gerekir mi?"
         },
         {
-            "day": 5,
+            "day": 3,
             "file": "05-hidrofor-surekli-calisyor.json",
-            "publish_on": "2026-06-14",
+            "publish_on": "2026-06-12",
             "title": "Hidrofor Sürekli Çalışıyor: Sebepler ve Çözüm"
         },
         {
-            "day": 6,
+            "day": 4,
             "file": "06-hidrofor-basinc-tanki-secimi.json",
-            "publish_on": "2026-06-15",
+            "publish_on": "2026-06-13",
             "title": "Hidrofor Basınç Tankı Seçimi"
         },
         {
-            "day": 7,
+            "day": 4,
             "file": "07-pedrollo-sumak-hidrofor-karsilastirma.json",
-            "publish_on": "2026-06-16",
+            "publish_on": "2026-06-13",
             "title": "Pedrollo mu Sumak Hidrofor mu?"
         },
         {
-            "day": 8,
+            "day": 4,
             "file": "08-hidrofor-bakim-rehberi.json",
-            "publish_on": "2026-06-17",
+            "publish_on": "2026-06-13",
             "title": "Hidrofor Bakım Rehberi"
         },
         {
-            "day": 9,
+            "day": 5,
             "file": "09-inverter-hidrofor-avantajlari.json",
-            "publish_on": "2026-06-18",
+            "publish_on": "2026-06-14",
             "title": "Frekans İnvertörlü Hidrofor Avantajları"
         }
     ]

@@ -1,0 +1,25 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "hidrofor-bakim-rehberi",
+            "title": "Hidrofor Bakım Rehberi: Periyodik Kontrol Listesi ve Önleyici Bakım",
+            "excerpt": "Hidrofor bakımı ne sıklıkla yapılmalı? Basınç tankı, presostat, çekvalf, emiş hattı ve elektrik bağlantıları için yıllık kontrol listesi.",
+            "meta_title": "Hidrofor Bakım Rehberi: Periyodik Kontrol Listesi",
+            "meta_description": "Hidrofor bakımı nasıl yapılır? Basınç tankı, presostat, membran ve emiş hattı kontrol listesi. Arızayı önleyen periyodik bakım rehberi.",
+            "tags": [
+                "hidrofor bakımı",
+                "hidrofor arızası",
+                "basınç tankı bakımı",
+                "presostat ayarı",
+                "hidrofor",
+                "hidrofor servisi"
+            ],
+            "image_alt": "Hidrofor periyodik bakım kontrol listesi",
+            "published": true,
+            "published_at": "2026-06-13 14:00:00",
+            "content": "<p>Düzenli <strong>hidrofor bakımı</strong>, ani arızaları, yüksek elektrik faturalarını ve su kesintilerini büyük ölçüde önler. Hidrofor sistemi pompa, tank, presostat ve tesisatın uyumlu çalışmasına bağlıdır; tek bir parçadaki ihmal tüm sistemi zorlar.</p>\n\n<p>Sistem yapısı için <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">Hidrofor nedir?</a>; arıza belirtileri için <a href=\"/blog/hidrofor-surekli-calisyor-sebepler-cozum\">hidrofor sürekli çalışıyor</a> rehberimize bakın.</p>\n\n<h2>Bakım Ne Sıklıkla Yapılmalı?</h2>\n<ul>\n  <li><strong>Aylık:</strong> Manometre okuma, olağandışı ses/gürültü kontrolü</li>\n  <li><strong>3 ayda bir:</strong> Emiş filtresi, vana contaları, kaçak gözlemi</li>\n  <li><strong>6 ayda bir:</strong> Tank hava basıncı, presostat ayarı kontrolü</li>\n  <li><strong>Yıllık:</strong> Membran durumu, çekvalf, elektrik bağlantıları, motor yatakları</li>\n</ul>\n\n<h2>Basınç Tankı Bakımı</h2>\n<p>Tank membranı ve hava basıncı hidrofor performansının temelidir. Boş tankta hava basıncını ölçün; presostat açma basıncından yaklaşık 0,2 bar düşük olmalıdır. Tank ağır hissediliyorsa veya nippelden su geliyorsa membran değişimi gerekir. Detaylı seçim: <a href=\"/blog/hidrofor-basinc-tanki-secimi\">basınç tankı rehberi</a>.</p>\n\n<h2>Presostat ve Manometre</h2>\n<p>Presostat açma/kapama basınçları üretici aralığında kalmalıdır. Manometre camı buğulu veya ibre titrek ise değiştirilmelidir. Yanlış ayar pompanın sık devreye girmesine veya hiç durmamasına neden olur.</p>\n\n<h2>Emiş Hattı ve Çekvalf</h2>\n<p>Emiş hattında hava kaçağı pompanın verimsiz çalışmasına yol açar. Emiş contası, vana contaları ve çekvalf periyodik kontrol edilmelidir. Çekvalf arızası basıncın hızla düşmesine ve pompanın tekrar çalışmasına sebep olur.</p>\n\n<h2>Elektrik ve Motor</h2>\n<ul>\n  <li>Sigorta ve kontaktör bağlantılarını kontrol edin</li>\n  <li>Motor aşırı ısınma veya koku varsa servis çağırın</li>\n  <li>Titreşim için esnek bağlantı ve sağlam zemin kullanın</li>\n  <li>Frekans kontrollü sistemlerde inverter hata kodlarını not alın</li>\n</ul>\n\n<h2>Mevsimsel Bakım Notları</h2>\n<p><strong>Kış:</strong> Donma riski olan pompa odalarında ısıtma veya boşaltma planı yapın.</p>\n<p><strong>Yaz:</strong> Bahçe sulaması devreye girdiğinde debi ihtiyacı artar; kapasite yetersizse basınç düşer.</p>\n\n<h2>Bakım Kaydı Tutun</h2>\n<p>Her kontrolde tarih, basınç değerleri ve yapılan işlemleri not etmek, tekrarlayan arızaların kök nedenini bulmayı kolaylaştırır. Site ve apartman yönetimleri için yıllık bakım sözleşmesi düşünülebilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Hidrofor yılda kaç kez servise girmeli?</h3>\n<p>Yoğun kullanımda yılda en az bir kez genel kontrol önerilir. Sürekli çalışma varsa acil servis gerekir.</p>\n\n<h3>Membran ne zaman değişir?</h3>\n<p>5–8 yıl kullanım sonrası veya tank su tutuyorsa, pompa sık çalışıyorsa değiştirilmelidir.</p>\n\n<h3>Bakımı kendim yapabilir miyim?</h3>\n<p>Hava basıncı ve görsel kontrol yapılabilir. Elektrik ve presostat ayarı için teknik bilgi gerekir.</p>\n\n<h3>Frekans kontrollü hidrofor bakımı farklı mı?</h3>\n<p>Tank kontrolü azalsa da inverter, sensör ve elektronik kart kontrolü önemlidir. <a href=\"/blog/inverter-hidrofor-avantajlari\">İnverter hidrofor rehberi</a>ne bakın.</p>\n\n<p>Yedek parça ve servis için <a href=\"/kategoriler/hidrofor-sistemleri\">hidrofor sistemleri</a> sayfamıza göz atın veya <a href=\"/iletisim\">bakım talebi oluşturun</a>.</p>"
+        }
+    ]
+}
