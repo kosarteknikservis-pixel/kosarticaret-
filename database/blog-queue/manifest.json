@@ -1,6 +1,6 @@
 {
     "series": "hidrofor + dalgic-pompa seo kumeleri",
-    "note": "Günde 2-3 yazı: aynı publish_on tarihli kayıtlar blog:publish-due ile birlikte yayınlanır. Hidrofor kümesi (01-09) tamamlandı. Dalgıç pompa kümesi (10-18) devam ediyor.",
+    "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
             "day": 1,

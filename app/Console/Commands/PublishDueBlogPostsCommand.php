@@ -2,18 +2,20 @@
 
 namespace App\Console\Commands;
 
+use App\Models\BlogPost;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class PublishDueBlogPostsCommand extends Command
 {
     protected $signature = 'blog:publish-due
                             {--dry-run : Yalnızca hangi yazıların yayınlanacağını göster}
-                            {--all : Manifestteki tüm yazıları içe aktar (tarih filtresi yok)}
+                            {--all : Manifestteki tüm yazıları içe aktar (mevcut slug güncellenir)}
                             {--force : Onay sormadan içe aktar}';
 
-    protected $description = 'Blog kuyruğunda vadesi gelen yazıları slug bazlı yayınlar';
+    protected $description = 'Blog kuyruğundaki yazıları anında yayınlar (deploy ile canlıya gider)';
 
     public function handle(): int
     {
@@ -28,16 +30,11 @@ class PublishDueBlogPostsCommand extends Command
         $manifest = json_decode(File::get($manifestPath), true);
         $entries = collect($manifest['posts'] ?? []);
 
-        if ($this->option('all')) {
-            $due = $entries;
-        } else {
-            $today = now()->toDateString();
-            $due = $entries->filter(function (array $entry) use ($today) {
-                $publishOn = $entry['publish_on'] ?? null;
+        $due = $entries->filter(function (array $entry) {
+            $file = base_path('database/blog-queue/'.($entry['file'] ?? ''));
 
-                return filled($publishOn) && $publishOn <= $today;
-            });
-        }
+            return File::exists($file) && $this->shouldPublish($entry, $file);
+        })->values();
 
         if ($due->isEmpty()) {
             $this->info('Yayınlanacak blog yazısı yok.');
@@ -45,19 +42,10 @@ class PublishDueBlogPostsCommand extends Command
             return self::SUCCESS;
         }
 
-        if (! $this->option('all')) {
-            $this->line('Tarih: '.now()->toDateString());
-        }
         $this->line('Yayınlanacak: '.$due->count());
 
-        foreach ($due as $entry) {
+        foreach ($due as $index => $entry) {
             $file = base_path('database/blog-queue/'.($entry['file'] ?? ''));
-
-            if (! File::exists($file)) {
-                $this->warn('Dosya henüz hazır değil: '.($entry['file'] ?? '?'));
-
-                continue;
-            }
 
             $this->line('- '.($entry['title'] ?? $entry['file']));
 
@@ -68,6 +56,8 @@ class PublishDueBlogPostsCommand extends Command
             $code = Artisan::call('blog:import', [
                 'path' => 'database/blog-queue/'.($entry['file'] ?? ''),
                 '--force' => $this->option('force'),
+                '--from-queue' => true,
+                '--publish-offset' => $index,
             ]);
 
             if ($code !== self::SUCCESS) {
@@ -89,9 +79,40 @@ class PublishDueBlogPostsCommand extends Command
         if ($this->option('dry-run')) {
             $this->info('Dry-run tamamlandı.');
         } else {
-            $this->info('Vadesi gelen blog yazıları işlendi.');
+            $this->info('Blog yazıları anında yayınlandı.');
         }
 
         return self::SUCCESS;
+    }
+
+    private function shouldPublish(array $entry, string $file): bool
+    {
+        if ($this->option('all')) {
+            return true;
+        }
+
+        $slug = $this->slugFromQueueFile($file);
+        if ($slug === '') {
+            return false;
+        }
+
+        $existing = BlogPost::query()->where('slug', $slug)->first();
+        if ($existing === null) {
+            return true;
+        }
+
+        return $existing->published_at === null || $existing->published_at->isFuture();
+    }
+
+    private function slugFromQueueFile(string $file): string
+    {
+        $payload = json_decode(File::get($file), true);
+        if (! is_array($payload)) {
+            return '';
+        }
+
+        $slug = $payload['posts'][0]['slug'] ?? '';
+
+        return filled($slug) ? Str::slug($slug) : '';
     }
 }

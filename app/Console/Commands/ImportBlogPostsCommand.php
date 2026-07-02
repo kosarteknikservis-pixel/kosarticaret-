@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\BlogPost;
 use App\Services\Seo\UrlIndexingNotifier;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -16,7 +17,9 @@ class ImportBlogPostsCommand extends Command
     protected $signature = 'blog:import
                             {path=database/blog-export.json : İçe aktarılacak JSON dosyası}
                             {--dry-run : Yazmadan önizleme yap}
-                            {--force : Onay sormadan içe aktar}';
+                            {--force : Onay sormadan içe aktar}
+                            {--from-queue : blog-queue kaynağı; anında yayınla (gelecek tarih kullanma)}
+                            {--publish-offset=0 : Aynı batch içinde liste sırası için dakika geri kaydır}';
 
     protected $description = 'Blog export JSON dosyasını canlı veritabanına slug bazlı ekler veya günceller';
 
@@ -70,8 +73,8 @@ class ImportBlogPostsCommand extends Command
         }
 
         DB::transaction(function () use ($posts) {
-            $posts->each(function (array $post) {
-                $this->importPost($post);
+            $posts->each(function (array $post, int $index) {
+                $this->importPost($post, $index);
             });
         });
 
@@ -82,7 +85,7 @@ class ImportBlogPostsCommand extends Command
         return self::SUCCESS;
     }
 
-    private function importPost(array $post): void
+    private function importPost(array $post, int $index = 0): void
     {
         $data = [
             'slug' => Str::slug($post['slug']),
@@ -91,7 +94,7 @@ class ImportBlogPostsCommand extends Command
             'content' => $post['content'] ?? '',
             'image' => $post['image'] ?? null,
             'image_alt' => $post['image_alt'] ?? null,
-            'published_at' => $post['published_at'] ?? null,
+            'published_at' => $this->resolvePublishedAt($post, $index),
             'published' => (bool) ($post['published'] ?? true),
             'meta_title' => $post['meta_title'] ?? null,
             'meta_description' => $post['meta_description'] ?? null,
@@ -109,6 +112,25 @@ class ImportBlogPostsCommand extends Command
             ['slug' => $data['slug']],
             $data,
         );
+    }
+
+    private function resolvePublishedAt(array $post, int $index): Carbon
+    {
+        if ($this->option('from-queue')) {
+            $batchOffset = max(0, (int) $this->option('publish-offset'));
+            $fileOffset = max(0, $index);
+
+            return now()->subMinutes($batchOffset + $fileOffset);
+        }
+
+        $raw = $post['published_at'] ?? null;
+        if (blank($raw)) {
+            return now();
+        }
+
+        $parsed = Carbon::parse($raw);
+
+        return $parsed->isFuture() ? now() : $parsed;
     }
 
     private function restoreImage(?array $imageFile): void

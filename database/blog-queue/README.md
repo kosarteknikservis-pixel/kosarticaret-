@@ -1,71 +1,58 @@
-# Hidrofor blog kuyruğu
+# Blog kuyruğu
 
-Günde 1–3 yazı yayınlanabilir. Aynı `publish_on` tarihine sahip tüm dosyalar tek `blog:publish-due` çalıştırmasında içe aktarılır.
+Yazı hazır → commit → canlıya deploy → **anında yayında**.
+
+`publish_on` alanı artık zorunlu değil; manifest sırası liste önceliğini belirler. Deploy sırasında `blog:publish-due --force --all` tüm kuyruk dosyalarını içe aktarır ve `published_at` değerini **o an** olarak yazar (gelecek tarih yok).
 
 ## İçerik uzunluğu standardı
 
 | Tip | Hedef |
 |-----|-------|
-| Cluster yazı (03–09) | **900–1200 kelime** — ne çok kısa ne gereksiz uzun |
-| Pillar (hidrofor-nedir…) | 1500–2000 kelime |
+| Cluster yazı | **600–1000 kelime** |
+| Pillar | **1200–1800 kelime** |
 | FAQ | 3–5 soru, cevap 2–4 cümle |
 
 Her yazıda: giriş, 3–5 H2, en az 6 iç link, Pompa Seçici + iletişim CTA.
 
-## Günlük 3 yazı spam olur mu?
-
-**Hayır** — Google frekansa değil kaliteye bakar. Koşullar:
-
-- Her yazı farklı konu ve farklı birincil anahtar kelime
-- Kopyala-yapıştır paragraf yok; tablo/liste yapısı yazıdan yazıya aynı olmamalı
-- İç linkler doğal; aynı anchor 5 yazıda tekrarlanmasın
-- Kapak görseli + benzersiz meta description
-
 ## Komutlar
 
 ```bash
+# Canlı deploy ile aynı: tüm kuyruk anında yayın
+php artisan blog:publish-due --force --all
+
+# Yalnızca henüz yayında olmayan (yeni) yazılar
 php artisan blog:publish-due --force
-php artisan blog:publish-due --dry-run
-php artisan blog:import database/blog-queue/03-hidrofor-hidromat-farki.json --force
+
+# Tek dosya test
+php artisan blog:import database/blog-queue/10-dalgic-pompa-nedir.json --force --from-queue
+
+# Önizleme
+php artisan blog:publish-due --dry-run --all
 ```
 
-## Takvim (günde 3)
+## Yeni yazı ekleme
 
-| Tarih | Dosyalar |
-|-------|----------|
-| 2026-06-10 | 01 |
-| 2026-06-11 | 02 |
-| 2026-06-12 | 03, 04, 05 |
-| 2026-06-13 | 06, 07, 08 |
-| 2026-06-14 | 09 |
+1. `database/blog-queue/XX-baslik.json` oluştur (`kosar-blog-export` formatı)
+2. `manifest.json` içine `file` + `title` ekle (sıra önemli)
+3. Commit + push + **Canlıya gönder**
 
-### Dalgıç pompa kümesi (10–18)
+JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yok sayılır.
 
-| Tarih | Dosyalar |
-|-------|----------|
-| 2026-07-03 | 10 (pillar) |
-| 2026-07-04 | 11, 12 |
-| 2026-07-05 | 13, 14, 15 |
-| 2026-07-06 | 16, 17, 18 |
+## Küme durumu
 
-Pillar: `10-dalgic-pompa-nedir.json` → `/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir`
-
-Cluster yazıları pillar + `/kategoriler/su-pompalari/dalgic-pompalar` + alt kategorilere iç link verir.
+| Küme | Dosyalar | Durum |
+|------|----------|-------|
+| Hidrofor | 01–09 | Yayında |
+| Dalgıç pompa | 10–18 | Yayında / deploy ile güncellenir |
 
 ## Kapak görseli
 
-Panelden yüklerken: **960×540 px** (16:9), JPG/PNG/WebP.
+Panelden: **960×540 px** (16:9), JPG/PNG/WebP.
 
 ## SEO başlık kuralı
 
 Site adını yazmayın; sistem sonuna otomatik `| Koşar` ekler.
 
-## Canlıda cron
-
-```cron
-0 9,14 * * * cd /path/to/kosar && php artisan blog:publish-due --force
-```
-
 ## Otomatik index bildirimi
 
-Blog import ve panelden yayınlanan yazılar **IndexNow** ile otomatik bildirilir (Panel → Site ayarları → Genel → IndexNow). Google Indexing API için `.env` içinde `GOOGLE_INDEXING_ENABLED=true` ve service account JSON yolu gerekir.
+Import sonrası **IndexNow** ile URL bildirimi yapılır.
