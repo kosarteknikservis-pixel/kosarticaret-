@@ -8904,6 +8904,11 @@ body.theme-motion-reduced *::after {
 .shop-contact-turnstile {
     min-height: 65px;
 }
+.shop-contact-turnstile__mount {
+    min-height: 65px;
+    display: flex;
+    align-items: center;
+}
 .shop-form-error {
     margin: 0;
     padding: 0.75rem 1rem;

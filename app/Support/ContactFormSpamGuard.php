@@ -83,7 +83,41 @@ final class ContactFormSpamGuard
 
     public static function turnstileEnabled(): bool
     {
-        return self::siteKey() !== '' && self::secretKey() !== '';
+        $siteKey = self::siteKey();
+        $secretKey = self::secretKey();
+
+        if ($siteKey === '' || $secretKey === '') {
+            return false;
+        }
+
+        return self::looksLikeTurnstileSiteKey($siteKey) && self::looksLikeTurnstileSecretKey($secretKey);
+    }
+
+    public static function turnstileMisconfigured(): bool
+    {
+        $siteKey = self::siteKey();
+        $secretKey = self::secretKey();
+
+        if ($siteKey === '' && $secretKey === '') {
+            return false;
+        }
+
+        return ! self::turnstileEnabled();
+    }
+
+    public static function looksLikeTurnstileSiteKey(string $key): bool
+    {
+        $key = trim($key);
+
+        // Cloudflare Turnstile site keys: 0x4AAA... veya test anahtarları 1x000...
+        return (bool) preg_match('/^(0x|1x|2x|3x)[A-Za-z0-9_-]{10,}$/', $key);
+    }
+
+    public static function looksLikeTurnstileSecretKey(string $key): bool
+    {
+        $key = trim($key);
+
+        return (bool) preg_match('/^(0x|1x|2x|3x)[A-Za-z0-9_-]{10,}$/', $key);
     }
 
     public static function siteKey(): string

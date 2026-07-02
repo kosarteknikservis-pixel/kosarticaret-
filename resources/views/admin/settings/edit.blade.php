@@ -219,7 +219,12 @@
 
                 <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <h4 class="text-sm font-bold text-slate-900">Form spam koruması (Cloudflare Turnstile)</h4>
-                    <p class="mt-2 text-sm text-slate-600">İletişim, ürün yorumu ve teklif formlarında bot engeli. Anahtarlar <a href="https://dash.cloudflare.com/" class="text-teal-700 font-semibold hover:text-teal-900" target="_blank" rel="noopener">Cloudflare Turnstile</a> panelinden alınır. Widget oluştururken alan adına <strong>kosarticaret.com</strong> ekleyin. Secret key boş bırakılırsa mevcut değer korunur.</p>
+                    <p class="mt-2 text-sm text-slate-600">İletişim, ürün yorumu ve teklif formlarında bot engeli. Anahtarlar <a href="https://dash.cloudflare.com/?to=/:account/turnstile" class="text-teal-700 font-semibold hover:text-teal-900" target="_blank" rel="noopener">Cloudflare → Turnstile</a> bölümünden alınır (IndexNow anahtarı değil). Widget’ta alan adı: <strong>kosarticaret.com</strong>. Örnek site key: <code class="text-xs">0x4AAAAAAA...</code></p>
+                    @if(\App\Support\ContactFormSpamGuard::turnstileMisconfigured())
+                        <p class="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+                            Girilen anahtarlar Cloudflare Turnstile formatında görünmüyor. Yanlış anahtar girildiğinde güvenlik kutusu açılmaz; formlar honeypot ile çalışmaya devam eder.
+                        </p>
+                    @endif
                     <div class="mt-4 grid gap-4 sm:grid-cols-2">
                         <div>
                             <label class="admin-label">Site key (public)</label>
