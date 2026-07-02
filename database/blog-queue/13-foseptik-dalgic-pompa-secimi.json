@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "foseptik-dalgic-pompa-secimi-rehberi",
+            "title": "Foseptik Dalgıç Pompa Seçimi: Atık Su ve Pis Su Tahliyesi",
+            "excerpt": "Foseptik ve atık su için dalgıç pompa seçimi: bıçaklı ve vortex modeller, partikül geçişi, tıkanma önleme ve doğru kapasite rehberi.",
+            "meta_title": "Foseptik Dalgıç Pompa Seçimi Rehberi",
+            "meta_description": "Foseptik dalgıç pompa nasıl seçilir? Atık su tahliyesi, bıçaklı pompa, partikül geçişi ve tıkanma önleme ipuçları.",
+            "tags": [
+                "foseptik dalgıç pompa",
+                "foseptik pompası",
+                "bıçaklı dalgıç pompa",
+                "atık su pompası",
+                "dalgıç pompa"
+            ],
+            "image_alt": "Foseptik ve atık su dalgıç pompa seçimi",
+            "published": true,
+            "published_at": "2026-07-05 09:00:00",
+            "content": "<p><strong>Foseptik dalgıç pompalar</strong> atık su, septik tank ve pis su hatlarında kullanılır. Temiz su pompasından farklı olarak daha geniş geçiş kanalı, bıçaklı veya vortex emiş yapısına sahiptir. Yanlış pompa tipi sık tıkanma ve kısa ömür demektir.</p>\n\n<p>Temel bilgi: <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">Dalgıç pompa nedir?</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa\">foseptik dalgıç pompa</a> · <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/bicakli-dalgic-pompa\">bıçaklı dalgıç pompa</a></p>\n\n<h2>Foseptik Pompası ile Temiz Su Pompası Farkı</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Temiz su</th><th>Foseptik / atık su</th></tr></thead>\n<tbody>\n<tr><td>Partikül geçişi</td><td>1–5 mm</td><td>20–80 mm (modele göre)</td></tr>\n<tr><td>Emiş tipi</td><td>Dar kanal</td><td>Vortex veya bıçaklı</td></tr>\n<tr><td>Malzeme</td><td>Döküm/paslanmaz</td><td>Aşınmaya dayanıklı, bıçaklı seçenek</td></tr>\n<tr><td>Bakım</td><td>Yıllık</td><td>6 ayda bir kontrol</td></tr>\n</tbody>\n</table>\n\n<h2>Bıçaklı Pompa Ne Zaman Gerekir?</h2>\n<p>İpeksi atık, bez parçası veya yoğun katı içeren ortamlarda <strong>bıçaklı (cutter) dalgıç pompa</strong> tercih edilir. Bıçaklar emiş öncesi katıları parçalar; tıkanma riskini azaltır. Saf sıvı atıkta vortex pompa yeterli olabilir.</p>\n\n<h2>Kapasite ve Çalışma Döngüsü</h2>\n<p>Foseptik pompalar genellikle <strong>aralıklı çalışır</strong>; tank doldukça devreye girer. Saatte pompalanacak hacim, tank giriş debisi ve boşaltma mesafesine göre seçilir. Sürekli çalışma gerektiren endüstriyel atıkta daha güçlü motor ve soğutma dikkate alınır.</p>\n\n<h2>Montaj ve Güvenlik</h2>\n<ul>\n  <li>Pompayı foseptik tabanından 10–15 cm yukarıda konumlandırın</li>\n  <li>Yüzen şamandıra ile otomatik çalışma sağlayın</li>\n  <li>Çıkış hattında check valf kullanın</li>\n  <li>Elektrik bağlantısını nemli ortama uygun yapın</li>\n  <li>Bakım kapaklarına erişimi kolay bırakın</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Foseptik pompası tıkanırsa ne yapılır?</h3>\n<p>Önce elektrik kesilir, pompa çekilir ve emiş kanalı kontrol edilir. Bıçaklı modellerde bıçak aşınması incelenir.</p>\n\n<h3>Sumak foseptik dalgıç pompa var mı?</h3>\n<p>Evet. <a href=\"/marka/sumak\">Sumak</a> foseptik ve drenaj serileri yaygın kullanılır.</p>\n\n<h3>Foseptik pompası bahçe sulamada kullanılır mı?</h3>\n<p>Hayır. Hijyen ve tıkanma riski nedeniyle temiz su pompası kullanılmalıdır.</p>\n\n<p>Foseptik projeniz için doğru model seçimi: <a href=\"/iletisim\">teknik destek</a> · <a href=\"/kategoriler/su-pompalari/dalgic-pompalar\">dalgıç pompalar</a></p>"
+        }
+    ]
+}

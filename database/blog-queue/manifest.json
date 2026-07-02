@@ -1,60 +1,132 @@
 {
-    "series": "hidrofor-seo-kumesi",
-    "note": "Günde 3 yazı: aynı publish_on tarihli kayıtlar blog:publish-due ile birlikte yayınlanır. Kalite: ~900–1200 kelime, kopyala-yapıştır şablon yok.",
+    "series": "hidrofor + dalgic-pompa seo kumeleri",
+    "note": "Günde 2-3 yazı: aynı publish_on tarihli kayıtlar blog:publish-due ile birlikte yayınlanır. Hidrofor kümesi (01-09) tamamlandı. Dalgıç pompa kümesi (10-18) devam ediyor.",
     "posts": [
         {
             "day": 1,
             "file": "01-apartman-hidrofor-secimi.json",
             "publish_on": "2026-06-10",
-            "title": "Apartman İçin Hidrofor Nasıl Seçilir?"
+            "title": "Apartman İçin Hidrofor Nasıl Seçilir?",
+            "series": "hidrofor"
         },
         {
             "day": 2,
             "file": "02-ev-tipi-hidrofor-rehberi.json",
             "publish_on": "2026-06-11",
-            "title": "Ev Tipi Hidrofor Rehberi: Müstakil Ev ve Villa"
+            "title": "Ev Tipi Hidrofor Rehberi: Müstakil Ev ve Villa",
+            "series": "hidrofor"
         },
         {
             "day": 3,
             "file": "03-hidrofor-hidromat-farki.json",
             "publish_on": "2026-06-12",
-            "title": "Hidrofor mu Hidromat mı?"
+            "title": "Hidrofor mu Hidromat mı?",
+            "series": "hidrofor"
         },
         {
             "day": 3,
             "file": "04-apartmanda-su-basinci-dusuk.json",
             "publish_on": "2026-06-12",
-            "title": "Apartmanda Su Basıncı Düşük: Hidrofor Gerekir mi?"
+            "title": "Apartmanda Su Basıncı Düşük: Hidrofor Gerekir mi?",
+            "series": "hidrofor"
         },
         {
             "day": 3,
             "file": "05-hidrofor-surekli-calisyor.json",
             "publish_on": "2026-06-12",
-            "title": "Hidrofor Sürekli Çalışıyor: Sebepler ve Çözüm"
+            "title": "Hidrofor Sürekli Çalışıyor: Sebepler ve Çözüm",
+            "series": "hidrofor"
         },
         {
             "day": 4,
             "file": "06-hidrofor-basinc-tanki-secimi.json",
             "publish_on": "2026-06-13",
-            "title": "Hidrofor Basınç Tankı Seçimi"
+            "title": "Hidrofor Basınç Tankı Seçimi",
+            "series": "hidrofor"
         },
         {
             "day": 4,
             "file": "07-pedrollo-sumak-hidrofor-karsilastirma.json",
             "publish_on": "2026-06-13",
-            "title": "Pedrollo mu Sumak Hidrofor mu?"
+            "title": "Pedrollo mu Sumak Hidrofor mu?",
+            "series": "hidrofor"
         },
         {
             "day": 4,
             "file": "08-hidrofor-bakim-rehberi.json",
             "publish_on": "2026-06-13",
-            "title": "Hidrofor Bakım Rehberi"
+            "title": "Hidrofor Bakım Rehberi",
+            "series": "hidrofor"
         },
         {
             "day": 5,
             "file": "09-inverter-hidrofor-avantajlari.json",
             "publish_on": "2026-06-14",
-            "title": "Frekans İnvertörlü Hidrofor Avantajları"
+            "title": "Frekans İnvertörlü Hidrofor Avantajları",
+            "series": "hidrofor"
+        },
+        {
+            "day": 6,
+            "file": "10-dalgic-pompa-nedir.json",
+            "publish_on": "2026-07-03",
+            "title": "Dalgıç Pompa Nedir? Ne İşe Yarar, Nasıl Seçilir?",
+            "series": "dalgic-pompa"
+        },
+        {
+            "day": 7,
+            "file": "11-kuyu-dalgic-pompa-secimi.json",
+            "publish_on": "2026-07-04",
+            "title": "Kuyu Dalgıç Pompa Seçimi: Derinlik Rehberi",
+            "series": "dalgic-pompa"
+        },
+        {
+            "day": 7,
+            "file": "12-temiz-su-dalgic-pompa-rehberi.json",
+            "publish_on": "2026-07-04",
+            "title": "Temiz Su Dalgıç Pompa Rehberi",
+            "series": "dalgic-pompa"
+        },
+        {
+            "day": 8,
+            "file": "13-foseptik-dalgic-pompa-secimi.json",
+            "publish_on": "2026-07-05",
+            "title": "Foseptik Dalgıç Pompa Seçimi",
+            "series": "dalgic-pompa"
+        },
+        {
+            "day": 8,
+            "file": "14-drenaj-dalgic-pompa-rehberi.json",
+            "publish_on": "2026-07-05",
+            "title": "Drenaj Dalgıç Pompa Rehberi",
+            "series": "dalgic-pompa"
+        },
+        {
+            "day": 8,
+            "file": "15-dalgic-pompa-calismiyor.json",
+            "publish_on": "2026-07-05",
+            "title": "Dalgıç Pompa Çalışmıyor: Sebepler ve Çözüm",
+            "series": "dalgic-pompa"
+        },
+        {
+            "day": 9,
+            "file": "16-pedrollo-sumak-dalgic-pompa.json",
+            "publish_on": "2026-07-06",
+            "title": "Pedrollo mu Sumak Dalgıç Pompa mı?",
+            "series": "dalgic-pompa"
+        },
+        {
+            "day": 9,
+            "file": "17-solar-dc-dalgic-pompa.json",
+            "publish_on": "2026-07-06",
+            "title": "Solar DC Dalgıç Pompa Avantajları",
+            "series": "dalgic-pompa"
+        },
+        {
+            "day": 9,
+            "file": "18-dalgic-pompa-kurulum.json",
+            "publish_on": "2026-07-06",
+            "title": "Dalgıç Pompa Kurulumu Rehberi",
+            "series": "dalgic-pompa"
         }
     ]
 }

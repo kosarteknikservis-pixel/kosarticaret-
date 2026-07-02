@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kuyu-dalgic-pompa-secimi-derinlik-rehberi",
+            "title": "Kuyu Dalgıç Pompa Seçimi: Derinlik, Debi ve Kuyu Çapı Rehberi",
+            "excerpt": "Kuyu derinliğine göre dalgıç pompa nasıl seçilir? 4 inç ve 6 inç kuyu, debi hesabı, basma yüksekliği ve derin kuyu pompa seçim ipuçları.",
+            "meta_title": "Kuyu Dalgıç Pompa Seçimi: Derinlik ve Debi Rehberi",
+            "meta_description": "Kuyu derinliğine göre dalgıç pompa seçimi nasıl yapılır? 4 inç kuyu, debi hesabı, basma yüksekliği ve derin kuyu pompa modelleri rehberi.",
+            "tags": [
+                "kuyu dalgıç pompa",
+                "dalgıç pompa seçimi",
+                "derin kuyu pompa",
+                "dalgıç pompa",
+                "kuyu pompası"
+            ],
+            "image_alt": "Kuyu derinliğine göre dalgıç pompa seçimi",
+            "published": true,
+            "published_at": "2026-07-04 09:00:00",
+            "content": "<p>Kuyu pompası seçerken yalnızca motor gücüne bakmak en sık yapılan hatadır. Doğru seçim için <strong>kuyu derinliği</strong>, <strong>statik ve dinamik su seviyesi</strong>, <strong>boru çapı ve kayıpları</strong> ile <strong>günlük su ihtiyacı</strong> birlikte hesaplanmalıdır.</p>\n\n<p>Temel bilgi: <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">Dalgıç pompa nedir?</a> · Derin kuyu modelleri: <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa\">derin kuyu dalgıç pompa</a></p>\n\n<h2>Kuyu Derinliği Nasıl Ölçülür?</h2>\n<p>Toplam derinlik; kuyu ağzından dibe kadar mesafedir. <strong>Dinamik su seviyesi</strong> pompa çalışırken suyun indiği seviye, <strong>statik seviye</strong> ise pompa durduğunda suyun durduğu noktadır. Pompa, dinamik seviyenin altında çalışacak şekilde konumlandırılmalıdır.</p>\n\n<h2>4 İnç ve 6 İnç Kuyu Farkı</h2>\n<ul>\n  <li><strong>4\" (100 mm) kuyu:</strong> Konut, bahçe, küçük tarla — dar gövdeli pompalar</li>\n  <li><strong>6\" (150 mm) kuyu:</strong> Tarımsal sulama, site, endüstriyel — yüksek debili modeller</li>\n</ul>\n<p>Pompa gövde çapı kuyu iç çapından en az 10–15 mm küçük olmalıdır. Ölçü alınmadan sipariş verilmemelidir.</p>\n\n<h2>Basma Yüksekliği Hesabı</h2>\n<p>Toplam yükseklik (H) şu bileşenlerin toplamıdır:</p>\n<ol>\n  <li>Kuyu derinliği (dinamik seviyeye kadar)</li>\n  <li>Yüzeye çıkış mesafesi</li>\n  <li>Boru dirsek ve uzunluk kayıpları</li>\n  <li>Kullanım noktası basınç ihtiyacı (bar → metre karşılığı)</li>\n</ol>\n<p>Katalogda gösterilen basma yüksekliği, pompanın o debide ulaşabildiği maksimum yüksekliktir. %10–15 güvenlik payı eklenmesi önerilir.</p>\n\n<h2>Debi (Su İhtiyacı) Nasıl Belirlenir?</h2>\n<ul>\n  <li><strong>Müstakil ev:</strong> 2–4 m³/saat genellikle yeterli</li>\n  <li><strong>Tarımsal sulama:</strong> Alan, bitki tipi ve sulama yöntemine göre hesaplanır</li>\n  <li><strong>Site/otel:</strong> Eş zamanlı kullanım pikleri dikkate alınır</li>\n</ul>\n\n<h2>Jet Pompa mı, Dalgıç Pompa mı?</h2>\n<p>8 m altı sığ kuyularda jet pompa ekonomik olabilir. 10 m üzeri derinliklerde <strong>dalgıç pompa</strong> verimlilik ve enerji tüketimi açısından üstündür. <a href=\"/kategoriler/su-pompalari/jet-pompalar\">Jet pompalar</a> sayfamızı da karşılaştırabilirsiniz.</p>\n\n<h2>Kurulum İpuçları</h2>\n<ul>\n  <li>Pompayı paslanmaz askı halat veya galvaniz zincirle asın</li>\n  <li>Basma hattında check valf kullanın</li>\n  <li>Elektrik kablosunu taşıma halatına bağlamayın</li>\n  <li>İlk çalıştırmada hava kaçağı olmadığını kontrol edin</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Kuyu suyu azalırsa pompa zarar görür mü?</h3>\n<p>Evet. Seviye şamandırası veya basınç anahtarı ile susuz çalışma koruması şarttır.</p>\n\n<h3>Mevcut pompa yetersiz kalıyorsa ne yapılır?</h3>\n<p>Daha yüksek debi/basma modeli veya iki pompalı alternatif değerlendirilir. Hat çapı da kontrol edilmelidir.</p>\n\n<h3>Kuyu pompa fiyatı neye göre değişir?</h3>\n<p>Derinlik, debi, gövde malzemesi (paslanmaz/döküm) ve marka fiyatı belirler.</p>\n\n<p>Kuyu ölçülerinizi <a href=\"/pompa-secici\">Pompa Seçim Programı</a>na girerek ön değerlendirme alabilir veya <a href=\"/iletisim\">teknik danışmanlık</a> talep edebilirsiniz.</p>"
+        }
+    ]
+}

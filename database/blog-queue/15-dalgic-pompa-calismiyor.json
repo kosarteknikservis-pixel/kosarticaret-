@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "dalgic-pompa-calismiyor-ariza-cozum",
+            "title": "Dalgıç Pompa Çalışmıyor: 8 Olası Sebep ve Çözüm",
+            "excerpt": "Dalgıç pompa çalışmıyor veya hemen duruyor mu? Elektrik, şamandıra, tıkanma, kuru çalışma ve motor arızası için adım adım kontrol rehberi.",
+            "meta_title": "Dalgıç Pompa Çalışmıyor: Sebepler ve Çözüm",
+            "meta_description": "Dalgıç pompa neden çalışmaz? Elektrik kesintisi, şamandıra arızası, tıkanma, kuru çalışma ve termik koruma için pratik arıza giderme rehberi.",
+            "tags": [
+                "dalgıç pompa çalışmıyor",
+                "dalgıç pompa arızası",
+                "dalgıç pompa",
+                "pompa tamiri",
+                "kuru çalışma"
+            ],
+            "image_alt": "Dalgıç pompa çalışmıyor — arıza teşhis rehberi",
+            "published": true,
+            "published_at": "2026-07-05 14:00:00",
+            "content": "<p>Dalgıç pompa bir anda durduğunda veya hiç çalışmadığında panik yapmadan önce basit kontroller yapılabilir. Sorunun kaynağı çoğu zaman elektrik, seviye koruması veya tıkanmadır; motor arızası her zaman ilk şüphe olmamalıdır.</p>\n\n<p>Bakım önerileri: <a href=\"/blog/dalgic-pompa-bakimi\">Dalgıç pompa bakımı</a> · Genel bilgi: <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa nedir?</a></p>\n\n<h2>1. Elektrik Beslemesi</h2>\n<ul>\n  <li>Sigorta ve kaçak akım rölesi atmış mı?</li>\n  <li>Kontrol paneli göstergesi yanıyor mu?</li>\n  <li>Kablo bağlantıları gevşek veya oksitlenmiş mi?</li>\n  <li>Voltaj düşüklüğü (özellikle uzun hatlarda) motoru çalıştırmayabilir</li>\n</ul>\n\n<h2>2. Seviye Şamandırası veya Basınç Anahtarı</h2>\n<p>Drenaj ve foseptik pompalarında şamandıra su yokken pompayı kilitleyebilir. Şamandıra mekanizması sıkışmış veya kablo kopmuş olabilir. Kuyu pompalarında kuru kuyu koruması devreye girmiş olabilir.</p>\n\n<h2>3. Tıkanma ve Emiş Hattı</h2>\n<p>Foseptik ve drenaj pompalarında emiş kanalı katı madde ile tıkanabilir. Temiz su pompalarında kuyu tabanına çok yakın montaj kum emişine yol açar. Pompa çekilmeden iç kontrol yapılmamalıdır.</p>\n\n<h2>4. Kuru Çalışma (Susuz Çalışma)</h2>\n<p>Su seviyesi pompa emiş seviyesinin altına düştüğünde motor ısınır ve termik koruma devreye girer. Soğuduktan sonra tekrar çalışabilir; ancak koruma sistemi düzeltilmeden sorun tekrarlar.</p>\n\n<h2>5. Check Valf ve Basma Hattı</h2>\n<p>Basma hattındaki check valf sıkışırsa veya hava kilitlenmesi oluşursa pompa yük altında kalır. İlk çalıştırmada hava tahliyesi yapılmalıdır.</p>\n\n<h2>6. Termik Koruma ve Kapasitör</h2>\n<p>Monofaze motorlarda çalışma kapasitörü zayıfladığında pompa zor çalışır veya hiç kalkmaz. Motor sargı arızası daha ciddi tamir gerektirir.</p>\n\n<h2>7. Yanlış Pompa Tipi</h2>\n<p>Temiz su pompasını kirli ortamda kullanmak kısa sürede arıza üretir. <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa\">Foseptik</a> veya <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa\">drenaj</a> uygulamasına uygun model seçilmelidir.</p>\n\n<h2>8. Yaş ve Aşınma</h2>\n<p>10 yılı aşkın pompularda mekanik conta, rulman ve bıçak aşınması performans düşürür. Tamir yerine yenileme daha ekonomik olabilir.</p>\n\n<h2>Ne Zaman Servis Çağırmalı?</h2>\n<p>Elektrik ve seviye kontrolleri sonrası sorun devam ediyorsa, motor yanmış kokusu veya anormal gürültü varsa yetkili servis gerekir. Pompayı sökmeden kuyuya inmeyin.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Pompa birkaç saniye çalışıp duruyorsa?</h3>\n<p>Genellikle kuru çalışma koruması veya şamandıra ayarı. Su seviyesini kontrol edin.</p>\n\n<h3>Sigorta atıyorsa motor yanmış olabilir mi?</h3>\n<p>Olabilir; aynı zamanda kablo izolasyon hasarı veya nem de sigorta attırır. Ölçüm aleti ile kontrol şart.</p>\n\n<h3>Arızalı pompa tamir edilir mi?</h3>\n<p>Küçük contalar ve kapasitör değişimi mümkün. Motor sargı hasarında yenileme önerilir.</p>\n\n<p>Yeni dalgıç pompa seçimi için <a href=\"/kategoriler/su-pompalari/dalgic-pompalar\">dalgıç pompalar</a> · <a href=\"/iletisim\">teknik destek</a></p>"
+        }
+    ]
+}

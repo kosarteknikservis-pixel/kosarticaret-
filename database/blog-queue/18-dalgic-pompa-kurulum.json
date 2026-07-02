@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "dalgic-pompa-kurulum-ipuclari",
+            "title": "Dalgıç Pompa Kurulumu: 10 Adımda Doğru Montaj Rehberi",
+            "excerpt": "Dalgıç pompa kurulumu nasıl yapılır? Askı halat, check valf, elektrik bağlantısı, ilk çalıştırma ve güvenlik için adım adım montaj rehberi.",
+            "meta_title": "Dalgıç Pompa Kurulumu: Montaj Rehberi",
+            "meta_description": "Dalgıç pompa kurulumu adım adım: askı sistemi, basma hattı, check valf, elektrik ve ilk çalıştırma. Doğru montaj ile uzun ömür.",
+            "tags": [
+                "dalgıç pompa kurulumu",
+                "dalgıç pompa montajı",
+                "dalgıç pompa",
+                "kuyu pompası kurulum",
+                "pompa bağlantısı"
+            ],
+            "image_alt": "Dalgıç pompa kurulumu — montaj ve bağlantı rehberi",
+            "published": true,
+            "published_at": "2026-07-06 14:00:00",
+            "content": "<p>Doğru <strong>dalgıç pompa kurulumu</strong> hem pompa ömrünü uzatır hem de enerji verimliliğini artırır. Yanlış askı, hatalı elektrik veya eksik check valf kısa sürede arıza ve su kesintisine yol açar. Bu rehber kuyu, sarnıç ve drenaj uygulamaları için geçerlidir.</p>\n\n<p>Seçim öncesi: <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">Dalgıç pompa nedir?</a> · <a href=\"/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi\">Kuyu pompa seçimi</a></p>\n\n<h2>Kurulum Öncesi Hazırlık</h2>\n<ol>\n  <li>Pompa modeli ile kuyu çapı ve derinlik uyumunu doğrulayın</li>\n  <li>Basma hattı çapını debiye göre seçin (genelde Ø32–Ø50 mm konut)</li>\n  <li>Elektrik hattı kesitini motor gücüne göre hesaplayın</li>\n  <li>Check valf, askı halatı/zincir, su geçirmez kablo konnektörü hazırlayın</li>\n</ol>\n\n<h2>Adım 1: Askı Sistemi</h2>\n<p>Pompayı <strong>paslanmaz çelik halat</strong> veya galvaniz zincirle asın. Taşıma halatına asla elektrik kablosunu bağlamayın; kablo kendi ağırlığı ile kopabilir. Halat pompa ağırlığının 3 katı güvenlik payı ile seçilir.</p>\n\n<h2>Adım 2: Dikey Konumlandırma</h2>\n<p>Dalgıç pompa dikey çalışır. Kuyu tabanından 0,5–1 m yukarıda konumlandırın; kum emişini önler. Drenajda en alçak noktaya yerleştirin.</p>\n\n<h2>Adım 3: Check Valf</h2>\n<p>Basma hattına pompa çıkışına yakın check valf monte edin. Geri dönüş suyu pompayı ters çevirmez; her açılışta emme kolaylaşır.</p>\n\n<h2>Adım 4: Elektrik Bağlantısı</h2>\n<ul>\n  <li>Su geçirmez kablo konnektörü kullanın</li>\n  <li>Topraklama yapın</li>\n  <li>Kaçak akım rölesi şarttır</li>\n  <li>Monofaze/trifaze faz sırasını kontrol edin</li>\n</ul>\n\n<h2>Adım 5: Seviye Koruması</h2>\n<p>Kuyuda şamandıra veya basınç anahtarı bağlayın. Susuz çalışma motoru dakikalar içinde bozabilir.</p>\n\n<h2>Adım 6: İlk Çalıştırma</h2>\n<p>Kısa süreli test yapın; anormal ses, titreşim veya sıcaklık kontrol edin. Debi ve basıncı ölçün. Hava kilitlenmesi varsa tahliye edin.</p>\n\n<h2>Sık Yapılan Kurulum Hataları</h2>\n<ul>\n  <li>Kablo ile halatı birlikte bağlamak</li>\n  <li>Check valf montajını atlamak</li>\n  <li>Çok ince basma borusu (yüksek kayıp)</li>\n  <li>Topraklamayı ihmal etmek</li>\n  <li>Koruma cihazı olmadan çalıştırmak</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Dalgıç pompa kurulumu kendim yapılır mı?</h3>\n<p>Drenaj ve sığ sarnıç uygulamalarında mümkün. Derin kuyuda profesyonel montaj önerilir.</p>\n\n<h3>Kurulum sonrası ne sıklıkla bakım?</h3>\n<p>Yılda bir genel kontrol. <a href=\"/blog/dalgic-pompa-bakimi\">Dalgıç pompa bakımı</a> yazımıza bakın.</p>\n\n<h3>Hidrofor ile birlikte nasıl bağlanır?</h3>\n<p>Dalgıç pompa depoya veya hidrofor emişine basar. <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">Hidrofor rehberi</a>mizde detay var.</p>\n\n<p>Kurulum öncesi model doğrulama: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">montaj danışmanlığı</a></p>"
+        }
+    ]
+}

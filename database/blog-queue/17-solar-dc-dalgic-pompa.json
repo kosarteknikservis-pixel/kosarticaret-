@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "solar-dc-dalgic-pompa-avantajlari-secim",
+            "title": "Solar DC Dalgıç Pompa: Avantajlar, Seçim ve Kurulum Rehberi",
+            "excerpt": "Güneş enerjili dalgıç pompa (solar DC) nedir? Şebekesiz tarla sulama, çiftlik ve kırsal su çekimi için panel, pompa ve invertör seçimi.",
+            "meta_title": "Solar DC Dalgıç Pompa Avantajları ve Seçim",
+            "meta_description": "Solar DC dalgıç pompa avantajları nelerdir? Güneş paneli ile çalışan dalgıç pompa seçimi, tarımsal sulama ve şebekesiz uygulamalar rehberi.",
+            "tags": [
+                "solar dalgıç pompa",
+                "güneş enerjili pompa",
+                "dc dalgıç pompa",
+                "dalgıç pompa",
+                "tarımsal sulama"
+            ],
+            "image_alt": "Solar DC dalgıç pompa — güneş enerjili sulama sistemi",
+            "published": true,
+            "published_at": "2026-07-06 11:00:00",
+            "content": "<p><strong>Solar DC dalgıç pompalar</strong> güneş panelinden gelen doğru akım (DC) ile çalışır; şebeke elektriği gerektirmez. Uzak tarla, çiftlik, hayvancılık tesisleri ve şebekenin olmadığı kuyularda su çekimi için idealdir. Gündüz güneşle çalışır; akü ile gece sulama da planlanabilir.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/solar-dc-dalgic-pompalar\">solar DC dalgıç pompalar</a> · Temel bilgi: <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa nedir?</a></p>\n\n<h2>Solar Pompa Nasıl Çalışır?</h2>\n<p>Güneş paneli DC voltaj üretir; pompa kontrol ünitesi (sürücü) motoru besler. Güneş ışınımı arttıkça pompa devri ve debi yükselir. Bulutlu havada debi düşer; bu normal çalışma davranışıdır. Frekans kontrollü solar sürücüler verimi optimize eder.</p>\n\n<h2>Avantajlar</h2>\n<ul>\n  <li>Şebeke bağlantısı ve elektrik faturası yok</li>\n  <li>Uzak alanlarda sulama imkânı</li>\n  <li>Düşük işletme maliyeti (bakım hariç)</li>\n  <li>Çevre dostu, sessiz çalışma</li>\n  <li>Diesel jeneratöre alternatif</li>\n</ul>\n\n<h2>Seçim Kriterleri</h2>\n<ol>\n  <li><strong>Günlük su ihtiyacı (m³/gün)</strong></li>\n  <li><strong>Kuyu derinliği ve statik seviye</strong></li>\n  <li><strong>Günlük güneşlenme süresi (bölgeye göre)</strong></li>\n  <li><strong>Panel gücü (Wp) ve pompa voltajı (24V / 48V / 380V solar)</strong></li>\n  <li><strong>Akü ihtiyacı</strong> (gece veya sabah sulama için)</li>\n</ol>\n\n<h2>Panel ve Pompa Eşleştirmesi</h2>\n<p>Panel toplam watt değeri, pompa motor gücünün 1,2–1,5 katı civarında planlanır. Voltaj uyumsuzluğu motoru çalıştırmaz veya aşırı ısıtır. Üretici solar kit önerileri referans alınmalıdır.</p>\n\n<h2>Kurulum Notları</h2>\n<ul>\n  <li>Panelleri güneye, eğim açısıyla monte edin</li>\n  <li>Kontrol kutusunu su geçirmez kabinde koruyun</li>\n  <li>Şimşek ve aşırı gerilim koruması kullanın</li>\n  <li>Susuz çalışma korumasını mutlaka aktif edin</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Gece sulama yapılır mı?</h3>\n<p>Akü bankası veya invertörlü sistem ile mümkündür; maliyet artar.</p>\n\n<h3>Şebekeli pompa solar yapılabilir mi?</h3>\n<p>Bazı sistemler hibrit çalışır; mevcut motor uyumluluğu kontrol edilmelidir.</p>\n\n<h3>Kışın çalışır mı?</h3>\n<p>Güneş ışınımı yeterliyse evet; karlı ve kısa günlerde debi düşer.</p>\n\n<p>Solar dalgıç pompa projeniz için <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

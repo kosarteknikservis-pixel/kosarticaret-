@@ -39,6 +39,19 @@ php artisan blog:import database/blog-queue/03-hidrofor-hidromat-farki.json --fo
 | 2026-06-13 | 06, 07, 08 |
 | 2026-06-14 | 09 |
 
+### Dalgıç pompa kümesi (10–18)
+
+| Tarih | Dosyalar |
+|-------|----------|
+| 2026-07-03 | 10 (pillar) |
+| 2026-07-04 | 11, 12 |
+| 2026-07-05 | 13, 14, 15 |
+| 2026-07-06 | 16, 17, 18 |
+
+Pillar: `10-dalgic-pompa-nedir.json` → `/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir`
+
+Cluster yazıları pillar + `/kategoriler/su-pompalari/dalgic-pompalar` + alt kategorilere iç link verir.
+
 ## Kapak görseli
 
 Panelden yüklerken: **960×540 px** (16:9), JPG/PNG/WebP.
