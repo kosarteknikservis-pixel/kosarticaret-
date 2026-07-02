@@ -23,14 +23,14 @@ class PurgeSpamSubmissionsCommand extends Command
             ->orderBy('id')
             ->chunkById(200, function ($reviews) use (&$reviewIds) {
                 foreach ($reviews as $review) {
-                    $spam = ContactFormSpamGuard::assessContent('review', [
+                    $spam = ContactFormSpamGuard::looksLikeObviousSpam([
                         'author_name' => $review->author_name,
                         'email' => $review->email,
                         'title' => $review->title,
                         'body' => $review->body,
                     ]);
 
-                    if ($spam['blocked']) {
+                    if ($spam) {
                         $reviewIds[] = $review->id;
                     }
                 }
@@ -41,14 +41,14 @@ class PurgeSpamSubmissionsCommand extends Command
             ->orderBy('id')
             ->chunkById(200, function ($messages) use (&$messageIds) {
                 foreach ($messages as $message) {
-                    $spam = ContactFormSpamGuard::assessContent('contact', [
+                    $spam = ContactFormSpamGuard::looksLikeObviousSpam([
                         'ad_soyad' => $message->name,
                         'eposta' => $message->email,
                         'konu' => $message->subject,
                         'mesaj' => $message->body,
                     ]);
 
-                    if ($spam['blocked']) {
+                    if ($spam) {
                         $messageIds[] = $message->id;
                     }
                 }

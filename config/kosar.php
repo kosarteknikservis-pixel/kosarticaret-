@@ -48,9 +48,9 @@ return [
         'max_age_days' => (int) env('KOSAR_PAYMENT_REMINDER_MAX_AGE_DAYS', 7),
     ],
 
-    'turnstile' => [
-        'site_key' => env('TURNSTILE_SITE_KEY'),
-        'secret_key' => env('TURNSTILE_SECRET_KEY'),
+    'recaptcha' => [
+        'site_key' => env('RECAPTCHA_SITE_KEY'),
+        'secret_key' => env('RECAPTCHA_SECRET_KEY'),
     ],
 
     'default_locale' => env('KOSAR_DEFAULT_LOCALE', 'tr'),

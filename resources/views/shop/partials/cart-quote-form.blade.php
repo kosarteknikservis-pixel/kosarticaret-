@@ -2,7 +2,7 @@
     <h3 class="text-sm font-bold text-slate-900">{{ __('shop.quote_request') }}</h3>
     <p class="mt-1 text-xs text-slate-500 leading-relaxed">{{ __('shop.quote_request_sub') }}</p>
 
-    <form method="post" action="{{ route('cart.quote') }}" class="mt-4 space-y-3" data-turnstile-form="quote">
+    <form method="post" action="{{ route('cart.quote') }}" class="mt-4 space-y-3" data-recaptcha-form="quote">
         @csrf
         <x-shop.spam-fields context="quote" />
         @if($errors->has('spam'))
@@ -32,7 +32,7 @@
             <label class="shop-label" for="quote-note">{{ __('shop.quote_note') }}</label>
             <textarea id="quote-note" name="note" rows="3" maxlength="5000" class="shop-input resize-y min-h-[5rem]">{{ old('note') }}</textarea>
         </div>
-        <x-shop.spam-turnstile context="quote" />
+        <x-shop.spam-recaptcha context="quote" />
         <button type="submit" class="btn-outline w-full py-3 text-center">{{ __('shop.quote_submit') }}</button>
     </form>
 </div>

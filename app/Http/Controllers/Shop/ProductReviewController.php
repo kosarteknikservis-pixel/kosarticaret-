@@ -29,17 +29,6 @@ class ProductReviewController extends Controller
             'body' => ['required', 'string', 'max:2000'],
         ]);
 
-        $contentSpam = ContactFormSpamGuard::assessContent('review', $data);
-        if ($contentSpam['blocked']) {
-            Log::info('product review content blocked', [
-                'reason' => $contentSpam['reason'],
-                'ip' => $request->ip(),
-                'product_id' => $product->id,
-            ]);
-
-            return $this->spamResponse($product, $contentSpam);
-        }
-
         $duplicate = ProductReview::query()
             ->where('product_id', $product->id)
             ->where('email', $data['email'])

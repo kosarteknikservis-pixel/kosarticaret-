@@ -71,16 +71,6 @@ class ContactController extends Controller
             'mesaj' => ['required', 'string', 'max:3000'],
         ]);
 
-        $contentSpam = ContactFormSpamGuard::assessContent('contact', $data);
-        if ($contentSpam['blocked']) {
-            Log::info('contact form content blocked', [
-                'reason' => $contentSpam['reason'],
-                'ip' => $request->ip(),
-            ]);
-
-            return back()->with('success', 'Mesajınız alındı. En kısa sürede dönüş yapacağız.');
-        }
-
         ContactMessage::query()->create([
             'name' => $data['ad_soyad'],
             'email' => $data['eposta'],

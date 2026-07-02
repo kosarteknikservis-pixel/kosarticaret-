@@ -106,57 +106,49 @@ final class ContactFormSpamGuard
         return $token;
     }
 
-    public static function turnstileEnabled(): bool
+    public static function recaptchaEnabled(): bool
     {
-        $siteKey = self::siteKey();
-        $secretKey = self::secretKey();
+        $siteKey = self::recaptchaSiteKey();
+        $secretKey = self::recaptchaSecretKey();
 
         if ($siteKey === '' || $secretKey === '') {
             return false;
         }
 
-        return self::looksLikeTurnstileSiteKey($siteKey) && self::looksLikeTurnstileSecretKey($secretKey);
+        return self::looksLikeRecaptchaKey($siteKey) && self::looksLikeRecaptchaKey($secretKey);
     }
 
-    public static function turnstileMisconfigured(): bool
+    public static function recaptchaMisconfigured(): bool
     {
-        $siteKey = self::siteKey();
-        $secretKey = self::secretKey();
+        $siteKey = self::recaptchaSiteKey();
+        $secretKey = self::recaptchaSecretKey();
 
         if ($siteKey === '' && $secretKey === '') {
             return false;
         }
 
-        return ! self::turnstileEnabled();
+        return ! self::recaptchaEnabled();
     }
 
-    public static function looksLikeTurnstileSiteKey(string $key): bool
+    public static function looksLikeRecaptchaKey(string $key): bool
     {
         $key = trim($key);
 
-        // Cloudflare Turnstile site keys: 0x4AAA... veya test anahtarları 1x000...
-        return (bool) preg_match('/^(0x|1x|2x|3x)[A-Za-z0-9_-]{10,}$/', $key);
+        return (bool) preg_match('/^6[0-9A-Za-z_-]{30,}$/', $key);
     }
 
-    public static function looksLikeTurnstileSecretKey(string $key): bool
+    public static function recaptchaSiteKey(): string
     {
-        $key = trim($key);
+        $fromDb = trim((string) SiteSetting::get('recaptcha_site_key', ''));
 
-        return (bool) preg_match('/^(0x|1x|2x|3x)[A-Za-z0-9_-]{10,}$/', $key);
+        return $fromDb !== '' ? $fromDb : trim((string) config('kosar.recaptcha.site_key', ''));
     }
 
-    public static function siteKey(): string
+    public static function recaptchaSecretKey(): string
     {
-        $fromDb = trim((string) SiteSetting::get('turnstile_site_key', ''));
+        $fromDb = trim((string) SiteSetting::get('recaptcha_secret_key', ''));
 
-        return $fromDb !== '' ? $fromDb : trim((string) config('kosar.turnstile.site_key', ''));
-    }
-
-    public static function secretKey(): string
-    {
-        $fromDb = trim((string) SiteSetting::get('turnstile_secret_key', ''));
-
-        return $fromDb !== '' ? $fromDb : trim((string) config('kosar.turnstile.secret_key', ''));
+        return $fromDb !== '' ? $fromDb : trim((string) config('kosar.recaptcha.secret_key', ''));
     }
 
     /**
@@ -191,10 +183,10 @@ final class ContactFormSpamGuard
             return $rateLimit;
         }
 
-        if (self::turnstileEnabled()) {
-            $turnstile = self::turnstileValid($request);
-            if (! $turnstile['valid']) {
-                return self::block('turnstile', false, $turnstile['message']);
+        if (self::recaptchaEnabled()) {
+            $recaptcha = self::recaptchaValid($request);
+            if (! $recaptcha['valid']) {
+                return self::block('recaptcha', false, $recaptcha['message']);
             }
         }
 
@@ -202,86 +194,26 @@ final class ContactFormSpamGuard
     }
 
     /**
-     * İçerik doğrulaması — geçersiz gönderiler veritabanına yazılmaz (panelde birikmez).
+     * Eski spam kayıtlarını temizlemek için (panel birikimi).
      *
      * @param  array<string, mixed>  $data
-     * @return array{blocked: bool, reason: string|null, silent: bool, message: string|null}
      */
-    public static function assessContent(string $context, array $data): array
+    public static function looksLikeObviousSpam(array $data): bool
     {
         $email = Str::lower(trim((string) ($data['email'] ?? $data['eposta'] ?? '')));
         if ($email !== '' && self::isDisposableEmail($email)) {
-            return self::block('disposable_email', true);
+            return true;
         }
 
-        if ($context === 'review') {
-            return self::assessReviewContent($data);
-        }
+        $text = Str::lower(implode(' ', array_filter([
+            (string) ($data['body'] ?? ''),
+            (string) ($data['mesaj'] ?? ''),
+            (string) ($data['title'] ?? ''),
+            (string) ($data['konu'] ?? ''),
+            (string) ($data['author_name'] ?? $data['ad_soyad'] ?? ''),
+        ])));
 
-        if ($context === 'contact') {
-            return self::assessContactContent($data);
-        }
-
-        if ($context === 'quote') {
-            return self::assessQuoteContent($data);
-        }
-
-        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
-    }
-
-    /** @param  array<string, mixed>  $data */
-    private static function assessReviewContent(array $data): array
-    {
-        $body = trim((string) ($data['body'] ?? ''));
-        $title = trim((string) ($data['title'] ?? ''));
-        $name = trim((string) ($data['author_name'] ?? ''));
-
-        if (mb_strlen($body) < 20) {
-            return self::block('review_short', true);
-        }
-
-        if (self::meaningfulWordCount($body) < 4) {
-            return self::block('review_words', true);
-        }
-
-        if (self::looksLikeGibberish($body) || ($title !== '' && self::looksLikeGibberish($title)) || self::looksLikeGibberish($name)) {
-            return self::block('gibberish', true);
-        }
-
-        if (self::containsSpamPattern(Str::lower($body.' '.$title.' '.$name))) {
-            return self::block('keyword', true);
-        }
-
-        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
-    }
-
-    /** @param  array<string, mixed>  $data */
-    private static function assessContactContent(array $data): array
-    {
-        $message = trim((string) ($data['mesaj'] ?? ''));
-        $subject = trim((string) ($data['konu'] ?? ''));
-        $name = trim((string) ($data['ad_soyad'] ?? ''));
-
-        if (mb_strlen($message) < 10) {
-            return self::block('contact_short', true);
-        }
-
-        if (self::looksLikeGibberish($message) || self::looksLikeGibberish($subject) || self::looksLikeGibberish($name)) {
-            return self::block('gibberish', true);
-        }
-
-        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
-    }
-
-    /** @param  array<string, mixed>  $data */
-    private static function assessQuoteContent(array $data): array
-    {
-        $note = trim((string) ($data['note'] ?? ''));
-        if ($note !== '' && (self::looksLikeGibberish($note) || self::containsSpamPattern(Str::lower($note)))) {
-            return self::block('gibberish', true);
-        }
-
-        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
+        return self::containsSpamPattern($text);
     }
 
     /** @return array{blocked: bool, reason: string, silent: bool, message: string|null}|null */
@@ -324,46 +256,6 @@ final class ContactFormSpamGuard
             || str_contains($domain, 'throwaway')
             || str_contains($domain, 'fakeinbox')
             || str_contains($domain, 'mailinator');
-    }
-
-    private static function looksLikeGibberish(string $text): bool
-    {
-        $text = trim($text);
-        if ($text === '') {
-            return false;
-        }
-
-        $lower = Str::lower($text);
-
-        if (preg_match('/(.{2,6})\1{2,}/u', $lower)) {
-            return true;
-        }
-
-        if (preg_match('/^(asdf|qwer|zxcv|asd{3,}|sdf{3,}|test{3,}|deneme{3,})\b/u', $lower)) {
-            return true;
-        }
-
-        if (preg_match('/^[a-z]{1,2}(\s+[a-z]{1,2}){4,}$/u', $lower)) {
-            return true;
-        }
-
-        $chars = mb_str_split(preg_replace('/\s+/u', '', $lower) ?? '');
-        $length = count($chars);
-        if ($length >= 12) {
-            $uniqueRatio = count(array_unique($chars)) / $length;
-            if ($uniqueRatio < 0.35) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static function meaningfulWordCount(string $text): int
-    {
-        $words = preg_split('/\s+/u', trim($text), -1, PREG_SPLIT_NO_EMPTY) ?: [];
-
-        return count(array_filter($words, static fn (string $word): bool => mb_strlen($word) >= 2));
     }
 
     /** @return array{blocked: bool, reason: string, silent: bool, message: string|null} */
@@ -465,27 +357,27 @@ final class ContactFormSpamGuard
     }
 
     /** @return array{valid: bool, message: string|null} */
-    private static function turnstileValid(Request $request): array
+    private static function recaptchaValid(Request $request): array
     {
-        $response = trim((string) $request->input('cf-turnstile-response', ''));
+        $response = trim((string) $request->input('g-recaptcha-response', ''));
         if ($response === '') {
             return [
                 'valid' => false,
-                'message' => 'Güvenlik doğrulaması tamamlanmadı. Lütfen kutucuğu işaretleyip tekrar deneyin.',
+                'message' => 'Güvenlik doğrulaması tamamlanmadı. Lütfen "Ben robot değilim" kutusunu işaretleyip tekrar deneyin.',
             ];
         }
 
         try {
             $verify = Http::asForm()
                 ->timeout(8)
-                ->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
-                    'secret' => self::secretKey(),
+                ->post('https://www.google.com/recaptcha/api/siteverify', [
+                    'secret' => self::recaptchaSecretKey(),
                     'response' => $response,
                     'remoteip' => $request->ip(),
                 ]);
 
             if (! $verify->successful()) {
-                Log::warning('turnstile http failed', ['status' => $verify->status()]);
+                Log::warning('recaptcha http failed', ['status' => $verify->status()]);
 
                 return [
                     'valid' => false,
@@ -498,17 +390,17 @@ final class ContactFormSpamGuard
                 return ['valid' => true, 'message' => null];
             }
 
-            Log::warning('turnstile verify rejected', [
+            Log::warning('recaptcha verify rejected', [
                 'errors' => $payload['error-codes'] ?? [],
                 'ip' => $request->ip(),
             ]);
 
             return [
                 'valid' => false,
-                'message' => 'Güvenlik doğrulaması geçersiz. Sayfayı yenileyip tekrar deneyin. Cloudflare anahtarlarınızın kosarticaret.com için tanımlı olduğundan emin olun.',
+                'message' => 'Güvenlik doğrulaması geçersiz. Sayfayı yenileyip tekrar deneyin. Google reCAPTCHA anahtarlarınızın kosarticaret.com için tanımlı olduğundan emin olun.',
             ];
         } catch (\Throwable $e) {
-            Log::warning('turnstile verify exception', ['error' => $e->getMessage()]);
+            Log::warning('recaptcha verify exception', ['error' => $e->getMessage()]);
 
             return [
                 'valid' => false,

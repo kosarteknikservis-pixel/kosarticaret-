@@ -8901,13 +8901,11 @@ body.theme-motion-reduced *::after {
     opacity: 0;
     pointer-events: none;
 }
-.shop-contact-turnstile {
-    min-height: 65px;
+.shop-contact-recaptcha {
+    min-height: 78px;
 }
-.shop-contact-turnstile__mount {
-    min-height: 65px;
-    display: flex;
-    align-items: center;
+.shop-contact-recaptcha .g-recaptcha {
+    transform-origin: left top;
 }
 .shop-form-error {
     margin: 0;

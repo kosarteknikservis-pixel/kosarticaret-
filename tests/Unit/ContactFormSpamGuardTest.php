@@ -49,16 +49,15 @@ class ContactFormSpamGuardTest extends TestCase
         $this->assertTrue($result['silent']);
     }
 
-    public function test_gibberish_review_content_is_blocked_silently(): void
+    public function test_obvious_spam_content_is_detected(): void
     {
-        $result = ContactFormSpamGuard::assessContent('review', [
-            'author_name' => 'asdasd',
-            'email' => 'test@example.com',
-            'title' => 'asdasdasd',
-            'body' => 'asdasdasdasdasdasd asdasdasd',
+        $spam = ContactFormSpamGuard::looksLikeObviousSpam([
+            'author_name' => 'Bot',
+            'email' => 'bot@example.com',
+            'title' => 'SEO',
+            'body' => 'We offer SEO service and backlink for your website.',
         ]);
 
-        $this->assertTrue($result['blocked']);
-        $this->assertTrue($result['silent']);
+        $this->assertTrue($spam);
     }
 }

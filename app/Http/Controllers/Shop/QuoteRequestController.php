@@ -51,16 +51,6 @@ class QuoteRequestController extends Controller
             'note' => ['nullable', 'string', 'max:5000'],
         ]);
 
-        $contentSpam = ContactFormSpamGuard::assessContent('quote', $data);
-        if ($contentSpam['blocked']) {
-            Log::info('quote request content blocked', [
-                'reason' => $contentSpam['reason'],
-                'ip' => $request->ip(),
-            ]);
-
-            return redirect()->route('cart.index')->with('success', __('shop.quote_success'));
-        }
-
         $this->quotes->submit($request, $data);
 
         return redirect()->route('cart.index')->with('success', __('shop.quote_success'));
