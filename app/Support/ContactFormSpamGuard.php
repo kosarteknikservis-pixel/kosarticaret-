@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -68,6 +69,30 @@ final class ContactFormSpamGuard
         'ahrefs',
         'mj12bot',
         'petalbot',
+    ];
+
+    /** @var list<string> */
+    private const DISPOSABLE_EMAIL_DOMAINS = [
+        'mailinator.com',
+        'guerrillamail.com',
+        'guerrillamail.net',
+        'tempmail.com',
+        'temp-mail.org',
+        'yopmail.com',
+        '10minutemail.com',
+        'throwaway.email',
+        'getnada.com',
+        'sharklasers.com',
+        'dispostable.com',
+        'maildrop.cc',
+        'trashmail.com',
+    ];
+
+    /** @var array<string, array{0: int, 1: int}> max attempts, window seconds */
+    private const RATE_LIMITS = [
+        'contact' => [3, 3600],
+        'review' => [5, 86400],
+        'quote' => [3, 3600],
     ];
 
     public static function beginForm(string $context = 'contact'): string
@@ -161,6 +186,11 @@ final class ContactFormSpamGuard
             return self::block('links', true);
         }
 
+        $rateLimit = self::assessRateLimit($request, $context);
+        if ($rateLimit !== null) {
+            return $rateLimit;
+        }
+
         if (self::turnstileEnabled()) {
             $turnstile = self::turnstileValid($request);
             if (! $turnstile['valid']) {
@@ -169,6 +199,171 @@ final class ContactFormSpamGuard
         }
 
         return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
+    }
+
+    /**
+     * İçerik doğrulaması — geçersiz gönderiler veritabanına yazılmaz (panelde birikmez).
+     *
+     * @param  array<string, mixed>  $data
+     * @return array{blocked: bool, reason: string|null, silent: bool, message: string|null}
+     */
+    public static function assessContent(string $context, array $data): array
+    {
+        $email = Str::lower(trim((string) ($data['email'] ?? $data['eposta'] ?? '')));
+        if ($email !== '' && self::isDisposableEmail($email)) {
+            return self::block('disposable_email', true);
+        }
+
+        if ($context === 'review') {
+            return self::assessReviewContent($data);
+        }
+
+        if ($context === 'contact') {
+            return self::assessContactContent($data);
+        }
+
+        if ($context === 'quote') {
+            return self::assessQuoteContent($data);
+        }
+
+        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
+    }
+
+    /** @param  array<string, mixed>  $data */
+    private static function assessReviewContent(array $data): array
+    {
+        $body = trim((string) ($data['body'] ?? ''));
+        $title = trim((string) ($data['title'] ?? ''));
+        $name = trim((string) ($data['author_name'] ?? ''));
+
+        if (mb_strlen($body) < 20) {
+            return self::block('review_short', true);
+        }
+
+        if (self::meaningfulWordCount($body) < 4) {
+            return self::block('review_words', true);
+        }
+
+        if (self::looksLikeGibberish($body) || ($title !== '' && self::looksLikeGibberish($title)) || self::looksLikeGibberish($name)) {
+            return self::block('gibberish', true);
+        }
+
+        if (self::containsSpamPattern(Str::lower($body.' '.$title.' '.$name))) {
+            return self::block('keyword', true);
+        }
+
+        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
+    }
+
+    /** @param  array<string, mixed>  $data */
+    private static function assessContactContent(array $data): array
+    {
+        $message = trim((string) ($data['mesaj'] ?? ''));
+        $subject = trim((string) ($data['konu'] ?? ''));
+        $name = trim((string) ($data['ad_soyad'] ?? ''));
+
+        if (mb_strlen($message) < 10) {
+            return self::block('contact_short', true);
+        }
+
+        if (self::looksLikeGibberish($message) || self::looksLikeGibberish($subject) || self::looksLikeGibberish($name)) {
+            return self::block('gibberish', true);
+        }
+
+        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
+    }
+
+    /** @param  array<string, mixed>  $data */
+    private static function assessQuoteContent(array $data): array
+    {
+        $note = trim((string) ($data['note'] ?? ''));
+        if ($note !== '' && (self::looksLikeGibberish($note) || self::containsSpamPattern(Str::lower($note)))) {
+            return self::block('gibberish', true);
+        }
+
+        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
+    }
+
+    /** @return array{blocked: bool, reason: string, silent: bool, message: string|null}|null */
+    private static function assessRateLimit(Request $request, string $context): ?array
+    {
+        $config = self::RATE_LIMITS[$context] ?? null;
+        if ($config === null) {
+            return null;
+        }
+
+        [$maxAttempts, $windowSeconds] = $config;
+        $ip = (string) $request->ip();
+        if ($ip === '') {
+            return null;
+        }
+
+        $key = "public_form_rate:{$context}:{$ip}";
+        $count = (int) Cache::get($key, 0);
+        if ($count >= $maxAttempts) {
+            return self::block('rate_limit', true);
+        }
+
+        Cache::put($key, $count + 1, now()->addSeconds($windowSeconds));
+
+        return null;
+    }
+
+    private static function isDisposableEmail(string $email): bool
+    {
+        $domain = Str::lower(Str::after($email, '@'));
+        if ($domain === '') {
+            return false;
+        }
+
+        if (in_array($domain, self::DISPOSABLE_EMAIL_DOMAINS, true)) {
+            return true;
+        }
+
+        return str_contains($domain, 'tempmail')
+            || str_contains($domain, 'throwaway')
+            || str_contains($domain, 'fakeinbox')
+            || str_contains($domain, 'mailinator');
+    }
+
+    private static function looksLikeGibberish(string $text): bool
+    {
+        $text = trim($text);
+        if ($text === '') {
+            return false;
+        }
+
+        $lower = Str::lower($text);
+
+        if (preg_match('/(.{2,6})\1{2,}/u', $lower)) {
+            return true;
+        }
+
+        if (preg_match('/^(asdf|qwer|zxcv|asd{3,}|sdf{3,}|test{3,}|deneme{3,})\b/u', $lower)) {
+            return true;
+        }
+
+        if (preg_match('/^[a-z]{1,2}(\s+[a-z]{1,2}){4,}$/u', $lower)) {
+            return true;
+        }
+
+        $chars = mb_str_split(preg_replace('/\s+/u', '', $lower) ?? '');
+        $length = count($chars);
+        if ($length >= 12) {
+            $uniqueRatio = count(array_unique($chars)) / $length;
+            if ($uniqueRatio < 0.35) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static function meaningfulWordCount(string $text): int
+    {
+        $words = preg_split('/\s+/u', trim($text), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        return count(array_filter($words, static fn (string $word): bool => mb_strlen($word) >= 2));
     }
 
     /** @return array{blocked: bool, reason: string, silent: bool, message: string|null} */

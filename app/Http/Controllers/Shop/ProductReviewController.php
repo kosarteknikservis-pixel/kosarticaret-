@@ -18,22 +18,7 @@ class ProductReviewController extends Controller
         ContactFormSpamGuard::clearFormSession('review');
 
         if ($spam['blocked']) {
-            if ($spam['silent']) {
-                Log::info('product review spam blocked', [
-                    'reason' => $spam['reason'],
-                    'ip' => $request->ip(),
-                    'product_id' => $product->id,
-                ]);
-
-                return redirect()
-                    ->to(route('products.show', $product).'#yorumlar')
-                    ->with('success', __('shop.review_submitted'));
-            }
-
-            return redirect()
-                ->to(route('products.show', $product).'#yorumlar')
-                ->withInput()
-                ->withErrors(['spam' => $spam['message'] ?? 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
+            return $this->spamResponse($product, $spam);
         }
 
         $data = $request->validate([
@@ -43,6 +28,17 @@ class ProductReviewController extends Controller
             'title' => ['nullable', 'string', 'max:150'],
             'body' => ['required', 'string', 'max:2000'],
         ]);
+
+        $contentSpam = ContactFormSpamGuard::assessContent('review', $data);
+        if ($contentSpam['blocked']) {
+            Log::info('product review content blocked', [
+                'reason' => $contentSpam['reason'],
+                'ip' => $request->ip(),
+                'product_id' => $product->id,
+            ]);
+
+            return $this->spamResponse($product, $contentSpam);
+        }
 
         $duplicate = ProductReview::query()
             ->where('product_id', $product->id)
@@ -67,5 +63,20 @@ class ProductReviewController extends Controller
         return redirect()
             ->to(route('products.show', $product).'#yorumlar')
             ->with('success', __('shop.review_submitted'));
+    }
+
+    /** @param  array{blocked: bool, reason: string|null, silent: bool, message: string|null}  $spam */
+    private function spamResponse(Product $product, array $spam): RedirectResponse
+    {
+        if ($spam['silent']) {
+            return redirect()
+                ->to(route('products.show', $product).'#yorumlar')
+                ->with('success', __('shop.review_submitted'));
+        }
+
+        return redirect()
+            ->to(route('products.show', $product).'#yorumlar')
+            ->withInput()
+            ->withErrors(['spam' => $spam['message'] ?? 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
     }
 }
