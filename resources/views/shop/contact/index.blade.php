@@ -14,7 +14,7 @@
         />
 
         <div class="shop-contact-grid shop-reveal-group">
-            <form method="post" action="{{ route('contact.store') }}" class="shop-panel space-y-4">
+            <form method="post" action="{{ route('contact.store') }}" class="shop-panel space-y-4" data-turnstile-form="contact">
                 @csrf
                 <x-shop.spam-fields context="contact" />
                 <h2 class="shop-panel__title">{{ __('shop.send_message') }}</h2>
@@ -28,6 +28,7 @@
                 </div>
                 <div><label class="shop-label">Konu</label><input name="konu" value="{{ old('konu') }}" required class="shop-input mt-1"></div>
                 <div><label class="shop-label">Mesaj</label><textarea name="mesaj" rows="5" required class="shop-input mt-1">{{ old('mesaj') }}</textarea></div>
+                <x-shop.spam-turnstile context="contact" />
                 <button type="submit" class="btn-primary px-8 py-3">{{ __('shop.send_message') }}</button>
             </form>
 

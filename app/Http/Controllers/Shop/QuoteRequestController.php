@@ -39,7 +39,7 @@ class QuoteRequestController extends Controller
             return redirect()
                 ->route('cart.index')
                 ->withInput()
-                ->withErrors(['spam' => 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
+                ->withErrors(['spam' => $spam['message'] ?? 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
         }
 
         $data = $request->validate([

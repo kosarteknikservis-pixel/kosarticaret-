@@ -26,6 +26,7 @@ class PublicPageCache
         'analitik',
         'favoriler',
         'siparis',
+        'urun',
     ];
 
     /**
@@ -33,6 +34,7 @@ class PublicPageCache
      */
     private const EXCLUDED_EXACT = [
         'ara',
+        'iletisim',
     ];
 
     public static function shouldCache(Request $request): bool

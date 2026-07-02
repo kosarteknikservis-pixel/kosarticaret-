@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 final class ContactFormSpamGuard
@@ -100,37 +101,51 @@ final class ContactFormSpamGuard
     }
 
     /**
-     * @return array{blocked: bool, reason: string|null, silent: bool}
+     * @return array{blocked: bool, reason: string|null, silent: bool, message: string|null}
      */
     public static function assess(Request $request, string $context = 'contact'): array
     {
         if (filled($request->input('website_url'))) {
-            return ['blocked' => true, 'reason' => 'honeypot', 'silent' => true];
+            return self::block('honeypot', true);
         }
 
         if (self::suspiciousClient($request)) {
-            return ['blocked' => true, 'reason' => 'client', 'silent' => true];
+            return self::block('client', true);
         }
 
         if (! self::timingValid($request, $context)) {
-            return ['blocked' => true, 'reason' => 'timing', 'silent' => true];
+            return self::block('timing', true);
         }
 
         $text = self::combinedText($request, $context);
 
         if (self::containsSpamPattern($text)) {
-            return ['blocked' => true, 'reason' => 'keyword', 'silent' => true];
+            return self::block('keyword', true);
         }
 
         if (self::hasTooManyLinks($text)) {
-            return ['blocked' => true, 'reason' => 'links', 'silent' => true];
+            return self::block('links', true);
         }
 
-        if (self::turnstileEnabled() && ! self::turnstileValid($request)) {
-            return ['blocked' => true, 'reason' => 'turnstile', 'silent' => false];
+        if (self::turnstileEnabled()) {
+            $turnstile = self::turnstileValid($request);
+            if (! $turnstile['valid']) {
+                return self::block('turnstile', false, $turnstile['message']);
+            }
         }
 
-        return ['blocked' => false, 'reason' => null, 'silent' => false];
+        return ['blocked' => false, 'reason' => null, 'silent' => false, 'message' => null];
+    }
+
+    /** @return array{blocked: bool, reason: string, silent: bool, message: string|null} */
+    private static function block(string $reason, bool $silent, ?string $message = null): array
+    {
+        return [
+            'blocked' => true,
+            'reason' => $reason,
+            'silent' => $silent,
+            'message' => $message,
+        ];
     }
 
     public static function clearFormSession(string $context = 'contact'): void
@@ -220,11 +235,15 @@ final class ContactFormSpamGuard
         return preg_match_all('/https?:\/\/[^\s]+/i', $text) >= 2;
     }
 
-    private static function turnstileValid(Request $request): bool
+    /** @return array{valid: bool, message: string|null} */
+    private static function turnstileValid(Request $request): array
     {
-        $response = (string) $request->input('cf-turnstile-response', '');
+        $response = trim((string) $request->input('cf-turnstile-response', ''));
         if ($response === '') {
-            return false;
+            return [
+                'valid' => false,
+                'message' => 'Güvenlik doğrulaması tamamlanmadı. Lütfen kutucuğu işaretleyip tekrar deneyin.',
+            ];
         }
 
         try {
@@ -237,12 +256,35 @@ final class ContactFormSpamGuard
                 ]);
 
             if (! $verify->successful()) {
-                return false;
+                Log::warning('turnstile http failed', ['status' => $verify->status()]);
+
+                return [
+                    'valid' => false,
+                    'message' => 'Güvenlik doğrulaması şu an yapılamıyor. Lütfen biraz sonra tekrar deneyin.',
+                ];
             }
 
-            return (bool) $verify->json('success');
-        } catch (\Throwable) {
-            return false;
+            $payload = $verify->json();
+            if ((bool) ($payload['success'] ?? false)) {
+                return ['valid' => true, 'message' => null];
+            }
+
+            Log::warning('turnstile verify rejected', [
+                'errors' => $payload['error-codes'] ?? [],
+                'ip' => $request->ip(),
+            ]);
+
+            return [
+                'valid' => false,
+                'message' => 'Güvenlik doğrulaması geçersiz. Sayfayı yenileyip tekrar deneyin. Cloudflare anahtarlarınızın kosarticaret.com için tanımlı olduğundan emin olun.',
+            ];
+        } catch (\Throwable $e) {
+            Log::warning('turnstile verify exception', ['error' => $e->getMessage()]);
+
+            return [
+                'valid' => false,
+                'message' => 'Güvenlik doğrulaması şu an yapılamıyor. Lütfen biraz sonra tekrar deneyin.',
+            ];
         }
     }
 }

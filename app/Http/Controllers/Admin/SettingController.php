@@ -288,6 +288,10 @@ class SettingController extends Controller
             }
         }
 
+        if ($tab === 'general' && ! $request->filled('turnstile_secret_key')) {
+            unset($data['turnstile_secret_key']);
+        }
+
         foreach ($data as $key => $value) {
             if (! $this->tabHasField($tab, $key)) {
                 continue;

@@ -219,7 +219,7 @@
 
                 <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <h4 class="text-sm font-bold text-slate-900">Form spam koruması (Cloudflare Turnstile)</h4>
-                    <p class="mt-2 text-sm text-slate-600">İletişim, ürün yorumu ve teklif formlarında bot engeli. Anahtarlar <a href="https://dash.cloudflare.com/" class="text-teal-700 font-semibold hover:text-teal-900" target="_blank" rel="noopener">Cloudflare Turnstile</a> panelinden alınır. Boş bırakılırsa honeypot + zaman kontrolü kullanılır.</p>
+                    <p class="mt-2 text-sm text-slate-600">İletişim, ürün yorumu ve teklif formlarında bot engeli. Anahtarlar <a href="https://dash.cloudflare.com/" class="text-teal-700 font-semibold hover:text-teal-900" target="_blank" rel="noopener">Cloudflare Turnstile</a> panelinden alınır. Widget oluştururken alan adına <strong>kosarticaret.com</strong> ekleyin. Secret key boş bırakılırsa mevcut değer korunur.</p>
                     <div class="mt-4 grid gap-4 sm:grid-cols-2">
                         <div>
                             <label class="admin-label">Site key (public)</label>

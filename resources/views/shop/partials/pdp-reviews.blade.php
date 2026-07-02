@@ -50,7 +50,7 @@
             @endforelse
         </div>
 
-        <form method="post" action="{{ route('products.review', $product) }}" class="shop-panel shop-pdp-reviews__form space-y-4" id="pdp-review-form">
+        <form method="post" action="{{ route('products.review', $product) }}" class="shop-panel shop-pdp-reviews__form space-y-4" id="pdp-review-form" data-turnstile-form="review">
             @csrf
             <x-shop.spam-fields context="review" />
             <h3 class="shop-panel__title">{{ __('shop.write_review') }}</h3>
@@ -111,6 +111,7 @@
                 <textarea id="review-body" name="body" rows="5" required class="shop-input mt-1">{{ old('body') }}</textarea>
             </div>
 
+            <x-shop.spam-turnstile context="review" />
             <button type="submit" class="btn-primary w-full py-3 shop-btn-premium">{{ __('shop.submit_review') }}</button>
         </form>
     </div>

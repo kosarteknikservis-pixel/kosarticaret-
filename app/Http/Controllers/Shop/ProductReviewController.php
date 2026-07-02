@@ -33,7 +33,7 @@ class ProductReviewController extends Controller
             return redirect()
                 ->to(route('products.show', $product).'#yorumlar')
                 ->withInput()
-                ->withErrors(['spam' => 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
+                ->withErrors(['spam' => $spam['message'] ?? 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
         }
 
         $data = $request->validate([
