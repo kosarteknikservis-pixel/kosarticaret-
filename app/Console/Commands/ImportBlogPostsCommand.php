@@ -117,6 +117,15 @@ class ImportBlogPostsCommand extends Command
     private function resolvePublishedAt(array $post, int $index): Carbon
     {
         if ($this->option('from-queue')) {
+            $slug = Str::slug($post['slug'] ?? '');
+            $existing = $slug !== ''
+                ? BlogPost::query()->where('slug', $slug)->first()
+                : null;
+
+            if ($existing?->published_at && ! $existing->published_at->isFuture()) {
+                return $existing->published_at;
+            }
+
             $batchOffset = max(0, (int) $this->option('publish-offset'));
             $fileOffset = max(0, $index);
 
