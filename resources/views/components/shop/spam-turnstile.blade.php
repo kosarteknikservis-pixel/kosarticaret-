@@ -11,7 +11,7 @@
 @if($turnstileEnabled)
     <div class="shop-contact-turnstile" data-turnstile-wrap="{{ $context }}">
         <div id="{{ $widgetId }}" class="shop-contact-turnstile__mount" data-turnstile-mount="{{ $context }}"></div>
-        <p class="shop-contact-turnstile__hint text-xs text-slate-500 mt-2">Göndermeden önce güvenlik kutusunu tamamlayın.</p>
+        <p class="shop-contact-turnstile__hint text-xs text-slate-500 mt-2">Göndermeden önce &ldquo;Gerçek kişi olduğunuzu doğrulayın&rdquo; kutusunu işaretleyin.</p>
     </div>
     @once
         @push('scripts')
@@ -46,11 +46,12 @@
                             sitekey: sitekey,
                             theme: 'light',
                             size: 'normal',
+                            appearance: 'always',
                             action: 'kosar-' + context,
                             callback: function () {
                                 var hint = hintEl();
                                 if (hint) {
-                                    hint.textContent = 'Güvenlik doğrulaması tamamlandı.';
+                                    hint.textContent = 'Kutu işaretlendi, yorumu gönderebilirsiniz.';
                                     hint.classList.remove('text-red-600');
                                     hint.classList.add('text-emerald-700');
                                 }
