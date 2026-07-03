@@ -121,7 +121,8 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_15_100000_add_payment_tracking_fields_to_orders_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_16_100000_create_order_shipments_tables.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_120000_add_telegram_notified_at_to_orders_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_01_100000_ensure_blog_posts_table.php"
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_01_100000_ensure_blog_posts_table.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_03_100000_normalize_kaysu_brand_slug.php"
 
       - name: Sunucuda önbellek temizle
         env:
@@ -130,8 +131,8 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            (command -v php >/dev/null && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan seo:seed-buying-guides) || \
-            (/usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache && /usr/local/php83/bin/php artisan seo:seed-buying-guides)"
+            (command -v php >/dev/null && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan seo:seed-buying-guides && php artisan seo:seed-brands --force) || \
+            (/usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache && /usr/local/php83/bin/php artisan seo:seed-buying-guides && /usr/local/php83/bin/php artisan seo:seed-brands --force)"
 
       - name: Zamanlayıcı görevlerini çalıştır (ödeme hatırlatma vb.)
         env:
