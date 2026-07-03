@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kademeli-pompa-ne-zaman-tercih-edilir",
+            "title": "Kademeli Pompa Ne Zaman Tercih Edilir? Seçim Rehberi",
+            "excerpt": "Kademeli pompa nedir, tek kademeli pompadan farkı ne? Yüksek basınçlı bina, yangın hattı ve proses uygulamalarında kademeli pompa seçimi.",
+            "meta_title": "Kademeli Pompa Ne Zaman Tercih Edilir?",
+            "meta_description": "Kademeli pompa nedir, hangi uygulamalarda kullanılır? Yüksek basınçlı bina, yangın sistemi ve proses hatlarında kademeli pompa seçim rehberi.",
+            "tags": [
+                "kademeli pompa",
+                "çok kademeli pompa",
+                "yüksek basınç pompa",
+                "su pompası",
+                "dikey kademeli pompa"
+            ],
+            "image_alt": "Kademeli pompa ne zaman tercih edilir — yüksek basınç uygulamaları",
+            "published": true,
+            "published_at": "2026-07-08 09:00:00",
+            "content": "<p><strong>Kademeli pompa</strong>, suyu ardışık birden fazla fan (kademe) üzerinden geçirerek basıncı kademe kademe artıran pompa tipidir. Tek kademeli pompaların ulaşamadığı yüksek basma yüksekliklerinde (genellikle 80 m ve üzeri) tercih edilir.</p>\n\n<p>Genel rehber: <a href=\"/blog/su-pompasi-cesitleri-nasil-secilir\">Su pompası çeşitleri</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/kademeli-pompalar\">kademeli pompalar</a></p>\n\n<h2>Kademeli Pompa Nasıl Çalışır?</h2>\n<p>Su ilk kademeden girer, her kademede basınç artar ve son kademeden yüksek basınçla çıkar. Aynı debide tek kademeli pompadan çok daha yüksek toplam yükseklik elde edilir; ancak gövde boyu ve maliyet artar.</p>\n\n<h2>Ne Zaman Kademeli Pompa Gerekir?</h2>\n<ul>\n  <li><strong>Çok katlı binalar</strong> — 10+ kat su basıncı</li>\n  <li><strong>Yangın söndürme hatları</strong> — yüksek basınç zorunluluğu</li>\n  <li><strong>RO / arıtma besleme</strong> — sabit yüksek basınç</li>\n  <li><strong>Endüstriyel proses</strong> — uzun mesafe ve yüksek basınç</li>\n  <li><strong>Tarımsal sprinkler</strong> — geniş alan, yüksek basınçlı sulama</li>\n</ul>\n\n<h2>Dikey mi Yatay mı?</h2>\n<ul>\n  <li><strong>Dikey kademeli:</strong> Az yer kaplar, bina tesisat odalarında yaygın</li>\n  <li><strong>Yatay kademeli:</strong> Servis ve contaya erişim kolay</li>\n  <li><strong>Monoblok:</strong> Motor ve pompa tek gövdede, kompakt kurulum</li>\n</ul>\n\n<h2>Tek Kademeli vs Kademeli</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Tek kademeli</th><th>Kademeli</th></tr></thead>\n<tbody>\n<tr><td>Basma yüksekliği</td><td>~20–60 m</td><td>80–200+ m</td></tr>\n<tr><td>Maliyet</td><td>Düşük</td><td>Yüksek</td></tr>\n<tr><td>Bakım</td><td>Basit</td><td>Daha fazla conta/rulman</td></tr>\n<tr><td>Verim</td><td>Orta-yüksek debide iyi</td><td>Yüksek basınçta verimli</td></tr>\n</tbody>\n</table>\n\n<h2>Seçim İpuçları</h2>\n<p>Toplam basma yüksekliği ve debi katalogdan doğrulanmalıdır. <strong>Inverter (frekans kontrollü)</strong> sürücü enerji tasarrufu sağlar. <a href=\"/marka/pedrollo\">Pedrollo</a> 3CRm/4CRm serileri bu segmentte yaygındır.</p>\n\n<p>Ev tipi uygulamalarda genelde <a href=\"/kategoriler/hidrofor-sistemleri\">hidrofor</a> veya <a href=\"/blog/santrifuj-pompa-nedir-kullanim-alanlari\">santrifüj pompa</a> yeterlidir; kademeli pompa endüstriyel ihtiyaç içindir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Ev için kademeli pompa gerekir mi?</h3>\n<p>Genellikle hayır. 1–4 katlı konutlarda hidrofor veya santrifüj yeterlidir.</p>\n\n<h3>Kademeli pompa bakımı zor mu?</h3>\n<p>Her kademenin mekanik contası periyodik kontrol gerektirir; yetkili servis önerilir.</p>\n\n<h3>Debi hesabı nasıl yapılır?</h3>\n<p><a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">Pompa debi ve basma yüksekliği hesabı</a> yazımıza bakın.</p>\n\n<p>Projeniz için <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "santrifuj-pompa-nedir-kullanim-alanlari",
+            "title": "Santrifüj Pompa Nedir? Kullanım Alanları ve Seçim Rehberi",
+            "excerpt": "Santrifüj pompa nasıl çalışır, nerelerde kullanılır? Tek fanlı, çift fanlı ve yatay modeller; debi, basma yüksekliği ve marka seçimi.",
+            "meta_title": "Santrifüj Pompa Nedir? Kullanım Alanları Rehberi",
+            "meta_description": "Santrifüj pompa nedir, nasıl çalışır? Bahçe sulama, bina tesisatı ve tarımsal uygulamalarda santrifüj pompa seçimi ve fiyat ipuçları.",
+            "tags": [
+                "santrifüj pompa",
+                "santrifüj pompa nedir",
+                "su pompası",
+                "bahçe sulama pompası",
+                "tek fanlı pompa"
+            ],
+            "image_alt": "Santrifüj pompa nedir — kullanım alanları ve seçim",
+            "published": true,
+            "published_at": "2026-07-07 11:00:00",
+            "content": "<p><strong>Santrifüj pompa</strong>, dönen fan (impeller) ile suya merkezkaç kuvveti uygulayarak basınç oluşturan en yaygın pompa tipidir. Motor pompanın üstünde veya yanında konumlanır; emme hattı su kaynağına, basma hattı kullanım noktasına bağlanır.</p>\n\n<p>Genel rehber: <a href=\"/blog/su-pompasi-cesitleri-nasil-secilir\">Su pompası çeşitleri</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar\">santrifüj pompalar</a></p>\n\n<h2>Santrifüj Pompa Nasıl Çalışır?</h2>\n<p>Motor impelleri döndürür; su emiş gözünden girer, fan kanatlarından geçerken hızlanır ve basma gözünden yüksek basınçla çıkar. İlk çalıştırmada emme hattı ve pompa gövdesi su ile doldurulmalıdır (kuru çalışma motoru yakar).</p>\n\n<h2>Kullanım Alanları</h2>\n<ul>\n  <li><strong>Bahçe ve tarla sulama</strong> — damla ve yağmurlama sistemleri</li>\n  <li><strong>Müstakil ev su beslemesi</strong> — kuyu veya sarnıçtan eve</li>\n  <li><strong>Hidrofor öncesi pompa</strong> — basınçlı su için ön ünite</li>\n  <li><strong>Küçük sanayi ve proses</strong> — soğutma ve dolaşım hatları</li>\n  <li><strong>Havuz dolum</strong> — uygun debili modeller</li>\n</ul>\n\n<h2>Santrifüj Pompa Tipleri</h2>\n<ul>\n  <li><strong>Tek fanlı:</strong> Düşük-orta basınç, ekonomik</li>\n  <li><strong>Çift fanlı:</strong> Daha yüksek basma yüksekliği</li>\n  <li><strong>Yatay / dikey:</strong> Montaj alanına göre seçim</li>\n  <li><strong>Preferikal (sürtme fanlı):</strong> Kendinden emişli, emme hattı kısa mesafelerde pratik — <a href=\"/blog/preferikal-pompa-nedir-surtme-fanli\">preferikal pompa rehberi</a></li>\n</ul>\n\n<h2>Seçim Kriterleri</h2>\n<p><strong>Debi:</strong> Saatte ihtiyaç duyulan su miktarı. <strong>Basma yüksekliği:</strong> Kuyu derinliği + boru kayıpları + kullanım basıncı. <strong>Emiş yüksekliği:</strong> Pompa su seviyesinin en fazla 7–8 m üstünde olmalıdır; aksi halde emme başarısız olur.</p>\n\n<p>Derin kuyularda santrifüj yerine <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa</a> tercih edilmelidir.</p>\n\n<h2>Markalar</h2>\n<p><a href=\"/marka/pedrollo\">Pedrollo</a> CP ve PKm serileri, <a href=\"/marka/sumak\">Sumak</a> tek/çift fanlı modeller ve <a href=\"/marka/kaysu\">Kaysu</a> ekonomik seçenekler sunar.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Santrifüj pompa neden su çekmez?</h3>\n<p>Emme hattında hava kaçağı, pompa su seviyesinin çok üstünde veya emme hattı tıkalı olabilir. Önce hava alınmalı, emme yüksekliği kontrol edilmelidir.</p>\n\n<h3>Santrifüj pompa gürültülü mü?</h3>\n<p>Motor yüzeyde olduğu için dalgıç pompadan daha gürültülüdür. Sessiz çalışma için pompa odası veya kılıf kullanılabilir.</p>\n\n<h3>Santrifüj pompa ile hidrofor farkı nedir?</h3>\n<p>Santrifüj tek pompadır; hidrofor pompa + tank + otomatik kontroldür. Ev basıncı için genelde hidrofor gerekir: <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor nedir?</a></p>\n\n<p>Santrifüj pompa seçimi için <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

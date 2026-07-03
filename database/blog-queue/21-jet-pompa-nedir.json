@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-nedir-kullanim-alanlari",
+            "title": "Jet Pompa Nedir? Kullanım Alanları ve Seçim İpuçları",
+            "excerpt": "Jet pompa nasıl çalışır, hangi derinlikte kullanılır? Sığ kuyu, bahçe sulama ve ev tipi uygulamalarda jet pompa avantajları ve dezavantajları.",
+            "meta_title": "Jet Pompa Nedir? Kullanım Alanları Rehberi",
+            "meta_description": "Jet pompa nedir, nasıl seçilir? Sığ kuyu, bahçe sulama ve ev uygulamalarında jet pompa avantajları, debi ve derinlik sınırları.",
+            "tags": [
+                "jet pompa",
+                "jet pompa nedir",
+                "kendinden emişli pompa",
+                "sığ kuyu pompa",
+                "su pompası"
+            ],
+            "image_alt": "Jet pompa nedir — sığ kuyu ve sulama uygulamaları",
+            "published": true,
+            "published_at": "2026-07-07 14:00:00",
+            "content": "<p><strong>Jet pompa</strong>, emme ve basma işlemini aynı gövdede birleştiren, özellikle sığ kuyu ve yüzey uygulamalarında kullanılan su pompası tipidir. Venturi etkisi sayesinde emme yüksekliği klasik santrifüj pompadan biraz daha yüksek olabilir; ancak derin kuyularda verimlilik düşer.</p>\n\n<p>Genel rehber: <a href=\"/blog/su-pompasi-cesitleri-nasil-secilir\">Su pompası çeşitleri</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a></p>\n\n<h2>Jet Pompa Nasıl Çalışır?</h2>\n<p>Motor impelleri döner; bir kısım su jet nozuldan yüksek hızla geçer ve emme bölgesinde vakum oluşturur. Bu vakum sayesinde su emiş hattından pompaya çekilir. İlk çalıştırmada gövde su ile doldurulmalıdır (priming).</p>\n\n<h2>Kullanım Alanları</h2>\n<ul>\n  <li>Sığ kuyu (6–8 m altı) su çekimi</li>\n  <li>Bahçe ve küçük tarla sulama</li>\n  <li>Müstakil ev su beslemesi</li>\n  <li>Hidrofor grubu içinde pompa ünitesi</li>\n  <li>Küçük iş yerleri ve atölye kullanımı</li>\n</ul>\n\n<h2>Jet Pompa Avantajları</h2>\n<ul>\n  <li>Ekonomik ilk yatırım maliyeti</li>\n  <li>Kolay kurulum ve bakım (yüzeyde)</li>\n  <li>Sığ kuyuda pratik çözüm</li>\n  <li>Yedek parça bulunabilirliği yüksek</li>\n</ul>\n\n<h2>Jet Pompa Sınırları</h2>\n<ul>\n  <li>8 m üzeri derinlikte verim düşer</li>\n  <li>Santrifüj ve dalgıç pompadan daha yüksek enerji tüketimi (aynı debide)</li>\n  <li>Emme hattı kaçaklarında çalışma bozulur</li>\n</ul>\n\n<p>10 m+ derinlik için <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa</a> önerilir. Karşılaştırma: <a href=\"/blog/jet-pompa-mi-dalgic-pompa-mi-farki\">jet pompa mı dalgıç pompa mı?</a></p>\n\n<h2>Seçim Kriterleri</h2>\n<p><strong>Debi:</strong> Günlük ve anlık su ihtiyacı. <strong>Basma yüksekliği:</strong> Kuyu + boru + kullanım noktası. <strong>Motor gücü:</strong> 0,5–2 HP arası konut uygulamaları yaygın. <strong>Faz:</strong> Monofaze (220V) veya trifaze (380V) şebekeye uygunluk.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Jet pompa kaç metreye kadar su çeker?</h3>\n<p>Pratikte 6–8 metre emiş derinliği; toplam basma yüksekliği modele göre 30–50 m civarındadır.</p>\n\n<h3>Jet pompa sürekli çalışabilir mi?</h3>\n<p>Tasarımına uygun sürelerde evet; ancak susuz çalışma koruması olmadan kuru çalıştırılmamalıdır.</p>\n\n<h3>Sumak jet pompa güvenilir mi?</h3>\n<p>Sumak jet serileri Türkiye'de yaygın kullanılır. <a href=\"/marka/sumak\">Sumak marka sayfası</a>ndan modellere ulaşabilirsiniz.</p>\n\n<p>Jet pompa seçimi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik destek</a></p>"
+        }
+    ]
+}

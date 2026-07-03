@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-mi-dalgic-pompa-mi-farki",
+            "title": "Jet Pompa mı Dalgıç Pompa mı? Farklar ve Seçim Rehberi",
+            "excerpt": "Sığ kuyuda jet pompa mı dalgıç pompa mı? Derinlik, maliyet, verimlilik ve bakım açısından jet ile dalgıç pompa karşılaştırması.",
+            "meta_title": "Jet Pompa mı Dalgıç Pompa mı? Karşılaştırma",
+            "meta_description": "Jet pompa mı dalgıç pompa mı tercih edilmeli? Kuyu derinliği, maliyet, verimlilik ve bakım açısından farklar ve seçim rehberi.",
+            "tags": [
+                "jet pompa dalgıç pompa farkı",
+                "jet pompa mı dalgıç pompa mı",
+                "jet pompa",
+                "dalgıç pompa",
+                "kuyu pompası"
+            ],
+            "image_alt": "Jet pompa mı dalgıç pompa mı — karşılaştırma rehberi",
+            "published": true,
+            "published_at": "2026-07-09 09:00:00",
+            "content": "<p>Kuyudan su çekmek için en sık sorulan sorulardan biri: <strong>jet pompa mı, dalgıç pompa mı?</strong> İkisi de su pompasıdır ancak çalışma prensibi, derinlik limiti ve maliyet yapısı farklıdır. Doğru seçim kuyu derinliği ve bütçeye bağlıdır.</p>\n\n<p>Jet: <a href=\"/blog/jet-pompa-nedir-kullanim-alanlari\">jet pompa nedir?</a> · Dalgıç: <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa nedir?</a> · Genel: <a href=\"/blog/su-pompasi-cesitleri-nasil-secilir\">su pompası çeşitleri</a></p>\n\n<h2>Temel Farklar</h2>\n<table>\n<thead><tr><th>Kriter</th><th>Jet pompa</th><th>Dalgıç pompa</th></tr></thead>\n<tbody>\n<tr><td>Konum</td><td>Yüzeyde (kuyu üstü)</td><td>Suyun içinde (kuyu dibinde)</td></tr>\n<tr><td>Emiş derinliği</td><td>~6–8 m</td><td>Sınırsız (modele göre 200 m+)</td></tr>\n<tr><td>Kurulum</td><td>Emme hattı gerekir</td><td>Su geçirmez kablo + basma hattı</td></tr>\n<tr><td>Bakım</td><td>Kolay erişim</td><td>Pompa çekilmeli</td></tr>\n<tr><td>Gürültü</td><td>Motor yüzeyde</td><td>Su altında, sessiz</td></tr>\n<tr><td>İlk maliyet</td><td>Düşük</td><td>Orta-yüksek</td></tr>\n<tr><td>Enerji verimi (derin kuyu)</td><td>Düşük</td><td>Yüksek</td></tr>\n</tbody>\n</table>\n\n<h2>Jet Pompa Ne Zaman?</h2>\n<ul>\n  <li>Kuyu derinliği 8 m altı</li>\n  <li>Bütçe sınırlı, sığ kuyu</li>\n  <li>Bakımı kendiniz yapmak istiyorsunuz</li>\n  <li>Geçici veya mevsimlik sulama</li>\n</ul>\n<p>Modeller: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a></p>\n\n<h2>Dalgıç Pompa Ne Zaman?</h2>\n<ul>\n  <li>Kuyu 10 m ve üzeri</li>\n  <li>Artesyen / sondaj kuyusu</li>\n  <li>Uzun vadeli, yüksek verimlilik beklentisi</li>\n  <li>Gürültü önemli (konut yakını)</li>\n  <li>Drenaj, foseptik (farklı dalgıç tipleri)</li>\n</ul>\n<p>Modeller: <a href=\"/kategoriler/su-pompalari/dalgic-pompalar\">dalgıç pompalar</a></p>\n\n<h2>Maliyet Karşılaştırması</h2>\n<p>Jet pompa ilk yatırımda ucuz görünür; ancak derin kuyuda enerji tüketimi artar ve ömür kısalır. 10 m+ kuyuda dalgıç pompa toplam sahip olma maliyetinde genelde daha avantajlıdır.</p>\n\n<h2>Santrifüj ve Hidrofor Alternatifi</h2>\n<p>Çok sığ sarnıç veya yüzey suyunda <a href=\"/blog/santrifuj-pompa-nedir-kullanim-alanlari\">santrifüj pompa</a> da değerlendirilir. Ev basıncı için <a href=\"/kategoriler/hidrofor-sistemleri\">hidrofor sistemi</a> eklenir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>8–10 m arası gri bölgede ne seçilir?</h3>\n<p>Jet sınırda çalışır; dalgıç daha güvenli ve verimli. Teknik ölçümle karar verilmeli.</p>\n\n<h3>Mevcut jet pompa yetersizse dalgıça geçilir mi?</h3>\n<p>Evet. Emme hattı sökülür, dalgıç pompa + askı sistemi kurulur. Elektrik hattı kontrol edilmelidir.</p>\n\n<h3>Hangisi daha uzun ömürlü?</h3>\n<p>Doğru derinlikte kullanılan dalgıç pompa genelde daha uzun ömürlüdür; jet pompa emme kaçaklarından daha çok etkilenir.</p>\n\n<p>Kuyu derinliğinize göre model: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

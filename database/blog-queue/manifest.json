@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -127,6 +127,76 @@
             "publish_on": "2026-07-06",
             "title": "Dalgıç Pompa Kurulumu Rehberi",
             "series": "dalgic-pompa"
+        },
+        {
+            "day": 10,
+            "file": "19-su-pompasi-cesitleri.json",
+            "publish_on": "2026-07-07",
+            "title": "Su Pompası Çeşitleri Nasıl Seçilir?",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 11,
+            "file": "20-santrifuj-pompa-nedir.json",
+            "publish_on": "2026-07-07",
+            "title": "Santrifüj Pompa Nedir? Kullanım Alanları",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 11,
+            "file": "21-jet-pompa-nedir.json",
+            "publish_on": "2026-07-07",
+            "title": "Jet Pompa Nedir? Kullanım Alanları",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 12,
+            "file": "22-kademeli-pompa-ne-zaman.json",
+            "publish_on": "2026-07-08",
+            "title": "Kademeli Pompa Ne Zaman Tercih Edilir?",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 12,
+            "file": "23-su-pompasi-fiyatlari.json",
+            "publish_on": "2026-07-08",
+            "title": "Su Pompası Fiyatları 2026 Rehberi",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 12,
+            "file": "24-pompa-debi-basma-yuksekligi-hesabi.json",
+            "publish_on": "2026-07-08",
+            "title": "Pompa Debi ve Basma Yüksekliği Hesabı",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 13,
+            "file": "25-jet-pompa-mi-dalgic-pompa-mi.json",
+            "publish_on": "2026-07-09",
+            "title": "Jet Pompa mı Dalgıç Pompa mı?",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 13,
+            "file": "26-ev-icin-su-pompasi-secimi.json",
+            "publish_on": "2026-07-09",
+            "title": "Ev İçin Su Pompası Seçimi",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 13,
+            "file": "27-tarimsal-sulama-pompasi-secimi.json",
+            "publish_on": "2026-07-09",
+            "title": "Tarımsal Sulama Pompası Seçimi",
+            "series": "su-pompasi"
+        },
+        {
+            "day": 14,
+            "file": "28-preferikal-pompa-nedir.json",
+            "publish_on": "2026-07-10",
+            "title": "Preferikal (Sürtme Fanlı) Pompa Nedir?",
+            "series": "su-pompasi"
         }
     ]
 }

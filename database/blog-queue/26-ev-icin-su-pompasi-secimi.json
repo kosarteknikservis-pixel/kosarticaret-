@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "ev-icin-su-pompasi-secimi-rehberi",
+            "title": "Ev İçin Su Pompası Seçimi: Müstakil Ev ve Villa Rehberi",
+            "excerpt": "Ev için su pompası nasıl seçilir? Kuyu derinliği, musluk sayısı, hidrofor ihtiyacı ve müstakil ev için pompa + tank kombinasyonu.",
+            "meta_title": "Ev İçin Su Pompası Seçimi Rehberi",
+            "meta_description": "Ev için su pompası nasıl seçilir? Müstakil ev ve villa için kuyu derinliği, debi, hidrofor ve pompa tipi seçim rehberi.",
+            "tags": [
+                "ev için su pompası",
+                "ev tipi pompa",
+                "müstakil ev pompa",
+                "villa su pompası",
+                "hidrofor"
+            ],
+            "image_alt": "Ev için su pompası seçimi — müstakil ev rehberi",
+            "published": true,
+            "published_at": "2026-07-09 11:00:00",
+            "content": "<p>Müstakil ev ve villada kesintisiz, yeterli basınçta su için doğru <strong>su pompası</strong> ve gerekirse <strong>hidrofor sistemi</strong> seçilmelidir. Şebeke suyu olmayan veya basıncı düşük bölgelerde kuyu, sarnıç veya depo beslemesi pompa ile yapılır.</p>\n\n<p>Genel: <a href=\"/blog/su-pompasi-cesitleri-nasil-secilir\">Su pompası çeşitleri</a> · Hidrofor: <a href=\"/blog/ev-tipi-hidrofor-rehberi-mustakil-ev-villa\">ev tipi hidrofor rehberi</a></p>\n\n<h2>Ev Su İhtiyacını Belirleyin</h2>\n<ul>\n  <li>Banyo ve tuvalet sayısı</li>\n  <li>Mutfak ve çamaşır/bulaşık makinesi</li>\n  <li>Bahçe sulama (varsa)</li>\n  <li>Eş zamanlı kullanım (sabah/akşam pikleri)</li>\n</ul>\n<p>Ortalama müstakil ev: <strong>2–4 m³/saat debi</strong>, <strong>2–3 bar basınç</strong> hedeflenir.</p>\n\n<h2>Su Kaynağına Göre Pompa Tipi</h2>\n<ul>\n  <li><strong>Sığ kuyu (0–8 m):</strong> Jet veya santrifüj pompa</li>\n  <li><strong>Derin kuyu (10 m+):</strong> Dalgıç pompa — <a href=\"/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi\">kuyu seçimi</a></li>\n  <li><strong>Sarnıç/depo:</strong> Santrifüj veya dalgıç (derinliğe göre)</li>\n  <li><strong>Şebeke + düşük basınç:</strong> Sadece hidrofor yeterli olabilir</li>\n</ul>\n\n<h2>Hidrofor Gerekli mi?</h2>\n<p>Pompa tek başına basınçlı ve kesintisiz su vermez; musluk açıldığında basınç düşer, pompa sık devreye girer. <a href=\"/kategoriler/hidrofor-sistemleri/hidroforlar\">Ev tipi hidrofor</a> (24–50 lt tank) konfor ve pompa ömrü için önerilir.</p>\n\n<h2>Önerilen Sistem Kombinasyonları</h2>\n<table>\n<thead><tr><th>Durum</th><th>Öneri</th></tr></thead>\n<tbody>\n<tr><td>Sığ kuyu, 1–2 kişilik ev</td><td>Jet pompa + 24 lt hidrofor</td></tr>\n<tr><td>Orta derinlik kuyu, aile</td><td>Santrifüj veya dalgıç + 24–50 lt hidrofor</td></tr>\n<tr><td>Derin kuyu, villa</td><td>Dalgıç pompa + hidrofor veya frekans kontrollü sistem</td></tr>\n<tr><td>Sadece bahçe sulama</td><td>Santrifüj pompa (hidrofor opsiyonel)</td></tr>\n</tbody>\n</table>\n\n<h2>Elektrik ve Güvenlik</h2>\n<ul>\n  <li>Kaçak akım rölesi zorunlu</li>\n  <li>Motor koruma rölesi (Horoz vb.)</li>\n  <li>Susuz çalışma koruması (şamandıra)</li>\n  <li>Topraklama</li>\n</ul>\n\n<h2>Marka Önerileri</h2>\n<p>Bütçe: <a href=\"/marka/kaysu\">Kaysu</a>, <a href=\"/marka/sumak\">Sumak</a> · Orta: <a href=\"/marka/winpo\">Winpo</a> · Premium: <a href=\"/marka/pedrollo\">Pedrollo</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Ev için kaç HP pompa yeterli?</h3>\n<p>0,5–1 HP çoğu müstakil ev için yeterli; debi ve basma hesabı önceliklidir.</p>\n\n<h3>Gece pompa sesi rahatsız eder mi?</h3>\n<p>Dalgıç pompa su altında sessizdir; yüzey pompaları pompa odasında veya kılıfla izole edilebilir.</p>\n\n<h3>Apartmanda da aynı sistem mi?</h3>\n<p>Apartman için <a href=\"/blog/apartman-icin-hidrofor-nasil-secilir\">apartman hidrofor seçimi</a> yazımıza bakın.</p>\n\n<p>Ev projeniz için <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">ücretsiz danışmanlık</a></p>"
+        }
+    ]
+}

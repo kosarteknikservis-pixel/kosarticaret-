@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "pompa-debi-basma-yuksekligi-hesabi",
+            "title": "Pompa Debi ve Basma Yüksekliği Hesabı: Pratik Rehber",
+            "excerpt": "Su pompası seçiminde debi (Q) ve basma yüksekliği (H) nasıl hesaplanır? Kuyu derinliği, boru kayıpları ve güvenlik payı formülleri.",
+            "meta_title": "Pompa Debi ve Basma Yüksekliği Hesabı",
+            "meta_description": "Pompa debi ve basma yüksekliği nasıl hesaplanır? Kuyu derinliği, boru kayıpları, eş zamanlı kullanım ve güvenlik payı ile pompa seçimi.",
+            "tags": [
+                "pompa debi hesabı",
+                "basma yüksekliği",
+                "su pompası seçimi",
+                "debi hesaplama",
+                "pompa kapasitesi"
+            ],
+            "image_alt": "Pompa debi ve basma yüksekliği hesabı rehberi",
+            "published": true,
+            "published_at": "2026-07-08 14:00:00",
+            "content": "<p>Yanlış kapasiteli pompa; ya yetersiz kalır (su gelmez, basınç düşük) ya da gereğinden büyük seçilir (fazla enerji tüketimi, maliyet). <strong>Debi (Q)</strong> ve <strong>basma yüksekliği (H)</strong> hesabı doğru pompa seçiminin temelidir.</p>\n\n<p>Genel rehber: <a href=\"/blog/su-pompasi-cesitleri-nasil-secilir\">Su pompası çeşitleri</a> · Kuyu: <a href=\"/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi\">kuyu dalgıç pompa seçimi</a></p>\n\n<h2>Debi (Q) Nedir?</h2>\n<p>Birim zamanda pompalanan su miktarıdır. Genellikle <strong>m³/saat</strong> veya <strong>lt/dakika</strong> ile ifade edilir.</p>\n\n<h3>Konut için pratik debi</h3>\n<ul>\n  <li>Musluk: ~0,2–0,3 m³/saat</li>\n  <li>Duş: ~0,3–0,5 m³/saat</li>\n  <li>Çamaşır/bulaşık makinesi: ~0,2 m³/saat</li>\n  <li>Bahçe sulama (damla): alana göre değişir</li>\n</ul>\n<p><strong>Eş zamanlı kullanım:</strong> Tüm noktaların aynı anda açılma ihtimali düşükse debi %60–70 oranında indirgenir. Müstakil ev için 2–4 m³/saat genellikle yeterlidir.</p>\n\n<h2>Basma Yüksekliği (H) Nedir?</h2>\n<p>Pompanın suyu yükseltebildiği toplam yüksekliktir (metre). Şu bileşenlerin toplamıdır:</p>\n<ol>\n  <li><strong>Statik yükseklik:</strong> Su seviyesi ile çıkış noktası arasındaki dikey fark</li>\n  <li><strong>Boru kayıpları:</strong> Uzunluk, çap, dirsek sayısı (genelde statik yüksekliğin %10–30'u)</li>\n  <li><strong>Kullanım basıncı:</strong> 1 bar ≈ 10 metre (duş için ~2 bar = 20 m eşdeğeri)</li>\n</ol>\n\n<h3>Örnek hesap (müstakil ev)</h3>\n<ul>\n  <li>Kuyu derinliği: 15 m</li>\n  <li>Yüzeye çıkış: 2 m</li>\n  <li>Boru kaybı: 5 m</li>\n  <li>Kullanım basıncı: 20 m (2 bar)</li>\n  <li><strong>Toplam H ≈ 42 m</strong> → Katalogda 45–50 m basma yüksekliği olan pompa seçilir</li>\n</ul>\n\n<h2>Güvenlik Payı</h2>\n<p>Hesaplanan debi ve basma değerlerine <strong>%10–15 güvenlik payı</strong> eklenmesi önerilir. Kuyu su seviyesi mevsimsel değişir; boru tıkanıklığı kayıpları artırır.</p>\n\n<h2>Debi–Basma Grafiği (Pompa Eğrisi)</h2>\n<p>Her pompanın performans eğrisi vardır: debi arttıkça basma yüksekliği düşer. Çalışma noktanız eğrinin orta bölgesinde olmalıdır; maksimum uçta verim düşer.</p>\n\n<h2>Hangi Pompa Tipi?</h2>\n<ul>\n  <li>H &lt; 40 m, sığ kuyu → <a href=\"/blog/jet-pompa-nedir-kullanim-alanlari\">jet</a> veya <a href=\"/blog/santrifuj-pompa-nedir-kullanim-alanlari\">santrifüj</a></li>\n  <li>Derin kuyu → <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa</a></li>\n  <li>H &gt; 80 m → <a href=\"/blog/kademeli-pompa-ne-zaman-tercih-edilir\">kademeli pompa</a></li>\n  <li>Basınçlı ev suyu → <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor</a></li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>HP ile debi aynı şey mi?</h3>\n<p>Hayır. HP motor gücüdür; debi pompa gövdesi ve devre hızına bağlıdır. Aynı HP'te farklı debiler olabilir.</p>\n\n<h3>Hesabı kim yapmalı?</h3>\n<p>Temel konut projelerinde bu rehber yeterli olabilir; büyük tarımsal veya endüstriyel projelerde mühendislik hesabı önerilir.</p>\n\n<h3>Otomatik hesap var mı?</h3>\n<p><a href=\"/pompa-secici\">Pompa Seçim Programı</a>mız debi ve derinlik bilgisiyle model önerir.</p>\n\n<p>Detaylı hesap için <a href=\"/iletisim\">ücretsiz teknik danışmanlık</a> talep edin.</p>"
+        }
+    ]
+}

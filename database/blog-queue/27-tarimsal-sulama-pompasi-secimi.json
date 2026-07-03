@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "tarimsal-sulama-pompasi-secimi-rehberi",
+            "title": "Tarımsal Sulama Pompası Seçimi: Debi, Basınç ve Solar Seçenekler",
+            "excerpt": "Tarımsal sulama pompası nasıl seçilir? Damla, sprinkler ve yağmurlama için debi hesabı, derin kuyu, solar dalgıç pompa ve marka önerileri.",
+            "meta_title": "Tarımsal Sulama Pompası Seçimi Rehberi",
+            "meta_description": "Tarımsal sulama pompası nasıl seçilir? Damla ve sprinkler sulama için debi, basınç, derin kuyu dalgıç ve solar pompa seçim rehberi.",
+            "tags": [
+                "sulama pompası",
+                "tarımsal sulama",
+                "sulama pompası seçimi",
+                "solar sulama pompası",
+                "dalgıç pompa"
+            ],
+            "image_alt": "Tarımsal sulama pompası seçimi — debi ve basınç rehberi",
+            "published": true,
+            "published_at": "2026-07-09 14:00:00",
+            "content": "<p>Tarımsal üretimde <strong>sulama pompası</strong> seçimi; ekili alan büyüklüğü, bitki türü, sulama yöntemi ve su kaynağı derinliğine bağlıdır. Yanlış kapasite hem mahsul kaybına hem gereksiz enerji maliyetine yol açar.</p>\n\n<p>Genel: <a href=\"/blog/su-pompasi-cesitleri-nasil-secilir\">Su pompası çeşitleri</a> · Debi hesabı: <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">debi ve basma yüksekliği</a> · Solar: <a href=\"/blog/solar-dc-dalgic-pompa-avantajlari-secim\">solar dalgıç pompa</a></p>\n\n<h2>Sulama Yöntemine Göre Debi</h2>\n<ul>\n  <li><strong>Damla sulama:</strong> Düşük debi, düşük basınç — alan m² başına lt/saat hesabı</li>\n  <li><strong>Yağmurlama:</strong> Orta-yüksek debi, orta basınç</li>\n  <li><strong>Springler (mekanik):</strong> Yüksek debi ve basınç</li>\n  <li><strong>Yüzey sulama:</strong> Yüksek debi, düşük basınç</li>\n</ul>\n\n<h2>Su Kaynağına Göre Pompa Tipi</h2>\n<ul>\n  <li><strong>Sığ kuyu / kanal:</strong> Santrifüj veya jet pompa — <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar\">santrifüj pompalar</a></li>\n  <li><strong>Derin kuyu / sondaj:</strong> Dalgıç pompa — <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa\">derin kuyu dalgıç</a></li>\n  <li><strong>Şebeke yok, güneş enerjisi:</strong> Solar DC dalgıç — <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/solar-dc-dalgic-pompalar\">solar dalgıç pompalar</a></li>\n  <li><strong>Yüksek basınçlı hat:</strong> Kademeli pompa — <a href=\"/blog/kademeli-pompa-ne-zaman-tercih-edilir\">kademeli pompa rehberi</a></li>\n</ul>\n\n<h2>Debi Hesabı (Basitleştirilmiş)</h2>\n<p>Damla sulamada genel kural: <strong>bitki su ihtiyacı × alan (m²) × güvenlik katsayısı (1,2)</strong>. Sprinkler sistemlerinde nozul debileri toplanır. Büyük projelerde ziraat mühendisi veya sulama firması hesabı önerilir.</p>\n\n<h2>Trifaze vs Monofaze</h2>\n<p>3 HP üzeri tarımsal pompalar genelde <strong>trifaze (380V)</strong> çalışır. Köy ve tarla elektriği kontrol edilmeli; trifaze yoksa monofaze veya solar alternatif değerlendirilir.</p>\n\n<h2>Solar Sulama Avantajı</h2>\n<p>Şebekesiz tarlalarda güneş enerjili dalgıç pompa; dizel jeneratöre göre düşük işletme maliyeti sunar. Gündüz sulama için idealdir.</p>\n\n<h2>Marka ve Dayanıklılık</h2>\n<p>Tarımsal kullanımda kesintisiz sezon boyu çalışma beklenir. <a href=\"/marka/sumak\">Sumak</a>, <a href=\"/marka/pedrollo\">Pedrollo</a> ve <a href=\"/marka/winpo\">Winpo</a> tarımsal seriler sunar; yedek parça stokunu sorun.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Kaç dönüm için hangi pompa?</h3>\n<p>Sulama yöntemi ve bitkiye göre değişir; debi hesabı yapılmadan genelleme risklidir.</p>\n\n<h3>Hidrofor tarımda gerekli mi?</h3>\n<p>Sprinkler basınç stabilitesi için bazen evet; damla sulamada genelde doğrudan pompa yeterli.</p>\n\n<h3>Kuyu suyu azalırsa ne olur?</h3>\n<p>Seviye şamandırası veya kuru kuyu koruması şart; aksi halde motor yanar.</p>\n\n<p>Tarla ölçüleriniz için <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">tarımsal sulama danışmanlığı</a></p>"
+        }
+    ]
+}
