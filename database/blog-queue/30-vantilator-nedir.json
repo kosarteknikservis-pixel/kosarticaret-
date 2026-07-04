@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "vantilator-nedir-nasil-secilir",
+            "title": "Vantilatör Nedir? Nasıl Seçilir? Kapsamlı Rehber",
+            "excerpt": "Vantilatör nedir, ev tipi ve sanayi tipi farkı nedir? Debi (m³/h), ACH hesabı, duvar tipi ve sanayi vantilatör seçim rehberi.",
+            "meta_title": "Vantilatör Nedir? Nasıl Seçilir? Tam Rehber",
+            "meta_description": "Vantilatör nedir, nasıl seçilir? Ev tipi ve sanayi tipi vantilatör farkları, debi hesabı, ACH ve doğru model seçim rehberi.",
+            "tags": [
+                "vantilatör",
+                "vantilatör nedir",
+                "sanayi tipi vantilatör",
+                "havalandırma",
+                "duvar tipi vantilatör"
+            ],
+            "image_alt": "Vantilatör nedir — ev tipi ve sanayi tipi seçim rehberi",
+            "published": true,
+            "published_at": "2026-07-11 09:00:00",
+            "content": "<p><strong>Vantilatör</strong>, hava hareketi oluşturarak ortamı soğutan, havalandıran veya egzoz eden elektrikli fan cihazıdır. Ev, ofis, depo, fabrika ve atölyelerde sıcaklık, nem ve kirli hava kontrolü için kullanılır. Doğru seçim; alan hacmi, saatte hava değişim sayısı (ACH), montaj tipi ve çalışma süresi parametrelerine bağlıdır.</p>\n\n<p>Tüm modeller: <a href=\"/kategoriler/vantilatorler\">vantilatörler</a> · Sanayi: <a href=\"/kategoriler/vantilatorler/sanayi-tipi-vantilator\">sanayi tipi vantilatör</a> · Ev tipi: <a href=\"/kategoriler/vantilatorler/ev-tipi-vantilator\">ev tipi vantilatör</a></p>\n\n<h2>Vantilatör Nasıl Çalışır?</h2>\n<p>Motor kanatları döndürür; kanat profili havayı emiş yönünden basma yönüne iter. Aksiyel (eksenel) vantilatörler yüksek debi, düşük basınç üretir; radyal (santrifüj) fanlar daha yüksek statik basınç sağlar. Sanayi ve depo uygulamalarında aksiyel duvar tipi modeller yaygındır.</p>\n\n<h2>Ev Tipi ve Sanayi Tipi Farkı</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Ev tipi</th><th>Sanayi tipi</th></tr></thead>\n<tbody>\n<tr><td>Debi</td><td>Düşük-orta</td><td>Yüksek (binlerce m³/h)</td></tr>\n<tr><td>Çalışma süresi</td><td>Aralıklı</td><td>Sürekli (24/7)</td></tr>\n<tr><td>Motor koruması</td><td>Standart</td><td>IP55+ tercih</td></tr>\n<tr><td>Gövde</td><td>Plastik/hafif metal</td><td>Metal, dayanıklı</td></tr>\n<tr><td>Kullanım</td><td>Oda, ofis, mutfak</td><td>Fabrika, depo, atölye</td></tr>\n</tbody>\n</table>\n\n<h2>Seçimde 4 Temel Parametre</h2>\n\n<h3>1. Debi (m³/h)</h3>\n<p>Saatte taşınan hava hacmidir. Alan hacmi (m³) × ACH (saatte değişim sayısı) ile hesaplanır. Detay: <a href=\"/blog/vantilator-debi-hesabi-ach-rehberi\">vantilatör debi hesabı</a>.</p>\n\n<h3>2. Montaj tipi</h3>\n<p>Duvar tipi, tavan tipi, ayaklı veya kanal tipi. Depo ve fabrikalarda duvar tipi sanayi vantilatör yaygındır.</p>\n\n<h3>3. Gürültü (dB)</h3>\n<p>Ofis ve konutta düşük gürültü önceliklidir; sanayide debi önceliklidir.</p>\n\n<h3>4. Motor ve koruma</h3>\n<p>Sürekli çalışmada termik koruma, IP koruma sınıfı ve balanslı kanat uzun ömür için kritiktir.</p>\n\n<h2>Hangi Ortamda Hangi Vantilatör?</h2>\n<ul>\n  <li><strong>Ev / ofis:</strong> Ev tipi vantilatör</li>\n  <li><strong>Atölye / küçük depo:</strong> Orta debili duvar tipi</li>\n  <li><strong>Fabrika / büyük depo:</strong> <a href=\"/blog/sanayi-tipi-vantilator-secimi-rehberi\">Sanayi tipi vantilatör</a></li>\n  <li><strong>Sıcak proses:</strong> Yüksek sıcaklığa dayanıklı metal kanatlı modeller</li>\n</ul>\n\n<h2>Marka ve Model</h2>\n<p><a href=\"/marka/kosar\">Koşar</a> sanayi tipi vantilatör serileri (KSV vb.) depo ve fabrika uygulamalarında tercih edilir. Ürünleri <a href=\"/kategoriler/vantilatorler\">vantilatörler kategorisinde</a> inceleyebilirsiniz.</p>\n\n<h2>Sık Yapılan Hatalar</h2>\n<ul>\n  <li>Alan hacmini hesaplamadan küçük fan seçmek</li>\n  <li>Ev tipi fanı sürekli sanayi ortamında çalıştırmak</li>\n  <li>Emme ve basma yönünü yanlış planlamak</li>\n  <li>Filtre ve kanat temizliğini ihmal etmek</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Vantilatör ile aspiratör aynı mı?</h3>\n<p>Aspiratör genelde egzoz (kirli hava atma) odaklıdır; vantilatör hem emiş hem basma için kullanılabilir.</p>\n\n<h3>Debi ne kadar olmalı?</h3>\n<p>Depo ve fabrikalarda genellikle 6–10 ACH hedeflenir. Hesap: <a href=\"/blog/vantilator-debi-hesabi-ach-rehberi\">ACH rehberi</a>.</p>\n\n<h3>Sanayi tipi vantilatör fiyatı neye göre değişir?</h3>\n<p>Çap, debi, motor gücü ve gövde malzemesi fiyatı belirler. <a href=\"/blog/vantilator-fiyatlari-2026-rehberi\">Vantilatör fiyatları</a></p>\n\n<p>Alan ölçünüze göre model önerisi için <a href=\"/iletisim\">teknik ekibimizle iletişime geçin</a>.</p>"
+        }
+    ]
+}

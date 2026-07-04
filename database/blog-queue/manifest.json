@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -197,6 +197,69 @@
             "publish_on": "2026-07-10",
             "title": "Preferikal (Sürtme Fanlı) Pompa Nedir?",
             "series": "su-pompasi"
+        },
+        {
+            "day": 14,
+            "file": "29-hidrofor-fiyatlari.json",
+            "publish_on": "2026-07-10",
+            "title": "Hidrofor Fiyatları 2026: Ev ve Apartman",
+            "series": "hidrofor"
+        },
+        {
+            "day": 15,
+            "file": "30-vantilator-nedir.json",
+            "publish_on": "2026-07-11",
+            "title": "Vantilatör Nedir? Nasıl Seçilir?",
+            "series": "vantilator"
+        },
+        {
+            "day": 15,
+            "file": "31-sanayi-tipi-vantilator-secimi.json",
+            "publish_on": "2026-07-11",
+            "title": "Sanayi Tipi Vantilatör Seçimi",
+            "series": "vantilator"
+        },
+        {
+            "day": 15,
+            "file": "32-duvar-tipi-vantilator.json",
+            "publish_on": "2026-07-11",
+            "title": "Duvar Tipi Vantilatör Montaj ve Seçim",
+            "series": "vantilator"
+        },
+        {
+            "day": 16,
+            "file": "33-depo-fabrika-havalandirma.json",
+            "publish_on": "2026-07-12",
+            "title": "Depo ve Fabrika Havalandırma",
+            "series": "vantilator"
+        },
+        {
+            "day": 16,
+            "file": "34-vantilator-debi-hesabi.json",
+            "publish_on": "2026-07-12",
+            "title": "Vantilatör Debi Hesabı: ACH Rehberi",
+            "series": "vantilator"
+        },
+        {
+            "day": 16,
+            "file": "35-vantilator-fiyatlari.json",
+            "publish_on": "2026-07-12",
+            "title": "Vantilatör Fiyatları 2026",
+            "series": "vantilator"
+        },
+        {
+            "day": 17,
+            "file": "36-vantilator-bakim.json",
+            "publish_on": "2026-07-13",
+            "title": "Vantilatör Bakım Rehberi",
+            "series": "vantilator"
+        },
+        {
+            "day": 17,
+            "file": "37-kosar-vantilator-modelleri.json",
+            "publish_on": "2026-07-13",
+            "title": "Koşar Vantilatör Modelleri Rehberi",
+            "series": "vantilator"
         }
     ]
 }

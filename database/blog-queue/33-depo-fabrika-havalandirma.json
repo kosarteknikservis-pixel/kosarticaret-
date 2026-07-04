@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "depo-fabrika-havalandirma-rehberi",
+            "title": "Depo ve Fabrika Havalandırma: Vantilatör Planlama Rehberi",
+            "excerpt": "Depo ve fabrika havalandırması nasıl planlanır? ACH hesabı, egzoz-taze hava dengesi, sanayi vantilatör yerleşimi ve sıcaklık kontrolü.",
+            "meta_title": "Depo ve Fabrika Havalandırma Rehberi",
+            "meta_description": "Depo ve fabrika havalandırması nasıl yapılır? ACH, egzoz-taze hava dengesi, sanayi tipi vantilatör yerleşimi ve planlama ipuçları.",
+            "tags": [
+                "depo havalandırma",
+                "fabrika havalandırma",
+                "sanayi tipi vantilatör",
+                "havalandırma",
+                "vantilatör"
+            ],
+            "image_alt": "Depo ve fabrika havalandırma — vantilatör planlama",
+            "published": true,
+            "published_at": "2026-07-12 09:00:00",
+            "content": "<p>Depo ve fabrikalarda yetersiz havalandırma; sıcaklık artışı, nem, toz birikimi ve çalışan konforunu bozar. Doğru <strong>sanayi tipi vantilatör</strong> planı; alan hacmi, proses ısısı ve hava değişim ihtiyacına göre yapılır.</p>\n\n<p>Seçim: <a href=\"/blog/sanayi-tipi-vantilator-secimi-rehberi\">Sanayi tipi vantilatör seçimi</a> · Hesap: <a href=\"/blog/vantilator-debi-hesabi-ach-rehberi\">ACH ve debi hesabı</a> · Ürünler: <a href=\"/kategoriler/vantilatorler/sanayi-tipi-vantilator\">sanayi tipi vantilatör</a></p>\n\n<h2>Havalandırma Hedefleri</h2>\n<ul>\n  <li>Sıcak havanın tahliyesi</li>\n  <li>Taze hava girişi</li>\n  <li>Toz ve koku kontrolü</li>\n  <li>Çalışan konforu ve ekipman ömrü</li>\n</ul>\n\n<h2>ACH (Saatte Hava Değişimi)</h2>\n<p>Depo ve genel fabrika alanlarında genellikle <strong>6–10 ACH</strong> hedeflenir. Kaynaklı atölye, boya veya yüksek ısı proseslerinde daha yüksek ACH gerekir. Formül: <strong>Debi (m³/h) = Hacim (m³) × ACH</strong>.</p>\n\n<h2>Egzoz ve Taze Hava Dengesi</h2>\n<p>Sadece egzoz fanı çalıştırmak ortamda negatif basınç oluşturur; kapılar zor açılır, toz içeri çekilir. İdeal plan:</p>\n<ul>\n  <li>Bir cephede egzoz vantilatörleri</li>\n  <li>Karşı cephede taze hava girişi (fan veya menfez)</li>\n  <li>Isı kaynağına yakın egzoz yerleşimi</li>\n</ul>\n\n<h2>Yerleşim Önerileri</h2>\n<ol>\n  <li>Sıcak hava yükseldiği için üst seviyede egzoz tercih edin</li>\n  <li>Büyük alanlarda birden fazla fan kullanın</li>\n  <li>Fanlar arasında eşit aralık bırakın</li>\n  <li>Engelli (raf, makine) bölgelerde hava akışını kontrol edin</li>\n</ol>\n\n<h2>Hangi Fan Tipi?</h2>\n<ul>\n  <li><strong>Duvar tipi sanayi vantilatör:</strong> En yaygın çözüm — <a href=\"/blog/duvar-tipi-vantilator-montaj-secim\">duvar tipi rehber</a></li>\n  <li><strong>Yüksek debili büyük çap:</strong> Yüksek tavanlı depolar</li>\n  <li><strong>Ev tipi:</strong> Yalnızca küçük ofis/dinlenme alanları</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Kaç adet vantilatör gerekir?</h3>\n<p>Toplam gereken debi, seçilen fanın debisine bölünerek adet bulunur. %10–15 güvenlik payı ekleyin.</p>\n\n<h3>Yazın yeterli, kışın fazla mı olur?</h3>\n<p>Kışın damper veya hız kontrolü ile debi düşürülebilir.</p>\n\n<p>Depo/fabrika projeniz için <a href=\"/iletisim\">ücretsiz teknik danışmanlık</a> · <a href=\"/kategoriler/vantilatorler\">vantilatörler</a></p>"
+        }
+    ]
+}

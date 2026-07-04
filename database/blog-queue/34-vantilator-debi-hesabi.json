@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "vantilator-debi-hesabi-ach-rehberi",
+            "title": "Vantilatör Debi Hesabı: ACH ile Doğru Fan Seçimi",
+            "excerpt": "Vantilatör debi hesabı nasıl yapılır? Alan hacmi, ACH (saatte hava değişimi) formülü ve depo/fabrika örnek hesapları.",
+            "meta_title": "Vantilatör Debi Hesabı: ACH Rehberi",
+            "meta_description": "Vantilatör debi hesabı nasıl yapılır? ACH formülü, alan hacmi ve depo/fabrika için örnek hesaplarla doğru fan seçimi.",
+            "tags": [
+                "vantilatör debi hesabı",
+                "ACH hesabı",
+                "hava değişim sayısı",
+                "sanayi vantilatör",
+                "havalandırma hesabı"
+            ],
+            "image_alt": "Vantilatör debi hesabı — ACH formülü rehberi",
+            "published": true,
+            "published_at": "2026-07-12 11:00:00",
+            "content": "<p>Yanlış boyutlandırılmış vantilatör ya yetersiz havalandırma üretir ya da gereksiz enerji tüketir. <strong>Debi hesabı</strong>, doğru fan seçiminin temelidir. En pratik yöntem: alan hacmi × ACH (saatte hava değişim sayısı).</p>\n\n<p>Genel: <a href=\"/blog/vantilator-nedir-nasil-secilir\">Vantilatör nedir?</a> · Sanayi: <a href=\"/blog/sanayi-tipi-vantilator-secimi-rehberi\">sanayi tipi seçim</a> · Depo: <a href=\"/blog/depo-fabrika-havalandirma-rehberi\">depo havalandırma</a></p>\n\n<h2>Formül</h2>\n<p><strong>Gerekli debi (m³/h) = Alan hacmi (m³) × ACH</strong></p>\n<p>Alan hacmi = en × boy × yükseklik (metre).</p>\n\n<h2>Önerilen ACH Değerleri</h2>\n<table>\n<thead><tr><th>Ortam</th><th>ACH (yaklaşık)</th></tr></thead>\n<tbody>\n<tr><td>Ofis / dinlenme</td><td>4–6</td></tr>\n<tr><td>Depo (genel)</td><td>6–8</td></tr>\n<tr><td>Fabrika (genel)</td><td>6–10</td></tr>\n<tr><td>Kaynaklı atölye</td><td>10–15</td></tr>\n<tr><td>Yüksek ısı proses</td><td>15+</td></tr>\n</tbody>\n</table>\n\n<h2>Örnek Hesap</h2>\n<p>Depo: 20 m × 30 m × 6 m = <strong>3.600 m³</strong></p>\n<p>ACH = 8 → Gerekli debi = 3.600 × 8 = <strong>28.800 m³/h</strong></p>\n<p>Seçilen fan debisi 7.200 m³/h ise: 28.800 ÷ 7.200 = <strong>4 adet fan</strong> (+ güvenlik payı ile 5 adet düşünülebilir).</p>\n\n<h2>Güvenlik Payı</h2>\n<p>Hesaba <strong>%10–15</strong> ekleyin. Raf, makine ve engeller hava akışını azaltır; fan katalog debisi ideal koşullarda ölçülür.</p>\n\n<h2>Statik Basınç Notu</h2>\n<p>Duvar tipi açık montajda statik basınç düşüktür. Kanal tipi veya filtreli sistemlerde basınç kaybı artar; fan eğrisi kontrol edilmelidir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>ACH nedir?</h3>\n<p>Air Changes per Hour — saatte ortam havasının kaç kez yenilendiğini gösterir.</p>\n\n<h3>Hesabı kim yapmalı?</h3>\n<p>Küçük depo/atölyede bu rehber yeterli olabilir; büyük endüstriyel projelerde mühendislik hesabı önerilir.</p>\n\n<p>Alan ölçülerinizi paylaşın: <a href=\"/iletisim\">teknik danışmanlık</a> · <a href=\"/kategoriler/vantilatorler/sanayi-tipi-vantilator\">sanayi tipi vantilatör</a></p>"
+        }
+    ]
+}

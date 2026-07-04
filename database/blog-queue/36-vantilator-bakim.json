@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "vantilator-bakim-rehberi",
+            "title": "Vantilatör Bakım Rehberi: Ömrü Uzatma İpuçları",
+            "excerpt": "Vantilatör bakımı nasıl yapılır? Kanat temizliği, motor kontrolü, titreşim ve sanayi tipi fanlarda periyodik bakım checklist'i.",
+            "meta_title": "Vantilatör Bakım Rehberi",
+            "meta_description": "Vantilatör bakımı nasıl yapılır? Kanat temizliği, motor, titreşim ve sanayi tipi vantilatörlerde periyodik bakım ipuçları.",
+            "tags": [
+                "vantilatör bakımı",
+                "sanayi vantilatör bakım",
+                "fan temizliği",
+                "vantilatör",
+                "havalandırma bakımı"
+            ],
+            "image_alt": "Vantilatör bakım rehberi — kanat ve motor kontrolü",
+            "published": true,
+            "published_at": "2026-07-13 09:00:00",
+            "content": "<p>Düzenli <strong>vantilatör bakımı</strong>; debi kaybını önler, enerji tüketimini düşürür ve motor ömrünü uzatır. Özellikle tozlu depo ve fabrikalarda ihmal edilen temizlik, dengesiz kanat ve aşırı ısınmaya yol açar.</p>\n\n<p>Genel: <a href=\"/blog/vantilator-nedir-nasil-secilir\">Vantilatör nedir?</a> · Sanayi: <a href=\"/blog/sanayi-tipi-vantilator-secimi-rehberi\">sanayi tipi seçim</a> · Ürünler: <a href=\"/kategoriler/vantilatorler\">vantilatörler</a></p>\n\n<h2>Ne Sıklıkla Bakım?</h2>\n<ul>\n  <li><strong>Ev tipi:</strong> 3–6 ayda bir temizlik</li>\n  <li><strong>Atölye / depo:</strong> Ayda bir görsel kontrol, 3 ayda bir temizlik</li>\n  <li><strong>Tozlu fabrika:</strong> Haftalık kontrol, aylık temizlik</li>\n</ul>\n\n<h2>Bakım Checklist</h2>\n<ol>\n  <li>Elektrik kesilir, fan tamamen durur</li>\n  <li>Koruma ızgarası sökülür</li>\n  <li>Kanatlar nemli bezle temizlenir (aşındırıcı kullanmayın)</li>\n  <li>Motor gövdesi tozdan arındırılır</li>\n  <li>Sabitleme vidaları kontrol edilir</li>\n  <li>Titreşim ve anormal ses dinlenir</li>\n  <li>Elektrik kablosu ve topraklama kontrol edilir</li>\n</ol>\n\n<h2>Titreşim ve Ses</h2>\n<p>Dengesiz kanat, gevşek montaj veya rulman aşınması titreşim üretir. Titreşim devam ederse fan çalıştırılmamalı; montaj ve balans kontrol edilmelidir.</p>\n\n<h2>Motor Ömrü</h2>\n<ul>\n  <li>Sürekli çalışmada termik koruma şarttır</li>\n  <li>Aşırı toz motor soğutmasını bozar</li>\n  <li>Yanlış voltaj motoru yakar</li>\n</ul>\n\n<h2>Ne Zaman Değişim?</h2>\n<p>Motor yanığı, ciddi kanat deformasyonu veya sürekli aşırı titreşimde tamir yerine yenileme daha ekonomik olabilir. <a href=\"/kategoriler/vantilatorler/sanayi-tipi-vantilator\">Sanayi tipi modeller</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Fan çalışırken temizlenir mi?</h3>\n<p>Hayır. Mutlaka elektrik kesilir.</p>\n\n<h3>Yağlama gerekir mi?</h3>\n<p>Çoğu modern motor bakım gerektirmez; üretici kılavuzuna bakın.</p>\n\n<p>Yeni model veya yedek: <a href=\"/iletisim\">teknik destek</a> · <a href=\"/marka/kosar\">Koşar</a></p>"
+        }
+    ]
+}

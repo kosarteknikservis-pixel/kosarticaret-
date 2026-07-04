@@ -42,9 +42,10 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 
 | Küme | Dosyalar | Durum |
 |------|----------|-------|
-| Hidrofor | 01–09 | Yayında |
+| Hidrofor | 01–09, 29 | Yayında / deploy |
 | Dalgıç pompa | 10–18 | Yayında |
-| Su pompası | 19–28 | Deploy ile yayınlanır |
+| Su pompası | 19–28 | Yayında |
+| Vantilatör | 30–37 | Deploy ile yayınlanır |
 
 ## Kapak görseli
 
