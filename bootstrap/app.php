@@ -24,6 +24,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('shipments:sync-status')
             ->everyFifteenMinutes()
             ->withoutOverlapping();
+
+        $schedule->command('queue:work --stop-when-empty --max-time=55')
+            ->everyMinute()
+            ->withoutOverlapping();
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->validateCsrfTokens(except: [

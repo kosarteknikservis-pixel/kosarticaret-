@@ -22,7 +22,8 @@ class OrderTelegramNotifier
 
         $orderId = $order instanceof Order ? $order->id : $order;
 
-        SendOrderTelegramNotificationJob::dispatch($orderId);
+        // Paylaşımlı hosting'de queue worker olmadığı için anında gönder.
+        SendOrderTelegramNotificationJob::dispatchSync($orderId);
     }
 
     public function sendNow(Order $order): array
