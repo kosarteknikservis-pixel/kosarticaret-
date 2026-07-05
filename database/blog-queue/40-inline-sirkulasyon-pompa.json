@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "inline-sirkulasyon-pompa-rehberi",
+            "title": "Inline Sirkülasyon Pompası: Merkezi Isıtma Seçim Rehberi",
+            "excerpt": "Inline sirkülasyon pompası nedir? Apartman, otel ve ticari binalarda flanşlı inline montaj, debi seçimi ve rekorlu modele göre farkları.",
+            "meta_title": "Inline Sirkülasyon Pompası Rehberi",
+            "meta_description": "Inline sirkülasyon pompası seçimi: merkezi ısıtma, DN40+ flanş, debi hesabı, apartman ve ticari tesis uygulamaları.",
+            "tags": ["inline sirkülasyon", "sirkülasyon pompası", "merkezi ısıtma", "flanşlı pompa"],
+            "image_alt": "Inline sirkülasyon pompası — merkezi ısıtma seçimi",
+            "published": true,
+            "published_at": "2026-07-14 11:00:00",
+            "content": "<p><strong>Inline sirkülasyon pompası</strong>, giriş ve çıkış flanşlarının aynı boru ekseninde karşılıklı konumlandığı, boru hattına doğrudan eklenen sirkülasyon pompasıdır. Büyük apartman, site, otel, hastane ve ticari binalardaki merkezi ısıtma devrelerinde DN40 ve üzeri flanşlı bağlantıyla kullanılır.</p>\n\n<p>Genel: <a href=\"/blog/sirkulasyon-pompasi-nedir-nasil-secilir\">Sirkülasyon pompası rehberi</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/sirkulasyon-pompalari/inline-sirkulasyon-pompalari\">inline sirkülasyon pompaları</a></p>\n\n<h2>Inline vs Rekorlu Farkı</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Rekorlu dişli</th><th>Inline</th></tr></thead>\n<tbody>\n<tr><td>Bağlantı</td><td>Dişli 1/2\"–2\"</td><td>Flanş DN40–DN150</td></tr>\n<tr><td>Debi</td><td>Düşük-orta</td><td>Orta-yüksek</td></tr>\n<tr><td>Kullanım</td><td>Konut, villa</td><td>Apartman, otel, AVM</td></tr>\n<tr><td>Montaj</td><td>Kompakt</td><td>Boru hattına inline</td></tr>\n</tbody>\n</table>\n\n<h2>Ne Zaman Inline Seçilir?</h2>\n<ul>\n  <li>Merkezi kazan veya kombi dairesi tek noktadan tüm bloğu besliyorsa</li>\n  <li>Boru çapı DN40 ve üzeri ise</li>\n  <li>Toplam debi 10 m³/h üzeri gerekiyorsa</li>\n  <li>Bypass hattı olmadan doğrudan ana kolona montaj planlanıyorsa</li>\n</ul>\n<p>Küçük konut için <a href=\"/blog/rekorlu-disli-sirkulasyon-pompa-rehberi\">rekorlu dişli</a> yeterlidir.</p>\n\n<h2>Seçim Parametreleri</h2>\n<ul>\n  <li><strong>Debi (m³/h):</strong> Toplam ısıtma yükü ve devre sayısı</li>\n  <li><strong>Basma (mss):</strong> Boru uzunluğu, kat sayısı, eşanjör kayıpları</li>\n  <li><strong>Flanş çapı:</strong> Mevcut kolon borusu ile uyum</li>\n  <li><strong>Motor gücü:</strong> Sürekli çalışma için yeterli rezerv</li>\n  <li><strong>ECM / inverter:</strong> Büyük tesislerde enerji tasarrufu — <a href=\"/blog/frekans-kontrollu-sirkulasyon-pompa-avantajlari\">frekans kontrollü rehber</a></li>\n</ul>\n\n<h2>Montaj ve Bakım</h2>\n<p>Inline pompa genelde yatay boru hattına monte edilir. Emme ve basma taraflarına servis vanaları, filtre ve basınç göstergesi eklenmesi önerilir. Periyodik kontrol: sızıntı, olağandışı ses, debi düşüşü.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Inline pompa konutta kullanılır mı?</h3>\n<p>Standart daire tesisatında genelde hayır; rekorlu model daha ekonomik ve uygundur.</p>\n\n<h3>Flanşlı ile inline aynı mı?</h3>\n<p>Inline flanşlı bağlantılıdır; çok yüksek debili endüstriyel uygulamalarda ayrı <a href=\"/blog/flansli-sirkulasyon-pompa-rehberi\">flanşlı sirkülasyon</a> serileri tercih edilir.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/sirkulasyon-pompalari/inline-sirkulasyon-pompalari\">inline modeller</a> · <a href=\"/iletisim\">proje danışmanlığı</a></p>"
+        }
+    ]
+}

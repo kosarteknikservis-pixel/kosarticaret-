@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "flansli-sirkulasyon-pompa-rehberi",
+            "title": "Flanşlı Sirkülasyon Pompası: Endüstriyel Isıtma Rehberi",
+            "excerpt": "Flanşlı sirkülasyon pompası nedir? Otel, hastane ve fabrika merkezi ısıtma devrelerinde PN10/PN16 flanş, yüksek debi seçimi.",
+            "meta_title": "Flanşlı Sirkülasyon Pompası Rehberi",
+            "meta_description": "Flanşlı sirkülasyon pompası: endüstriyel ısıtma, PN10 PN16 flanş bağlantı, yüksek debi seçimi ve inline farkı.",
+            "tags": ["flanşlı sirkülasyon", "endüstriyel pompa", "merkezi ısıtma", "sirkülasyon pompası"],
+            "image_alt": "Flanşlı sirkülasyon pompası — endüstriyel ısıtma",
+            "published": true,
+            "published_at": "2026-07-14 12:00:00",
+            "content": "<p><strong>Flanşlı sirkülasyon pompası</strong>, boru hattına PN10 veya PN16 flanş bağlantısıyla monte edilen, yüksek debi ve basınç kapasiteli endüstriyel sirkülasyon pompasıdır. Otel, hastane, okul, AVM, fabrika ve büyük site merkezi ısıtma devrelerinde kazan ile tesisat arasında suyun kesintisiz dolaşmasını sağlar.</p>\n\n<p>Genel: <a href=\"/blog/sirkulasyon-pompasi-nedir-nasil-secilir\">Sirkülasyon pompası nedir?</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/sirkulasyon-pompalari/flansli-sirkulasyon-pompalari\">flanşlı sirkülasyon pompaları</a></p>\n\n<h2>Flanşlı Pompa Özellikleri</h2>\n<ul>\n  <li>DN40 ve üzeri flanş bağlantı</li>\n  <li>Yüksek debi (10–500+ m³/h aralığı)</li>\n  <li>Döküm veya paslanmaz gövde seçenekleri</li>\n  <li>Sürekli 7/24 çalışmaya uygun motor yapısı</li>\n  <li>Servis kolaylığı için inline veya ayaklı montaj</li>\n</ul>\n\n<h2>Inline vs Flanşlı</h2>\n<p>Her iki tip de flanş kullanır; pratikte <strong>flanşlı</strong> terimi daha yüksek basınç ve debili, endüstriyel gövdeli seriler için kullanılır. Orta ölçekli ticari binalarda <a href=\"/blog/inline-sirkulasyon-pompa-rehberi\">inline sirkülasyon</a> yeterli olabilir; proses ısıtma ve büyük kazan dairelerinde flanşlı seriler tercih edilir.</p>\n\n<h2>Seçim Kriterleri</h2>\n<ol>\n  <li>Toplam ısıtma yükü (kW) ve devre debisi</li>\n  <li>Boru çapı, uzunluk ve dirsek/kayip hesabı</li>\n  <li>Çalışma sıcaklığı ve basınç sınıfı (PN10/PN16)</li>\n  <li>Redundans (yedek pompa) ihtiyacı</li>\n  <li>Enerji verim sınıfı ve inverter uyumu</li>\n</ol>\n\n<h2>Uygulama Alanları</h2>\n<ul>\n  <li>Merkezi kalorifer kazan dairesi</li>\n  <li>Soğutma devresi (chiller) sirkülasyonu</li>\n  <li>Eşanjör ve buffer tank devridaimi</li>\n  <li>Güneş kolektörü ve ısı pompası devreleri</li>\n</ul>\n\n<h2>Bakım</h2>\n<p>Yıllık sızıntı kontrolü, flanş contası, rulman ve motor akım ölçümü. Titreme ve anormal ses erken müdahale gerektirir. Arıza belirtileri: <a href=\"/blog/sirkulasyon-pompa-calismiyor-ariza-rehberi\">sirkülasyon pompa arıza rehberi</a>.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Flanşlı pompa konutta kullanılır mı?</h3>\n<p>Hayır; konut için <a href=\"/blog/rekorlu-disli-sirkulasyon-pompa-rehberi\">rekorlu dişli</a> uygundur.</p>\n\n<h3>PN10 ve PN16 farkı nedir?</h3>\n<p>Flanşın taşıyabileceği nominal basınç sınıfıdır; yüksek bina ve proses hatlarında PN16 tercih edilebilir.</p>\n\n<p>Modeller: <a href=\"/kategoriler/su-pompalari/sirkulasyon-pompalari/flansli-sirkulasyon-pompalari\">flanşlı sirkülasyon</a> · <a href=\"/marka/pedrollo\">Pedrollo</a> · <a href=\"/iletisim\">proje teklifi</a></p>"
+        }
+    ]
+}

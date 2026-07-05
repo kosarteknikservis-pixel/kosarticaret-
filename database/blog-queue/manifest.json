@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -260,6 +260,69 @@
             "publish_on": "2026-07-13",
             "title": "Koşar Vantilatör Modelleri Rehberi",
             "series": "vantilator"
+        },
+        {
+            "day": 18,
+            "file": "38-sirkulasyon-pompa-nedir.json",
+            "publish_on": "2026-07-14",
+            "title": "Sirkülasyon Pompası Nedir? Nasıl Seçilir?",
+            "series": "sirkulasyon"
+        },
+        {
+            "day": 18,
+            "file": "39-rekorlu-disli-sirkulasyon.json",
+            "publish_on": "2026-07-14",
+            "title": "Rekorlu Dişli Sirkülasyon Pompası Rehberi",
+            "series": "sirkulasyon"
+        },
+        {
+            "day": 18,
+            "file": "40-inline-sirkulasyon-pompa.json",
+            "publish_on": "2026-07-14",
+            "title": "Inline Sirkülasyon Pompası Rehberi",
+            "series": "sirkulasyon"
+        },
+        {
+            "day": 19,
+            "file": "41-flansli-sirkulasyon-pompa.json",
+            "publish_on": "2026-07-15",
+            "title": "Flanşlı Sirkülasyon Pompası Rehberi",
+            "series": "sirkulasyon"
+        },
+        {
+            "day": 19,
+            "file": "42-sicak-su-sirkulasyon-pompa.json",
+            "publish_on": "2026-07-15",
+            "title": "Sıcak Su Sirkülasyon Pompası Seçimi",
+            "series": "sirkulasyon"
+        },
+        {
+            "day": 19,
+            "file": "43-yerden-isitma-sirkulasyon.json",
+            "publish_on": "2026-07-15",
+            "title": "Yerden Isıtma Sirkülasyon Pompası Seçimi",
+            "series": "sirkulasyon"
+        },
+        {
+            "day": 20,
+            "file": "44-frekans-kontrollu-sirkulasyon.json",
+            "publish_on": "2026-07-16",
+            "title": "Frekans Kontrollü Sirkülasyon Pompası Avantajları",
+            "series": "sirkulasyon"
+        },
+        {
+            "day": 20,
+            "file": "45-sirkulasyon-pompa-fiyatlari.json",
+            "publish_on": "2026-07-16",
+            "title": "Sirkülasyon Pompa Fiyatları 2026",
+            "series": "sirkulasyon"
+        },
+        {
+            "day": 20,
+            "file": "46-sirkulasyon-pompa-ariza.json",
+            "publish_on": "2026-07-16",
+            "title": "Sirkülasyon Pompası Çalışmıyor: Arıza Rehberi",
+            "series": "sirkulasyon"
         }
     ]
 }

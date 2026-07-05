@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "sicak-su-sirkulasyon-pompasi-secimi",
+            "title": "Sıcak Su Sirkülasyon Pompası Seçimi: Anında Sıcak Su Rehberi",
+            "excerpt": "Sıcak su sirkülasyon pompası nedir? Muslukta anında sıcak su için devridaim hattı, debi seçimi, timer ve enerji tasarrufu ipuçları.",
+            "meta_title": "Sıcak Su Sirkülasyon Pompası Seçimi",
+            "meta_description": "Sıcak su sirkülasyon pompası seçimi: anında sıcak su devresi, debi, timer, enerji tasarrufu ve kalorifer pompası farkı.",
+            "tags": ["sıcak su pompası", "sirkülasyon pompası", "anında sıcak su", "devridaim hattı"],
+            "image_alt": "Sıcak su sirkülasyon pompası — devridaim hattı seçimi",
+            "published": true,
+            "published_at": "2026-07-15 09:00:00",
+            "content": "<p><strong>Sıcak su sirkülasyon pompası</strong>, kombi veya termosifondan musluklara giden sıcak su hattında suyun sürekli veya zamanlı dolaşmasını sağlayarak muslukta anında sıcak su elde edilmesini sağlar. Uzun boru hatlarında suyun soğumasını ve litrelerce su israfını önler.</p>\n\n<p>Genel: <a href=\"/blog/sirkulasyon-pompasi-nedir-nasil-secilir\">Sirkülasyon pompası rehberi</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/sirkulasyon-pompalari/sicak-su-pompalari\">sıcak su pompaları</a></p>\n\n<h2>Nasıl Çalışır?</h2>\n<p>Sıcak su üreticisinden çıkan hat ile geri dönüş hattı arasında küçük debili bir pompa devreyi dolaştırır. Musluk kapalıyken devre sıcak kalır; açıldığında bekleme süresi saniyelere iner. Timer veya hareket sensörü ile pompa yalnızca ihtiyaç saatlerinde çalıştırılabilir.</p>\n\n<h2>Kalorifer Pompasından Farkı</h2>\n<ul>\n  <li><strong>Sıcak su pompası:</strong> Düşük debi, potable su veya sıcak su hattı, genelde timer kontrollü</li>\n  <li><strong>Kalorifer pompası:</strong> Isıtma devresi, daha yüksek debi, ısıtma sezonu boyunca sürekli</li>\n</ul>\n<p>Karıştırılmamalıdır; her devre kendi pompasına sahip olmalıdır.</p>\n\n<h2>Seçim Kriterleri</h2>\n<ul>\n  <li><strong>Debi:</strong> Hat uzunluğu ve musluk sayısına göre düşük debi (0,5–2 m³/h)</li>\n  <li><strong>Sıcaklık uyumu:</strong> 60–70 °C sürekli çalışma</li>\n  <li><strong>Bağlantı:</strong> Rekorlu dişli, genelde DN15–DN20</li>\n  <li><strong>Timer / otomasyon:</strong> Enerji tasarrufu için şart</li>\n  <li><strong>Sessizlik:</strong> Gece çalışan devrelerde düşük gürültü</li>\n</ul>\n\n<h2>Enerji Tasarrufu</h2>\n<p>7/24 çalışan devredaim hattı elektrik ve ısı kaybına yol açar. Timer ile sabah-akşam saatlerine sınırlamak, boru izolasyonu ve kısa devre hat planı tasarruf sağlar. <a href=\"/blog/frekans-kontrollu-sirkulasyon-pompa-avantajlari\">ECM pompa</a> düşük debide de verimlidir.</p>\n\n<h2>Sıcak Su Hidroforu ile İlişki</h2>\n<p>Düşük basınçlı musluk akışı için <a href=\"/kategoriler/hidrofor-sistemleri/sicak-su-hidroforu\">sıcak su hidroforu</a> ayrı konudur; sirkülasyon pompası basınç artırmaz, devridaim sağlar.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Sıcak su pompası zorunlu mu?</h3>\n<p>Uzun hatlı binalarda konfor için önerilir; kısa hatlı mutfak/banyo yakınlığında şart değildir.</p>\n\n<h3>Hangi marka?</h3>\n<p><a href=\"/marka/pedrollo\">Pedrollo</a>, <a href=\"/marka/sumak\">Sumak</a> sıcak su devresi modelleri sunar. <a href=\"/kategoriler/su-pompalari/sirkulasyon-pompalari/sicak-su-pompalari\">Sıcak su pompaları</a></p>\n\n<p>Kurulum planı: <a href=\"/iletisim\">teknik destek</a> · <a href=\"/blog/sirkulasyon-pompa-fiyatlari-2026-rehberi\">fiyat rehberi</a></p>"
+        }
+    ]
+}

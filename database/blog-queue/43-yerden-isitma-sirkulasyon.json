@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "yerden-isitma-sirkulasyon-pompasi-secimi",
+            "title": "Yerden Isıtma Sirkülasyon Pompası Seçimi Rehberi",
+            "excerpt": "Yerden ısıtma için sirkülasyon pompası nasıl seçilir? Düşük debi, düşük gürültü, ECM motor ve manifold uyumu rehberi.",
+            "meta_title": "Yerden Isıtma Sirkülasyon Pompası Seçimi",
+            "meta_description": "Yerden ısıtma sirkülasyon pompası seçimi: düşük debi, sessiz ECM motor, manifold uyumu ve kalorifer pompası farkı.",
+            "tags": ["yerden ısıtma pompası", "sirkülasyon pompası", "ECM pompa", "kalorifer"],
+            "image_alt": "Yerden ısıtma sirkülasyon pompası seçimi",
+            "published": true,
+            "published_at": "2026-07-15 10:00:00",
+            "content": "<p><strong>Yerden ısıtma sirkülasyon pompası</strong>, kombi veya ısı pompasından manifold ve boru devresine suyun kontrollü debiyle iletilmesini sağlar. Radyatör devresinden farklı olarak düşük sıcaklık (35–45 °C), düşük debi ve sürekli sessiz çalışma önceliklidir.</p>\n\n<p>Genel: <a href=\"/blog/sirkulasyon-pompasi-nedir-nasil-secilir\">Sirkülasyon pompası rehberi</a> · Rekorlu: <a href=\"/blog/rekorlu-disli-sirkulasyon-pompa-rehberi\">rekorlu dişli rehber</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/sirkulasyon-pompalari\">sirkülasyon pompaları</a></p>\n\n<h2>Yerden Isıtma Devresi Özellikleri</h2>\n<ul>\n  <li>Düşük su sıcaklığı, yüksek verim</li>\n  <li>Manifold üzerinde bölgesel debi ayarı</li>\n  <li>Uzun boru devresi, düşük basınç kaybı</li>\n  <li>7/24 sessiz çalışma beklentisi</li>\n</ul>\n\n<h2>Pompa Seçim Kriterleri</h2>\n\n<h3>Düşük debi modu</h3>\n<p>Yerden ısıtma genelde 1–3 m³/h debi ile yeterlidir. Yüksek debili kalorifer pompası gereksiz enerji tüketir ve manifold vanalarını zorlar.</p>\n\n<h3>ECM / frekans kontrollü motor</h3>\n<p>Sabit III. kademe yerine otomatik debi ayarlı <a href=\"/blog/frekans-kontrollu-sirkulasyon-pompa-avantajlari\">ECM pompa</a> tercih edilir; hem elektrik hem konfor artar.</p>\n\n<h3>Sessizlik</h3>\n<p>Islak rotorlu rekorlu pompalar yerden ısıtma ile uyumludur. Titreşim izolasyonu ve sağlam montaj gürültüyü azaltır.</p>\n\n<h3>Karışım vanası / bypass</h3>\n<p>Kombi çıkış sıcaklığı yüksekse karışım vanası ile devre sıcaklığı düşürülür; pompa bu devrede çalışır.</p>\n\n<h2>Radyatör + Yerden Isıtma Birlikte</h2>\n<p>İki ayrı devre ve genelde iki ayrı pompa kullanılır. Tek pompa ile her iki devreyi beslemek debi dengesizliği yaratır. <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">Hidrofor</a> bu konuyla ilgili değildir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Yerden ısıtma pompası kaç watt?</h3>\n<p>ECM modeller 5–25 W; eski sabit hızlı modeller 60–100 W tüketebilir.</p>\n\n<h3>Pompa sürekli çalışmalı mı?</h3>\n<p>Oda termostatı veya kombi modülasyonu ile birlikte ısıtma ihtiyacı olduğunda evet.</p>\n\n<h3>Hangi marka?</h3>\n<p><a href=\"/marka/pedrollo\">Pedrollo</a>, <a href=\"/marka/sumak\">Sumak</a>, <a href=\"/marka/welko\">Welko</a> yerden ısıtma uyumlu modeller sunar.</p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">montaj danışmanlığı</a></p>"
+        }
+    ]
+}
