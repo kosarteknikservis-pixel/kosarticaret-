@@ -74,6 +74,7 @@ return [
     'category_flat_paths' => [
         'drenaj-dalgic-pompa' => 'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
         'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
+        'ev-tipi-hidroforlar' => 'hidrofor-sistemleri/ev-tipi-hidroforlar',
     ],
 
     /** WooCommerce üst kategori slug → yeni kategori yolu */

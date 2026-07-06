@@ -1,7 +1,14 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
+        {
+            "day": 0,
+            "file": "00-hidrofor-nedir-pillar.json",
+            "publish_on": "2026-06-09",
+            "title": "Hidrofor Nedir? Ne İşe Yarar, Nasıl Çalışır?",
+            "series": "hidrofor"
+        },
         {
             "day": 1,
             "file": "01-apartman-hidrofor-secimi.json",
@@ -323,6 +330,69 @@
             "publish_on": "2026-07-16",
             "title": "Sirkülasyon Pompası Çalışmıyor: Arıza Rehberi",
             "series": "sirkulasyon"
+        },
+        {
+            "day": 21,
+            "file": "47-en-iyi-hidrofor-markalari.json",
+            "publish_on": "2026-07-17",
+            "title": "En İyi Hidrofor Markaları 2026",
+            "series": "marka"
+        },
+        {
+            "day": 21,
+            "file": "48-pedrollo-marka-rehberi.json",
+            "publish_on": "2026-07-17",
+            "title": "Pedrollo Pompa Marka Rehberi",
+            "series": "marka"
+        },
+        {
+            "day": 21,
+            "file": "49-sumak-marka-rehberi.json",
+            "publish_on": "2026-07-17",
+            "title": "Sumak Pompa Marka Rehberi",
+            "series": "marka"
+        },
+        {
+            "day": 22,
+            "file": "50-winpo-marka-rehberi.json",
+            "publish_on": "2026-07-18",
+            "title": "Winpo Hidrofor Marka Rehberi",
+            "series": "marka"
+        },
+        {
+            "day": 22,
+            "file": "51-kaysu-marka-rehberi.json",
+            "publish_on": "2026-07-18",
+            "title": "Kaysu Pompa Marka Rehberi",
+            "series": "marka"
+        },
+        {
+            "day": 22,
+            "file": "52-pedrollo-dalgic-rehberi.json",
+            "publish_on": "2026-07-18",
+            "title": "Pedrollo Dalgıç Pompa Modelleri Rehberi",
+            "series": "marka"
+        },
+        {
+            "day": 23,
+            "file": "53-sumak-sks-skt.json",
+            "publish_on": "2026-07-19",
+            "title": "Sumak Hidrofor SKS ve SKT Serileri",
+            "series": "marka"
+        },
+        {
+            "day": 23,
+            "file": "54-winpo-paket-secimi.json",
+            "publish_on": "2026-07-19",
+            "title": "Winpo Paket Hidrofor Seçimi",
+            "series": "marka"
+        },
+        {
+            "day": 23,
+            "file": "55-yerli-ithal-karsilastirma.json",
+            "publish_on": "2026-07-19",
+            "title": "Yerli mi İthal Hidrofor Markası mı?",
+            "series": "marka"
         }
     ]
 }

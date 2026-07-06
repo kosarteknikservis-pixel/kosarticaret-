@@ -63,16 +63,17 @@ HTML,
         ],
 
         'hidrofor-sistemleri' => [
-            'subtitle' => 'Ev, apartman ve sanayi hidrofor grupları — frekans kontrollü ve tanklı sistemler, Pedrollo & Sumak.',
+            'subtitle' => 'Hidrofor nedir, ne işe yarar? Ev, apartman ve sanayi hidrofor grupları — Pedrollo, Sumak, frekans kontrollü sistemler.',
             'buying_guide' => <<<'HTML'
-<h3>Hidrofor Sistemi Nasıl Seçilir?</h3>
-<p>Hidrofor; pompa, genleşme tankı ve basınç anahtarından oluşur. Doğru seçim için <strong>daire/kat sayısı</strong>, <strong>eşzamanlı musluk sayısı</strong> ve <strong>su kaynağı debisi</strong> hesaplanmalıdır.</p>
+<h3>Hidrofor Nedir? Sistem Nasıl Seçilir?</h3>
+<p><strong>Hidrofor</strong>, pompa, basınç tankı ve otomatik kontrolün birlikte çalıştığı su basınçlandırma sistemidir. Düşük şebeke basıncı, üst katlarda zayıf su ve depo beslemeli apartmanlarda hidrofor sistemi suyu konforlu basınca çıkarır. Detaylı anlatım: <a href="/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir">hidrofor nedir, ne işe yarar?</a> · <a href="/blog/apartman-icin-hidrofor-nasil-secilir">apartman hidrofor seçimi</a></p>
+<p>Doğru <strong>hidrofor seçimi</strong> için <strong>kat/daire sayısı</strong>, <strong>eşzamanlı musluk</strong> ve <strong>su kaynağı debisi</strong> hesaplanmalıdır.</p>
 <ul>
-<li><strong>1–2 katlı ev:</strong> 24–50 L tanklı tek pompalı hidrofor (0,75–1,1 kW)</li>
+<li><strong>1–2 katlı ev:</strong> 24–50 L tanklı ev tipi hidrofor (0,75–1,1 kW)</li>
 <li><strong>3–6 katlı apartman:</strong> Frekans kontrollü veya büyük tanklı grup</li>
-<li><strong>Sanayi / otel:</strong> Çok pompalı paket hidrofor veya kademeli sistem</li>
+<li><strong>Site / sanayi:</strong> Çok pompalı hidrofor grubu</li>
 </ul>
-<p>Frekans kontrollü hidroforlar tank hacmi gerektirmez, basınç dalgalanmasını minimize eder ve enerji tasarrufu sağlar. <a href="/kategoriler/hidrofor-sistemleri/frekans-kontrollu-hidroforlar">Frekans kontrollü hidroforlar</a> sayfamızı inceleyin.</p>
+<p>Marka rehberi: <a href="/blog/en-iyi-hidrofor-markalari-2026">en iyi hidrofor markaları</a> · <a href="/kategoriler/hidrofor-sistemleri/frekans-kontrollu-hidroforlar">Frekans kontrollü hidroforlar</a> · <a href="/pompa-secici">Pompa Seçici</a></p>
 HTML,
         ],
 

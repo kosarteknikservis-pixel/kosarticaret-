@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "winpo-paket-hidrofor-secimi",
+            "title": "Winpo Paket Hidrofor Seçimi: Kat, Daire ve Tank Rehberi",
+            "excerpt": "Winpo paket hidrofor nasıl seçilir? Kaç kata kadar, tank hacmi, jet vs santrifüj ve montaj ipuçları.",
+            "meta_title": "Winpo Paket Hidrofor Seçimi Rehberi",
+            "meta_description": "Winpo paket hidrofor seçimi: kaç kat, tank hacmi, jet hidrofor, motor gücü ve montaj için pratik rehber.",
+            "tags": ["winpo hidrofor", "paket hidrofor", "winpo", "jet hidrofor"],
+            "image_alt": "Winpo paket hidrofor seçim rehberi",
+            "published": true,
+            "published_at": "2026-07-17 16:00:00",
+            "content": "<p><strong>Winpo paket hidrofor</strong> seçerken üç temel soru yanıtlanmalıdır: Kaç kat ve kaç nokta beslenecek? Su kaynağı derin kuyu mu şebeke mi? Kurulum yeri (bodrum, bahçe, balkon) sessizlik açısından uygun mu?</p>\n\n<p>Marka: <a href=\"/blog/winpo-hidrofor-marka-rehberi\">Winpo marka rehberi</a> · Ürünler: <a href=\"/marka/winpo\">Winpo modelleri</a> · Genel: <a href=\"/blog/ev-tipi-hidrofor-rehberi-mustakil-ev-villa\">ev tipi hidrofor</a></p>\n\n<h2>Paket Hidrofor Nedir?</h2>\n<p>Pompa, motor, basınç anahtarı ve tank fabrikada birleştirilmiştir. Montaj süresi kısalır; uyumsuz parça riski azalır.</p>\n\n<h2>Kapasite Seçimi</h2>\n<table>\n<thead><tr><th>Yapı</th><th>HP (yaklaşık)</th><th>Tank</th></tr></thead>\n<tbody>\n<tr><td>Müstakil ev, 1–2 kat</td><td>0,5–0,75</td><td>24 lt</td></tr>\n<tr><td>2–3 kat, 2 daire</td><td>0,75–1</td><td>24–50 lt</td></tr>\n<tr><td>3–4 kat, küçük apartman</td><td>1–1,5</td><td>50–80 lt</td></tr>\n</tbody>\n</table>\n<p>Kesin değer için <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">debi hesabı</a> yapın.</p>\n\n<h2>Jet vs Santrifüj Paket</h2>\n<ul>\n  <li><strong>Jet:</strong> Kendi emişi güçlü, sığ kuyu / tank besleme</li>\n  <li><strong>Santrifüj paket:</strong> Daha yüksek debi, ön besleme hattı gerekebilir</li>\n</ul>\n\n<h2>Montaj İpuçları</h2>\n<ul>\n  <li>Pompa titreşim izolasyonu kullanın</li>\n  <li>Giriş hattına filtre ve check valf</li>\n  <li>Elektrik hattı sigorta + topraklama</li>\n  <li>Tank basıncı periyodik kontrol (24 lt ≈ 1,5 bar)</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Winpo paket hidrofor kaç kata kadar?</h3>\n<p>Modele göre 3–4 kata kadar etiketlenmiş ürünler vardır; yoğun kullanımda üst model veya grup sistem gerekir.</p>\n\n<p>Alternatifler: <a href=\"/blog/sumak-hidrofor-sks-skt-serileri\">Sumak SKS/SKT</a> · <a href=\"/kategoriler/hidrofor-sistemleri\">tüm hidroforlar</a></p>"
+        }
+    ]
+}

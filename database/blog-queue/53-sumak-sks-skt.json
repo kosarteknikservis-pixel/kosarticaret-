@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "sumak-hidrofor-sks-skt-serileri",
+            "title": "Sumak Hidrofor SKS ve SKT Serileri: Farklar ve Model Seçimi",
+            "excerpt": "Sumak SKS ve SKT hidrofor serileri arasındaki fark nedir? Tank hacmi, motor gücü, ev ve apartman için doğru Sumak hidrofor seçimi.",
+            "meta_title": "Sumak Hidrofor SKS SKT Serileri Rehberi",
+            "meta_description": "Sumak hidrofor SKS ve SKT serileri farkları, tank hacmi, motor gücü ve ev/apartman için model seçim rehberi.",
+            "tags": ["sumak hidrofor", "SKS hidrofor", "SKT hidrofor", "sumak pompa"],
+            "image_alt": "Sumak hidrofor SKS SKT serileri karşılaştırma",
+            "published": true,
+            "published_at": "2026-07-17 15:00:00",
+            "content": "<p>Sumak hidrofor ailesinde en çok sorulan konu <strong>SKS</strong> ve <strong>SKT</strong> serileri arasındaki farktır. Her iki seri de paket hidrofor sunar; tank hacmi, motor gücü (HP), pompa tipi ve hedef kullanım (ev / apartman) modele göre değişir.</p>\n\n<p>Marka: <a href=\"/blog/sumak-pompa-marka-rehberi\">Sumak marka rehberi</a> · Ürünler: <a href=\"/kategoriler/hidrofor-sistemleri/sumak-hidrofor\">Sumak hidrofor</a> · Genel: <a href=\"/blog/ev-tipi-hidrofor-rehberi-mustakil-ev-villa\">ev tipi hidrofor</a></p>\n\n<h2>SKS Serisi</h2>\n<p>Genelde <strong>kompakt ev tipi</strong> uygulamalar için. Daha küçük tank (24–50 lt), düşük-orta HP. Müstakil ev, yazlık, 1–2 katlı yapılar.</p>\n\n<h2>SKT Serisi</h2>\n<p><strong>Daha yüksek debi ve tank</strong> (50–100 lt) ile apartman ve yoğun kullanım. Çok katlı binalarda SKT veya frekans kontrollü SSP-INV modelleri değerlendirilir.</p>\n\n<h2>Seçim Tablosu (Özet)</h2>\n<table>\n<thead><tr><th>Kullanım</th><th>Öneri</th><th>Tank</th></tr></thead>\n<tbody>\n<tr><td>Tek daire / müstakil ev</td><td>SKS, 0,5–1 HP</td><td>24–50 lt</td></tr>\n<tr><td>2–3 kat, 2–4 daire</td><td>SKT, 1–1,5 HP</td><td>50–80 lt</td></tr>\n<tr><td>4–6 kat apartman</td><td>SKT veya SSP-INV</td><td>80–100 lt</td></tr>\n<tr><td>Site / 10+ daire</td><td>Hidrofor grubu</td><td>Çok pompalı</td></tr>\n</tbody>\n</table>\n\n<h2>SSP-INV (Frekans Kontrollü)</h2>\n<p>Enerji tasarrufu ve sessizlik için inverter motorlu Sumak modelleri. <a href=\"/blog/inverter-hidrofor-avantajlari\">İnverter hidrofor rehberi</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>SKS mi SKT mi?</h3>\n<p>Daire sayısı ve eşzamanlı musluk kullanımına göre; şüphede bir üst kapasite seçin.</p>\n\n<h3>Sumak hidrofor fiyatları?</h3>\n<p>Seri ve HP'ye göre değişir. <a href=\"/blog/hidrofor-fiyatlari-2026-ev-apartman\">Hidrofor fiyat rehberi</a></p>\n\n<p>Modeller: <a href=\"/marka/sumak\">Sumak ürünleri</a> · <a href=\"/pompa-secici\">Pompa Seçici</a></p>"
+        }
+    ]
+}
