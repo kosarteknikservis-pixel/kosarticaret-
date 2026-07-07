@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "bina-yangin-pompasi-secimi",
+            "title": "Bina Yangın Pompası Seçimi: Debi, Basınç ve Sistem Rehberi",
+            "excerpt": "Bina yangın pompası nasıl seçilir? Sprinkler ve hidrant için debi, basınç, elektrikli-dizel yedeklilik ve proje onayı rehberi.",
+            "meta_title": "Bina Yangın Pompası Seçimi Rehberi",
+            "meta_description": "Bina yangın pompası seçimi: debi, basınç, elektrikli ve dizel pompa, jockey ve TS EN 12845 uyumu için teknik rehber.",
+            "tags": ["yangın pompası", "bina yangın pompası", "yangın sistemi", "sprinkler pompası"],
+            "image_alt": "Bina yangın pompası seçim rehberi",
+            "published": true,
+            "published_at": "2026-07-20 12:00:00",
+            "content": "<p><strong>Bina yangın pompası seçimi</strong> proje mühendisliği gerektirir; katalogdan rastgele pompa alınmaz. Sprinkler veya hidrant tipi, bina yüksekliği, boru kayıpları ve yangın deposu konumu debi (Q) ve basma (H) hesabını belirler.</p>\n\n<p>Genel: <a href=\"/blog/yangin-pompasi-nedir-nasil-secilir\">yangın pompası nedir?</a> · Hesap: <a href=\"/blog/yangin-pompa-debi-basinc-hesabi\">debi basınç hesabı</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/ozel-amacli-pompalar/yangin-pompalari\">yangın pompaları</a></p>\n\n<h2>Seçim Adımları</h2>\n<ol>\n  <li>Yangın risk sınıfı ve sistem tipi (sprinkler / hidrant / karma)</li>\n  <li>Hesaplanan Q ve H değerleri (proje)</li>\n  <li>Elektrikli ana pompa kapasitesi</li>\n  <li>Dizel yedek pompa (aynı veya yakın performans)</li>\n  <li>Jockey pompa boyutu</li>\n  <li>Kontrol paneli ve test vanaları</li>\n  <li>Itfaiye / sigorta onayı</li>\n</ol>\n\n<h2>Elektrikli + Dizel Neden Birlikte?</h2>\n<p>Yangında elektrik kesilir; dizel pompa otomatik çalışır. <a href=\"/blog/elektrikli-dizel-yangin-pompa-sistemi\">Elektrikli ve dizel sistem rehberi</a></p>\n\n<h2>Sık Hatalar</h2>\n<ul>\n  <li>Konut hidroforunu yangın hattına bağlamak</li>\n  <li>Debi hesabı olmadan küçük pompa seçmek</li>\n  <li>Dizel yedek atlamak</li>\n  <li>Jockey pompayı ihmal etmek</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Yangın pompası seçim programı var mı?</h3>\n<p>Proje yazılımları ve pompa üretici eğrileri kullanılır. Ön bilgi için <a href=\"/pompa-secici\">Pompa Seçici</a> ve <a href=\"/iletisim\">teknik danışmanlık</a>.</p>\n\n<h3>Apartman için yangın pompası gerekir mi?</h3>\n<p>Yükseklik ve kullanım sınıfına bağlıdır. <a href=\"/blog/yangin-pompasi-hangi-binalarda-zorunlu\">Zorunluluk rehberi</a></p>"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "yangin-pompa-debi-basinc-hesabi",
+            "title": "Yangın Pompası Debi ve Basınç Hesabı: Temel Rehber",
+            "excerpt": "Yangın pompası debi ve basınç hesabı nasıl yapılır? Sprinkler ve hidrant için Q ve H hesaplama temelleri.",
+            "meta_title": "Yangın Pompası Debi ve Basınç Hesabı",
+            "meta_description": "Yangın pompası debi ve basınç hesabı: sprinkler ve hidrant için Q, H hesaplama temelleri ve pompa seçim rehberi.",
+            "tags": ["yangın pompası", "yangın pompa debi", "basınç hesabı", "sprinkler pompası"],
+            "image_alt": "Yangın pompası debi basınç hesabı",
+            "published": true,
+            "published_at": "2026-07-20 15:00:00",
+            "content": "<p><strong>Yangın pompası debi (Q)</strong> ve <strong>basma yüksekliği (H)</strong> hesabı yangın proje mühendisliği ile yapılır. Pompa seçimi, hesaplanan en kötü senaryo (en fazla açık sprinkler/hidrant) üzerinden belirlenir.</p>\n\n<p>Genel pompa hesabı: <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">debi basma rehberi</a> · Seçim: <a href=\"/blog/bina-yangin-pompasi-secimi\">bina yangın pompası</a></p>\n\n<h2>Debi (Q) Nasıl Belirlenir?</h2>\n<ul>\n  <li><strong>Sprinkler:</strong> Risk grubuna göre tasarım yoğunluğu (m² başına debi)</li>\n  <li><strong>Hidrant:</strong> Eşzamanlı hidrant sayısı × hidrant debisi</li>\n  <li><strong>Karma sistem:</strong> En yüksek talep senaryosu</li>\n</ul>\n\n<h2>Basma (H) Nasıl Belirlenir?</h2>\n<p>Statik yükseklik + boru sürtünme kayıpları + sprinkler/hidrant basınç gereksinimi + emniyet payı.</p>\n\n<h2>Pompa Eğrisi ve Çalışma Noktası</h2>\n<p>Seçilen pompanın performans eğrisi, hesaplanan Q-H noktasında verimli çalışmalıdır. Katalog debisi tek başına yeterli değildir.</p>\n\n<h2>Kademeli Pompa İlişkisi</h2>\n<p>Yüksek basınçlı yangın hatlarında <a href=\"/blog/kademeli-pompa-ne-zaman-tercih-edilir\">kademeli pompa</a> tercih edilebilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Debi hesabını kim yapar?</h3>\n<p>Yangın proje mühendisi veya yetkili tesisat firması. Koşar ön danışmanlık ve ürün tedariki sunar.</p>\n\n<p><a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

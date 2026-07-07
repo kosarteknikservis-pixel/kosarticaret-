@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jockey-pompa-yangin-sistemi-nedir",
+            "title": "Jockey Pompa Nedir? Yangın Sisteminde Görevi",
+            "excerpt": "Jockey pompa yangın sisteminde ne işe yarar? Basınç takip pompası seçimi, ayarları ve ana yangın pompası ile farkı.",
+            "meta_title": "Jockey Pompa Nedir? Yangın Sistemi Rehberi",
+            "meta_description": "Jockey pompa nedir, yangın sisteminde ne işe yarar? Basınç takip pompası seçimi ve elektrikli yangın pompası ile farkı.",
+            "tags": ["jockey pompa", "yangın pompası", "basınç takip pompası", "yangın sistemi"],
+            "image_alt": "Jockey pompa yangın sistemi rehberi",
+            "published": true,
+            "published_at": "2026-07-20 14:00:00",
+            "content": "<p><strong>Jockey pompa</strong> (basınç takip pompası), yangın tesisatındaki küçük basınç kayıplarını telafi eder; ana <strong>elektrikli yangın pompası</strong>nın gereksiz devreye girmesini önler. Sistemde sürekli hazır basınç sağlar.</p>\n\n<p>Sistem: <a href=\"/blog/elektrikli-dizel-yangin-pompa-sistemi\">elektrikli + dizel rehber</a> · Genel: <a href=\"/blog/yangin-pompasi-nedir-nasil-secilir\">yangın pompası</a></p>\n\n<h2>Jockey Pompa Ne İşe Yarar?</h2>\n<ul>\n  <li>Hat basıncını üst/alt sınır arasında tutar</li>\n  <li>Küçük sızıntı ve termal genleşmeyi karşılar</li>\n  <li>Ana pompanın ömrünü uzatır</li>\n  <li>Yangın anında ana pompa için basınç altyapısı hazırlar</li>\n</ul>\n\n<h2>Seçim Kriterleri</h2>\n<ul>\n  <li>Debi ana pompanın %1–5'i kadar küçük</li>\n  <li>Basınç ana pompa eğrisi ile uyumlu</li>\n  <li>Kesme/açma basınçları panelde doğru ayarlı</li>\n</ul>\n\n<h2>Jockey Olmadan Ne Olur?</h2>\n<p>Ana yangın pompası sık start-stop yapar; motor ve kontaktör ömrü kısalır, arıza riski artar.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Jockey pompa hidrofor mu?</h3>\n<p>Benzer mantık (basınç koruma) ama yangın sistemine özel küçük debili pompadır; ev hidroforu değildir.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/ozel-amacli-pompalar/yangin-pompalari\">yangın pompaları</a> · <a href=\"/iletisim\">danışmanlık</a></p>"
+        }
+    ]
+}

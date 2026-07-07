@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "elektrikli-dizel-yangin-pompa-sistemi",
+            "title": "Elektrikli ve Dizel Yangın Pompası Sistemi: Nasıl Çalışır?",
+            "excerpt": "Elektrikli yangın pompası ve dizel yedek pompa sistemi nasıl çalışır? Otomatik devreye girme, kontrol paneli ve yedeklilik rehberi.",
+            "meta_title": "Elektrikli ve Dizel Yangın Pompası Sistemi",
+            "meta_description": "Elektrikli ve dizel yangın pompası sistemi nasıl çalışır? Yedek pompa, otomatik start ve yangın anında su besleme rehberi.",
+            "tags": ["dizel yangın pompası", "elektrikli yangın pompası", "yangın pompası", "yangın sistemi"],
+            "image_alt": "Elektrikli ve dizel yangın pompası sistemi",
+            "published": true,
+            "published_at": "2026-07-20 13:00:00",
+            "content": "<p>Bina yangın sistemlerinde standart konfigürasyon <strong>elektrikli ana pompa + dizel yedek pompa + jockey pompa</strong> üçlüsüdür. Elektrik kesintisinde dizel devreye girer; jockey hat basıncını korur.</p>\n\n<p>Genel: <a href=\"/blog/yangin-pompasi-nedir-nasil-secilir\">yangın pompası rehberi</a> · Jockey: <a href=\"/blog/jockey-pompa-yangin-sistemi-nedir\">jockey pompa</a></p>\n\n<h2>Elektrikli Yangın Pompası</h2>\n<ul>\n  <li>Normal şartlarda ana besleme kaynağı</li>\n  <li>Yüksek debi ve basınç kapasitesi</li>\n  <li>Otomatik start (basınç düşüşü veya yangın sinyali)</li>\n  <li>Genelde yatay veya dikey kademeli santrifüj</li>\n</ul>\n\n<h2>Dizel Yangın Pompası</h2>\n<ul>\n  <li>Şebeke elektriğinden bağımsız</li>\n  <li>Otomatik marş ve yakıt tankı</li>\n  <li>Soğutma hattı ve egzoz düzeni</li>\n  <li>Haftalık/aylık test çalıştırması zorunlu</li>\n</ul>\n\n<h2>Çalışma Senaryosu</h2>\n<ol>\n  <li>Küçük kaçak veya sıcaklık genişlemesi → jockey devreye girer</li>\n  <li>Yangın, sprinkler açılır → basınç düşer → elektrikli ana pompa start</li>\n  <li>Elektrik kesilirse → dizel otomatik çalışır</li>\n</ol>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Sadece elektrikli yangın pompası yeterli mi?</h3>\n<p>Çoğu ticari ve yüksek bina projesinde hayır; dizel yedek standart gereğidir.</p>\n\n<h3>Dizel pompa ne sıklıkla test edilir?</h3>\n<p>Genelde haftalık kısa çalıştırma, aylık yük testi önerilir. <a href=\"/blog/yangin-pompa-bakim-test-rehberi\">Bakım rehberi</a></p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/ozel-amacli-pompalar/yangin-pompalari\">yangın pompaları</a> · <a href=\"/iletisim\">teklif</a></p>"
+        }
+    ]
+}

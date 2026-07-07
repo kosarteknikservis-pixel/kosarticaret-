@@ -1,0 +1,18 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "yangin-pompa-bakim-test-rehberi",
+            "title": "Yangın Pompası Bakım ve Test Rehberi: Haftalık ve Aylık Kontrol",
+            "excerpt": "Yangın pompası bakımı nasıl yapılır? Elektrikli, dizel ve jockey pompa haftalık test, aylık kontrol ve arıza önleme rehberi.",
+            "meta_title": "Yangın Pompası Bakım ve Test Rehberi",
+            "meta_description": "Yangın pompası bakım ve test rehberi: elektrikli, dizel ve jockey pompa periyodik kontrol, haftalık çalıştırma ve arıza önleme.",
+            "tags": ["yangın pompası bakımı", "yangın pompası test", "dizel yangın pompası", "jockey pompa"],
+            "image_alt": "Yangın pompası bakım test rehberi",
+            "published": true,
+            "published_at": "2026-07-20 16:00:00",
+            "content": "<p><strong>Yangın pompası bakımı</strong> can güvenliği için kritiktir. Çalışmayan yangın pompası, yangın anında sistemi devre dışı bırakır. Elektrikli, dizel ve jockey pompalar için periyodik test zorunludur.</p>\n\n<p>Sistem: <a href=\"/blog/elektrikli-dizel-yangin-pompa-sistemi\">elektrikli + dizel</a> · Genel: <a href=\"/blog/yangin-pompasi-nedir-nasil-secilir\">yangın pompası</a></p>\n\n<h2>Haftalık Kontroller</h2>\n<ul>\n  <li>Dizel pompa kısa süreli otomatik çalıştırma (no-load)</li>\n  <li>Kontrol paneli alarm ve gösterge kontrolü</li>\n  <li>Yakıt seviyesi ve akü şarj durumu</li>\n  <li>Pompa odası erişim ve havalandırma</li>\n</ul>\n\n<h2>Aylık / Üç Aylık</h2>\n<ul>\n  <li>Elektrikli pompa yük testi (proje prosedürüne göre)</li>\n  <li>Jockey kesme/açma basınç ayarı kontrolü</li>\n  <li>Conta, sızıntı, titreşim kontrolü</li>\n  <li>Test vanaları ve debimetre doğrulama</li>\n</ul>\n\n<h2>Yıllık</h2>\n<ul>\n  <li>Tam performans testi ve raporlama</li>\n  <li>Yetkili servis bakımı</li>\n  <li>Yedek parça ve yağ değişimi (dizel)</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Yangın pompası testi kim yapar?</h3>\n<p>Bina teknik sorumlusu günlük gözlem; yetkili yangın firması periyodik test ve rapor.</p>\n\n<h3>Test sırasında su israfı olur mu?</h3>\n<p>Test vanası ile geri dönüş veya sınırlı debi ile yapılır; prosedür proje dosyasında tanımlıdır.</p>\n\n<p>Ürün desteği: <a href=\"/iletisim\">Koşar teknik</a> · <a href=\"/kategoriler/su-pompalari/ozel-amacli-pompalar/yangin-pompalari\">yangın pompaları</a></p>"
+        }
+    ]
+}

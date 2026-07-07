@@ -47,11 +47,12 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Su pompası | 19–28 | Yayında |
 | Vantilatör | 30–37 | Yayında |
 | Sirkülasyon | 38–46 | Deploy ile yayınlanır |
-| Marka | 47–55 | Deploy ile yayınlanır |
+| Marka | 47–55 | Yayında |
+| Yangın pompası | 56–64 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Yangın/havalandırma veya mevcut hidrofor yazılarının GSC verisine göre güçlendirilmesi.
+Havuz pompası, foseptik/dizel özel amaçlı veya kuyu+hidrofor entegrasyon içerikleri.
 
 ## Kapak görseli
 

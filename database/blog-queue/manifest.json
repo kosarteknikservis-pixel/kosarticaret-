@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -393,6 +393,69 @@
             "publish_on": "2026-07-19",
             "title": "Yerli mi İthal Hidrofor Markası mı?",
             "series": "marka"
+        },
+        {
+            "day": 24,
+            "file": "56-yangin-pompasi-nedir.json",
+            "publish_on": "2026-07-20",
+            "title": "Yangın Pompası Nedir? Nasıl Seçilir?",
+            "series": "yangin"
+        },
+        {
+            "day": 24,
+            "file": "57-yangin-hidrofor-farki.json",
+            "publish_on": "2026-07-20",
+            "title": "Yangın Hidroforu ile Konut Hidrofor Farkı",
+            "series": "yangin"
+        },
+        {
+            "day": 24,
+            "file": "58-yangin-pompa-fiyatlari.json",
+            "publish_on": "2026-07-20",
+            "title": "Yangın Pompa Fiyatları 2026",
+            "series": "yangin"
+        },
+        {
+            "day": 25,
+            "file": "59-bina-yangin-pompasi.json",
+            "publish_on": "2026-07-21",
+            "title": "Bina Yangın Pompası Seçimi",
+            "series": "yangin"
+        },
+        {
+            "day": 25,
+            "file": "60-elektrikli-dizel-yangin.json",
+            "publish_on": "2026-07-21",
+            "title": "Elektrikli ve Dizel Yangın Pompası Sistemi",
+            "series": "yangin"
+        },
+        {
+            "day": 25,
+            "file": "61-jockey-pompa.json",
+            "publish_on": "2026-07-21",
+            "title": "Jockey Pompa Nedir?",
+            "series": "yangin"
+        },
+        {
+            "day": 26,
+            "file": "62-yangin-debi-basinc.json",
+            "publish_on": "2026-07-22",
+            "title": "Yangın Pompası Debi ve Basınç Hesabı",
+            "series": "yangin"
+        },
+        {
+            "day": 26,
+            "file": "63-yangin-pompa-bakim.json",
+            "publish_on": "2026-07-22",
+            "title": "Yangın Pompası Bakım ve Test Rehberi",
+            "series": "yangin"
+        },
+        {
+            "day": 26,
+            "file": "64-yangin-zorunluluk.json",
+            "publish_on": "2026-07-22",
+            "title": "Yangın Pompası Hangi Binalarda Zorunlu?",
+            "series": "yangin"
         }
     ]
 }
