@@ -49,10 +49,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Sirkülasyon | 38–46 | Deploy ile yayınlanır |
 | Marka | 47–55 | Yayında |
 | Yangın pompası | 56–64 | Deploy ile yayınlanır |
+| Özel amaçlı pompa | 65–72 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Havuz pompası, foseptik/dizel özel amaçlı veya kuyu+hidrofor entegrasyon içerikleri.
+Winpo/WNP ürün odaklı veya pompa arıza/bakım kümesi (henüz planlanmadı).
 
 ## Kapak görseli
 

@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kuyu-suyu-hidrofor-baglanti-rehberi",
+            "title": "Kuyu Suyu Hidrofor Bağlantısı: Şema, Montaj ve Ayar Rehberi",
+            "excerpt": "Kuyu suyu hidrofor bağlantısı nasıl yapılır? Dalgıç pompa, basınç anahtarı, genleşme tankı ve boru hattı montaj rehberi.",
+            "meta_title": "Kuyu Suyu Hidrofor Bağlantısı Rehberi",
+            "meta_description": "Kuyu suyu hidrofor bağlantısı nasıl yapılır? Dalgıç pompa, basınç anahtarı, tank ve boru hattı montaj adımları.",
+            "tags": [
+                "kuyu suyu hidrofor",
+                "hidrofor bağlantısı",
+                "kuyu hidrofor",
+                "dalgıç pompa hidrofor"
+            ],
+            "image_alt": "Kuyu suyu hidrofor bağlantı şeması ve montaj",
+            "published": true,
+            "published_at": "2026-07-26 09:00:00",
+            "content": "<p><strong>Kuyu suyu hidrofor bağlantısı</strong>, kuyudan çekilen suyun ev veya işyerine sabit basınçla iletilmesi için dalgıç pompa, boru hattı, check valf, basınç anahtarı ve genleşme tankından oluşan sistemin doğru kurulmasıdır. Yanlış montaj sürekli çalışma, düşük basınç ve pompa ömrünü kısaltan arızalara yol açar.</p>\n\n<p>Hidrofor: <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor nedir?</a> · Kuyu: <a href=\"/blog/keson-kuyu-pompa-rehberi\">keson kuyu</a> · <a href=\"/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi\">derin kuyu dalgıç</a> · Sorun: <a href=\"/blog/hidrofor-surekli-calisyor-sebepler-cozum\">hidrofor sürekli çalışması</a></p>\n\n<h2>Sistem Bileşenleri</h2>\n<ol>\n  <li><strong>Dalgıç pompa</strong> — kuyu içinde</li>\n  <li><strong>Emme/çıkış borusu</strong> — paslanmaz veya PE</li>\n  <li><strong>Check valf</strong> — pompa üstünde veya kuyu başında</li>\n  <li><strong>Basınç anahtarı (presostat)</strong> — açma/kapama basıncı</li>\n  <li><strong>Genleşme tankı</strong> — basınç dalgalanmasını yumuşatır</li>\n  <li><strong>Kuru kurulumlu santrifüj (opsiyonel)</strong> — bazı sistemlerde yüzey pompası</li>\n</ol>\n\n<h2>Bağlantı Şeması (Özet)</h2>\n<p>Kuyu → dalgıç pompa → dikey boru → check valf → yatay hat → basınç anahtarı → tank → dağıtım hattı (ev). Basınç anahtarı tank öncesine veya sonrasına proje tipine göre bağlanır; üretici şeması esas alınmalıdır.</p>\n\n<h2>Montaj Adımları</h2>\n\n<h3>1. Kuyu tarafı</h3>\n<p>Pompa kuyu çapına uygun; emme filtresi (kumlu suda şart). Kablo pompa ile birlikte iner, destek kelepçeleri ile sabitlenir. Kuyu kapağı contalı geçiş.</p>\n\n<h3>2. Check valf</h3>\n<p>Pompa durduğunda suyun geri akmasını önler; hidroforun her seferinde kuyuyu boşaltmasını engeller.</p>\n\n<h3>3. Basınç anahtarı ayarı</h3>\n<p>Tipik ev sistemi: açılma ~1,5–2 bar, kapanma ~2,5–3 bar. Tank hacmi büyükse aralık genişletilebilir. Yanlış ayar sürekli çalışmaya neden olur.</p>\n\n<h3>4. Genleşme tankı havası</h3>\n<p>Boş hattta 1–1,5 bar ön basınç (üretici değeri). Hava kaybı tankta su birikmesine ve sık pompa çalışmasına yol açar.</p>\n\n<h3>5. Elektrik</h3>\n<p>Topraklama, termik röle ve yağmurda korunan bağlantı kutusu. Dalgıç pompa kablosu uzatılmamalı; doğru kesitte kablo kullanılmalıdır.</p>\n\n<h2>Kuyu + Hidrofor mı, Sadece Dalgıç mı?</h2>\n<p>Çok musluklu ev ve apartmanlarda hidrofor (veya dalgıç + tank + presostat) şarttır. Tek musluklu küçük kullanımda bazen doğrudan dalgıç yeterli olabilir; basınç dalgalanması yaşanır.</p>\n\n<h2>Sık Hatalar</h2>\n<ul>\n  <li>Check valf eksikliği veya arızası</li>\n  <li>Tank ön basıncının sıfır olması</li>\n  <li>Çok dar boru çapı (basınç kaybı)</li>\n  <li>Pompa debisinin ihtiyaçtan çok düşük veya yüksek olması</li>\n  <li>Hidrofor ve dalgıç pompayı farklı marka uyumsuz setle birleştirmek</li>\n</ul>\n\n<h2>Bakım</h2>\n<p>Yılda bir tank havası kontrolü; presostat kontak temizliği; kuyu suyu kum filtresi yıkama; pompa çekme periyodu (5–7 yıl, kullanıma bağlı).</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Kuyu hidroforu kaç litre tank olmalı?</h3>\n<p>Ev için 24–100 lt arası yaygın; musluk sayısı ve pompa debisine göre büyütülür. <a href=\"/blog/hidrofor-basinc-tanki-secimi\">Tank hacmi seçimi</a></p>\n\n<h3>Dalgıç pompa arızasında hidrofor çalışır mı?</h3>\n<p>Hayır; su kaynağı dalgıç pompadır. Yedek pompa veya hızlı servis planı önerilir.</p>\n\n<h3>Kuyu suyu şebekeye bağlanabilir mi?</h3>\n<p>Belediye ve içme suyu yönetmeliklerine göre proje gerekir; doğrudan bağlantı çoğu yerde yasaktır.</p>\n\n<p>Set önerisi: <a href=\"/kategoriler/hidroforlar\">hidroforlar</a> · <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">montaj danışmanlığı</a></p>"
+        }
+    ]
+}

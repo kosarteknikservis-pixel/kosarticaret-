@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kirli-su-tahliye-pompasi-secimi",
+            "title": "Kirli Su Tahliye Pompası Seçimi: Bodrum, İnşaat ve Drenaj",
+            "excerpt": "Kirli su tahliye pompası nasıl seçilir? Drenaj dalgıç pompa, parçalayıcı bıçaklı modeller, debi ve otomatik çalıştırma rehberi.",
+            "meta_title": "Kirli Su Tahliye Pompası Seçimi",
+            "meta_description": "Kirli su tahliye pompası nasıl seçilir? Bodrum, inşaat ve yağmur suyu drenajı için dalgıç pompa ve debi rehberi.",
+            "tags": [
+                "kirli su tahliye pompası",
+                "drenaj pompası",
+                "kirli su pompası",
+                "bodrum su tahliye"
+            ],
+            "image_alt": "Kirli su tahliye pompası — bodrum ve drenaj uygulaması",
+            "published": true,
+            "published_at": "2026-07-25 09:00:00",
+            "content": "<p><strong>Kirli su tahliye pompası</strong>, partikül içeren suyun (yağmur birikintisi, bodrum suyu, inşaat kazısı, kanalizasyon dışı drenaj) hızlıca uzaklaştırılması için kullanılan dalgıç veya yüzey pompasıdır. Temiz su pompası kirli uygulamada tıkanır; flatörlü veya bıçaklı (parçalayıcı) modeller tercih edilir.</p>\n\n<p>Drenaj rehber: <a href=\"/blog/drenaj-dalgic-pompa-rehberi-bodrum-yagmur-suyu\">drenaj dalgıç pompa</a> · Foseptik: <a href=\"/blog/foseptik-tahliye-cihazi-rehberi\">foseptik tahliye</a> · Kategori: <a href=\"/kategoriler/su-pompalari/dalgic-pompalar\">dalgıç pompalar</a></p>\n\n<h2>Kullanım Alanları</h2>\n<ul>\n  <li><strong>Bodrum ve otopark:</strong> Yağmur suyu birikintisi</li>\n  <li><strong>İnşaat şantiyesi:</strong> Kazı alanı su tahliyesi</li>\n  <li><strong>Sanayi:</strong> Proses drenajı (kimyasal uyumluluk kontrolü gerekir)</li>\n  <li><strong>Tarım:</strong> Tarla suyu tahliyesi</li>\n  <li><strong>Havuz boşaltma:</strong> Kısa süreli yüksek debi</li>\n</ul>\n\n<h2>Pompa Tipleri</h2>\n\n<h3>Flatörlü drenaj pompası</h3>\n<p>Suya batırılır; su seviyesi 5–10 mm'ye inince flatör devreyi keser. Bodrum çukuru uygulamalarında yaygın.</p>\n\n<h3>Bıçaklı (parçalayıcı) dalgıç pompa</h3>\n<p>Kağıt, bez parçası ve orta boy katı maddeleri parçalar. Foseptik ve yoğun kirli su için. <a href=\"/blog/foseptik-dalgic-pompa-secimi-rehberi\">Foseptik dalgıç pompa</a></p>\n\n<h3>Yüzey kirli su pompası</h3>\n<p>Emme hortumu ile; sığ su ve geçici şantiye işleri.</p>\n\n<h2>Debi ve Parçacık Boyutu</h2>\n<p>Üretici katalogunda <strong>maksimum geçiş çapı</strong> (mm) belirtilir. Kum ve çakıl için bu değer yeterli olmalıdır. Debi, birikinti hacminin hedeflenen sürede boşaltılmasına göre seçilir.</p>\n\n<h2>Otomatik Çalıştırma</h2>\n<p>Bodrum uygulamalarında flatörlü pompa + yüzen anahtar veya seviye sensörü ile otomatik devreye girme su baskını riskini azaltır. Yedek pompa veya alarm sistemi kritik alanlarda önerilir.</p>\n\n<h2>Montaj İpuçları</h2>\n<ol>\n  <li>Çukur tabanında pompa için sağlam zemin veya sepet</li>\n  <li>Çıkış hattında check valf</li>\n  <li>Elektrik: IP68 kablo girişi, kaçak akım koruması</li>\n  <li>Periyodik test (yağmursuz dönemde manuel çalıştırma)</li>\n</ol>\n\n<h2>Kirli Su vs Temiz Su Pompası</h2>\n<p>Temiz su dalgıç pompası dar geçişli emme gözüne sahiptir; kirli suda dakikalar içinde tıkanır. Kirli su pompasında geniş kanal ve paslanmaz veya döküm parçalayıcı bıçak bulunur.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Bodrum pompası ne sıklıkla çalışmalı?</h3>\n<p>Yağmur sonrası otomatik devreye girmesi yeterlidir; aylık test çalıştırması önerilir.</p>\n\n<h3>Kirli su pompası kanalizasyona bağlanır mı?</h3>\n<p>Bina kanalizasyon hattına bağlantı belediye ve proje kurallarına tabidir; doğrudan bağlantı her yerde uygun değildir.</p>\n\n<h3>Pompa sürekli çalışıyor, su gelmiyor?</h3>\n<p>Emme tıkanıklığı, flatör arızası veya yanlış yönlendirme olabilir; güç kesilip emme kontrol edilmelidir.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/dalgic-pompalar\">dalgıç pompalar</a> · <a href=\"/pompa-secici\">Pompa Seçici</a></p>"
+        }
+    ]
+}

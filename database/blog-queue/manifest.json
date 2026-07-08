@@ -456,6 +456,62 @@
             "publish_on": "2026-07-22",
             "title": "Yangın Pompası Hangi Binalarda Zorunlu?",
             "series": "yangin"
+        },
+        {
+            "day": 27,
+            "file": "65-ozel-amacli-pompalar-nedir.json",
+            "publish_on": "2026-07-23",
+            "title": "Özel Amaçlı Pompalar Nedir? Nasıl Seçilir?",
+            "series": "ozel-amacli"
+        },
+        {
+            "day": 27,
+            "file": "66-havuz-pompasi-secimi.json",
+            "publish_on": "2026-07-23",
+            "title": "Havuz Pompası Seçimi Rehberi",
+            "series": "ozel-amacli"
+        },
+        {
+            "day": 28,
+            "file": "67-dizel-motopomp-secimi.json",
+            "publish_on": "2026-07-24",
+            "title": "Dizel Motopomp Seçimi Rehberi",
+            "series": "ozel-amacli"
+        },
+        {
+            "day": 28,
+            "file": "68-keson-kuyu-pompa-rehberi.json",
+            "publish_on": "2026-07-24",
+            "title": "Keson Kuyu Pompa Rehberi",
+            "series": "ozel-amacli"
+        },
+        {
+            "day": 28,
+            "file": "69-foseptik-tahliye-cihazi.json",
+            "publish_on": "2026-07-25",
+            "title": "Foseptik Tahliye Cihazı Rehberi",
+            "series": "ozel-amacli"
+        },
+        {
+            "day": 29,
+            "file": "70-kirli-su-tahliye-pompasi.json",
+            "publish_on": "2026-07-25",
+            "title": "Kirli Su Tahliye Pompası Seçimi",
+            "series": "ozel-amacli"
+        },
+        {
+            "day": 29,
+            "file": "71-derin-kuyu-pompa-fiyatlari.json",
+            "publish_on": "2026-07-26",
+            "title": "Derin Kuyu Pompa Fiyatları 2026",
+            "series": "ozel-amacli"
+        },
+        {
+            "day": 29,
+            "file": "72-kuyu-suyu-hidrofor-baglanti.json",
+            "publish_on": "2026-07-26",
+            "title": "Kuyu Suyu Hidrofor Bağlantısı Rehberi",
+            "series": "ozel-amacli"
         }
     ]
 }

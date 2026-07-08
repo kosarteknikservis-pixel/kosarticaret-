@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "keson-kuyu-pompa-rehberi",
+            "title": "Keson Kuyu Pompa Rehberi: Seçim, Montaj ve Hidrofor Bağlantısı",
+            "excerpt": "Keson kuyu pompası nasıl seçilir? Kuyu çapı, debi, dalgıç ve yüzey pompası farkı, montaj adımları ve hidrofor entegrasyonu.",
+            "meta_title": "Keson Kuyu Pompa Rehberi",
+            "meta_description": "Keson kuyu pompası nasıl seçilir? Kuyu çapı, debi hesabı, dalgıç pompa montajı ve hidrofor bağlantısı rehberi.",
+            "tags": [
+                "keson kuyu pompa",
+                "keson kuyu",
+                "kuyu pompası",
+                "kuyu dalgıç pompa"
+            ],
+            "image_alt": "Keson kuyu pompa seçimi ve montaj rehberi",
+            "published": true,
+            "published_at": "2026-07-24 09:00:00",
+            "content": "<p><strong>Keson kuyu</strong>, geniş çaplı (genelde 60–150 cm) ve sığ derinlikte (5–25 m) açılan, su seviyesine kolay erişim sağlayan kuyu tipidir. Köy, bağ ve yazlık evlerde yaygındır. Keson kuyudan su çekmek için dalgıç pompa, yüzey santrifüj veya jet pompa kullanılabilir; seçim derinlik, debi ve elektrik altyapısına bağlıdır.</p>\n\n<p>Derin kuyu: <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa\">derin kuyu dalgıç pompa</a> · Dalgıç rehber: <a href=\"/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi\">kuyu dalgıç pompa seçimi</a> · Hidrofor: <a href=\"/blog/kuyu-suyu-hidrofor-baglanti-rehberi\">kuyu suyu hidrofor bağlantısı</a></p>\n\n<h2>Keson Kuyu vs Derin Kuyu</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Keson kuyu</th><th>Derin kuyu</th></tr></thead>\n<tbody>\n<tr><td>Derinlik</td><td>Genelde 5–25 m</td><td>25 m ve üzeri</td></tr>\n<tr><td>Çap</td><td>Geniş, insan girilebilir</td><td>Dar boru kuyu</td></tr>\n<tr><td>Pompa tipi</td><td>Dalgıç, jet, yüzey</td><td>Çok kademeli dalgıç</td></tr>\n<tr><td>Bakım</td><td>Kolay erişim</td><td>Pompa çekme gerekir</td></tr>\n</tbody>\n</table>\n\n<h2>Hangi Pompa Tipi?</h2>\n\n<h3>Dalgıç pompa</h3>\n<p>En yaygın çözüm. Pompa su içinde çalışır; gürültü düşük, verim yüksek. Kuyu çapına uygun gövde çapı seçilmelidir. <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">Dalgıç pompa nedir?</a></p>\n\n<h3>Jet pompa (yüzey)</h3>\n<p>Sığ kuyularda (8 m altı su seviyesi) ekonomik seçenek. Emme hattı ve jet gövdesi kuyuya iner; yüzeyde motor bulunur.</p>\n\n<h3>Santrifüj + emme borusu</h3>\n<p>Çok sığ ve temiz su için; emme yüksekliği sınırlıdır, hava emmesi riski vardır.</p>\n\n<h2>Debi ve Basma Hesabı</h2>\n<p>Günlük su tüketimi (kişi sayısı × 150–200 lt), sulama ihtiyacı ve aynı anda açık musluk sayısı debiyi belirler. Basma = kuyu derinliği + yer üstü yükseklik + boru kaybı. Detay: <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">debi basma hesabı</a>.</p>\n\n<h2>Montaj Kontrol Listesi</h2>\n<ol>\n  <li>Kuyu çapı ölçümü (pompa gövdesi + 20 mm pay)</li>\n  <li>Paslanmaz veya galvaniz emme/çıkış borusu</li>\n  <li>Check valf (geri tepme önleyici)</li>\n  <li>Kuyu kapağından geçiş contası</li>\n  <li>Elektrik: topraklama ve termik koruma</li>\n  <li>Hidrofor tankı ve basınç anahtarı (ev beslemesi için)</li>\n</ol>\n\n<h2>Keson Kuyu Su Kalitesi</h2>\n<p>Kum, demir ve bakteri analizi yapılmalıdır. Yüksek kum için ön filtre; demir için arıtma; bakteri için UV veya klor sistemi gerekebilir. Pompa seçiminden önce su analizi önerilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Keson kuyuya hangi dalgıç pompa girer?</h3>\n<p>Kuyu iç çapından en az 20 mm küçük gövdeli model seçilir. Dar kuyularda 3\" veya 4\" dalgıç pompalar kullanılır.</p>\n\n<h3>Pompa sürekli çalışıyor, arıza mı?</h3>\n<p>Genelde hidrofor basınç anahtarı veya tank havası sorunudur. <a href=\"/blog/hidrofor-surekli-calisyor-sebepler-cozum\">Hidrofor sürekli çalışması</a> yazısına bakın.</p>\n\n<h3>Keson kuyu pompa fiyatları?</h3>\n<p>Derinlik ve motor gücüne göre değişir. <a href=\"/blog/derin-kuyu-pompa-fiyatlari-2026-rehberi\">Derin kuyu pompa fiyatları</a> aralığı referans olabilir.</p>\n\n<p>Model listesi: <a href=\"/kategoriler/su-pompalari/dalgic-pompalar\">dalgıç pompalar</a> · <a href=\"/pompa-secici\">Pompa Seçici</a></p>"
+        }
+    ]
+}

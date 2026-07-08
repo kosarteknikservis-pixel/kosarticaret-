@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "havuz-pompasi-secimi-rehberi",
+            "title": "Havuz Pompası Seçimi: Debi, Filtre ve Kurulum Rehberi",
+            "excerpt": "Havuz pompası nasıl seçilir? Havuz hacmine göre debi hesabı, ön filtreli modeller, enerji tüketimi ve filtre sistemi uyumu rehberi.",
+            "meta_title": "Havuz Pompası Seçimi Rehberi 2026",
+            "meta_description": "Havuz pompası nasıl seçilir? Havuz hacmine göre debi, ön filtreli havuz pompası, filtre uyumu ve kurulum ipuçları.",
+            "tags": [
+                "havuz pompası",
+                "havuz pompası seçimi",
+                "ön filtreli havuz pompası",
+                "havuz filtre pompası"
+            ],
+            "image_alt": "Havuz pompası seçimi — filtre sistemi ve debi hesabı",
+            "published": true,
+            "published_at": "2026-07-23 09:00:00",
+            "content": "<p><strong>Havuz pompası</strong>, havuz suyunun filtre, ısıtıcı veya klor cihazı üzerinden devridaimini sağlayan kuru kurulumlu santrifüj pompadır. Konut hidroforu veya dalgıç pompa ile karıştırılmamalıdır; havuz suyundaki klor ve kimyasallara dayanıklı contalar ve ön filtreli giriş tercih edilir.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi\">ön filtreli havuz pompası</a> · Genel: <a href=\"/blog/ozel-amacli-pompalar-nedir-nasil-secilir\">özel amaçlı pompalar</a></p>\n\n<h2>Havuz Hacmine Göre Debi</h2>\n<p>Genel kural: havuz suyunun günde 2–3 kez tamamen filtre edilmesi hedeflenir. Formül:</p>\n<p><strong>Gerekli debi (m³/h) ≈ Havuz hacmi (m³) ÷ 6</strong> (8 saatlik filtre süresi için)</p>\n<p>Örnek: 50 m³ havuz → yaklaşık 8–10 m³/h pompa. Büyük havuzlarda iki pompa veya daha yüksek debili model düşünülebilir.</p>\n\n<h2>Filtre Uyumu</h2>\n<p>Kum filtresi, kartuş filtre veya diatom tozu filtresi farklı basınç kaybı oluşturur. Pompa seçerken filtre üreticisinin önerdiği debi aralığına uyulmalıdır. Çok yüksek debi filtre tanelerini aşındırır; düşük debi yetersiz temizlik yapar.</p>\n\n<h2>Ön Filtreli Havuz Pompası Avantajı</h2>\n<p>Ön filtre, pompa gövdesine giren yaprak ve partikülleri tutar; emme tarafı tıkanmasını azaltır. <a href=\"/kategoriler/su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi\">Ön filtreli havuz pompası</a> modelleri açık havuzlarda özellikle önerilir.</p>\n\n<h2>Motor Gücü ve Enerji</h2>\n<p>Havuz pompası yaz sezonunda günde 8–12 saat çalışabilir. Inverter veya çok kademeli motorlu modeller enerji tasarrufu sağlar. Pompa seçiminde sadece ilk fiyat değil, yıllık elektrik maliyeti de hesaplanmalıdır.</p>\n\n<h2>Kurulum Noktaları</h2>\n<ul>\n  <li>Pompa makine dairesinde kuru, havalandırmalı ve drenajlı alanda</li>\n  <li>Emme hattında vana ve kelepçe; hava girişini önlemek için emme yüksekliği</li>\n  <li>Vana ve geri dönüş hattında basınç göstergesi (önerilir)</li>\n  <li>Kışa kapatırken suyu boşaltma ve donmaya karşı koruma</li>\n</ul>\n\n<h2>Havuz Pompası mı Hidrofor mu?</h2>\n<p>Havuz dolumu için şebeke veya kuyu suyu kullanılıyorsa dolum hattı ayrıdır; havuz pompası sadece devridaim içindir. Ev basıncı için <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor</a> kullanılır, havuz pompası ile değiştirilmez.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Havuz pompası kaç saat çalışmalı?</h3>\n<p>Yaz aylarında günde 8–12 saat; kışın havuz kullanılmıyorsa kapatılır veya minimum sürede çalıştırılır.</p>\n\n<h3>Havuz pompası sesli çalışıyor, ne yapmalı?</h3>\n<p>Hava emmesi, tıkalı ön filtre veya rulman aşınması olabilir. Önce ön filtreyi temizleyin; devam ederse servis kontrolü.</p>\n\n<h3>Havuz pompası arızasında yedek model alınır mı?</h3>\n<p>Aynı debi ve bağlantı ölçüsüne sahip model tercih edilmeli; filtre ve boru uyumu kontrol edilmelidir.</p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

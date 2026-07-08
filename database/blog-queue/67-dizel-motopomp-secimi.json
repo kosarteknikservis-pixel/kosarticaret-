@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "dizel-motopomp-secimi-rehberi",
+            "title": "Dizel Motopomp Seçimi: Tarla, Şantiye ve Elektriksiz Alanlar",
+            "excerpt": "Dizel motopomp nasıl seçilir? Debi, basma, yakıt tüketimi, traktör uyumu ve tarımsal sulama için dizel pompa grubu rehberi.",
+            "meta_title": "Dizel Motopomp Seçimi Rehberi",
+            "meta_description": "Dizel motopomp nasıl seçilir? Tarımsal sulama, şantiye drenajı ve elektriksiz alanlar için debi, basma ve yakıt rehberi.",
+            "tags": [
+                "dizel motopomp",
+                "dizel pompa",
+                "tarımsal sulama pompası",
+                "motopomp seçimi"
+            ],
+            "image_alt": "Dizel motopomp — tarımsal sulama ve şantiye uygulaması",
+            "published": true,
+            "published_at": "2026-07-24 09:00:00",
+            "content": "<p><strong>Dizel motopomp</strong>, elektrik şebekesinin olmadığı veya geçici yüksek debi gerektiren alanlarda su transferi ve sulama için kullanılan motor + pompa grubudur. Tarla sulaması, afet bölgesi su temini, inşaat drenajı ve yangın yedek pompası (farklı standart) uygulamalarında tercih edilir.</p>\n\n<p>Kategori: <a href=\"/kategoriler/su-pompalari/ozel-amacli-pompalar\">özel amaçlı pompalar</a> · Sulama: <a href=\"/blog/tarimsal-sulama-pompasi-secimi-rehberi\">tarımsal sulama pompası</a> · Genel: <a href=\"/blog/ozel-amacli-pompalar-nedir-nasil-secilir\">özel amaçlı pompalar rehberi</a></p>\n\n<h2>Dizel Motopomp Nerelerde Kullanılır?</h2>\n<ul>\n  <li><strong>Tarımsal sulama:</strong> Damla, yağmurlama ve yüzey sulama</li>\n  <li><strong>Göl, dere, kanal transferi:</strong> Yüksek debi su çekme</li>\n  <li><strong>Şantiye drenajı:</strong> Kazı alanı su tahliyesi</li>\n  <li><strong>Acil su temini:</strong> Elektrik kesintisinde yedek</li>\n</ul>\n<p>Bina yangın sistemlerindeki dizel yangın pompası farklı standart ve sertifikasyon gerektirir; <a href=\"/blog/elektrikli-dizel-yangin-pompa-sistemi\">yangın dizel pompası</a> yazımıza bakın.</p>\n\n<h2>Seçim Kriterleri</h2>\n\n<h3>Debi ve basma</h3>\n<p>Sulama alanı m², bitki türü ve sulama yöntemi debiyi; kaynak ile tarla arasındaki yükseklik farkı ve boru uzunluğu basmayı belirler. <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">Debi basma hesabı</a> yapılmalıdır.</p>\n\n<h3>Motor gücü (HP / kW)</h3>\n<p>Pompa eğrisindeki çalışma noktasına göre motor gücü seçilir. Sürekli yüksek devirde çalıştırma motor ömrünü kısaltır.</p>\n\n<h3>Emme yüksekliği</h3>\n<p>Dizel motopomp emme tarafında sınırlı yükseklik kaldırır (genelde 6–8 m). Daha derin kaynaklarda <a href=\"/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi\">kuyu dalgıç pompa</a> veya emme kuyusu düşünülmelidir.</p>\n\n<h3>Yakıt ve bakım</h3>\n<p>Yakıt deposu kapasitesi, yağ ve hava filtresi değişim periyotları ve soğutma sistemi (su veya hava) uzun çalışma için kritiktir.</p>\n\n<h2>Çekilir Tip ve Sabit Tip</h2>\n<p><strong>Çekilir tip (PTO):</strong> Traktör gücüyle çalışır; tarlada esnek. <strong>Sabit tip:</strong> Kendi dizel motoru ile trailer veya sabit platform üzerinde. Sulama sezonu uzunluğu ve traktör varlığına göre karar verilir.</p>\n\n<h2>Dizel Motopomp vs Elektrikli Pompa</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Dizel motopomp</th><th>Elektrikli pompa</th></tr></thead>\n<tbody>\n<tr><td>Enerji</td><td>Mazot</td><td>Şebeke / jeneratör</td></tr>\n<tr><td>Mobilite</td><td>Yüksek</td><td>Kablo bağımlı</td></tr>\n<tr><td>İşletme maliyeti</td><td>Yakıt + bakım</td><td>Elektrik (genelde düşük)</td></tr>\n<tr><td>Gürültü</td><td>Yüksek</td><td>Daha düşük</td></tr>\n</tbody>\n</table>\n\n<h2>Güvenlik ve Çevre</h2>\n<ul>\n  <li>Yakıt depolama ve dolum alanında yangın önlemleri</li>\n  <li>Egzoz çıkışı açık alanda, rüzgâr yönüne dikkat</li>\n  <li>Emme filtresi ve hortum contalarının düzenli kontrolü</li>\n  <li>Çalışma sonrası pompa gövdesinde su bırakmama (donma riski)</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Dizel motopomp kaç saat çalışabilir?</h3>\n<p>Model ve soğutmaya bağlı olarak günde 8–12 saat sürekli çalışma mümkündür; üretici kılavuzundaki değerler esas alınmalıdır.</p>\n\n<h3>Traktör gücü yeterli mi nasıl anlarım?</h3>\n<p>Pompa eğrisindeki gerekli kW, traktör PTO gücünün %75’ini aşmamalıdır.</p>\n\n<h3>Dizel motopomp fiyatları ne kadar?</h3>\n<p>Debi, motor markası ve şasi tipine göre değişir. Güncel modeller için <a href=\"/kategoriler/su-pompalari/ozel-amacli-pompalar\">özel amaçlı pompalar</a> kategorisine veya <a href=\"/iletisim\">teklif</a> formuna bakın.</p>\n\n<p>Seçim desteği: <a href=\"/pompa-secici\">Pompa Seçim Programı</a></p>"
+        }
+    ]
+}
