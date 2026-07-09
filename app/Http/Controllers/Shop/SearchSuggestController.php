@@ -36,6 +36,7 @@ class SearchSuggestController extends Controller
                 'url' => route('products.show', $p),
                 'price' => number_format($p->price, 2, ',', '.').' ₺',
                 'image' => $p->imageUrl('product-thumb'),
+                'image_alt' => $p->imageAltText(),
             ]);
 
         $categories = Category::query()

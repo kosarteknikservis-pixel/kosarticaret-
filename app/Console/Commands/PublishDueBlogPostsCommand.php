@@ -79,6 +79,7 @@ class PublishDueBlogPostsCommand extends Command
         if ($this->option('dry-run')) {
             $this->info('Dry-run tamamlandı.');
         } else {
+            $this->call('blog:assign-covers');
             $this->info('Blog yazıları anında yayınlandı.');
         }
 

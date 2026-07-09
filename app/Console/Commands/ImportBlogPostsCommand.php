@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\BlogPost;
+use App\Services\Blog\BlogCoverImageService;
 use App\Services\Seo\UrlIndexingNotifier;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -112,6 +113,11 @@ class ImportBlogPostsCommand extends Command
             ['slug' => $data['slug']],
             $data,
         );
+
+        $post = BlogPost::query()->where('slug', $data['slug'])->first();
+        if ($post) {
+            app(BlogCoverImageService::class)->assign($post);
+        }
     }
 
     private function resolvePublishedAt(array $post, int $index): Carbon

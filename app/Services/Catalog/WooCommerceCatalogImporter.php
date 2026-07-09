@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductReview;
 use App\Support\ImageVariant;
+use App\Support\ProductImageAlt;
 use App\Support\RichContent;
 use App\Support\SlugHelper;
 use Illuminate\Support\Facades\DB;
@@ -752,7 +753,7 @@ class WooCommerceCatalogImporter
             'stock' => max(0, (int) round($this->toFloat($row['Stock'] ?? '0'))),
             'featured' => $this->toBool($row['Is featured?'] ?? '0'),
             'is_active' => $this->toBool($row['Published'] ?? '1'),
-            'image_alt' => $this->trimOrNull($row['Image Alt Text'] ?? null),
+            'image_alt' => $this->resolveProductImageAlt($row, $name, $brandId),
             'meta_title' => $this->trimOrNull($row['Meta: _yoast_wpseo_title'] ?? null),
             'meta_description' => $this->trimOrNull($row['Meta: _yoast_wpseo_metadesc'] ?? null),
             'tags' => $tags,
@@ -991,5 +992,19 @@ class WooCommerceCatalogImporter
         $text = trim(strip_tags($text));
 
         return $text === '' ? null : $text;
+    }
+
+  private function resolveProductImageAlt(array $row, string $name, ?int $brandId): string
+    {
+        $fromCsv = $this->trimOrNull($row['Image Alt Text'] ?? null);
+        if ($fromCsv !== null) {
+            return $fromCsv;
+        }
+
+        $brandName = $brandId
+            ? Brand::query()->whereKey($brandId)->value('name')
+            : null;
+
+        return ProductImageAlt::generate($name, $brandName);
     }
 }

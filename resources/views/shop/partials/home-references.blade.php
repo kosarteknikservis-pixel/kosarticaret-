@@ -13,7 +13,7 @@
                 <article class="shop-home-references__card shop-reveal">
                     @if($ref->imageUrl())
                         <div class="shop-home-references__media">
-                            <img src="{{ $ref->imageUrl('category') }}" alt="" loading="lazy" decoding="async" width="480" height="280" class="shop-home-references__img">
+                            <img src="{{ $ref->imageUrl('category') }}" alt="{{ $ref->title }}" loading="lazy" decoding="async" width="480" height="280" class="shop-home-references__img">
                         </div>
                     @endif
                     <div class="shop-home-references__body">

@@ -8,6 +8,19 @@
 
     $ogImage = $ogImage ?? \App\Support\SiteLogo::url() ?? \App\Support\Seo::absolute('/storage/logo.png');
 
+    if (! empty($ogImageMeta) && is_array($ogImageMeta)) {
+        $ogImage = $ogImageMeta['url'] ?? $ogImage;
+        $ogImageAlt = $ogImageMeta['alt'] ?? null;
+        $ogImageWidth = $ogImageMeta['width'] ?? null;
+        $ogImageHeight = $ogImageMeta['height'] ?? null;
+    } else {
+        $ogImageAlt = $ogImageAlt ?? null;
+        $ogImageWidth = $ogImageWidth ?? null;
+        $ogImageHeight = $ogImageHeight ?? null;
+    }
+
+    $ogImage = \App\Support\Seo::absoluteAssetUrl($ogImage) ?? $ogImage;
+
     $ogType = $ogType ?? 'website';
 
     $robots = $robots ?? 'index, follow';
@@ -70,6 +83,15 @@
 
 <meta property="og:image" content="{{ $ogImage }}">
 
+@if($ogImageWidth && $ogImageHeight)
+    <meta property="og:image:width" content="{{ $ogImageWidth }}">
+    <meta property="og:image:height" content="{{ $ogImageHeight }}">
+@endif
+
+@if($ogImageAlt)
+    <meta property="og:image:alt" content="{{ $ogImageAlt }}">
+@endif
+
 @if($ogType === 'product' && isset($productPrice))
 
     <meta property="product:price:amount" content="{{ $productPrice }}">
@@ -85,6 +107,10 @@
 <meta name="twitter:description" content="{{ \Illuminate\Support\Str::limit(\App\Support\RichContent::plainText($pageDesc), 200) }}">
 
 <meta name="twitter:image" content="{{ $ogImage }}">
+
+@if($ogImageAlt)
+    <meta name="twitter:image:alt" content="{{ $ogImageAlt }}">
+@endif
 
 @foreach($schemas as $schema)
 

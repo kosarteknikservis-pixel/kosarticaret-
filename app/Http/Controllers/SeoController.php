@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\SiteSetting;
 use App\Support\GoogleProductCategory;
+use App\Support\ImageSitemapGenerator;
 use App\Support\Seo;
 use App\Support\SitemapGenerator;
 use Illuminate\Http\Response;
@@ -26,6 +27,19 @@ class SeoController extends Controller
             }
 
             return view('seo.sitemap', ['urls' => SitemapGenerator::allUrls()])->render();
+        });
+
+        return response($xml, 200, $this->xmlHeaders($cacheSeconds));
+    }
+
+    public function imageSitemap(): Response
+    {
+        $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
+
+        $xml = Cache::remember('seo.sitemap.images.xml', $cacheSeconds, function (): string {
+            return view('seo.sitemap-images', [
+                'entries' => ImageSitemapGenerator::allEntries(),
+            ])->render();
         });
 
         return response($xml, 200, $this->xmlHeaders($cacheSeconds));
@@ -105,6 +119,7 @@ class SeoController extends Controller
                 'Disallow: /*?*filter*',
                 '',
                 'Sitemap: '.Seo::absolute('/sitemap.xml'),
+                'Sitemap: '.Seo::absolute('/sitemap-images.xml'),
             ];
 
             return implode("\n", $lines);
@@ -143,7 +158,7 @@ class SeoController extends Controller
             ->where('stock', '>', 0)
             ->whereNotNull('image')
             ->where('image', '!=', '')
-            ->with(['brand:id,name', 'categories:id,name,slug,parent_id'])
+            ->with(['brand:id,name', 'categories:id,name,slug,parent_id', 'images:id,product_id,path'])
             ->select([
                 'id', 'sku', 'slug', 'name', 'short_description',
                 'price', 'compare_at_price', 'stock', 'image', 'brand_id',
@@ -194,6 +209,11 @@ class SeoController extends Controller
         echo '<description>'.$this->xmlCdata($desc).'</description>';
         echo '<link>'.$this->xmlText($productUrl).'</link>';
         echo '<g:image_link>'.$this->xmlText($imageUrl).'</g:image_link>';
+
+        foreach ($this->merchantAdditionalImages($product, $imageUrl) as $additionalUrl) {
+            echo '<g:additional_image_link>'.$this->xmlText($additionalUrl).'</g:additional_image_link>';
+        }
+
         echo '<g:availability>'.($product->inStock() ? 'in stock' : 'out of stock').'</g:availability>';
         echo '<g:price>'.$this->xmlText($price).'</g:price>';
         if ($salePrice) {
@@ -215,6 +235,35 @@ class SeoController extends Controller
         echo '<g:price>0 TRY</g:price>';
         echo '</g:shipping>';
         echo '</item>';
+    }
+
+    /** @return list<string> */
+    private function merchantAdditionalImages(Product $product, string $primaryUrl): array
+    {
+        $urls = [];
+
+        foreach ($product->images as $image) {
+            $url = $image->url('product-pdp') ?? $image->url();
+            if (! $url) {
+                continue;
+            }
+
+            if (! str_starts_with($url, 'http://') && ! str_starts_with($url, 'https://')) {
+                $url = Seo::absolute($url);
+            }
+
+            if ($url === $primaryUrl || in_array($url, $urls, true)) {
+                continue;
+            }
+
+            $urls[] = $url;
+
+            if (count($urls) >= 10) {
+                break;
+            }
+        }
+
+        return $urls;
     }
 
     private function xmlText(string $value): string

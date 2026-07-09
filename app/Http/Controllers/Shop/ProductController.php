@@ -173,6 +173,8 @@ class ProductController extends Controller
 
             'ogType' => 'product',
 
+            'ogImageMeta' => Seo::productOpenGraphImage($product),
+
             'ogImage' => Seo::productImages($product)[0] ?? null,
 
             'productPrice' => number_format((float) $product->price, 2, '.', ''),

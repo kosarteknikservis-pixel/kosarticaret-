@@ -64,6 +64,98 @@ class Seo
 
 
 
+    public static function absoluteAssetUrl(?string $url): ?string
+
+    {
+
+        if ($url === null || $url === '') {
+
+            return null;
+
+        }
+
+
+
+        if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
+
+            return $url;
+
+        }
+
+
+
+        return self::absolute($url);
+
+    }
+
+
+
+    /**
+
+     * @return array{url: string, width: int, height: int, alt: string}|null
+
+     */
+
+    public static function openGraphImage(?string $storagePath, string $variant, string $alt): ?array
+
+    {
+
+        if ($storagePath === null || $storagePath === '') {
+
+            return null;
+
+        }
+
+
+
+        $url = self::absoluteAssetUrl(ImageVariant::url($storagePath, $variant) ?? ImageVariant::url($storagePath));
+
+        if ($url === null) {
+
+            return null;
+
+        }
+
+
+
+        $dims = ImageVariant::variantDimensions($variant) ?? ['w' => 1200, 'h' => 1200];
+
+
+
+        return [
+
+            'url' => $url,
+
+            'width' => $dims['w'],
+
+            'height' => $dims['h'],
+
+            'alt' => Str::limit(trim($alt), 200),
+
+        ];
+
+    }
+
+
+
+    public static function productOpenGraphImage(Product $product): ?array
+
+    {
+
+        if (! filled($product->image)) {
+
+            return null;
+
+        }
+
+
+
+        return self::openGraphImage((string) $product->image, 'product-pdp', $product->imageAltText());
+
+    }
+
+
+
     public static function pageTitle(string $title): string
 
     {
@@ -458,17 +550,17 @@ class Seo
 
         $images = [];
 
-        if ($url = $product->imageUrl()) {
+        if ($url = $product->imageUrl('product-pdp') ?? $product->imageUrl()) {
 
-            $images[] = $url;
+            $images[] = self::absoluteAssetUrl($url);
 
         }
 
         foreach ($product->images as $img) {
 
-            if ($url = $img->url()) {
+            if ($url = $img->url('product-pdp') ?? $img->url()) {
 
-                $images[] = $url;
+                $images[] = self::absoluteAssetUrl($url);
 
             }
 
@@ -476,7 +568,7 @@ class Seo
 
 
 
-        return array_values(array_unique($images));
+        return array_values(array_unique(array_filter($images)));
 
     }
 
@@ -735,6 +827,10 @@ class Seo
 
     {
 
+        $imageUrl = $category->imageUrl('category-card') ?? $category->imageUrl();
+
+
+
         return array_filter([
 
             '@context' => 'https://schema.org',
@@ -748,6 +844,8 @@ class Seo
             'description' => self::description([$category->meta_description, $category->description, $category->name], 500),
 
             'url' => $category->storefrontUrl(),
+
+            'image' => self::absoluteAssetUrl($imageUrl),
 
             'inLanguage' => 'tr-TR',
 
@@ -867,7 +965,7 @@ class Seo
 
             'inLanguage' => 'tr-TR',
 
-            'image' => $post->imageUrl(),
+            'image' => self::absoluteAssetUrl($post->imageUrl('blog-card') ?? $post->imageUrl()),
 
             'articleBody' => RichContent::plainText($post->content),
 

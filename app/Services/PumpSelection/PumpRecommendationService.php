@@ -234,6 +234,7 @@ class PumpRecommendationService
             'name' => $product->name,
             'url' => route('products.show', $product),
             'image' => $product->imageUrl('product-card') ?? $product->imageUrl(),
+            'image_alt' => $product->imageAltText(),
             'price' => (float) $product->price,
             'price_formatted' => number_format((float) $product->price, 2, ',', '.').' ₺',
             'in_stock' => $product->stock > 0,

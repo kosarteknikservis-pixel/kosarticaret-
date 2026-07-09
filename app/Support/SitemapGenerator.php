@@ -47,6 +47,7 @@ class SitemapGenerator
     {
         $entries = [
             ['loc' => route('sitemap.chunk', ['chunk' => 'static'])],
+            ['loc' => route('sitemap.images')],
             ['loc' => route('sitemap.chunk', ['chunk' => 'categories'])],
             ['loc' => route('sitemap.chunk', ['chunk' => 'brands'])],
             ['loc' => route('sitemap.chunk', ['chunk' => 'blog'])],

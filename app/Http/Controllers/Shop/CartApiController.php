@@ -27,6 +27,7 @@ class CartApiController extends Controller
             'price' => (float) $line['product']->price,
             'line_total' => $line['line_total'],
             'image' => $line['product']->imageUrl('product-thumb'),
+            'image_alt' => $line['product']->imageAltText(),
             'url' => route('products.show', $line['product']),
         ])->values();
 

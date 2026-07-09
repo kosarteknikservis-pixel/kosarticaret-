@@ -30,6 +30,17 @@ final class ImageVariant
         'blog' => ['w' => 1400, 'h' => 788, 'quality' => 84],
     ];
 
+    /** @return array{w: int, h: int}|null */
+    public static function variantDimensions(string $variant): ?array
+    {
+        $spec = self::SPECS[$variant] ?? null;
+        if ($spec === null) {
+            return null;
+        }
+
+        return ['w' => $spec['w'], 'h' => $spec['h']];
+    }
+
     /** @return list<string> */
     public static function presetsFor(string $type): array
     {

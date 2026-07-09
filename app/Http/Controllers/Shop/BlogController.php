@@ -49,7 +49,8 @@ class BlogController extends Controller
             'metaTitle' => $post->meta_title ?: $post->title,
             'metaDescription' => Seo::description([$post->meta_description, $post->excerpt, $post->title]),
             'canonical' => route('blog.show', $post),
-            'ogImage' => $post->imageUrl(),
+            'ogImageMeta' => Seo::openGraphImage($post->image, 'blog-card', (string) ($post->image_alt ?: $post->title)),
+            'ogImage' => $post->imageUrl('blog-card') ?? $post->imageUrl(),
             'jsonLd' => [Seo::article($post), Seo::breadcrumbs($breadcrumbs)],
         ]);
     }

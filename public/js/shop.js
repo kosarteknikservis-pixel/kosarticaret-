@@ -116,7 +116,7 @@
             }
             drawerBody.innerHTML = data.lines.map((line) => `
                 <div class="flex gap-3 py-4 border-b border-slate-100 last:border-0" data-drawer-line data-slug="${line.slug}">
-                    ${line.image ? `<img src="${line.image}" alt="" class="w-14 h-14 object-cover rounded-lg shrink-0">` : '<div class="w-14 h-14 bg-slate-100 rounded-lg shrink-0"></div>'}
+                    ${line.image ? `<img src="${line.image}" alt="${escapeHtml(line.image_alt || line.name)}" class="w-14 h-14 object-cover rounded-lg shrink-0">` : '<div class="w-14 h-14 bg-slate-100 rounded-lg shrink-0"></div>'}
                     <div class="flex-1 min-w-0">
                         <a href="${line.url}" class="font-semibold text-sm text-slate-900 line-clamp-2 hover:text-brand-700">${line.name}</a>
                         <p class="text-xs text-brand-700 font-medium mt-0.5">${Number(line.price).toLocaleString('tr-TR')} ₺</p>
@@ -697,7 +697,7 @@
         }
         const items = results.map((r) => {
             const img = r.image
-                ? `<img src="${escapeHtml(r.image)}" alt="" loading="lazy">`
+                ? `<img src="${escapeHtml(r.image)}" alt="${escapeHtml(r.image_alt || r.name)}" loading="lazy">`
                 : '<span class="w-10 h-10 rounded-lg bg-slate-100 shrink-0"></span>';
             const meta = r.meta ? `<span class="search-suggest-meta">${escapeHtml(r.meta)}</span>` : '';
             const price = r.price ? `<span class="search-suggest-meta ml-auto">${escapeHtml(r.price)}</span>` : '';
@@ -1200,7 +1200,7 @@
             resultsEl.innerHTML = products.map((p, index) => `
                 <article class="shop-pump-selector__card">
                     <span class="shop-pump-selector__card-rank">#${index + 1}</span>
-                    <a href="${p.url}" class="shop-pump-selector__card-media">${p.image ? `<img src="${p.image}" alt="" loading="lazy">` : ''}</a>
+                    <a href="${p.url}" class="shop-pump-selector__card-media">${p.image ? `<img src="${p.image}" alt="${escapeHtml(p.image_alt || p.name)}" loading="lazy">` : ''}</a>
                     <div class="shop-pump-selector__card-body">
                         <h3 class="shop-pump-selector__card-title"><a href="${p.url}">${p.name}</a></h3>
                         <p class="shop-pump-selector__card-meta">${p.spec_summary || ''}${p.brand ? ' · ' + p.brand : ''}</p>

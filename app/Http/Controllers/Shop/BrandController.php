@@ -56,7 +56,8 @@ class BrandController extends Controller
             ]),
             'metaKeywords' => Seo::keywords([$brand->name, SiteName::get()]),
             'canonical' => $pageUrl,
-            'ogImage' => $brand->logoUrl(),
+            'ogImageMeta' => Seo::openGraphImage($brand->logo, 'brand-logo', $brand->name.' logo'),
+            'ogImage' => $brand->logoUrl('brand-logo') ?? $brand->logoUrl(),
             'jsonLd' => array_filter([
                 Seo::brand($brand),
                 Seo::breadcrumbs($breadcrumbs),

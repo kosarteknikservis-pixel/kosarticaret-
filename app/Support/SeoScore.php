@@ -56,7 +56,8 @@ class SeoScore
             self::checkBody('description', 'Ürün açıklaması', $body, 200, 15),
             self::checkStructure('description_structure', 'Başlık yapısı (H2/H3)', $body, 10),
             self::checkTags($tags, 10),
-            self::check('image', 'Kapak görseli', (bool) ($data['has_image'] ?? false), (bool) ($data['has_image'] ?? false) ? 10 : 0, 10, 'Görsel zengin sonuç ve tıklanma oranı için önemli.'),
+            self::check('image', 'Kapak görseli', (bool) ($data['has_image'] ?? false), (bool) ($data['has_image'] ?? false) ? 5 : 0, 5, 'Görsel zengin sonuç ve tıklanma oranı için önemli.'),
+            self::check('image_alt', 'Görsel alt metni', (bool) ($data['has_image'] ?? false) && filled($data['image_alt'] ?? ''), (bool) ($data['has_image'] ?? false) && filled($data['image_alt'] ?? '') ? 5 : 0, 5, 'Google Görseller ve erişilebilirlik için açıklayıcı alt metin girin.'),
             self::check('sku', 'SKU / stok kodu', ($data['sku'] ?? '') !== '', ($data['sku'] ?? '') !== '' ? 5 : 0, 5, 'Benzersiz SKU ürün şeması için önerilir.'),
         ];
     }
@@ -98,7 +99,8 @@ class SeoScore
             self::checkLength('excerpt', 'Özet', (string) ($data['excerpt'] ?? ''), 80, 200, 15, true),
             self::checkBody('content', 'İçerik', $body, 300, 25),
             self::checkStructure('content_structure', 'Başlık yapısı', $body, 10),
-            self::check('image', 'Kapak görseli', (bool) ($data['has_image'] ?? false), (bool) ($data['has_image'] ?? false) ? 5 : 0, 5, 'OG ve Google Discover için önerilir.'),
+            self::check('image', 'Kapak görseli', (bool) ($data['has_image'] ?? false), (bool) ($data['has_image'] ?? false) ? 3 : 0, 3, 'OG ve Google Görseller için önerilir.'),
+            self::check('image_alt', 'Görsel alt metni', (bool) ($data['has_image'] ?? false) && filled($data['image_alt'] ?? ''), (bool) ($data['has_image'] ?? false) && filled($data['image_alt'] ?? '') ? 2 : 0, 2, 'Kapak görseli varsa alt metin girin.'),
         ];
     }
 

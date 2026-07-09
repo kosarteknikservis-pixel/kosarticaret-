@@ -149,9 +149,13 @@
 
                         @foreach($product->images as $img)
 
-                            <div class="admin-card p-2">
+                            <div class="admin-card p-3 space-y-2">
 
-                                <img src="{{ $img->url() }}" alt="" class="h-16 w-16 object-contain rounded-lg bg-slate-50">
+                                <img src="{{ $img->url() }}" alt="{{ $img->alt ?: $product->name }}" class="h-16 w-16 object-contain rounded-lg bg-slate-50">
+
+                                <label class="block text-xs font-medium text-slate-600">Alt metin</label>
+
+                                <input type="text" name="gallery_alt[{{ $img->id }}]" value="{{ old('gallery_alt.'.$img->id, $img->alt) }}" maxlength="255" class="admin-input text-sm" placeholder="{{ $product->name }}">
 
                             </div>
 

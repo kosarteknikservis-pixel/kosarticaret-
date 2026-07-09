@@ -9,7 +9,9 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Services\Catalog\BulkProductUpdateService;
 use App\Services\Catalog\ProductCsvExporter;
+use App\Support\ImageStorage;
 use App\Support\ImageVariant;
+use App\Support\ProductImageAlt;
 use App\Support\RichContent;
 use App\Support\SlugHelper;
 use Illuminate\Database\Eloquent\Builder;
@@ -100,6 +102,7 @@ class ProductController extends Controller
         $product->update($data);
         $product->categories()->sync($request->input('category_ids', []));
         $this->storeGalleryImages($request, $product);
+        $this->syncGalleryAlts($request, $product);
 
         return redirect()->route('admin.products.index')->with('success', 'Ürün güncellendi.');
     }
@@ -164,6 +167,34 @@ class ProductController extends Controller
 
         $data['description'] = RichContent::normalize($data['description'] ?? null);
 
+        $data = $this->ensureImageAlt($data, $request, $product);
+
+        return $data;
+    }
+
+    /** @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    private function ensureImageAlt(array $data, Request $request, ?Product $product = null): array
+    {
+        $hasImage = $request->hasFile('image_file')
+            || filled($data['image'] ?? null)
+            || filled($product?->image);
+
+        if (! $hasImage || filled($data['image_alt'] ?? null)) {
+            return $data;
+        }
+
+        $brandName = null;
+        if (! empty($data['brand_id'])) {
+            $brandName = Brand::query()->whereKey($data['brand_id'])->value('name');
+        } elseif ($product?->brand_id) {
+            $brandName = $product->brand?->name;
+        }
+
+        $name = (string) ($data['name'] ?? $product?->name ?? '');
+        $data['image_alt'] = ProductImageAlt::generate($name, $brandName);
+
         return $data;
     }
 
@@ -178,7 +209,11 @@ class ProductController extends Controller
                 ImageVariant::delete($product->image);
                 Storage::disk('public')->delete($product->image);
             }
-            $data['image'] = $request->file('image_file')->store('products', 'public');
+            $data['image'] = ImageStorage::storePublic(
+                $request->file('image_file'),
+                'products',
+                (string) ($product?->slug ?? $data['slug'] ?? $data['sku'] ?? 'urun')
+            );
             ImageVariant::generate($data['image'], ImageVariant::presetsFor('product'));
         } elseif (! $request->filled('image') && $product) {
             unset($data['image']);
@@ -196,7 +231,11 @@ class ProductController extends Controller
         $sort = (int) $product->images()->max('sort_order');
         foreach ($request->file('gallery_files') as $file) {
             $sort++;
-            $path = $file->store('products/gallery', 'public');
+            $path = ImageStorage::storePublic(
+                $file,
+                'products/gallery',
+                $product->slug.'-galeri-'.$sort
+            );
             ImageVariant::generate($path, ImageVariant::presetsFor('product-gallery'));
 
             ProductImage::query()->create([
@@ -204,6 +243,21 @@ class ProductController extends Controller
                 'path' => $path,
                 'sort_order' => $sort,
             ]);
+        }
+    }
+
+    private function syncGalleryAlts(Request $request, Product $product): void
+    {
+        $alts = $request->input('gallery_alt', []);
+        if (! is_array($alts)) {
+            return;
+        }
+
+        foreach ($alts as $imageId => $alt) {
+            ProductImage::query()
+                ->where('product_id', $product->id)
+                ->whereKey((int) $imageId)
+                ->update(['alt' => is_string($alt) ? trim($alt) : null]);
         }
     }
 

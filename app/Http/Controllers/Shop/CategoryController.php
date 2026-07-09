@@ -72,7 +72,8 @@ class CategoryController extends Controller
             ]),
             'metaKeywords' => Seo::keywords([$category->name, SiteName::get()]),
             'canonical' => $pageUrl,
-            'ogImage' => $category->imageUrl(),
+            'ogImageMeta' => Seo::openGraphImage($category->image, 'category-card', $category->name),
+            'ogImage' => $category->imageUrl('category-card') ?? $category->imageUrl(),
             'jsonLd' => array_filter([
                 Seo::category($category),
                 Seo::breadcrumbs($breadcrumbs),
