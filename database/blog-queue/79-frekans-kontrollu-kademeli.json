@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "frekans-kontrollu-kademeli-pompa-avantajlari",
+            "title": "Frekans Kontrollü Kademeli Pompa Avantajları ve Seçim Rehberi",
+            "excerpt": "Frekans invertörlü kademeli pompa nedir? Değişken debi uygulamalarında enerji tasarrufu, basınç stabilitesi ve motor koruması rehberi.",
+            "meta_title": "Frekans Kontrollü Kademeli Pompa Avantajları",
+            "meta_description": "Frekans kontrollü kademeli pompa avantajları: enerji tasarrufu, değişken debi, basınç kontrolü ve inverter seçim rehberi.",
+            "tags": [
+                "frekans kontrollü pompa",
+                "inverter pompa",
+                "kademeli pompa",
+                "enerji tasarrufu pompa"
+            ],
+            "image_alt": "Frekans kontrollü kademeli pompa — inverter avantajları",
+            "published": true,
+            "published_at": "2026-07-29 09:00:00",
+            "content": "<p><strong>Frekans kontrollü (inverter) kademeli pompa</strong>, motor devir sayısını debi veya basınç talebine göre ayarlayan sürücü ile çalışan sistemdir. Sabit hızlı pompalara göre değişken yükte önemli enerji tasarrufu ve daha yumuşak çalışma sağlar.</p>\n\n<p>Kademeli genel: <a href=\"/blog/kademeli-pompa-nedir-ne-ise-yarar-nasil-secilir\">kademeli pompa rehberi</a> · Hidrofor inverter: <a href=\"/blog/inverter-hidrofor-avantajlari\">inverter hidrofor</a> · Sirkülasyon ECM: <a href=\"/blog/frekans-kontrollu-sirkulasyon-pompa-avantajlari\">frekans kontrollü sirkülasyon</a></p>\n\n<h2>Frekans Kontrolünün Avantajları</h2>\n<ul>\n  <li><strong>Enerji tasarrufu:</strong> Düşük debide motor devri düşer, güç tüketimi azalır</li>\n  <li><strong>Basınç stabilitesi:</strong> Sabit çıkış basıncı, musluk açılınca ani düşüş azalır</li>\n  <li><strong>Yumuşak start:</strong> Şebeke ve mekanik stres azalır</li>\n  <li><strong>Motor koruması:</strong> Aşırı akım, düşük voltaj, kuru çalışma koruması</li>\n  <li><strong>Uzun pompa ömrü:</strong> Gereksiz tam devir çalışması azalır</li>\n</ul>\n\n<h2>Hangi Uygulamalarda Mantıklı?</h2>\n<ul>\n  <li>Değişken debili bina su tüketimi</li>\n  <li>Site ve otel ana transfer pompası</li>\n  <li>Proses hattında değişken akış</li>\n  <li>Uzun süreli çalışan kazan/chiller dolaşımı</li>\n  <li>Yüksek elektrik maliyetli tesisler</li>\n</ul>\n<p>Sabit tam debi, kısa süreli çalışan pompada inverter yatırımı geri dönüşü uzar.</p>\n\n<h2>Inverter Seçim Kriterleri</h2>\n<ol>\n  <li>Motor gücüne uygun kVA (kademeli motorlar trifaze yaygın)</li>\n  <li>Basınç sensörü veya debi geri beslemesi</li>\n  <li>PID kontrol parametreleri ayarlanabilirlik</li>\n  <li>Harmonik filtre (büyük güçte şebeke için)</li>\n  <li>IP koruma sınıfı (pompa odası nemli ortam)</li>\n</ol>\n\n<h2>Maliyet ve Geri Dönüş</h2>\n<p>Inverter ilk yatırımı artırır; ancak sürekli ve değişken yükte 1–3 yıl içinde elektrik faturasından amorti edilebilir. <a href=\"/blog/yuksek-bina-kademeli-pompa-boyutlandirma\">Yüksek bina</a> ve site projelerinde hesap yapılması önerilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Mevcut kademeli pompaya inverter takılır mı?</h3>\n<p>Uygun motor tipi ve güçte çoğu sisteme sonradan eklenebilir; pompa ve elektrik panosu uyumluluğu kontrol edilmelidir.</p>\n\n<h3>Inverterli pompa arızalanınca ne olur?</h3>\n<p>Bypass veya sabit hız yedek modu olan sürücüler kritik tesislerde tercih edilir.</p>\n\n<h3>Monofaze kademeli pompa için inverter var mı?</h3>\n<p>Küçük monoblok modellerde monofaze inverter seçenekleri mevcuttur; güç sınırına dikkat edilmelidir.</p>\n\n<p>Enerji analizi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

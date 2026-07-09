@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kademeli-pompa-calismiyor-ariza-bakim-rehberi",
+            "title": "Kademeli Pompa Çalışmıyor: Arıza Sebepleri ve Bakım Rehberi",
+            "excerpt": "Kademeli pompa çalışmıyor, ses yapıyor veya basınç düşük mü? Kuru çalışma, kavitasyon, conta kaçağı ve motor arızası için teşhis ve bakım rehberi.",
+            "meta_title": "Kademeli Pompa Çalışmıyor: Arıza Rehberi",
+            "meta_description": "Kademeli pompa çalışmıyor mu? Kuru çalışma, hava emmesi, conta kaçağı, kavitasyon ve motor arızası teşhis ve bakım rehberi.",
+            "tags": [
+                "kademeli pompa arıza",
+                "pompa çalışmıyor",
+                "kademeli pompa bakım",
+                "pompa tamiri"
+            ],
+            "image_alt": "Kademeli pompa arıza ve bakım — çalışmıyor teşhis rehberi",
+            "published": true,
+            "published_at": "2026-07-29 09:00:00",
+            "content": "<p><strong>Kademeli pompa çalışmıyor</strong> veya beklenen basıncı vermiyorsa; elektrik beslemesi, emme hattı, hava kaçağı, conta aşınması, kavitasyon veya motor arızası sırayla kontrol edilmelidir. Kademeli pompaların çok kademeli yapısı nedeniyle bakım, tek kademeli modele göre daha dikkatli planlama gerektirir.</p>\n\n<p>Genel: <a href=\"/blog/kademeli-pompa-nedir-ne-ise-yarar-nasil-secilir\">kademeli pompa rehberi</a> · Hidrofor arıza: <a href=\"/blog/hidrofor-surekli-calisyor-sebepler-cozum\">hidrofor sürekli çalışması</a> · Dalgıç: <a href=\"/blog/dalgic-pompa-calismiyor-ariza-cozum\">dalgıç pompa arıza</a></p>\n\n<h2>Belirti ve Olası Sebepler</h2>\n<table>\n<thead><tr><th>Belirti</th><th>Olası sebep</th><th>İlk kontrol</th></tr></thead>\n<tbody>\n<tr><td>Hiç çalışmıyor</td><td>Elektrik, termik, kontaktör</td><td>Sigorta, voltaj, motor koruma</td></tr>\n<tr><td>Çalışıyor ama su yok</td><td>Emme hattı hava, vana kapalı</td><td>Emme vanası, kelepçe, su seviyesi</td></tr>\n<tr><td>Düşük basınç</td><td>Conta kaçağı, aşınmış kademe</td><td>Basınç göstergesi, sızıntı kontrolü</td></tr>\n<tr><td>Gürültü / titreşim</td><td>Kavitasyon, rulman</td><td>Emme basıncı (NPSH), hizalama</td></tr>\n<tr><td>Sık kapanıp açılma</td><td>Küçük tank, hatalı presostat</td><td>Genleşme tankı hacmi, ayar</td></tr>\n<tr><td>Motor ısınıyor</td><td>Aşırı yük, düşük voltaj</td><td>Akım ölçümü, faz dengesi</td></tr>\n</tbody>\n</table>\n\n<h2>Adım Adım Teşhis</h2>\n<ol>\n  <li><strong>Elektrik:</strong> Üç faz dengeli mi? Termik atmış mı?</li>\n  <li><strong>Emme hattı:</strong> Filtre tıkalı mı? Hava girişi var mı?</li>\n  <li><strong>Vanalar:</strong> Emme ve çıkış vanaları açık mı?</li>\n  <li><strong>Kuru çalışma:</strong> Su kaynağı kesilmiş olabilir — pompayı durdurun</li>\n  <li><strong>Basınç testi:</strong> Çıkış basıncı katalog değerinin altında mı?</li>\n  <li><strong>Sızıntı:</strong> Kademe contalarından veya mil contasından kaçak</li>\n</ol>\n\n<h2>Periyodik Bakım Planı</h2>\n<ul>\n  <li><strong>Aylık:</strong> Basınç, ses, sızıntı göz kontrolü</li>\n  <li><strong>3–6 ay:</strong> Emme filtresi temizliği</li>\n  <li><strong>Yıllık:</strong> Conta ve rulman kontrolü (yetkili servis)</li>\n  <li><strong>2–3 yıl:</strong> Mekanik conta seti değişimi (kullanıma göre)</li>\n  <li><strong>Her sezon:</strong> Elektrik bağlantı sıkılığı, otomasyon ayarı</li>\n</ul>\n\n<h2>Ne Zaman Servis Çağrılmalı?</h2>\n<p>Motor yanması şüphesi, sürekli termik atma, kademe içi metal sesi veya basınçta %20+ düşüşte pompayı zorlamadan servis desteği alın. Yanlış müdahale garanti kaybına yol açabilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Kademeli pompa hava yutuyor, ne yapmalı?</h3>\n<p>Emme hattı kelepçelerini kontrol edin; emme tarafını doldurup hava aldırın (prime). Tekrarlayan hava emişi conta veya bağlantı sorunudur.</p>\n\n<h3>Conta değişimi kullanıcı yapabilir mi?</h3>\n<p>Küçük monoblok modellerde deneyimli kullanıcı yapabilir; çok kademeli dikey pompada söküm sırası kritik — servis önerilir.</p>\n\n<h3>Pompa çalışıyor ama üst kat basıncı düşük?</h3>\n<p>Pompa kapasitesi yetersiz veya boru tıkanıklığı olabilir. <a href=\"/blog/yuksek-bina-kademeli-pompa-boyutlandirma\">Boyutlandırma rehberi</a> ve hat kontrolü gerekir.</p>\n\n<h3>Yedek pompa ne zaman alınmalı?</h3>\n<p>Kritik bina ve üretim tesislerinde N+1 yedek veya hızlı teslimat anlaşması planlanmalıdır.</p>\n\n<p>Arıza sonrası doğru model: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">servis talebi</a></p>"
+        }
+    ]
+}

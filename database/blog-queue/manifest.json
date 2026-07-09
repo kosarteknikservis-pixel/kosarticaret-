@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -512,6 +512,69 @@
             "publish_on": "2026-07-26",
             "title": "Kuyu Suyu Hidrofor Bağlantısı Rehberi",
             "series": "ozel-amacli"
+        },
+        {
+            "day": 30,
+            "file": "73-kademeli-pompa-nedir.json",
+            "publish_on": "2026-07-27",
+            "title": "Kademeli Pompa Nedir? Ne İşe Yarar, Nasıl Seçilir?",
+            "series": "kademeli-pompa"
+        },
+        {
+            "day": 30,
+            "file": "74-dikey-kademeli-pompa.json",
+            "publish_on": "2026-07-27",
+            "title": "Dikey Kademeli Pompa Rehberi",
+            "series": "kademeli-pompa"
+        },
+        {
+            "day": 31,
+            "file": "75-monoblok-yatay-kademeli.json",
+            "publish_on": "2026-07-28",
+            "title": "Monoblok Yatay Kademeli Pompa Seçimi",
+            "series": "kademeli-pompa"
+        },
+        {
+            "day": 31,
+            "file": "76-yuksek-bina-kademeli-pompa.json",
+            "publish_on": "2026-07-28",
+            "title": "Yüksek Bina Kademeli Pompa Boyutlandırma",
+            "series": "kademeli-pompa"
+        },
+        {
+            "day": 31,
+            "file": "77-kademeli-santrifuj-karsilastirma.json",
+            "publish_on": "2026-07-28",
+            "title": "Kademeli Pompa mı Santrifüj Pompa mı?",
+            "series": "kademeli-pompa"
+        },
+        {
+            "day": 32,
+            "file": "78-norm-tipi-yatay-kademeli.json",
+            "publish_on": "2026-07-29",
+            "title": "Norm Tipi Yatay Kademeli Pompa Rehberi",
+            "series": "kademeli-pompa"
+        },
+        {
+            "day": 32,
+            "file": "79-frekans-kontrollu-kademeli.json",
+            "publish_on": "2026-07-29",
+            "title": "Frekans Kontrollü Kademeli Pompa Avantajları",
+            "series": "kademeli-pompa"
+        },
+        {
+            "day": 32,
+            "file": "80-kademeli-pompa-fiyatlari.json",
+            "publish_on": "2026-07-29",
+            "title": "Kademeli Pompa Fiyatları 2026",
+            "series": "kademeli-pompa"
+        },
+        {
+            "day": 32,
+            "file": "81-kademeli-pompa-ariza.json",
+            "publish_on": "2026-07-29",
+            "title": "Kademeli Pompa Arıza ve Bakım Rehberi",
+            "series": "kademeli-pompa"
         }
     ]
 }

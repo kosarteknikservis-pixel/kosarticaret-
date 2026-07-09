@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "yuksek-bina-kademeli-pompa-boyutlandirma",
+            "title": "Yüksek Bina ve Site İçin Kademeli Pompa Boyutlandırma Rehberi",
+            "excerpt": "10+ katlı bina ve site su basıncı için kademeli pompa boyutlandırma: debi hesabı, basınç kayıpları, yedekli sistem ve pompa odası planlaması.",
+            "meta_title": "Yüksek Bina Kademeli Pompa Boyutlandırma",
+            "meta_description": "Yüksek bina ve site için kademeli pompa nasıl boyutlandırılır? Kat sayısı, debi, basınç kaybı ve pompa odası planlama rehberi.",
+            "tags": [
+                "yüksek bina pompa",
+                "kademeli pompa",
+                "site su basıncı",
+                "apartman pompa seçimi"
+            ],
+            "image_alt": "Yüksek bina kademeli pompa boyutlandırma — site su basıncı",
+            "published": true,
+            "published_at": "2026-07-28 09:00:00",
+            "content": "<p><strong>Yüksek bina ve site</strong> su tesisatında üst katlara yeterli basınç ulaştırmak için doğru pompa boyutlandırması kritiktir. 10 kat ve üzeri yapılarda tek kademeli santrifüj veya standart hidrofor yetersiz kalabilir; <strong>kademeli pompa</strong> veya çok pompalı hidrofor grubu değerlendirilir.</p>\n\n<p>Apartman hidrofor: <a href=\"/blog/apartman-icin-hidrofor-nasil-secilir\">apartman hidrofor seçimi</a> · Kademeli genel: <a href=\"/blog/kademeli-pompa-nedir-ne-ise-yarar-nasil-secilir\">kademeli pompa nedir?</a> · Ürünler: <a href=\"/kategoriler/su-pompalari/kademeli-pompalar\">kademeli pompalar</a></p>\n\n<h2>Ne Zaman Kademeli Pompa Gerekir?</h2>\n<ul>\n  <li>Statik yükseklik + kayıplar 80 m ve üzeri</li>\n  <li>Üst katlarda musluk basıncı sürekli düşük</li>\n  <li>Mevcut hidrofor üst kata basamıyor</li>\n  <li>Yangın hattı basınç şartı karşılanmıyor</li>\n  <li>Site genelinde eşzamanlı yüksek debi</li>\n</ul>\n\n<h2>Boyutlandırma Adımları</h2>\n\n<h3>1. Toplam debi (Q)</h3>\n<p>Daire sayısı × kişi başı günlük su tüketimi ÷ kullanım saati veya eşzamanlı musluk katsayısı ile hesaplanır. Site ve AVM projelerinde mühendislik hesabı şarttır.</p>\n\n<h3>2. Toplam basma (H)</h3>\n<p>En yüksek tüketim noktası yüksekliği + boru dirsek/vana kayıpları + güvenlik payı (%10–15). <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">Debi ve basma hesabı</a></p>\n\n<h3>3. Pompa eğrisi eşleşmesi</h3>\n<p>Seçilen pompanın çalışma noktası (Q, H) verimli bölgede olmalı; katalog eğrisi ile tesisat eğrisi kesişimi kontrol edilir.</p>\n\n<h3>4. Yedekli sistem</h3>\n<p>Kritik binalarda N+1 yedek pompa veya <a href=\"/kategoriler/hidrofor-sistemleri/hidrofor-grubu\">hidrofor grubu</a> düşünülür. Bir pompa arızasında sistem devam etmelidir.</p>\n\n<h2>Pompa Odası Planlaması</h2>\n<ul>\n  <li>Dar alan: <a href=\"/blog/dikey-kademeli-pompa-rehberi\">dikey kademeli</a></li>\n  <li>Geniş alan, kolay servis: yatay kademeli</li>\n  <li>Emme deposu veya hat pompa altında/yanında</li>\n  <li>Drenaj ve sızıntı tahliyesi planlanmalı</li>\n  <li>Gürültü ve titreşim izolasyonu (üst daireler için)</li>\n</ul>\n\n<h2>Hidrofor Grubu mu Kademeli mi?</h2>\n<p>Orta yüksek binalarda (6–12 kat) hidrofor grubu + basınç tankı yeterli olabilir. Çok yüksek basınç veya sürekli yüksek debide kademeli pompa tercih edilir. Proje mühendisi her iki senaryoyu karşılaştırmalıdır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>15 katlı bina için hangi pompa?</h3>\n<p>Debi ve basma hesabına göre dikey kademeli veya hidrofor grubu; mutlaka proje bazlı boyutlandırma yapılmalıdır.</p>\n\n<h3>Site yönetimi pompa seçiminde nelere dikkat etmeli?</h3>\n<p>Enerji tüketimi, yedek parça, servis süresi ve garanti. <a href=\"/blog/frekans-kontrollu-kademeli-pompa-avantajlari\">Frekans kontrollü</a> sistem uzun vadede tasarruf sağlar.</p>\n\n<h3>Yangın suyu ayrı pompa mı?</h3>\n<p>Çoğu projede yangın ve kullanım suyu hatları ayrıdır. <a href=\"/blog/yangin-pompasi-nedir-nasil-secilir\">Yangın pompası rehberi</a></p>\n\n<p>Proje danışmanlığı: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

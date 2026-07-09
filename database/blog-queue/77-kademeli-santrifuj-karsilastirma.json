@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kademeli-pompa-mi-santrifuj-pompa-mi",
+            "title": "Kademeli Pompa mı Santrifüj Pompa mı? Farklar ve Seçim Rehberi",
+            "excerpt": "Kademeli pompa ile tek kademeli santrifüj pompa arasındaki farklar: basma yüksekliği, maliyet, bakım ve hangi uygulamada hangisi tercih edilir?",
+            "meta_title": "Kademeli Pompa mı Santrifüj Pompa mı?",
+            "meta_description": "Kademeli pompa mı santrifüj pompa mı seçilmeli? Basma yüksekliği, debi, maliyet ve uygulama alanına göre karşılaştırma rehberi.",
+            "tags": [
+                "kademeli pompa",
+                "santrifüj pompa",
+                "pompa karşılaştırma",
+                "yüksek basınç pompa"
+            ],
+            "image_alt": "Kademeli pompa mı santrifüj pompa mı — karşılaştırma rehberi",
+            "published": true,
+            "published_at": "2026-07-28 09:00:00",
+            "content": "<p><strong>Kademeli pompa</strong> ve <strong>tek kademeli santrifüj pompa</strong> aynı santrifüj prensiple çalışır; fark, basıncın tek seferde mi yoksa ardışık kademelerle mi artırıldığıdır. Yanlış seçim ya yetersiz basınç ya da gereksiz maliyet ve enerji kaybı demektir.</p>\n\n<p>Santrifüj: <a href=\"/blog/santrifuj-pompa-nedir-kullanim-alanlari\">santrifüj pompa nedir?</a> · Kademeli: <a href=\"/blog/kademeli-pompa-nedir-ne-ise-yarar-nasil-secilir\">kademeli pompa rehberi</a> · Ne zaman: <a href=\"/blog/kademeli-pompa-ne-zaman-tercih-edilir\">kademeli ne zaman?</a></p>\n\n<h2>Temel Farklar</h2>\n<table>\n<thead><tr><th>Kriter</th><th>Santrifüj (tek kademe)</th><th>Kademeli</th></tr></thead>\n<tbody>\n<tr><td>Basma yüksekliği</td><td>~20–60 m</td><td>80–200+ m</td></tr>\n<tr><td>Gövde boyu</td><td>Kısa</td><td>Uzun (dikey/yatay)</td></tr>\n<tr><td>İlk yatırım</td><td>Düşük</td><td>Yüksek</td></tr>\n<tr><td>Bakım</td><td>Basit, tek conta seti</td><td>Her kademe conta</td></tr>\n<tr><td>Verim (yüksek H)</td><td>Düşük verim bölgesi</td><td>Yüksek basınçta verimli</td></tr>\n</tbody>\n</table>\n\n<h2>Hangi Durumda Santrifüj Yeterli?</h2>\n<ul>\n  <li>1–4 katlı konut ve küçük iş yeri</li>\n  <li>Basma ihtiyacı 50 m altında</li>\n  <li>Sulama, dolum, kısa mesafe transfer</li>\n  <li><a href=\"/kategoriler/hidrofor-sistemleri\">Hidrofor</a> ile birleşik basınçlı su</li>\n  <li>Düşük bütçe, basit bakım önceliği</li>\n</ul>\n\n<h2>Hangi Durumda Kademeli Gerekir?</h2>\n<ul>\n  <li>10+ kat bina su basıncı</li>\n  <li>Yangın hattı yüksek basınç şartı</li>\n  <li>RO/arıtma besleme hattı</li>\n  <li>Uzun mesafe yüksek basınçlı transfer</li>\n  <li>Endüstriyel proses ve kazan dolaşımı</li>\n</ul>\n\n<h2>Üçüncü Seçenek: Hidrofor ve Dalgıç</h2>\n<p>Konut ve apartmanda çoğu zaman <strong>hidrofor</strong> (yüzey santrifüj + tank) veya <strong>dalgıç pompa</strong> (kuyu) yeterlidir. Kademeli pompa bu ikisinin yerine değil, yüksek basınç gerektiren özel hatlar içindir.</p>\n\n<h2>Karar Ağacı (Özet)</h2>\n<ol>\n  <li>Basma ihtiyacı 60 m altı mı? → Santrifüj veya hidrofor</li>\n  <li>Kuyu suyu mu? → <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">Dalgıç pompa</a></li>\n  <li>80 m+ basma, yüzey kurulum mu? → Kademeli</li>\n  <li>Yangın zorunluluğu mu? → <a href=\"/blog/bina-yangin-pompasi-secimi\">Yangın pompası</a> + mühendislik</li>\n</ol>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>İki santrifüj pompayı seri bağlamak kademeli gibi olur mu?</h3>\n<p>Hayır. Kademeli pompa tek gövdede optimize edilmiş kademe dizisidir; rastgele seri bağlantı verim ve güvenlik riski oluşturur.</p>\n\n<h3>Santrifüj pompa yüksek devirle daha fazla basar mı?</h3>\n<p>Devir artışı sınırlı fayda sağlar; kavitasyon ve motor aşırı yük riski artar. Yüksek basınç için kademeli tasarım doğru çözümdür.</p>\n\n<h3>Jet pompa kademeli yerine kullanılır mı?</h3>\n<p>Jet pompa sığ kuyu emişi içindir; yüksek bina basıncı için uygun değildir. <a href=\"/blog/jet-pompa-nedir-kullanim-alanlari\">Jet pompa rehberi</a></p>\n\n<p>Model karşılaştırması: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">danışmanlık</a></p>"
+        }
+    ]
+}
