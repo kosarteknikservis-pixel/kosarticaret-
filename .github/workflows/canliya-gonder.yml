@@ -170,6 +170,16 @@ jobs:
               (/usr/local/php83/bin/php artisan blog:import database/blog-export.json --force); \
             fi"
 
+      - name: Blog kapak görsellerini üret (960x540 başlık metni)
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            (command -v php >/dev/null && php artisan blog:assign-covers --force) || \
+            (/usr/local/php83/bin/php artisan blog:assign-covers --force)"
+
       - name: Mevcut görselleri optimize et
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}

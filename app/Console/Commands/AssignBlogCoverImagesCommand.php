@@ -9,11 +9,11 @@ use Illuminate\Console\Command;
 class AssignBlogCoverImagesCommand extends Command
 {
     protected $signature = 'blog:assign-covers
-                            {--dry-run : Sadece eşleşmeleri göster}
+                            {--dry-run : Sadece başlıkları göster}
                             {--force : Mevcut kapak görsellerini de yenile}
                             {--slug= : Yalnızca belirli blog slug}';
 
-    protected $description = 'Blog yazılarına konuya uygun ürün görselinden kapak atar ve image_alt eşler';
+    protected $description = 'Blog yazılarına başlık metinli 960x540 kapak görseli üretir';
 
     public function handle(BlogCoverImageService $service): int
     {
@@ -40,28 +40,23 @@ class AssignBlogCoverImagesCommand extends Command
 
         foreach ($posts as $post) {
             if ($this->option('dry-run')) {
-                $match = $service->previewProduct($post);
-
-                if ($match) {
-                    $this->line("✓ {$post->slug} → {$match->name}");
-                    $assigned++;
-                } else {
-                    $this->warn("✗ {$post->slug} → ürün bulunamadı");
-                    $skipped++;
-                }
+                $title = $service->previewTitle($post);
+                $this->line("✓ {$post->slug} → \"{$title}\"");
+                $assigned++;
 
                 continue;
             }
 
             if ($service->assign($post, (bool) $this->option('force'))) {
-                $this->line("Kapak atandı: {$post->slug}");
+                $this->line("Kapak üretildi: {$post->slug}");
                 $assigned++;
             } else {
+                $this->warn("Atlandı: {$post->slug}");
                 $skipped++;
             }
         }
 
-        $this->info("Tamamlandı. Atanan: {$assigned}, atlanan: {$skipped}.");
+        $this->info("Tamamlandı. Üretilen: {$assigned}, atlanan: {$skipped}.");
 
         return self::SUCCESS;
     }
