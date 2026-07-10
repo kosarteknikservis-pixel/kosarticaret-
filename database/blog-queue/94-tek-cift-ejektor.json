@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "tek-cift-ejektorlu-jet-pompa-farki",
+            "title": "Tek ve Çift Ejektörlü Jet Pompa Farkı",
+            "excerpt": "Tek ejektörlü ve çift ejektörlü jet pompa arasındaki fark nedir? Emiş derinliği, verim ve hangi kuyu derinliğinde hangisi seçilir?",
+            "meta_title": "Tek ve Çift Ejektörlü Jet Pompa Farkı",
+            "meta_description": "Tek ejektörlü vs çift ejektörlü jet pompa: emiş derinliği, verim, maliyet ve kuyu derinliğine göre seçim rehberi.",
+            "tags": [
+                "çift ejektörlü jet pompa",
+                "tek ejektör jet pompa",
+                "jet pompa ejektör",
+                "derin kuyu jet"
+            ],
+            "image_alt": "Tek ve çift ejektörlü jet pompa farkı — emiş derinliği rehberi",
+            "published": true,
+            "published_at": "2026-08-03 09:00:00",
+            "content": "<p><strong>Ejektör</strong>, jet pompada venturi etkisiyle vakum oluşturan kritik parçadır. <strong>Tek ejektörlü</strong> modeller sığ ve orta derinlikte; <strong>çift ejektörlü</strong> modeller daha derin kuyularda (15–35 m) emiş performansı sağlar.</p>\n\n<p>Genel: <a href=\"/blog/jet-pompa-nedir-kullanim-alanlari\">jet pompa nedir?</a> · Derin kuyu: <a href=\"/blog/derinden-emisli-jet-pompa-rehberi\">derinden emişli jet</a> · Seçim: <a href=\"/blog/jet-pompa-secim-rehberi-kapsamli\">jet pompa seçim rehberi</a></p>\n\n<h2>Tek Ejektörlü Jet Pompa</h2>\n<ul>\n  <li>Emiş: genelde 0–15 m</li>\n  <li>Daha ekonomik ilk yatırım</li>\n  <li>Sığ kuyu, bahçe, sarnıç uygulamaları</li>\n  <li>Bakımı daha basit</li>\n</ul>\n\n<h2>Çift Ejektörlü Jet Pompa</h2>\n<ul>\n  <li>Emiş: 15–35 m (modele göre)</li>\n  <li>İki aşamalı vakum, daha yüksek emiş</li>\n  <li>Derin kuyu konut ve tarla</li>\n  <li>Daha yüksek motor gücü gerekebilir</li>\n</ul>\n\n<h2>Karşılaştırma Tablosu</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Tek ejektör</th><th>Çift ejektör</th></tr></thead>\n<tbody>\n<tr><td>Max emiş</td><td>~15 m</td><td>~35 m</td></tr>\n<tr><td>Maliyet</td><td>Düşük</td><td>Orta-yüksek</td></tr>\n<tr><td>Verim (derin kuyu)</td><td>Düşer</td><td>Daha iyi</td></tr>\n<tr><td>Yedek parça</td><td>Basit</td><td>İki ejektör seti</td></tr>\n</tbody>\n</table>\n\n<h2>Hangisini Seçmeli?</h2>\n<p><strong>8 m altı:</strong> Tek ejektör veya <a href=\"/blog/sig-kuyu-jet-pompa-rehberi\">sığ kuyu jet</a> yeterli.</p>\n<p><strong>8–15 m:</strong> Tek ejektörlü derin emişli jet değerlendirilir.</p>\n<p><strong>15–35 m:</strong> Çift ejektörlü jet veya <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa</a> karşılaştırması yapın.</p>\n<p><strong>35 m+:</strong> Dalgıç pompa genelde daha verimli. <a href=\"/blog/jet-pompa-mi-dalgic-pompa-mi-farki\">Jet mi dalgıç mı?</a></p>\n\n<h2>Bakım ve Arıza</h2>\n<p>Ejektör nozul tıkanıklığı emişi düşürür; yılda en az bir kez temizlik önerilir. <a href=\"/blog/jet-pompa-ariza-bakim-rehberi\">Jet pompa bakım rehberi</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Çift ejektör otomatik mi seçilir?</h3>\n<p>Hayır; kuyu derinliği ve su seviyesi ölçülerek karar verilmelidir.</p>\n\n<h3>Ejektör değişimi kullanıcı yapabilir mi?</h3>\n<p>Basit modellerde mümkün; contalar ve sızdırmazlık kontrol edilmelidir.</p>\n\n<h3>Çift ejektör daha çok elektrik harcar mı?</h3>\n<p>Aynı debide derin kuyuda tek ejektöre göre daha verimli olabilir; yanlış boyutlandırma her iki tipi de verimsiz kılar.</p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

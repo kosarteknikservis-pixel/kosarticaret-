@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-kurulum-rehberi",
+            "title": "Jet Pompa Kurulum Rehberi: Emme Hattı, Foot Valf ve Test",
+            "excerpt": "Jet pompa kurulumu adım adım: emme borusu, foot valf, geri valf, priming ve ilk çalıştırma testi rehberi.",
+            "meta_title": "Jet Pompa Kurulum Rehberi",
+            "meta_description": "Jet pompa kurulum rehberi: emme hattı, foot valf, geri valf, priming ve hidrofor bağlantısı adım adım.",
+            "tags": [
+                "jet pompa kurulum",
+                "jet pompa montaj",
+                "foot valf",
+                "priming"
+            ],
+            "image_alt": "Jet pompa kurulum rehberi — emme hattı ve foot valf montajı",
+            "published": true,
+            "published_at": "2026-08-04 09:00:00",
+            "content": "<p><strong>Jet pompa kurulumu</strong>, emme hattı, foot valf, geri valf ve priming adımlarının doğru yapılmasına bağlıdır. Hatalı montaj su çekmeme, hava kaçağı ve kısa ömürlü motor sorunlarına yol açar.</p>\n\n<p>Emme: <a href=\"/blog/jet-pompa-emme-priming-rehberi\">emme ve priming</a> · Hidrofor: <a href=\"/blog/jet-pompa-hidrofor-baglanti-rehberi\">hidrofor bağlantısı</a> · Seçim: <a href=\"/blog/jet-pompa-secim-rehberi-kapsamli\">jet pompa seçim rehberi</a></p>\n\n<h2>Kurulum Öncesi Hazırlık</h2>\n<ul>\n  <li>Kuyu derinliği ve su seviyesi ölçülmeli</li>\n  <li>Pompa debi/basma katalog değerleri ihtiyacı karşılamalı</li>\n  <li>Emme borusu çapı üretici önerisine uygun olmalı</li>\n  <li>Elektrik hattı (monofaze/trifaze) ve sigorta uygun olmalı</li>\n  <li>Kurulum yeri kuru, havalandırmalı ve servis erişimine açık olmalı</li>\n</ul>\n\n<h2>Adım Adım Kurulum</h2>\n<ol>\n  <li><strong>Foot valf:</strong> Emme ucuna monte; su altında kalacak şekilde konumlandırın</li>\n  <li><strong>Emme hattı:</strong> Contalı bağlantılar; mümkün olduğunca kısa ve dikey mesafe limiti içinde</li>\n  <li><strong>Pompa montajı:</strong> Titreşim önleyici baza; hizalı sabitleme</li>\n  <li><strong>Geri valf:</strong> Pompa çıkışına, basınç tankından önce</li>\n  <li><strong>Basınç tankı:</strong> T parçası ile bağlantı; ön basınç ayarı</li>\n  <li><strong>Basınç anahtarı:</strong> Açma/kapama basıncı ayarı</li>\n  <li><strong>Priming:</strong> Doldurma tapasından su ekleyin; hava çıkana kadar bekleyin</li>\n  <li><strong>Test:</strong> Kısa süre çalıştırın; kaçak, gürültü ve basınç kontrolü</li>\n</ol>\n\n<h2>Derin Kuyu Jet Kurulumu</h2>\n<p>Emme borusu kuyuya iner; jet ünitesi (ejektör) su seviyesine göre konumlandırılır. <a href=\"/blog/derinden-emisli-jet-pompa-rehberi\">Derinden emişli jet rehberi</a> · <a href=\"/blog/tek-cift-ejektorlu-jet-pompa-farki\">Ejektör seçimi</a></p>\n\n<h2>Sık Kurulum Hataları</h2>\n<ul>\n  <li>Foot valf olmadan montaj</li>\n  <li>İnce emme borusu kullanımı</li>\n  <li>Geri valf eksikliği</li>\n  <li>Priming yapmadan çalıştırma</li>\n  <li>Basınç tankı ön basıncının ayarsız olması</li>\n</ul>\n\n<h2>Kuyu Suyu Hidrofor Entegrasyonu</h2>\n<p>Ev basıncı için jet + hidrofor birlikte kurulur. <a href=\"/blog/kuyu-suyu-hidrofor-baglanti-rehberi\">Kuyu suyu hidrofor bağlantısı</a> · <a href=\"/blog/hidrofor-basinc-tanki-secimi\">Basınç tankı seçimi</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Jet pompa kurulumu kendim yapılır mı?</h3>\n<p>Basit sığ kuyu uygulamalarında deneyimli kullanıcı yapabilir; derin kuyu ve elektrik bağlantısında yetkili montaj önerilir.</p>\n\n<h3>Emme borusu plastik mi metal mi?</h3>\n<p>Üretici önerisine uyulmalı; derin kuyuda genelde galvaniz veya HDPE boru kullanılır.</p>\n\n<h3>Kurulum sonrası ne zaman tam yükte çalıştırılır?</h3>\n<p>Priming testi ve kaçak kontrolünden hemen sonra kademeli yük artırılabilir.</p>\n\n<p>Destek: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">montaj danışmanlığı</a></p>"
+        }
+    ]
+}

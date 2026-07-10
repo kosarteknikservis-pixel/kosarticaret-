@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "cift-fanli-santrifuj-pompa-rehberi",
+            "title": "Çift Fanlı Santrifüj Pompa Rehberi: Yüksek Debi ve Basınç",
+            "excerpt": "Çift fanlı (double suction) santrifüj pompa nedir? Tek fanlıya göre avantajları, endüstriyel kullanım ve boyutlandırma ipuçları.",
+            "meta_title": "Çift Fanlı Santrifüj Pompa Rehberi",
+            "meta_description": "Çift fanlı santrifüj pompa seçimi: yüksek debi, dengeli yük dağılımı, bina ve sanayi uygulamaları için rehber.",
+            "tags": [
+                "çift fanlı santrifüj pompa",
+                "double suction pompa",
+                "santrifüj pompa",
+                "yüksek debi pompa"
+            ],
+            "image_alt": "Çift fanlı santrifüj pompa — yüksek debi seçim rehberi",
+            "published": true,
+            "published_at": "2026-07-30 09:00:00",
+            "content": "<p><strong>Çift fanlı santrifüj pompa</strong> (double suction), fanın iki taraftan emiş yapması sayesinde daha dengeli eksenel yük ve genelde daha yüksek debi kapasitesi sunan santrifüj pompa tipidir. Orta-yüksek debi sulama, bina su beslemesi, soğutma kulesi ve sanayi dolaşım hatlarında tercih edilir.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar/cift-fanli-santrifuj-pompa\">çift fanlı santrifüj pompalar</a> · Türler: <a href=\"/blog/santrifuj-pompa-turleri-secim-rehberi\">santrifüj türleri</a> · Tek fanlı: <a href=\"/blog/tek-fanli-santrifuj-pompa-rehberi\">tek fanlı rehber</a></p>\n\n<h2>Çift Fanlının Avantajları</h2>\n<ul>\n  <li>İki taraflı emiş ile daha dengeli rulman yükü</li>\n  <li>Tek fanlıya göre daha yüksek debi potansiyeli</li>\n  <li>NPSH gereksinimi görece daha düşük olabilir</li>\n  <li>Sürekli çalışmaya uygun endüstriyel gövde</li>\n  <li>Flanş bağlantı ile kolay hat entegrasyonu</li>\n</ul>\n\n<h2>Tek Fanlı vs Çift Fanlı</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Tek fanlı</th><th>Çift fanlı</th></tr></thead>\n<tbody>\n<tr><td>Debi aralığı</td><td>Düşük-orta</td><td>Orta-yüksek</td></tr>\n<tr><td>Gövde boyutu</td><td>Kompakt</td><td>Daha geniş</td></tr>\n<tr><td>Maliyet</td><td>Düşük</td><td>Yüksek</td></tr>\n<tr><td>Typik uygulama</td><td>Bahçe, küçük ev</td><td>Site, fabrika, sulama</td></tr>\n</tbody>\n</table>\n\n<h2>Kullanım Alanları</h2>\n<ul>\n  <li>Çok daireli bina ve site su beslemesi</li>\n  <li>Tarımsal yağmurlama (yüksek debi)</li>\n  <li>Soğutma kulesi ve chiller dolaşımı</li>\n  <li>Yangın rezervuarı besleme (ön hat)</li>\n  <li>Endüstriyel proses transferi</li>\n</ul>\n\n<h2>Seçim ve Montaj</h2>\n<p>Debi ve basma yüksekliği hesabı zorunludur. Pompa tabanı düz beton veya çelik konstrüksiyon üzerine sabitlenmeli; emme ve basma hatlarında check valf, filtre ve manometre önerilir. Trifaze motor ve uygun koruma panosu gereklidir.</p>\n\n<p>Çok yüksek basma için <a href=\"/blog/kademeli-pompa-nedir-ne-ise-yarar-nasil-secilir\">kademeli pompa</a>; çok yüksek debi-düşük basma için <a href=\"/blog/salyangoz-pompa-rehberi\">salyangoz pompa</a> alternatif olabilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Çift fanlı pompa ev için gerekli mi?</h3>\n<p>Genelde hayır. Müstakil ev ve küçük bahçe için tek fanlı veya hidrofor yeterlidir. Çok daireli binalarda değerlendirilir.</p>\n\n<h3>Çift fanlı pompa sesli çalışır mı?</h3>\n<p>Yüksek debi modeller gürültü üretir. Pompa odası ve titreşim izolasyonu önerilir.</p>\n\n<h3>Çift fanlı ile çift kademeli aynı mı?</h3>\n<p>Hayır. Çift fanlı tek kademede çift emiş; çift kademeli ardışık basınç artışıdır. <a href=\"/blog/kademeli-pompa-mi-santrifuj-pompa-mi\">Karşılaştırma</a></p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

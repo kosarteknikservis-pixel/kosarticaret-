@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "paslanmaz-santrifuj-pompa-secimi",
+            "title": "Paslanmaz Santrifüj Pompa Seçimi: Kimyasal ve Gıda Uygulamaları",
+            "excerpt": "Paslanmaz santrifüj pompa nedir, AISI 304 ve 316 ne zaman gerekir? Kimyasal, asit ve hijyenik prosesler için seçim rehberi.",
+            "meta_title": "Paslanmaz Santrifüj Pompa Seçimi",
+            "meta_description": "Paslanmaz çelik santrifüj pompa seçimi: AISI 304/316 farkı, kimyasal uyumluluk, contalar ve montaj ipuçları.",
+            "tags": [
+                "paslanmaz santrifüj pompa",
+                "kimyasal pompa",
+                "AISI 304 pompa",
+                "paslanmaz pompa"
+            ],
+            "image_alt": "Paslanmaz santrifüj pompa — kimyasal uygulama seçim rehberi",
+            "published": true,
+            "published_at": "2026-07-31 09:00:00",
+            "content": "<p><strong>Paslanmaz santrifüj pompa</strong>, gövde ve fan malzemesinin AISI 304 veya 316 paslanmaz çelikten üretildiği, kimyasal, asit, alkali ve hijyenik sıvılarda korozyona dayanıklı pompa tipidir. Döküm gövdeli standart pompalar bu ortamlarda kısa sürede aşınır veya ürün kalitesini bozar.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar/paslanmaz-pompalar-kimyasal\">paslanmaz kimyasal pompalar</a> · Türler: <a href=\"/blog/santrifuj-pompa-turleri-secim-rehberi\">santrifüj türleri</a> · Kademeli paslanmaz: <a href=\"/kategoriler/su-pompalari/kademeli-pompalar\">kademeli pompalar</a></p>\n\n<h2>AISI 304 vs AISI 316</h2>\n<table>\n<thead><tr><th>Malzeme</th><th>Uygun ortam</th></tr></thead>\n<tbody>\n<tr><td>AISI 304</td><td>Temiz su, hafif kimyasal, gıda sıvıları</td></tr>\n<tr><td>AISI 316</td><td>Klorür, deniz suyu, agresif asit/alkali</td></tr>\n</tbody>\n</table>\n<p>Şüpheli ortamda 316 veya üretici kimyasal uyumluluk tablosu kontrol edilmelidir.</p>\n\n<h2>Kullanım Alanları</h2>\n<ul>\n  <li>Kimyasal ve asit transferi</li>\n  <li>Gıda ve içecek proses hatları</li>\n  <li>İlaç ve kozmetik üretimi</li>\n  <li>RO/arıtma besleme ve dolaşım</li>\n  <li>Havuz ve spa kimyasal dozaj (uygun modele göre)</li>\n</ul>\n\n<h2>Seçim Kriterleri</h2>\n<ul>\n  <li><strong>Sıvı kimyası:</strong> pH, sıcaklık, partikül içeriği</li>\n  <li><strong>Conta malzemesi:</strong> EPDM, Viton, PTFE seçimi</li>\n  <li><strong>Debi ve basma:</strong> Proses ihtiyacına göre tek fanlı veya kademeli paslanmaz</li>\n  <li><strong>Motor:</strong> Trifaze, Ex-proof gereksinimi (patlayıcı ortam)</li>\n  <li><strong>Bağlantı:</strong> Tri-clamp, flanş veya dişli uyumu</li>\n</ul>\n\n<p><a href=\"/marka/winpo\">Winpo</a> CMF/CMI ve DWK serileri; <a href=\"/marka/sumak\">Sumak</a> inox modelleri paslanmaz segmentte yaygındır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Paslanmaz pompa her kimyasala uygun mu?</h3>\n<p>Hayır. Konsantrasyon ve sıcaklığa göre uyumluluk değişir. Üretici veri sayfası veya teknik danışmanlık alınmalıdır.</p>\n\n<h3>Paslanmaz pompa fiyatı neden yüksek?</h3>\n<p>Malzeme ve işleme maliyeti döküm gövdeye göre yüksektir. Uzun ömür ve ürün güvenliği avantaj sağlar.</p>\n\n<h3>Paslanmaz dalgıç pompa gerekir mi?</h3>\n<p>Sıvı kaynağı daldırma gerektiriyorsa paslanmaz dalgıç modeller değerlendirilir. <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">Dalgıç pompa rehberi</a></p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

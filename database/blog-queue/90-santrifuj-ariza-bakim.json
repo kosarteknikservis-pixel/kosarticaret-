@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "santrifuj-pompa-ariza-bakim-rehberi",
+            "title": "Santrifüj Pompa Arıza ve Bakım Rehberi",
+            "excerpt": "Santrifüj pompa çalışmıyor, gürültülü veya verimsiz mi? Kuru çalışma, conta, rulman ve emme sorunları için arıza ve bakım rehberi.",
+            "meta_title": "Santrifüj Pompa Arıza ve Bakım Rehberi",
+            "meta_description": "Santrifüj pompa arızaları: su çekmeme, gürültü, aşırı ısınma, conta ve rulman bakımı için pratik çözüm rehberi.",
+            "tags": [
+                "santrifüj pompa arıza",
+                "pompa bakımı",
+                "pompa çalışmıyor",
+                "conta değişimi"
+            ],
+            "image_alt": "Santrifüj pompa arıza ve bakım — sorun giderme rehberi",
+            "published": true,
+            "published_at": "2026-08-01 09:00:00",
+            "content": "<p><strong>Santrifüj pompa arıza</strong> belirtileri çoğu zaman emme sorunu, mekanik aşınma veya elektrik kaynaklıdır. Düzenli bakım, ani duruşları ve pahalı motor hasarlarını önler.</p>\n\n<p>Emme: <a href=\"/blog/santrifuj-pompa-emme-priming-rehberi\">emme ve priming</a> · Genel: <a href=\"/blog/santrifuj-pompa-nedir-kullanim-alanlari\">santrifüj pompa nedir?</a> · Dalgıç arıza: <a href=\"/blog/dalgic-pompa-calismiyor-ariza-cozum\">dalgıç pompa çalışmıyor</a></p>\n\n<h2>Sık Arızalar ve Çözümler</h2>\n<table>\n<thead><tr><th>Belirti</th><th>Olası neden</th><th>Çözüm</th></tr></thead>\n<tbody>\n<tr><td>Su gelmiyor</td><td>Priming yok, hava kaçağı</td><td>Doldurma, conta, foot valf</td></tr>\n<tr><td>Düşük debi</td><td>Tıkalı filtre, aşınmış fan</td><td>Filtre temizliği, fan kontrolü</td></tr>\n<tr><td>Gürültü / titreşim</td><td>Rulman, hizasızlık, kavitasyon</td><td>Rulman, baza, emme debisi</td></tr>\n<tr><td>Motor ısınıyor</td><td>Aşırı yük, düşük voltaj</td><td>Kapasite kontrolü, elektrik ölçümü</td></tr>\n<tr><td>Sızıntı</td><td>Conta, salmastra</td><td>Conta seti değişimi</td></tr>\n</tbody>\n</table>\n\n<h2>Periyodik Bakım Listesi</h2>\n<ul>\n  <li>Emme filtresi temizliği (aylık veya kullanıma göre)</li>\n  <li>Conta ve salmastra kontrolü (6–12 ay)</li>\n  <li>Rulman gürültüsü ve ısı kontrolü</li>\n  <li>Motor fanı ve soğutma kanalı temizliği</li>\n  <li>Elektrik bağlantıları sıkılık kontrolü</li>\n  <li>Kuru çalışma koruması testi (varsa)</li>\n</ul>\n\n<h2>Kuru Çalışma Riski</h2>\n<p>Emme hattı boşaldığında fan su olmadan döner; birkaç dakika içinde conta ve gövde hasar görebilir. Float switch veya basınç anahtarı ile koruma önerilir.</p>\n\n<h2>Ne Zaman Servis Gerekir?</h2>\n<p>Fan balansı bozulması, şaft eğriliği, gövde çatlağı ve motor sargı arızasında yetkili servis şarttır. Conta ve filtre değişimi kullanıcı seviyesinde yapılabilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Pompa çalışıyor ama basınç düşük?</h3>\n<p>Emme havası, tıkalı filtre veya aşınmış fan olabilir. Çalışma noktası katalog eğrisi ile karşılaştırılmalıdır.</p>\n\n<h3>Conta ne sıklıkla değişir?</h3>\n<p>Kullanım yoğunluğuna göre 1–2 yılda bir kontrol; sızıntı başladığında hemen değiştirin.</p>\n\n<h3>Santrifüj pompa kışın donar mı?</h3>\n<p>Donma riski olan bölgelerde pompa ve hat boşaltılmalı veya ısıtılmalıdır.</p>\n\n<p>Yedek parça ve destek: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar\">santrifüj pompalar</a> · <a href=\"/iletisim\">servis talebi</a></p>"
+        }
+    ]
+}

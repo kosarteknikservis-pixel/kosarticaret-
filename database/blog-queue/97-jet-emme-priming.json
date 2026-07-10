@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-emme-priming-rehberi",
+            "title": "Jet Pompa Emme ve Priming Rehberi: Su Çekmeme Çözümleri",
+            "excerpt": "Jet pompa neden su çekmez? Priming, hava kaçağı, foot valf ve ejektör tıkanıklığı için pratik çözüm rehberi.",
+            "meta_title": "Jet Pompa Emme ve Priming Rehberi",
+            "meta_description": "Jet pompa emme sorunları: priming, foot valf, hava kaçağı ve ejektör tıkanıklığı çözüm rehberi.",
+            "tags": [
+                "jet pompa emme",
+                "jet pompa priming",
+                "jet pompa su çekmiyor",
+                "foot valf"
+            ],
+            "image_alt": "Jet pompa emme ve priming — su çekmeme çözümleri",
+            "published": true,
+            "published_at": "2026-08-04 09:00:00",
+            "content": "<p><strong>Jet pompa emme</strong> sorunları, yüzey pompalarında en sık görülen arızadır. Jet pompada hem gövde hem emme hattı su ile dolu olmadan (priming) fan düzgün vakum oluşturamaz; su gelmez veya zayıf debi görülür.</p>\n\n<p>Genel: <a href=\"/blog/jet-pompa-nedir-kullanim-alanlari\">jet pompa nedir?</a> · Arıza: <a href=\"/blog/jet-pompa-ariza-bakim-rehberi\">jet pompa arıza rehberi</a> · Santrifüj emme: <a href=\"/blog/santrifuj-pompa-emme-priming-rehberi\">santrifüj emme rehberi</a></p>\n\n<h2>Priming (İlk Su Doldurma)</h2>\n<ol>\n  <li>Emme hattı contalarını kontrol edin</li>\n  <li>Foot valf su altında ve temiz olmalı</li>\n  <li>Pompa gövdesindeki doldurma tapasından su ekleyin</li>\n  <li>Hava çıkana kadar bekleyin, sonra çalıştırın</li>\n  <li>Derin kuyuda emme süresi daha uzun olabilir</li>\n</ol>\n\n<h2>Su Çekmeme Nedenleri</h2>\n<ul>\n  <li><strong>Priming eksik:</strong> Gövde veya hat kuru</li>\n  <li><strong>Hava kaçağı:</strong> Gevşek fitting, eski conta, çatlak hortum</li>\n  <li><strong>Foot valf arızası:</strong> Su geri akıyor, vakum oluşmuyor</li>\n  <li><strong>Ejektör tıkanıklığı:</strong> Kireç, kum, tortu</li>\n  <li><strong>Emme derinliği aşımı:</strong> Katalog limiti üstü</li>\n  <li><strong>Kuru kuyu:</strong> Su seviyesi emme ucunun altında</li>\n</ul>\n\n<h2>Foot Valf ve Emme Hattı</h2>\n<p>Foot valf pompa durduğunda hattaki suyu tutar; bir sonraki çalıştırmada priming kolaylaşır. Emme borusu çapı üretici önerisine uygun olmalıdır.</p>\n\n<h2>Ejektör Kontrolü</h2>\n<p>Derin emişli jet pompada ejektör nozul tıkanırsa emiş düşer. Yılda bir kez söküp temizlik önerilir. <a href=\"/blog/tek-cift-ejektorlu-jet-pompa-farki\">Tek/çift ejektör farkı</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Jet pompa her seferinde doldurulmalı mı?</h3>\n<p>Foot valf ve geri valf sağlam ise hayır; hava kaçağı varsa her seferinde priming gerekebilir.</p>\n\n<h3>Emme hattına kaç metre boru?</h3>\n<p>Mümkün olduğunca kısa; dikey mesafe katalog emiş limitini aşmamalı.</p>\n\n<h3>Derin kuyuda jet pompa geç mi su çeker?</h3>\n<p>Normal olabilir; ejektör vakum oluşana kadar birkaç dakika sürebilir. Limit aşımında dalgıç pompa düşünün.</p>\n\n<p>Destek: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

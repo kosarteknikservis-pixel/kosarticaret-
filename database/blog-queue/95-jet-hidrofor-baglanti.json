@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-hidrofor-baglanti-rehberi",
+            "title": "Jet Pompa Hidrofor Bağlantı Rehberi: Basınç Tankı ve Kurulum",
+            "excerpt": "Jet pompa hidrofor sistemine nasıl bağlanır? Basınç tankı seçimi, geri valf, manometre ve kısa devre çalışmayı önleme rehberi.",
+            "meta_title": "Jet Pompa Hidrofor Bağlantı Rehberi",
+            "meta_description": "Jet pompa hidrofor bağlantısı: basınç tankı, geri valf, basınç anahtarı ve ev/apartman su basıncı kurulum rehberi.",
+            "tags": [
+                "jet pompa hidrofor",
+                "hidrofor bağlantısı",
+                "basınç tankı",
+                "jet pompa kurulum"
+            ],
+            "image_alt": "Jet pompa hidrofor bağlantısı — basınç tankı kurulum rehberi",
+            "published": true,
+            "published_at": "2026-08-03 09:00:00",
+            "content": "<p><strong>Jet pompa hidrofor</strong> sistemi, kuyu veya depodan çekilen suyu basınç tankı ve otomatik kontrol ile sabit basınçta dağıtır. Jet pompa tek başına her musluk açılışında start-stop yaparsa motor hızla yıpranır; hidrofor bu sorunu çözer.</p>\n\n<p>Hidrofor: <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor nedir?</a> · Jet seçim: <a href=\"/blog/jet-pompa-secim-rehberi-kapsamli\">jet pompa seçim rehberi</a> · Kuyu: <a href=\"/blog/kuyu-suyu-hidrofor-baglanti-rehberi\">kuyu suyu hidrofor bağlantısı</a></p>\n\n<h2>Sistem Bileşenleri</h2>\n<ul>\n  <li><strong>Jet pompa:</strong> Su kaynağından emiş</li>\n  <li><strong>Basınç tankı:</strong> Min. 24 lt (konut), büyük tüketimde 50–100 lt</li>\n  <li><strong>Basınç anahtarı / otomatik:</strong> Açma-kapama kontrolü</li>\n  <li><strong>Geri valf:</strong> Pompa durduğunda su geri akmasını önler</li>\n  <li><strong>Manometre:</strong> Çalışma basıncı izleme</li>\n  <li><strong>Emme filtresi:</strong> Kuyu suyu partikül koruması</li>\n</ul>\n\n<h2>Basınç Tankı Seçimi</h2>\n<p>Tank hacmi ne kadar büyükse pompa o kadar az devreye girer. Konut için 24 lt minimum; çok musluklu villalarda 50 lt önerilir. <a href=\"/blog/hidrofor-basinc-tanki-secimi\">Basınç tankı seçimi</a></p>\n\n<h2>Kurulum Sırası (Özet)</h2>\n<ol>\n  <li>Jet pompa emme hattı + foot valf montajı</li>\n  <li>Pompa çıkışına geri valf</li>\n  <li>Basınç tankı bağlantısı (T parçası)</li>\n  <li>Basınç anahtarı ayarı (açma/kapama basıncı)</li>\n  <li>Priming (gövde su doldurma) ve test</li>\n</ol>\n<p>Detay: <a href=\"/blog/jet-pompa-kurulum-rehberi\">jet pompa kurulum rehberi</a></p>\n\n<h2>Sık Hatalar</h2>\n<ul>\n  <li>Basınç tankı olmadan doğrudan hatta pompa kullanmak</li>\n  <li>Geri valf eksikliği (priming kaybı)</li>\n  <li>Yanlış basınç anahtarı ayarı (sürekli çalışma veya hiç devreye girmeme)</li>\n  <li>Emme hattı hava kaçağı</li>\n</ul>\n<p><a href=\"/blog/hidrofor-surekli-calisyor-sebepler-cozum\">Hidrofor sürekli çalışıyor</a> · <a href=\"/blog/apartmanda-su-basinci-dusuk-hidrofor-gerekir-mi\">Düşük basınç çözümü</a></p>\n\n<h2>Jet vs Hazır Hidrofor Paketi</h2>\n<p>Hazır hidrofor setleri santrifüj veya jet pompalı gelir. Mevcut jet pompanız varsa tank + otomatik ile sistem tamamlanabilir. <a href=\"/kategoriler/hidrofor-sistemleri\">Hidrofor sistemleri</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Jet pompa hidrofor olmadan kullanılır mı?</h3>\n<p>Kısa süreli sulama hariç konut basıncı için hidrofor şarttır.</p>\n\n<h3>Basınç tankı ön basıncı kaç bar olmalı?</h3>\n<p>Genelde açma basıncının %10 altı; örn. 2 bar açmada tank 1,5–1,8 bar ön basınç.</p>\n\n<h3>Apartman için jet pompa yeterli mi?</h3>\n<p>Debi yeterliyse evet; yüksek katlı binalarda <a href=\"/blog/apartman-icin-hidrofor-nasil-secilir\">apartman hidrofor seçimi</a> değerlendirilmelidir.</p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik destek</a></p>"
+        }
+    ]
+}

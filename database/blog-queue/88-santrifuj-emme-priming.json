@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "santrifuj-pompa-emme-priming-rehberi",
+            "title": "Santrifüj Pompa Emme ve Priming Rehberi: Su Çekmeme Sorunu",
+            "excerpt": "Santrifüj pompa neden su çekmez? Emme yüksekliği, hava alma, priming ve foot valf için pratik çözüm rehberi.",
+            "meta_title": "Santrifüj Pompa Emme ve Priming Rehberi",
+            "meta_description": "Santrifüj pompa emme sorunları: priming, hava kaçağı, emme yüksekliği limiti ve foot valf seçimi rehberi.",
+            "tags": [
+                "santrifüj pompa emme",
+                "priming",
+                "pompa su çekmiyor",
+                "foot valf"
+            ],
+            "image_alt": "Santrifüj pompa emme ve priming — su çekmeme çözümleri",
+            "published": true,
+            "published_at": "2026-08-01 09:00:00",
+            "content": "<p><strong>Santrifüj pompa emme</strong> sorunları, yüzey pompalarında en sık karşılaşılan arıza türüdür. Pompa gövdesi ve emme hattı su ile dolmadan (priming) çalıştırılırsa fan kuru döner, performans düşer ve motor hasar görebilir.</p>\n\n<p>Genel: <a href=\"/blog/santrifuj-pompa-nedir-kullanim-alanlari\">santrifüj pompa nedir?</a> · Arıza: <a href=\"/blog/santrifuj-pompa-ariza-bakim-rehberi\">arıza rehberi</a> · Türler: <a href=\"/blog/santrifuj-pompa-turleri-secim-rehberi\">santrifüj türleri</a></p>\n\n<h2>Emme Yüksekliği Limiti</h2>\n<p>Yüzey santrifüj pompalar, atmosfer basıncı ve kavitation sınırı nedeniyle su seviyesinin genelde <strong>7–8 metre</strong> üstünde emiş yapamaz. Daha derin kaynaklarda dalgıç veya jet pompa kullanılmalıdır.</p>\n\n<h2>Priming (İlk Su Doldurma)</h2>\n<ol>\n  <li>Emme hattı contalarını ve bağlantıları kontrol edin</li>\n  <li>Foot valf veya emme ucunun su altında olduğundan emin olun</li>\n  <li>Pompa gövdesindeki doldurma tapasını açarak su ekleyin</li>\n  <li>Hava tamamen çıkana kadar bekleyin, sonra çalıştırın</li>\n  <li>Preferikal modellerde sürtme fanı kısa emme hattında yardımcı olur</li>\n</ol>\n\n<h2>Su Çekmeme Nedenleri</h2>\n<ul>\n  <li><strong>Hava kaçağı:</strong> Gevşek fitting, eski conta, çatlak emme hortumu</li>\n  <li><strong>Kuru çalışma:</strong> Priming yapılmadan start</li>\n  <li><strong>Tıkalı emme:</strong> Filtre veya foot valf kirli</li>\n  <li><strong>Yüksek emme:</strong> Limit aşımı</li>\n  <li><strong>Donmuş veya hava kabarcığı:</strong> Uzun dikey emme hattı</li>\n</ul>\n\n<h2>Foot Valf ve Emme Hattı</h2>\n<p>Emme ucunda foot valf, pompa durduğunda hattaki suyun geri akmasını önler; bir sonraki çalıştırmada priming kolaylaşır. Emme hattı çapı katalog önerisine uygun olmalı; ince hortum debi ve emme başarısını düşürür.</p>\n\n<p>Preferikal alternatif: <a href=\"/blog/preferikal-pompa-nedir-surtme-fanli\">preferikal pompa</a> · Derin kuyu: <a href=\"/blog/jet-pompa-mi-dalgic-pompa-mi\">jet mi dalgıç mı?</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Pompa çalışıyor ama su gelmiyor, ne yapmalı?</h3>\n<p>Önce priming ve hava kaçağı kontrolü; ardından fan yönü ve emme filtresi incelenmelidir.</p>\n\n<h3>Foot valf olmadan çalışır mı?</h3>\n<p>Kısa ve sürekli dolu hatlarda mümkün olabilir; çoğu uygulamada foot valf önerilir.</p>\n\n<h3>Emme hattına kaç metre boru?</h3>\n<p>Mümkün olduğunca kısa ve geniş çap; dikey mesafe limiti aşılmamalıdır.</p>\n\n<p>Destek: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

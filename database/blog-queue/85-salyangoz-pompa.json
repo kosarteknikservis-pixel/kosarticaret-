@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "salyangoz-pompa-rehberi",
+            "title": "Salyangoz Pompa Rehberi: Yüksek Debi Sulama ve Transfer",
+            "excerpt": "Salyangoz (volut) pompa nedir, ne zaman tercih edilir? Sulama kanalı, gölet ve yangın rezervuarı beslemesi için debi ve montaj rehberi.",
+            "meta_title": "Salyangoz Pompa Rehberi",
+            "meta_description": "Salyangoz volut pompa seçimi: yüksek debi sulama, gölet transferi, montaj ve boyutlandırma rehberi.",
+            "tags": [
+                "salyangoz pompa",
+                "volut pompa",
+                "yüksek debi pompa",
+                "sulama pompası"
+            ],
+            "image_alt": "Salyangoz pompa — yüksek debi sulama rehberi",
+            "published": true,
+            "published_at": "2026-07-31 09:00:00",
+            "content": "<p><strong>Salyangoz pompa</strong> (volut pompa), spiral gövde (volut) tasarımı sayesinde düşük basınçta çok yüksek debi aktarımı sağlayan santrifüj pompa tipidir. Sulama kanalları, gölet transferi, yangın rezervuarı beslemesi ve büyük debili sanayi dolaşımında kullanılır.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar/salyangoz-pompalar-bol-su-veren\">salyangoz pompalar</a> · Sulama: <a href=\"/blog/sulama-santrifuj-pompasi-rehberi\">sulama santrifüj pompası</a> · Türler: <a href=\"/blog/santrifuj-pompa-turleri-secim-rehberi\">santrifüj türleri</a></p>\n\n<h2>Salyangoz Pompanın Özellikleri</h2>\n<ul>\n  <li>Çok yüksek debi (yüzlerce–binlerce m³/h)</li>\n  <li>Genelde düşük-orta basma yüksekliği (5–30 m)</li>\n  <li>Geniş emiş ve basma flanşları</li>\n  <li>Yatay montaj, ağır gövde</li>\n  <li>Trifaze motor, sürekli çalışma</li>\n</ul>\n\n<h2>Ne Zaman Salyangoz, Ne Zaman Tek Fanlı?</h2>\n<table>\n<thead><tr><th>İhtiyaç</th><th>Öneri</th></tr></thead>\n<tbody>\n<tr><td>Bahçe damla sulama</td><td>Tek fanlı / preferikal</td></tr>\n<tr><td>Kanal ve gölet transferi</td><td>Salyangoz</td></tr>\n<tr><td>Yüksek kat bina basıncı</td><td>Çift fanlı / kademeli</td></tr>\n<tr><td>Tarım yağmurlama (geniş alan)</td><td>Salyangoz veya çift fanlı</td></tr>\n</tbody>\n</table>\n\n<h2>Boyutlandırma</h2>\n<p>Toplam sulama alanı, sulama süresi ve boru hattı kayıpları ile gereken debi hesaplanır. Pompa eğrisinde çalışma noktası verimli bölgede olmalıdır; aşırı kapasiteli pompa enerji israfı ve kavitasyon riski oluşturur.</p>\n\n<p>Tarım genel: <a href=\"/blog/tarimsal-sulama-pompasi-secimi\">tarımsal sulama pompası seçimi</a> · Debi: <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">debi hesabı</a></p>\n\n<h2>Montaj Notları</h2>\n<ol>\n  <li>Sağlam beton temel ve titreşim takozu</li>\n  <li>Emme hattında yıldız tipi veya çizgi filtre</li>\n  <li>Çıkışta check valf ve basınç göstergesi</li>\n  <li>Kuru çalışmayı önleyen seviye kontrolü</li>\n  <li>Trifaze motor koruma (termik, kontaktör)</li>\n</ol>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Salyangoz pompa ev bahçesi için uygun mu?</h3>\n<p>Genelde hayır; debi ve güç gereksinimi çok yüksektir. Küçük alanlar için tek fanlı yeterlidir.</p>\n\n<h3>Salyangoz pompa yangın sisteminde kullanılır mı?</h3>\n<p>Rezervuar besleme hattında kullanılabilir; bina yangın deşarj hattında sertifikalı yangın pompası gerekir. <a href=\"/blog/yangin-pompasi-nedir-nasil-secilir\">Yangın pompası</a></p>\n\n<h3>Salyangoz pompa bakımı zor mu?</h3>\n<p>Periyodik rulman, conta ve gövde kontrolü gerekir. <a href=\"/blog/santrifuj-pompa-ariza-bakim-rehberi\">Bakım rehberi</a></p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

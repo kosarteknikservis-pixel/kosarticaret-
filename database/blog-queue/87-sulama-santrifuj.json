@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "sulama-santrifuj-pompasi-rehberi",
+            "title": "Sulama Santrifüj Pompası Rehberi: Tarla ve Bahçe Seçimi",
+            "excerpt": "Sulama santrifüj pompası nasıl seçilir? Damla, yağmurlama ve kanal sulaması için debi, basma ve motor gücü rehberi.",
+            "meta_title": "Sulama Santrifüj Pompası Rehberi",
+            "meta_description": "Sulama santrifüj pompası seçimi: damla ve yağmurlama, debi hesabı, tek fanlı ve salyangoz modeller için rehber.",
+            "tags": [
+                "sulama santrifüj pompası",
+                "tarımsal sulama",
+                "bahçe sulama pompası",
+                "santrifüj pompa"
+            ],
+            "image_alt": "Sulama santrifüj pompası — tarla ve bahçe seçim rehberi",
+            "published": true,
+            "published_at": "2026-07-31 09:00:00",
+            "content": "<p><strong>Sulama santrifüj pompası</strong>, tarımsal ve peyzaj sulamasında su kaynağından (kuyu, gölet, kanal, sarnıç) sulama hattına debi ve basınç sağlayan yüzey montajlı santrifüj pompadır. Sulama yöntemi (damla, yağmurlama, karık) gereken debi ve basıncı doğrudan belirler.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar/santrifuj-pompalar-sulama\">sulama santrifüj pompaları</a> · Tarım: <a href=\"/blog/tarimsal-sulama-pompasi-secimi-rehberi\">tarımsal sulama seçimi</a> · Tek fanlı: <a href=\"/blog/tek-fanli-santrifuj-pompa-rehberi\">tek fanlı rehber</a></p>\n\n<h2>Sulama Yöntemine Göre Pompa Tipi</h2>\n<table>\n<thead><tr><th>Yöntem</th><th>Debi</th><th>Basınç</th><th>Önerilen tip</th></tr></thead>\n<tbody>\n<tr><td>Damla sulama</td><td>Düşük-orta</td><td>Orta</td><td>Tek fanlı / preferikal</td></tr>\n<tr><td>Yağmurlama</td><td>Yüksek</td><td>Orta-yüksek</td><td>Çift fanlı / salyangoz</td></tr>\n<tr><td>Kanal / gölet</td><td>Çok yüksek</td><td>Düşük</td><td>Salyangoz</td></tr>\n<tr><td>Bahçe hortum</td><td>Düşük</td><td>Düşük</td><td>Tek fanlı</td></tr>\n</tbody>\n</table>\n\n<h2>Su Kaynağına Göre Seçim</h2>\n<ul>\n  <li><strong>Sığ kuyu / sarnıç:</strong> Tek fanlı veya <a href=\"/blog/preferikal-pompa-nedir-surtme-fanli\">preferikal pompa</a></li>\n  <li><strong>Derin kuyu:</strong> <a href=\"/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi\">Kuyu dalgıç pompa</a></li>\n  <li><strong>Gölet / kanal:</strong> <a href=\"/blog/salyangoz-pompa-rehberi\">Salyangoz pompa</a></li>\n  <li><strong>Elektrik yok:</strong> <a href=\"/blog/dizel-motopomp-secimi-rehberi\">Dizel motopomp</a> veya <a href=\"/blog/solar-dc-dalgic-pompa-avantajlari-secim\">solar dalgıç</a></li>\n</ul>\n\n<h2>Boyutlandırma</h2>\n<p>Alan (dekar), sulama süresi ve emitör debisi ile toplam m³/h hesaplanır. Boru çapı, vana ve filtre kayıpları basma yüksekliğine eklenir. <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">Debi ve basma hesabı</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Damla sulama için kaç HP pompa yeter?</h3>\n<p>Alan ve zone sayısına göre 0,5–2 HP arası yaygındır; hesap yapılmadan tahmin risklidir.</p>\n\n<h3>Sulama pompası sürekli çalışmalı mı?</h3>\n<p>Damla sistemde genelde zamanlayıcı ile; yağmurlamada süre sınırlı çalışma. Kuru çalışma koruması şarttır.</p>\n\n<h3>Sulama pompası fiyatları?</h3>\n<p><a href=\"/blog/santrifuj-pompa-fiyatlari-2026-rehberi\">Santrifüj pompa fiyatları 2026</a> · <a href=\"/blog/su-pompasi-fiyatlari-2026-rehberi\">su pompası fiyatları</a></p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

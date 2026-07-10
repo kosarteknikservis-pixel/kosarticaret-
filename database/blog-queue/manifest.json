@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -575,6 +575,139 @@
             "publish_on": "2026-07-29",
             "title": "Kademeli Pompa Arıza ve Bakım Rehberi",
             "series": "kademeli-pompa"
+        },
+        {
+            "day": 33,
+            "file": "82-santrifuj-pompa-turleri.json",
+            "publish_on": "2026-07-30",
+            "title": "Santrifüj Pompa Türleri: Seçim Rehberi",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 33,
+            "file": "83-tek-fanli-santrifuj.json",
+            "publish_on": "2026-07-30",
+            "title": "Tek Fanlı Santrifüj Pompa Rehberi",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 33,
+            "file": "84-cift-fanli-santrifuj.json",
+            "publish_on": "2026-07-30",
+            "title": "Çift Fanlı Santrifüj Pompa Rehberi",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 34,
+            "file": "85-salyangoz-pompa.json",
+            "publish_on": "2026-07-31",
+            "title": "Salyangoz Pompa Rehberi",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 34,
+            "file": "86-paslanmaz-santrifuj.json",
+            "publish_on": "2026-07-31",
+            "title": "Paslanmaz Santrifüj Pompa Seçimi",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 34,
+            "file": "87-sulama-santrifuj.json",
+            "publish_on": "2026-07-31",
+            "title": "Sulama Santrifüj Pompası Rehberi",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 35,
+            "file": "88-santrifuj-emme-priming.json",
+            "publish_on": "2026-08-01",
+            "title": "Santrifüj Pompa Emme ve Priming Rehberi",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 35,
+            "file": "89-santrifuj-fiyatlari.json",
+            "publish_on": "2026-08-01",
+            "title": "Santrifüj Pompa Fiyatları 2026",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 35,
+            "file": "90-santrifuj-ariza-bakim.json",
+            "publish_on": "2026-08-01",
+            "title": "Santrifüj Pompa Arıza ve Bakım Rehberi",
+            "series": "santrifuj-alt-tip"
+        },
+        {
+            "day": 36,
+            "file": "91-jet-pompa-secim-rehberi.json",
+            "publish_on": "2026-08-02",
+            "title": "Jet Pompa Seçim Rehberi",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 36,
+            "file": "92-derinden-emisli-jet.json",
+            "publish_on": "2026-08-02",
+            "title": "Derinden Emişli Jet Pompa Rehberi",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 36,
+            "file": "93-sig-kuyu-jet.json",
+            "publish_on": "2026-08-02",
+            "title": "Sığ Kuyu Jet Pompa Rehberi",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 37,
+            "file": "94-tek-cift-ejektor.json",
+            "publish_on": "2026-08-03",
+            "title": "Tek ve Çift Ejektörlü Jet Pompa Farkı",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 37,
+            "file": "95-jet-hidrofor-baglanti.json",
+            "publish_on": "2026-08-03",
+            "title": "Jet Pompa Hidrofor Bağlantı Rehberi",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 37,
+            "file": "96-jet-bahce-sulama.json",
+            "publish_on": "2026-08-03",
+            "title": "Jet Pompa Bahçe Sulama Rehberi",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 38,
+            "file": "97-jet-emme-priming.json",
+            "publish_on": "2026-08-04",
+            "title": "Jet Pompa Emme ve Priming Rehberi",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 38,
+            "file": "98-jet-fiyatlari.json",
+            "publish_on": "2026-08-04",
+            "title": "Jet Pompa Fiyatları 2026",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 38,
+            "file": "99-jet-ariza-bakim.json",
+            "publish_on": "2026-08-04",
+            "title": "Jet Pompa Arıza ve Bakım Rehberi",
+            "series": "jet-pompa"
+        },
+        {
+            "day": 38,
+            "file": "100-jet-kurulum.json",
+            "publish_on": "2026-08-04",
+            "title": "Jet Pompa Kurulum Rehberi",
+            "series": "jet-pompa"
         }
     ]
 }

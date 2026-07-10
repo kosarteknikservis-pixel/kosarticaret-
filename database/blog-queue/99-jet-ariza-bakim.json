@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-ariza-bakim-rehberi",
+            "title": "Jet Pompa Arıza ve Bakım Rehberi",
+            "excerpt": "Jet pompa çalışmıyor, su çekmiyor veya gürültülü mü? Ejektör, conta, foot valf ve emme hattı için arıza ve bakım rehberi.",
+            "meta_title": "Jet Pompa Arıza ve Bakım Rehberi",
+            "meta_description": "Jet pompa arızaları: su çekmeme, düşük debi, gürültü, ejektör tıkanıklığı ve periyodik bakım rehberi.",
+            "tags": [
+                "jet pompa arıza",
+                "jet pompa bakımı",
+                "jet pompa çalışmıyor",
+                "ejektör temizliği"
+            ],
+            "image_alt": "Jet pompa arıza ve bakım — sorun giderme rehberi",
+            "published": true,
+            "published_at": "2026-08-04 09:00:00",
+            "content": "<p><strong>Jet pompa arıza</strong> belirtileri çoğunlukla emme/priming, ejektör tıkanıklığı veya mekanik aşınmadan kaynaklanır. Düzenli bakım, ani duruşları ve pahalı motor hasarlarını önler.</p>\n\n<p>Emme: <a href=\"/blog/jet-pompa-emme-priming-rehberi\">emme ve priming</a> · Genel: <a href=\"/blog/jet-pompa-nedir-kullanim-alanlari\">jet pompa nedir?</a> · Santrifüj arıza: <a href=\"/blog/santrifuj-pompa-ariza-bakim-rehberi\">santrifüj arıza rehberi</a></p>\n\n<h2>Sık Arızalar ve Çözümler</h2>\n<table>\n<thead><tr><th>Belirti</th><th>Olası neden</th><th>Çözüm</th></tr></thead>\n<tbody>\n<tr><td>Su gelmiyor</td><td>Priming yok, hava kaçağı</td><td>Doldurma, conta, foot valf</td></tr>\n<tr><td>Düşük debi</td><td>Ejektör tıkalı, aşınmış fan</td><td>Ejektör temizliği, fan kontrolü</td></tr>\n<tr><td>Gürültü / titreşim</td><td>Rulman, hizasızlık, kavitasyon</td><td>Rulman, baza, emme debisi</td></tr>\n<tr><td>Motor ısınıyor</td><td>Aşırı yük, düşük voltaj</td><td>Kapasite kontrolü, elektrik ölçümü</td></tr>\n<tr><td>Sızıntı</td><td>Conta, salmastra</td><td>Conta seti değişimi</td></tr>\n<tr><td>Sürekli çalışma</td><td>Basınç anahtarı, tank havası</td><td>Anahtar ayarı, tank ön basıncı</td></tr>\n</tbody>\n</table>\n\n<h2>Periyodik Bakım Listesi</h2>\n<ul>\n  <li>Emme filtresi temizliği (aylık veya kullanıma göre)</li>\n  <li>Ejektör nozul temizliği (6–12 ay)</li>\n  <li>Conta ve salmastra kontrolü</li>\n  <li>Foot valf ve geri valf testi</li>\n  <li>Basınç tankı ön basıncı (1,5–2 bar bandı)</li>\n  <li>Elektrik bağlantıları sıkılık kontrolü</li>\n  <li>Kışın sistem boşaltma (donma riski bölgelerinde)</li>\n</ul>\n\n<h2>Ejektör Bakımı</h2>\n<p>Derin emişli jet pompada ejektör kireç ve kum birikimine açıktır. Yılda en az bir kez sökülüp temizlenmesi emiş performansını korur. <a href=\"/blog/tek-cift-ejektorlu-jet-pompa-farki\">Tek/çift ejektör farkı</a></p>\n\n<h2>Kuru Çalışma Riski</h2>\n<p>Emme hattı boşaldığında veya kuyu kuruduğunda pompa kuru çalışabilir; conta ve gövde hasar görür. Float switch veya basınç anahtarı koruması önerilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Jet pompa çalışıyor ama basınç düşük?</h3>\n<p>Emme havası, tıkalı ejektör veya aşınmış fan olabilir.</p>\n\n<h3>Ejektör ne sıklıkla değişir?</h3>\n<p>Kullanıma ve su kalitesine göre 2–5 yılda bir kontrol; tıkanıklıkta hemen temizlik.</p>\n\n<h3>Jet pompa kışın donar mı?</h3>\n<p>Donma riski olan bölgelerde pompa ve hat boşaltılmalıdır.</p>\n\n<p>Yedek parça: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a> · <a href=\"/iletisim\">servis talebi</a></p>"
+        }
+    ]
+}

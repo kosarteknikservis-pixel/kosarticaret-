@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-bahce-sulama-rehberi",
+            "title": "Jet Pompa Bahçe Sulama Rehberi: Debi ve Basınç Hesabı",
+            "excerpt": "Bahçe sulama için jet pompa nasıl seçilir? Damla, yağmurlama ve hortum kullanımında debi, basınç ve motor gücü rehberi.",
+            "meta_title": "Jet Pompa Bahçe Sulama Rehberi",
+            "meta_description": "Bahçe sulama jet pompa seçimi: damla ve yağmurlama, debi hesabı, sığ kuyu ve gölet uygulamaları rehberi.",
+            "tags": [
+                "jet pompa bahçe sulama",
+                "bahçe pompa",
+                "sulama jet pompa",
+                "jet pompa"
+            ],
+            "image_alt": "Jet pompa bahçe sulama — debi ve basınç seçim rehberi",
+            "published": true,
+            "published_at": "2026-08-03 09:00:00",
+            "content": "<p><strong>Jet pompa bahçe sulama</strong>, sığ kuyu, gölet veya sarnıçtan bahçe, peyzaj ve küçük tarla sulaması için ekonomik bir çözümdür. Sulama yöntemi (damla, yağmurlama, hortum) gereken debi ve basıncı belirler; pompa bu değerlere göre boyutlandırılmalıdır.</p>\n\n<p>Jet seçim: <a href=\"/blog/sig-kuyu-jet-pompa-rehberi\">sığ kuyu jet</a> · Tarım: <a href=\"/blog/tarimsal-sulama-pompasi-secimi-rehberi\">tarımsal sulama</a> · Santrifüj alternatif: <a href=\"/blog/sulama-santrifuj-pompasi-rehberi\">sulama santrifüj</a></p>\n\n<h2>Sulama Yöntemine Göre İhtiyaç</h2>\n<table>\n<thead><tr><th>Yöntem</th><th>Debi</th><th>Basınç</th></tr></thead>\n<tbody>\n<tr><td>Hortum / el sulama</td><td>Düşük</td><td>2–3 bar</td></tr>\n<tr><td>Damla sulama</td><td>Orta</td><td>2–4 bar</td></tr>\n<tr><td>Yağmurlama</td><td>Yüksek</td><td>3–5 bar</td></tr>\n</tbody>\n</table>\n\n<h2>Su Kaynağına Göre Pompa</h2>\n<ul>\n  <li><strong>Sığ kuyu / sarnıç:</strong> Jet pompa veya preferikal</li>\n  <li><strong>Gölet / kanal:</strong> <a href=\"/blog/salyangoz-pompa-rehberi\">Salyangoz pompa</a> (yüksek debi)</li>\n  <li><strong>Derin kuyu:</strong> <a href=\"/blog/derinden-emisli-jet-pompa-rehberi\">Derinden emişli jet</a> veya dalgıç</li>\n  <li><strong>Elektrik yok:</strong> <a href=\"/blog/dizel-motopomp-secimi-rehberi\">Dizel motopomp</a></li>\n</ul>\n\n<h2>Debi Hesabı (Basit)</h2>\n<p>Sulama alanı (m²), emitör debisi ve eş zamanlı zone sayısı ile saatlik m³/h hesaplanır. <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">Debi ve basma hesabı</a></p>\n\n<h2>Pratik Seçim İpuçları</h2>\n<ul>\n  <li>0,5–1 HP çoğu bahçe için yeterli</li>\n  <li>Kuru çalışma koruması şart</li>\n  <li>Emme filtresi kuyu suyunda önerilir</li>\n  <li>Zamanlayıcı ile sulama süresi kontrol edin</li>\n  <li>Uzun sulama için termal koruma kontrol edin</li>\n</ul>\n\n<h2>Jet vs Santrifüj Bahçede</h2>\n<p>Kısa emme ve orta debide jet ekonomik; yüksek debi yağmurlamada santrifüj veya salyangoz daha uygun olabilir. <a href=\"/blog/jet-pompa-secim-rehberi-kapsamli\">Karşılaştırma rehberi</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Bahçe için kaç HP jet pompa?</h3>\n<p>100–500 m² bahçede 0,5–1 HP; daha geniş alanda hesap gerekir.</p>\n\n<h3>Jet pompa gece sulama yapabilir mi?</h3>\n<p>Evet; zamanlayıcı ile; emme hattının sızdırmaz olduğundan emin olun.</p>\n\n<h3>Damla sulama jet pompa ile uyumlu mu?</h3>\n<p>Evet; basınç regülatörü ve filtre sistemi ile birlikte kullanılır.</p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

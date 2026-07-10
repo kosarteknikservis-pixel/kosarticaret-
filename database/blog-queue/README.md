@@ -51,10 +51,12 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Yangın pompası | 56–64 | Deploy ile yayınlanır |
 | Özel amaçlı pompa | 65–72 | Yayında |
 | Kademeli pompa | 73–81 | Deploy ile yayınlanır |
+| Santrifüj alt tip | 82–90 | Deploy ile yayınlanır |
+| Jet pompa | 91–100 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Hidrofor grubu (çok pompalı sistem) veya santrifüj alt tip kümesi (tek/çift fanlı, salyangoz).
+Hidrofor grubu (çok pompalı sistem) veya dalgıç pompa alt tip kümesi.
 
 ## Kapak görseli
 
