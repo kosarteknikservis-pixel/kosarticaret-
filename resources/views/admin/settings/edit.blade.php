@@ -174,6 +174,14 @@
 
                 <div class="mt-4"><label class="admin-label">Ücretsiz kargo limiti (₺)</label><input name="free_shipping_min" value="{{ $values['free_shipping_min'] }}" class="admin-input max-w-xs"><p class="text-xs text-slate-500 mt-1">Sepet tutarı bu limiti geçince standart kargo ücreti otomatik 0 ₺ olur. Alt limitteki kargo ücretleri <strong>Kargo & ödeme</strong> sekmesinden ayarlanır.</p></div>
 
+                <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <label class="admin-checkbox font-semibold text-slate-800">
+                        <input type="checkbox" name="product_card_free_shipping_badge" value="1" @checked(old('product_card_free_shipping_badge', $values['product_card_free_shipping_badge'] ?? '1') === '1')>
+                        Ürün kartı ve ürün sayfasında ücretsiz kargo etiketi göster
+                    </label>
+                    <p class="text-sm text-slate-600 mt-2">Açıkken, satış fiyatı ücretsiz kargo limitinin üzerindeki ürünlerde kartta ve ürün detay sayfasında <strong>Ücretsiz Kargo</strong> rozeti görünür. Limit yukarıdaki alandan yönetilir.</p>
+                </div>
+
                 <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <label class="admin-checkbox font-semibold text-slate-800">
                         <input type="checkbox" name="shop_show_stock_quantity" value="1" @checked(old('shop_show_stock_quantity', $values['shop_show_stock_quantity'] ?? '0') === '1')>

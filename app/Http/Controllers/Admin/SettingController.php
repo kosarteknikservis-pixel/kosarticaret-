@@ -27,7 +27,7 @@ class SettingController extends Controller
     /** @var array<string, list<string>> */
     private const TAB_FIELDS = [
         'general' => [
-            'site_name', 'free_shipping_min', 'shop_show_stock_quantity',
+            'site_name', 'free_shipping_min', 'product_card_free_shipping_badge', 'shop_show_stock_quantity',
             'google_site_verification', 'google_verification_file_name', 'google_verification_file_content', 'google_analytics_id',
             'indexnow_enabled', 'indexnow_key',
             'recaptcha_site_key', 'recaptcha_secret_key',
@@ -62,7 +62,7 @@ class SettingController extends Controller
 
     /** @var list<string> */
     private const BOOLEAN_FIELDS = [
-        'floating_whatsapp_enabled', 'scroll_top_enabled', 'pdp_whatsapp_order_enabled', 'shop_show_stock_quantity',
+        'floating_whatsapp_enabled', 'scroll_top_enabled', 'pdp_whatsapp_order_enabled', 'shop_show_stock_quantity', 'product_card_free_shipping_badge',
         'newsletter_enabled', 'shop_maintenance_enabled', 'brevo_enabled', 'smtp_enabled', 'parasut_enabled', 'pump_selector_enabled',
         'indexnow_enabled',
     ];
@@ -86,7 +86,7 @@ class SettingController extends Controller
         'google_site_verification', 'google_verification_file_name', 'google_verification_file_content', 'google_analytics_id',
         'indexnow_enabled', 'indexnow_key',
         'recaptcha_site_key', 'recaptcha_secret_key',
-        'home_brands_title', 'promo_text', 'free_shipping_min',
+        'home_brands_title', 'promo_text', 'free_shipping_min', 'product_card_free_shipping_badge',
         'newsletter_enabled', 'newsletter_title',
         'tagline', 'trust_secure', 'trust_shipping', 'trust_returns', 'trust_support',
         'cookie_text', 'cookie_accept',
@@ -135,7 +135,7 @@ class SettingController extends Controller
             if ($key === 'footer_trust_compliance' && $default === '') {
                 $default = implode(',', config('kosar.footer.default_compliance', []));
             }
-            if (in_array($key, ['pdp_whatsapp_order_enabled', 'floating_whatsapp_enabled', 'scroll_top_enabled', 'indexnow_enabled'], true) && $default === '') {
+            if (in_array($key, ['pdp_whatsapp_order_enabled', 'floating_whatsapp_enabled', 'scroll_top_enabled', 'indexnow_enabled', 'product_card_free_shipping_badge'], true) && $default === '') {
                 $default = '1';
             }
             $values[$key] = SiteSetting::get($key, $default);
@@ -339,6 +339,7 @@ class SettingController extends Controller
             'pdp_whatsapp_order_enabled' => ['sometimes', 'boolean'],
             'pdp_whatsapp_order_label' => ['nullable', 'string', 'max:80'],
             'shop_show_stock_quantity' => ['sometimes', 'boolean'],
+            'product_card_free_shipping_badge' => ['sometimes', 'boolean'],
             'contact_address' => ['nullable', 'string', 'max:500'],
             'contact_page_intro' => ['nullable', 'string', 'max:1000'],
             'contact_meta_title' => ['nullable', 'string', 'max:120'],

@@ -1,6 +1,11 @@
 @extends('layouts.shop')
 
 @section('content')
+    @php
+        use App\Support\ProductCardFreeShipping;
+
+        $showFreeShipping = ProductCardFreeShipping::qualifies($product);
+    @endphp
     <div class="shop-page shop-page--pdp">
     @include('shop.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 
@@ -104,6 +109,12 @@
                                 <span class="pdp-pb__dot"></span>
                             @endif
                             {{ $stockLabel }}
+                        </p>
+                    @endif
+                    @if($showFreeShipping)
+                        <p class="shop-pdp-price-box__shipping">
+                            <x-shop.icon name="truck" class="shop-pdp-price-box__shipping-icon" />
+                            <span>{{ __('shop.product_card_free_shipping') }}</span>
                         </p>
                     @endif
                 </div>

@@ -322,6 +322,7 @@ return [
     'apply' => 'Apply',
     'shipping' => 'Shipping',
     'free_shipping' => 'Free',
+    'product_card_free_shipping' => 'Free Shipping',
     'shipping_vat_est' => 'Shipping + VAT (est.)',
     'total_est' => 'Total (est.)',
     'place_order' => 'Place order',

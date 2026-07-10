@@ -322,6 +322,7 @@ return [
     'apply' => 'Uygula',
     'shipping' => 'Kargo',
     'free_shipping' => 'Ücretsiz',
+    'product_card_free_shipping' => 'Ücretsiz Kargo',
     'shipping_vat_est' => 'Kargo + KDV (tahmini)',
     'total_est' => 'Toplam (tahmini)',
     'place_order' => 'Siparişi Tamamla',

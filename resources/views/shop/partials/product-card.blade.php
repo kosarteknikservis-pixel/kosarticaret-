@@ -1,9 +1,13 @@
 @php
+    use App\Support\ProductCardFreeShipping;
+
     $imagePriority = (bool) ($priority ?? false);
+    $showFreeShipping = ProductCardFreeShipping::qualifies($product);
+    $hasDiscount = $product->hasDiscount();
 @endphp
 
 <article class="shop-product-card relative group flex flex-col h-full">
-    @if($product->hasDiscount())
+    @if($hasDiscount)
         <span class="shop-product-card__badge">-%{{ $product->discountPercent() }}</span>
     @endif
     <button type="button" data-toggle-favorite="{{ $product->slug }}" aria-pressed="false" aria-label="{{ __('shop.add_favorite') }}"
@@ -42,6 +46,12 @@
                 <p class="shop-product-card__compare">{{ number_format($product->compare_at_price, 2, ',', '.') }} ₺</p>
             @endif
         </div>
+        @if($showFreeShipping)
+            <p class="shop-product-card__shipping">
+                <x-shop.icon name="truck" class="shop-product-card__shipping-icon" />
+                <span>{{ __('shop.product_card_free_shipping') }}</span>
+            </p>
+        @endif
         @if(!$product->inStock())
             <p class="shop-product-card__stock shop-product-card__stock--out">{{ __('shop.out_of_stock') }}</p>
         @elseif(\App\Support\ShopStockDisplay::showQuantity())
