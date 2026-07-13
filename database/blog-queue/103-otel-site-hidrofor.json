@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "otel-site-hidrofor-grubu-secimi",
+            "title": "Otel ve Site Hidrofor Grubu Seçimi: Debi ve Basınç Hesabı",
+            "excerpt": "Otel, site ve rezidans projelerinde hidrofor grubu nasıl boyutlandırılır? Eş zamanlı kullanım, kat kaybı ve yedekli pompa rehberi.",
+            "meta_title": "Otel ve Site Hidrofor Grubu Seçimi",
+            "meta_description": "Otel ve site hidrofor grubu seçimi: debi hesabı, kat basıncı, yedekli pompa ve frekans kontrol rehberi.",
+            "tags": [
+                "otel hidrofor",
+                "site hidrofor grubu",
+                "rezidans su basıncı",
+                "hidrofor grubu"
+            ],
+            "image_alt": "Otel ve site hidrofor grubu seçim rehberi",
+            "published": true,
+            "published_at": "2026-08-05 09:00:00",
+            "content": "<p><strong>Otel ve site hidrofor grubu</strong> seçimi, konut tipi hidrofordan farklı olarak <strong>eş zamanlı yüksek debi</strong> ve <strong>kesintisiz basınç</strong> gereksinimine göre yapılır. Sabah ve akşam duş yoğunluğu, havuz ve mutfak hatları debi hesabını artırır.</p>\n\n<p>Genel: <a href=\"/blog/hidrofor-grubu-secim-rehberi\">hidrofor grubu rehberi</a> · Apartman: <a href=\"/blog/apartman-icin-hidrofor-nasil-secilir\">apartman hidrofor</a> · Boyutlandırma: <a href=\"/blog/hidrofor-grubu-boyutlandirma-rehberi\">grup boyutlandırma</a></p>\n\n<h2>Otel / Site İhtiyaç Farkları</h2>\n<table>\n<thead><tr><th>Parametre</th><th>Apartman</th><th>Otel / Site</th></tr></thead>\n<tbody>\n<tr><td>Eş zamanlı duş</td><td>Orta</td><td>Çok yüksek (sabah/akşam)</td></tr>\n<tr><td>7/24 basınç</td><td>İstenir</td><td>Zorunlu</td></tr>\n<tr><td>Yedek pompa</td><td>Önerilir</td><td>Şart</td></tr>\n<tr><td>Tank hacmi</td><td>50–100 lt</td><td>200–500+ lt</td></tr>\n</tbody>\n</table>\n\n<h2>Debi Hesabı (Basit Yaklaşım)</h2>\n<ol>\n  <li>Toplam oda/daire sayısı</li>\n  <li>Eş zamanlı kullanım katsayısı (otelde %30–50)</li>\n  <li>Musluk/duş debisi (lt/dk)</li>\n  <li>Havuz ve ortak alan ek debisi</li>\n  <li>Boru kayıpları ve kat yüksekliği</li>\n</ol>\n<p>Detay: <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">Debi ve basma hesabı</a></p>\n\n<h2>Basınç Gereksinimi</h2>\n<p>En üst kattaki kullanım noktasında min. 2 bar hedeflenir. Her kat ~0,3–0,4 bar ek kayıp; uzun kolon hatlarında çift pompalı veya frekans kontrollü grup tercih edilir. <a href=\"/blog/yuksek-bina-kademeli-pompa-boyutlandirma\">Yüksek bina basınç rehberi</a></p>\n\n<h2>Sistem Önerileri</h2>\n<ul>\n  <li><strong>2+1 yedekli pompa:</strong> 2 çalışan + 1 yedek (büyük tesisler)</li>\n  <li><strong>Frekans invertör:</strong> Debi dalgalanmasında enerji tasarrufu</li>\n  <li><strong>Büyük basınç tankı:</strong> Pompa start-stop azaltma</li>\n  <li><strong>Otomasyon paneli:</strong> Arıza alarmı, pompa sıralama</li>\n</ul>\n<p><a href=\"/blog/frekans-invertorlu-hidrofor-grubu\">Frekans invertörlü grup</a> · <a href=\"/blog/cok-pompali-hidrofor-avantajlari\">Çok pompalı avantajlar</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Site yönetimi hidrofor grubu ne zaman yenilemeli?</h3>\n<p>Sürekli basınç şikayeti, pompa arıza sıklığı veya kapasite artışında yenileme değerlendirilir.</p>\n\n<h3>Otel için inverter hidrofor şart mı?</h3>\n<p>Zorunlu değil ama enerji ve konfor açısından önerilir; <a href=\"/blog/inverter-hidrofor-avantajlari\">inverter avantajları</a></p>\n\n<h3>Kuyu suyu ile site hidroforu beslenir mi?</h3>\n<p>Evet; <a href=\"/blog/kuyu-suyu-hidrofor-baglanti-rehberi\">kuyu suyu hidrofor bağlantısı</a> ile entegre edilir.</p>\n\n<p>Proje teklifi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

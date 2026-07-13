@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "karavan-tekne-12-24-volt-hidrofor",
+            "title": "Karavan ve Tekne 12/24 Volt Hidrofor Seçimi",
+            "excerpt": "Karavan, tekne ve off-grid uygulamalar için 12 V ve 24 V hidrofor nasıl seçilir? Tanklı otomatik modeller ve güç tüketimi rehberi.",
+            "meta_title": "Karavan ve Tekne 12/24 Volt Hidrofor",
+            "meta_description": "12 ve 24 volt karavan tekne hidrofor seçimi: tanklı otomatik modeller, akü tüketimi ve montaj ipuçları rehberi.",
+            "tags": [
+                "karavan hidrofor",
+                "tekne hidrofor",
+                "12 volt hidrofor",
+                "24 volt hidrofor"
+            ],
+            "image_alt": "Karavan ve tekne 12/24 volt hidrofor seçim rehberi",
+            "published": true,
+            "published_at": "2026-08-07 09:00:00",
+            "content": "<p><strong>12/24 volt hidrofor</strong>, karavan, motokaravan, tekne ve off-grid kulübelerde şebeke elektriği olmadan su basıncı sağlayan kompakt DC pompa sistemidir. Genelde küçük basınç tankı ve otomatik basınç anahtarı ile birlikte gelir.</p>\n\n<p>Ürünler: <a href=\"/kategoriler/hidrofor-sistemleri/12-ve-24-volt-hidroforlar\">12/24 V hidroforlar</a> · Genel: <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor nedir?</a> · Solar: <a href=\"/blog/solar-dc-dalgic-pompa-avantajlari-secim\">solar DC pompa</a></p>\n\n<h2>12 V vs 24 V</h2>\n<table>\n<thead><tr><th>Voltaj</th><th>Ne zaman?</th></tr></thead>\n<tbody>\n<tr><td>12 V</td><td>Küçük karavan, tekne, hafif kullanım</td></tr>\n<tr><td>24 V</td><td>Büyük karavan, tekne, daha uzun hat</td></tr>\n</tbody>\n</table>\n<p>Akü sisteminizle uyumlu voltaj seçilmelidir; 12 V sistemde 24 V pompa kullanılamaz.</p>\n\n<h2>Seçim Kriterleri</h2>\n<ul>\n  <li><strong>Debi:</strong> Lavabo + duş için lt/dk ihtiyacı</li>\n  <li><strong>Tank hacmi:</strong> 1–5 lt kompakt tanklar yaygın</li>\n  <li><strong>Otomatik kapanma:</strong> Basınç anahtarı veya akış sensörü</li>\n  <li><strong>Kuru çalışma koruması:</strong> Su bittiğinde motor koruması</li>\n  <li><strong>Gürültü:</strong> Daire içi montajda sessiz modeller</li>\n  <li><strong>Malzeme:</strong> Deniz suyuna uygun paslanmaz (tekne)</li>\n</ul>\n\n<h2>Montaj İpuçları</h2>\n<ul>\n  <li>Pompayı su tankına yakın konumlandırın</li>\n  <li>Giriş hattına filtre kullanın</li>\n  <li>Akü kapasitesini günlük kullanıma göre hesaplayın</li>\n  <li>Solar panel ile şarj planı yapın (off-grid)</li>\n  <li>Kışın donma riskinde sistemi boşaltın</li>\n</ul>\n\n<h2>Karavan vs Ev Tipi Hidrofor</h2>\n<p>Ev tipi 220 V hidrofor karavanda inverter ile çalıştırılabilir; ancak DC hidrofor daha verimli ve kompaktır. <a href=\"/blog/ev-tipi-hidrofor-rehberi-mustakil-ev-villa\">Ev tipi hidrofor rehberi</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>12 V hidrofor kaç amper çeker?</h3>\n<p>Modele göre 5–15 A arası; katalog akım değeri kontrol edilmelidir.</p>\n\n<h3>Tekne için hangi hidrofor?</h3>\n<p>Paslanmaz gövdeli, tuzlu suya dayanıklı deniz tipi modeller tercih edilir.</p>\n\n<h3>Seaflo hidrofor güvenilir mi?</h3>\n<p>Karavan ve tekne segmentinde yaygın kullanılır; <a href=\"/kategoriler/hidrofor-sistemleri/12-ve-24-volt-hidroforlar\">12/24 V modeller</a> incelenebilir.</p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

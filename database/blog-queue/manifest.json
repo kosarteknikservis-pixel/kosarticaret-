@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -708,6 +708,76 @@
             "publish_on": "2026-08-04",
             "title": "Jet Pompa Kurulum Rehberi",
             "series": "jet-pompa"
+        },
+        {
+            "day": 39,
+            "file": "101-hidrofor-grubu-secim.json",
+            "publish_on": "2026-08-05",
+            "title": "Hidrofor Grubu Seçim Rehberi",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 39,
+            "file": "102-cok-pompali-hidrofor.json",
+            "publish_on": "2026-08-05",
+            "title": "Çok Pompalı Hidrofor Avantajları",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 39,
+            "file": "103-otel-site-hidrofor.json",
+            "publish_on": "2026-08-05",
+            "title": "Otel ve Site Hidrofor Grubu Seçimi",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 40,
+            "file": "104-frekans-invertorlu-grup.json",
+            "publish_on": "2026-08-06",
+            "title": "Frekans İnvertörlü Hidrofor Grubu",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 40,
+            "file": "105-hidrofor-grubu-boyutlandirma.json",
+            "publish_on": "2026-08-06",
+            "title": "Hidrofor Grubu Boyutlandırma Rehberi",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 40,
+            "file": "106-sicak-su-hidrofor.json",
+            "publish_on": "2026-08-06",
+            "title": "Sıcak Su Hidroforu Seçimi",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 41,
+            "file": "107-karavan-volt-hidrofor.json",
+            "publish_on": "2026-08-07",
+            "title": "Karavan ve Tekne 12/24 Volt Hidrofor",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 41,
+            "file": "108-hidrofor-grubu-karsilastirma.json",
+            "publish_on": "2026-08-07",
+            "title": "Hidrofor Grubu vs Ev Tipi Hidrofor",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 41,
+            "file": "109-hidrofor-grubu-fiyatlari.json",
+            "publish_on": "2026-08-07",
+            "title": "Hidrofor Grubu Fiyatları 2026",
+            "series": "hidrofor-grubu"
+        },
+        {
+            "day": 42,
+            "file": "110-hidrofor-grubu-ariza-bakim.json",
+            "publish_on": "2026-08-08",
+            "title": "Hidrofor Grubu Arıza ve Bakım Rehberi",
+            "series": "hidrofor-grubu"
         }
     ]
 }

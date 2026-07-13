@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "hidrofor-grubu-ariza-bakim-rehberi",
+            "title": "Hidrofor Grubu Arıza ve Bakım Rehberi",
+            "excerpt": "Hidrofor grubu çalışmıyor, basınç düşük veya pompa sürekli devrede mi? Çok pompalı sistemlerde arıza ve periyodik bakım rehberi.",
+            "meta_title": "Hidrofor Grubu Arıza ve Bakım Rehberi",
+            "meta_description": "Hidrofor grubu arızaları: basınç düşüklüğü, pompa sürekli çalışma, tank ve otomasyon sorunları için bakım rehberi.",
+            "tags": [
+                "hidrofor grubu arıza",
+                "hidrofor bakımı",
+                "çok pompalı hidrofor",
+                "basınç düşük"
+            ],
+            "image_alt": "Hidrofor grubu arıza ve bakım rehberi",
+            "published": true,
+            "published_at": "2026-08-08 09:00:00",
+            "content": "<p><strong>Hidrofor grubu arıza</strong> belirtileri tek pompalı sistemlere benzer; ancak çok pompalı yapıda <strong>pompa sıralama</strong>, <strong>otomasyon paneli</strong> ve <strong>pompa yedekliliği</strong> ek kontrol noktaları oluşturur.</p>\n\n<p>Genel bakım: <a href=\"/blog/hidrofor-bakim-rehberi\">hidrofor bakım rehberi</a> · Sürekli çalışma: <a href=\"/blog/hidrofor-surekli-calisyor-sebepler-cozum\">hidrofor sürekli çalışıyor</a> · Grup: <a href=\"/blog/hidrofor-grubu-secim-rehberi\">hidrofor grubu rehberi</a></p>\n\n<h2>Sık Arızalar ve Çözümler</h2>\n<table>\n<thead><tr><th>Belirti</th><th>Olası neden</th><th>Çözüm</th></tr></thead>\n<tbody>\n<tr><td>Basınç düşük</td><td>Yetersiz pompa, tıkalı filtre</td><td>Kapasite kontrolü, filtre temizliği</td></tr>\n<tr><td>Tüm pompalar çalışmıyor</td><td>Elektrik, panel arızası</td><td>Sigorta, PLC/kontaktör kontrolü</td></tr>\n<tr><td>Tek pompa çalışmıyor</td><td>Motor, conta, rulman</td><td>Yedek pompa devrede mi kontrol</td></tr>\n<tr><td>Sürekli çalışma</td><td>Tank havası, kaçak</td><td>Membran, tesisat kaçağı</td></tr>\n<tr><td>Basınç dalgalanması</td><td>Presostat ayarı</td><td>Açma/kapama basıncı kalibrasyonu</td></tr>\n</tbody>\n</table>\n\n<h2>Periyodik Bakım (Çok Pompalı Sistem)</h2>\n<ul>\n  <li>Her pompa için conta ve rulman kontrolü (6–12 ay)</li>\n  <li>Basınç tankı ön basıncı (1,5–2 bar bandı)</li>\n  <li>Giriş filtresi temizliği</li>\n  <li>Otomasyon paneli kontaktör ve alarm testi</li>\n  <li>Pompa sıralama rotasyonu (eşit yıpranma)</li>\n  <li>Manometre ve vana sızdırmazlık kontrolü</li>\n</ul>\n\n<h2>Yedek Pompa Testi</h2>\n<p>Ayda bir kez ana pompayı devre dışı bırakıp yedek pompanın devreye girdiğini test edin. Arıza anında sürpriz yaşanmaz.</p>\n\n<h2>Ne Zaman Servis Gerekir?</h2>\n<p>Motor sargı arızası, gövde çatlağı ve PLC program hatasında yetkili servis şarttır. Conta ve filtre değişimi planlı bakım kapsamında yapılabilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Bir pompa arızada bina susuz kalır mı?</h3>\n<p>Doğru yapılandırılmış grupta yedek pompa devreye girer; tek pompalı istasyonda kalır.</p>\n\n<h3>Hidrofor grubu gürültülü çalışıyor?</h3>\n<p>Kavitasyon, rulman veya birden fazla pompanın aynı anda tam yükte çalışması olabilir.</p>\n\n<h3>Tank membranı ne sıklıkla değişir?</h3>\n<p>2–5 yılda bir kontrol; su tankı tarafında basınç kaybı belirtisidir.</p>\n\n<p>Servis: <a href=\"/kategoriler/hidrofor-sistemleri/hidrofor-grubu\">hidrofor grupları</a> · <a href=\"/iletisim\">servis talebi</a></p>"
+        }
+    ]
+}

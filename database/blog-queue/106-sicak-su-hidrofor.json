@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "sicak-su-hidroforu-secimi",
+            "title": "Sıcak Su Hidroforu Seçimi: Kombi ve Güneş Enerjisi Uygulamaları",
+            "excerpt": "Sıcak su hidroforu nedir, soğuk su hidrofordan farkı ne? Kombi, güneş enerjisi ve merkezi sıcak su tesisatı için seçim rehberi.",
+            "meta_title": "Sıcak Su Hidroforu Seçimi",
+            "meta_description": "Sıcak su hidroforu seçimi: kombi ve güneş enerjisi hatları, ısıya dayanıklı malzeme ve basınç gereksinimleri rehberi.",
+            "tags": [
+                "sıcak su hidroforu",
+                "kombi hidrofor",
+                "güneş enerjisi hidrofor",
+                "sıcak su basıncı"
+            ],
+            "image_alt": "Sıcak su hidroforu seçim rehberi",
+            "published": true,
+            "published_at": "2026-08-06 09:00:00",
+            "content": "<p><strong>Sıcak su hidroforu</strong>, kombi, güneş kolektörü veya merkezi ısıtma sisteminden gelen sıcak suyun tesisat boyunca yeterli basınçla dağıtılması için kullanılan, <strong>ısıya dayanıklı</strong> malzemelerden üretilmiş hidrofor veya sirkülasyon destekli basınç sistemidir.</p>\n\n<p>Soğuk su: <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor nedir?</a> · Ürünler: <a href=\"/kategoriler/hidrofor-sistemleri/sicak-su-hidroforu\">sıcak su hidroforları</a> · Sirkülasyon: <a href=\"/blog/sicak-su-sirkulasyon-pompasi-secimi\">sıcak su sirkülasyon pompası</a></p>\n\n<h2>Soğuk Su Hidroforundan Farkı</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Soğuk su</th><th>Sıcak su</th></tr></thead>\n<tbody>\n<tr><td>Sıcaklık limiti</td><td>~40°C</td><td>60–90°C (modele göre)</td></tr>\n<tr><td>Conta / membran</td><td>Standart EPDM</td><td>Isıya dayanıklı Viton/EPDM</td></tr>\n<tr><td>Gövde</td><td>Döküm / paslanmaz</td><td>Paslanmaz veya özel kaplama</td></tr>\n<tr><td>Kullanım</td><td>Genel tesisat</td><td>Kombi, güneş, merkezi ısıtma</td></tr>\n</tbody>\n</table>\n\n<h2>Kullanım Alanları</h2>\n<ul>\n  <li>Kombi beslemeli daire ve villa tesisatı</li>\n  <li>Güneş enerjisi termosifon ve boyler hatları</li>\n  <li>Otel ve site merkezi sıcak su dağıtımı</li>\n  <li>Üst katlarda düşük sıcak su basıncı sorunu</li>\n</ul>\n\n<h2>Seçim Kriterleri</h2>\n<ul>\n  <li><strong>Max çalışma sıcaklığı:</strong> Katalog değeri tesisat sıcaklığını karşılamalı</li>\n  <li><strong>Debi:</strong> Eş zamanlı duş ve lavabo sayısı</li>\n  <li><strong>Basınç:</strong> En üst kat hedefi (min. 2 bar)</li>\n  <li><strong>Geri akış önleme:</strong> Soğuk hatta karışım riskine dikkat</li>\n  <li><strong>Sirkülasyon hattı:</strong> Uzun boru hatlarında <a href=\"/blog/sicak-su-sirkulasyon-pompasi-secimi\">sirkülasyon pompası</a> gerekebilir</li>\n</ul>\n\n<h2>Sık Hatalar</h2>\n<ul>\n  <li>Soğuk su hidroforunu sıcak hatta kullanmak (conta hasarı)</li>\n  <li>Güneş sisteminde aşırı basınç (genleşme tankı eksikliği)</li>\n  <li>Sirkülasyon pompası olmadan uzun hat</li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Sıcak su için ayrı hidrofor şart mı?</h3>\n<p>Merkezi sıcak su dağıtımında ve üst kat basınç sorununda evet; küçük kombi sistemlerinde kombi basıncı yeterli olabilir.</p>\n\n<h3>Güneş enerjisi ile hidrofor uyumlu mu?</h3>\n<p>Evet; ısıya dayanıklı model ve genleşme tankı ile birlikte kullanılır.</p>\n\n<h3>Sıcak su hidroforu fiyatı?</h3>\n<p><a href=\"/blog/hidrofor-fiyatlari-2026-ev-apartman\">Hidrofor fiyatları 2026</a> · <a href=\"/blog/hidrofor-grubu-fiyatlari-2026-rehberi\">Grup fiyatları</a></p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

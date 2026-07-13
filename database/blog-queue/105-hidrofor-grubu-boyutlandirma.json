@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "hidrofor-grubu-boyutlandirma-rehberi",
+            "title": "Hidrofor Grubu Boyutlandırma Rehberi: Debi ve Basınç Hesabı",
+            "excerpt": "Hidrofor grubu boyutlandırma: kat sayısı, daire sayısı, eş zamanlı kullanım ve pompa sayısı hesabı rehberi.",
+            "meta_title": "Hidrofor Grubu Boyutlandırma Rehberi",
+            "meta_description": "Hidrofor grubu boyutlandırma rehberi: debi hesabı, basınç kaybı, pompa sayısı ve tank hacmi seçimi.",
+            "tags": [
+                "hidrofor grubu boyutlandırma",
+                "hidrofor debi hesabı",
+                "apartman hidrofor",
+                "pompa seçimi"
+            ],
+            "image_alt": "Hidrofor grubu boyutlandırma — debi ve basınç hesabı",
+            "published": true,
+            "published_at": "2026-08-06 09:00:00",
+            "content": "<p><strong>Hidrofor grubu boyutlandırma</strong>, projenin susuz kalmaması ve gereksiz yatırım yapılmaması için kritiktir. Yanlış hesap ya üst katlarda düşük basınç ya da fazla büyük pompa ve yüksek elektrik faturası demektir.</p>\n\n<p>Genel: <a href=\"/blog/hidrofor-grubu-secim-rehberi\">hidrofor grubu rehberi</a> · Debi: <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">debi ve basma hesabı</a> · Apartman: <a href=\"/blog/apartman-icin-hidrofor-nasil-secilir\">apartman hidrofor</a></p>\n\n<h2>Adım 1: Eş Zamanlı Debi (Q)</h2>\n<p>Toplam kullanım noktası × eş zamanlılık katsayısı ile m³/h veya lt/dk hesaplanır.</p>\n<ul>\n  <li>Konut musluk: ~0,2 lt/s (12 lt/dk)</li>\n  <li>Duş: ~0,3 lt/s (18 lt/dk)</li>\n  <li>Apartmanda eş zamanlılık: %20–40 (daire sayısına göre)</li>\n  <li>Otel: %30–50 yoğun saatlerde</li>\n</ul>\n\n<h2>Adım 2: Basınç / Basma Yüksekliği (H)</h2>\n<p>H = statik yükseklik + boru kayıpları + son kullanım basıncı (genelde 2 bar ≈ 20 m)</p>\n<p>Her kat ~3 m statik yük; 10 katlı bina ≈ 30 m + kayıplar.</p>\n\n<h2>Adım 3: Pompa Sayısı</h2>\n<table>\n<thead><tr><th>Daire / oda</th><th>Öneri</th></tr></thead>\n<tbody>\n<tr><td>8–20 daire</td><td>2 pompalı grup</td></tr>\n<tr><td>20–50 daire</td><td>2–3 pompalı grup</td></tr>\n<tr><td>50+ / otel</td><td>3+ pompa, yedekli</td></tr>\n</tbody>\n</table>\n<p><a href=\"/blog/cok-pompali-hidrofor-avantajlari\">Çok pompalı avantajlar</a></p>\n\n<h2>Adım 4: Tank Hacmi</h2>\n<p>Büyük tank = az start-stop. Apartman istasyonunda 200–500 lt; site ve otelde 500 lt+ değerlendirilir. <a href=\"/blog/hidrofor-basinc-tanki-secimi\">Basınç tankı seçimi</a></p>\n\n<h2>Adım 5: Su Kaynağı</h2>\n<ul>\n  <li><strong>Şebeke:</strong> Düşük giriş basıncı → yüksek basma gerekir</li>\n  <li><strong>Depo:</strong> Statik seviye + pompa basması</li>\n  <li><strong>Kuyu:</strong> <a href=\"/blog/kuyu-suyu-hidrofor-baglanti-rehberi\">Kuyu hidrofor bağlantısı</a></li>\n</ul>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Boyutlandırma yapmadan hidrofor alınır mı?</h3>\n<p>Risklidir; ücretsiz teknik danışmanlık ile hesap yaptırmanız önerilir.</p>\n\n<h3>Çok büyük hidrofor zararlı mı?</h3>\n<p>Evet; düşük debide verimsiz çalışır, enerji israfı ve kısa ömür oluşturur.</p>\n\n<h3>10 katlı bina için kaç HP?</h3>\n<p>Daire sayısı ve debi ile belirlenir; tek başına HP tahmini yeterli değildir.</p>\n\n<p>Hesap desteği: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}

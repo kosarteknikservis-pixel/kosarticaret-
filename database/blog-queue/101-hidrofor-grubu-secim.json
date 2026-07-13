@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "hidrofor-grubu-secim-rehberi",
+            "title": "Hidrofor Grubu Seçim Rehberi: Çok Pompalı Sistemler",
+            "excerpt": "Hidrofor grubu nedir, tek pompalı hidrofordan farkı ne? Apartman, otel ve site projelerinde çok pompalı hidrofor seçimi rehberi.",
+            "meta_title": "Hidrofor Grubu Seçim Rehberi",
+            "meta_description": "Hidrofor grubu seçim rehberi: çok pompalı sistem, yedekli çalışma, apartman ve otel boyutlandırma, frekans kontrol.",
+            "tags": [
+                "hidrofor grubu",
+                "çok pompalı hidrofor",
+                "apartman hidrofor",
+                "hidrofor seçimi"
+            ],
+            "image_alt": "Hidrofor grubu seçim rehberi — çok pompalı sistem",
+            "published": true,
+            "published_at": "2026-08-05 09:00:00",
+            "content": "<p><strong>Hidrofor grubu</strong>, en az iki pompanın paralel çalıştığı, yüksek debi ve kesintisiz su basıncı gerektiren apartman, site, otel ve ticari binalar için tasarlanmış basınçlandırma sistemidir. Tek pompalı ev tipi hidrofor bu ölçekte yetersiz kalır veya arıza durumunda tüm bina susuz kalır.</p>\n\n<p>Temel: <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor nedir?</a> · Ürünler: <a href=\"/kategoriler/hidrofor-sistemleri/hidrofor-grubu\">hidrofor grupları</a> · Apartman: <a href=\"/blog/apartman-icin-hidrofor-nasil-secilir\">apartman hidrofor seçimi</a></p>\n\n<h2>Hidrofor Grubu vs Ev Tipi Hidrofor</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Ev tipi</th><th>Hidrofor grubu</th></tr></thead>\n<tbody>\n<tr><td>Pompa sayısı</td><td>1</td><td>2+</td></tr>\n<tr><td>Kullanım</td><td>Müstakil ev, villa</td><td>Apartman, otel, site</td></tr>\n<tr><td>Yedeklilik</td><td>Yok</td><td>Bir pompa arızada diğeri devrede</td></tr>\n<tr><td>Debi</td><td>Düşük-orta</td><td>Yüksek</td></tr>\n<tr><td>Kontrol</td><td>Presostat</td><td>PLC / frekans / çoklu presostat</td></tr>\n</tbody>\n</table>\n<p><a href=\"/blog/hidrofor-grubu-ev-tipi-karsilastirma\">Detaylı karşılaştırma</a> · <a href=\"/blog/ev-tipi-hidrofor-rehberi-mustakil-ev-villa\">Ev tipi hidrofor</a></p>\n\n<h2>Ne Zaman Hidrofor Grubu Gerekir?</h2>\n<ul>\n  <li>8–10 kat ve üzeri apartman / site</li>\n  <li>Eş zamanlı yüksek debi (otel, hastane, AVM)</li>\n  <li>Kesintisiz su basıncı zorunluluğu</li>\n  <li>Tek pompa kapasitesinin yetersiz kaldığı projeler</li>\n  <li>Yedekli (N+1) pompa ihtiyacı</li>\n</ul>\n\n<h2>Sistem Bileşenleri</h2>\n<ul>\n  <li><strong>2+ pompa:</strong> Paralel bağlı, yük paylaşımlı</li>\n  <li><strong>Basınç tankları:</strong> Genelde 100–500 lt ve üzeri</li>\n  <li><strong>Kontrol paneli:</strong> Pompa sıralama, arıza alarmı</li>\n  <li><strong>Manometre ve vanalar:</strong> Her pompa hattında</li>\n  <li><strong>Frekans invertör (opsiyonel):</strong> Enerji tasarrufu</li>\n</ul>\n<p><a href=\"/blog/cok-pompali-hidrofor-avantajlari\">Çok pompalı sistem avantajları</a> · <a href=\"/blog/frekans-invertorlu-hidrofor-grubu\">Frekans invertörlü grup</a></p>\n\n<h2>Boyutlandırma Özeti</h2>\n<p>Kat sayısı, daire sayısı, eş zamanlı kullanıcı ve boru kayıpları ile toplam debi ve basınç hesaplanır. <a href=\"/blog/hidrofor-grubu-boyutlandirma-rehberi\">Boyutlandırma rehberi</a> · <a href=\"/blog/pompa-debi-basma-yuksekligi-hesabi\">Debi ve basma hesabı</a></p>\n\n<h2>Marka ve Ürün Grupları</h2>\n<p><a href=\"/marka/pedrollo\">Pedrollo</a> Easy Tech ve grup sistemleri; <a href=\"/marka/sumak\">Sumak</a> SKT serisi çok pompalı paketler; <a href=\"/marka/winpo\">Winpo</a> ticari segment. <a href=\"/blog/en-iyi-hidrofor-markalari-2026\">En iyi hidrofor markaları</a></p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Kaç pompalı hidrofor grubu yeterli?</h3>\n<p>Debi ve yedeklilik ihtiyacına göre 2–4 pompa yaygındır; proje hesabı şarttır.</p>\n\n<h3>Hidrofor grubu fiyatları ne kadar?</h3>\n<p><a href=\"/blog/hidrofor-grubu-fiyatlari-2026-rehberi\">Hidrofor grubu fiyatları 2026</a></p>\n\n<h3>Otel için hidrofor grubu nasıl seçilir?</h3>\n<p><a href=\"/blog/otel-site-hidrofor-grubu-secimi\">Otel ve site seçim rehberi</a></p>\n\n<h3>Hidrofor grubu bakımı zor mu?</h3>\n<p>Periyodik pompa ve tank kontrolü gerekir. <a href=\"/blog/hidrofor-grubu-ariza-bakim-rehberi\">Arıza ve bakım rehberi</a></p>\n\n<p>Proje danışmanlığı: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik destek</a></p>"
+        }
+    ]
+}

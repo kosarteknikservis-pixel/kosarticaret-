@@ -1,0 +1,23 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "frekans-invertorlu-hidrofor-grubu",
+            "title": "Frekans İnvertörlü Hidrofor Grubu: Avantajlar ve Seçim",
+            "excerpt": "Frekans invertörlü hidrofor grubu nasıl çalışır? Enerji tasarrufu, sabit basınç ve çok pompalı sistemlerde inverter avantajları.",
+            "meta_title": "Frekans İnvertörlü Hidrofor Grubu",
+            "meta_description": "Frekans invertörlü hidrofor grubu: enerji tasarrufu, sabit basınç, Pedrollo Easy Tech ve apartman-otel uygulamaları.",
+            "tags": [
+                "frekans invertörlü hidrofor",
+                "inverter hidrofor grubu",
+                "hidrofor grubu",
+                "enerji tasarrufu"
+            ],
+            "image_alt": "Frekans invertörlü hidrofor grubu — enerji ve basınç kontrolü",
+            "published": true,
+            "published_at": "2026-08-06 09:00:00",
+            "content": "<p><strong>Frekans invertörlü hidrofor grubu</strong>, pompa motor hızını debi ihtiyacına göre otomatik ayarlayan akıllı basınçlandırma sistemidir. Geleneksel presostatlı sistemlerde pompa tam güçte start-stop yaparken, inverter grubu <strong>sabit basınç</strong> ve <strong>düşük enerji tüketimi</strong> sağlar.</p>\n\n<p>Genel inverter: <a href=\"/blog/inverter-hidrofor-avantajlari\">inverter hidrofor avantajları</a> · Grup: <a href=\"/blog/hidrofor-grubu-secim-rehberi\">hidrofor grubu rehberi</a> · Ürünler: <a href=\"/kategoriler/hidrofor-sistemleri/pedrollo-hidrofor\">Pedrollo hidrofor</a></p>\n\n<h2>Nasıl Çalışır?</h2>\n<p>Basınç sensörü veya akış ölçer debi değişimini algılar; frekans invertör motor devrini artırır veya azaltır. Musluk kısmen açıkken pompa düşük devirde çalışır; tam açılışta hızlanır. Presostat alt-üst sınır zıplaması ortadan kalkar.</p>\n\n<h2>Avantajlar</h2>\n<ul>\n  <li><strong>%30–50 enerji tasarrufu</strong> (kullanıma göre)</li>\n  <li>Sabit basınç, konforlu duş ve musluk</li>\n  <li>Start-stop azalması → motor ve conta ömrü uzar</li>\n  <li>Su darbesi (water hammer) riski düşer</li>\n  <li>Kuru çalışma koruması (entegre modellerde)</li>\n</ul>\n\n<h2>Kimler İçin Uygun?</h2>\n<ul>\n  <li>Apartman ve site ana hidrofor istasyonu</li>\n  <li>Otel ve ticari binalar</li>\n  <li>Debi dalgalanması yüksek tesisler</li>\n  <li>Enerji maliyeti hassas projeler</li>\n</ul>\n\n<h2>Pedrollo Easy Tech ve Benzeri Sistemler</h2>\n<p><a href=\"/marka/pedrollo\">Pedrollo</a> Easy Tech entegre inverter ve sensör ile kompakt çözüm sunar. Büyük gruplarda harici invertör + PLC kombinasyonu kullanılır. <a href=\"/blog/pedrollo-sumak-hidrofor-karsilastirma\">Pedrollo vs Sumak</a></p>\n\n<h2>İnverter vs Klasik Presostat</h2>\n<table>\n<thead><tr><th>Özellik</th><th>Presostat</th><th>Frekans invertör</th></tr></thead>\n<tbody>\n<tr><td>Basınç dalgalanması</td><td>Var (2–4 bar arası)</td><td>Minimal</td></tr>\n<tr><td>Enerji</td><td>Yüksek</td><td>Düşük</td></tr>\n<tr><td>İlk maliyet</td><td>Düşük</td><td>Yüksek</td></tr>\n<tr><td>Gürültü</td><td>Start-stop gürültüsü</td><td>Daha sessiz</td></tr>\n</tbody>\n</table>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Ev tipi hidrofora inverter eklenebilir mi?</h3>\n<p>Bazı modellere harici invertör takılabilir; fabrika entegre inverter modeller tercih edilir.</p>\n\n<h3>İnverter arızalanırsa sistem durur mu?</h3>\n<p>Çok pompalı grupta yedek pompa devrede kalır; tek pompalı sistemde bypass planı önerilir.</p>\n\n<h3>Frekans invertörlü grup fiyatı?</h3>\n<p><a href=\"/blog/hidrofor-grubu-fiyatlari-2026-rehberi\">Hidrofor grubu fiyatları 2026</a></p>\n\n<p>Model önerisi: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">iletişim</a></p>"
+        }
+    ]
+}
