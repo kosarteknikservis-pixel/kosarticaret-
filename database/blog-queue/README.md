@@ -54,10 +54,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Santrifüj alt tip | 82–90 | Deploy ile yayınlanır |
 | Jet pompa | 91–100 | Deploy ile yayınlanır |
 | Hidrofor grubu | 101–110 | Deploy ile yayınlanır |
+| Dalgıç pompa alt tip | 111–120 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Dalgıç pompa alt tip kümesi (derin kuyu, paslanmaz, drenaj alt segmentleri).
+Endüstriyel havalandırma alt tip kümesi (aksiyel, radyal, çatı ve kanal fanları).
 
 ## Kapak görseli
 

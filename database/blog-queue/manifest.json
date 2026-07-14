@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -778,6 +778,76 @@
             "publish_on": "2026-08-08",
             "title": "Hidrofor Grubu Arıza ve Bakım Rehberi",
             "series": "hidrofor-grubu"
+        },
+        {
+            "day": 43,
+            "file": "111-dalgic-pompa-turleri.json",
+            "publish_on": "2026-08-09",
+            "title": "Dalgıç Pompa Türleri: Derin Kuyu, Drenaj, Kirli Su ve Foseptik Seçim Rehberi",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 43,
+            "file": "112-kirli-su-dalgic-pompa.json",
+            "publish_on": "2026-08-09",
+            "title": "Kirli Su Dalgıç Pompa Nedir? Partikül ve Aşınmaya Göre Seçim",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 43,
+            "file": "113-paslanmaz-drenaj-dalgic.json",
+            "publish_on": "2026-08-09",
+            "title": "Paslanmaz Drenaj Dalgıç Pompa Seçimi: Malzeme, Korozyon ve Kullanım",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 44,
+            "file": "114-bicakli-dalgic-pompa.json",
+            "publish_on": "2026-08-10",
+            "title": "Bıçaklı Dalgıç Pompa Nedir? Öğütücü Mekanizma ve Doğru Seçim",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 44,
+            "file": "115-vortex-kanal-bicakli-impeller.json",
+            "publish_on": "2026-08-10",
+            "title": "Dalgıç Pompa İmpeller Tipleri: Vortex, Kanal ve Bıçaklı Karşılaştırması",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 44,
+            "file": "116-flatorlu-dalgic-pompa.json",
+            "publish_on": "2026-08-10",
+            "title": "Flatörlü Dalgıç Pompa Nasıl Çalışır? Şamandıra Seçimi ve Ayarı",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 45,
+            "file": "117-4-inc-derin-kuyu-dalgic.json",
+            "publish_on": "2026-08-11",
+            "title": "4 İnç Derin Kuyu Dalgıç Pompa Seçimi: Kuyu Çapı ve Kapasite",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 45,
+            "file": "118-6-inc-derin-kuyu-dalgic.json",
+            "publish_on": "2026-08-11",
+            "title": "6 İnç Derin Kuyu Dalgıç Pompa Seçimi: Yüksek Kapasite ve Kuyu Uyumu",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 45,
+            "file": "119-monofaze-trifaze-dalgic.json",
+            "publish_on": "2026-08-11",
+            "title": "Monofaze ve Trifaze Dalgıç Pompa Farkı: Hangi Besleme Seçilmeli?",
+            "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 46,
+            "file": "120-dalgic-pompa-motor-tipleri.json",
+            "publish_on": "2026-08-12",
+            "title": "Dalgıç Pompa Motor Tipleri: Yağ ve Su Soğutmalı Motorlar",
+            "series": "dalgic-alt-tip"
         }
     ]
 }
