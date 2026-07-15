@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -848,6 +848,76 @@
             "publish_on": "2026-08-12",
             "title": "Dalgıç Pompa Motor Tipleri: Yağ ve Su Soğutmalı Motorlar",
             "series": "dalgic-alt-tip"
+        },
+        {
+            "day": 47,
+            "file": "121-endustriyel-fan-turleri.json",
+            "publish_on": "2026-08-13",
+            "title": "Endüstriyel Fan Türleri: Aksiyel, Radyal, Çatı ve Kanal Fanı Seçimi",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 47,
+            "file": "122-aksiyel-fan-nedir.json",
+            "publish_on": "2026-08-13",
+            "title": "Aksiyel Fan Nedir? Çalışma Prensibi ve Seçim Kriterleri",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 48,
+            "file": "123-radyal-fan-nedir.json",
+            "publish_on": "2026-08-14",
+            "title": "Radyal Fan Nedir? Statik Basınca Göre Doğru Seçim",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 48,
+            "file": "124-aksiyel-radyal-fan-farki.json",
+            "publish_on": "2026-08-14",
+            "title": "Aksiyel Fan mı Radyal Fan mı? Farklar ve Kullanım Alanları",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 49,
+            "file": "125-cati-fani-secimi.json",
+            "publish_on": "2026-08-15",
+            "title": "Çatı Fanı Seçimi: Debi, Montaj ve Yağmur Koruması",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 49,
+            "file": "126-kanal-fani-secimi.json",
+            "publish_on": "2026-08-15",
+            "title": "Kanal Fanı Seçimi: Debi, Kanal Direnci ve Fan Tipi",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 50,
+            "file": "127-kanal-fani-montaji.json",
+            "publish_on": "2026-08-16",
+            "title": "Kanal Fanı Montajı: Ses, Titreşim ve Hava Kaçağı Kontrolü",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 50,
+            "file": "128-cati-fani-duvar-fani-karsilastirma.json",
+            "publish_on": "2026-08-16",
+            "title": "Çatı Fanı mı Duvar Tipi Fan mı? Yerleşim Karşılaştırması",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 51,
+            "file": "129-radyal-fan-cark-tipleri.json",
+            "publish_on": "2026-08-17",
+            "title": "Radyal Fan Çark Tipleri: Öne Eğik, Geriye Eğik ve Düz Kanat",
+            "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 51,
+            "file": "130-fan-statik-basinc.json",
+            "publish_on": "2026-08-17",
+            "title": "Fan Statik Basıncı Nedir? Kanal Sisteminde Çalışma Noktası",
+            "series": "endustriyel-fan-alt-tip"
         }
     ]
 }

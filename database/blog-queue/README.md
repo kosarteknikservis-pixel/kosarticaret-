@@ -12,7 +12,7 @@ Yazı hazır → commit → canlıya deploy → **anında yayında**.
 | Pillar | **1200–1800 kelime** |
 | FAQ | 3–5 soru, cevap 2–4 cümle |
 
-Her yazıda: giriş, 3–5 H2, en az 6 iç link, Pompa Seçici + iletişim CTA.
+Her yazıda: giriş, 3–5 H2, en az 6 iç link ve ilgili kategori + iletişim CTA. Pompa içeriklerinde uygunsa Pompa Seçici kullanılır; fan gibi ilgisiz kümelerde zorlanmaz.
 
 ## Komutlar
 
@@ -55,10 +55,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Jet pompa | 91–100 | Deploy ile yayınlanır |
 | Hidrofor grubu | 101–110 | Deploy ile yayınlanır |
 | Dalgıç pompa alt tip | 111–120 | Deploy ile yayınlanır |
+| Endüstriyel fan alt tip | 121–130 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Endüstriyel havalandırma alt tip kümesi (aksiyel, radyal, çatı ve kanal fanları).
+Sirkülasyon sistemi tasarım kümesi (131–140): ıslak ve kuru rotorlu pompa farkı, pompa eğrisi/çalışma noktası, hidrolik dengeleme, seri-paralel çalışma, glikollü sistem, kavitasyon ve yedekli pompa düzeni. Mevcut 38–46 kümesindeki genel seçim, bağlantı tipleri, kullanım alanları, ECM, fiyat ve arıza niyetleri tekrarlanmaz.
 
 ## Kapak görseli
 
