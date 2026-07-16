@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -918,6 +918,76 @@
             "publish_on": "2026-08-17",
             "title": "Fan Statik Basıncı Nedir? Kanal Sisteminde Çalışma Noktası",
             "series": "endustriyel-fan-alt-tip"
+        },
+        {
+            "day": 52,
+            "file": "131-sirkulasyon-sistemi-tasarimi-pillar.json",
+            "publish_on": "2026-08-18",
+            "title": "Sirkülasyon Sistemi Tasarımı: Pompa Eğrisi, Dengeleme ve Verimli Devre Kurgusu",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 52,
+            "file": "132-islak-rotor-kuru-rotor-sirkulasyon.json",
+            "publish_on": "2026-08-18",
+            "title": "Islak Rotor mu Kuru Rotor mu? Sirkülasyon Pompasında Doğru Tercih",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 53,
+            "file": "133-sirkulasyon-pompa-egrisi-okuma.json",
+            "publish_on": "2026-08-19",
+            "title": "Sirkülasyon Pompa Eğrisi Nasıl Okunur? Debi, Basma Yüksekliği ve Verim Noktası",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 53,
+            "file": "134-sistem-egrisi-calisma-noktasi.json",
+            "publish_on": "2026-08-19",
+            "title": "Sirkülasyon Sistem Eğrisi ve Çalışma Noktası: Kapalı Devrede Doğru Eşleşme",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 54,
+            "file": "135-hidrolik-dengeleme-sirkulasyon.json",
+            "publish_on": "2026-08-20",
+            "title": "Hidrolik Dengeleme Nedir? Sirkülasyon Sisteminde Eşit Isı Dağılımı",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 54,
+            "file": "136-seri-paralel-sirkulasyon-pompasi.json",
+            "publish_on": "2026-08-20",
+            "title": "Seri mi Paralel mi? Sirkülasyon Pompası Bağlantısında Doğru Kurgu",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 54,
+            "file": "137-glikollu-sirkulasyon-sistemi.json",
+            "publish_on": "2026-08-20",
+            "title": "Glikollü Sirkülasyon Sisteminde Pompa Seçimi: Viskozite ve Kapasite Etkisi",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 55,
+            "file": "138-sirkulasyon-sisteminde-kavitasyon.json",
+            "publish_on": "2026-08-21",
+            "title": "Sirkülasyon Sisteminde Kavitasyon: Belirtileri, Nedenleri ve Önleme Yolları",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 55,
+            "file": "139-duty-standby-yedekli-pompa.json",
+            "publish_on": "2026-08-21",
+            "title": "Duty-Standby Yedekli Sirkülasyon Pompası Kurgusu",
+            "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 56,
+            "file": "140-lead-lag-yedek-pompa-kontrolu.json",
+            "publish_on": "2026-08-22",
+            "title": "Lead-Lag Dönüşümlü Yedek Sirkülasyon Pompası Kontrolü",
+            "series": "sirkulasyon-sistemi-tasarim"
         }
     ]
 }

@@ -56,10 +56,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Hidrofor grubu | 101–110 | Deploy ile yayınlanır |
 | Dalgıç pompa alt tip | 111–120 | Deploy ile yayınlanır |
 | Endüstriyel fan alt tip | 121–130 | Deploy ile yayınlanır |
+| Sirkülasyon sistemi tasarımı | 131–140 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Sirkülasyon sistemi tasarım kümesi (131–140): ıslak ve kuru rotorlu pompa farkı, pompa eğrisi/çalışma noktası, hidrolik dengeleme, seri-paralel çalışma, glikollü sistem, kavitasyon ve yedekli pompa düzeni. Mevcut 38–46 kümesindeki genel seçim, bağlantı tipleri, kullanım alanları, ECM, fiyat ve arıza niyetleri tekrarlanmaz.
+Yangın pompası sistem tasarımı kümesi (141–150): duty-jockey ilişkisi, emiş deposu ve NPSH, kolektör boyutlama, test hattı, by-pass, zon mantığı ve yedekli yangın pompası kontrolü. Mevcut 56–64 kümesindeki genel seçim, zorunluluk, fiyat ve temel bakım niyetleri tekrarlanmaz.
 
 ## Kapak görseli
 
