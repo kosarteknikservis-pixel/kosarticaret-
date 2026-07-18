@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -988,6 +988,76 @@
             "publish_on": "2026-08-22",
             "title": "Lead-Lag Dönüşümlü Yedek Sirkülasyon Pompası Kontrolü",
             "series": "sirkulasyon-sistemi-tasarim"
+        },
+        {
+            "day": 57,
+            "file": "141-yangin-sistem-tasarimi-pillar.json",
+            "publish_on": "2026-08-23",
+            "title": "Yangın Pompası Sistem Tasarımı: Duty-Jockey, NPSH, Kolektör ve Yedekli Kontrol",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 57,
+            "file": "142-duty-jockey-basinc-iliskisi.json",
+            "publish_on": "2026-08-23",
+            "title": "Duty ve Jockey Pompa Basınç Set Noktaları: Start Sırası Nasıl Kurulur?",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 58,
+            "file": "143-yangin-emis-deposu-npsh.json",
+            "publish_on": "2026-08-24",
+            "title": "Yangın Emiş Deposu ve NPSH: Kavitasyonsuz Emme Tasarımı",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 58,
+            "file": "144-yangin-kolektor-boyutlama.json",
+            "publish_on": "2026-08-24",
+            "title": "Yangın Pompası Kolektör Boyutlama: Emme ve Basma Manifoldu",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 59,
+            "file": "145-yangin-test-hatti.json",
+            "publish_on": "2026-08-25",
+            "title": "Yangın Pompası Test Hattı ve Debimetre: Performans Doğrulama",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 59,
+            "file": "146-yangin-by-pass.json",
+            "publish_on": "2026-08-25",
+            "title": "Yangın Pompası By-Pass Hattı: Ne Zaman Gerekir, Nasıl Bağlanır?",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 59,
+            "file": "147-yangin-zon-mantigi.json",
+            "publish_on": "2026-08-25",
+            "title": "Yangın Sprinkler Zon Mantığı ve Pompa Besleme İlişkisi",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 60,
+            "file": "148-yedekli-yangin-pompa-kontrolu.json",
+            "publish_on": "2026-08-26",
+            "title": "Yedekli Yangın Pompası Kontrolü: Elektrikli-Dizel Start ve Failover",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 60,
+            "file": "149-yangin-emis-hatti-tasarimi.json",
+            "publish_on": "2026-08-26",
+            "title": "Yangın Pompası Emiş Hattı Tasarımı: Çap, Filtre, Hava Tutucu",
+            "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 60,
+            "file": "150-yangin-basinc-anahtari-start.json",
+            "publish_on": "2026-08-26",
+            "title": "Yangın Pompası Basınç Anahtarı ve Otomatik Start Mantığı",
+            "series": "yangin-sistem-tasarimi"
         }
     ]
 }

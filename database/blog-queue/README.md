@@ -57,10 +57,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Dalgıç pompa alt tip | 111–120 | Deploy ile yayınlanır |
 | Endüstriyel fan alt tip | 121–130 | Deploy ile yayınlanır |
 | Sirkülasyon sistemi tasarımı | 131–140 | Deploy ile yayınlanır |
+| Yangın sistem tasarımı | 141–150 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Yangın pompası sistem tasarımı kümesi (141–150): duty-jockey ilişkisi, emiş deposu ve NPSH, kolektör boyutlama, test hattı, by-pass, zon mantığı ve yedekli yangın pompası kontrolü. Mevcut 56–64 kümesindeki genel seçim, zorunluluk, fiyat ve temel bakım niyetleri tekrarlanmaz.
+Hidrofor tankı ve presostat sistem tasarımı kümesi (151–160): genleşme/basınç tankı seçimi, ön şarj (preşarj), presostat histerezisi, start-stop salınımı, membran ömrü ve çok pompalı grupta tank-presostat ilişkisi. Mevcut 06 ve 101–110 içeriklerindeki genel tank/grup seçimi niyetleri tekrarlanmaz; odak işletme ve set noktası tasarımıdır.
 
 ## Kapak görseli
 
