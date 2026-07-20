@@ -58,10 +58,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Endüstriyel fan alt tip | 121–130 | Deploy ile yayınlanır |
 | Sirkülasyon sistemi tasarımı | 131–140 | Deploy ile yayınlanır |
 | Yangın sistem tasarımı | 141–150 | Deploy ile yayınlanır |
+| Hidrofor tank–presostat | 151–160 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Hidrofor tankı ve presostat sistem tasarımı kümesi (151–160): genleşme/basınç tankı seçimi, ön şarj (preşarj), presostat histerezisi, start-stop salınımı, membran ömrü ve çok pompalı grupta tank-presostat ilişkisi. Mevcut 06 ve 101–110 içeriklerindeki genel tank/grup seçimi niyetleri tekrarlanmaz; odak işletme ve set noktası tasarımıdır.
+Foseptik ve tanklı pompa işletme kümesi (161–170): tanklı/foseptik tahliye pompalarında seviye şamandırası, kısa çevrim, kuru çalışma koruması, çökeltme/katı madde etkisi ve ev–site işletme semptomları. Mevcut 13 (seçim) ve 69 (cihaz) içerikleriyle çakışmadan GSC’deki işletme/arıza niyetlerine iner; derin kuyu ürün seçimi (11/71/118) ayrı tutulur.
 
 ## Kapak görseli
 

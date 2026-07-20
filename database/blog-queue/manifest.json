@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -1058,6 +1058,76 @@
             "publish_on": "2026-08-26",
             "title": "Yangın Pompası Basınç Anahtarı ve Otomatik Start Mantığı",
             "series": "yangin-sistem-tasarimi"
+        },
+        {
+            "day": 61,
+            "file": "151-hidrofor-tank-presostat-pillar.json",
+            "publish_on": "2026-08-27",
+            "title": "Hidrofor Tankı ve Presostat Sistem Tasarımı: Ön Şarj, Histerezis ve Start-Stop",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 61,
+            "file": "152-hidrofor-tank-onsarj.json",
+            "publish_on": "2026-08-27",
+            "title": "Hidrofor Basınç Tankı Ön Şarj Ayarı Nasıl Yapılır?",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 61,
+            "file": "153-presostat-histerezis.json",
+            "publish_on": "2026-08-27",
+            "title": "Hidrofor Presostat Histerezisi: Açma-Kapama Basıncı Nasıl Ayarlanır?",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 62,
+            "file": "154-hidrofor-start-stop-salinimi.json",
+            "publish_on": "2026-08-28",
+            "title": "Hidrofor Start-Stop Salınımı: Kısa Çevrim Neden Olur, Nasıl Kesilir?",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 62,
+            "file": "155-membran-omru-tank-ariza.json",
+            "publish_on": "2026-08-28",
+            "title": "Hidrofor Tank Membranı Ömrü ve Arıza Belirtileri",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 63,
+            "file": "156-genlesme-basinc-tanki-farki.json",
+            "publish_on": "2026-08-29",
+            "title": "Genleşme Tankı mı Basınç Tankı mı? Hidrofor Sisteminde Fark",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 63,
+            "file": "157-tank-isletme-hacmi.json",
+            "publish_on": "2026-08-29",
+            "title": "Hidrofor Tank İşletme Hacmi Hesabı: Gerçek Kullanılabilir Su",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 63,
+            "file": "158-grup-tank-presostat.json",
+            "publish_on": "2026-08-29",
+            "title": "Çok Pompalı Hidrofor Grubunda Tank ve Presostat İlişkisi",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 64,
+            "file": "159-inverter-hidrofor-tank.json",
+            "publish_on": "2026-08-30",
+            "title": "Frekans İnvertörlü Hidroforde Tank İhtiyacı Azalır mı?",
+            "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 64,
+            "file": "160-hidrofor-basinc-dusuyor.json",
+            "publish_on": "2026-08-30",
+            "title": "Hidrofor Basıncı Düşüyor: Tank Havası Kaçırıyor mu?",
+            "series": "hidrofor-tank-presostat"
         }
     ]
 }
