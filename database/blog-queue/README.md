@@ -59,10 +59,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Sirkülasyon sistemi tasarımı | 131–140 | Deploy ile yayınlanır |
 | Yangın sistem tasarımı | 141–150 | Deploy ile yayınlanır |
 | Hidrofor tank–presostat | 151–160 | Deploy ile yayınlanır |
+| Foseptik tanklı işletme | 161–170 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Foseptik ve tanklı pompa işletme kümesi (161–170): tanklı/foseptik tahliye pompalarında seviye şamandırası, kısa çevrim, kuru çalışma koruması, çökeltme/katı madde etkisi ve ev–site işletme semptomları. Mevcut 13 (seçim) ve 69 (cihaz) içerikleriyle çakışmadan GSC’deki işletme/arıza niyetlerine iner; derin kuyu ürün seçimi (11/71/118) ayrı tutulur.
+Drenaj ve bodrum su tahliyesi işletme kümesi (171–180): yağmur suyu birikintisi, flatörlü drenaj çevrimi, kuyu hacmi hesabı, yedek pompa/alarm, elektrik kesintisi senaryosu ve inşaat şantiyesi geçici tahliye. Mevcut 70 (seçim) ve 116 (flatör genel) içerikleriyle çakışmadan işletme/arıza niyetlerine iner; foseptik kümesi (161–170) ayrı tutulur.
 
 ## Kapak görseli
 

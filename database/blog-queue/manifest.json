@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -1128,6 +1128,76 @@
             "publish_on": "2026-08-30",
             "title": "Hidrofor Basıncı Düşüyor: Tank Havası Kaçırıyor mu?",
             "series": "hidrofor-tank-presostat"
+        },
+        {
+            "day": 65,
+            "file": "161-foseptik-tankli-isletme-pillar.json",
+            "publish_on": "2026-08-31",
+            "title": "Foseptik ve Tanklı Pompa İşletme Sistemi: Seviye, Çevrim ve Koruma",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 65,
+            "file": "162-foseptik-samandira-seviye-ayari.json",
+            "publish_on": "2026-08-31",
+            "title": "Foseptik Pompasında Yüzen Şamandıra ve Seviye Ayarı",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 65,
+            "file": "163-foseptik-kisa-cevrim.json",
+            "publish_on": "2026-08-31",
+            "title": "Foseptik Pompası Kısa Çevrim: Neden Sürekli Açılıp Kapanır?",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 66,
+            "file": "164-foseptik-kuru-calisma.json",
+            "publish_on": "2026-09-01",
+            "title": "Foseptik Pompasında Kuru Çalışma Koruması ve Boş Çalıştırma Önleme",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 66,
+            "file": "165-foseptik-cokeltme-kati-madde.json",
+            "publish_on": "2026-09-01",
+            "title": "Foseptik Çökeltme ve Katı Madde: Pompa Emişini Nasıl Etkiler?",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 66,
+            "file": "166-septik-tank-seviye.json",
+            "publish_on": "2026-09-01",
+            "title": "Septik Tank Seviye Kontrolü: Pompa Ne Zaman Devreye Girer?",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 67,
+            "file": "167-foseptik-flator-min-seviye.json",
+            "publish_on": "2026-09-02",
+            "title": "Flatörlü Foseptik Pompa: Minimum Seviye ve Otomatik Stop Ayarı",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 67,
+            "file": "168-foseptik-pompa-tikaniyor.json",
+            "publish_on": "2026-09-02",
+            "title": "Foseptik Pompası Tıkanıyor: Teşhis, Önleme ve Bakım",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 67,
+            "file": "169-ev-site-atik-su-semptom.json",
+            "publish_on": "2026-09-02",
+            "title": "Ev ve Site Atık Su Pompası: Yaygın İşletme Semptomları",
+            "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 68,
+            "file": "170-tankli-pompa-kabini.json",
+            "publish_on": "2026-09-03",
+            "title": "Tanklı Pompa Kabini: Montaj, Havalandırma ve Erken Uyarı",
+            "series": "foseptik-tankli-isletme"
         }
     ]
 }
