@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme + drenaj-bodrum-isletme seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -1198,6 +1198,76 @@
             "publish_on": "2026-09-03",
             "title": "Tanklı Pompa Kabini: Montaj, Havalandırma ve Erken Uyarı",
             "series": "foseptik-tankli-isletme"
+        },
+        {
+            "day": 69,
+            "file": "171-drenaj-bodrum-isletme-pillar.json",
+            "publish_on": "2026-09-04",
+            "title": "Drenaj ve Bodrum Su Tahliyesi İşletme Sistemi: Çukur, Çevrim ve Alarm",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 70,
+            "file": "172-drenaj-cukuru-hacmi.json",
+            "publish_on": "2026-09-04",
+            "title": "Drenaj Çukuru Hacmi Hesabı ve Taşma Payı Nasıl Belirlenir?",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 71,
+            "file": "173-drenaj-flator-cevrim.json",
+            "publish_on": "2026-09-04",
+            "title": "Flatörlü Drenaj Pompa Çevrimi: Start-Stop Bandı ve Kısa Çevrim",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 72,
+            "file": "174-bodrum-su-basmasi.json",
+            "publish_on": "2026-09-05",
+            "title": "Bodrum Su Basması: İşletme Semptomları ve Teşhis Adımları",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 73,
+            "file": "175-drenaj-yedek-alarm.json",
+            "publish_on": "2026-09-05",
+            "title": "Drenaj Sisteminde Yedek Pompa ve Yüksek Seviye Alarmı",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 74,
+            "file": "176-drenaj-elektrik-kesintisi.json",
+            "publish_on": "2026-09-05",
+            "title": "Elektrik Kesintisinde Drenaj Sistemi: Birikinti ve Kurtarma Planı",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 75,
+            "file": "177-insaat-santiye-tahliye.json",
+            "publish_on": "2026-09-06",
+            "title": "İnşaat Şantiyesi Geçici Su Tahliyesi: İşletme ve Güvenlik",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 76,
+            "file": "178-yagmur-suyu-birikintisi.json",
+            "publish_on": "2026-09-06",
+            "title": "Yağmur Suyu Birikintisi: Pik Debi ve Pompa İşletme Davranışı",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 77,
+            "file": "179-drenaj-tikanma.json",
+            "publish_on": "2026-09-06",
+            "title": "Drenaj Pompası Tıkanıyor: Emiş Performansı ve Önleme",
+            "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 78,
+            "file": "180-otopark-rampasi-drenaj.json",
+            "publish_on": "2026-09-07",
+            "title": "Otopark Rampası Drenaj İşletmesi: Çukur, Pompa ve Alarm",
+            "series": "drenaj-bodrum-isletme"
         }
     ]
 }

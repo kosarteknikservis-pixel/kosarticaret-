@@ -60,10 +60,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Yangın sistem tasarımı | 141–150 | Deploy ile yayınlanır |
 | Hidrofor tank–presostat | 151–160 | Deploy ile yayınlanır |
 | Foseptik tanklı işletme | 161–170 | Deploy ile yayınlanır |
+| Drenaj bodrum işletme | 171–180 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Drenaj ve bodrum su tahliyesi işletme kümesi (171–180): yağmur suyu birikintisi, flatörlü drenaj çevrimi, kuyu hacmi hesabı, yedek pompa/alarm, elektrik kesintisi senaryosu ve inşaat şantiyesi geçici tahliye. Mevcut 70 (seçim) ve 116 (flatör genel) içerikleriyle çakışmadan işletme/arıza niyetlerine iner; foseptik kümesi (161–170) ayrı tutulur.
+Derin kuyu ve sondaj pompa işletme kümesi (181–190): kuyu seviyesi düşüşü, kuru kuyu koruması, kum/silt birikimi, kablo ve hortum yönetimi, debi düşüşü teşhisi ve mevsimsel işletme. Mevcut 11/71/118 (seçim) içerikleriyle çakışmadan işletme niyetlerine iner; drenaj (171–180) ve foseptik (161–170) kümeleri ayrı tutulur.
 
 ## Kapak görseli
 
