@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "santrifuj-pompa-ses-titresim-ariza-teshis",
+            "title": "Santrifüj Pompa Ses ve Titreşim: Arıza Teşhisi",
+            "excerpt": "Santrifüj pompa ses ve titreşim: kavitasyon, rulman aşınması, hizasız baza, gevşek bağlantı ve emme havası ayrımı. İşletme teşhis rehberi.",
+            "meta_title": "Santrifüj Pompa Ses ve Titreşim Teşhisi",
+            "meta_description": "Santrifüj pompa neden gürültülü çalışır? Kavitasyon, rulman, baza hizası ve emme havası teşhisi. Ses ve titreşim ayrım rehberi.",
+            "tags": [
+                "santrifüj pompa sesi",
+                "pompa titreşim",
+                "rulman arızası",
+                "kavitasyon sesi",
+                "pompa gürültü teşhis"
+            ],
+            "image_alt": "Santrifüj pompa ses titreşim arıza teşhisi",
+            "published": true,
+            "published_at": "2026-09-17 09:00:00",
+            "content": "<p><strong>Santrifüj pompa ses ve titreşim</strong>, farklı kök nedenlerin benzer belirtiler ürettiği alanlardan biridir. Kavitasyon cıvıltı üretir; rulman aşınması sürekli gürültü yapar; hizasız baza titreşim iletir; gevşek bağlantı rezonans oluşturur. Doğru teşhis gereksiz parça değişimini ve uzun süreli hasarı önler.</p>\n\n<p>Sistem: <a href=\"/blog/santrifuj-pompa-isletme-sistemi\">santrifüj işletme sistemi</a>. Kavitasyon: <a href=\"/blog/santrifuj-pompa-kavitasyon-belirtileri-onleme\">kavitasyon teşhisi</a>. Emme: <a href=\"/blog/santrifuj-pompa-emme-priming-isletme\">emme-priming</a>. Debi: <a href=\"/blog/santrifuj-pompa-debi-dususu-teshis\">debi düşüşü</a>. Bakım: <a href=\"/blog/santrifuj-pompa-bakim-disiplini-periyodik-kontrol\">bakım disiplini</a>. Genel: <a href=\"/blog/santrifuj-pompa-ariza-bakim-rehberi\">arıza rehberi</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar\">santrifüj pompalar</a>.</p>\n\n<h2>Ses Profili Ayrımı</h2>\n<table>\n<thead><tr><th>Ses tipi</th><th>Olası neden</th><th>Eşlik eden belirti</th></tr></thead>\n<tbody>\n<tr><td>Cıvıltı / çakıl</td><td>Kavitasyon</td><td>Debi düşüşü, emme kısıtı</td></tr>\n<tr><td>Sürekli uğultu</td><td>Rulman aşınması</td><td>Isınma, titreşim artışı</td></tr>\n<tr><td>Zırlama / tıkırtı</td><td>Gevşek bağlantı, baza</td><td>Montaj noktasında hareket</td></tr>\n<tr><td>Hava gürültüsü</td><td>Priming kaybı</td><td>Düzensiz debi</td></tr>\n<tr><td>Yüksek frekans vızıltı</td><td>Motor veya fan dengesizliği</td><td>Yük değişiminde artış</td></tr>\n</tbody>\n</table>\n<p>Kavitasyon sesi debi ve emme koşulları değişince şiddetlenir; rulman sesi genelde sabit kalır. İlk adım ses profilini not etmek ve debi-basınç kaydı almaktır.</p>\n\n<h2>Teşhis Adımları</h2>\n<ol>\n<li>Ses tipini tanımlayın; start anında mı sürekli mi?</li>\n<li>Emme filtresi ve priming durumunu kontrol edin.</li>\n<li>Kavitasyon şüphesinde emme yüksekliği ve filtre bakımına bakın.</li>\n<li>Pompa baza bağlantılarını ve hizasını kontrol edin.</li>\n<li>Rulman bölgesinde ısı ve titreşim ölçün.</li>\n<li>Conta ve salmastra sızıntısı var mı inceleyin.</li>\n<li>Debi düşüşü birlikte görülüyorsa mekanik zayıflama değerlendirin.</li>\n</ol>\n<p>Havuz pompası ses teşhisi <a href=\"/blog/havuz-pompasi-ses-titresim-ariza-teshis\">havuz kümesinde</a> kalır. Dalgıç pompa sesi farklı montaj koşullarında oluşur; <a href=\"/blog/dalgic-pompa-calismiyor-ariza-cozum\">dalgıç arıza</a> yazısına bakın.</p>\n\n<h2>Önleme ve Bakım</h2>\n<ul>\n<li>Baza hizasını kurulumda ve periyodik kontrolde doğrulayın.</li>\n<li>Emme disiplinini koruyun; hava emişi ses ve debi bozar.</li>\n<li>Rulman gürültüsünde gecikmeden servis planlayın.</li>\n<li>Gevşek fitting ve contaları sıkın; rezonansı azaltın.</li>\n<li>Kavitasyonu erken aşamada giderin; fan hasarını önleyin.</li>\n<li>Motor fanı ve soğutma kanalını temiz tutun.</li>\n</ul>\n<p>Periyodik kontrol listesi <a href=\"/blog/santrifuj-pompa-bakim-disiplini-periyodik-kontrol\">bakım disiplini</a> yazısındadır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Yeni pompa da gürültülü olabilir mi?</h3>\n<p>Montaj hatası, hizasız baza veya emme hatası yeni pompada da ses üretebilir. Önce kurulum kontrol edilmelidir.</p>\n<h3>Kavitasyon sesi rulman sanılabilir mi?</h3>\n<p>Evet. Emme koşullarını düzelterek test edin; ses geçiyorsa kavitasyon olasıdır.</p>\n<h3>Titreşim boru hattına zarar verir mi?</h3>\n<p>Uzun süreli titreşim fitting ve contalarda gevşeme ve yorgunluk oluşturabilir.</p>\n<h3>Servis ne zaman şarttır?</h3>\n<p>Rulman ısınması, şaft oynaması veya fan hasarı şüphesinde yetkili servis gerekir.</p>\n\n<p>Ses ve titreşimde önce profil ayrımı yapın; kavitasyon ve rulmanı karıştırmayın. <a href=\"/pompa-secici\">Pompa Seçici</a>; <a href=\"/iletisim\">iletişim</a>. <a href=\"/marka/pedrollo\">Pedrollo</a>, <a href=\"/marka/sumak\">Sumak</a>.</p>"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme + drenaj-bodrum-isletme seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme + drenaj-bodrum-isletme + derin-kuyu-isletme + havuz-pompa-isletme + santrifuj-pompa-isletme seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -1268,6 +1268,216 @@
             "publish_on": "2026-09-07",
             "title": "Otopark Rampası Drenaj İşletmesi: Çukur, Pompa ve Alarm",
             "series": "drenaj-bodrum-isletme"
+        },
+        {
+            "day": 79,
+            "file": "181-derin-kuyu-isletme-pillar.json",
+            "publish_on": "2026-09-08",
+            "title": "Derin Kuyu ve Sondaj Pompa İşletme Sistemi: Seviye, Koruma ve Performans",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 80,
+            "file": "182-kuyu-seviye-dususu.json",
+            "publish_on": "2026-09-08",
+            "title": "Kuyu Seviyesi Düşüşü: Dinamik Seviye Takibi ve Erken Uyarı",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 81,
+            "file": "183-kuru-kuyu-korumasi.json",
+            "publish_on": "2026-09-08",
+            "title": "Derin Kuyu Kuru Çalışma Koruması: Susuz Çalıştırma Önleme",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 82,
+            "file": "184-kum-silt-birikimi.json",
+            "publish_on": "2026-09-09",
+            "title": "Kuyu Kum ve Silt Birikimi: Pompa Emiş Performansını Nasıl Etkiler?",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 83,
+            "file": "185-kablo-hortum-yonetimi.json",
+            "publish_on": "2026-09-09",
+            "title": "Derin Kuyu Pompa Kablosu ve Hortum Yönetimi: Montaj ve Bakım",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 84,
+            "file": "186-debi-dususu-teshis.json",
+            "publish_on": "2026-09-09",
+            "title": "Derin Kuyu Debi Düşüşü: Pompa Zayıfladı mı, Kuyu mu Kuruyor?",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 85,
+            "file": "187-mevsimsel-isletme.json",
+            "publish_on": "2026-09-10",
+            "title": "Derin Kuyu Mevsimsel İşletme: Yaz ve Kış Kuyu Davranışı",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 86,
+            "file": "188-basinc-anahtari-start.json",
+            "publish_on": "2026-09-10",
+            "title": "Sondaj Kuyusu Basınç Anahtarı: Start-Stop ve Koruma Mantığı",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 87,
+            "file": "189-kuyu-basi-montaj.json",
+            "publish_on": "2026-09-10",
+            "title": "Kuyu Başı Montajı ve Check Valf: İşletme ve Arıza Belirtileri",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 88,
+            "file": "190-tarimsal-sulama-semptom.json",
+            "publish_on": "2026-09-11",
+            "title": "Tarımsal Sulama Kuyusu: Yaygın İşletme Semptomları ve Teşhis",
+            "series": "derin-kuyu-isletme"
+        },
+        {
+            "day": 89,
+            "file": "191-havuz-isletme-pillar.json",
+            "publish_on": "2026-09-12",
+            "title": "Havuz Pompası İşletme Sistemi: Filtre, Çevrim ve Sezon Yönetimi",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 89,
+            "file": "192-havuz-filtre-basinci.json",
+            "publish_on": "2026-09-12",
+            "title": "Havuz Filtre Basıncı Düşük veya Yüksek: Teşhis ve Çözüm",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 89,
+            "file": "193-havuz-geri-yikama.json",
+            "publish_on": "2026-09-12",
+            "title": "Havuz Filtre Geri Yıkama Çevrimi: Pompa ve Vana İşletmesi",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 90,
+            "file": "194-havuz-sezon-acma.json",
+            "publish_on": "2026-09-13",
+            "title": "Havuz Sezon Açma ve Kapama: Pompa İşletme Kontrol Listesi",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 90,
+            "file": "195-havuz-kimyasal-dozaj.json",
+            "publish_on": "2026-09-13",
+            "title": "Havuz Kimyasal Dozajı: Pompa ve Filtre Üzerindeki Etki",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 90,
+            "file": "196-havuz-kisa-cevrim.json",
+            "publish_on": "2026-09-13",
+            "title": "Havuz Pompası Kısa Çevrim ve Sıcak Koruma: Neden Sürekli Açılıp Kapanır?",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 91,
+            "file": "197-havuz-debi-dususu.json",
+            "publish_on": "2026-09-14",
+            "title": "Havuz Pompası Debi Düşüşü: Emiş mi, Filtre mi, Pompa mı?",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 91,
+            "file": "198-havuz-on-filtre-tikanma.json",
+            "publish_on": "2026-09-14",
+            "title": "Havuz Ön Filtre ve Sepet Tıkanması: Önleme ve Bakım",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 91,
+            "file": "199-havuz-ses-titresim.json",
+            "publish_on": "2026-09-14",
+            "title": "Havuz Pompası Ses ve Titreşim: Arıza Teşhisi",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 92,
+            "file": "200-havuz-kislama-donma.json",
+            "publish_on": "2026-09-15",
+            "title": "Havuz Pompası Kışlama ve Donma Koruması",
+            "series": "havuz-pompa-isletme"
+        },
+        {
+            "day": 93,
+            "file": "201-santrifuj-isletme-pillar.json",
+            "publish_on": "2026-09-16",
+            "title": "Santrifüj Pompa İşletme Sistemi: Emme, Kavitasyon ve Performans Yönetimi",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 93,
+            "file": "202-santrifuj-emme-isletme.json",
+            "publish_on": "2026-09-16",
+            "title": "Santrifüj Pompa Emme ve Priming İşletme: Günlük Çalışma Disiplini",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 93,
+            "file": "203-santrifuj-kavitasyon.json",
+            "publish_on": "2026-09-16",
+            "title": "Santrifüj Pompa Kavitasyon: Belirtiler, Teşhis ve Önleme",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 94,
+            "file": "204-santrifuj-kisa-cevrim.json",
+            "publish_on": "2026-09-17",
+            "title": "Santrifüj Pompa Kısa Çevrim: Neden Sürekli Açılıp Kapanır?",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 94,
+            "file": "205-santrifuj-debi-dususu.json",
+            "publish_on": "2026-09-17",
+            "title": "Santrifüj Pompa Debi Düşüşü: Emiş mi, Filtre mi, Pompa mı?",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 94,
+            "file": "206-santrifuj-ses-titresim.json",
+            "publish_on": "2026-09-17",
+            "title": "Santrifüj Pompa Ses ve Titreşim: Arıza Teşhisi",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 95,
+            "file": "207-santrifuj-basinc-dususu.json",
+            "publish_on": "2026-09-18",
+            "title": "Santrifüj Pompa Basınç Düşüşü ve Çalışma Noktası Kayması",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 95,
+            "file": "208-santrifuj-foot-valf.json",
+            "publish_on": "2026-09-18",
+            "title": "Santrifüj Pompa Foot Valf ve Emme Hattı Kaçağı: Kontrol ve Onarım",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 95,
+            "file": "209-santrifuj-mevsimsel.json",
+            "publish_on": "2026-09-18",
+            "title": "Santrifüj Pompa Mevsimsel İşletme ve Donma Koruması",
+            "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 96,
+            "file": "210-santrifuj-bakim-disiplini.json",
+            "publish_on": "2026-09-19",
+            "title": "Santrifüj Pompa Bakım Disiplini ve Periyodik Kontrol Listesi",
+            "series": "santrifuj-pompa-isletme"
         }
     ]
 }

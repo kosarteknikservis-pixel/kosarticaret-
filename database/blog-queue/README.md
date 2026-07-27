@@ -61,10 +61,13 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Hidrofor tank–presostat | 151–160 | Deploy ile yayınlanır |
 | Foseptik tanklı işletme | 161–170 | Deploy ile yayınlanır |
 | Drenaj bodrum işletme | 171–180 | Deploy ile yayınlanır |
+| Derin kuyu işletme | 181–190 | Deploy ile yayınlanır |
+| Havuz pompa işletme | 191–200 | Deploy ile yayınlanır |
+| Santrifüj pompa işletme | 201–210 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Derin kuyu ve sondaj pompa işletme kümesi (181–190): kuyu seviyesi düşüşü, kuru kuyu koruması, kum/silt birikimi, kablo ve hortum yönetimi, debi düşüşü teşhisi ve mevsimsel işletme. Mevcut 11/71/118 (seçim) içerikleriyle çakışmadan işletme niyetlerine iner; drenaj (171–180) ve foseptik (161–170) kümeleri ayrı tutulur.
+Kademeli pompa işletme kümesi (211–220): çok kademeli start, kavitasyon, debi düşüşü, conta kaçağı, kısa çevrim ve yüksek basınç hat işletmesi. Mevcut 73–81 (kademeli seçim/arıza) ve 201–210 (yüzey santrifüj işletme) içerikleriyle çakışmadan işletme niyetlerine iner.
 
 ## Kapak görseli
 

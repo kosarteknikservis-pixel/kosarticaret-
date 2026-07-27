@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "santrifuj-pompa-foot-valf-emme-hatti-kacak",
+            "title": "Santrifüj Pompa Foot Valf ve Emme Hattı Kaçağı: Kontrol ve Onarım",
+            "excerpt": "Santrifüj pompa foot valf ve emme hattı kaçağı: priming kaybı, hava emişi, conta ve fitting kontrolü, hortum çapı ve sızdırmazlık testi. İşletme rehberi.",
+            "meta_title": "Santrifüj Pompa Foot Valf ve Emme Hattı Kaçağı",
+            "meta_description": "Santrifüj pompa foot valf kaçağı ve emme hattı hava emişi nasıl teşhis edilir? Priming kaybı, conta ve fitting kontrol rehberi.",
+            "tags": [
+                "foot valf kaçağı",
+                "emme hattı kaçak",
+                "santrifüj hava emişi",
+                "priming kaybı",
+                "emme conta"
+            ],
+            "image_alt": "Santrifüj pompa foot valf emme hattı kaçağı kontrol",
+            "published": true,
+            "published_at": "2026-09-18 09:00:00",
+            "content": "<p><strong>Santrifüj pompa foot valf ve emme hattı kaçağı</strong>, tekrarlayan priming kaybının en sık nedenidir. Foot valf suyu tutamazsa pompa durduğunda hat boşalır; conta veya fitting gevşekse hava emilir; emme hortumu çatlamışsa debi düşer. Bu yazı foot valf model seçimi yapmaz; saha kontrol ve onarım adımlarını anlatır.</p>\n\n<p>Sistem: <a href=\"/blog/santrifuj-pompa-isletme-sistemi\">santrifüj işletme sistemi</a>. Emme işletme: <a href=\"/blog/santrifuj-pompa-emme-priming-isletme\">emme-priming</a>. Kurulum: <a href=\"/blog/santrifuj-pompa-emme-priming-rehberi\">emme rehberi</a>. Debi: <a href=\"/blog/santrifuj-pompa-debi-dususu-teshis\">debi düşüşü</a>. Kısa çevrim: <a href=\"/blog/santrifuj-pompa-kisa-cevrim-start-stop\">kısa çevrim</a>. Kavitasyon: <a href=\"/blog/santrifuj-pompa-kavitasyon-belirtileri-onleme\">kavitasyon</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar\">santrifüj pompalar</a>, <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar/tek-fanli-santrifuj-pompa\">tek fanlı santrifüj</a>.</p>\n\n<h2>Foot Valf Davranışı</h2>\n<p>Foot valf emme ucunda, su seviyesinin altında konumlanır. Pompa durduğunda vana kapanır ve hat suyu tutar; bir sonraki start'ta priming kolaylaşır. Vana contası aşındığında veya kum/partikül araya girdiğinde kaçırır. Her sabah su çekmeme sorunu foot valf şüphesini güçlendirir.</p>\n<table>\n<thead><tr><th>Belirti</th><th>Olası neden</th><th>Çözüm</th></tr></thead>\n<tbody>\n<tr><td>Gece sonrası priming kaybı</td><td>Foot valf kaçağı</td><td>Conta, vana temizliği veya değişim</td></tr>\n<tr><td>Doldurma tapasından sürekli su ihtiyacı</td><td>Hat hava alıyor</td><td>Foot valf, emme conta</td></tr>\n<tr><td>Emme hattında kabarcık</td><td>Fitting kaçağı</td><td>Sıkma, conta değişimi</td></tr>\n<tr><td>Hortum çatlağı</td><td>UV, yaşlanma</td><td>Hortum değişimi</td></tr>\n</tbody>\n</table>\n\n<h2>Kontrol ve Sızdırmazlık Testi</h2>\n<ol>\n<li>Pompayı durdurun; emme hattında su seviyesi düşüyor mu gözlemleyin.</li>\n<li>Foot valf çıkışında sızıntı ve nem kontrol edin.</li>\n<li>Doldurma tapası ve pompa gövdesi contalarını inceleyin.</li>\n<li>Emme fittinglerini elle sıkılık testi yapın; conta yüzeyini kontrol edin.</li>\n<li>Emme hortumu çatlak, ezilme veya daralma için gözden geçirin.</li>\n<li>Emme filtresi kapağı contasını kontrol edin.</li>\n<li>Onarım sonrası priming ve debi testini tekrarlayın.</li>\n</ol>\n<p>Foot valf olmadan çalışan kısa hatlarda sürekli dolu hat gerekir; çoğu uygulamada foot valf önerilir. Kurulum detayı <a href=\"/blog/santrifuj-pompa-emme-priming-rehberi\">emme rehberi</a>ndedir.</p>\n\n<h2>Emme Hattı Boyutlandırma Hatırlatması</h2>\n<p>İnce veya uzun emme hattı priming kaybını artırır; debi düşer ve kavitasyon riski büyür. Hortum çapı katalog önerisine uygun olmalıdır. Emme yüksekliği limiti aşılmamalıdır. Derin kaynaklarda <a href=\"/blog/jet-pompa-mi-dalgic-pompa-mi\">jet veya dalgıç</a> alternatifleri değerlendirilmelidir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Foot valf her yıl değişmeli mi?</h3>\n<p>Kullanıma ve su kalitesine bağlıdır; kaçak belirtisi varsa hemen değiştirin veya conta yenileyin.</p>\n<h3>Conta yağı veya macun kullanılır mı?</h3>\n<p>Üretici önerisine uyun; uygun olmayan malzeme conta ömrünü kısaltabilir.</p>\n<h3>Emme filtresi foot valf yerine geçer mi?</h3>\n<p>Hayır. Filtre partikül tutar; foot valf geri akışı önler. İkisi farklı işlevdedir.</p>\n<h3>Kaçak giderilince kısa çevrim düzelir mi?</h3>\n<p>Hat kaçağı kısa çevrim nedeniyse evet. <a href=\"/blog/santrifuj-pompa-kisa-cevrim-start-stop\">Kısa çevrim teşhisi</a>ne de bakın.</p>\n\n<p>Priming kaybında önce foot valf ve emme conta kontrolü yapın. <a href=\"/pompa-secici\">Pompa Seçici</a>; <a href=\"/iletisim\">iletişim</a>. <a href=\"/marka/pedrollo\">Pedrollo</a>, <a href=\"/marka/sumak\">Sumak</a>.</p>"
+        }
+    ]
+}

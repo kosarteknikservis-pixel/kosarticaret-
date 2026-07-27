@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "santrifuj-pompa-basinc-dususu-calism-noktasi",
+            "title": "Santrifüj Pompa Basınç Düşüşü ve Çalışma Noktası Kayması",
+            "excerpt": "Santrifüj pompa basınç düşüşü: çalışma noktası kayması, vana kısıtı, fan aşınması, emme hatası ve pompa eğrisi okuma. Debi ile birlikte teşhis rehberi.",
+            "meta_title": "Santrifüj Pompa Basınç Düşüşü ve Çalışma Noktası",
+            "meta_description": "Santrifüj pompa basınç düşüşü neden olur? Çalışma noktası, vana, fan aşınması ve emme hatası teşhisi. İşletme rehberi.",
+            "tags": [
+                "santrifüj basınç düşüşü",
+                "çalışma noktası",
+                "pompa eğrisi",
+                "basınç kaybı",
+                "santrifüj performans"
+            ],
+            "image_alt": "Santrifüj pompa basınç düşüşü çalışma noktası kayması",
+            "published": true,
+            "published_at": "2026-09-18 09:00:00",
+            "content": "<p><strong>Santrifüj pompa basınç düşüşü</strong>, debi ile birlikte değerlendirildiğinde anlam kazanır. Yalnız basınç düşük ve debi normal ise emme veya fan sorunu olabilir; basınç yüksek ve debi düşükse vana kısıtı veya tıkanıklık düşünülmelidir. Çalışma noktası kayması, pompanın katalog eğrisinde farklı bir noktada çalışmasıdır. Bu yazı eğri hesabı yapmaz; saha gözlemi ve teşhis sırasını anlatır.</p>\n\n<p>Sistem: <a href=\"/blog/santrifuj-pompa-isletme-sistemi\">santrifüj işletme sistemi</a>. Debi: <a href=\"/blog/santrifuj-pompa-debi-dususu-teshis\">debi düşüşü</a>. Emme: <a href=\"/blog/santrifuj-pompa-emme-priming-isletme\">emme-priming</a>. Kavitasyon: <a href=\"/blog/santrifuj-pompa-kavitasyon-belirtileri-onleme\">kavitasyon</a>. Kısa çevrim: <a href=\"/blog/santrifuj-pompa-kisa-cevrim-start-stop\">kısa çevrim</a>. Eğri okuma: <a href=\"/blog/sirkulasyon-pompa-egrisi-nasil-okunur\">pompa eğrisi okuma</a>. Hesap: <a href=\"/blog/pompa-debi-ve-basma-yuksekligi-hesabi\">debi-basma hesabı</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/santrifuj-pompalar\">santrifüj pompalar</a>.</p>\n\n<h2>Basınç ve Debi Birlikte Okuma</h2>\n<table>\n<thead><tr><th>Durum</th><th>Basınç</th><th>Debi</th><th>Olası neden</th></tr></thead>\n<tbody>\n<tr><td>1</td><td>Düşük</td><td>Düşük</td><td>Emme hatası, fan aşınması</td></tr>\n<tr><td>2</td><td>Yüksek</td><td>Düşük</td><td>Vana kısıtı, tıkanıklık</td></tr>\n<tr><td>3</td><td>Normal</td><td>Düşük</td><td>Hat kaçağı, yan dal açık</td></tr>\n<tr><td>4</td><td>Dalgalı</td><td>Düzensiz</td><td>Hava emişi, kısa çevrim</td></tr>\n</tbody>\n</table>\n<p>Manometre emiş ve basma hattına doğru konumlandırılmalıdır. Tek nokta ölçümü yanıltıcı olabilir; mümkünse her iki tarafta basınç farkı kaydedilmelidir.</p>\n\n<h2>Çalışma Noktası Kayması Nedenleri</h2>\n<p>Pompa eğrisi ile sistem eğrisi kesişim noktası çalışma noktasıdır. Sistem direnci arttığında — tıkanıklık, vana kısıtı, boru ölçeği — çalışma noktası sola kayar; debi düşer, basınç değişimi senaryoya bağlıdır. Fan aşınmasında pompa eğrisi aşağı kayar; debi ve basınç birlikte düşer. Emme hatasında her iki parametre de zayıflar.</p>\n<ol>\n<li>Referans debi ve basınç kaydını açın.</li>\n<li>Basma vanalarını ve filtreleri kontrol edin.</li>\n<li>Emiş tarafını doğrulayın.</li>\n<li>Kavitasyon ve ses belirtilerini not edin.</li>\n<li>Değişim yoksa fan ve conta mekanik incelemesine geçin.</li>\n</ol>\n\n<h2>Hidrofor ve Sulama Bağlamı</h2>\n<p>Hidrofor ön pompası olarak çalışan santrifüjde tank ve presostat basınç profilini belirler. Tank ön şarjı düşükse basınç dalgalanması artar. <a href=\"/blog/hidrofor-tank-presostat-isletme-sistemi\">Tank-presostat işletme</a> yazısı tamamlayıcıdır. Sulama hatlarında vana ve filtre kısıtı mevsim içinde değişebilir; basınç trendi izlenmelidir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Basınç düşük ama debi iyi ise ne olabilir?</h3>\n<p>Düşük sistem direnci veya kısa hat olabilir; pompa eğrisinin sağ ucunda çalışıyor olabilir. Enerji verimliliği değerlendirilmelidir.</p>\n<h3>Manometre yeterli mi?</h3>\n<p>Basınç farkı ve debi gözlemi birlikte daha güvenilir teşhis sağlar.</p>\n<h3>Seçim hatası basınç düşüşü üretir mi?</h3>\n<p>Evet; aşırı veya yetersiz kapasite seçimi performans sorunu yaratır. Seçim rehberlerine bakın.</p>\n<h3>Kavitasyon basıncı etkiler mi?</h3>\n<p>Evet; debi ve basınç birlikte düşebilir. <a href=\"/blog/santrifuj-pompa-kavitasyon-belirtileri-onleme\">Kavitasyon teşhisi</a>ne bakın.</p>\n\n<p>Basınç düşüşünde debi ile birlikte okuyun; çalışma noktası kaymasını erken yakalayın. <a href=\"/pompa-secici\">Pompa Seçici</a>; <a href=\"/iletisim\">iletişim</a>. <a href=\"/marka/pedrollo\">Pedrollo</a>, <a href=\"/marka/sumak\">Sumak</a>.</p>"
+        }
+    ]
+}
