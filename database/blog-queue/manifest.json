@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme + drenaj-bodrum-isletme + derin-kuyu-isletme + havuz-pompa-isletme + santrifuj-pompa-isletme seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme + drenaj-bodrum-isletme + derin-kuyu-isletme + havuz-pompa-isletme + santrifuj-pompa-isletme + kademeli-pompa-isletme seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -1478,6 +1478,76 @@
             "publish_on": "2026-09-19",
             "title": "Santrifüj Pompa Bakım Disiplini ve Periyodik Kontrol Listesi",
             "series": "santrifuj-pompa-isletme"
+        },
+        {
+            "day": 97,
+            "file": "211-kademeli-isletme-pillar.json",
+            "publish_on": "2026-09-20",
+            "title": "Kademeli Pompa İşletme Sistemi: Çok Kademeli Start, Conta ve Yüksek Basınç Yönetimi",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 97,
+            "file": "212-kademeli-start-isletme.json",
+            "publish_on": "2026-09-20",
+            "title": "Kademeli Pompa Çok Kademeli Start İşletme: Devreye Alma ve Akım Yönetimi",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 98,
+            "file": "213-kademeli-kavitasyon.json",
+            "publish_on": "2026-09-21",
+            "title": "Kademeli Pompa Kavitasyon: Belirtiler, Teşhis ve Önleme",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 98,
+            "file": "214-kademeli-debi-dususu.json",
+            "publish_on": "2026-09-21",
+            "title": "Kademeli Pompa Debi Düşüşü: Emiş mi, Conta mı, Pompa mı?",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 99,
+            "file": "215-kademeli-conta-kacagi.json",
+            "publish_on": "2026-09-22",
+            "title": "Kademeli Pompa Conta Kaçağı: Teşhis, Onarım ve Kademe Kontrolü",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 99,
+            "file": "216-kademeli-kisa-cevrim.json",
+            "publish_on": "2026-09-22",
+            "title": "Kademeli Pompa Kısa Çevrim: Neden Sürekli Açılıp Kapanır?",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 100,
+            "file": "217-kademeli-yuksek-basinc-hat.json",
+            "publish_on": "2026-09-23",
+            "title": "Kademeli Pompa Yüksek Basınç Hat İşletmesi: Vana, Filtre ve Basınç Yönetimi",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 100,
+            "file": "218-kademeli-ses-titresim.json",
+            "publish_on": "2026-09-23",
+            "title": "Kademeli Pompa Ses ve Titreşim: Arıza Teşhisi",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 101,
+            "file": "219-kademeli-mevsimsel.json",
+            "publish_on": "2026-09-24",
+            "title": "Kademeli Pompa Mevsimsel İşletme ve Donma Koruması",
+            "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 101,
+            "file": "220-kademeli-bakim-disiplini.json",
+            "publish_on": "2026-09-24",
+            "title": "Kademeli Pompa Bakım Disiplini ve Periyodik Kontrol Listesi",
+            "series": "kademeli-pompa-isletme"
         }
     ]
 }

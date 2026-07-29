@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kademeli-pompa-mevsimsel-isletme-donma-korumasi",
+            "title": "Kademeli Pompa Mevsimsel İşletme ve Donma Koruması",
+            "excerpt": "Kademeli pompa mevsimsel işletme: kışlama, hat tahliyesi, donma koruması ve bahar devreye alma. Çok kademeli gövde ve pompa odası için sezon geçiş prosedürü.",
+            "meta_title": "Kademeli Pompa Mevsimsel İşletme ve Kışlama",
+            "meta_description": "Kademeli pompa mevsimsel işletme: kışlama, donma koruması, hat tahliyesi ve bahar devreye alma. Pompa odası sezon geçiş rehberi.",
+            "tags": [
+                "kademeli pompa kışlama",
+                "pompa donma koruması",
+                "mevsimsel işletme",
+                "pompa hat tahliyesi",
+                "bahar devreye alma"
+            ],
+            "image_alt": "Kademeli pompa mevsimsel işletme donma koruması kışlama",
+            "published": true,
+            "published_at": "2026-09-24 09:00:00",
+            "content": "<p><strong>Kademeli pompa mevsimsel işletme</strong>, özellikle ısıtılmayan pompa odaları, teras makine daireleri ve bahçe sulama hatlarında donma riski taşır. Çok kademeli gövdede donmuş su genleşmesi conta ve gövde hasarına yol açar; bahar devreye almada priming ve conta kontrolü kritiktir. Bu yazı model seçimi yapmaz; sezon geçiş prosedürünü işletme dilinde listeler.</p>\n\n<p>Sistem: <a href=\"/blog/kademeli-pompa-isletme-sistemi\">kademeli işletme sistemi</a>. Start: <a href=\"/blog/kademeli-pompa-cok-kademeli-start-isletme\">çok kademeli start</a>. Emme: <a href=\"/blog/santrifuj-pompa-emme-priming-isletme\">emme-priming</a>. Santrifüj mevsim: <a href=\"/blog/santrifuj-pompa-mevsimsel-isletme-donma-korumasi\">santrifüj mevsimsel işletme</a>. Derin kuyu: <a href=\"/blog/derin-kuyu-mevsimsel-isletme-yaz-kis\">derin kuyu mevsimsel</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/kademeli-pompalar\">kademeli pompalar</a>.</p>\n\n<h2>Kışlama Prosedürü</h2>\n<ol>\n<li>Pompayı durdurun ve elektriği kesin.</li>\n<li>Emme ve basma vanalarını kapatın.</li>\n<li>Gövde ve hatlardaki suyu tahliye edin (drenaj tapası, kompresör üfleme).</li>\n<li>Pompa odası sıcaklığını değerlendirin; gerekirse ısıtıcı veya izolasyon.</li>\n<li>Kısa periyodik kontrol: oda sıcaklığı ve nem.</li>\n</ol>\n<p>Tam tahliye yapılmazsa donma conta ve flanşlarda çatlak riski oluşturur. Sulama hatlarında vana altı drenaj noktaları açık bırakılmalıdır.</p>\n\n<h2>Donma Riski Yüksek Alanlar</h2>\n<table>\n<thead><tr><th>Alan</th><th>Risk</th><th>Önlem</th></tr></thead>\n<tbody>\n<tr><td>Isıtılmayan makine dairesi</td><td>Yüksek</td><td>Tahliye + oda ısıtması</td></tr>\n<tr><td>Teras / çatı pompa</td><td>Çok yüksek</td><td>İzolasyon kabini, ısıtıcı</td></tr>\n<tr><td>Bahçe sulama hattı</td><td>Yüksek</td><td>Hat tahliyesi, hava üfleme</td></tr>\n<tr><td>İç mekan, ısıtmalı</td><td>Düşük</td><td>Standart kışlama yeterli</td></tr>\n</tbody>\n</table>\n\n<h2>Bahar Devreye Alma</h2>\n<p>Sezon açılışında contalar ve bağlantılar kontrol edilmelidir. Don hasarı görmeyen ancak mikro çatlak oluşmuş conta baharda kaçak yapabilir; <a href=\"/blog/kademeli-pompa-conta-kacagi-teshis-onarim\">conta kaçağı</a> teşhisi yapın.</p>\n<ul>\n<li>Vanaları açmadan önce hatları doldurma planı yapın.</li>\n<li>Priming ve hava tahliyesini tamamlayın.</li>\n<li>İlk start'ta ses, debi ve basınç kaydı alın.</li>\n<li>Emme filtresini temizleyin (kış birikintisi).</li>\n<li>Elektrik bağlantı sıkılığını kontrol edin.</li>\n</ul>\n<p>Start disiplini <a href=\"/blog/kademeli-pompa-cok-kademeli-start-isletme\">çok kademeli start</a> yazısındadır.</p>\n\n<h2>Yaz İşletme Notları</h2>\n<p>Yüksek sıcaklıkta emme tarafında NPSH marjı daralır; kavitasyon riski artar. <a href=\"/blog/kademeli-pompa-kavitasyon-belirtileri-onleme\">Kavitasyon</a> belirtilerini yaz aylarında daha sık izleyin. Sürekli çalışan bina basınç sistemlerinde soğutma ve havalandırma pompa odasında motor ömrünü uzatır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Antifriz kullanılabilir mi?</h3>\n<p>Üretici onayı olmadan içme suyu ve gıda hatlarında kullanmayın. Sulama ve ısıtma devrelerinde proje şartnamesine göre değerlendirin.</p>\n<h3>Pompa çalışır durumda donma olur mu?</h3>\n<p>Hareketli su donmaz ancak duruş anında veya ısıtılmayan yan hatlarda risk devam eder.</p>\n<h3>Kışın kısa süreli çalıştırma yapılır mı?</h3>\n<p>Gerekirse evet; ancak iş bitiminde tahliye veya ısıtma tekrar uygulanmalıdır.</p>\n\n<p>Donma bölgelerinde kışlama atlanmamalıdır; bahar açılışında conta kontrolü şarttır. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

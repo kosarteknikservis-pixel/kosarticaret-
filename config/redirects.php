@@ -5,5 +5,5 @@
  * Örnek: '/shop/urun/eski-slug' => '/urun/yeni-slug'
  */
 return [
-    // 'eski-path' => 'yeni-path',
+    '/blog/en-iyi-hidrofor-markalari-2024' => '/blog/en-iyi-hidrofor-markalari-2026',
 ];

@@ -64,10 +64,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Derin kuyu işletme | 181–190 | Deploy ile yayınlanır |
 | Havuz pompa işletme | 191–200 | Deploy ile yayınlanır |
 | Santrifüj pompa işletme | 201–210 | Deploy ile yayınlanır |
+| Kademeli pompa işletme | 211–220 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Kademeli pompa işletme kümesi (211–220): çok kademeli start, kavitasyon, debi düşüşü, conta kaçağı, kısa çevrim ve yüksek basınç hat işletmesi. Mevcut 73–81 (kademeli seçim/arıza) ve 201–210 (yüzey santrifüj işletme) içerikleriyle çakışmadan işletme niyetlerine iner.
+Jet pompa işletme kümesi (221–230): emme yüksekliği, jet nozul, çift kademe start ve sulama hattı işletmesi. Mevcut 91–100 (jet seçim/kurulum) ve 211–220 (kademeli işletme) içerikleriyle çakışmadan işletme niyetlerine iner.
 
 ## Kapak görseli
 

@@ -36,3 +36,9 @@ Thumbs.db
 /database/database.sqlite
 /storage/app/public/*
 !/storage/app/public/.gitignore
+
+# GSC exportlari (trafik verisi; yerel raporlama)
+/storage/seo-reports/inbox/*
+!/storage/seo-reports/inbox/.gitkeep
+/storage/seo-reports/*.json
+!/storage/seo-reports/README.md

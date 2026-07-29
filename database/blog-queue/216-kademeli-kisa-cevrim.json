@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kademeli-pompa-kisa-cevrim-start-stop",
+            "title": "Kademeli Pompa Kısa Çevrim: Neden Sürekli Açılıp Kapanır?",
+            "excerpt": "Kademeli pompa kısa çevrim: basınç anahtarı histerezisi, genleşme tankı, emme hatası ve inverter minimum frekans. Start-stop salınımı teşhisi ve çözüm.",
+            "meta_title": "Kademeli Pompa Kısa Çevrim Teşhisi",
+            "meta_description": "Kademeli pompa kısa çevrim ve sürekli start-stop: presostat, tank hacmi, emme kaçağı ve inverter ayarı teşhisi. İşletme rehberi.",
+            "tags": [
+                "kademeli pompa kısa çevrim",
+                "pompa sürekli açılıp kapanıyor",
+                "start stop salınımı",
+                "presostat histerezis",
+                "genleşme tankı"
+            ],
+            "image_alt": "Kademeli pompa kısa çevrim start stop teşhisi",
+            "published": true,
+            "published_at": "2026-09-22 09:00:00",
+            "content": "<p><strong>Kademeli pompa kısa çevrim</strong>, pompanın birkaç saniye içinde tekrar tekrar açılıp kapanmasıdır. Çok kademeli gövdede her start mekanik ve elektriksel stres üretir; kontaktör ömrü kısalır, termik atma riski artar. Neden çoğu zaman pompa kapasitesi değil; basınç kontrolü, tank hacmi veya emme kaçağıdır.</p>\n\n<p>Sistem: <a href=\"/blog/kademeli-pompa-isletme-sistemi\">kademeli işletme sistemi</a>. Start: <a href=\"/blog/kademeli-pompa-cok-kademeli-start-isletme\">çok kademeli start</a>. Tank-presostat: <a href=\"/blog/hidrofor-tank-presostat-sistem-tasarimi\">tank-presostat tasarımı</a>. Hidrofor kısa çevrim: <a href=\"/blog/hidrofor-start-stop-salinimi-kisa-cevrim-teshis\">hidrofor start-stop salınımı</a>. Santrifüj: <a href=\"/blog/santrifuj-pompa-kisa-cevrim-start-stop\">santrifüj kısa çevrim</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/kademeli-pompalar\">kademeli pompalar</a>.</p>\n\n<h2>Kısa Çevrim vs Sürekli Çalışma</h2>\n<table>\n<thead><tr><th>Davranış</th><th>Tipik neden</th><th>İlk kontrol</th></tr></thead>\n<tbody>\n<tr><td>2–10 sn aralıkla start-stop</td><td>Tank küçük, histerezis dar</td><td>Tank hacmi, presostat bandı</td></tr>\n<tr><td>Start sonrası hemen stop</td><td>Emme kaçağı, basınç düşük</td><td>Priming, foot valf</td></tr>\n<tr><td>Gece bile sık start</td><td>Hat kaçağı, musluk sızıntısı</td><td>Tesisat kaçak testi</td></tr>\n<tr><td>İnverterde salınım</td><td>PID/min frekans ayarı</td><td>VFD parametreleri</td></tr>\n</tbody>\n</table>\n\n<h2>Basınç Tankı ve Presostat</h2>\n<p>Kademeli pompa bina basınçlandırmasında genleşme tankı start sayısını belirler. Tank hacmi yetersizse pompa kısa sürede basıncı yükseltir ve durur; küçük tüketimde tekrar start eder. Ön şarj basıncı yanlışsa işletme hacmi erir; <a href=\"/blog/hidrofor-basinc-tanki-onsarj-ayari\">ön şarj ayarı</a> yazısıyla bağlantılıdır.</p>\n<p>Presostat histerezisi çok dar ise (ör. 0,2 bar fark) kısa çevrim kaçınılmazdır. <a href=\"/blog/hidrofor-presostat-histerezis-set-noktalari\">Histerezis ve set noktaları</a> ayarlanmalıdır. Apartman uygulamalarında <a href=\"/blog/apartman-icin-hidrofor-nasil-secilir\">apartman hidrofor</a> mantığı kademeli pompa işletmesine de uygulanır.</p>\n\n<h2>Emme Kaçağı ve İç Kaçak</h2>\n<p>Emme hattı hava çekiyorsa basınç stabil tutulamaz; pompa debi üretemez ve sık stop-start döngüsüne girer. <a href=\"/blog/santrifuj-pompa-emme-priming-isletme\">Emme-priming</a> disiplini kontrol edilmelidir. İç conta kaçağı basıncı düşürür; <a href=\"/blog/kademeli-pompa-conta-kacagi-teshis-onarim\">conta kaçağı</a> teşhisi yapılmalıdır.</p>\n\n<h2>İnverter ve Frekans Kontrol</h2>\n<p>Frekans kontrollü kademeli pompada minimum frekans çok yüksekse pompa kısa sürede hedef basınca ulaşır ve durur. Ramp ve PID ayarı salınımı azaltır; seçim çerçevesi <a href=\"/blog/frekans-kontrollu-kademeli-pompa-avantajlari\">frekans kontrollü kademeli</a> yazısındadır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Kısa çevrim pompayı bozar mı?</h3>\n<p>Evet. Kontaktör, kademe contaları ve motor termiği yorulur. Uzun süre tolere edilmemelidir.</p>\n<h3>Tank büyütmek her zaman çözüm mü?</h3>\n<p>Çoğu konutta evet; ancak hat kaçağı veya emme sorunu varsa tank tek başına yetmez.</p>\n<h3>Yangın hattında kısa çevrim normal mi?</h3>\n<p>Yangın pompası sürekli hazır basınçta çalışır; jockey pompa kısa çevrimi ayrı değerlendirilir. <a href=\"/blog/yangin-pompa-sistemi-tasarimi\">Yangın sistem tasarımı</a> kümesine bakın.</p>\n\n<p>Kısa çevrimde önce tank-presostat, sonra emme ve conta kontrol edin. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kademeli-pompa-ses-titresim-ariza-teshis",
+            "title": "Kademeli Pompa Ses ve Titreşim: Arıza Teşhisi",
+            "excerpt": "Kademeli pompa ses ve titreşim teşhisi: kavitasyon, rulman, conta kaçağı, hizasız baza ve emme havası. Çok kademeli gövdede ses profili ayrımı.",
+            "meta_title": "Kademeli Pompa Ses Titreşim Teşhisi",
+            "meta_description": "Kademeli pompa ses ve titreşim: kavitasyon, rulman, conta, hizasız montaj teşhisi. Çok kademeli gövde arıza ayrım rehberi.",
+            "tags": [
+                "kademeli pompa ses",
+                "pompa titreşim",
+                "pompa gürültü",
+                "rulman arızası",
+                "kavitasyon sesi"
+            ],
+            "image_alt": "Kademeli pompa ses titreşim arıza teşhisi",
+            "published": true,
+            "published_at": "2026-09-23 09:00:00",
+            "content": "<p><strong>Kademeli pompa ses ve titreşim</strong> teşhisi, doğru müdahale için ses profilini ayırt etmeyi gerektirir. Kavitasyon taş çarpma benzeri düzensiz ses üretir; rulman aşınması sürekli gıcırtı veya uğultu yapar; conta kaçağı genelde sessizdir ancak hafif fısıltı ve debi düşüşü eşlik edebilir; hizasız baza ve gevşek bağlantı titreşimi mekanik olarak iletir.</p>\n\n<p>Sistem: <a href=\"/blog/kademeli-pompa-isletme-sistemi\">kademeli işletme sistemi</a>. Kavitasyon: <a href=\"/blog/kademeli-pompa-kavitasyon-belirtileri-onleme\">kavitasyon</a>. Conta: <a href=\"/blog/kademeli-pompa-conta-kacagi-teshis-onarim\">conta kaçağı</a>. Debi: <a href=\"/blog/kademeli-pompa-debi-dususu-teshis\">debi düşüşü</a>. Santrifüj ses: <a href=\"/blog/santrifuj-pompa-ses-titresim-ariza-teshis\">santrifüj ses teşhisi</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/kademeli-pompalar\">kademeli pompalar</a>.</p>\n\n<h2>Ses Profili Tablosu</h2>\n<table>\n<thead><tr><th>Ses tipi</th><th>Olası neden</th><th>Acil durdur</th></tr></thead>\n<tbody>\n<tr><td>Taş çarpma / cıvıltı</td><td>Kavitasyon</td><td>Evet</td></tr>\n<tr><td>Metal sürtünme / gıcırtı</td><td>Rulman, kuru conta</td><td>Evet</td></tr>\n<tr><td>Düzenli uğultu</td><td>Normal veya hafif rulman</td><td>İzle</td></tr>\n<tr><td>Ritmik vuruntu</td><td>Hizasız mil, gevşek baza</td><td>Planlı duruş</td></tr>\n<tr><td>Hava emişi hışırtısı</td><td>Emme kaçağı</td><td>Düzelt</td></tr>\n</tbody>\n</table>\n\n<h2>Teşhis Adımları</h2>\n<ol>\n<li>Sesi dinleyin: düzenli mi düzensiz mi?</li>\n<li>Debi ve basınç aynı anda ölçün.</li>\n<li>Emme hattı ve filtre kontrol edin.</li>\n<li>Baza cıvataları ve titreşim izolatörlerini kontrol edin.</li>\n<li>Mil contası ve rulman oyunu için servis değerlendirmesi isteyin.</li>\n</ol>\n<p>Kavitasyon şüphesinde pompayı zorlamadan durdurun; fan hasarı geri dönüşü zordur. Emme düzeltmesi <a href=\"/blog/santrifuj-pompa-emme-priming-isletme\">emme-priming</a> disipliniyle uyumludur.</p>\n\n<h2>Titreşim ve Montaj</h2>\n<p>Çok kademeli dikey pompada baza rijitliği kritiktir. Yumuşak zemin veya eksik titreşim izolatörü sesi amplifiye eder. Monoblok modellerde motor-pompa hizası fabrikada birleşiktir; yatay norm tipi modellerde kaplin hizası kontrol edilmelidir. Montaj seçimi <a href=\"/blog/norm-tipi-yatay-kademeli-pompa-rehberi\">norm tipi yatay</a> ve <a href=\"/blog/dikey-kademeli-pompa-rehberi\">dikey kademeli</a> yazılarındadır.</p>\n<p>Kompakt makine dairelerinde ses izolasyon kabini düşünülebilir; ancak hava sirkülasyonu motor soğutması için yeterli olmalıdır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Yeni pompa gürültülü çalışıyorsa normal mi?</h3>\n<p>Hafif uğultu normal olabilir; taş çarpma veya metal sürtünme sesi normal değildir. Devreye alma referans kaydı alın.</p>\n<h3>Ses arttı ama debi aynı?</h3>\n<p>Rulman veya hizasızlık olabilir; planlı bakım planlayın. Kavitasyon olmadan da ses artabilir.</p>\n<h3>Hidrofor kabini sesi azaltır mı?</h3>\n<p>Kısmen. Kök neden kavitasyon veya rulman ise kabin semptomu gizler, sorunu çözmez.</p>\n\n<p>Ses teşhisinde önce güvenlik: kavitasyon ve metal sürtünmede durdurun. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

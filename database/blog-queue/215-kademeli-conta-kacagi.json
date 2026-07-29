@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kademeli-pompa-conta-kacagi-teshis-onarim",
+            "title": "Kademeli Pompa Conta Kaçağı: Teşhis, Onarım ve Kademe Kontrolü",
+            "excerpt": "Kademeli pompa conta kaçağı: kademe contası, mil contası, dış sızıntı, iç kaçak ve basınç kaybı teşhisi. Çok kademeli gövdede onarım öncelikleri.",
+            "meta_title": "Kademeli Pompa Conta Kaçağı Teşhisi",
+            "meta_description": "Kademeli pompa conta kaçağı: kademe ve mil contası teşhisi, dış sızıntı, iç kaçak, basınç kaybı. Çok kademeli gövde onarım rehberi.",
+            "tags": [
+                "kademeli pompa conta",
+                "pompa conta kaçağı",
+                "kademe contası",
+                "mil contası",
+                "pompa sızıntı"
+            ],
+            "image_alt": "Kademeli pompa conta kaçağı kademe contası teşhis onarım",
+            "published": true,
+            "published_at": "2026-09-22 09:00:00",
+            "content": "<p><strong>Kademeli pompa conta kaçağı</strong>, çok kademeli gövdede en yaygın mekanik arıza kaynağıdır. Her kademe arasında mekanik conta basınç bütünlüğünü sağlar; aşınma veya yanlış montaj iç veya dış kaçağa yol açar. Dış sızıntı görünür; iç kaçak ise yalnızca basınç ve debi düşüşü ile fark edilir. Erken teşhis pompa ömrünü uzatır.</p>\n\n<p>Sistem: <a href=\"/blog/kademeli-pompa-isletme-sistemi\">kademeli işletme sistemi</a>. Debi: <a href=\"/blog/kademeli-pompa-debi-dususu-teshis\">debi düşüşü</a>. Ses: <a href=\"/blog/kademeli-pompa-ses-titresim-ariza-teshis\">ses teşhisi</a>. Genel arıza: <a href=\"/blog/kademeli-pompa-calismiyor-ariza-bakim-rehberi\">arıza rehberi</a>. Bakım: <a href=\"/blog/kademeli-pompa-bakim-disiplini-periyodik-kontrol\">bakım disiplini</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/kademeli-pompalar\">kademeli pompalar</a>.</p>\n\n<h2>Conta Kaçağı Türleri</h2>\n<table>\n<thead><tr><th>Tür</th><th>Belirti</th><th>Teşhis</th></tr></thead>\n<tbody>\n<tr><td>Dış sızıntı (kademe)</td><td>Gövde altında su birikimi</td><td>Görsel, kağıt testi</td></tr>\n<tr><td>İç kaçak (kademe)</td><td>Basınç/debi düşüşü, sızıntı yok</td><td>Referans ölçüm</td></tr>\n<tr><td>Mil contası</td><td>Mil etrafında damlama</td><td>Çalışırken veya durmuşken</td></tr>\n<tr><td>Emme conta</td><td>Hava emişi, priming kaybı</td><td>Emme hattı testi</td></tr>\n</tbody>\n</table>\n<p>İç kaçak en tehlikeli tiptir; pompa çalışır görünür ancak verim düşer. Referans debi-basınç kaydı <a href=\"/blog/kademeli-pompa-debi-dususu-teshis\">debi düşüşü</a> teşhisiyle birlikte kullanılmalıdır.</p>\n\n<h2>Hangi Kademe Kaçırıyor?</h2>\n<p>Çok kademeli dikey pompada söküm sırası kritiktir; yanlış sıra contaya ve gövdeye zarar verir. Monoblok yatay modellerde erişim daha kolaydır; <a href=\"/blog/monoblok-yatay-kademeli-pompa-secimi\">monoblok yatay</a> seçim yazısı montaj farkını anlatır, bu yazı işletme onarımına odaklanır.</p>\n<ol>\n<li>Dış sızıntı noktasını lokalize edin (hangi flanş/kademe).</li>\n<li>Basınç testi ile iç kaçak şüphesini doğrulayın.</li>\n<li>Pompayı durdurun, güç kesin, su tahliye edin.</li>\n<li>Üretici söküm sırasına göre ilgili kademeyi açın.</li>\n<li>Conta yüzeyini temizleyin; çizik veya korozyon varsa düzeltin.</li>\n<li>Orijinal veya eşdeğer conta seti ile montaj yapın; tork değerlerine uyun.</li>\n</ol>\n<p>Karmaşık dikey kademeli gövdelerde yetkili servis önerilir; garanti koşullarını kontrol edin.</p>\n\n<h2>Önleme ve Periyodik Kontrol</h2>\n<ul>\n<li>Aylık görsel sızıntı kontrolü.</li>\n<li>Kuru çalışma ve kavitasyon contayı hızlandırır; <a href=\"/blog/kademeli-pompa-kavitasyon-belirtileri-onleme\">kavitasyon</a> önlenmelidir.</li>\n<li>Kimyasal agresif ortamlarda conta malzemesi uyumluluğunu doğrulayın.</li>\n<li>Yıllık veya üretici önerisine göre conta seti kontrolü.</li>\n<li>Conta değişiminde mil hizası ve baza kontrolü yapın.</li>\n</ul>\n<p>Kayıt şablonu <a href=\"/blog/kademeli-pompa-bakim-disiplini-periyodik-kontrol\">bakım disiplini</a> yazısındadır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Conta kaçağında pompa çalışmaya devam eder mi?</h3>\n<p>Kısa süre edebilir ancak verim düşer, motor zorlanır ve hasar büyür. İç kaçakta dış belirti olmayabilir; ölçüm şarttır.</p>\n<h3>Her kademenin contası aynı anda mı değişmeli?</h3>\n<p>Bir kademe sökülürken komşu contaların durumu kontrol edilmeli; set değişimi uzun vadede ekonomik olabilir.</p>\n<h3>Mil contası ile kademe contası aynı mı?</h3>\n<p>Hayır. Mil contası şaft geçişinde; kademe contaları fanlar arası basınç bütünlüğünde. İkisi farklı teşhis ve onarım gerektirir.</p>\n\n<p>Conta kaçağında erken müdahale debi kaybını ve servis maliyetini azaltır. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a> · <a href=\"/marka/pedrollo\">Pedrollo</a>.</p>"
+        }
+    ]
+}
