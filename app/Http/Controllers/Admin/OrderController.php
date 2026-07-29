@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
+use App\Services\AdminOrderCreator;
 use App\Services\AdminOrderEditor;
 use App\Services\OrderMailService;
+use App\Services\StoreConfig;
 use App\Support\Code128Barcode;
 use App\Support\OrderPaymentReminder;
 use App\Support\OrderShippingLabel;
@@ -81,6 +83,44 @@ class OrderController extends Controller
         ]);
     }
 
+    public function create(StoreConfig $store): View
+    {
+        $districtsByCity = config('turkiye.cities', []);
+
+        return view('admin.orders.create', [
+            'statuses' => OrderStatus::labels(),
+            'paymentStatuses' => PaymentStatus::labels(),
+            'cities' => array_keys($districtsByCity),
+            'districtsByCity' => $districtsByCity,
+            'products' => Product::query()
+                ->select(['id', 'name', 'sku', 'price', 'stock'])
+                ->orderBy('name')
+                ->get(),
+            'shippingMethods' => $store->shippingMethods(true),
+            'paymentMethods' => $store->paymentMethods(),
+            'freeShippingMin' => $store->freeShippingMin(),
+            'codFee' => $store->codFee(),
+            'vatRate' => $store->vatRate(),
+            'shouldAddVat' => $store->shouldAddVat(),
+            'shippingRates' => $store->shippingRates(),
+        ]);
+    }
+
+    public function store(Request $request, AdminOrderCreator $creator): RedirectResponse
+    {
+        $data = $this->validateOrderForm($request);
+
+        try {
+            $order = $creator->create($data, $data['items'], auth()->id());
+        } catch (\RuntimeException $e) {
+            return back()->withInput()->withErrors(['order' => $e->getMessage()]);
+        }
+
+        return redirect()
+            ->route('admin.orders.show', $order)
+            ->with('success', $order->order_number.' numaralı sipariş oluşturuldu.');
+    }
+
     public function shippingLabel(Request $request, Order $order): View
     {
         $label = OrderShippingLabel::for($order);
@@ -112,33 +152,7 @@ class OrderController extends Controller
 
     public function update(Request $request, Order $order, AdminOrderEditor $editor): RedirectResponse
     {
-        $districtsByCity = config('turkiye.cities', []);
-
-        $data = $request->validate([
-            'status' => ['required', 'string', Rule::in(array_keys(OrderStatus::labels()))],
-            'payment_status' => ['required', 'string', Rule::in(array_keys(PaymentStatus::labels()))],
-            'shipping_tracking' => ['nullable', 'string', 'max:120'],
-            'admin_note' => ['nullable', 'string', 'max:2000'],
-            'ad' => ['required', 'string', 'max:100'],
-            'soyad' => ['required', 'string', 'max:100'],
-            'eposta' => ['required', 'email', 'max:150'],
-            'telefon' => ['required', 'string', 'max:30'],
-            'il' => ['required', 'string', Rule::in(array_keys($districtsByCity))],
-            'ilce' => ['required', 'string', Rule::in($districtsByCity[$request->input('il')] ?? [])],
-            'adres' => ['required', 'string', 'max:500'],
-            'posta_kodu' => ['nullable', 'string', 'max:10'],
-            'kurumsal_fatura' => ['sometimes', 'boolean'],
-            'firma_adi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:200'],
-            'vergi_numarasi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:30'],
-            'vergi_dairesi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:120'],
-            'fatura_adresi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:500'],
-            'items' => ['required', 'array', 'min:1'],
-            'items.*.id' => ['nullable', 'integer'],
-            'items.*.product_id' => ['nullable', 'integer', 'exists:products,id'],
-            'items.*.quantity' => ['required', 'integer', 'min:1'],
-            'items.*.unit_price' => ['required', 'numeric', 'min:0'],
-            'items.*.remove' => ['nullable', 'boolean'],
-        ]);
+        $data = $this->validateOrderForm($request, true);
 
         try {
             $result = $editor->update($order, $data, $data['items'], auth()->id());
@@ -213,5 +227,50 @@ class OrderController extends Controller
 
         return filled($request->query('status'))
             || filled($request->query('payment_status'));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function validateOrderForm(Request $request, bool $updating = false): array
+    {
+        $districtsByCity = config('turkiye.cities', []);
+
+        $rules = [
+            'status' => ['required', 'string', Rule::in(array_keys(OrderStatus::labels()))],
+            'payment_status' => ['required', 'string', Rule::in(array_keys(PaymentStatus::labels()))],
+            'shipping_tracking' => ['nullable', 'string', 'max:120'],
+            'admin_note' => ['nullable', 'string', 'max:2000'],
+            'ad' => ['required', 'string', 'max:100'],
+            'soyad' => ['required', 'string', 'max:100'],
+            'eposta' => ['required', 'email', 'max:150'],
+            'telefon' => ['required', 'string', 'max:30'],
+            'il' => ['required', 'string', Rule::in(array_keys($districtsByCity))],
+            'ilce' => ['required', 'string', Rule::in($districtsByCity[$request->input('il')] ?? [])],
+            'adres' => ['required', 'string', 'max:500'],
+            'posta_kodu' => ['nullable', 'string', 'max:10'],
+            'kurumsal_fatura' => ['sometimes', 'boolean'],
+            'firma_adi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:200'],
+            'vergi_numarasi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:30'],
+            'vergi_dairesi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:120'],
+            'fatura_adresi' => ['nullable', 'required_if:kurumsal_fatura,1', 'string', 'max:500'],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.product_id' => ['nullable', 'integer', 'exists:products,id'],
+            'items.*.quantity' => ['required', 'integer', 'min:1'],
+            'items.*.unit_price' => ['required', 'numeric', 'min:0'],
+        ];
+
+        if ($updating) {
+            $rules['items.*.id'] = ['nullable', 'integer'];
+            $rules['items.*.remove'] = ['nullable', 'boolean'];
+        } else {
+            $rules['payment_method'] = ['required', 'string', Rule::in(['kredi_karti', 'havale', 'kapida_odeme'])];
+            $rules['kargo_yontemi'] = ['required', 'string', Rule::in(['standart', 'hizli'])];
+            $rules['discount'] = ['nullable', 'numeric', 'min:0'];
+            $rules['send_confirmation_email'] = ['sometimes', 'boolean'];
+            $rules['send_telegram'] = ['sometimes', 'boolean'];
+        }
+
+        return $request->validate($rules);
     }
 }

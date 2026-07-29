@@ -2,7 +2,11 @@
 @section('title', 'Siparişler')
 
 @section('content')
-    <x-admin.page-header title="Siparişler" subtitle="Onaylı ve gerçekleşen siparişler. PayTR ödemesi tamamlanmayanlar ayrı listede." />
+    <x-admin.page-header title="Siparişler" subtitle="Onaylı ve gerçekleşen siparişler. PayTR ödemesi tamamlanmayanlar ayrı listede.">
+        <x-slot:actions>
+            <a href="{{ route('admin.orders.create') }}" class="admin-btn admin-btn-primary px-4 py-2.5">+ Yeni sipariş</a>
+        </x-slot:actions>
+    </x-admin.page-header>
 
     @if(($pendingPaymentCount ?? 0) > 0)
         <div class="admin-card p-4 sm:p-5 mb-5 border-amber-200 bg-amber-50/70 flex flex-wrap items-center justify-between gap-3">

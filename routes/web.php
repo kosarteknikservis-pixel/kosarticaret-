@@ -386,6 +386,8 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
             ->parameters(['kampanyalar' => 'promotion'])
             ->names('promotions');
         Route::get('siparisler', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('siparisler/yeni', [AdminOrderController::class, 'create'])->name('orders.create');
+        Route::post('siparisler', [AdminOrderController::class, 'store'])->name('orders.store');
         Route::delete('siparisler/toplu-sil', [AdminOrderController::class, 'bulkDestroy'])->name('orders.bulk-destroy');
         Route::get('siparisler/{order}/kargo-etiketi', [AdminOrderController::class, 'shippingLabel'])->name('orders.shipping-label');
         Route::post('siparisler/{order}/kargo/plan', [OrderShipmentController::class, 'generatePlan'])->name('orders.shipments.plan');
