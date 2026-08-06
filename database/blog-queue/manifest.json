@@ -1,5 +1,5 @@
 {
-    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme + drenaj-bodrum-isletme + derin-kuyu-isletme + havuz-pompa-isletme + santrifuj-pompa-isletme + kademeli-pompa-isletme seo kumeleri",
+    "series": "hidrofor + dalgic-pompa + su-pompasi + vantilator + sirkulasyon + marka + yangin + ozel-amacli + kademeli-pompa + santrifuj-alt-tip + jet-pompa + hidrofor-grubu + dalgic-alt-tip + endustriyel-fan-alt-tip + sirkulasyon-sistemi-tasarim + yangin-sistem-tasarimi + hidrofor-tank-presostat + foseptik-tankli-isletme + drenaj-bodrum-isletme + derin-kuyu-isletme + havuz-pompa-isletme + santrifuj-pompa-isletme + kademeli-pompa-isletme + jet-pompa-isletme seo kumeleri",
     "note": "Deploy ile blog:publish-due --all çalışır; yazılar anında yayınlanır (gelecek tarih yok). manifest sırası blog listesindeki önceliği belirler.",
     "posts": [
         {
@@ -1548,6 +1548,76 @@
             "publish_on": "2026-09-24",
             "title": "Kademeli Pompa Bakım Disiplini ve Periyodik Kontrol Listesi",
             "series": "kademeli-pompa-isletme"
+        },
+        {
+            "day": 102,
+            "file": "221-jet-isletme-pillar.json",
+            "publish_on": "2026-09-25",
+            "title": "Jet Pompa İşletme Sistemi: Emme Yüksekliği, Ejektor ve Sulama Hattı Yönetimi",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 102,
+            "file": "222-jet-emme-yuksekligi.json",
+            "publish_on": "2026-09-25",
+            "title": "Jet Pompa Emme Yüksekliği İşletme: Limit, Priming ve Günlük Disiplin",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 103,
+            "file": "223-jet-ejektor-nozul.json",
+            "publish_on": "2026-09-26",
+            "title": "Jet Pompa Ejektor ve Nozul İşletme: Tıkanıklık, Performans ve Temizlik",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 103,
+            "file": "224-jet-cift-kademe-start.json",
+            "publish_on": "2026-09-26",
+            "title": "Jet Pompa Çift Kademe Start İşletme: Çift Ejektor Devreye Alma",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 104,
+            "file": "225-jet-debi-dususu.json",
+            "publish_on": "2026-09-27",
+            "title": "Jet Pompa Debi Düşüşü: Emiş mi, Ejektor mü, Hat mı?",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 104,
+            "file": "226-jet-kisa-cevrim.json",
+            "publish_on": "2026-09-27",
+            "title": "Jet Pompa Kısa Çevrim: Neden Sürekli Açılıp Kapanır?",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 105,
+            "file": "227-jet-sulama-hatti.json",
+            "publish_on": "2026-09-28",
+            "title": "Jet Pompa Sulama Hattı İşletmesi: Vana, Basınç ve Debi Yönetimi",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 105,
+            "file": "228-jet-ses-titresim.json",
+            "publish_on": "2026-09-28",
+            "title": "Jet Pompa Ses ve Titreşim: Arıza Teşhisi",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 106,
+            "file": "229-jet-mevsimsel.json",
+            "publish_on": "2026-09-29",
+            "title": "Jet Pompa Mevsimsel İşletme ve Donma Koruması",
+            "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 106,
+            "file": "230-jet-bakim-disiplini.json",
+            "publish_on": "2026-09-29",
+            "title": "Jet Pompa Bakım Disiplini ve Periyodik Kontrol Listesi",
+            "series": "jet-pompa-isletme"
         }
     ]
 }

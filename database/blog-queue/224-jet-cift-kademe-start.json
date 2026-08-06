@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-cift-kademe-start-isletme",
+            "title": "Jet Pompa Çift Kademe Start İşletme: Çift Ejektor Devreye Alma",
+            "excerpt": "Jet pompa çift kademe start: çift ejektörlü modellerde devreye alma, basınç dengesi, termik koruma ve debi stabilizasyonu. İşletme odaklı rehber.",
+            "meta_title": "Jet Pompa Çift Kademe Start İşletme",
+            "meta_description": "Jet pompa çift kademe start işletme: çift ejektör devreye alma, basınç dengesi, termik ve debi stabilizasyonu rehberi.",
+            "tags": [
+                "çift ejektör jet",
+                "jet pompa start",
+                "derinden emişli jet",
+                "jet devreye alma",
+                "jet pompa işletme"
+            ],
+            "image_alt": "Jet pompa çift kademe çift ejektör start işletme",
+            "published": true,
+            "published_at": "2026-09-26 09:00:00",
+            "content": "<p><strong>Jet pompa çift kademe start işletme</strong>, derinden emişli ve çift ejektörlü modellerde iki venturi kademesinin sırayla veya birlikte devreye girmesini kapsar. Yanlış start sırası veya yetersiz priming tek kademenin zorlanmasına, termik atmaya ve düşük debiye yol açar. Bu yazı model seçimi yapmaz; devreye alma sonrası start disiplinini anlatır.</p>\n\n<p>Sistem: <a href=\"/blog/jet-pompa-isletme-sistemi\">jet işletme sistemi</a>. Ejektor: <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">ejektör ve nozul</a>. Emme: <a href=\"/blog/jet-pompa-emme-yuksekligi-isletme\">emme yüksekliği</a>. Seçim: <a href=\"/blog/tek-cift-ejektorlu-jet-pompa-farki\">tek çift ejektör</a>, <a href=\"/blog/derinden-emisli-jet-pompa-rehberi\">derinden emişli jet</a>. Kademeli start: <a href=\"/blog/kademeli-pompa-cok-kademeli-start-isletme\">kademeli start</a> (farklı pompa tipi). Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar/derinden-emisli-jet-pompalar\">derinden emişli jet</a>.</p>\n\n<h2>Start Öncesi Hazırlık</h2>\n<ol>\n<li>Gövde ve emme hattı tam priming ile dolu.</li>\n<li>Çıkış vanası üretici talimatına uygun (genelde kısmi kapalı test hariç tam açık).</li>\n<li>Her iki ejektör yolunda tıkanıklık yok.</li>\n<li>Elektrik fazları dengeli, termik reset.</li>\n<li>Emme yüksekliği katalog limiti içinde.</li>\n</ol>\n\n<h2>İlk 60 Saniye Gözlemi</h2>\n<table>\n<thead><tr><th>Gözlem</th><th>Normal</th><th>Anormal</th></tr></thead>\n<tbody>\n<tr><td>Debi</td><td>Stabil artış</td><td>Dalgalı veya düşük</td></tr>\n<tr><td>Ses</td><td>Düzenli uğultu</td><td>Metal vuruntu, hava sesi</td></tr>\n<tr><td>Akım</td><td>Referansa yakın</td><td>Sürekli yüksek</td></tr>\n<tr><td>Basınç</td><td>Hedef banda ulaşır</td><td>Yükselmez veya salınım</td></tr>\n</tbody>\n</table>\n<p>Termik atma tekrarlıyorsa pompayı zorlamadan durdurun; emme ve ejektör teşhisine geçin.</p>\n\n<h2>Çift Ejektor Dengesi</h2>\n<p>Bir ejektör tıkalı veya aşınmışsa sistem tek kademe ile çalışmaya zorlanır; emme derinliği limiti daralır. Her iki kademenin temiz ve eşdeğer performansta olduğundan emin olun. Bakım <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">ejektör yazısı</a>ndadır.</p>\n<p>Hidrofor ile kullanımda start sonrası tank dolum süresi ve presostat davranışı izlenmelidir; <a href=\"/blog/jet-pompa-kisa-cevrim-start-stop\">kısa çevrim</a> birlikte görülebilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Çift ejektör tek seferde mi devreye girer?</h3>\n<p>Modele göre değişir; çoğu gövdede hidrolik olarak birlikte çalışır. Önemli olan her iki yolun da açık ve temiz olmasıdır.</p>\n<h3>Startta termik atıyorsa?</h3>\n<p>Priming, emme limiti veya tıkalı ejektör. <a href=\"/blog/jet-pompa-emme-yuksekligi-isletme\">Emme</a> ve <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">ejektör</a> kontrolü.</p>\n<h3>Kademeli pompa start ile aynı mı?</h3>\n<p>Hayır. Kademeli pompa fan kademeleridir; jet çift ejektör venturi kademesidir. <a href=\"/blog/kademeli-pompa-cok-kademeli-start-isletme\">Kademeli start</a> ayrı kümededir.</p>\n\n<p>Çift kademe jet start’ta priming ve ejektör bütünlüğü şarttır. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

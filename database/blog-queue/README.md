@@ -65,10 +65,11 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Havuz pompa işletme | 191–200 | Deploy ile yayınlanır |
 | Santrifüj pompa işletme | 201–210 | Deploy ile yayınlanır |
 | Kademeli pompa işletme | 211–220 | Deploy ile yayınlanır |
+| Jet pompa işletme | 221–230 | Deploy ile yayınlanır |
 
 ## Sıradaki küme (plan)
 
-Jet pompa işletme kümesi (221–230): emme yüksekliği, jet nozul, çift kademe start ve sulama hattı işletmesi. Mevcut 91–100 (jet seçim/kurulum) ve 211–220 (kademeli işletme) içerikleriyle çakışmadan işletme niyetlerine iner.
+Hidrofor grubu işletme kümesi (231–240): çok pompalı start sırası, ortak tank-presostat, lead-lag kontrol ve grup arıza teşhisi. Mevcut 101–110 (grup seçim) ve 151–160 (tank-presostat) içerikleriyle çakışmadan işletme niyetlerine iner.
 
 ## Kapak görseli
 

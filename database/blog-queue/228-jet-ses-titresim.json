@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-ses-titresim-ariza-teshis",
+            "title": "Jet Pompa Ses ve Titreşim: Arıza Teşhisi",
+            "excerpt": "Jet pompa ses ve titreşim teşhisi: ejektör tıkanıklığı, hava emişi, rulman, kavrama ve hizasız montaj. Ses profili ayrım rehberi.",
+            "meta_title": "Jet Pompa Ses Titreşim Teşhisi",
+            "meta_description": "Jet pompa ses ve titreşim: ejektör, hava emişi, rulman ve montaj teşhisi. Arıza ayrım rehberi.",
+            "tags": [
+                "jet pompa ses",
+                "jet pompa gürültü",
+                "jet pompa titreşim",
+                "ejektör sesi",
+                "pompa arıza ses"
+            ],
+            "image_alt": "Jet pompa ses titreşim ejektör arıza teşhisi",
+            "published": true,
+            "published_at": "2026-09-28 09:00:00",
+            "content": "<p><strong>Jet pompa ses ve titreşim</strong> teşhisi, doğru müdahale için ses profilini ayırt etmeyi gerektirir. Hava emişi hışırtı üretir; tıkalı ejektör düzensiz gürültü ve debi düşüşü yapar; rulman aşınması sürekli gıcırtı verir; gevşek baza veya hizasız kaplin titreşimi amplifiye eder. Jet gövdesi kompakt olduğundan ses motor dairesinde belirgindir.</p>\n\n<p>Sistem: <a href=\"/blog/jet-pompa-isletme-sistemi\">jet işletme sistemi</a>. Ejektor: <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">ejektör nozul</a>. Emme: <a href=\"/blog/jet-pompa-emme-yuksekligi-isletme\">emme yüksekliği</a>. Debi: <a href=\"/blog/jet-pompa-debi-dususu-teshis\">debi düşüşü</a>. Santrifüj ses: <a href=\"/blog/santrifuj-pompa-ses-titresim-ariza-teshis\">santrifüj ses</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a>.</p>\n\n<h2>Ses Profili Tablosu</h2>\n<table>\n<thead><tr><th>Ses</th><th>Olası neden</th><th>Acil durdur</th></tr></thead>\n<tbody>\n<tr><td>Hışırtı / emme sesi</td><td>Hava kaçağı, priming kaybı</td><td>Düzelt</td></tr>\n<tr><td>Düzensiz vuruntu</td><td>Ejektor tıkanıklığı</td><td>Planlı duruş</td></tr>\n<tr><td>Metal sürtünme</td><td>Rulman, kuru conta</td><td>Evet</td></tr>\n<tr><td>Ritmik titreşim</td><td>Gevşek baza, hizasız mil</td><td>Planlı duruş</td></tr>\n<tr><td>Normal uğultu</td><td>Çalışma sesi</td><td>Hayır</td></tr>\n</tbody>\n</table>\n\n<h2>Teşhis Adımları</h2>\n<ol>\n<li>Ses düzenli mi düzensiz mi?</li>\n<li>Debi ve basınç aynı anda ölçün.</li>\n<li>Emme hattı ve geri valf kontrolü.</li>\n<li>Ejektor temizlik gereksinimi.</li>\n<li>Baza cıvataları ve titreşim izolatörü.</li>\n<li>Rulman için servis değerlendirmesi.</li>\n</ol>\n\n<h2>Montaj ve Ortam</h2>\n<p>Jet pompa genelde kuru, kapalı veya yarı açık alanda çalışır. Sert zemine doğrudan montaj sesi iletir; titreşim izolatörü kullanın. Hidrofor kabini sesi kısmî azaltır ancak kök nedeni gizlemez.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Yeni jet gürültülü normal mi?</h3>\n<p>Hafif uğultu normal; metal sürtünme veya şiddetli hışırtı normal değildir. Referans kaydı alın.</p>\n<h3>Ejektor temizliği sesi düzeltir mi?</h3>\n<p>Tıkanıklık kaynaklıysa evet. Rulman kaynaklıysa hayır.</p>\n\n<p>Metal sürtünme sesinde pompayı durdurun. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-emme-yuksekligi-isletme",
+            "title": "Jet Pompa Emme Yüksekliği İşletme: Limit, Priming ve Günlük Disiplin",
+            "excerpt": "Jet pompa emme yüksekliği işletme: katalog limiti, dinamik seviye, geri valf, priming kaybı ve hava kaçağı teşhisi. Kurulum değil, günlük emme disiplini.",
+            "meta_title": "Jet Pompa Emme Yüksekliği İşletme Rehberi",
+            "meta_description": "Jet pompa emme yüksekliği işletme: limit kontrolü, priming, geri valf, hava kaçağı ve su çekmeme teşhisi. Saha işletme rehberi.",
+            "tags": [
+                "jet pompa emme",
+                "jet emme yüksekliği",
+                "jet pompa su çekmiyor",
+                "jet priming",
+                "geri valf"
+            ],
+            "image_alt": "Jet pompa emme yüksekliği limit priming işletme",
+            "published": true,
+            "published_at": "2026-09-25 09:00:00",
+            "content": "<p><strong>Jet pompa emme yüksekliği işletme</strong>, venturi etkisinin çalışması için emme tarafındaki toplam yükün katalog limiti içinde kalmasıdır. Limit aşıldığında pompa çalışır görünür ancak debi düşer veya su çekmez; hava kaçağı priming kaybını tekrarlatır. Bu yazı model seçimi yapmaz; günlük emme disiplini ve teşhisi anlatır.</p>\n\n<p>Sistem: <a href=\"/blog/jet-pompa-isletme-sistemi\">jet işletme sistemi</a>. Kurulum: <a href=\"/blog/jet-pompa-emme-priming-rehberi\">emme priming rehberi</a>. Ejektor: <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">ejektör ve nozul</a>. Seçim: <a href=\"/blog/derinden-emisli-jet-pompa-rehberi\">derinden emişli jet</a>, <a href=\"/blog/sig-kuyu-jet-pompa-rehberi\">sığ kuyu jet</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a>.</p>\n\n<h2>Emme Yüksekliği Nasıl Hesaplanır?</h2>\n<p>Emme yüksekliği = pompa emme flanşı ile su yüzeyi arasındaki dikey mesafe + boru kayıpları + emme hızı kaybı. Dinamik seviye (pompa çalışırken düşen seviye) dikkate alınmalıdır. Yaz ortasında kuyu seviyesi düşerse aynı pompa yazın başında çalışıp ortasında zorlanabilir.</p>\n<table>\n<thead><tr><th>Model tipi</th><th>Tipik emme limiti</th><th>İşletme notu</th></tr></thead>\n<tbody>\n<tr><td>Sığ kuyu jet</td><td>0–8 m</td><td>Kısa emme hattı tercih</td></tr>\n<tr><td>Derinden emişli</td><td>8–35 m</td><td>Çift ejektör modellerde üst sınır</td></tr>\n<tr><td>Limit üstü</td><td>—</td><td>Dalgıç pompa değerlendir</td></tr>\n</tbody>\n</table>\n\n<h2>Günlük Start ve Priming Kontrolü</h2>\n<ol>\n<li>Gövde ve emme hattı dolu mu? Doldurma tapasından kontrol.</li>\n<li>Geri valf sızdırmaz mı? Gece boşalma priming kaybı üretir.</li>\n<li>Emme kelepçeleri ve contalar sıkı mı?</li>\n<li>Emme filtresi tıkalı mı? Tıkanıklık emme basıncını düşürür.</li>\n<li>Su seviyesi yeterli mi? Kuyu kurumaya başlamış olabilir.</li>\n</ol>\n<p>Santrifüj emme disiplini <a href=\"/blog/santrifuj-pompa-emme-priming-isletme\">santrifüj emme işletme</a> ile benzer; jet’te ejektör performansı ek faktördür.</p>\n\n<h2>Limit Aşımı Belirtileri</h2>\n<ul>\n<li>Pompa çalışıyor, debi çok düşük veya yok</li>\n<li>Gürültülü çalışma (hava ve kavitasyon benzeri ses)</li>\n<li>Motor ısınması ve akım yükselmesi</li>\n<li>Mevsimsel performans düşüşü (kuyu seviyesi)</li>\n</ul>\n<p>Kalıcı çözüm genelde daha derin emişli model veya <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa</a> geçişidir. İşletme aşamasında geçici çözüm emme hattı kısaltma ve kaçak giderme olabilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Emme hattı ne kadar uzun olabilir?</h3>\n<p>Katalog ve emme çapına bağlı; ince veya uzun hat priming kaybını artırır. Üretici önerisini aşmayın.</p>\n<h3>Her sabah su çekmiyorsa?</h3>\n<p>Geri valf veya foot valf kaçırıyor olabilir. <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">Ejektor</a> tıkanıklığını da kontrol edin.</p>\n<h3>Derin kuyuda jet zorlanır mı?</h3>\n<p>Evet. <a href=\"/blog/jet-pompa-mi-dalgic-pompa-mi-farki\">Jet mi dalgıç mı</a> karşılaştırmasına bakın.</p>\n\n<p>Emme limitini aşmayın; tekrarlayan priming kaybında geri valf ve conta önceliklidir. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

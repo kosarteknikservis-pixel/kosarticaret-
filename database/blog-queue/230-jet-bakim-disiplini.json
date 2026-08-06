@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-bakim-disiplini-periyodik-kontrol",
+            "title": "Jet Pompa Bakım Disiplini ve Periyodik Kontrol Listesi",
+            "excerpt": "Jet pompa bakım disiplini: emme filtresi, ejektör, geri valf, conta, rulman ve işletme kaydı. Aylık ve sezonluk kontrol şablonu.",
+            "meta_title": "Jet Pompa Bakım Disiplini Kontrol Listesi",
+            "meta_description": "Jet pompa bakım disiplini: periyodik kontrol listesi, ejektör, filtre, geri valf ve işletme kaydı. Saha bakım planı.",
+            "tags": [
+                "jet pompa bakım",
+                "jet pompa periyodik kontrol",
+                "jet ejektör bakım",
+                "jet pompa servis",
+                "sulama pompa bakım"
+            ],
+            "image_alt": "Jet pompa bakım disiplini periyodik kontrol listesi",
+            "published": true,
+            "published_at": "2026-09-29 09:00:00",
+            "content": "<p><strong>Jet pompa bakım disiplini</strong>, reaktif arıza müdahalesinden proaktif işletmeye geçişin temelidir. Jet pompada ejektör-nozul, geri valf, emme filtresi ve conta seti periyodik kontrol gerektirir; sulama sezonunda kullanım yoğunluğu bakım sıklığını artırır. Kayıt tutulmayan sistemde debi düşüşü geç fark edilir.</p>\n\n<p>Sistem: <a href=\"/blog/jet-pompa-isletme-sistemi\">jet işletme sistemi</a>. Ejektor: <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">ejektör nozul</a>. Debi: <a href=\"/blog/jet-pompa-debi-dususu-teshis\">debi düşüşü</a>. Mevsim: <a href=\"/blog/jet-pompa-mevsimsel-isletme-donma-korumasi\">mevsimsel işletme</a>. Genel arıza: <a href=\"/blog/jet-pompa-ariza-bakim-rehberi\">jet arıza rehberi</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a>.</p>\n\n<h2>Bakım Periyotları</h2>\n<table>\n<thead><tr><th>Periyot</th><th>Kontrol</th></tr></thead>\n<tbody>\n<tr><td>Haftalık (sulama sezonu)</td><td>Debi göz, filtre, sızıntı</td></tr>\n<tr><td>Aylık</td><td>Emme filtresi, geri valf, debi ölçüm</td></tr>\n<tr><td>Sezon başı/sonu</td><td>Ejektor, conta, kışlama/açılış</td></tr>\n<tr><td>Yıllık</td><td>Rulman, mil contası, elektrik</td></tr>\n</tbody>\n</table>\n\n<h2>Aylık Kontrol Listesi</h2>\n<ul>\n<li>Çıkış debi referansla karşılaştır.</li>\n<li>Emme filtresini temizle veya değiştir.</li>\n<li>Geri valf sızdırmazlık testi.</li>\n<li>Dış conta ve bağlantı sızıntısı.</li>\n<li>Start-stop sayısı (kısa çevrim var mı?).</li>\n<li>Anormal ses notu.</li>\n</ul>\n<p>Kısa çevrim <a href=\"/blog/jet-pompa-kisa-cevrim-start-stop\">kısa çevrim</a> yazısında teşhis edilir.</p>\n\n<h2>Sezonluk Bakım</h2>\n<p>Sulama sezonu öncesi ejektör temizliği ve priming testi yapın. Sezon sonunda tahliye ve kışlama <a href=\"/blog/jet-pompa-mevsimsel-isletme-donma-korumasi\">mevsimsel işletme</a> prosedürüne uyun. Yedek conta ve ejektör seti kritik tesislerde stoklanabilir.</p>\n\n<h2>İşletme Kaydı</h2>\n<p>Tarih, debi, filtre temizlik, ejektör müdahale ve not alanın. Trend analizi erken uyarı sağlar. Yangın veya kritik besleme hatlarında kayıt zorunluluğu proje şartnamesine bağlıdır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Ev bahçesi jet için yıllık servis şart mı?</h3>\n<p>Sezonluk göz kontrolü ve filtre temizliği çoğu kullanıcı için yeterlidir; yoğun sulamada ejektör kontrolü önerilir.</p>\n<h3>Arıza rehberi (99) ile farkı?</h3>\n<p>Post 99 reaktif teşhis listesidir. Bu yazı proaktif plan ve kayıt disiplinidir.</p>\n\n<p>Bakım disiplini ani duruşları azaltır. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/marka/sumak\">Sumak</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

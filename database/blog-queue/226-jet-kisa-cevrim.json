@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-kisa-cevrim-start-stop",
+            "title": "Jet Pompa Kısa Çevrim: Neden Sürekli Açılıp Kapanır?",
+            "excerpt": "Jet pompa kısa çevrim: hidrofor tank hacmi, presostat histerezisi, emme kaçağı ve sulama vanası. Start-stop salınımı teşhisi ve çözüm.",
+            "meta_title": "Jet Pompa Kısa Çevrim Teşhisi",
+            "meta_description": "Jet pompa kısa çevrim ve sürekli start-stop: tank, presostat, emme kaçağı ve sulama hattı teşhisi. İşletme rehberi.",
+            "tags": [
+                "jet pompa kısa çevrim",
+                "jet pompa sürekli çalışıyor",
+                "hidrofor jet pompa",
+                "start stop salınımı",
+                "presostat jet"
+            ],
+            "image_alt": "Jet pompa kısa çevrim hidrofor presostat teşhisi",
+            "published": true,
+            "published_at": "2026-09-27 09:00:00",
+            "content": "<p><strong>Jet pompa kısa çevrim</strong>, pompanın birkaç saniye içinde tekrar tekrar açılıp kapanmasıdır. Jet pompalar sık kullanıldığı hidrofor ve bahçe sulama uygulamalarında tank hacmi, presostat bandı ve hat kaçağı start sayısını belirler. Her start ejektör ve motora stres bindirir; uzun süre tolere edilmemelidir.</p>\n\n<p>Sistem: <a href=\"/blog/jet-pompa-isletme-sistemi\">jet işletme sistemi</a>. Hidrofor: <a href=\"/blog/jet-pompa-hidrofor-baglanti-rehberi\">jet hidrofor bağlantı</a>. Tank: <a href=\"/blog/hidrofor-tank-presostat-sistem-tasarimi\">tank-presostat</a>. Ön şarj: <a href=\"/blog/hidrofor-basinc-tanki-onsarj-ayari\">ön şarj ayarı</a>. Hidrofor kısa çevrim: <a href=\"/blog/hidrofor-start-stop-salinimi-kisa-cevrim-teshis\">hidrofor salınımı</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a>, <a href=\"/kategoriler/hidrofor-sistemleri\">hidrofor sistemleri</a>.</p>\n\n<h2>Kısa Çevrim Nedenleri</h2>\n<table>\n<thead><tr><th>Neden</th><th>Belirti</th><th>Çözüm</th></tr></thead>\n<tbody>\n<tr><td>Küçük tank</td><td>Sık start, kısa çalışma</td><td>Tank hacmi artır</td></tr>\n<tr><td>Dar histerezis</td><td>Basınç bandı dar</td><td>Presostat ayarı</td></tr>\n<tr><td>Hat kaçağı</td><td>Gece bile start</td><td>Tesisat kaçak testi</td></tr>\n<tr><td>Emme kaçağı</td><td>Start sonrası hemen stop</td><td>Priming, geri valf</td></tr>\n<tr><td>Sulama vanası</td><td>Zon aç-kapa</td><td>Zamanlayıcı, hat planı</td></tr>\n</tbody>\n</table>\n\n<h2>Jet + Hidrofor Özel Notlar</h2>\n<p>Jet pompa hidrofor ünitesi olarak paket geldiğinde tank ve presostat fabrika ayarındadır; sahada musluk sayısı ve kat yüksekliği değiştiyse ayar yeniden değerlendirilmelidir. <a href=\"/blog/ev-tipi-hidrofor-rehberi-mustakil-ev-villa\">Ev tipi hidrofor</a> beklentileri referans alınabilir.</p>\n<p>Emme tarafında hava çekişi basıncı stabil tutamaz; <a href=\"/blog/jet-pompa-emme-yuksekligi-isletme\">emme yüksekliği</a> ve priming disiplini kontrol edilmelidir.</p>\n\n<h2>Sulama Uygulamaları</h2>\n<p>Bahçe sulamada çok sayıda sprinkler veya damla hattı kısa süreli yük değişimi üretir. Zamanlayıcı ve vana grupları planlı açılmalıdır; ani tam kapanma basınç şokuna yol açabilir. Detay <a href=\"/blog/jet-pompa-sulama-hatti-isletme\">sulama hattı işletmesi</a> yazısındadır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Jet pompa hiç durmuyorsa?</h3>\n<p>Sürekli çalışma hat kaçağı veya presostat arızası olabilir. <a href=\"/blog/hidrofor-surekli-calisyor-sebepler-cozum\">Sürekli çalışma</a> listesine bakın.</p>\n<h3>Tank büyütmek jet için yeterli mi?</h3>\n<p>Çoğu konutta evet; emme ve kaçak sorunu varsa tank tek başına yetmez.</p>\n\n<p>Kısa çevrimde önce tank-presostat, sonra emme ve hat kaçağı kontrol edin. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

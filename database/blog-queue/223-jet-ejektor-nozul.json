@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-ejektor-nozul-isletme",
+            "title": "Jet Pompa Ejektor ve Nozul İşletme: Tıkanıklık, Performans ve Temizlik",
+            "excerpt": "Jet pompa ejektör ve nozul işletme: venturi performansı, tıkanıklık belirtileri, kum-partikül hasarı, temizlik sıklığı ve debi kaybı teşhisi.",
+            "meta_title": "Jet Pompa Ejektor Nozul İşletme Rehberi",
+            "meta_description": "Jet pompa ejektör ve nozul işletme: tıkanıklık, performans düşüşü, temizlik ve debi kaybı teşhisi. Venturi bakım rehberi.",
+            "tags": [
+                "jet ejektör",
+                "jet nozul",
+                "jet pompa tıkanıklık",
+                "venturi pompa",
+                "jet pompa bakım"
+            ],
+            "image_alt": "Jet pompa ejektör nozul tıkanıklık temizlik işletme",
+            "published": true,
+            "published_at": "2026-09-26 09:00:00",
+            "content": "<p><strong>Jet pompa ejektör ve nozul işletme</strong>, venturi etkisinin sürdürülebilirliğini belirler. Nozul ve difüzör arasındaki dar geçit tıkandığında emme derinliği düşer; kum ve pas partikülleri nozul ağzını aşındırır; yanlış montaj debi profilini bozar. Bu yazı ejektör seçimi yapmaz; saha temizlik ve teşhis disiplinini anlatır.</p>\n\n<p>Sistem: <a href=\"/blog/jet-pompa-isletme-sistemi\">jet işletme sistemi</a>. Emme: <a href=\"/blog/jet-pompa-emme-yuksekligi-isletme\">emme yüksekliği</a>. Tek/çift: <a href=\"/blog/tek-cift-ejektorlu-jet-pompa-farki\">tek çift ejektör farkı</a>. Debi: <a href=\"/blog/jet-pompa-debi-dususu-teshis\">debi düşüşü</a>. Arıza: <a href=\"/blog/jet-pompa-ariza-bakim-rehberi\">jet arıza rehberi</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a>.</p>\n\n<h2>Ejektor Tıkanıklığı Belirtileri</h2>\n<table>\n<thead><tr><th>Belirti</th><th>Olası neden</th><th>İlk adım</th></tr></thead>\n<tbody>\n<tr><td>Aniden su çekmeme</td><td>Nozul tıkanıklığı</td><td>Gövde kontrol, temizlik</td></tr>\n<tr><td>Kademeli debi düşüşü</td><td>Kum birikimi, aşınma</td><td>Emme filtresi, ejektör bakım</td></tr>\n<tr><td>Gürültülü emiş</td><td>Hava + zayıf venturi</td><td>Priming, ejektör kontrol</td></tr>\n<tr><td>Çift ejektörde tek taraf zayıf</td><td>Bir kademe tıkalı</td><td>Çift kademe teşhisi</td></tr>\n</tbody>\n</table>\n<p>Çift ejektörlü modellerde <a href=\"/blog/jet-pompa-cift-kademe-start-isletme\">çift kademe start</a> yazısıyla birlikte değerlendirin.</p>\n\n<h2>Temizlik ve Koruma</h2>\n<ul>\n<li>Emme filtresi kullanın; bypass etmeyin.</li>\n<li>Kumlu kuyularda filtre temizlik sıklığını artırın.</li>\n<li>Sezon başında ejektör göz kontrolü yapın.</li>\n<li>Kimyasal agresif suda malzeme uyumluluğunu doğrulayın.</li>\n<li>Aşınmış nozul debi profilini kalıcı düşürür; set değişimi gerekebilir.</li>\n</ul>\n<p>Kirli sularda <a href=\"/blog/kirli-su-tahliye-pompasi-secimi\">kirli su pompası</a> seçimi farklı segmenttedir; jet konut ve temiz-su kuyusunda kalır.</p>\n\n<h2>İşletme Kaydı</h2>\n<p>Ejektor temizlik tarihi, debi referans ölçümü ve anormal ses notu tutun. %15+ debi düşüşünde önce filtre sonra ejektör kontrol edilmelidir; <a href=\"/blog/jet-pompa-bakim-disiplini-periyodik-kontrol\">bakım disiplini</a> şablonuna ekleyin.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Ejektor temizliği kullanıcı yapabilir mi?</h3>\n<p>Bazı modellerde evet; gövde sökümü ve conta seti üretici talimatına göre yapılmalıdır. Garanti koşullarını kontrol edin.</p>\n<h3>Nozul aşınması nasıl anlaşılır?</h3>\n<p>Emme limiti içinde kalmasına rağmen sürekli düşük debi ve temizlik sonrası iyileşmeme.</p>\n<h3>Tek ve çift ejektör bakımı aynı mı?</h3>\n<p>Çift ejektörde iki kademe ayrı kontrol edilir. <a href=\"/blog/tek-cift-ejektorlu-jet-pompa-farki\">Tek çift ejektör farkı</a> yazısına bakın.</p>\n\n<p>Ejektor performansı jet pompanın kalbidir; tıkanıklığı erken giderin. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/marka/sumak\">Sumak</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

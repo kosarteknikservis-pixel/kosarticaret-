@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-debi-dususu-teshis",
+            "title": "Jet Pompa Debi Düşüşü: Emiş mi, Ejektor mü, Hat mı?",
+            "excerpt": "Jet pompa debi düşüşü teşhisi: emme filtresi, hava kaçağı, ejektör tıkanıklığı, geri valf ve sulama hattı kısıtlaması. Saha kontrol sırası.",
+            "meta_title": "Jet Pompa Debi Düşüşü Teşhisi",
+            "meta_description": "Jet pompa debi düşüşü: emme, ejektör, geri valf ve hat kısıtlaması teşhisi. Saha kontrol sırası ve işletme rehberi.",
+            "tags": [
+                "jet pompa debi düşüşü",
+                "jet pompa zayıf debi",
+                "jet ejektör tıkanıklık",
+                "jet emme sorunu",
+                "pompa debi azaldı"
+            ],
+            "image_alt": "Jet pompa debi düşüşü emme ejektör hat teşhisi",
+            "published": true,
+            "published_at": "2026-09-27 09:00:00",
+            "content": "<p><strong>Jet pompa debi düşüşü</strong>, işletmede en sık görülen performans kaybıdır. Emme filtresi tıkanabilir, ejektör nozulu kireç veya kumla daralabilir, geri valf kaçırabilir, emme limiti aşılmış olabilir veya sulama hattında kısmi kapalı vana motoru zorlar. Bu yazı debi hesabı yapmaz; saha teşhis sırasını listeler.</p>\n\n<p>Sistem: <a href=\"/blog/jet-pompa-isletme-sistemi\">jet işletme sistemi</a>. Emme: <a href=\"/blog/jet-pompa-emme-yuksekligi-isletme\">emme yüksekliği</a>. Ejektor: <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">ejektör nozul</a>. Sulama: <a href=\"/blog/jet-pompa-sulama-hatti-isletme\">sulama hattı</a>. Arıza: <a href=\"/blog/jet-pompa-ariza-bakim-rehberi\">jet arıza</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a>.</p>\n\n<h2>Teşhis Karar Ağacı</h2>\n<table>\n<thead><tr><th>Gözlem</th><th>Önce kontrol</th></tr></thead>\n<tbody>\n<tr><td>Ani debi kaybı</td><td>Emme filtresi, vana, elektrik</td></tr>\n<tr><td>Kademeli düşüş (haftalar)</td><td>Ejektor aşınması, kuyu seviyesi</td></tr>\n<tr><td>Debi düşük, gürültülü</td><td>Hava kaçağı, emme limiti</td></tr>\n<tr><td>Debi düşük, motor sıcak</td><td>Hat kısıtlaması, kısmi kapalı vana</td></tr>\n<tr><td>Sabah ilk start zayıf</td><td>Geri valf, priming kaybı</td></tr>\n</tbody>\n</table>\n\n<h2>Emme ve Ejektor Kontrolleri</h2>\n<p>Emme filtresi en sık ve en ucuz düzeltmedir. Hava kaçağı debiyi düzensiz düşürür; kelepçe ve conta kontrol edilmelidir. Ejektor tıkanıklığında temizlik sonrası debi normale dönmeli; dönmüyorsa nozul aşınması düşünülmelidir.</p>\n<p>Kuyu seviyesi mevsimle düşerse aynı pompa yaz ortasında yetmeyebilir; <a href=\"/blog/derin-kuyu-mevsimsel-isletme-yaz-kis\">mevsimsel kuyu işletme</a> mantığı jet emme limitiyle bağlantılıdır.</p>\n\n<h2>Hat ve Hidrofor</h2>\n<p>Hidrofor önünde jet pompa çalışıyorsa tank-presostat ayarı debi profilini etkiler. Kısmi kapalı vana veya tıkalı sulama filtresi basıncı artırır, debiyi düşürür. <a href=\"/blog/jet-pompa-hidrofor-baglanti-rehberi\">Hidrofor bağlantı</a> kurulumda; <a href=\"/blog/jet-pompa-kisa-cevrim-start-stop\">kısa çevrim</a> işletmede değerlendirilir.</p>\n\n<h2>Referans Kaydı</h2>\n<ul>\n<li>Devreye almada referans debi kaydı alın.</li>\n<li>Filtre ve ejektör bakım tarihini not edin.</li>\n<li>%15+ düşüşte teşhise başlayın.</li>\n</ul>\n<p>Plan <a href=\"/blog/jet-pompa-bakim-disiplini-periyodik-kontrol\">bakım disiplini</a> yazısındadır.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Debi düşünce hemen pompa değiştirmeli miyim?</h3>\n<p>Hayır. Önce filtre, emme, ejektör ve hat; pompa değişimi son çare.</p>\n<h3>Sulama sezonunda debi neden düşer?</h3>\n<p>Kuyu seviyesi, filtre kirlenmesi veya çok sayıda açık hat. <a href=\"/blog/jet-pompa-sulama-hatti-isletme\">Sulama hattı</a> yazısına bakın.</p>\n\n<p>Debi düşüşünde teşhis sırasını atlamayın. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "jet-pompa-mevsimsel-isletme-donma-korumasi",
+            "title": "Jet Pompa Mevsimsel İşletme ve Donma Koruması",
+            "excerpt": "Jet pompa mevsimsel işletme: sulama sezonu açma-kapama, kışlama, hat tahliyesi ve bahar devreye alma. Donma riski olan bölgelerde prosedür.",
+            "meta_title": "Jet Pompa Mevsimsel İşletme ve Kışlama",
+            "meta_description": "Jet pompa mevsimsel işletme: sulama sezonu, kışlama, donma koruması ve bahar devreye alma rehberi.",
+            "tags": [
+                "jet pompa kışlama",
+                "sulama pompa donma",
+                "jet pompa sezon",
+                "bahçe pompa kış",
+                "jet hat tahliye"
+            ],
+            "image_alt": "Jet pompa mevsimsel işletme donma kışlama sulama",
+            "published": true,
+            "published_at": "2026-09-29 09:00:00",
+            "content": "<p><strong>Jet pompa mevsimsel işletme</strong>, özellikle bahçe sulama ve açık alan kurulumlarında donma ve sezon geçiş riski taşır. Sulama sezonu sonunda hat tahliyesi yapılmazsa boru ve gövde hasarı oluşur; bahar açılışında ejektör ve geri valf kontrolü atlanırsa priming kaybı tekrarlar. Bu yazı model seçimi yapmaz; sezon prosedürünü anlatır.</p>\n\n<p>Sistem: <a href=\"/blog/jet-pompa-isletme-sistemi\">jet işletme sistemi</a>. Sulama: <a href=\"/blog/jet-pompa-sulama-hatti-isletme\">sulama hattı</a>. Ejektor: <a href=\"/blog/jet-pompa-ejektor-nozul-isletme\">ejektör nozul</a>. Emme: <a href=\"/blog/jet-pompa-emme-yuksekligi-isletme\">emme yüksekliği</a>. Santrifüj mevsim: <a href=\"/blog/santrifuj-pompa-mevsimsel-isletme-donma-korumasi\">santrifüj mevsimsel</a>. Ürünler: <a href=\"/kategoriler/su-pompalari/jet-pompalar\">jet pompalar</a>.</p>\n\n<h2>Sulama Sezonu Kapama (Kışlama)</h2>\n<ol>\n<li>Pompayı durdurun, elektriği kesin.</li>\n<li>Ana vanaları kapatın.</li>\n<li>Gövde ve emme hattını tahliye edin.</li>\n<li>Sulama hatlarını hava ile üfleyin veya eğimli drenaj noktalarından boşaltın.</li>\n<li>Açık alan pompasında kabin veya örtü değerlendirin.</li>\n</ol>\n\n<h2>Bahar Devreye Alma</h2>\n<ul>\n<li>Geri valf ve conta kontrolü.</li>\n<li>Ejektor göz temizliği.</li>\n<li>Emme filtresi temizliği.</li>\n<li>Priming ve hava tahliyesi.</li>\n<li>İlk start’ta debi ve basınç kaydı.</li>\n<li>Sulama zonlarını kademeli açın.</li>\n</ul>\n<p>Start disiplini <a href=\"/blog/jet-pompa-cift-kademe-start-isletme\">çift kademe start</a> yazısıyla uyumludur.</p>\n\n<h2>Donma Riski Alanları</h2>\n<table>\n<thead><tr><th>Alan</th><th>Risk</th><th>Önlem</th></tr></thead>\n<tbody>\n<tr><td>Bahçe pompa kulübesi (ısıtılmaz)</td><td>Yüksek</td><td>Tahliye + ısıtıcı</td></tr>\n<tr><td>Yer altı olmayan boru hatları</td><td>Çok yüksek</td><td>Üfleme, drenaj</td></tr>\n<tr><td>Kapalı makine dairesi</td><td>Düşük-orta</td><td>Standart kışlama</td></tr>\n</tbody>\n</table>\n\n<h2>Sık Sorulan Sorular</h2>\n<h3>Kışın kısa süre çalıştırılabilir mi?</h3>\n<p>Gerekirse evet; iş bitiminde tahliye tekrarlanmalıdır.</p>\n<h3>Sadece pompayı boşaltmak yeterli mi?</h3>\n<p>Hayır. Sulama hatları da boşaltılmalıdır; <a href=\"/blog/jet-pompa-sulama-hatti-isletme\">sulama hattı</a> yazısına bakın.</p>\n\n<p>Sezon geçişlerinde tahliye atlanmamalıdır. <a href=\"/pompa-secici\">Pompa Seçici</a> · <a href=\"/iletisim\">iletişim</a>.</p>"
+        }
+    ]
+}
