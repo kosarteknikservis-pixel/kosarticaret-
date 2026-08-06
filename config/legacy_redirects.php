@@ -55,6 +55,8 @@ return [
         'etna-uc-pompali-paket-hidrofor' => 'etna',
         'sumak-santrifuj-pompa' => 'sumak',
         'sumak-keson-kuyu-dalgic-pompa' => 'sumak',
+        'cosar' => 'kosar',
+        'cosar-ticaret' => 'kosar',
     ],
 
     'blog_posts' => [

@@ -6,9 +6,8 @@
  */
 return [
     'sumak' => [
-        'meta_title' => 'Sumak Hidrofor ve Pompa Fiyatları | Yetkili Satıcı Koşar Ticaret',
-        'meta_description' => 'Sumak hidrofor fiyatları, dalgıç pompa ve santrifüj pompa modelleri. '
-            .'SKS/SKT hidrofor serileri, yerli üretim, geniş servis ağı. Koşar Ticaret yetkili satıcısından hızlı kargo.',
+        'meta_title' => 'Sumak Pompa ve Hidrofor Modelleri | Yetkili Satıcı',
+        'meta_description' => 'Sumak pompa fiyatları ve modelleri: hidrofor SKS/SKT, dalgıç pompa, jet ve santrifüj. Orijinal ürün, geniş stok, hızlı kargo. Koşar Ticaret yetkili satıcı.',
         'description' => <<<'HTML'
 <h2>Sumak Su Pompası ve Hidrofor Modelleri</h2>
 <p><strong>Sumak Pompa</strong>, Türkiye'nin önde gelen yerli pompa üreticilerinden biri olarak konut, tarım ve küçük ölçekli sanayi uygulamaları için geniş bir ürün yelpazesi sunmaktadır. Uygun fiyatı, yaygın yedek parça ağı ve Türkiye genelindeki servis desteğiyle Sumak; özellikle <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">ev tipi hidrofor</a> ve santrifüj pompa segmentinde en çok tercih edilen markalar arasındadır.</p>
@@ -27,9 +26,8 @@ HTML,
     ],
 
     'kaysu' => [
-        'meta_title' => 'Kaysu Hidrofor ve Pompa Modelleri | Koşar Ticaret',
-        'meta_description' => 'Kaysu hidrofor, santrifüj pompa ve dalgıç pompa modelleri. Ev tipi hidrofor fiyatları, '
-            .'yerli üretim, yedek parça desteği. Koşar Ticaret\'ten orijinal ürün ve hızlı teslimat.',
+        'meta_title' => 'Kaysu Hidrofor ve Pompa Fiyatları | Orijinal Ürün',
+        'meta_description' => 'Kaysu hidrofor modelleri ve fiyatları: ev tipi paket sistemler, santrifüj ve dalgıç pompa. Yerli üretim, yedek parça, hızlı teslimat. Koşar Ticaret.',
         'description' => <<<'HTML'
 <h2>Kaysu Pompa Modelleri ve Fiyatları</h2>
 <p><strong>Kaysu Pompa</strong>, Türk mühendislik birikimi ve uygun maliyetli üretimiyle konut ve küçük sanayi uygulamaları için pratik su pompası çözümleri sunan yerli bir pompa markasıdır. Özellikle <a href="/kategoriler/su-pompalari/santrifuj-pompalar">santrifüj pompa</a> ve <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">Kaysu hidrofor</a> ürünleriyle bilinmektedir.</p>
@@ -69,8 +67,7 @@ HTML,
 
     'kosar' => [
         'meta_title' => 'Koşar Ticaret | Hidrofor, Pompa ve Vantilatör',
-        'meta_description' => 'Koşar Ticaret — su pompası, hidrofor, dalgıç pompa ve sanayi vantilatörü uzmanı. '
-            .'Pedrollo, Sumak, Kaysu yetkili satıcısı. Ücretsiz teknik danışmanlık ve hızlı kargo.',
+        'meta_description' => 'Koşar Ticaret resmi sitesi: Pedrollo, Sumak, Kaysu yetkili satıcı. Su pompası, hidrofor, dalgıç pompa ve sanayi vantilatörü. Ücretsiz teknik danışmanlık, hızlı kargo.',
         'description' => <<<'HTML'
 <h2>Koşar Ticaret — Pompa ve Endüstriyel Ekipman Uzmanı</h2>
 <p><strong>Koşar Ticaret</strong>, su pompaları, vantilatörler, <a href="/kategoriler/hidrofor-sistemleri">hidrofor sistemleri</a> ve endüstriyel ekipman alanında <strong>yılların deneyimiyle</strong> faaliyet gösteren uzman bir teknik ticaret firmasıdır. Müşterilerimize yalnızca ürün satmakla kalmıyor; <strong>teknik danışmanlık, doğru ürün seçimi ve satış sonrası destek</strong> hizmetleriyle de yanlarında yer alıyoruz.</p>
