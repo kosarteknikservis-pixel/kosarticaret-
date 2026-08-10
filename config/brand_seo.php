@@ -65,6 +65,48 @@ HTML,
         ],
     ],
 
+    'pedrollo' => [
+        'meta_title' => 'Pedrollo Pompa Modelleri ve Fiyatları | Koşar Ticaret',
+        'meta_description' => 'Pedrollo pompa modelleri: derin kuyu dalgıç, santrifüj, hidrofor ve drenaj çözümleri. Teknik özellikleri karşılaştırın, ihtiyacınıza uygun modeli seçin.',
+        'description' => <<<'HTML'
+<h2>Pedrollo Pompa Modelleri ve Teknik Seçim</h2>
+<p><strong>Pedrollo</strong>; evsel su temini, sulama, bina basınçlandırma ve endüstriyel uygulamalar için farklı pompa serileri sunar. Doğru model seçimi, ürün adından çok <strong>debi</strong>, <strong>basma yüksekliği</strong>, su kaynağı ve elektrik beslemesine göre yapılmalıdır.</p>
+
+<h3>Pedrollo Pompa Hangi Uygulamada Kullanılır?</h3>
+<ul>
+  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa"><strong>Derin kuyu dalgıç pompalar</strong></a> — sondaj, artezyen ve sulama uygulamaları için</li>
+  <li><a href="/kategoriler/su-pompalari/santrifuj-pompalar"><strong>Santrifüj pompalar</strong></a> — bahçe sulama, su transferi ve tesisat beslemesi için</li>
+  <li><a href="/kategoriler/hidrofor-sistemleri"><strong>Hidrofor sistemleri</strong></a> — ev, apartman ve işletmelerde basınçlı su ihtiyacı için</li>
+  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar"><strong>Dalgıç ve drenaj pompaları</strong></a> — kuyu, depo ve tahliye uygulamaları için</li>
+</ul>
+
+<h3>Pedrollo Pompa Seçerken Nelere Bakılmalı?</h3>
+<p>Kuyu veya depodaki su seviyesini, kullanım noktasına olan yükseklik farkını, boru hattı kayıplarını ve ihtiyaç duyulan debiyi birlikte değerlendirin. Derin kuyuda kuyu çapı ile motor gücü; yüzey pompasında ise emme yüksekliği ve sıvı koşulları kritik olur. Teknik terimler için <a href="/blog/su-pompasi-cesitleri-nasil-secilir">su pompası seçim rehberini</a>, yüksek basınç uygulamaları için <a href="/kategoriler/su-pompalari/kademeli-pompalar">kademeli pompaları</a> inceleyebilirsiniz.</p>
+HTML,
+        'faq' => [
+            [
+                'q' => 'Pedrollo pompa hangi kullanım alanları için uygundur?',
+                'a' => 'Pedrollo ürün gamında evsel su temini, bahçe sulama, bina basınçlandırma, derin kuyu, drenaj ve su transferi uygulamalarına yönelik farklı pompa tipleri bulunur. Uygun seri; gerekli debi, basma yüksekliği ve su kaynağına göre belirlenmelidir.',
+            ],
+            [
+                'q' => 'Pedrollo derin kuyu pompası nasıl seçilir?',
+                'a' => 'Kuyu iç çapı, statik ve dinamik su seviyesi, istenen debi, toplam basma yüksekliği ve elektrik beslemesi birlikte değerlendirilmelidir. Kuyu derinliği tek başına yeterli seçim kriteri değildir.',
+            ],
+            [
+                'q' => 'Pedrollo santrifüj pompa emiş yüksekliği ne olmalıdır?',
+                'a' => 'Yüzey tipi santrifüj pompalarda pratik emiş yüksekliği tesisat ve su koşullarına bağlı olarak genellikle 7-8 metreyi aşmamalıdır. Daha derin su seviyelerinde dalgıç pompa daha verimli olabilir.',
+            ],
+            [
+                'q' => 'Pedrollo pompa ile hidrofor arasındaki fark nedir?',
+                'a' => 'Pompa suyu transfer eden ana ekipmandır. Hidrofor ise pompa, basınç tankı ve otomatik kontrol elemanlarının birlikte çalıştığı basınçlandırma sistemidir. Ev ve apartmanlarda sabit su basıncı için hidrofor tercih edilir.',
+            ],
+            [
+                'q' => 'Pedrollo pompa seçimi için hangi bilgiler gerekir?',
+                'a' => 'Kullanım alanı, su kaynağı tipi, gerekli debi, toplam basma yüksekliği, boru çapı, elektrik beslemesi ve akışkanın temiz veya kirli olması paylaşılmalıdır. Bu bilgiler doğru modelin belirlenmesini sağlar.',
+            ],
+        ],
+    ],
+
     'winpo' => [
         'meta_title' => 'Winpo Pompa ve WNP Modelleri | Orijinal Ürün',
         'meta_description' => 'Winpo WNP pompa modelleri: derin kuyu, dalgıç, dik milli ve paket hidrofor seçenekleri. Teknik özellik, stok ve uzman seçim desteği.',
