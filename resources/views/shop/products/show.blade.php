@@ -74,6 +74,17 @@
 
                 <h1 class="shop-pdp-info__title">{{ $product->name }}</h1>
 
+                @if($product->categories->isNotEmpty())
+                    <nav class="mt-3 flex flex-wrap gap-2" aria-label="Ürün kategorileri">
+                        @foreach($product->categories->sortByDesc(fn ($category) => count($category->ancestorsAndSelf())) as $category)
+                            <a href="{{ $category->storefrontUrl() }}"
+                               class="inline-flex rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 transition-colors hover:border-slate-400 hover:text-slate-900">
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
+                    </nav>
+                @endif
+
                 <div class="shop-pdp-badges" aria-label="Ürün avantajları">
                     <span class="shop-pdp-badge">KDV dahil fiyat</span>
                     <span class="shop-pdp-badge">Kurumsal teslimat</span>

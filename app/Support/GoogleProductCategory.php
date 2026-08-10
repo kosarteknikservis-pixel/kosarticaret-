@@ -20,9 +20,7 @@ final class GoogleProductCategory
 
     public static function forProduct(Product $product): int
     {
-        $primary = $product->relationLoaded('categories')
-            ? $product->categories->first()
-            : $product->categories()->orderBy('categories.id')->first();
+        $primary = $product->primaryCategory();
 
         if ($primary instanceof Category) {
             return self::forCategory($primary);

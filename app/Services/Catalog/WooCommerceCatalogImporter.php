@@ -740,6 +740,7 @@ class WooCommerceCatalogImporter
         $brandId = $this->resolveBrandId($row, $name);
         $specs = $this->parseSpecs((string) ($row['Attributes_JSON'] ?? ''));
         $tags = $this->parseTags((string) ($row['Meta: _yoast_wpseo_focuskw'] ?? ''));
+        $imageAlt = $this->resolveProductImageAlt($row, $name, $brandId);
 
         $product = Product::query()->create([
             'slug' => $slug,
@@ -753,7 +754,7 @@ class WooCommerceCatalogImporter
             'stock' => max(0, (int) round($this->toFloat($row['Stock'] ?? '0'))),
             'featured' => $this->toBool($row['Is featured?'] ?? '0'),
             'is_active' => $this->toBool($row['Published'] ?? '1'),
-            'image_alt' => $this->resolveProductImageAlt($row, $name, $brandId),
+            'image_alt' => $imageAlt,
             'meta_title' => $this->trimOrNull($row['Meta: _yoast_wpseo_title'] ?? null),
             'meta_description' => $this->trimOrNull($row['Meta: _yoast_wpseo_metadesc'] ?? null),
             'tags' => $tags,
@@ -781,6 +782,7 @@ class WooCommerceCatalogImporter
                     ProductImage::query()->create([
                         'product_id' => $product->id,
                         'path' => $galleryPath,
+                        'alt' => $imageAlt,
                         'sort_order' => $sort,
                     ]);
                     $this->stats['gallery_images']++;

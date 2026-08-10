@@ -61,7 +61,7 @@ return [
 
     'blog_posts' => [
         '/hidrofor-nedir-ne-ise-yarar' => '/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir',
-        '/dalgic-pompa-nedir' => '/blog/dalgic-pompa-bakimi',
+        '/dalgic-pompa-nedir' => '/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir',
         '/sirkulasyon-pompasi-nedir' => '/kategoriler/su-pompalari/sirkulasyon-pompalari',
         '/su-basinc-sistemi-pompa-mi-hidrofor-mu' => '/kategoriler/hidrofor-sistemleri',
         '/sanayi-tipi-vantilator-rehberi' => '/kategoriler/vantilatorler/sanayi-tipi-vantilator',

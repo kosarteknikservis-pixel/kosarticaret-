@@ -26,16 +26,28 @@ class ProductObserver
 
     public function saved(Product $product): void
     {
+        $requiresSitemapRefresh = $product->wasRecentlyCreated
+            || $product->wasChanged(self::INDEX_FIELDS);
+
+        if ($requiresSitemapRefresh) {
+            $this->indexing->clearSitemapCache();
+        }
+
         if (! $product->is_active) {
             return;
         }
 
-        if (! $product->wasRecentlyCreated && ! $product->wasChanged(self::INDEX_FIELDS)) {
+        if (! $requiresSitemapRefresh) {
             return;
         }
 
         $this->indexing->submit([
             route('products.show', $product, absolute: true),
         ]);
+    }
+
+    public function deleted(Product $product): void
+    {
+        $this->indexing->clearSitemapCache();
     }
 }

@@ -712,6 +712,29 @@ class Seo
             $schema['gtin'.$gtin['length']] = $gtin['value'];
         }
 
+        if (is_array($product->specs) && $product->specs !== []) {
+            $properties = [];
+
+            foreach ($product->specs as $name => $value) {
+                $name = trim((string) $name);
+                $value = trim(is_scalar($value) ? (string) $value : '');
+
+                if ($name === '' || $value === '') {
+                    continue;
+                }
+
+                $properties[] = [
+                    '@type' => 'PropertyValue',
+                    'name' => $name,
+                    'value' => $value,
+                ];
+            }
+
+            if ($properties !== []) {
+                $schema['additionalProperty'] = $properties;
+            }
+        }
+
         if ($product->hasDiscount()) {
             $schema['offers']['priceSpecification'] = [
                 '@type' => 'UnitPriceSpecification',
@@ -1033,7 +1056,7 @@ class Seo
     }
 
     /** @return array{length: int, value: string}|null */
-    private static function normalizeGtin(?string $barcode): ?array
+    public static function normalizeGtin(?string $barcode): ?array
     {
         $digits = preg_replace('/\D+/', '', (string) $barcode) ?? '';
         if ($digits === '') {

@@ -66,7 +66,7 @@ Route::get('/storage/{path}', PublicStorageController::class)
     ->where('path', '.*')
     ->name('storage.public');
 
-Route::get('/favicon.ico', fn () => redirect(\App\Support\SiteFavicon::url(), 302))->name('favicon');
+Route::get('/favicon.ico', fn () => redirect(\App\Support\SiteFavicon::url(), 301))->name('favicon');
 
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/sitemap-images.xml', [SeoController::class, 'imageSitemap'])->name('sitemap.images');

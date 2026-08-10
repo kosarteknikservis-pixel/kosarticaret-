@@ -109,6 +109,7 @@ class SeoController extends Controller
                 'Disallow: /kayit',
                 'Disallow: /siparis-takip',
                 'Disallow: /siparis-onay',
+                'Disallow: /karsilastir',
                 'Disallow: /urun-kategori',
                 'Disallow: /urun-etiket',
                 'Disallow: /tag/',
@@ -160,7 +161,7 @@ class SeoController extends Controller
             ->where('image', '!=', '')
             ->with(['brand:id,name', 'categories:id,name,slug,parent_id', 'images:id,product_id,path'])
             ->select([
-                'id', 'sku', 'slug', 'name', 'short_description',
+                'id', 'sku', 'slug', 'name', 'short_description', 'description', 'barcode',
                 'price', 'compare_at_price', 'stock', 'image', 'brand_id',
             ])
             ->orderBy('id')
@@ -190,10 +191,13 @@ class SeoController extends Controller
 
         $brand = $product->brand?->name ?? $storeName;
         $category = $product->categories->pluck('name')->filter()->implode(' > ');
-        $desc = strip_tags((string) ($product->short_description ?: $product->name));
-        $desc = trim((string) preg_replace('/\s+/', ' ', $desc));
-        $desc = $this->truncateText($desc, 4990);
+        $desc = Seo::description([
+            $product->short_description,
+            $product->description,
+            $product->name,
+        ], 4990);
         $title = $this->truncateText((string) $product->name, 150);
+        $gtin = Seo::normalizeGtin($product->barcode);
         $hasDiscount = $product->hasDiscount();
         $price = $hasDiscount
             ? number_format((float) $product->compare_at_price, 2, '.', '').' TRY'
@@ -221,7 +225,10 @@ class SeoController extends Controller
         }
         echo '<g:brand>'.$this->xmlCdata($brand).'</g:brand>';
         echo '<g:condition>new</g:condition>';
-        echo '<g:identifier_exists>no</g:identifier_exists>';
+        echo '<g:identifier_exists>'.($gtin ? 'yes' : 'no').'</g:identifier_exists>';
+        if ($gtin) {
+            echo '<g:gtin>'.$this->xmlText($gtin['value']).'</g:gtin>';
+        }
         if ($product->sku) {
             echo '<g:mpn>'.$this->xmlText($product->sku).'</g:mpn>';
         }

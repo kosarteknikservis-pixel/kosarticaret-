@@ -65,6 +65,35 @@ HTML,
         ],
     ],
 
+    'winpo' => [
+        'meta_title' => 'Winpo Pompa ve WNP Modelleri | Orijinal Ürün',
+        'meta_description' => 'Winpo WNP pompa modelleri: derin kuyu, dalgıç, dik milli ve paket hidrofor seçenekleri. Teknik özellik, stok ve uzman seçim desteği.',
+        'description' => <<<'HTML'
+<h2>Winpo Pompa ve WNP Model Rehberi</h2>
+<p><strong>Winpo</strong>, farklı uygulamalara yönelik derin kuyu dalgıç, drenaj, dik milli ve paket hidrofor modelleri sunar. WNP adı tek bir ürün tipini değil; kullanım alanına göre değişen pompa serilerini ifade eder. Doğru seçim için ürünün <strong>debi</strong>, <strong>basma yüksekliği</strong>, enerji tipi ve akışkan koşulları birlikte değerlendirilmelidir.</p>
+
+<h3>Winpo WNP Serileri Nerede Kullanılır?</h3>
+<ul>
+  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa"><strong>Derin kuyu dalgıç pompalar</strong></a> — sondaj, artezyen ve sulama uygulamaları</li>
+  <li><a href="/kategoriler/su-pompalari/kademeli-pompalar"><strong>Dik milli / kademeli pompalar</strong></a> — bina, tank ve basınçlı su hatları</li>
+  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa"><strong>Drenaj ve foseptik pompaları</strong></a> — atık su, yağmur suyu ve tahliye</li>
+  <li><a href="/kategoriler/hidrofor-sistemleri/hidroforlar"><strong>Paket hidroforlar</strong></a> — ev ve küçük bina basınçlandırma</li>
+</ul>
+
+<p>Model kodlarını karşılaştırmadan önce kullanım alanınızı ve gerekli basınç/debi değerlerini belirleyin. Derin kuyu uygulamaları için <a href="/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi">kuyu pompa seçim rehberini</a> inceleyebilir, teknik destek için bizimle iletişime geçebilirsiniz.</p>
+HTML,
+        'faq' => [
+            [
+                'q' => 'Winpo WNP nedir?',
+                'a' => 'WNP, Winpo ürünlerinde farklı pompa serilerinde kullanılan model ailesi ifadesidir. Modelin derin kuyu, drenaj, dik milli veya paket hidrofor olduğunu teknik özelliklerinden doğrulamak gerekir.',
+            ],
+            [
+                'q' => 'Winpo WNP pompa seçerken nelere bakılmalı?',
+                'a' => 'Kullanım alanı, istenen debi, basma yüksekliği, elektrik beslemesi ve akışkanın temiz ya da kirli olması birlikte değerlendirilmelidir.',
+            ],
+        ],
+    ],
+
     'kosar' => [
         'meta_title' => 'Koşar Ticaret | Hidrofor, Pompa ve Vantilatör',
         'meta_description' => 'Koşar Ticaret resmi sitesi: Pedrollo, Sumak, Kaysu yetkili satıcı. Su pompası, hidrofor, dalgıç pompa ve sanayi vantilatörü. Ücretsiz teknik danışmanlık, hızlı kargo.',

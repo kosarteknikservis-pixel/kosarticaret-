@@ -77,6 +77,7 @@ class UrlIndexingNotifier
     public function clearSitemapCache(): void
     {
         Cache::forget('seo.sitemap.xml');
+        Cache::forget('seo.sitemap.images.xml');
 
         foreach (['static', 'categories', 'brands', 'blog', 'pages'] as $chunk) {
             Cache::forget('seo.sitemap.chunk.'.$chunk);

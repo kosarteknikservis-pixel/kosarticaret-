@@ -26,6 +26,10 @@ return [
         'frekans kontrollü hidrofor',
         'drenaj pompası',
         'sirkülasyon pompası',
+        'sıcak su sirkülasyon pompası',
+        'yangın pompası',
+        'foseptik pompa',
+        'derin kuyu pompası',
     ],
 
     /**

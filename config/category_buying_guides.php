@@ -63,11 +63,11 @@ HTML,
         ],
 
         'hidrofor-sistemleri' => [
-            'subtitle' => 'Hidrofor nedir, ne işe yarar? Ev, apartman ve sanayi hidrofor grupları — Pedrollo, Sumak, frekans kontrollü sistemler.',
+            'subtitle' => 'Pedrollo, Sumak ve Winpo hidrofor modelleri — ev, apartman ve sanayi için stoktan teslim, teknik seçim desteği.',
             'buying_guide' => <<<'HTML'
-<h3>Hidrofor Nedir? Sistem Nasıl Seçilir?</h3>
-<p><strong>Hidrofor</strong>, pompa, basınç tankı ve otomatik kontrolün birlikte çalıştığı su basınçlandırma sistemidir. Düşük şebeke basıncı, üst katlarda zayıf su ve depo beslemeli apartmanlarda hidrofor sistemi suyu konforlu basınca çıkarır. Detaylı anlatım: <a href="/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir">hidrofor nedir, ne işe yarar?</a> · <a href="/blog/apartman-icin-hidrofor-nasil-secilir">apartman hidrofor seçimi</a></p>
-<p>Doğru <strong>hidrofor seçimi</strong> için <strong>kat/daire sayısı</strong>, <strong>eşzamanlı musluk</strong> ve <strong>su kaynağı debisi</strong> hesaplanmalıdır.</p>
+<h3>Hidrofor Sistemi Seçim Rehberi</h3>
+<p>Ev, apartman ve işletmeler için doğru hidrofor modeli; <strong>kat/daire sayısı</strong>, <strong>eşzamanlı kullanım</strong>, su deposunun konumu ve gerekli debiye göre belirlenir. Teknik çalışma prensibi için <a href="/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir">detaylı teknik rehberi</a>, apartman uygulamaları için <a href="/blog/apartman-icin-hidrofor-nasil-secilir">apartman seçim rehberini</a> inceleyin.</p>
+<p>Model seçerken pompa gücü, tank hacmi, kontrol tipi ve servis erişimini birlikte değerlendirin; ekibimiz kullanım bilgilerinize göre uygun kapasiteyi belirlemenize yardımcı olur.</p>
 <ul>
 <li><strong>1–2 katlı ev:</strong> 24–50 L tanklı ev tipi hidrofor (0,75–1,1 kW)</li>
 <li><strong>3–6 katlı apartman:</strong> Frekans kontrollü veya büyük tanklı grup</li>
@@ -83,6 +83,77 @@ HTML,
 <h3>Ev Tipi Hidrofor Rehberi</h3>
 <p>Ev tipi hidrofor seçerken pompa debisi, tank hacmi ve maksimum basınç değerlerini birlikte değerlendirin. Jet pompalı hidroforlar sığ kuyularda; santrifüj pompalı gruplar yüksek debi gerektiren binalarda tercih edilir.</p>
 <p>Tank hacmi ne kadar büyükse pompa o kadar seyrek devreye girer; motor ömrü uzar. Konutlar için genellikle <strong>24 L veya 50 L</strong> tank yeterlidir. Basınç anahtarı açma/kapama basınçlarının doğru ayarlanması su kesintisi ve aşırı devreye girmeyi önler.</p>
+HTML,
+        ],
+
+        'su-pompalari/sirkulasyon-pompalari' => [
+            'subtitle' => 'Kalorifer, yerden ısıtma ve sıcak su devridaim sistemleri için sirkülasyon pompası modelleri.',
+            'buying_guide' => <<<'HTML'
+<h3>Sirkülasyon Pompası Seçim Rehberi</h3>
+<p>Sirkülasyon pompası seçiminde <strong>tesisat tipi</strong>, gerekli <strong>debi</strong>, basma yüksekliği ve akışkan sıcaklığı birlikte değerlendirilmelidir. Kalorifer, yerden ısıtma ve kullanım sıcak suyu devridaim hatları aynı pompa tipiyle değerlendirilmemelidir.</p>
+<ul>
+<li><strong>Kalorifer / yerden ısıtma:</strong> Isıtma devresinin hat direncine ve kazan kapasitesine uygun sirkülasyon pompası</li>
+<li><strong>Sıcak su devridaim:</strong> Sıcaklığa dayanıklı, düşük debili ve zaman ayarlı model</li>
+<li><strong>Frekans kontrollü:</strong> Değişken debili sistemlerde daha düşük enerji tüketimi</li>
+</ul>
+<p>Muslukta beklemeden sıcak su için <a href="/kategoriler/su-pompalari/sirkulasyon-pompalari/sicak-su-pompalari">sıcak su pompalarını</a> inceleyin. Çalışma prensibi ve doğru kullanım için <a href="/blog/sirkulasyon-pompasi-nedir-nasil-secilir">teknik rehber</a> yardımcı olur.</p>
+HTML,
+        ],
+
+        'su-pompalari/sirkulasyon-pompalari/sicak-su-pompalari' => [
+            'subtitle' => 'Sıcak su devridaim hatları için ısıya dayanıklı sirkülasyon pompaları — hızlı sıcak su ve düşük su israfı.',
+            'buying_guide' => <<<'HTML'
+<h3>Sıcak Su Sirkülasyon Pompası Nasıl Seçilir?</h3>
+<p>Sıcak su sirkülasyon pompası, uzun boru hatlarında musluğu açtığınızda sıcak suya ulaşma süresini azaltan devridaim çözümüdür. Seçimde <strong>hat uzunluğu</strong>, <strong>sıvı sıcaklığı</strong>, bağlantı çapı ve zamanlayıcı ihtiyacı önemlidir.</p>
+<ul>
+<li><strong>Sıcaklık uyumu:</strong> Pompa gövdesi, conta ve çark kullanım sıcaklığına uygun olmalıdır.</li>
+<li><strong>Debi / basma:</strong> Gereğinden büyük pompa gürültü ve gereksiz enerji tüketimi oluşturabilir.</li>
+<li><strong>Timer:</strong> Sabah ve akşam kullanım saatlerinde çalıştırmak enerji kaybını azaltır.</li>
+</ul>
+<p>Sıcak su devridaim pompası basınç artırmaz; düşük basınç sorunu için ayrı bir <a href="/kategoriler/hidrofor-sistemleri/sicak-su-hidroforu">sıcak su hidroforu</a> gerekebilir. Uygulama detayları için <a href="/blog/sicak-su-sirkulasyon-pompasi-secimi">sıcak su sirkülasyon pompası rehberini</a> inceleyin.</p>
+HTML,
+        ],
+
+        'su-pompalari/ozel-amacli-pompalar/yangin-pompalari' => [
+            'subtitle' => 'Elektrikli, dizel ve jockey yangın pompası sistemleri — proje debisi ve basıncına göre teknik seçim desteği.',
+            'buying_guide' => <<<'HTML'
+<h3>Yangın Pompası Seçim Kriterleri</h3>
+<p>Yangın pompası; sprinkler, hidrant ve yangın dolabı hatlarında proje debisini ve basıncını sağlayacak şekilde seçilmelidir. Konut hidroforundan farklı olarak <strong>yangın projesi</strong>, risk sınıfı ve ilgili standartlar esas alınır.</p>
+<ul>
+<li><strong>Debi ve basma yüksekliği:</strong> Hidrolik hesap ve tesisat kayıplarına göre belirlenir.</li>
+<li><strong>Yedeklilik:</strong> Elektrikli ana pompa, dizel yedek pompa ve jockey pompa ihtiyacı projeye göre değerlendirilir.</li>
+<li><strong>Kurulum:</strong> Kontrol panosu, yangın suyu deposu ve test hattı yetkili uygulama firmasıyla planlanmalıdır.</li>
+</ul>
+<p>Yangın pompası türleri ve seçim adımları için <a href="/blog/yangin-pompasi-nedir-nasil-secilir">yangın pompası teknik rehberini</a> inceleyin. Proje değerlerinizle <a href="/iletisim">teknik teklif</a> isteyebilirsiniz.</p>
+HTML,
+        ],
+
+        'su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa' => [
+            'subtitle' => 'Sondaj ve artezyen kuyular için 4 inç ve 6 inç derin kuyu dalgıç pompa modelleri — debi ve basma yüksekliğine göre seçim.',
+            'buying_guide' => <<<'HTML'
+<h3>Derin Kuyu Pompası Seçim Rehberi</h3>
+<p>Derin kuyu dalgıç pompa seçimi yalnızca kuyu derinliğine göre yapılmaz. <strong>Statik su seviyesi</strong>, dinamik seviye, istenen debi, toplam basma yüksekliği ve kuyu çapı birlikte hesaplanmalıdır.</p>
+<ul>
+<li><strong>Kuyu çapı:</strong> 4 inç ve 6 inç kuyu çapına uygun gövde seçilmelidir.</li>
+<li><strong>Debi:</strong> Sulama hattı veya konut tüketiminin saatlik ihtiyacı belirlenmelidir.</li>
+<li><strong>Basma yüksekliği:</strong> Su seviyesi, kot farkı ve boru kayıpları hesaplamaya eklenmelidir.</li>
+<li><strong>Koruma:</strong> Susuz çalışma ve voltaj dalgalanmasına karşı pano/koruma ekipmanı kullanılmalıdır.</li>
+</ul>
+<p>Derinlik ve debi hesabının ayrıntıları için <a href="/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi">derin kuyu seçim rehberini</a> okuyun. Ürün fiyatlarını model özellikleriyle birlikte karşılaştırın.</p>
+HTML,
+        ],
+
+        'su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa' => [
+            'subtitle' => 'Foseptik, atık su ve drenaj uygulamaları için dalgıç pompa modelleri — partikül geçişi ve basma yüksekliğine göre seçim.',
+            'buying_guide' => <<<'HTML'
+<h3>Foseptik Dalgıç Pompa Nasıl Seçilir?</h3>
+<p>Foseptik pompa seçiminde aktarılacak sıvının yapısı, katı partikül çapı, çukur derinliği ve basma hattı uzunluğu belirleyicidir. Lifli ve yoğun atık içeren uygulamalarda <a href="/kategoriler/su-pompalari/dalgic-pompalar/bicakli-dalgic-pompa">bıçaklı dalgıç pompa</a> daha uygun olabilir.</p>
+<ul>
+<li><strong>Partikül geçişi:</strong> Pompa çarkının geçirebildiği maksimum katı parça çapını kontrol edin.</li>
+<li><strong>Basma yüksekliği:</strong> Çukur derinliği, yatay hat ve dirsek kayıplarını birlikte hesaplayın.</li>
+<li><strong>Şamandıra:</strong> Otomatik devreye girme ve kuru çalışma riskini azaltmak için tercih edilir.</li>
+</ul>
+<p>Pompa yerine tanklı tahliye sistemi arıyorsanız <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/foseptik-tahliye-cihazi">foseptik tahliye cihazlarını</a> inceleyin. Uygulama seçimi için <a href="/blog/foseptik-dalgic-pompa-secimi-rehberi">foseptik pompa rehberi</a> yardımcı olur.</p>
 HTML,
         ],
 

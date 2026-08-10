@@ -21,7 +21,7 @@ class NormalizeProductImageAltCommand extends Command
 
         Product::query()
             ->active()
-            ->with('brand:id,name')
+            ->with(['brand:id,name', 'images:id,product_id,alt'])
             ->whereNotNull('image')
             ->where('image', '!=', '')
             ->orderBy('id')
@@ -32,6 +32,22 @@ class NormalizeProductImageAltCommand extends Command
                     }
 
                     if (! ProductImageAlt::needsNormalization($product->image_alt, $product->name)) {
+                        foreach ($product->images as $image) {
+                            if (! ProductImageAlt::needsNormalization($image->alt, $product->name)) {
+                                continue;
+                            }
+
+                            $alt = ProductImageAlt::generate($product->name, $product->brand?->name);
+
+                            if ($this->option('dry-run')) {
+                                $this->line("{$product->sku} galeri | {$image->alt} → {$alt}");
+                            } else {
+                                $image->update(['alt' => $alt]);
+                            }
+
+                            $updated++;
+                        }
+
                         continue;
                     }
 
@@ -44,6 +60,20 @@ class NormalizeProductImageAltCommand extends Command
                     }
 
                     $updated++;
+
+                    foreach ($product->images as $image) {
+                        if (! ProductImageAlt::needsNormalization($image->alt, $product->name)) {
+                            continue;
+                        }
+
+                        if ($this->option('dry-run')) {
+                            $this->line("{$product->sku} galeri | {$image->alt} → {$alt}");
+                        } else {
+                            $image->update(['alt' => $alt]);
+                        }
+
+                        $updated++;
+                    }
                 }
 
                 return true;

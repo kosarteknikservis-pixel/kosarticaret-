@@ -11,6 +11,8 @@ class BlogPostObserver
 
     public function saved(BlogPost $post): void
     {
+        $this->indexing->clearSitemapCache();
+
         if (! $post->published) {
             return;
         }
@@ -22,5 +24,10 @@ class BlogPostObserver
         $this->indexing->submit([
             route('blog.show', $post, absolute: true),
         ]);
+    }
+
+    public function deleted(BlogPost $post): void
+    {
+        $this->indexing->clearSitemapCache();
     }
 }

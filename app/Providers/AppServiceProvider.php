@@ -2,12 +2,17 @@
 
 namespace App\Providers;
 
-use App\Models\Category;
 use App\Models\BlogPost;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\ContactMessage;
+use App\Models\Page;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Observers\BlogPostObserver;
+use App\Observers\ProductImageObserver;
 use App\Observers\ProductObserver;
+use App\Observers\SitemapCacheObserver;
 use App\Support\Seo;
 use App\Models\NavigationItem;
 use App\Models\ProductReview;
@@ -83,6 +88,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         BlogPost::observe(BlogPostObserver::class);
+        Brand::observe(SitemapCacheObserver::class);
+        Category::observe(SitemapCacheObserver::class);
+        Page::observe(SitemapCacheObserver::class);
         Product::observe(ProductObserver::class);
+        ProductImage::observe(ProductImageObserver::class);
     }
 }
