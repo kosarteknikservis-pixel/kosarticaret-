@@ -200,6 +200,18 @@ class BulkProductUpdateService
      */
     private function applyActionsToProduct(Product $product, array $actions): bool
     {
+        try {
+            return $this->applyActionsToProductUnsafe($product, $actions);
+        } catch (InvalidArgumentException) {
+            return false;
+        }
+    }
+
+    /**
+     * @param  array<string, mixed>  $actions
+     */
+    private function applyActionsToProductUnsafe(Product $product, array $actions): bool
+    {
         $dirty = false;
 
         if (($actions['price']['mode'] ?? 'none') !== 'none') {
@@ -303,15 +315,33 @@ class BulkProductUpdateService
         $mode = $config['mode'] ?? 'none';
         $value = (float) ($config['value'] ?? 0);
 
-        return match ($mode) {
-            'set' => max(0, round($value, 2)),
-            'add_percent' => max(0, round($current * (1 + $value / 100), 2)),
-            'subtract_percent' => max(0, round($current * (1 - $value / 100), 2)),
-            'add_fixed' => max(0, round($current + $value, 2)),
-            'subtract_fixed' => max(0, round($current - $value, 2)),
-            'round_99' => max(0, floor($current) + 0.99),
+        if ($mode === 'subtract_percent' && $value >= 100) {
+            throw new InvalidArgumentException('%100 veya daha fazla fiyat çıkarma 0 TL yapar. Daha küçük bir yüzde girin.');
+        }
+
+        if ($mode === 'set' && $value <= 0) {
+            throw new InvalidArgumentException('Satış fiyatı 0 veya negatif olamaz.');
+        }
+
+        $result = match ($mode) {
+            'set' => round($value, 2),
+            'add_percent' => round($current * (1 + $value / 100), 2),
+            'subtract_percent' => round($current * (1 - $value / 100), 2),
+            'add_fixed' => round($current + $value, 2),
+            'subtract_fixed' => round($current - $value, 2),
+            'round_99' => floor($current) + 0.99,
             default => null,
         };
+
+        if ($result === null) {
+            return null;
+        }
+
+        if ($result <= 0) {
+            throw new InvalidArgumentException('Bu işlem satış fiyatını 0 TL veya altına düşürüyor. Değeri küçültün.');
+        }
+
+        return $result;
     }
 
     /**
