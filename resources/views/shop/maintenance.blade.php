@@ -11,9 +11,6 @@
     <meta name="robots" content="noindex, nofollow">
     <title>{{ $title }} | {{ \App\Support\SiteName::get() }}</title>
     @include('partials.favicon-links')
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     @php $shopCssVer = @filemtime(public_path('css/shop.css')) ?: time(); @endphp
     <link rel="stylesheet" href="{{ asset('css/shop.css') }}?v={{ $shopCssVer }}">
 </head>

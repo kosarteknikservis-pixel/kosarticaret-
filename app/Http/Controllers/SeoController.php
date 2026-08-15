@@ -118,6 +118,7 @@ class SeoController extends Controller
                 'Disallow: /shop',
                 'Disallow: /*?add-to-cart*',
                 'Disallow: /*?*filter*',
+                'Disallow: /urun-feed.xml',
                 '',
                 'Sitemap: '.Seo::absolute('/sitemap.xml'),
                 'Sitemap: '.Seo::absolute('/sitemap-images.xml'),
@@ -142,6 +143,7 @@ class SeoController extends Controller
         }, 200, [
             'Content-Type' => 'application/xml; charset=UTF-8',
             'Cache-Control' => 'public, max-age=3600',
+            'X-Robots-Tag' => 'noindex, nofollow',
         ]);
     }
 

@@ -24,17 +24,17 @@
 
 
 @section('content')
-    <h1 class="sr-only">{{ $homeH1 ?? \App\Support\SiteName::get() }}</h1>
     <div class="shop-page shop-page--home">
-    @include('shop.partials.home-layout', ['homeRows' => $homeRows])
+        <h1 class="shop-home-heading">{{ $homeH1 ?? \App\Support\SiteName::get() }}</h1>
+        @include('shop.partials.home-layout', ['homeRows' => $homeRows])
 
-    @include('shop.partials.home-brands', ['brands' => $featuredBrands])
+        @include('shop.partials.home-brands', ['brands' => $featuredBrands])
 
-    @include('shop.partials.home-references', ['references' => $projectReferences])
+        @include('shop.partials.home-references', ['references' => $projectReferences])
 
-    @include('shop.partials.home-prefooter', [
-        'recentBlogPosts' => $recentBlogPosts,
-    ])
+        @include('shop.partials.home-prefooter', [
+            'recentBlogPosts' => $recentBlogPosts,
+        ])
     </div>
 @endsection
 

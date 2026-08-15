@@ -25,8 +25,6 @@
 
     $robots = $robots ?? 'index, follow';
 
-    $metaKeywords = $metaKeywords ?? null;
-
     $schemas = $jsonLd ?? [\App\Support\Seo::organization(), \App\Support\Seo::webSite()];
 
     $fullTitle = \App\Support\Seo::pageTitle($pageTitle);
@@ -38,12 +36,6 @@
 <title>{{ $fullTitle }}</title>
 
 <meta name="description" content="{{ $cleanDesc }}">
-
-@if($metaKeywords)
-
-    <meta name="keywords" content="{{ \Illuminate\Support\Str::limit(strip_tags($metaKeywords), 255) }}">
-
-@endif
 
 <link rel="canonical" href="{{ $canonical }}">
 

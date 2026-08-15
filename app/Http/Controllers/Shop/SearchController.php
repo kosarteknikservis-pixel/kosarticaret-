@@ -47,6 +47,7 @@ class SearchController extends Controller
             ]),
             'canonical' => route('search', $q ? ['q' => $q] : []),
             ...$paginationSeo,
+            ...Seo::noIndexMeta(),
         ]);
     }
 }

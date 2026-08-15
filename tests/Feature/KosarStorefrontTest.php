@@ -32,6 +32,8 @@ class KosarStorefrontTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Kosar', false);
+        $response->assertSee('shop-home-heading', false);
+        $response->assertSee('Su Pompası, Hidrofor, Dalgıç Pompa ve Vantilatör', false);
         $response->assertDontSee('Kampa Panel', false);
         $response->assertDontSee('KAMPA10', false);
     }
@@ -55,7 +57,11 @@ class KosarStorefrontTest extends TestCase
     public function test_seo_endpoints(): void
     {
         $this->get('/sitemap.xml')->assertOk()->assertHeader('content-type', 'application/xml; charset=UTF-8');
-        $this->get('/robots.txt')->assertOk()->assertSee('Sitemap:')->assertSee('Disallow: /ara');
+        $this->get('/robots.txt')->assertOk()
+            ->assertSee('Sitemap:')
+            ->assertSee('Disallow: /ara')
+            ->assertSee('Disallow: /urun-feed.xml');
+        $this->get('/urun-feed.xml')->assertOk()->assertHeader('X-Robots-Tag', 'noindex, nofollow');
         $this->get('/')->assertOk()
             ->assertSee('application/ld+json', false)
             ->assertSee('OnlineStore', false);
@@ -92,6 +98,13 @@ class KosarStorefrontTest extends TestCase
     public function test_search_with_query_is_noindex(): void
     {
         $this->get('/ara?q=pompa')
+            ->assertOk()
+            ->assertSee('noindex', false);
+    }
+
+    public function test_empty_search_page_is_noindex(): void
+    {
+        $this->get('/ara')
             ->assertOk()
             ->assertSee('noindex', false);
     }
