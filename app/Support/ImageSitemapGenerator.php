@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 class ImageSitemapGenerator
 {
     /**
-     * @return list<array{loc: string, images: list<array{loc: string, title?: string, caption?: string}>}>
+     * @return list<array{loc: string, lastmod?: string, images: list<array{loc: string, title?: string, caption?: string}>}>
      */
     public static function allEntries(): array
     {
@@ -23,7 +23,7 @@ class ImageSitemapGenerator
             ->all();
     }
 
-    /** @return Collection<int, array{loc: string, images: list<array{loc: string, title?: string, caption?: string}>}> */
+    /** @return Collection<int, array{loc: string, lastmod?: string, images: list<array{loc: string, title?: string, caption?: string}>}> */
     private static function productEntries(): Collection
     {
         $entries = collect();
@@ -43,6 +43,7 @@ class ImageSitemapGenerator
 
                 $entries->push([
                     'loc' => route('products.show', $product),
+                    'lastmod' => $product->updated_at?->toAtomString(),
                     'images' => $images,
                 ]);
             });
@@ -70,7 +71,7 @@ class ImageSitemapGenerator
         return self::uniqueImageNodes($nodes);
     }
 
-    /** @return Collection<int, array{loc: string, images: list<array{loc: string, title?: string, caption?: string}>}> */
+    /** @return Collection<int, array{loc: string, lastmod?: string, images: list<array{loc: string, title?: string, caption?: string}>}> */
     private static function categoryEntries(): Collection
     {
         $entries = collect();
@@ -79,11 +80,12 @@ class ImageSitemapGenerator
             ->where('active', true)
             ->whereNotNull('image')
             ->where('image', '!=', '')
-            ->select(['id', 'slug', 'name', 'image', 'parent_id'])
+            ->select(['id', 'slug', 'name', 'image', 'parent_id', 'updated_at'])
             ->each(function (Category $category) use ($entries): void {
                 if ($loc = self::imageLoc($category->image, 'category-card')) {
                     $entries->push([
                         'loc' => $category->storefrontUrl(),
+                        'lastmod' => $category->updated_at?->toAtomString(),
                         'images' => [self::imageNode($loc, $category->name)],
                     ]);
                 }
@@ -92,7 +94,7 @@ class ImageSitemapGenerator
         return $entries;
     }
 
-    /** @return Collection<int, array{loc: string, images: list<array{loc: string, title?: string, caption?: string}>}> */
+    /** @return Collection<int, array{loc: string, lastmod?: string, images: list<array{loc: string, title?: string, caption?: string}>}> */
     private static function blogEntries(): Collection
     {
         $entries = collect();
@@ -100,12 +102,13 @@ class ImageSitemapGenerator
         BlogPost::published()
             ->whereNotNull('image')
             ->where('image', '!=', '')
-            ->select(['id', 'slug', 'title', 'image', 'image_alt'])
+            ->select(['id', 'slug', 'title', 'image', 'image_alt', 'updated_at'])
             ->each(function (BlogPost $post) use ($entries): void {
                 if ($loc = self::imageLoc($post->image, 'blog-card')) {
                     $alt = filled($post->image_alt) ? (string) $post->image_alt : (string) $post->title;
                     $entries->push([
                         'loc' => route('blog.show', $post),
+                        'lastmod' => $post->updated_at?->toAtomString(),
                         'images' => [self::imageNode($loc, $alt)],
                     ]);
                 }
@@ -114,7 +117,7 @@ class ImageSitemapGenerator
         return $entries;
     }
 
-    /** @return Collection<int, array{loc: string, images: list<array{loc: string, title?: string, caption?: string}>}> */
+    /** @return Collection<int, array{loc: string, lastmod?: string, images: list<array{loc: string, title?: string, caption?: string}>}> */
     private static function brandEntries(): Collection
     {
         $entries = collect();
@@ -123,11 +126,12 @@ class ImageSitemapGenerator
             ->where('active', true)
             ->whereNotNull('logo')
             ->where('logo', '!=', '')
-            ->select(['id', 'slug', 'name', 'logo'])
+            ->select(['id', 'slug', 'name', 'logo', 'updated_at'])
             ->each(function (Brand $brand) use ($entries): void {
                 if ($loc = self::imageLoc($brand->logo, 'brand-logo')) {
                     $entries->push([
                         'loc' => route('brands.show', $brand),
+                        'lastmod' => $brand->updated_at?->toAtomString(),
                         'images' => [self::imageNode($loc, $brand->name.' logo')],
                     ]);
                 }

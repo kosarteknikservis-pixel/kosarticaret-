@@ -9,6 +9,7 @@ use App\Services\CatalogQuery;
 use App\Support\CatalogPaginationSeo;
 use App\Support\CategoryBreadcrumbs;
 use App\Support\CategoryLandingPresenter;
+use App\Support\InternalLinking;
 use App\Support\Seo;
 use App\Support\SiteName;
 use Illuminate\Http\RedirectResponse;
@@ -41,6 +42,10 @@ class CategoryController extends Controller
             return redirect()->to($category->storefrontUrl(), 301);
         }
 
+        if ($redirect = CatalogPaginationSeo::redirectLegacyPageParam($request)) {
+            return $redirect;
+        }
+
         $query = CatalogQuery::products()
             ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
             ->with('brand');
@@ -48,12 +53,27 @@ class CategoryController extends Controller
 
         $breadcrumbs = CategoryBreadcrumbs::for($category);
 
-        $category->load(['activeChildren' => fn ($q) => $q->orderBy('sort_order')]);
+        $category->load([
+            'parent',
+            'activeChildren' => fn ($q) => $q->orderBy('sort_order'),
+        ]);
         $landing = CategoryLandingPresenter::for($category);
+
+        $siblingCategories = collect();
+        if ($category->activeChildren->isEmpty() && $category->parent_id) {
+            $siblingCategories = $category->activeSiblings()->limit(12)->get();
+        }
+
+        $hubCategories = InternalLinking::crossSellCategories($category)
+            ->reject(fn (Category $related) => $siblingCategories->contains('id', $related->id))
+            ->values();
 
         $products = $query->paginate(12)->withQueryString();
         $pageUrl = $category->storefrontUrl();
         $paginationSeo = CatalogPaginationSeo::meta($request, $products);
+        if ($category->activeChildren->isEmpty() && $products->total() === 0) {
+            $paginationSeo['robots'] = Seo::ROBOTS_NOINDEX;
+        }
 
         return view('shop.categories.show', [
             'category' => $category,
@@ -64,6 +84,8 @@ class CategoryController extends Controller
             'buyingGuide' => $landing['buying_guide'],
             'trustPoints' => $landing['trust'],
             'subcategories' => $category->activeChildren,
+            'siblingCategories' => $siblingCategories,
+            'hubCategories' => $hubCategories,
             'metaTitle' => $category->meta_title ?: $category->name,
             'metaDescription' => Seo::description([
                 $category->meta_description,

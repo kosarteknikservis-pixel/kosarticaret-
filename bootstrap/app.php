@@ -25,6 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
             ->everyFifteenMinutes()
             ->withoutOverlapping();
 
+        $schedule->command('seo:notify-fresh --hours=24')
+            ->dailyAt('04:10')
+            ->withoutOverlapping();
+
         $schedule->command('queue:work --stop-when-empty --max-time=55')
             ->everyMinute()
             ->withoutOverlapping();

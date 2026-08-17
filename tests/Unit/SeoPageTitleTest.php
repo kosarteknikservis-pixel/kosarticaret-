@@ -50,11 +50,11 @@ class SeoPageTitleTest extends TestCase
     }
 
     #[Test]
-    public function it_supports_dash_separators_from_old_seo_titles(): void
+    public function it_strips_leading_full_site_name_before_appending(): void
     {
         $this->assertSame(
-            'İletişim | Koşar',
-            Seo::pageTitle('İletişim — Koşar Ticaret')
+            'Su Pompası, Hidrofor | Koşar',
+            Seo::pageTitle('Koşar Ticaret | Su Pompası, Hidrofor')
         );
     }
 }

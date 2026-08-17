@@ -12,12 +12,15 @@
     <div class="grid lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] shop-pdp shop-reveal-group">
         @php
             $thumbs = collect();
+            $pdpDims = \App\Support\ImageVariant::variantDimensions('product-pdp') ?? ['w' => 1200, 'h' => 1200];
             if ($product->imageUrl()) {
                 $thumbs->push([
                     'url' => $product->imageUrl('product-pdp'),
                     'thumb' => $product->imageUrl('product-thumb'),
                     'srcset' => $product->imageSrcset(),
                     'alt' => $product->imageAltText(),
+                    'width' => $pdpDims['w'],
+                    'height' => $pdpDims['h'],
                 ]);
             }
             foreach ($product->images as $img) {
@@ -28,6 +31,8 @@
                         'thumb' => $img->url('product-thumb'),
                         'srcset' => $img->srcset(),
                         'alt' => $img->alt ?? $product->name,
+                        'width' => $pdpDims['w'],
+                        'height' => $pdpDims['h'],
                     ]);
                 }
             }
@@ -41,7 +46,7 @@
                     aria-label="{{ __('shop.enlarge_image') }}">
                 @if($thumbs->isNotEmpty())
                     <span class="shop-pdp-gallery__figure">
-                        <img src="{{ $thumbs->first()['url'] }}" @if($thumbs->first()['srcset']) srcset="{{ $thumbs->first()['srcset'] }}" sizes="(max-width: 767px) 100vw, 42rem" @endif alt="{{ $thumbs->first()['alt'] }}" class="shop-pdp-gallery__img" id="pdp-main-img" decoding="async" fetchpriority="high">
+                        <img src="{{ $thumbs->first()['url'] }}" @if($thumbs->first()['srcset']) srcset="{{ $thumbs->first()['srcset'] }}" sizes="(max-width: 767px) 100vw, 42rem" @endif alt="{{ $thumbs->first()['alt'] }}" width="{{ $thumbs->first()['width'] ?? 1200 }}" height="{{ $thumbs->first()['height'] ?? 1200 }}" class="shop-pdp-gallery__img" id="pdp-main-img" decoding="async" fetchpriority="high">
                     </span>
                 @else
                     <x-shop.icon name="grid" class="w-24 h-24 text-slate-300" />
@@ -101,6 +106,30 @@
 
                 @if($product->short_description)
                     <p class="mt-4 text-slate-600 leading-relaxed max-w-xl">{{ $product->short_description }}</p>
+                @endif
+
+                @php
+                    $visibleSpecs = collect($product->specs ?? [])
+                        ->map(function ($value, $key) {
+                            $label = is_string($key) ? $key : ($value['label'] ?? '');
+                            $text = is_string($key) ? $value : ($value['value'] ?? '');
+                            $label = trim((string) $label);
+                            $text = trim(is_scalar($text) ? (string) $text : '');
+
+                            return $label !== '' && $text !== '' ? [$label, $text] : null;
+                        })
+                        ->filter()
+                        ->take(6);
+                @endphp
+                @if($visibleSpecs->isNotEmpty())
+                    <dl class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm max-w-xl">
+                        @foreach($visibleSpecs as [$specLabel, $specValue])
+                            <div>
+                                <dt class="text-slate-500">{{ $specLabel }}</dt>
+                                <dd class="font-medium text-slate-800">{{ $specValue }}</dd>
+                            </div>
+                        @endforeach
+                    </dl>
                 @endif
 
                 <div class="shop-pdp-price-box">
@@ -202,6 +231,8 @@
             @include('shop.partials.pdp-reviews', ['product' => $product])
         </div>
     </section>
+
+    @include('shop.partials.pdp-internal-links', ['product' => $product, 'hub' => $hub ?? ['guide' => null, 'siblings' => collect(), 'cross' => collect()]])
 
     @if($related->isNotEmpty())
         <section class="shop-related-section mt-16 pt-12 border-t border-slate-200 shop-reveal" aria-labelledby="related-heading">

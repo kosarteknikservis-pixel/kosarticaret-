@@ -87,6 +87,7 @@
                         <li><a href="{{ route('brands.index') }}" class="kfooter__link">{{ __('shop.brands') }}</a></li>
                         <li><a href="{{ route('favorites.index') }}" class="kfooter__link">{{ __('shop.favorites') }}</a></li>
                         <li><a href="{{ route('blog.index') }}" class="kfooter__link">{{ __('shop.blog') }}</a></li>
+                        <li><a href="{{ route('sitemap.html') }}" class="kfooter__link">{{ __('shop.html_sitemap_title') }}</a></li>
                         @if(\App\Support\PumpSelectorUiConfig::isEnabled())
                             <li><a href="{{ route('pump-selector.show') }}" class="kfooter__link">{{ __('shop.pump_selector_nav') }}</a></li>
                         @endif

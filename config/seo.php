@@ -6,7 +6,7 @@
  */
 return [
     'homepage' => [
-        'title' => 'Koşar Ticaret | Su Pompası, Hidrofor, Dalgıç Pompa ve Vantilatör',
+        'title' => 'Su Pompası, Hidrofor, Dalgıç Pompa ve Vantilatör',
         'h1' => 'Su Pompası, Hidrofor, Dalgıç Pompa ve Vantilatör',
         'description' => 'Koşar Ticaret: Su pompası, hidrofor, dalgıç pompa, santrifüj pompa ve sanayi vantilatörü. Pedrollo, Sumak, Winpo, Etna yetkili satıcısı. Ücretsiz teknik danışmanlık, hızlı kargo.',
     ],

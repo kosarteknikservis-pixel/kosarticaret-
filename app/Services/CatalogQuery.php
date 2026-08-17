@@ -46,7 +46,10 @@ class CatalogQuery
             'fiyat-artan' => $query->orderBy('price'),
             'fiyat-azalan' => $query->orderByDesc('price'),
             'isim' => $query->orderBy('name'),
-            default => $query->latest(),
+            default => $query
+                ->orderByDesc('featured')
+                ->orderByRaw('CASE WHEN stock > 0 THEN 1 ELSE 0 END DESC')
+                ->latest(),
         };
     }
 }

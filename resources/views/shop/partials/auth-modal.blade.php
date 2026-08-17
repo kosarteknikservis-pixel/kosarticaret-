@@ -31,7 +31,7 @@
 
             <div class="shop-auth-modal__panel" data-auth-panel="login">
                 <div class="text-center mb-6">
-                    <h2 id="shop-auth-modal-title" class="shop-auth-modal__title">{{ __('shop.login') }}</h2>
+                    <p id="shop-auth-modal-title" class="shop-auth-modal__title">{{ __('shop.login') }}</p>
                     <p class="shop-auth-modal__subtitle">{{ __('shop.login_sub') }}</p>
                 </div>
                 @include('shop.auth.partials.login-form', ['prefix' => 'modal-login', 'modalSwitch' => true])
@@ -39,7 +39,7 @@
 
             <div class="shop-auth-modal__panel hidden" data-auth-panel="register">
                 <div class="text-center mb-6">
-                    <h2 class="shop-auth-modal__title">{{ __('shop.register') }}</h2>
+                    <p class="shop-auth-modal__title">{{ __('shop.register') }}</p>
                     <p class="shop-auth-modal__subtitle">{{ __('shop.register_sub') }}</p>
                 </div>
                 @include('shop.auth.partials.register-form', ['prefix' => 'modal-register', 'modalSwitch' => true])

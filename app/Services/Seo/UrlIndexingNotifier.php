@@ -3,6 +3,7 @@
 namespace App\Services\Seo;
 
 use App\Jobs\SubmitUrlsForIndexingJob;
+use App\Support\LlmsTxt;
 use App\Support\SitemapGenerator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -78,6 +79,10 @@ class UrlIndexingNotifier
     {
         Cache::forget('seo.sitemap.xml');
         Cache::forget('seo.sitemap.images.xml');
+        Cache::forget('seo.sitemap.xsl');
+        Cache::forget('seo.feed.xml');
+        Cache::forget(LlmsTxt::cacheKey());
+        Cache::forget('seo.robots.txt');
 
         foreach (['static', 'categories', 'brands', 'blog', 'pages'] as $chunk) {
             Cache::forget('seo.sitemap.chunk.'.$chunk);

@@ -9,6 +9,11 @@
     'brands' => collect(),
     'trustPoints' => [],
     'subcategories' => collect(),
+    'subnavLabel' => null,
+    'relatedCategories' => collect(),
+    'relatedCategoriesLabel' => null,
+    'hubCategories' => collect(),
+    'hubCategoriesLabel' => null,
 ])
 
 <div class="shop-page shop-page--catalog">
@@ -20,7 +25,9 @@
 
 <x-shop.category-trust-strip :items="$trustPoints" />
 
-<x-shop.category-subnav :categories="$subcategories" />
+<x-shop.category-subnav :categories="$subcategories" :label="$subnavLabel" />
+<x-shop.category-subnav :categories="$relatedCategories" :label="$relatedCategoriesLabel" heading />
+<x-shop.category-subnav :categories="$hubCategories" :label="$hubCategoriesLabel" heading />
 
 <div class="shop-catalog-grid">
     <div id="filter-drawer-overlay" class="fixed inset-0 z-50 hidden lg:hidden bg-slate-900/40 backdrop-blur-sm" aria-hidden="true">

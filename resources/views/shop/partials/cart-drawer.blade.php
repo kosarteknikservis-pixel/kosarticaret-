@@ -2,10 +2,10 @@
     <div class="shop-cart-drawer__overlay absolute inset-0" data-cart-drawer-close></div>
     <aside class="shop-cart-drawer__panel absolute right-0 top-0 h-full w-full max-w-md bg-white flex flex-col">
         <div class="shop-cart-drawer__head flex items-center justify-between">
-            <h2 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+            <p class="font-bold text-lg text-slate-900 flex items-center gap-2">
                 <x-shop.icon name="cart" class="w-6 h-6 text-brand-600" />
                 {{ __('shop.cart_drawer_title') }}
-            </h2>
+            </p>
             <button type="button" data-cart-drawer-close class="p-2 rounded-lg text-slate-500 hover:bg-slate-100" aria-label="{{ __('shop.menu_close') }}">
                 <x-shop.icon name="x" class="w-6 h-6" />
             </button>

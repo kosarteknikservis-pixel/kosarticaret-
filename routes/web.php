@@ -69,9 +69,13 @@ Route::get('/storage/{path}', PublicStorageController::class)
 Route::get('/favicon.ico', fn () => redirect(\App\Support\SiteFavicon::url(), 301))->name('favicon');
 
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/sitemap.xsl', [SeoController::class, 'stylesheet'])->name('sitemap.xsl');
 Route::get('/sitemap-images.xml', [SeoController::class, 'imageSitemap'])->name('sitemap.images');
 Route::get('/sitemap-{chunk}.xml', [SeoController::class, 'sitemapChunk'])->name('sitemap.chunk');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/llms.txt', [SeoController::class, 'llmsTxt'])->name('llms');
+Route::get('/feed.xml', [SeoController::class, 'rss'])->name('feed');
+Route::get('/site-haritasi', [SeoController::class, 'htmlSitemap'])->name('sitemap.html');
 Route::get('/urun-feed.xml', [SeoController::class, 'merchantFeed'])->name('merchant.feed');
 Route::get('/{file}', [SeoController::class, 'verificationFile'])
     ->where('file', 'google[a-zA-Z0-9_-]+\.html|[a-f0-9]{32}\.txt')
@@ -159,6 +163,7 @@ Route::post('/odeme/iyzico/callback', IyzicoCallbackController::class)->name('pa
 Route::post('/odeme/paytr/callback', PaytrCallbackController::class)->name('payment.paytr.callback');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/etiket/{tag}', [BlogController::class, 'tag'])->name('blog.tag')->where('tag', '[a-z0-9\-]+');
 Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/sayfa/{page:slug}', [PageController::class, 'show'])->name('pages.show');
 

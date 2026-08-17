@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Services\CatalogQuery;
 use App\Support\CatalogPaginationSeo;
 use App\Support\Seo;
 use App\Support\SiteName;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -28,8 +30,12 @@ class BrandController extends Controller
         ]);
     }
 
-    public function show(Request $request, Brand $brand): View
+    public function show(Request $request, Brand $brand): View|RedirectResponse
     {
+        if ($redirect = CatalogPaginationSeo::redirectLegacyPageParam($request)) {
+            return $redirect;
+        }
+
         $query = CatalogQuery::products()->where('brand_id', $brand->id)->with('brand', 'categories');
         CatalogQuery::apply($request, $query);
 
@@ -43,9 +49,25 @@ class BrandController extends Controller
         $pageUrl = route('brands.show', $brand);
         $paginationSeo = CatalogPaginationSeo::meta($request, $products);
 
+        $brandCategories = Category::query()
+            ->where('active', true)
+            ->whereHas('products', function ($q) use ($brand) {
+                $q->where('products.brand_id', $brand->id)
+                    ->where('products.is_active', true);
+            })
+            ->withCount(['products as brand_match_count' => function ($q) use ($brand) {
+                $q->where('products.brand_id', $brand->id)
+                    ->where('products.is_active', true);
+            }])
+            ->orderByDesc('brand_match_count')
+            ->orderBy('sort_order')
+            ->limit(12)
+            ->get();
+
         return view('shop.brands.show', [
             'brand' => $brand,
             'products' => $products,
+            'brandCategories' => $brandCategories,
             'brands' => Brand::query()->where('active', true)->orderBy('name')->get(),
             'breadcrumbs' => $breadcrumbs,
             'metaTitle' => $brand->meta_title ?: $brand->name.' '.config('seo.brand_page_title_suffix', 'Ürünleri ve Fiyatları'),

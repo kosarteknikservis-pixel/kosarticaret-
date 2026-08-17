@@ -234,6 +234,15 @@ class Seo
 
                 }
 
+                if (str_contains($candidate, ' ')) {
+                    $prefixPattern = '/^'.preg_quote($candidate, '/').'\s*[\|\-–—]\s*/iu';
+                    $prefixStripped = preg_replace($prefixPattern, '', $title);
+                    if (is_string($prefixStripped) && $prefixStripped !== $title) {
+                        $title = trim($prefixStripped);
+                        $changed = true;
+                    }
+                }
+
             }
 
         }
@@ -390,7 +399,7 @@ class Seo
 
 
 
-        return array_filter([
+        $organization = array_filter([
 
             '@context' => 'https://schema.org',
 
@@ -426,6 +435,15 @@ class Seo
 
         ]);
 
+        $sameAs = collect(SocialMediaLinks::configured())->pluck('url')->filter()->values()->all();
+        if ($sameAs !== []) {
+            $organization['sameAs'] = $sameAs;
+        }
+
+        $organization['hasMerchantReturnPolicy'] = self::merchantReturnPolicy();
+
+        return $organization;
+
     }
 
 
@@ -451,22 +469,6 @@ class Seo
             'publisher' => ['@id' => self::siteUrl().'/#organization'],
 
             'inLanguage' => 'tr-TR',
-
-            'potentialAction' => [
-
-                '@type' => 'SearchAction',
-
-                'target' => [
-
-                    '@type' => 'EntryPoint',
-
-                    'urlTemplate' => self::absolute('/ara?q={search_term_string}'),
-
-                ],
-
-                'query-input' => 'required name=search_term_string',
-
-            ],
 
         ];
 
@@ -647,6 +649,9 @@ class Seo
             ],
 
         ];
+
+        $schema['offers']['shippingDetails'] = self::offerShippingDetails();
+        $schema['offers']['hasMerchantReturnPolicy'] = self::merchantReturnPolicy();
 
 
 
@@ -1074,6 +1079,60 @@ class Seo
         return [
             'length' => strlen($digits),
             'value' => $digits,
+        ];
+    }
+
+    public static function merchantReturnDays(): int
+    {
+        return 14;
+    }
+
+    /** @return array<string, mixed> */
+    public static function merchantReturnPolicy(): array
+    {
+        return [
+            '@type' => 'MerchantReturnPolicy',
+            '@id' => self::siteUrl().'/#return-policy',
+            'applicableCountry' => 'TR',
+            'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
+            'merchantReturnDays' => self::merchantReturnDays(),
+            'returnMethod' => 'https://schema.org/ReturnByMail',
+            'returnFees' => 'https://schema.org/ReturnFeesCustomerResponsibility',
+            'url' => route('pages.show', 'kargo-ve-iade'),
+        ];
+    }
+
+    /** @return array<string, mixed> */
+    public static function offerShippingDetails(): array
+    {
+        $rate = (float) (config('shipping.shipping_rates.standart') ?? 0);
+
+        return [
+            '@type' => 'OfferShippingDetails',
+            'shippingRate' => [
+                '@type' => 'MonetaryAmount',
+                'value' => number_format($rate, 2, '.', ''),
+                'currency' => 'TRY',
+            ],
+            'shippingDestination' => [
+                '@type' => 'DefinedRegion',
+                'addressCountry' => 'TR',
+            ],
+            'deliveryTime' => [
+                '@type' => 'ShippingDeliveryTime',
+                'handlingTime' => [
+                    '@type' => 'QuantitativeValue',
+                    'minValue' => 1,
+                    'maxValue' => 2,
+                    'unitCode' => 'DAY',
+                ],
+                'transitTime' => [
+                    '@type' => 'QuantitativeValue',
+                    'minValue' => 1,
+                    'maxValue' => 3,
+                    'unitCode' => 'DAY',
+                ],
+            ],
         ];
     }
 

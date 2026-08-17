@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Page;
 use App\Models\Product;
 use App\Models\SiteSetting;
 use App\Support\GoogleProductCategory;
 use App\Support\ImageSitemapGenerator;
+use App\Support\LlmsTxt;
 use App\Support\Seo;
 use App\Support\SitemapGenerator;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
 
@@ -20,13 +26,9 @@ class SeoController extends Controller
         $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
 
         $xml = Cache::remember('seo.sitemap.xml', $cacheSeconds, function (): string {
-            if (SitemapGenerator::usesIndex()) {
-                return view('seo.sitemap-index', [
-                    'entries' => SitemapGenerator::indexEntries(),
-                ])->render();
-            }
-
-            return view('seo.sitemap', ['urls' => SitemapGenerator::allUrls()])->render();
+            return view('seo.sitemap-index', [
+                'entries' => SitemapGenerator::indexEntries(),
+            ])->render();
         });
 
         return response($xml, 200, $this->xmlHeaders($cacheSeconds));
@@ -47,10 +49,6 @@ class SeoController extends Controller
 
     public function sitemapChunk(string $chunk): Response
     {
-        if (! SitemapGenerator::usesIndex()) {
-            abort(404);
-        }
-
         $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
         $cacheKey = 'seo.sitemap.chunk.'.$chunk;
 
@@ -70,17 +68,6 @@ class SeoController extends Controller
         return response($xml, 200, $this->xmlHeaders($cacheSeconds));
     }
 
-    /**
-     * @param  list<array{loc: string, lastmod?: string, priority?: string}>  $urls
-     */
-    private function urlsetResponse(array $urls): Response
-    {
-        $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
-        $xml = view('seo.sitemap', ['urls' => $urls])->render();
-
-        return response($xml, 200, $this->xmlHeaders($cacheSeconds));
-    }
-
     /** @return array<string, string> */
     private function xmlHeaders(int $cacheSeconds): array
     {
@@ -96,6 +83,21 @@ class SeoController extends Controller
 
         $body = Cache::remember('seo.robots.txt', $cacheSeconds, function (): string {
             $lines = [
+                'User-agent: GPTBot',
+                'Allow: /',
+                '',
+                'User-agent: ChatGPT-User',
+                'Allow: /',
+                '',
+                'User-agent: OAI-SearchBot',
+                'Allow: /',
+                '',
+                'User-agent: ClaudeBot',
+                'Allow: /',
+                '',
+                'User-agent: PerplexityBot',
+                'Allow: /',
+                '',
                 'User-agent: *',
                 'Allow: /',
                 'Disallow: /yonetim',
@@ -120,8 +122,9 @@ class SeoController extends Controller
                 'Disallow: /*?*filter*',
                 'Disallow: /urun-feed.xml',
                 '',
+                '# llms.txt: '.Seo::absolute('/llms.txt'),
+                '',
                 'Sitemap: '.Seo::absolute('/sitemap.xml'),
-                'Sitemap: '.Seo::absolute('/sitemap-images.xml'),
             ];
 
             return implode("\n", $lines);
@@ -129,6 +132,97 @@ class SeoController extends Controller
 
         return response($body, 200, [
             'Content-Type' => 'text/plain; charset=UTF-8',
+            'Cache-Control' => 'public, max-age='.$cacheSeconds,
+        ]);
+    }
+
+    public function stylesheet(): Response
+    {
+        $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
+        $xsl = Cache::remember('seo.sitemap.xsl', $cacheSeconds, fn (): string => view('seo.sitemap-xsl')->render());
+
+        return response($xsl, 200, [
+            'Content-Type' => 'text/xsl; charset=UTF-8',
+            'Cache-Control' => 'public, max-age='.$cacheSeconds,
+        ]);
+    }
+
+    public function llmsTxt(): Response
+    {
+        $cacheSeconds = (int) config('seo.robots_cache_seconds', 86400);
+
+        return response(LlmsTxt::render(), 200, [
+            'Content-Type' => 'text/plain; charset=UTF-8',
+            'Cache-Control' => 'public, max-age='.$cacheSeconds,
+        ]);
+    }
+
+    public function htmlSitemap(): View
+    {
+        $categoryTree = Category::query()
+            ->where('active', true)
+            ->whereNull('parent_id')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->with(['activeChildren' => fn ($query) => $query->orderBy('sort_order')->orderBy('name')])
+            ->get();
+
+        return view('shop.seo.html-sitemap', [
+            'categoryTree' => $categoryTree,
+            'brands' => Brand::query()->where('active', true)->orderBy('sort_order')->orderBy('name')->get(['slug', 'name']),
+            'pages' => Page::query()->where('published', true)->orderBy('sort_order')->get(['slug', 'title']),
+            'blogPosts' => BlogPost::published()->limit(40)->get(['slug', 'title']),
+            'recentProducts' => Product::query()->active()->latest('updated_at')->limit(80)->get(['slug', 'name']),
+            'metaTitle' => __('shop.html_sitemap_title'),
+            'metaDescription' => Seo::description([__('shop.html_sitemap_lead')]),
+            'canonical' => route('sitemap.html'),
+            'breadcrumbs' => [
+                ['name' => __('shop.home'), 'url' => route('home')],
+                ['name' => __('shop.html_sitemap_title')],
+            ],
+            'jsonLd' => [
+                Seo::webSite(),
+                Seo::webPage(
+                    __('shop.html_sitemap_title'),
+                    (string) __('shop.html_sitemap_lead'),
+                    route('sitemap.html'),
+                ),
+                Seo::breadcrumbs([
+                    ['name' => __('shop.home'), 'url' => route('home')],
+                    ['name' => __('shop.html_sitemap_title')],
+                ]),
+            ],
+        ]);
+    }
+
+    public function rss(): Response
+    {
+        $cacheSeconds = (int) config('seo.sitemap_cache_seconds', 3600);
+        $xml = Cache::remember('seo.feed.xml', $cacheSeconds, function (): string {
+            $posts = BlogPost::published()->latest('published_at')->limit(40)->get();
+            $name = \App\Support\SiteName::get();
+
+            $items = $posts->map(function (BlogPost $post) {
+                $date = ($post->published_at ?? $post->updated_at)?->toRfc2822String();
+
+                return [
+                    'title' => $post->title,
+                    'link' => route('blog.show', $post),
+                    'description' => Seo::description([$post->excerpt, $post->content], 400),
+                    'pubDate' => $date,
+                ];
+            });
+
+            return view('seo.rss', [
+                'title' => $name,
+                'link' => Seo::siteUrl(),
+                'description' => SiteSetting::get('site_description', config('kosar.description')),
+                'items' => $items,
+            ])->render();
+        });
+
+        return response($xml, 200, [
+            'Content-Type' => 'application/rss+xml; charset=UTF-8',
             'Cache-Control' => 'public, max-age='.$cacheSeconds,
         ]);
     }

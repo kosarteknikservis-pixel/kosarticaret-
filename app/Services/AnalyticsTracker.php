@@ -297,7 +297,7 @@ class AnalyticsTracker
         }
 
         return $this->shouldTrackInteraction($request)
-            && ! $request->is('storage/*', 'sitemap.xml', 'robots.txt');
+            && ! $request->is('storage/*', 'sitemap*', 'robots.txt', 'llms.txt', 'feed.xml');
     }
 
     public function shouldTrackInteraction(Request $request): bool

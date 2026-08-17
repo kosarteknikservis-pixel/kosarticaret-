@@ -51,6 +51,19 @@ class Category extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Builder<Category>
+     */
+    public function activeSiblings()
+    {
+        return static::query()
+            ->where('parent_id', $this->parent_id)
+            ->where('id', '!=', $this->id)
+            ->where('active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name');
+    }
+
+    /**
      * Mağaza URL yolu: ust/alt (orn. su-pompalari/jet-pompa).
      */
     public function nestedSlugPath(): string

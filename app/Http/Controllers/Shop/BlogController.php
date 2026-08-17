@@ -6,20 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
 use App\Models\Product;
 use App\Support\CatalogPaginationSeo;
+use App\Support\InternalLinking;
 use App\Support\Seo;
 use App\Support\SiteName;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 
 class BlogController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
+        if ($redirect = CatalogPaginationSeo::redirectLegacyPageParam($request)) {
+            return $redirect;
+        }
+
         $posts = BlogPost::published()->paginate(12)->withQueryString();
         $paginationSeo = CatalogPaginationSeo::meta($request, $posts);
 
         return view('shop.blog.index', [
             'posts' => $posts,
+            'heading' => __('shop.blog'),
+            'subtitle' => __('shop.blog_subtitle'),
             'metaTitle' => 'Blog',
             'metaDescription' => Seo::description([
                 SiteName::get().' blog — pompa, hidrofor ve sulama rehberleri.',
@@ -30,11 +39,56 @@ class BlogController extends Controller
         ]);
     }
 
+    public function tag(Request $request, string $tag): View|RedirectResponse
+    {
+        if ($redirect = CatalogPaginationSeo::redirectLegacyPageParam($request)) {
+            return $redirect;
+        }
+
+        abort_unless($tag === InternalLinking::tagSlug($tag), 404);
+
+        $matches = InternalLinking::postsForTagSlug($tag);
+        abort_if($matches->isEmpty(), 404);
+
+        $label = InternalLinking::tagLabel($matches, $tag);
+        $page = max(1, (int) $request->integer('page', 1));
+        $perPage = 12;
+        $posts = new LengthAwarePaginator(
+            $matches->forPage($page, $perPage)->values(),
+            $matches->count(),
+            $perPage,
+            $page,
+            ['path' => route('blog.tag', $tag), 'query' => $request->query()]
+        );
+
+        $title = __('shop.blog_tag_heading', ['tag' => $label]);
+        $description = Seo::description([
+            SiteName::get().' — '.$label.' rehberleri ve teknik yazılar.',
+        ]);
+
+        return view('shop.blog.index', [
+            'posts' => $posts,
+            'heading' => $title,
+            'subtitle' => __('shop.blog_tag_subtitle'),
+            'metaTitle' => $title,
+            'metaDescription' => $description,
+            'canonical' => route('blog.tag', $tag),
+            'jsonLd' => [Seo::webPage($title, $description, route('blog.tag', $tag))],
+            'robots' => ($matches->count() >= 2 && $page === 1) ? Seo::ROBOTS_INDEX : Seo::ROBOTS_NOINDEX,
+            'breadcrumbs' => [
+                ['name' => __('shop.home'), 'url' => route('home')],
+                ['name' => __('shop.blog'), 'url' => route('blog.index')],
+                ['name' => $label],
+            ],
+        ]);
+    }
+
     public function show(BlogPost $post): View
     {
         abort_unless($post->published, 404);
 
         $suggestedProducts = $this->suggestedProductsForPost($post);
+        $relatedPosts = InternalLinking::relatedPosts($post);
 
         $breadcrumbs = [
             ['name' => 'Ana Sayfa', 'url' => route('home')],
@@ -45,6 +99,7 @@ class BlogController extends Controller
         return view('shop.blog.show', [
             'post' => $post,
             'suggestedProducts' => $suggestedProducts,
+            'relatedPosts' => $relatedPosts,
             'breadcrumbs' => $breadcrumbs,
             'metaTitle' => $post->meta_title ?: $post->title,
             'metaDescription' => Seo::description([$post->meta_description, $post->excerpt, $post->title]),
@@ -68,7 +123,7 @@ class BlogController extends Controller
             ->values();
 
         if ($keywords->isEmpty()) {
-            return Product::query()->active()->where('featured', true)->inRandomOrder()->limit(4)->get();
+            return Product::query()->active()->where('featured', true)->orderByDesc('stock')->limit(4)->get();
         }
 
         $query = Product::query()->active()->with('brand');

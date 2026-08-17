@@ -48,6 +48,8 @@
 
 <meta name="robots" content="{{ $robots }}">
 
+<link rel="alternate" type="application/rss+xml" title="{{ \App\Support\SiteName::get() }}" href="{{ route('feed') }}">
+
 @if($verification = \App\Models\SiteSetting::get('google_site_verification'))
     <meta name="google-site-verification" content="{{ $verification }}">
 @endif

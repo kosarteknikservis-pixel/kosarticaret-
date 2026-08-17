@@ -1,14 +1,14 @@
 @extends('layouts.shop')
-@section('title', 'Blog')
+@section('title', $heading ?? 'Blog')
 
 @section('content')
     <div class="shop-page">
-        @include('shop.partials.breadcrumbs', ['breadcrumbs' => [
+        @include('shop.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs ?? [
             ['name' => __('shop.home'), 'url' => route('home')],
-            ['name' => 'Blog'],
+            ['name' => __('shop.blog')],
         ]])
 
-        <x-shop.page-hero title="Blog" :subtitle="__('shop.blog_subtitle')" />
+        <x-shop.page-hero :title="$heading ?? __('shop.blog')" :subtitle="$subtitle ?? __('shop.blog_subtitle')" />
 
         <div class="shop-blog-grid shop-reveal-group">
             @foreach($posts as $post)

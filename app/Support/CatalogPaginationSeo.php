@@ -3,12 +3,42 @@
 namespace App\Support;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CatalogPaginationSeo
 {
     /** @var list<string> */
     public const FILTER_QUERY_KEYS = ['q', 'marka', 'min', 'max', 'siralama'];
+
+    /**
+     * Eski `?sayfa=` parametresini Laravel `page` standardına 301 ile taşı.
+     */
+    public static function redirectLegacyPageParam(Request $request): ?RedirectResponse
+    {
+        if (! $request->query->has('sayfa')) {
+            return null;
+        }
+
+        $query = $request->query();
+        $sayfa = max(1, (int) ($query['sayfa'] ?? 1));
+        unset($query['sayfa']);
+
+        if (! isset($query['page']) && $sayfa > 1) {
+            $query['page'] = $sayfa;
+        }
+
+        $target = $request->url();
+        if ($query !== []) {
+            $target .= '?'.http_build_query($query);
+        }
+
+        if ($target === $request->fullUrl()) {
+            return null;
+        }
+
+        return redirect()->to($target, 301);
+    }
 
     /**
      * @return array{robots: string, paginationPrev: ?string, paginationNext: ?string}

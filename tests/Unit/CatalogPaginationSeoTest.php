@@ -28,4 +28,15 @@ class CatalogPaginationSeoTest extends TestCase
 
         $this->assertSame('noindex, follow', CatalogPaginationSeo::robots($request, 2));
     }
+
+    public function test_legacy_sayfa_param_redirects_to_page(): void
+    {
+        $request = Request::create('https://kosarticaret.com/urunler?sayfa=2', 'GET');
+
+        $redirect = CatalogPaginationSeo::redirectLegacyPageParam($request);
+
+        $this->assertNotNull($redirect);
+        $this->assertSame(301, $redirect->getStatusCode());
+        $this->assertSame('https://kosarticaret.com/urunler?page=2', $redirect->getTargetUrl());
+    }
 }

@@ -39,7 +39,7 @@
             @if($post->tags)
                 <div class="shop-article-tags">
                     @foreach($post->tags as $tag)
-                        <span class="shop-article-tag">{{ $tag }}</span>
+                        <a href="{{ \App\Support\InternalLinking::tagUrl($tag) }}" class="shop-article-tag">{{ $tag }}</a>
                     @endforeach
                 </div>
             @endif
@@ -51,6 +51,28 @@
                 class="shop-panel shop-panel--prose prose prose-slate max-w-none prose-headings:text-slate-900 prose-a:text-brand-700" />
         </div>
     </div>
+
+    @if(($relatedPosts ?? collect())->isNotEmpty())
+        <section class="shop-related-section shop-related-section--wide shop-related-posts mt-14 pt-10 border-t border-slate-200 shop-reveal" aria-labelledby="related-posts-heading">
+            <h2 id="related-posts-heading" class="shop-related-posts__title">{{ __('shop.related_posts') }}</h2>
+            <div class="shop-blog-grid shop-blog-grid--related">
+                @foreach($relatedPosts as $related)
+                    <article class="shop-blog-card">
+                        <div class="shop-blog-card__body">
+                            <time class="shop-blog-card__date">{{ $related->published_at?->format('d.m.Y') }}</time>
+                            <h3 class="shop-blog-card__title">
+                                <a href="{{ route('blog.show', $related) }}">{{ $related->title }}</a>
+                            </h3>
+                            <a href="{{ route('blog.show', $related) }}" class="shop-blog-card__read">
+                                {{ __('shop.read_more') }}
+                                <x-shop.icon name="chevron-right" class="w-3.5 h-3.5" />
+                            </a>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </section>
+    @endif
 
     @if($suggestedProducts->isNotEmpty())
         <section class="shop-related-section shop-related-section--wide mt-14 pt-10 border-t border-slate-200 shop-reveal" aria-labelledby="blog-products-heading">

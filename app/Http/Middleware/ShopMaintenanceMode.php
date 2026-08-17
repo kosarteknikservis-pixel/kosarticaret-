@@ -16,6 +16,8 @@ class ShopMaintenanceMode
         'favicon',
         'sitemap',
         'robots',
+        'llms',
+        'feed',
     ];
 
     public function handle(Request $request, Closure $next): Response

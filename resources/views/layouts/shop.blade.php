@@ -129,7 +129,7 @@
                         </svg>
                     </span>
                     <div class="shop-cookie-banner__text">
-                        <h2 id="cookie-banner-title" class="shop-cookie-banner__title">{{ __('shop.cookie_title') }}</h2>
+                        <p id="cookie-banner-title" class="shop-cookie-banner__title">{{ __('shop.cookie_title') }}</p>
                         <p class="shop-cookie-banner__desc">
                             {{ $vitrin->vitrin('cookie_text', __('shop.cookie_text')) }}
                             <a href="{{ route('pages.show', 'gizlilik-politikasi') }}" class="shop-cookie-banner__link">{{ __('shop.cookie_privacy') }}</a>

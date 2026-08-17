@@ -73,7 +73,7 @@ class KosarStorefrontTest extends TestCase
         $nestedUrl = $child->storefrontUrl();
         $flatUrl = route('categories.show', ['category' => $child->slug]);
 
-        $content = $this->get('/sitemap.xml')->assertOk()->getContent();
+        $content = $this->get('/sitemap-categories.xml')->assertOk()->getContent();
 
         $this->assertStringContainsString('<loc>'.$nestedUrl.'</loc>', $content);
         $this->assertStringNotContainsString('<loc>'.$flatUrl.'</loc>', $content);
