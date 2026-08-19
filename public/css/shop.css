@@ -2467,11 +2467,15 @@ body.theme-motion-reduced *::after {
 }
 
 .shop-home-heading {
-    margin: 0 0 1.25rem;
-    font-size: 1.375rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: #0f172a;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
     line-height: 1.2;
 }
 @media (min-width: 768px) {
