@@ -21,6 +21,7 @@
                     src="{{ $product->imageUrl('product-card') }}"
                     @if($srcset = $product->cardImageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 639px) 76vw, (max-width: 1023px) 13rem, 15rem" @endif
                     alt="{{ $product->imageAltText() }}"
+                    title="{{ $product->name }}"
                     loading="{{ $imagePriority ? 'eager' : 'lazy' }}"
                     @if($imagePriority) fetchpriority="high" @endif
                     decoding="async"

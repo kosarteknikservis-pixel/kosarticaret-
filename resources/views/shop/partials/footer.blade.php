@@ -94,7 +94,17 @@
                     </ul>
                 </div>
 
-                {{-- Col 3: Müşteri Hizmetleri --}}
+                {{-- Col 3: Popüler Kategoriler --}}
+                <div class="kfooter__col">
+                    <p class="kfooter__heading">{{ __('shop.footer_popular_categories') }}</p>
+                    <ul class="kfooter__links">
+                        @foreach(\App\Models\Category::where('active', true)->whereNull('parent_id')->orderBy('sort_order')->limit(8)->get() as $fCat)
+                            <li><a href="{{ $fCat->storefrontUrl() }}" class="kfooter__link">{{ $fCat->name }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                {{-- Col 4: Müşteri Hizmetleri --}}
                 <div class="kfooter__col">
                     <p class="kfooter__heading">{{ __('shop.footer_service') }}</p>
                     <ul class="kfooter__links">

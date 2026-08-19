@@ -32,6 +32,8 @@
 
         @include('shop.partials.home-references', ['references' => $projectReferences])
 
+        @include('shop.partials.home-seo-content')
+
         @include('shop.partials.home-prefooter', [
             'recentBlogPosts' => $recentBlogPosts,
         ])

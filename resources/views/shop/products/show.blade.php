@@ -46,7 +46,7 @@
                     aria-label="{{ __('shop.enlarge_image') }}">
                 @if($thumbs->isNotEmpty())
                     <span class="shop-pdp-gallery__figure">
-                        <img src="{{ $thumbs->first()['url'] }}" @if($thumbs->first()['srcset']) srcset="{{ $thumbs->first()['srcset'] }}" sizes="(max-width: 767px) 100vw, 42rem" @endif alt="{{ $thumbs->first()['alt'] }}" width="{{ $thumbs->first()['width'] ?? 1200 }}" height="{{ $thumbs->first()['height'] ?? 1200 }}" class="shop-pdp-gallery__img" id="pdp-main-img" decoding="async" fetchpriority="high">
+                        <img src="{{ $thumbs->first()['url'] }}" @if($thumbs->first()['srcset']) srcset="{{ $thumbs->first()['srcset'] }}" sizes="(max-width: 767px) 100vw, 42rem" @endif alt="{{ $thumbs->first()['alt'] }}" title="{{ $product->name }}" width="{{ $thumbs->first()['width'] ?? 1200 }}" height="{{ $thumbs->first()['height'] ?? 1200 }}" class="shop-pdp-gallery__img" id="pdp-main-img" decoding="async" fetchpriority="high">
                     </span>
                 @else
                     <x-shop.icon name="grid" class="w-24 h-24 text-slate-300" />
@@ -243,6 +243,8 @@
             ])
         </section>
     @endif
+
+    @include('shop.partials.pdp-recently-viewed', ['currentProductId' => $product->id])
 
     @if($thumbs->isNotEmpty())
         <dialog id="pdp-lightbox" class="shop-pdp-lightbox" aria-label="{{ __('shop.gallery') }}">
