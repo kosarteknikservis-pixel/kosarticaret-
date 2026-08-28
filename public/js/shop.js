@@ -1028,6 +1028,14 @@
     const root = document.querySelector('[data-pump-selector]');
     if (!root) return;
 
+    function escapeHtml(s) {
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
     const i18nEl = document.getElementById('pump-selector-i18n');
     let i18n = {};
     try {
