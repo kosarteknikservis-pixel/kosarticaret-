@@ -35,6 +35,16 @@
             {{-- Title --}}
             <h1 class="shop-page-hero__title mt-1">{{ $post->title }}</h1>
 
+            @if(!empty($author))
+                <p class="shop-article-byline mt-3 text-sm text-slate-600">
+                    {{ __('shop.blog_author_byline') }}
+                    <a href="{{ $author['url'] }}" class="font-semibold text-brand-700 hover:text-brand-800">{{ $author['name'] }}</a>
+                    @if(filled($author['title']))
+                        <span class="text-slate-500"> · {{ $author['title'] }}</span>
+                    @endif
+                </p>
+            @endif
+
             {{-- Tags as chips --}}
             @if($post->tags)
                 <div class="shop-article-tags">

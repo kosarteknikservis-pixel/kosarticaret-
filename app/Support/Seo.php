@@ -435,6 +435,20 @@ class Seo
 
         ]);
 
+        $address = trim((string) SiteSetting::get('contact_address', config('kosar.contact.address')));
+        if ($address !== '') {
+            $organization['address'] = [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $address,
+                'addressCountry' => 'TR',
+            ];
+        }
+
+        $foundingDate = trim((string) (SiteSetting::get('founding_date') ?: config('kosar.founding_date')));
+        if ($foundingDate !== '') {
+            $organization['foundingDate'] = $foundingDate;
+        }
+
         $sameAs = collect(SocialMediaLinks::configured())->pluck('url')->filter()->values()->all();
         if ($sameAs !== []) {
             $organization['sameAs'] = $sameAs;
@@ -713,6 +727,11 @@ class Seo
 
         }
 
+        $reviewNodes = self::productReviewNodes($product);
+        if ($reviewNodes !== []) {
+            $schema['review'] = count($reviewNodes) === 1 ? $reviewNodes[0] : $reviewNodes;
+        }
+
         if ($gtin = self::normalizeGtin($product->barcode)) {
             $schema['gtin'.$gtin['length']] = $gtin['value'];
         }
@@ -756,67 +775,65 @@ class Seo
 
 
     /** @return list<array<string, mixed>> */
-
-    public static function productReviews(Product $product): array
-
+    public static function productReviewNodes(Product $product): array
     {
-
         if (! $product->relationLoaded('approvedReviews')) {
-
             $product->load('approvedReviews');
-
         }
 
-
-
         return $product->approvedReviews
-
             ->take(10)
-
             ->map(fn ($review) => array_filter([
-
-                '@context' => 'https://schema.org',
-
                 '@type' => 'Review',
-
-                'itemReviewed' => [
-
-                    '@type' => 'Product',
-
-                    'name' => $product->name,
-
-                    'url' => route('products.show', $product),
-
-                ],
-
                 'reviewRating' => [
-
                     '@type' => 'Rating',
-
                     'ratingValue' => (int) $review->rating,
-
                     'bestRating' => 5,
-
                     'worstRating' => 1,
-
                 ],
-
                 'author' => [
-
                     '@type' => 'Person',
-
                     'name' => $review->author_name ?: 'Müşteri',
-
                 ],
-
                 'reviewBody' => $review->body,
-
                 'name' => $review->title,
-
+                'datePublished' => $review->created_at?->toIso8601String(),
             ]))
-
             ->all();
+    }
 
+    /** @return list<array<string, mixed>> */
+    public static function productReviews(Product $product): array
+    {
+        $url = route('products.show', $product);
+
+        return collect(self::productReviewNodes($product))
+            ->map(fn (array $node) => [
+                '@context' => 'https://schema.org',
+                ...$node,
+                'itemReviewed' => [
+                    '@type' => 'Product',
+                    'name' => $product->name,
+                    'url' => $url,
+                ],
+            ])
+            ->all();
+    }
+
+    /** @param  array<string, mixed>  $profile */
+    public static function person(array $profile): array
+    {
+        return array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => 'Person',
+            '@id' => $profile['url'].'#person',
+            'name' => $profile['name'],
+            'jobTitle' => filled($profile['title'] ?? null) ? $profile['title'] : null,
+            'description' => filled($profile['bio'] ?? null) ? $profile['bio'] : null,
+            'url' => $profile['url'],
+            'sameAs' => filled($profile['linkedin'] ?? null) ? [$profile['linkedin']] : null,
+            'knowsAbout' => ! empty($profile['expertise']) ? $profile['expertise'] : null,
+        ]);
     }
 
 
@@ -950,6 +967,7 @@ class Seo
     public static function article(BlogPost $post): array
 
     {
+        $author = BlogAuthor::forPost($post);
 
         return array_filter([
 
@@ -967,9 +985,13 @@ class Seo
 
             'author' => [
 
-                '@type' => 'Organization',
+                '@type' => 'Person',
 
-                'name' => SiteName::get(),
+                '@id' => $author['url'].'#person',
+
+                'name' => $author['name'],
+
+                'url' => $author['url'],
 
             ],
 

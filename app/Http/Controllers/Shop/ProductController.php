@@ -70,7 +70,6 @@ class ProductController extends Controller
         $jsonLd = [
             Seo::product($product),
             Seo::breadcrumbs($breadcrumbs),
-            ...Seo::productReviews($product),
         ];
 
         $installmentTable = app(InstallmentOptionsService::class)

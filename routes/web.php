@@ -38,6 +38,7 @@ use App\Http\Controllers\Payment\PaytrCallbackController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\Shop\AccountController;
 use App\Http\Controllers\Shop\AnalyticsHeartbeatController;
+use App\Http\Controllers\Shop\AuthorController;
 use App\Http\Controllers\Shop\BlogController;
 use App\Http\Controllers\Shop\BrandController;
 use App\Http\Controllers\Shop\CartApiController;
@@ -170,6 +171,7 @@ Route::post('/odeme/paytr/callback', PaytrCallbackController::class)->name('paym
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/etiket/{tag}', [BlogController::class, 'tag'])->name('blog.tag')->where('tag', '[a-z0-9\-]+');
 Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::get('/yazar/{author}', [AuthorController::class, 'show'])->name('authors.show')->where('author', '[a-z0-9\-]+');
 Route::get('/sayfa/{page:slug}', [PageController::class, 'show'])->name('pages.show');
 
 Route::get('/iletisim', [ContactController::class, 'show'])->name('contact.show');

@@ -15,6 +15,8 @@ return [
         'whatsapp' => env('KOSAR_WHATSAPP', '905554443000'),
         'address' => env('KOSAR_ADDRESS', 'Nilüfer, Bursa'),
     ],
+    // Organization schema (E-E-A-T). Örn: 1990 veya 1990-01-01
+    'founding_date' => env('KOSAR_FOUNDING_DATE'),
     'admin_password' => env('ADMIN_PASSWORD', 'kosar-dev'),
 
     // Rapor ve analitik ekranlarında kullanılan saat dilimi.

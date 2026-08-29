@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
 use App\Models\Product;
+use App\Support\BlogAuthor;
 use App\Support\CatalogPaginationSeo;
 use App\Support\InternalLinking;
 use App\Support\Seo;
@@ -96,8 +97,11 @@ class BlogController extends Controller
             ['name' => $post->title],
         ];
 
+        $author = BlogAuthor::forPost($post);
+
         return view('shop.blog.show', [
             'post' => $post,
+            'author' => $author,
             'suggestedProducts' => $suggestedProducts,
             'relatedPosts' => $relatedPosts,
             'breadcrumbs' => $breadcrumbs,
