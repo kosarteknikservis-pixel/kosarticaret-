@@ -33,11 +33,11 @@ final class BingSiteAuthXml
 
     private static function extractUserCode(string $input): ?string
     {
-        if (preg_match('/<user>\s*([A-F0-9]+)\s*<\/user>/i', $input, $matches) === 1) {
+        if (preg_match('/<user>\s*([A-Z0-9]+)\s*<\/user>/i', $input, $matches) === 1) {
             return $matches[1];
         }
 
-        if (preg_match('/^[A-F0-9]{32}$/i', $input) === 1) {
+        if (preg_match('/^[A-Z0-9]{32}$/i', $input) === 1) {
             return $input;
         }
 
