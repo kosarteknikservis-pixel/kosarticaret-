@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\SiteSetting;
+use App\Support\BingSiteAuthXml;
 use App\Support\FooterPaymentCards;
 use App\Support\ImageVariant;
 use App\Support\LogoImageProcessor;
@@ -292,6 +293,11 @@ class SettingController extends Controller
 
         if ($tab === 'general' && ! $request->filled('recaptcha_secret_key')) {
             unset($data['recaptcha_secret_key']);
+        }
+
+        if ($tab === 'general' && array_key_exists('bing_site_auth_xml', $data)) {
+            $normalized = BingSiteAuthXml::normalize($data['bing_site_auth_xml'] ?? '');
+            $data['bing_site_auth_xml'] = $normalized !== '' ? $normalized : null;
         }
 
         foreach ($data as $key => $value) {

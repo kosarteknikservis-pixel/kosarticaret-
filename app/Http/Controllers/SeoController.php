@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\SiteSetting;
+use App\Support\BingSiteAuthXml;
 use App\Support\GoogleProductCategory;
 use App\Support\ImageSitemapGenerator;
 use App\Support\LlmsTxt;
@@ -413,7 +414,7 @@ class SeoController extends Controller
 
     public function bingSiteAuth(): Response
     {
-        $xml = trim((string) SiteSetting::get('bing_site_auth_xml', ''));
+        $xml = BingSiteAuthXml::normalize(SiteSetting::get('bing_site_auth_xml', ''));
 
         abort_if($xml === '', 404);
 

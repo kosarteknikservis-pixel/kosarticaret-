@@ -80,19 +80,13 @@ class AdvancedIndexingSeoTest extends TestCase
 
     public function test_bing_site_auth_xml_is_served_when_configured(): void
     {
-        $xml = <<<'XML'
-<?xml version="1.0"?>
-<users>
-    <user>TESTBINGCODE123</user>
-</users>
-XML;
-
-        SiteSetting::set('bing_site_auth_xml', $xml);
+        SiteSetting::set('bing_site_auth_xml', '<user>TESTBINGCODE123456789012345678901234</user>');
 
         $this->get('/BingSiteAuth.xml')
             ->assertOk()
             ->assertHeader('content-type', 'application/xml; charset=UTF-8')
-            ->assertSee('TESTBINGCODE123', false);
+            ->assertSee('TESTBINGCODE123456789012345678901234', false)
+            ->assertSee('<users>', false);
     }
 
     public function test_bing_site_auth_xml_returns_404_when_empty(): void
