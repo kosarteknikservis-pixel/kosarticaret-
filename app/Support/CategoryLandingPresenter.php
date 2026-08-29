@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 final class CategoryLandingPresenter
 {
-    /** @return array{subtitle: ?string, buying_guide: ?string, trust: list<array{icon: string, label: string}>} */
+    /** @return array{subtitle: ?string, buying_guide: ?string, faq: list<array{q: string, a: string}>, trust: list<array{icon: string, label: string}>} */
     public static function for(Category $category): array
     {
         $path = $category->nestedSlugPath();
@@ -23,14 +23,47 @@ final class CategoryLandingPresenter
             $subtitle = self::subtitleFromCategory($category);
         }
 
+        $faq = self::normalizeFaq($category->faq ?? []);
+        if ($faq === []) {
+            $faq = self::normalizeFaq($landing['faq'] ?? []);
+        }
+
         /** @var list<array{icon: string, label: string}> $trust */
         $trust = $landing['trust'] ?? config('category_buying_guides.default_trust', []);
 
         return [
             'subtitle' => $subtitle !== '' ? $subtitle : null,
             'buying_guide' => $buyingGuide,
+            'faq' => $faq,
             'trust' => is_array($trust) ? $trust : [],
         ];
+    }
+
+    /** @param  mixed  $items
+     * @return list<array{q: string, a: string}>
+     */
+    private static function normalizeFaq(mixed $items): array
+    {
+        if (! is_array($items)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($items as $item) {
+            if (! is_array($item)) {
+                continue;
+            }
+
+            $question = trim(strip_tags((string) ($item['q'] ?? '')));
+            $answer = trim((string) ($item['a'] ?? ''));
+            if ($question === '' || trim(strip_tags($answer)) === '') {
+                continue;
+            }
+
+            $normalized[] = ['q' => $question, 'a' => $answer];
+        }
+
+        return $normalized;
     }
 
     private static function subtitleFromCategory(Category $category): string

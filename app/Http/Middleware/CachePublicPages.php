@@ -26,6 +26,13 @@ class CachePublicPages
 
         $response = $next($request);
 
+        if ($response->getStatusCode() === 200 && PublicPageCache::shouldCache($request)) {
+            $response->headers->set(
+                'Cache-Control',
+                'public, max-age=60, s-maxage='.PublicPageCache::TTL_SECONDS
+            );
+        }
+
         if ($response->getStatusCode() === 200 && $this->isCacheableResponse($response)) {
             Cache::put($key, [
                 'content' => $response->getContent(),

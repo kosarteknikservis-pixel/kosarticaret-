@@ -188,5 +188,83 @@ HTML,
 <p>Dikey kademeli modeller yer tasarrufu sağlar; yatay kademeli modeller servis erişimi kolaydır. Yangın sistemleri, yüksek bina tesisatı ve RO besleme hatlarında yaygın kullanılır.</p>
 HTML,
         ],
+
+        'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa' => [
+            'subtitle' => 'Bodrum, otopark ve inşaat sahası drenajı için drenaj dalgıç pompalar — partikül geçişi ve debi seçimi rehberi.',
+            'description' => <<<'HTML'
+<p>Drenaj dalgıç pompa; bodrum katları, otoparklar, inşaat çukurları, teras ve bahçe drenaj hatlarında biriken yağmur suyunu ve kirli sıvıyı hızlıca tahliye etmek için kullanılır. Yüzey pompalarından farklı olarak pompa gövdesi sıvı içinde çalışır; emme hattı ve emme problemi olmadan yüksek debi sağlar.</p>
+<p>Seçimde üç parametre belirleyicidir: <strong>partikül geçiş çapı</strong> (mm), <strong>debi (m³/saat)</strong> ve <strong>basma yüksekliği</strong>. Temiz yağmur suyu uygulamalarında 10–35 mm partikül geçişi yeterli olurken; inşaat ve endüstriyel drenajda daha büyük geçişli modeller tercih edilir. Otomatik devreye girme için float şamandıra veya seviye sensörü kullanılmalıdır.</p>
+<p>Koşar Ticaret'te Sumak, Pedrollo ve Winpo marka drenaj dalgıç pompa modellerini stoktan ve proje bazlı seçim desteğiyle sunuyoruz. Benzer uygulamalar için <a href="/kategoriler/su-pompalari/dalgic-pompalar/paslanmaz-drenaj-dalgic-pompa">paslanmaz drenaj pompalarını</a> ve <a href="/kategoriler/su-pompalari/dalgic-pompalar/sintine-pompasi">sintine pompalarını</a> karşılaştırabilirsiniz.</p>
+HTML,
+            'buying_guide' => <<<'HTML'
+<h3>Drenaj Dalgıç Pompa Seçim Rehberi</h3>
+<p>Drenaj pompası seçerken tahliye edilecek suyun kirlilik derecesi, çukur derinliği ve basma hattı uzunluğu birlikte hesaplanmalıdır.</p>
+<ul>
+<li><strong>Partikül geçişi:</strong> Temiz drenaj için 10–20 mm; inşaat/kirli su için 35 mm ve üzeri.</li>
+<li><strong>Debi:</strong> Alan büyüklüğü ve yağış yoğunluğuna göre m³/saat ihtiyacı belirlenir.</li>
+<li><strong>Basma yüksekliği:</strong> Çukur derinliği + yatay hat kayıpları + çıkış kotu farkı.</li>
+<li><strong>Otomatik çalışma:</strong> Float veya elektronik seviye anahtarı susuz çalışma riskini azaltır.</li>
+</ul>
+<p>Foseptik ve atık su uygulamalarında <a href="/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa">foseptik dalgıç pompa</a> veya lifli atık için <a href="/kategoriler/su-pompalari/dalgic-pompalar/bicakli-dalgic-pompa">bıçaklı dalgıç pompa</a> modellerine bakın. Teknik detay için <a href="/blog/drenaj-pompasi-nedir-nasil-secilir">drenaj pompası seçim rehberini</a> inceleyin.</p>
+HTML,
+            'faq' => [
+                ['q' => 'Drenaj pompası ile foseptik pompası arasındaki fark nedir?', 'a' => 'Drenaj pompası genellikle yağmur suyu ve hafif kirli sıvılar içindir; partikül geçişi sınırlıdır. Foseptik pompalar atık su ve çözeltili sıvılar için tasarlanır; daha geniş partikül geçişi ve farklı malzeme seçimi sunar.'],
+                ['q' => 'Bodrum drenaj pompası ne kadar debi gerekir?', 'a' => 'Ortalama konut bodrumu için 5–15 m³/saat yeterli olabilir; otopark ve geniş alanlarda 20 m³/saat üzeri modeller değerlendirilmelidir. Yağış yoğunluğu ve alan m² değerine göre hesap yapılması önerilir.'],
+                ['q' => 'Drenaj pompası sürekli çalışmalı mı?', 'a' => 'Hayır. Float şamandıra veya seviye anahtarı ile su belirli seviyeye ulaştığında devreye girmesi normaldir. Sürekli çalışma genellikle kaçak, yüksek yeraltı suyu veya şamandıra arızasına işaret eder.'],
+                ['q' => 'Paslanmaz drenaj pompası ne zaman gerekir?', 'a' => 'Deniz kenarı, kimyasal içerikli drenaj, gıda tesisleri veya korozif ortamlarda paslanmaz gövde ve paslanmaz parçalar tercih edilmelidir.'],
+            ],
+        ],
+
+        'su-pompalari/ozel-amacli-pompalar/jakuzi-pompasi' => [
+            'subtitle' => 'Jakuzi ve spa devridaim pompaları — sessiz çalışma, debi ve filtre uyumu rehberi.',
+            'description' => <<<'HTML'
+<p>Jakuzi pompası, spa ve jakuzi kabinlerinde suyun filtre, ısıtıcı ve jet hatları arasında sürekli devridaimini sağlayan özel amaçlı bir sirkülasyon pompasıdır. Havuz pompasından farklı olarak daha düşük debi ve sessiz çalışma önceliklidir; jet basıncı ve masaj etkisi için doğru debi seçimi konforu doğrudan etkiler.</p>
+<p>Seçimde jakuzi hacmi (litre), jet sayısı, boru çapı ve mevcut filtre/ısıtıcı uyumu değerlendirilmelidir. Çok yüksek debili pompa gereksiz gürültü ve enerji tüketimine; düşük debili pompa yetersiz jet performansına yol açar. Tek fazlı (220 V) modeller ev tipi jakuzilerde yaygındır.</p>
+<p>Koşar Ticaret jakuzi pompası modellerini orijinal ürün garantisi ve teknik danışmanlıkla sunar. Havuz uygulamaları için <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi">ön filtreli havuz pompalarını</a>; genel dalgıç çözümler için <a href="/kategoriler/su-pompalari/dalgic-pompalar">dalgıç pompa</a> kategorisini inceleyin.</p>
+HTML,
+            'buying_guide' => <<<'HTML'
+<h3>Jakuzi Pompası Nasıl Seçilir?</h3>
+<p>Jakuzi pompası seçerken önce kabin hacmini ve üretici önerilen debi aralığını kontrol edin. Ardından bağlantı çapı, motor gücü ve sessizlik seviyesini değerlendirin.</p>
+<ul>
+<li><strong>Hacim uyumu:</strong> Küçük jakuzi (200–400 L) ile büyük spa (800 L+) farklı debi ister.</li>
+<li><strong>Jet sayısı:</strong> Çok jetli sistemler daha yüksek debi gerektirir.</li>
+<li><strong>Sessizlik:</strong> Kapalı alan kurulumlarında düşük desibel değerli modeller tercih edilir.</li>
+<li><strong>Yedek parça:</strong> Conta, impeller ve motor uyumluluğu uzun vadeli bakım için önemlidir.</li>
+</ul>
+<p>Havuz ve jakuzi arasındaki farklar için <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi">havuz pompası</a> kategorisine de göz atın.</p>
+HTML,
+            'faq' => [
+                ['q' => 'Jakuzi pompası ile havuz pompası aynı mı?', 'a' => 'Hayır. Jakuzi pompası düşük debili devridaim için optimize edilir; havuz pompası genellikle daha yüksek debi ve filtre sistemiyle çalışır. Uygulama tipine göre doğru kategori seçilmelidir.'],
+                ['q' => 'Jakuzi pompası kaç saat çalışmalı?', 'a' => 'Çoğu jakuzi günde 4–8 saat filtre/devridaim için programlanır. Kullanım sırasında jetler açıkken pompa çalışır; üretici kılavuzundaki öneriler esas alınmalıdır.'],
+                ['q' => 'Jakuzi pompası gürültülü çalışıyorsa ne yapmalıyım?', 'a' => 'Hava hapsi, tıkalı filtre, yataksız montaj veya aşınmış rulman gürültüye neden olabilir. Montaj yüzeyi titreşim izolasyonu ve emme tarafı hava kaçağı kontrol edilmelidir.'],
+                ['q' => 'Mevcut jakuzime uygun pompayı nasıl bulurum?', 'a' => 'Kabin marka/model bilgisi, mevcut pompa etiketindeki debi-güç değerleri ve bağlantı çapını paylaşın; teknik ekibimiz eşdeğer model önerir.'],
+            ],
+        ],
+
+        'su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi' => [
+            'subtitle' => 'Havuz filtrasyon ve devridaim pompaları — debi, klor dayanımı ve enerji verimliliği rehberi.',
+            'description' => <<<'HTML'
+<p>Ön filtreli havuz pompası, yüzme havuzlarında suyun skimmer veya bottom drain hattından emilerek filtre, ısıtıcı ve geri dönüş hattına basılmasını sağlar. Havuz hacmine uygun debi seçimi filtre kalitesi, su berraklığı ve enerji tüketimini doğrudan etkiler.</p>
+<p>Seçimde havuz hacmi (m³), hedef filtre devir sayısı (genellikle günde 2–3 tur), boru çapı ve klor/kimyasal dayanımlı malzeme gereksinimi birlikte değerlendirilir. Self-priming (kendinden emişli) modeller montaj kolaylığı sağlar; yüksek verimli motorlar sezon boyunca elektrik maliyetini düşürür.</p>
+<p>Pedrollo, Sumak ve Winpo havuz pompası modellerini stoktan sunuyoruz. Jakuzi uygulamaları için <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/jakuzi-pompasi">jakuzi pompası</a>; genel su transferi için <a href="/kategoriler/su-pompalari/santrifuj-pompalar">santrifüj pompa</a> kategorilerine bakabilirsiniz.</p>
+HTML,
+            'buying_guide' => <<<'HTML'
+<h3>Havuz Pompası Seçim Rehberi</h3>
+<p>Havuz pompası debisi, havuz hacminin günde 2–3 kez filtre edilmesini sağlayacak şekilde hesaplanır. Formül: Havuz hacmi (m³) × 3 / 24 saat ≈ saatlik debi (m³/s).</p>
+<ul>
+<li><strong>Debi:</strong> Küçük havuz 5–8 m³/s; orta ölçek 10–15 m³/s; büyük havuz 20 m³/s+</li>
+<li><strong>Malzeme:</strong> Klor ve tuzlu su ortamlarında paslanmaz veya Noryl gövde tercih edilir</li>
+<li><strong>Ön filtre:</strong> Pompa girişindeki sepet kaba partikülleri tutar; düzenli temizlik gerekir</li>
+<li><strong>Basma yüksekliği:</strong> Filtre tipi, ısıtıcı ve boru kayıpları hesaba katılmalıdır</li>
+</ul>
+<p>Havuz pompası montajı ve bakım ipuçları için blog rehberlerimizi inceleyin; jakuzi uygulamalarında <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/jakuzi-pompasi">jakuzi pompası</a> modellerine göz atın.</p>
+HTML,
+            'faq' => [
+                ['q' => 'Havuz pompası günde kaç saat çalışmalı?', 'a' => 'Yaz sezonunda genellikle günde 8–12 saat filtre/devridaim yeterlidir. Havuz hacmi, kullanım yoğunluğu ve sıcaklığa göre süre ayarlanmalıdır.'],
+                ['q' => 'Havuz pompası debisi nasıl hesaplanır?', 'a' => 'Havuz hacmi (m³) × günlük tur sayısı (2–3) / çalışma saati formülü kullanılır. Örnek: 40 m³ havuz, günde 3 tur, 10 saat çalışma → ~12 m³/s debi.'],
+                ['q' => 'Kışın havuz pompası çalıştırılmalı mı?', 'a' => 'Donma riski olan bölgelerde kışın pompa durdurulur, hatlar boşaltılır veya antifriz uygulanır. Ilıman iklimde kısa süreli devridaim devam edebilir.'],
+                ['q' => 'Havuz pompası sesli çalışıyorsa sebebi ne olabilir?', 'a' => 'Hava emişi, tıkalı ön filtre sepeti, aşınmış rulman veya yanlış debi seçimi gürültüye yol açabilir. Emme hattı contası ve filtre basıncı kontrol edilmelidir.'],
+            ],
+        ],
     ],
 ];

@@ -6,7 +6,7 @@
         :subtitle="$heroSubtitle ?? null"
         :intro="$category->description"
         :buying-guide="$buyingGuide ?? $category->buying_guide"
-        :faq="$category->faq ?? []"
+        :faq="$faq ?? []"
         :breadcrumbs="$breadcrumbs"
         :products="$products"
         :brands="$brands"

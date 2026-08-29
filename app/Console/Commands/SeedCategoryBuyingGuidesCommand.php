@@ -67,6 +67,18 @@ class SeedCategoryBuyingGuidesCommand extends Command
                 $category->meta_description = (string) $data['subtitle'];
             }
 
+            $description = RichContent::normalize($data['description'] ?? null);
+            $existingDescription = RichContent::normalize($category->description);
+            if ($description !== null && ($existingDescription === null || $this->option('force'))) {
+                $category->description = $description;
+            }
+
+            $faq = $this->normalizeFaq($data['faq'] ?? []);
+            $existingFaq = $this->normalizeFaq($category->faq ?? []);
+            if ($faq !== [] && ($existingFaq === [] || $this->option('force'))) {
+                $category->faq = $faq;
+            }
+
             $category->save();
             $updated++;
             $this->line("Guncellendi: {$path}");
@@ -75,5 +87,30 @@ class SeedCategoryBuyingGuidesCommand extends Command
         $this->info("Tamamlandi: {$updated} kategori guncellendi, {$skipped} atlandi.");
 
         return self::SUCCESS;
+    }
+
+    /** @return list<array{q: string, a: string}> */
+    private function normalizeFaq(mixed $items): array
+    {
+        if (! is_array($items)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($items as $item) {
+            if (! is_array($item)) {
+                continue;
+            }
+
+            $question = trim(strip_tags((string) ($item['q'] ?? '')));
+            $answer = trim((string) ($item['a'] ?? ''));
+            if ($question === '' || trim(strip_tags($answer)) === '') {
+                continue;
+            }
+
+            $normalized[] = ['q' => $question, 'a' => $answer];
+        }
+
+        return $normalized;
     }
 }

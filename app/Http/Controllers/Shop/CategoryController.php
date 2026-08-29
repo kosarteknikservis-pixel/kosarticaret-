@@ -23,13 +23,13 @@ class CategoryController extends Controller
     {
         return view('shop.categories.index', [
             'categories' => Category::query()->whereNull('parent_id')->where('active', true)->orderBy('sort_order')->get(),
-            'metaTitle' => 'Kategoriler',
+            'metaTitle' => 'Tüm Ürün Kategorileri — Pompa, Hidrofor, Vantilatör | '.SiteName::get(),
             'metaDescription' => Seo::description([
-                SiteName::get().' ürün kategorileri — pompa, hidrofor, fan ve ekipman grupları.',
+                SiteName::get().' ürün kategorileri — dalgıç pompa, hidrofor sistemi, santrifüj pompa, vantilatör ve yedek parça grupları.',
             ]),
             'canonical' => route('categories.index'),
             'jsonLd' => [
-                Seo::webPage('Kategoriler', Seo::description(['Ürün kategorileri']), route('categories.index')),
+                Seo::webPage('Tüm Ürün Kategorileri', Seo::description(['Pompa, hidrofor, vantilatör ve ekipman kategorileri']), route('categories.index')),
             ],
         ]);
     }
@@ -82,6 +82,7 @@ class CategoryController extends Controller
             'breadcrumbs' => $breadcrumbs,
             'heroSubtitle' => $landing['subtitle'],
             'buyingGuide' => $landing['buying_guide'],
+            'faq' => $landing['faq'],
             'trustPoints' => $landing['trust'],
             'subcategories' => $category->activeChildren,
             'siblingCategories' => $siblingCategories,
