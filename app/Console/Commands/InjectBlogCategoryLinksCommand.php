@@ -38,7 +38,7 @@ class InjectBlogCategoryLinksCommand extends Command
         $skipped = 0;
 
         foreach ($posts as $post) {
-            $result = $injector->inject((string) $post->body);
+            $result = $injector->inject((string) $post->content);
             if ($result['added'] === []) {
                 $skipped++;
 
@@ -52,7 +52,7 @@ class InjectBlogCategoryLinksCommand extends Command
                 continue;
             }
 
-            $post->update(['body' => $result['body']]);
+            $post->update(['content' => $result['body']]);
             $this->line("Guncellendi: {$post->slug} (+".count($result['added']).' link)');
             $updated++;
         }
