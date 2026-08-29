@@ -10,6 +10,7 @@ return [
     'register' => 'Kayıt Ol',
     'account' => 'Hesabım',
     'categories' => 'Kategoriler',
+    'category_page_h1' => ':name Fiyatları ve Modelleri',
     'subcategories' => 'Alt kategoriler',
     'brands' => 'Markalar',
     'blog' => 'Blog',

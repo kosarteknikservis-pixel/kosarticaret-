@@ -70,6 +70,10 @@ return [
     'category_aliases' => [
         'dalgic-pompalar' => 'su-pompalari/dalgic-pompalar',
         'yedek-parca' => 'yedek-parca-ve-aksesuarlar',
+        'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
+        'genlesme-tanklari' => 'hidrofor-sistemleri',
+        'yangin-hidroforlari' => 'su-pompalari/ozel-amacli-pompalar/yangin-pompalari',
+        'sirkulasyon-pompalari' => 'su-pompalari/sirkulasyon-pompalari',
     ],
 
     /** Eski düz /kategoriler/{slug} → iç içe yol (GSC 2026-06-15) */
@@ -100,6 +104,11 @@ return [
      * Sayfalama (/page/N) otomatik temizlenir.
      */
     'category_paths' => [
+        'dalgic-pompalar' => 'su-pompalari/dalgic-pompalar',
+        'yangin-pompalari' => 'su-pompalari/ozel-amacli-pompalar/yangin-pompalari',
+        'kademeli-pompalar' => 'su-pompalari/kademeli-pompalar',
+        'bahce-yapi-market/dalgic-pompa' => 'su-pompalari/dalgic-pompalar',
+        'dalgic-pompa/drenaj-dalgic-pompasi' => 'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
         'su-pompalari' => 'su-pompalari',
         'su-pompasi' => 'su-pompalari',
         'su-pompalari/dalgic-pompalar' => 'su-pompalari/dalgic-pompalar',

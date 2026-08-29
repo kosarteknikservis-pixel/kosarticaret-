@@ -96,6 +96,11 @@ Route::post('/pompa-secici/oner', [PumpSelectorController::class, 'recommend'])-
 Route::get('/urun/{product:slug}/taksit', ProductInstallmentController::class)->name('products.installments');
 Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:3,1')->name('products.review');
 Route::get('/kategoriler', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/kategori/{legacyCategory}', function (Illuminate\Http\Request $request) {
+    $target = \App\Support\LegacyRedirectResolver::resolve($request);
+
+    return redirect()->to(url($target ?? '/kategoriler'), 301);
+})->where('legacyCategory', '.*');
 Route::get('/urun-kategori/{legacyCategory}', function (Illuminate\Http\Request $request) {
     $target = \App\Support\LegacyRedirectResolver::resolve($request);
 

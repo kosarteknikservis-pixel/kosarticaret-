@@ -35,7 +35,7 @@
         @if($product->brand)
             <p class="shop-product-card__brand">{{ $product->brand->name }}</p>
         @endif
-        <h2 class="shop-product-card__title line-clamp-3 mt-1.5">{{ $product->name }}</h2>
+        <h3 class="shop-product-card__title line-clamp-3 mt-1.5">{{ $product->name }}</h3>
         @if($product->review_count > 0)
             <div class="mt-2">
                 @include('shop.partials.product-rating', ['rating' => $product->rating, 'count' => $product->review_count])

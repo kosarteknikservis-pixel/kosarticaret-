@@ -10,6 +10,7 @@ return [
     'register' => 'Register',
     'account' => 'My account',
     'categories' => 'Categories',
+    'category_page_h1' => ':name Prices and Models',
     'subcategories' => 'Subcategories',
     'brands' => 'Brands',
     'blog' => 'Blog',

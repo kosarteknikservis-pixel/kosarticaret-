@@ -2,7 +2,7 @@
 
 @section('content')
     <x-shop.catalog-layout
-        :title="$category->name"
+        :title="__('shop.category_page_h1', ['name' => $category->name])"
         :subtitle="$heroSubtitle ?? null"
         :intro="$category->description"
         :buying-guide="$buyingGuide ?? $category->buying_guide"
