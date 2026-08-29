@@ -98,6 +98,24 @@ class SeoController extends Controller
                 'User-agent: PerplexityBot',
                 'Allow: /',
                 '',
+                'User-agent: Google-Extended',
+                'Allow: /',
+                '',
+                'User-agent: Claude-SearchBot',
+                'Allow: /',
+                '',
+                'User-agent: Perplexity-User',
+                'Allow: /',
+                '',
+                'User-agent: Applebot-Extended',
+                'Allow: /',
+                '',
+                'User-agent: Amazonbot',
+                'Allow: /',
+                '',
+                'User-agent: cohere-ai',
+                'Allow: /',
+                '',
                 'User-agent: *',
                 'Allow: /',
                 'Disallow: /yonetim',
@@ -391,6 +409,18 @@ class SeoController extends Controller
         }
 
         return substr($value, 0, $limit);
+    }
+
+    public function bingSiteAuth(): Response
+    {
+        $xml = trim((string) SiteSetting::get('bing_site_auth_xml', ''));
+
+        abort_if($xml === '', 404);
+
+        return response($xml."\n", 200, [
+            'Content-Type' => 'application/xml; charset=UTF-8',
+            'X-Robots-Tag' => 'noindex',
+        ]);
     }
 
     public function verificationFile(string $file): Response

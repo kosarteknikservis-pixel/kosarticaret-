@@ -78,6 +78,7 @@ Route::get('/llms.txt', [SeoController::class, 'llmsTxt'])->name('llms');
 Route::get('/feed.xml', [SeoController::class, 'rss'])->name('feed');
 Route::get('/site-haritasi', [SeoController::class, 'htmlSitemap'])->name('sitemap.html');
 Route::get('/urun-feed.xml', [SeoController::class, 'merchantFeed'])->name('merchant.feed');
+Route::get('/BingSiteAuth.xml', [SeoController::class, 'bingSiteAuth'])->name('bing.verification');
 Route::get('/{file}', [SeoController::class, 'verificationFile'])
     ->where('file', 'google[a-zA-Z0-9_-]+\.html|[a-f0-9]{32}\.txt')
     ->name('google.verification-file');

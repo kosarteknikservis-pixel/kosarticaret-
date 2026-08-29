@@ -60,4 +60,41 @@ return [
         'max_urls_per_batch' => (int) env('INDEXING_MAX_URLS', 100),
         'queue' => filter_var(env('INDEXING_USE_QUEUE', false), FILTER_VALIDATE_BOOL),
     ],
+
+    /**
+     * llms.txt — GEO / AI keşfi için küratörlü referanslar (B2 + ticari kategori önceliği).
+     *
+     * @var array{
+     *     featured_category_paths: list<string>,
+     *     featured_blog_slugs: list<string>,
+     *     recent_blog_limit: int
+     * }
+     */
+    'llms' => [
+        'featured_category_paths' => [
+            'su-pompalari/dalgic-pompalar',
+            'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
+            'su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa',
+            'su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa',
+            'hidrofor-sistemleri/hidroforlar',
+            'hidrofor-sistemleri/ev-tipi-hidroforlar',
+            'hidrofor-sistemleri/frekans-kontrollu-hidroforlar',
+            'hidrofor-sistemleri/hidrofor-grubu',
+            'vantilatorler/sanayi-tipi-vantilator',
+            'su-pompalari/sirkulasyon-pompalari',
+        ],
+        'featured_blog_slugs' => [
+            'hidrofor-fiyatlari-2026-ev-apartman',
+            'hidrofor-nedir-ne-ise-yarar-nasil-calisir',
+            'dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir',
+            'sumak-pompa-marka-rehberi',
+            'sanayi-tipi-vantilator-secimi-rehberi',
+            'sicak-su-sirkulasyon-pompasi-secimi',
+            'pedrollo-sumak-hidrofor-karsilastirma',
+            'ev-tipi-hidrofor-rehberi-mustakil-ev-villa',
+            'kuyu-dalgic-pompa-secimi-derinlik-rehberi',
+            'en-iyi-hidrofor-markalari-2026',
+        ],
+        'recent_blog_limit' => 10,
+    ],
 ];

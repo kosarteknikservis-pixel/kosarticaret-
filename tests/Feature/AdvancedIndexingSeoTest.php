@@ -43,6 +43,8 @@ class AdvancedIndexingSeoTest extends TestCase
             ->assertOk()
             ->assertSee('Kategoriler', false)
             ->assertSee('/kategoriler', false)
+            ->assertSee('/blog', false)
+            ->assertSee('Rehberler', false)
             ->assertSee('/site-haritasi', false);
     }
 
@@ -66,7 +68,38 @@ class AdvancedIndexingSeoTest extends TestCase
             ->assertSee('/sitemap.xml', false)
             ->assertDontSee('Sitemap: '.url('/sitemap-images.xml'), false)
             ->assertSee('llms.txt', false)
-            ->assertSee('GPTBot', false);
+            ->assertSee('GPTBot', false)
+            ->assertSee('Google-Extended', false)
+            ->assertSee('Claude-SearchBot', false)
+            ->assertSee('Perplexity-User', false)
+            ->assertSee('Applebot-Extended', false)
+            ->assertSee('Amazonbot', false)
+            ->assertSee('cohere-ai', false)
+            ->assertDontSee('filter', false);
+    }
+
+    public function test_bing_site_auth_xml_is_served_when_configured(): void
+    {
+        $xml = <<<'XML'
+<?xml version="1.0"?>
+<users>
+    <user>TESTBINGCODE123</user>
+</users>
+XML;
+
+        SiteSetting::set('bing_site_auth_xml', $xml);
+
+        $this->get('/BingSiteAuth.xml')
+            ->assertOk()
+            ->assertHeader('content-type', 'application/xml; charset=UTF-8')
+            ->assertSee('TESTBINGCODE123', false);
+    }
+
+    public function test_bing_site_auth_xml_returns_404_when_empty(): void
+    {
+        SiteSetting::set('bing_site_auth_xml', '');
+
+        $this->get('/BingSiteAuth.xml')->assertNotFound();
     }
 
     public function test_product_offer_includes_shipping_and_return_policy(): void

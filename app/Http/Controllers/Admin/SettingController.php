@@ -29,6 +29,7 @@ class SettingController extends Controller
         'general' => [
             'site_name', 'free_shipping_min', 'product_card_free_shipping_badge', 'shop_show_stock_quantity',
             'google_site_verification', 'google_verification_file_name', 'google_verification_file_content', 'google_analytics_id',
+            'bing_site_auth_xml',
             'indexnow_enabled', 'indexnow_key',
             'recaptcha_site_key', 'recaptcha_secret_key',
         ],
@@ -84,6 +85,7 @@ class SettingController extends Controller
         'shop_show_stock_quantity',
         'contact_page_intro', 'contact_meta_title', 'contact_meta_description',
         'google_site_verification', 'google_verification_file_name', 'google_verification_file_content', 'google_analytics_id',
+        'bing_site_auth_xml',
         'indexnow_enabled', 'indexnow_key',
         'recaptcha_site_key', 'recaptcha_secret_key',
         'home_brands_title', 'promo_text', 'free_shipping_min', 'product_card_free_shipping_badge',
@@ -347,6 +349,7 @@ class SettingController extends Controller
             'google_site_verification' => ['nullable', 'string', 'max:120'],
             'google_verification_file_name' => ['nullable', 'string', 'max:120', 'regex:/^$|^google[a-zA-Z0-9_-]+\.html$/'],
             'google_verification_file_content' => ['nullable', 'string', 'max:255'],
+            'bing_site_auth_xml' => ['nullable', 'string', 'max:500'],
             'google_analytics_id' => ['nullable', 'string', 'max:32', 'regex:/^(G-[A-Z0-9]+)?$/'],
             'indexnow_enabled' => ['sometimes', 'boolean'],
             'indexnow_key' => ['nullable', 'string', 'min:8', 'max:128', 'regex:/^[a-zA-Z0-9-]+$/'],

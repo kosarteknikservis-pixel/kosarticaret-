@@ -2,9 +2,11 @@
 
 namespace App\Support;
 
+use App\Models\BlogPost;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Page;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class LlmsTxt
@@ -35,6 +37,7 @@ class LlmsTxt
             '- [Ana sayfa]('.$url.'/)',
             '- [Ürünler]('.route('products.index').')',
             '- [Kategoriler]('.route('categories.index').')',
+            '- [Blog]('.route('blog.index').')',
             '- [Markalar]('.route('brands.index').')',
             '- [Site haritası]('.route('sitemap.html').')',
             '- [İletişim]('.route('contact.show').')',
@@ -46,7 +49,7 @@ class LlmsTxt
         }
 
         $lines[] = '';
-        $lines[] = '## Kategoriler';
+        $lines[] = '## Kategoriler (ana gruplar)';
 
         Category::query()
             ->where('active', true)
@@ -57,6 +60,24 @@ class LlmsTxt
             ->each(function (Category $category) use (&$lines): void {
                 $lines[] = '- ['.$category->name.']('.$category->storefrontUrl().')';
             });
+
+        $featuredCategories = self::featuredCategories();
+        if ($featuredCategories->isNotEmpty()) {
+            $lines[] = '';
+            $lines[] = '## Önemli alt kategoriler';
+            foreach ($featuredCategories as $category) {
+                $lines[] = '- ['.$category->name.']('.$category->storefrontUrl().')';
+            }
+        }
+
+        $featuredBlog = self::featuredBlogPosts();
+        if ($featuredBlog->isNotEmpty()) {
+            $lines[] = '';
+            $lines[] = '## Rehberler (blog)';
+            foreach ($featuredBlog as $post) {
+                $lines[] = '- ['.$post->title.']('.route('blog.show', $post).')';
+            }
+        }
 
         $lines[] = '';
         $lines[] = '## Markalar';
@@ -86,5 +107,56 @@ class LlmsTxt
         $lines[] = '';
 
         return implode("\n", $lines);
+    }
+
+    /** @return Collection<int, Category> */
+    private static function featuredCategories(): Collection
+    {
+        $paths = config('seo.llms.featured_category_paths', []);
+        if (! is_array($paths) || $paths === []) {
+            return collect();
+        }
+
+        $categories = Category::query()
+            ->where('active', true)
+            ->with('parent.parent.parent')
+            ->get();
+
+        return collect($paths)
+            ->map(function (string $path) use ($categories): ?Category {
+                return $categories->first(
+                    fn (Category $category) => $category->nestedSlugPath() === $path
+                );
+            })
+            ->filter()
+            ->unique('id')
+            ->values();
+    }
+
+    /** @return Collection<int, BlogPost> */
+    private static function featuredBlogPosts(): Collection
+    {
+        $slugs = config('seo.llms.featured_blog_slugs', []);
+        $limit = max(1, (int) config('seo.llms.recent_blog_limit', 10));
+
+        $featured = collect();
+        if (is_array($slugs) && $slugs !== []) {
+            $featured = BlogPost::published()
+                ->whereIn('slug', $slugs)
+                ->get(['id', 'slug', 'title', 'published_at'])
+                ->sortBy(fn (BlogPost $post) => array_search($post->slug, $slugs, true))
+                ->values();
+        }
+
+        $recent = BlogPost::published()
+            ->latest('published_at')
+            ->limit($limit)
+            ->get(['id', 'slug', 'title', 'published_at']);
+
+        return $featured
+            ->concat($recent)
+            ->unique('id')
+            ->take(20)
+            ->values();
     }
 }

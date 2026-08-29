@@ -210,6 +210,21 @@
                 </div>
                 <div class="mt-4"><label class="admin-label">Google Analytics (GA4) ölçüm kimliği</label><input name="google_analytics_id" value="{{ $values['google_analytics_id'] }}" class="admin-input font-mono text-sm" placeholder="G-XXXXXXXXXX"></div>
 
+                <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <h4 class="text-sm font-bold text-slate-900">Bing Webmaster Tools</h4>
+                    <p class="mt-2 text-sm text-slate-600">
+                        Bing doğrulama yöntemi: <strong>XML dosyası</strong>. İndirdiğiniz <code class="font-mono text-xs">BingSiteAuth.xml</code> dosyasının tam içeriğini aşağıya yapıştırın.
+                        Kaydettikten sonra <a href="{{ url('/BingSiteAuth.xml') }}" class="text-teal-700 font-semibold hover:text-teal-900" target="_blank" rel="noopener">/BingSiteAuth.xml</a> adresinden erişilebilir olmalı; ardından Bing panelinde <strong>Doğrulamak</strong> deyin.
+                    </p>
+                    <div class="mt-4">
+                        <label class="admin-label">BingSiteAuth.xml içeriği</label>
+                        <textarea name="bing_site_auth_xml" rows="4" class="admin-input font-mono text-xs" placeholder="<?xml version=&quot;1.0&quot;?>&#10;<users>&#10;  <user>XXXXXXXX</user>&#10;</users>">{{ $values['bing_site_auth_xml'] ?? '' }}</textarea>
+                    </div>
+                    @if(!empty($values['bing_site_auth_xml']))
+                        <a class="mt-2 inline-flex text-xs font-semibold text-teal-700 hover:text-teal-900" href="{{ url('/BingSiteAuth.xml') }}" target="_blank" rel="noopener">Doğrulama dosyasını aç</a>
+                    @endif
+                </div>
+
                 <div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <label class="admin-checkbox font-semibold text-slate-800">
                         <input type="checkbox" name="indexnow_enabled" value="1" @checked(($values['indexnow_enabled'] ?? '1') === '1')>
