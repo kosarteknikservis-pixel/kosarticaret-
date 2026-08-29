@@ -9,9 +9,9 @@ return [
 
     'authors' => [
         'kosar-teknik-ekibi' => [
-            'name' => 'Koşar Teknik Ekibi',
-            'title' => 'Pompa, Hidrofor ve Havalandırma Uzmanları',
-            'bio' => 'Koşar Ticaret teknik ekibi; dalgıç pompa, hidrofor, santrifüj pompa ve endüstriyel havalandırma alanlarında saha deneyimi ve ürün bilgisiyle blog rehberlerini hazırlar. Seçim, montaj ve bakım konularında uygulanabilir, satın alma odaklı içerik üretir.',
+            'name' => 'Koşar Ticaret Teknik Editörü',
+            'title' => 'Pompa, Hidrofor ve Endüstriyel Havalandırma',
+            'bio' => 'Koşar Ticaret bünyesindeki teknik editör ekibi; dalgıç pompa, hidrofor, santrifüj pompa ve endüstriyel vantilatör konularında saha deneyimi ve ürün bilgisine dayalı rehber içerikleri hazırlar. Seçim, montaj, bakım ve arıza giderme konularında uygulanabilir, satın alma odaklı bilgi sunar.',
             'expertise' => [
                 'Hidrofor ve basınçlandırma sistemleri',
                 'Dalgıç ve santrifüj pompalar',

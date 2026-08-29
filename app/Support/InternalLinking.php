@@ -181,6 +181,56 @@ class InternalLinking
     }
 
     /**
+     * @return Collection<int, BlogPost>
+     */
+    public static function blogGuidesForBrand(string $brandSlug, int $limit = 4): Collection
+    {
+        return self::blogGuidesFromSlugs(
+            config('internal_links.blog_guides_by_brand_slug.'.$brandSlug, []),
+            $limit
+        );
+    }
+
+    /**
+     * @return Collection<int, BlogPost>
+     */
+    public static function blogGuidesForCategory(Category $category, int $limit = 4): Collection
+    {
+        $slugs = [];
+        foreach ($category->ancestorsAndSelf() as $node) {
+            $mapped = config('internal_links.blog_guides_by_category_slug.'.$node->slug, []);
+            if (is_array($mapped)) {
+                $slugs = array_merge($slugs, $mapped);
+            }
+        }
+
+        return self::blogGuidesFromSlugs($slugs, $limit);
+    }
+
+    /**
+     * @param  list<string>  $postSlugs
+     * @return Collection<int, BlogPost>
+     */
+    public static function blogGuidesFromSlugs(array $postSlugs, int $limit = 4): Collection
+    {
+        $postSlugs = array_values(array_unique(array_filter($postSlugs, fn ($slug) => is_string($slug) && $slug !== '')));
+        if ($postSlugs === []) {
+            return collect();
+        }
+
+        $posts = BlogPost::published()
+            ->whereIn('slug', $postSlugs)
+            ->get()
+            ->keyBy('slug');
+
+        return collect($postSlugs)
+            ->map(fn (string $slug) => $posts->get($slug))
+            ->filter()
+            ->take($limit)
+            ->values();
+    }
+
+    /**
      * @return array{guide: ?array{url: string, label: string, has_guide: bool}, siblings: Collection<int, Category>, cross: Collection<int, Category>}
      */
     public static function productHub(Product $product): array

@@ -12122,6 +12122,52 @@ input:focus-visible {
     }
 }
 
+.shop-related-guides {
+    margin-top: 2rem;
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--kosar-radius-lg);
+    border: 1px solid rgb(226 232 240 / 0.9);
+    background: #fff;
+}
+.shop-related-guides__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--kosar-primary);
+    margin-bottom: 0.875rem;
+}
+.shop-related-guides__list {
+    display: grid;
+    gap: 0.625rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.shop-related-guides__link {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: var(--kosar-radius-md);
+    border: 1px solid rgb(226 232 240 / 0.95);
+    color: rgb(15 23 42);
+    font-weight: 600;
+    line-height: 1.45;
+    text-decoration: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.shop-related-guides__link:hover {
+    border-color: rgb(148 163 184 / 0.9);
+    background: rgb(248 250 252);
+    color: var(--kosar-primary);
+}
+@media (min-width: 768px) {
+    .shop-related-guides {
+        padding: 1.75rem 2rem;
+    }
+    .shop-related-guides__list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+}
+
 /* ── Home references ── */
 .shop-home-references {
     padding-block: 2.5rem 3rem;

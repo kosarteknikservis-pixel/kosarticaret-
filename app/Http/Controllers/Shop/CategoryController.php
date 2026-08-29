@@ -87,6 +87,7 @@ class CategoryController extends Controller
             'subcategories' => $category->activeChildren,
             'siblingCategories' => $siblingCategories,
             'hubCategories' => $hubCategories,
+            'relatedGuides' => InternalLinking::blogGuidesForCategory($category),
             'metaTitle' => $category->meta_title ?: $category->name,
             'metaDescription' => Seo::description([
                 $category->meta_description,

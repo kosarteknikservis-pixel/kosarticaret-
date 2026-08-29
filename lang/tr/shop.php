@@ -405,6 +405,7 @@ return [
     'quote_success' => 'Teklif talebiniz alındı. En kısa sürede size dönüş yapacağız.',
     'quote_cart_empty' => 'Teklif talebi için sepetinizde ürün olmalı.',
     'buying_guide_title' => 'Satın alma rehberi',
+    'related_guides_title' => 'İlgili rehberler',
     'home_references_title' => 'Referans projeler',
     'home_references_sub' => 'Sanayi, tarım ve bina otomasyonu projelerinden seçilmiş uygulamalar.',
 ];

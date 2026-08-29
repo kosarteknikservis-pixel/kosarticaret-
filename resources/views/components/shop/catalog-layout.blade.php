@@ -14,6 +14,7 @@
     'relatedCategoriesLabel' => null,
     'hubCategories' => collect(),
     'hubCategoriesLabel' => null,
+    'relatedGuides' => collect(),
 ])
 
 <div class="shop-page shop-page--catalog">
@@ -84,6 +85,19 @@
     <section class="shop-buying-guide shop-reveal" aria-labelledby="buying-guide-title">
         <h2 id="buying-guide-title" class="shop-buying-guide__title">{{ __('shop.buying_guide_title') }}</h2>
         <x-shop.rich-content :content="$buyingGuide" />
+    </section>
+@endif
+
+@if($relatedGuides->isNotEmpty())
+    <section class="shop-related-guides shop-reveal" aria-labelledby="related-guides-title">
+        <h2 id="related-guides-title" class="shop-related-guides__title">{{ __('shop.related_guides_title') }}</h2>
+        <ul class="shop-related-guides__list">
+            @foreach($relatedGuides as $guide)
+                <li>
+                    <a href="{{ route('blog.show', $guide) }}" class="shop-related-guides__link">{{ $guide->title }}</a>
+                </li>
+            @endforeach
+        </ul>
     </section>
 @endif
 

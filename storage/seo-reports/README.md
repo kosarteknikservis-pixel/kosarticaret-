@@ -58,6 +58,23 @@ Baseline dosyasi: `storage/seo-reports/drift-baseline.json` (git'e girmez)
 
 Kontrol edilen sinyaller: `title`, `meta description`, `canonical`, `robots`, `H1`, JSON-LD tipleri, HTTP status.
 
+## Aylik B1 otomasyonu (GSC + GA4 API)
+
+Baglanti kurulduysa manuel export yerine:
+
+```bash
+php artisan seo:fetch-monthly-data
+```
+
+Cikti klasoru: `storage/seo-reports/monthly/{YYYY-MM}/`
+- `b1-report.json` — tam veri
+- `RAPOR.md` — Cursor sohbetine eklenecek ozet
+- Ayrica `gsc-performance-latest.json` guncellenir
+
+`.env`: `GOOGLE_SEO_CREDENTIALS`, `GSC_SITE_URL`, `GA4_PROPERTY_ID`
+
+API'nin veremedigi (manuel): index coverage export, CWV ekran goruntusu, manuel islem/guvenlik kontrolu.
+
 ## Aylik teknik kontrol
 
 GSC → **Sayfa dizine ekleme** / **Dizin olusturma**:
@@ -90,6 +107,7 @@ Manuel veya Cursor SEO skill ile kategori head-term karsilastirmasi:
 
 | Komut | Amac |
 |-------|------|
+| `seo:fetch-monthly-data` | GSC + GA4 API → aylik B1 paketi |
 | `seo:import-gsc-performance` | GSC xlsx → JSON + kelime takibi |
 | `seo:drift-baseline` | SEO sinyal referansi olustur |
 | `seo:drift-check` | Deploy sonrasi regresyon |
@@ -101,7 +119,10 @@ Manuel veya Cursor SEO skill ile kategori head-term karsilastirmasi:
 
 ```
 storage/seo-reports/
-  inbox/                        ← GSC xlsx dosyalari
+  monthly/{YYYY-MM}/              ← aylik B1 API ciktisi
+    b1-report.json
+    RAPOR.md
+  inbox/                        ← GSC xlsx dosyalari (manuel yedek)
   gsc-performance-latest.json   ← haftalik performans ozeti
   drift-baseline.json           ← SEO referans (manuel olusturulur)
   drift-check-latest.json       ← son drift raporu

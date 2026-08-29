@@ -16,5 +16,6 @@
         :related-categories-label="__('shop.sibling_categories')"
         :hub-categories="$hubCategories ?? collect()"
         :hub-categories-label="__('shop.cross_sell_categories')"
+        :related-guides="$relatedGuides ?? collect()"
     />
 @endsection

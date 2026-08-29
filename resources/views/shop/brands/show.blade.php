@@ -14,5 +14,6 @@
         :brands="$brands"
         :related-categories="$brandCategories ?? collect()"
         :related-categories-label="__('shop.brand_categories')"
+        :related-guides="$relatedGuides ?? collect()"
     />
 @endsection

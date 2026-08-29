@@ -42,3 +42,11 @@ Thumbs.db
 !/storage/seo-reports/inbox/.gitkeep
 /storage/seo-reports/*.json
 !/storage/seo-reports/README.md
+
+# Google servis hesabi anahtarlari (asla commit edilmez)
+*service-account*.json
+*.gsc-key.json
+.config/kosar-seo/
+
+# Aylik B1 API raporlari (trafik verisi)
+/storage/seo-reports/monthly/
