@@ -29,6 +29,10 @@ return Application::configure(basePath: dirname(__DIR__))
             ->dailyAt('04:10')
             ->withoutOverlapping();
 
+        $schedule->command('pagespeed:audit')
+            ->weeklyOn(1, '05:30')
+            ->withoutOverlapping();
+
         $schedule->command('queue:work --stop-when-empty --max-time=55')
             ->everyMinute()
             ->withoutOverlapping();

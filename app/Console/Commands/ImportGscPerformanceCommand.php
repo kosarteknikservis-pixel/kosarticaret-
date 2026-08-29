@@ -52,6 +52,27 @@ class ImportGscPerformanceCommand extends Command
         $this->line('Ilk sayfa firsati: '.count($report['opportunities']['near_first_page']));
         $this->line('Tiklamasiz yuksek gosterim: '.count($report['opportunities']['high_impressions_no_clicks']));
 
+        $tracked = $report['category_tracking']['keywords'] ?? [];
+        if ($tracked !== []) {
+            $this->newLine();
+            $this->info('Kategori kelime takibi:');
+            foreach ($tracked as $row) {
+                if (($row['status'] ?? '') === 'no_data') {
+                    $this->line('  · '.$row['keyword'].' — veri yok');
+
+                    continue;
+                }
+
+                $this->line(sprintf(
+                    '  · %s — poz. %.1f (%s) · %d tiklama',
+                    $row['keyword'],
+                    (float) $row['position'],
+                    $row['status'],
+                    (int) $row['clicks']
+                ));
+            }
+        }
+
         return self::SUCCESS;
     }
 

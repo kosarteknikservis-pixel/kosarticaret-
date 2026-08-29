@@ -7,6 +7,7 @@ use ZipArchive;
 
 class GscPerformanceImporter
 {
+    public function __construct(private GscCategoryRankTracker $rankTracker) {}
     private const QUERY_SHEET_NAMES = ['Sorgular', 'Queries', 'Sorgu'];
 
     /**
@@ -17,6 +18,10 @@ class GscPerformanceImporter
      *     opportunities: array{
      *         near_first_page: list<array{query: string, clicks: int, impressions: int, position: float}>,
      *         high_impressions_no_clicks: list<array{query: string, impressions: int, position: float}>
+     *     },
+     *     category_tracking: array{
+     *         tracked_at: string,
+     *         keywords: list<array<string, mixed>>
      *     },
      *     totals: array{clicks: int, impressions: int, query_count: int}
      * }
@@ -50,6 +55,10 @@ class GscPerformanceImporter
             'source_file' => basename($filePath),
             'queries' => $queries,
             'opportunities' => $this->buildOpportunities($queries),
+            'category_tracking' => $this->rankTracker->track(
+                $queries,
+                config('seo_monitoring.category_keywords', [])
+            ),
             'totals' => [
                 'clicks' => array_sum(array_column($queries, 'clicks')),
                 'impressions' => array_sum(array_column($queries, 'impressions')),
