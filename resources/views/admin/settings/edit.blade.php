@@ -218,7 +218,7 @@
                     </p>
                     <div class="mt-4">
                         <label class="admin-label">BingSiteAuth.xml içeriği</label>
-                        <textarea name="bing_site_auth_xml" rows="4" class="admin-input font-mono text-xs" placeholder="<?xml version=&quot;1.0&quot;?>&#10;<users>&#10;  <user>XXXXXXXX</user>&#10;</users>">{{ $values['bing_site_auth_xml'] ?? '' }}</textarea>
+                        <textarea name="bing_site_auth_xml" rows="4" class="admin-input font-mono text-xs" placeholder="BingSiteAuth.xml dosyasinin tam icerigini yapistirin (&lt;users&gt;&lt;user&gt;...&lt;/user&gt;&lt;/users&gt;)">{{ $values['bing_site_auth_xml'] ?? '' }}</textarea>
                     </div>
                     @if(!empty($values['bing_site_auth_xml']))
                         <a class="mt-2 inline-flex text-xs font-semibold text-teal-700 hover:text-teal-900" href="{{ url('/BingSiteAuth.xml') }}" target="_blank" rel="noopener">Doğrulama dosyasını aç</a>
