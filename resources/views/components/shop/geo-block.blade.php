@@ -17,6 +17,11 @@
             @if(filled($band['note'] ?? null))
                 <p class="shop-geo-block__price-note">{{ $band['note'] }}</p>
             @endif
+            @if(!empty($geo['guide_cta']))
+                <p class="shop-geo-block__cta">
+                    <a href="{{ $geo['guide_cta']['url'] }}" class="shop-geo-block__cta-link">{{ $geo['guide_cta']['label'] }}</a>
+                </p>
+            @endif
         </div>
     @endif
 

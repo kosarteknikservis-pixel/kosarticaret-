@@ -1639,6 +1639,27 @@
             "publish_on": "2026-08-31",
             "title": "En İyi Dalgıç Pompa Markası Rehberi",
             "series": "geo-2026-08"
+        },
+        {
+            "day": 108,
+            "file": "b2-dalgic-pompa-fiyatlari-2026.json",
+            "publish_on": "2026-09-05",
+            "title": "Dalgıç Pompa Fiyatları 2026: Tip, Derinlik ve Marka Rehberi",
+            "series": "b2-2026-09"
+        },
+        {
+            "day": 108,
+            "file": "b2-jakuzi-pompasi-secimi.json",
+            "publish_on": "2026-09-08",
+            "title": "Jakuzi Pompası Seçimi: Debi, Basınç ve Sessizlik Rehberi",
+            "series": "b2-2026-09"
+        },
+        {
+            "day": 108,
+            "file": "b2-kis-oncesi-sirkulasyon-degisim.json",
+            "publish_on": "2026-09-12",
+            "title": "Kış Öncesi Sirkülasyon Pompası Değişim Rehberi",
+            "series": "b2-2026-09"
         }
     ]
 }

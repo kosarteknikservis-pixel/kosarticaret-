@@ -57,6 +57,14 @@ final class GeoPageBlocks
             ];
         }
 
+        $guideCta = $block['guide_cta'] ?? null;
+        if (is_array($guideCta) && filled($guideCta['url'] ?? null) && filled($guideCta['label'] ?? null)) {
+            $normalized['guide_cta'] = [
+                'label' => trim((string) $guideCta['label']),
+                'url' => trim((string) $guideCta['url']),
+            ];
+        }
+
         return $normalized;
     }
 }

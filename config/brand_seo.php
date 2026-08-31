@@ -15,11 +15,23 @@ return [
 
 <h3>Sumak Pompa Kategorileri</h3>
 <ul>
-  <li><a href="/kategoriler/hidrofor-sistemleri/hidroforlar"><strong>Sumak hidrofor fiyatları</strong></a> — SKS ve SKT serileri ev tipi ve çok katlı bina hidroforları; 24-100 lt tank seçenekleri.</li>
+  <li><a href="/kategoriler/hidrofor-sistemleri/sumak-hidrofor"><strong>Sumak hidrofor fiyatları</strong></a> — SKS ve SKT serileri ev tipi ve çok katlı bina hidroforları; 24-100 lt tank seçenekleri.</li>
   <li><a href="/kategoriler/su-pompalari/santrifuj-pompalar"><strong>Santrifüj Pompalar</strong></a> — Tek ve çift fanlı modeller; tarımsal sulama ve bina tesisatı için ekonomik çözüm.</li>
   <li><a href="/kategoriler/su-pompalari/dalgic-pompalar"><strong>Dalgıç Pompalar</strong></a> — Temiz su, drenaj ve kirli su dalgıç pompaları; keson kuyu ve sarnıç uygulamaları.</li>
   <li><a href="/kategoriler/su-pompalari/sirkulasyon-pompalari"><strong>Sirkülasyon Pompaları</strong></a> — Kalorifer ve yerden ısıtma devreleri için enerji tasarruflu modeller.</li>
 </ul>
+
+<h3>Sumak Seri Karşılaştırması</h3>
+<table>
+<thead><tr><th>Seri</th><th>Kullanım</th><th>Tank / güç</th><th>Not</th></tr></thead>
+<tbody>
+<tr><td><strong>SKS</strong></td><td>Müstakil ev, yazlık</td><td>24–50 L · 0,5–1 HP</td><td>Kompakt paket hidrofor</td></tr>
+<tr><td><strong>SKT</strong></td><td>Apartman, yoğun kullanım</td><td>50–100 L · 1–2 HP</td><td>Yüksek debi</td></tr>
+<tr><td><strong>SSP-INV</strong></td><td>Konfor + enerji tasarrufu</td><td>Frekans kontrollü</td><td>Sessiz inverter motor</td></tr>
+<tr><td><strong>Dalgıç serileri</strong></td><td>Kuyu, drenaj, foseptik</td><td>Derinliğe göre kW</td><td>Temiz / kirli su ayrımı</td></tr>
+</tbody>
+</table>
+<p>Detaylı seri farkları: <a href="/blog/sumak-hidrofor-sks-skt-serileri">Sumak SKS/SKT rehberi</a> · Genel marka bilgisi: <a href="/blog/sumak-pompa-marka-rehberi">Sumak pompa marka rehberi</a></p>
 
 <h3>Sumak'ın Avantajları</h3>
 <p>Türkiye'de üretilen Sumak pompalarda <strong>yerli yedek parça bulunabilirliği</strong> ve <strong>geniş servis ağı</strong> en büyük avantajdır. İthal markaya göre daha kısa teslimat süresi ve ekonomik fiyatıyla Sumak; bütçe odaklı projeler için güvenilir bir tercih olmaya devam etmektedir. Koşar Ticaret olarak Sumak'ın yetkili satıcısıyız; stokta hazır ürünler için aynı gün kargo desteği sunuyoruz.</p>

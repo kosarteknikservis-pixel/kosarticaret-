@@ -14,6 +14,10 @@ return [
                 'currency' => 'TRY',
                 'note' => 'Ev tipi paketlerden çok pompalı apartman gruplarına kadar; motor gücü, tank hacmi ve markaya göre değişir.',
             ],
+            'guide_cta' => [
+                'label' => 'Detaylı hidrofor fiyat rehberi (2026)',
+                'url' => '/blog/hidrofor-fiyatlari-2026-ev-apartman',
+            ],
             'selection_table' => [
                 'title' => 'Kaç katlı binaya hangi hidrofor tipi?',
                 'headers' => ['Kullanım', 'Kat / daire', 'Önerilen tip', 'Tank / güç'],
@@ -74,12 +78,14 @@ return [
                 'note' => 'Ev tipi hidrofordan endüstriyel dalgıç gruplarına; seri ve kW\'a göre değişir.',
             ],
             'selection_table' => [
-                'title' => 'Sumak pompa hangi ihtiyaç için?',
-                'headers' => ['İhtiyaç', 'Sumak serisi / tip', 'Not'],
+                'title' => 'Sumak seri karşılaştırması (SKS / SKT / dalgıç)',
+                'headers' => ['Seri / grup', 'Kullanım', 'Tank / güç', 'Not'],
                 'rows' => [
-                    ['Ev basınçlandırma', 'SKS / SKT hidrofor', 'Ekonomik paket'],
-                    ['Kuyu / sarnıç', 'Sumak dalgıç', 'Derinliğe göre model'],
-                    ['Sulama / transfer', 'Jet / santrifüj', 'Yüzey montaj'],
+                    ['SKS hidrofor', 'Müstakil ev, yazlık', '24–50 L · 0,5–1 HP', 'Kompakt paket'],
+                    ['SKT hidrofor', 'Apartman, yoğun kullanım', '50–100 L · 1–2 HP', 'Yüksek debi'],
+                    ['SSP-INV', 'Konfor + enerji tasarrufu', 'Frekans kontrollü', 'Sessiz çalışma'],
+                    ['Sumak dalgıç', 'Kuyu, drenaj, foseptik', 'Derinliğe göre kW', 'Temiz / kirli su'],
+                    ['Jet / santrifüj', 'Sulama, transfer', 'Yüzey montaj', 'Ekonomik segment'],
                 ],
             ],
         ],
