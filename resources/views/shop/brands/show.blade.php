@@ -2,7 +2,7 @@
 
 @section('content')
     <x-shop.catalog-layout
-        :title="$brand->name"
+        :title="config('brand_seo.'.$brand->slug.'.h1') ?: $brand->name.' Modelleri ve Fiyatları'"
         :intro="$brand->description"
         :faq="$brand->faq ?? []"
         :breadcrumbs="[

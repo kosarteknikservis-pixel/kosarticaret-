@@ -6,6 +6,7 @@
  */
 return [
     'sumak' => [
+        'h1' => 'Sumak Pompa Fiyatları ve Modelleri',
         'meta_title' => 'Sumak Pompa ve Hidrofor Modelleri | Yetkili Satıcı',
         'meta_description' => 'Sumak pompa fiyatları ve modelleri: hidrofor SKS/SKT, dalgıç pompa, jet ve santrifüj. Orijinal ürün, geniş stok, hızlı kargo. Koşar Ticaret yetkili satıcı.',
         'description' => <<<'HTML'
@@ -26,6 +27,7 @@ HTML,
     ],
 
     'kaysu' => [
+        'h1' => 'Kaysu Pompa ve Hidrofor Fiyatları',
         'meta_title' => 'Kaysu Hidrofor ve Pompa Fiyatları | Orijinal Ürün',
         'meta_description' => 'Kaysu hidrofor modelleri ve fiyatları: ev tipi paket sistemler, santrifüj ve dalgıç pompa. Yerli üretim, yedek parça, hızlı teslimat. Koşar Ticaret.',
         'description' => <<<'HTML'
@@ -66,6 +68,7 @@ HTML,
     ],
 
     'pedrollo' => [
+        'h1' => 'Pedrollo Pompa Fiyatları ve Modelleri',
         'meta_title' => 'Pedrollo Pompa Modelleri ve Fiyatları | Koşar Ticaret',
         'meta_description' => 'Pedrollo pompa modelleri: derin kuyu dalgıç, santrifüj, hidrofor ve drenaj çözümleri. Teknik özellikleri karşılaştırın, ihtiyacınıza uygun modeli seçin.',
         'description' => <<<'HTML'
@@ -108,6 +111,7 @@ HTML,
     ],
 
     'winpo' => [
+        'h1' => 'Winpo Pompa Modelleri ve Fiyatları',
         'meta_title' => 'Winpo Pompa ve WNP Modelleri | Orijinal Ürün',
         'meta_description' => 'Winpo WNP pompa modelleri: derin kuyu, dalgıç, dik milli ve paket hidrofor seçenekleri. Teknik özellik, stok ve uzman seçim desteği.',
         'description' => <<<'HTML'
@@ -137,6 +141,7 @@ HTML,
     ],
 
     'kosar' => [
+        'h1' => 'Koşar Pompa ve Vantilatör Fiyatları',
         'meta_title' => 'Koşar Ticaret | Hidrofor, Pompa ve Vantilatör',
         'meta_description' => 'Koşar Ticaret resmi sitesi: Pedrollo, Sumak, Kaysu yetkili satıcı. Su pompası, hidrofor, dalgıç pompa ve sanayi vantilatörü. Ücretsiz teknik danışmanlık, hızlı kargo.',
         'description' => <<<'HTML'
