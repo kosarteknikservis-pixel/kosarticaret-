@@ -88,6 +88,7 @@ class CategoryController extends Controller
             'siblingCategories' => $siblingCategories,
             'hubCategories' => $hubCategories,
             'relatedGuides' => InternalLinking::blogGuidesForCategory($category),
+            'geo' => $landing['geo'],
             'metaTitle' => $category->meta_title ?: $category->name,
             'metaDescription' => Seo::description([
                 $category->meta_description,

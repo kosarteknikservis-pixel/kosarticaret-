@@ -55,6 +55,12 @@
             @endif
         </div>
 
+        @if(!empty($geo))
+            <div class="mt-6 shop-reveal">
+                <x-shop.geo-block :geo="$geo" />
+            </div>
+        @endif
+
         {{-- Article content --}}
         <div class="mt-8 shop-reveal">
             <x-shop.rich-content :content="$post->content"

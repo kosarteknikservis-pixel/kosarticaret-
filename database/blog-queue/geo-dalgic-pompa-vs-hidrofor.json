@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "dalgic-pompa-vs-hidrofor-farklari",
+            "title": "Dalgıç Pompa mı Hidrofor mu? Farklar ve Hangisi Ne Zaman?",
+            "excerpt": "Dalgıç pompa ile hidrofor aynı işi yapmaz. Kuyu, drenaj ve bina basınçlandırma senaryolarında hangisinin seçileceğini karşılaştırmalı rehber.",
+            "meta_title": "Dalgıç Pompa mı Hidrofor mu? Farklar ve Seçim",
+            "meta_description": "Dalgıç pompa ile hidrofor farkı nedir? Kuyu suyu, apartman basıncı ve drenaj için hangisi kullanılır? Karşılaştırma tablosu ve seçim rehberi.",
+            "tags": [
+                "dalgıç pompa vs hidrofor",
+                "dalgıç pompa hidrofor farkı",
+                "hidrofor",
+                "dalgıç pompa",
+                "su pompası seçimi"
+            ],
+            "image_alt": "Dalgıç pompa ve hidrofor farkları — seçim rehberi",
+            "published": true,
+            "published_at": "2026-08-31 09:00:00",
+            "content": "<p><strong>Dalgıç pompa</strong> suyun içinde çalışır; kuyu, sarnıç, drenaj ve foseptik uygulamalarında suyu yukarı taşır. <strong>Hidrofor</strong> ise pompa + basınç tankı + otomatik kontrol ile bina içinde musluklara sabit basınç sağlar. İkisi farklı problemleri çözer; birbirinin yerine her zaman kullanılamaz.</p>\n\n<p>Detay: <a href=\"/blog/dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir\">dalgıç pompa nedir?</a> · <a href=\"/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir\">hidrofor nedir?</a></p>\n\n<h2>Dalgıç Pompa ile Hidrofor Arasındaki Temel Fark Nedir?</h2>\n<p>Dalgıç pompa emme hattı olmadan sıvı içinde çalışır; hidrofor sistemi yüzeydeki veya depodaki suyu basınçlandırır. Kuyudan su çekmek için dalgıç; çekilen suyu dairelere eşit basınçla dağıtmak için hidrofor gerekir.</p>\n\n<h2>Hangi Uygulamada Hangisi Kullanılır?</h2>\n<table>\n<thead><tr><th>İhtiyaç</th><th>Tercih</th><th>Neden</th></tr></thead>\n<tbody>\n<tr><td>Derin kuyudan su çekme</td><td>Dalgıç pompa</td><td>Emiş yüksekliği sınırı yok</td></tr>\n<tr><td>Apartmanda sabit basınç</td><td>Hidrofor sistemi</td><td>Tank + presostat / frekans kontrol</td></tr>\n<tr><td>Bodrum su tahliyesi</td><td>Dalgıç (drenaj)</td><td>Kirli su, float anahtar</td></tr>\n<tr><td>Şebeke basıncı düşük bina</td><td>Hidrofor</td><td>Musluk basıncını sabitler</td></tr>\n<tr><td>Kuyu + bina birlikte</td><td>Dalgıç + hidrofor</td><td>Çekme ve basınçlandırma ayrı katman</td></tr>\n</tbody>\n</table>\n\n<h2>Dalgıç Pompa Hidrofor Olarak Kullanılır mı?</h2>\n<p>Kuyu dalgıç pompası tek başına apartman basıncını sabitlemez; tank ve basınç kontrolü olmadan musluk açılınca ani basınç düşüşü yaşanır. Kuyudan depoya basan dalgıç pompanın çıkışına <a href=\"/kategoriler/hidrofor-sistemleri\">hidrofor</a> eklenmesi doğru mimaridir.</p>\n\n<h2>Maliyet ve Bakım Açısından Fark</h2>\n<p>Dalgıç pompa kurulumu kuyu derinliği ve kablo/hat maliyetini artırır; bakımda pompa çekilir. Hidrofor yüzeyde veya teknik odada erişilebilir; presostat, tank membranı ve pompa parçaları periyodik kontrol ister.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>Evimde hem kuyu hem düşük basınç var, ne almalıyım?</h3>\n<p>Önce kuyu derinliğine uygun <a href=\"/kategoriler/su-pompalari/dalgic-pompalar\">dalgıç pompa</a>, ardından daire sayısına göre hidrofor veya hidromat.</p>\n\n<h3>Sadece hidrofor kuyudan su çeker mi?</h3>\n<p>Yüzey jet/santrifüj hidrofor sığ kuyuda (≈8 m altı) çalışabilir; derin kuyuda dalgıç pompa şarttır.</p>\n\n<h3>Drenaj için hidrofor gerekir mi?</h3>\n<p>Hayır. Bodrum drenajında <a href=\"/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa\">drenaj dalgıç pompa</a> yeterlidir.</p>\n\n<p>Projenize göre model: <a href=\"/pompa-secici\">Pompa Seçim Programı</a> · <a href=\"/iletisim\">teknik danışmanlık</a></p>"
+        }
+    ]
+}

@@ -1618,6 +1618,27 @@
             "publish_on": "2026-09-29",
             "title": "Jet Pompa Bakım Disiplini ve Periyodik Kontrol Listesi",
             "series": "jet-pompa-isletme"
+        },
+        {
+            "day": 107,
+            "file": "geo-dalgic-pompa-vs-hidrofor.json",
+            "publish_on": "2026-08-31",
+            "title": "Dalgıç Pompa mı Hidrofor mu?",
+            "series": "geo-2026-08"
+        },
+        {
+            "day": 107,
+            "file": "geo-kac-katli-binaya-hangi-hidrofor.json",
+            "publish_on": "2026-08-31",
+            "title": "Kaç Katlı Binaya Hangi Hidrofor?",
+            "series": "geo-2026-08"
+        },
+        {
+            "day": 107,
+            "file": "geo-en-iyi-dalgic-pompa-markasi.json",
+            "publish_on": "2026-08-31",
+            "title": "En İyi Dalgıç Pompa Markası Rehberi",
+            "series": "geo-2026-08"
         }
     ]
 }

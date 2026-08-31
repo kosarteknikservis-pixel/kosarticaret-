@@ -406,6 +406,8 @@ return [
     'quote_cart_empty' => 'Teklif talebi için sepetinizde ürün olmalı.',
     'buying_guide_title' => 'Satın alma rehberi',
     'related_guides_title' => 'İlgili rehberler',
+    'geo_short_answer_label' => 'Kısa cevap',
+    'geo_price_band_label' => 'Fiyat aralığı (orientasyon)',
     'home_references_title' => 'Referans projeler',
     'home_references_sub' => 'Sanayi, tarım ve bina otomasyonu projelerinden seçilmiş uygulamalar.',
 ];

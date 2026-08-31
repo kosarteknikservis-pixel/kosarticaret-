@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Services\CatalogQuery;
 use App\Support\CatalogPaginationSeo;
+use App\Support\GeoPageBlocks;
 use App\Support\InternalLinking;
 use App\Support\Seo;
 use App\Support\SiteName;
@@ -71,6 +72,7 @@ class BrandController extends Controller
             'brandCategories' => $brandCategories,
             'brands' => Brand::query()->where('active', true)->orderBy('name')->get(),
             'relatedGuides' => InternalLinking::blogGuidesForBrand($brand->slug),
+            'geo' => GeoPageBlocks::forBrand($brand->slug),
             'breadcrumbs' => $breadcrumbs,
             'metaTitle' => $brand->meta_title ?: $brand->name.' '.config('seo.brand_page_title_suffix', 'Ürünleri ve Fiyatları'),
             'metaDescription' => Seo::description([

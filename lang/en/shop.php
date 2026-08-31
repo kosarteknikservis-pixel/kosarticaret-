@@ -406,6 +406,8 @@ return [
     'quote_cart_empty' => 'Your cart must contain items to request a quote.',
     'buying_guide_title' => 'Buying guide',
     'related_guides_title' => 'Related guides',
+    'geo_short_answer_label' => 'Short answer',
+    'geo_price_band_label' => 'Price range (guide)',
     'home_references_title' => 'Reference projects',
     'home_references_sub' => 'Selected applications from industrial, agricultural and building automation projects.',
 ];

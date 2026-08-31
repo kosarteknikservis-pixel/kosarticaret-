@@ -12099,6 +12099,94 @@ input:focus-visible {
     to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── GEO block (kısa cevap + fiyat bandı + seçim tablosu) ── */
+.shop-geo-block {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    padding: 1.25rem 1rem;
+    border-radius: var(--kosar-radius-lg);
+    border: 1px solid rgb(191 219 254 / 0.9);
+    background: linear-gradient(180deg, rgb(239 246 255 / 0.95) 0%, #fff 100%);
+}
+.shop-geo-block__label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgb(29 78 216);
+    margin-bottom: 0.375rem;
+}
+.shop-geo-block__text {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: rgb(15 23 42);
+    margin: 0;
+}
+.shop-geo-block__answer {
+    margin-bottom: 1rem;
+}
+.shop-geo-block__price {
+    padding-top: 1rem;
+    border-top: 1px solid rgb(226 232 240 / 0.9);
+    margin-bottom: 1rem;
+}
+.shop-geo-block__price-value {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--kosar-primary);
+    margin: 0 0 0.25rem;
+}
+.shop-geo-block__price-note {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: rgb(100 116 139);
+    margin: 0;
+}
+.shop-geo-block__table-wrap {
+    padding-top: 1rem;
+    border-top: 1px solid rgb(226 232 240 / 0.9);
+}
+.shop-geo-block__table-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--kosar-primary);
+    margin: 0 0 0.75rem;
+    line-height: 1.35;
+}
+.shop-geo-block__table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.shop-geo-block__table {
+    width: 100%;
+    min-width: 280px;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+.shop-geo-block__table th,
+.shop-geo-block__table td {
+    padding: 0.625rem 0.75rem;
+    border: 1px solid rgb(226 232 240);
+    text-align: left;
+    vertical-align: top;
+}
+.shop-geo-block__table th {
+    background: rgb(248 250 252);
+    font-weight: 600;
+    color: rgb(30 41 59);
+}
+@media (min-width: 768px) {
+    .shop-geo-block {
+        padding: 1.5rem 1.75rem;
+    }
+    .shop-geo-block__text {
+        font-size: 1rem;
+    }
+    .shop-geo-block__table-title {
+        font-size: 1.125rem;
+    }
+}
+
 /* ── Buying guide (category) ── */
 .shop-buying-guide {
     margin-top: 2.5rem;

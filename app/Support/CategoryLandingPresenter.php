@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 final class CategoryLandingPresenter
 {
-    /** @return array{subtitle: ?string, buying_guide: ?string, faq: list<array{q: string, a: string}>, trust: list<array{icon: string, label: string}>} */
+    /** @return array{subtitle: ?string, buying_guide: ?string, faq: list<array{q: string, a: string}>, trust: list<array{icon: string, label: string}>, geo: ?array} */
     public static function for(Category $category): array
     {
         $path = $category->nestedSlugPath();
@@ -36,6 +36,7 @@ final class CategoryLandingPresenter
             'buying_guide' => $buyingGuide,
             'faq' => $faq,
             'trust' => is_array($trust) ? $trust : [],
+            'geo' => GeoPageBlocks::forCategory($path),
         ];
     }
 

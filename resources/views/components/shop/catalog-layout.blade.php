@@ -15,6 +15,7 @@
     'hubCategories' => collect(),
     'hubCategoriesLabel' => null,
     'relatedGuides' => collect(),
+    'geo' => null,
 ])
 
 <div class="shop-page shop-page--catalog">
@@ -23,6 +24,10 @@
 @endif
 
 <x-shop.page-hero :title="$title" :subtitle="$subtitle" />
+
+@if(!empty($geo))
+    <x-shop.geo-block :geo="$geo" />
+@endif
 
 <x-shop.category-trust-strip :items="$trustPoints" />
 

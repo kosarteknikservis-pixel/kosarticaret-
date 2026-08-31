@@ -1,0 +1,24 @@
+{
+    "type": "kosar-blog-export",
+    "version": 1,
+    "posts": [
+        {
+            "slug": "kac-katli-binaya-hangi-hidrofor",
+            "title": "Kaç Katlı Binaya Hangi Hidrofor? 3, 5 ve 10 Kat Rehberi",
+            "excerpt": "3, 5 ve 10 katlı bina için hidrofor tipi, motor gücü, tank hacmi ve frekans kontrollü seçenekler — kat ve daire sayısına göre pratik tablo.",
+            "meta_title": "Kaç Katlı Binaya Hangi Hidrofor? 3 / 5 / 10 Kat",
+            "meta_description": "3 katlı, 5 katlı ve 10 katlı binaya hangi hidrofor lazım? Ev tipi, grup ve frekans kontrollü seçim tablosu; kW, tank ve fiyat orientasyonu.",
+            "tags": [
+                "3 katlı binaya hangi hidrofor",
+                "5 katlı hidrofor",
+                "10 kat hidrofor",
+                "apartman hidrofor seçimi",
+                "hidrofor fiyatları"
+            ],
+            "image_alt": "Kaç katlı binaya hangi hidrofor — 3 5 10 kat seçim rehberi",
+            "published": true,
+            "published_at": "2026-08-31 09:30:00",
+            "content": "<p><strong>Kat ve daire sayısı</strong>, hidrofor seçiminde belirleyici parametrelerden biridir. Yanlış kapasite hem yetersiz basınç hem gereksiz enerji tüketimi üretir. Aşağıdaki tablo orientasyon içindir; kesin seçim debi, boru çapı ve eşzamanlı musluk sayısı ile netleştirilmelidir.</p>\n\n<p>Genel rehber: <a href=\"/blog/apartman-icin-hidrofor-nasil-secilir\">apartman hidrofor seçimi</a> · Fiyat: <a href=\"/blog/hidrofor-fiyatlari-2026-ev-apartman\">hidrofor fiyatları 2026</a> · Ürünler: <a href=\"/kategoriler/hidrofor-sistemleri\">hidrofor sistemleri</a></p>\n\n<h2>3 Katlı Binaya Hangi Hidrofor Lazım?</h2>\n<p>Müstakil ev ve 2–4 dairelik yapılarda genelde <strong>ev tipi paket hidrofor</strong> (0,5–1,1 kW, 24–50 L tank) yeterlidir. Musluk ve duş eşzamanlı açılımı düşükse monofaze jet veya santrifüj paket tercih edilir.</p>\n\n<h2>5 Katlı Apartman İçin Hidrofor Ne Olmalı?</h2>\n<p>5–8 kat ve orta daire sayısında <strong>1,5–2,2 kW</strong> motor, <strong>50–100 L</strong> tank ve frekans kontrollü veya çift pompalı grup sistemleri değerlendirilir. Basınç dalgalanmasını azaltmak için frekans invertörlü modeller avantajlıdır.</p>\n\n<h2>10 Katlı Site veya İşyeri Hidroforu</h2>\n<p>10 kat ve üzeri yapılarda <strong>hidrofor grubu</strong> (çok pompalı, 3 kW+) ve hidrolik denge tankı gerekebilir. Proje debisi hesabı ve yangın hattı varsa ayrı hat ayrı değerlendirilmelidir.</p>\n\n<h2>Kat Sayısına Göre Hızlı Seçim Tablosu</h2>\n<table>\n<thead><tr><th>Kat / daire</th><th>Önerilen tip</th><th>Motor / tank</th><th>Fiyat orientasyonu</th></tr></thead>\n<tbody>\n<tr><td>1–3 kat, 1–4 daire</td><td>Ev tipi paket</td><td>0,5–1,1 kW · 24–50 L</td><td>2.500–15.000 TL bandı</td></tr>\n<tr><td>3–6 kat, 5–12 daire</td><td>Frekans kontrollü / grup</td><td>1,5–2,2 kW · 50–100 L</td><td>8.000–35.000 TL bandı</td></tr>\n<tr><td>7–10 kat, site</td><td>Hidrofor grubu</td><td>Çok pompalı · 3 kW+</td><td>15.000–120.000 TL bandı</td></tr>\n</tbody>\n</table>\n<p><em>Güncel fiyat ürün kartındadır; tablo yalnızca segment orientasyonudur.</em></p>\n\n<h2>Frekans Kontrollü mü Klasik Presostat mı?</h2>\n<p>Düşük–orta katlı konutlarda presostatlı paket ekonomiktir. Yoğun kullanım, sessizlik ve basınç stabilitesi istenen apartmanlarda frekans kontrollü hidrofor tercih edilir.</p>\n\n<h2>Sık Sorulan Sorular</h2>\n\n<h3>3 katlı müstakil ev için 0,5 HP yeterli mi?</h3>\n<p>Bahçe sulama ve 2–3 banyo varsa debi hesabı yapılmalı; birçok projede 0,75–1 HP daha güvenli marjdır.</p>\n\n<h3>5 katlı binada hidrofor basıncı kaç bar olmalı?</h3>\n<p>Genelde 2,5–4 bar hedeflenir; en üst kat musluğu ve boru kaybı hesaba katılır.</p>\n\n<h3>10 katlı bina tek pompa ile olur mu?</h3>\n<p>Çoğu projede çift pompalı grup ve yedekleme mantığı tercih edilir; tek pompa arızasında tüm bina susuz kalır.</p>\n\n<p>Marka karşılaştırması: <a href=\"/blog/pedrollo-sumak-hidrofor-karsilastirma\">Pedrollo vs Sumak hidrofor</a> · <a href=\"/pompa-secici\">Pompa Seçim Programı</a></p>"
+        }
+    ]
+}

@@ -17,5 +17,6 @@
         :hub-categories="$hubCategories ?? collect()"
         :hub-categories-label="__('shop.cross_sell_categories')"
         :related-guides="$relatedGuides ?? collect()"
+        :geo="$geo ?? null"
     />
 @endsection

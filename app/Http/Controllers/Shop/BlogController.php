@@ -7,6 +7,7 @@ use App\Models\BlogPost;
 use App\Models\Product;
 use App\Support\BlogAuthor;
 use App\Support\CatalogPaginationSeo;
+use App\Support\GeoPageBlocks;
 use App\Support\InternalLinking;
 use App\Support\Seo;
 use App\Support\SiteName;
@@ -111,6 +112,7 @@ class BlogController extends Controller
             'ogImageMeta' => Seo::openGraphImage($post->image, 'blog-card', (string) ($post->image_alt ?: $post->title)),
             'ogImage' => $post->imageUrl('blog-card') ?? $post->imageUrl(),
             'jsonLd' => [Seo::article($post), Seo::breadcrumbs($breadcrumbs)],
+            'geo' => GeoPageBlocks::forBlog($post->slug),
         ]);
     }
 
