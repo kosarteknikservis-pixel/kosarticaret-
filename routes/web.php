@@ -48,7 +48,7 @@ use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\ContactController;
 use App\Http\Controllers\Shop\CustomerAuthController;
 use App\Http\Controllers\Shop\FavoriteController;
-use App\Http\Controllers\Shop\HomeController;
+use App\Http\Controllers\Shop\HeaderSummaryController;
 use App\Http\Controllers\Shop\LocaleController;
 use App\Http\Controllers\Shop\OrderTrackingController;
 use App\Http\Controllers\Shop\PageController;
@@ -134,6 +134,8 @@ Route::get('/marka/{brand:slug}', [BrandController::class, 'show'])->name('brand
 Route::get('/ara', SearchController::class)->name('search');
 Route::get('/ara/oneri', SearchSuggestController::class)->name('search.suggest');
 Route::post('/analitik/aktif', AnalyticsHeartbeatController::class)->middleware('throttle:12,1')->name('analytics.heartbeat');
+
+Route::get('/header/ozet', HeaderSummaryController::class)->name('header.summary');
 
 Route::get('/sepet', [CartController::class, 'index'])->name('cart.index');
 Route::post('/sepet/ekle/{product:slug}', [CartController::class, 'add'])->name('cart.add');

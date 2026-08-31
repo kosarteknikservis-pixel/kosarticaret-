@@ -1,11 +1,38 @@
-(function () {
-    const token = document.querySelector('meta[name="csrf-token"]')?.content;
-    const headers = {
-        'X-CSRF-TOKEN': token,
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-    };
+function kosarReadCookie(name) {
+    const escaped = name.replace(/[.$?*|{}()[\]\\/+^]/g, '\\$&');
+    const match = document.cookie.match(new RegExp('(?:^|; )' + escaped + '=([^;]*)'));
 
+    return match ? decodeURIComponent(match[1]) : '';
+}
+
+function kosarGetAjaxHeaders(extra = {}) {
+    const headers = {
+        Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        ...extra,
+    };
+    const xsrf = kosarReadCookie('XSRF-TOKEN');
+    if (xsrf) {
+        headers['X-XSRF-TOKEN'] = xsrf;
+    }
+
+    return headers;
+}
+
+function kosarApplyCsrfToken(token) {
+    if (!token) {
+        return;
+    }
+    document.querySelectorAll('input[name="_token"]').forEach((el) => {
+        el.value = token;
+    });
+    const meta = document.querySelector('meta[name="csrf-token"]');
+    if (meta) {
+        meta.setAttribute('content', token);
+    }
+}
+
+(function () {
     function bumpBadges(els) {
         els.forEach((el) => {
             if (el.classList.contains('hidden') || el.classList.contains('is-empty')) return;
@@ -53,7 +80,8 @@
     async function cartRequest(url, method, body) {
         const res = await fetch(url, {
             method,
-            headers: { ...headers, ...(body ? { 'Content-Type': 'application/json' } : {}) },
+            headers: kosarGetAjaxHeaders(body ? { 'Content-Type': 'application/json' } : {}),
+            credentials: 'same-origin',
             body: body ? JSON.stringify(body) : undefined,
         });
         return res.json();
@@ -106,7 +134,7 @@
         if (!drawerBody) return;
         drawerBody.innerHTML = '<p class="py-8 text-center text-slate-400">Yükleniyor…</p>';
         try {
-            const data = await fetch('/sepet/ajax/detay', { headers }).then((r) => r.json());
+            const data = await fetch('/sepet/ajax/detay', { headers: kosarGetAjaxHeaders(), credentials: 'same-origin' }).then((r) => r.json());
             if (!data.ok) return;
             updateCartBadge(data.count);
             if (drawerSubtotal) drawerSubtotal.textContent = data.subtotal_formatted;
@@ -200,7 +228,7 @@
         btn.addEventListener('click', async (e) => {
             e.preventDefault();
             const slug = btn.dataset.toggleFavorite;
-            const res = await fetch(`/favoriler/${slug}`, { method: 'POST', headers });
+            const res = await fetch(`/favoriler/${slug}`, { method: 'POST', headers: kosarGetAjaxHeaders(), credentials: 'same-origin' });
             const data = await res.json();
             if (data.ok) {
                 updateFavoriteBadge(data.count);
@@ -755,9 +783,14 @@
         }
     });
 
-    fetch('/sepet/ajax/ozet', { headers })
+    fetch('/header/ozet', { headers: kosarGetAjaxHeaders(), credentials: 'same-origin' })
         .then((r) => r.json())
-        .then((d) => { if (d.ok) updateCartBadge(d.count); })
+        .then((d) => {
+            if (!d.ok) return;
+            updateCartBadge(d.cart_count ?? 0);
+            updateFavoriteBadge(d.favorite_count ?? 0);
+            kosarApplyCsrfToken(d.csrf_token);
+        })
         .catch(() => {});
 
     /* Sticky header — scroll gölgesi (yalnızca masaüstü, histerezisli) */
@@ -1045,7 +1078,6 @@
     }
 
     const apiUrl = root.dataset.pumpApi;
-    const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     const syncUrl = root.classList.contains('shop-pump-selector--page');
 
     let application = null;
@@ -1176,11 +1208,7 @@
         try {
             const res = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': csrf,
-                },
+                headers: kosarGetAjaxHeaders({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify(payload),
                 credentials: 'same-origin',
             });
@@ -1237,7 +1265,6 @@
 (function () {
     const bar = document.querySelector('[data-compare-bar]');
     const countEl = document.querySelector('[data-compare-count]');
-    const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
     async function refreshBar() {
         try {
@@ -1259,10 +1286,7 @@
         try {
             const res = await fetch('/karsilastir/' + encodeURIComponent(slug), {
                 method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'X-CSRF-TOKEN': csrf,
-                },
+                headers: kosarGetAjaxHeaders(),
                 credentials: 'same-origin',
             });
             if (res.ok) await refreshBar();
@@ -1273,10 +1297,7 @@
         try {
             await fetch('/karsilastir', {
                 method: 'DELETE',
-                headers: {
-                    Accept: 'application/json',
-                    'X-CSRF-TOKEN': csrf,
-                },
+                headers: kosarGetAjaxHeaders(),
                 credentials: 'same-origin',
             });
             await refreshBar();

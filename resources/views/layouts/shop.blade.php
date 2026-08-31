@@ -189,9 +189,10 @@
             };
 
             const endpoint = @json(route('analytics.heartbeat'));
-            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
             const ping = () => {
+                const xsrfMatch = document.cookie.match(/(?:^|; )XSRF-TOKEN=([^;]*)/);
+                const token = xsrfMatch ? decodeURIComponent(xsrfMatch[1]) : '';
                 if (!token || document.visibilityState === 'hidden') {
                     return;
                 }
@@ -200,8 +201,8 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': token,
                         'Accept': 'application/json',
+                        'X-XSRF-TOKEN': token,
                     },
                     body: JSON.stringify({ url: window.location.href }),
                     credentials: 'same-origin',

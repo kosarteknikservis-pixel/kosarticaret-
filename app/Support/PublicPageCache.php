@@ -15,6 +15,7 @@ class PublicPageCache
      * @var list<string>
      */
     private const EXCLUDED_PREFIXES = [
+        'header',
         'sepet',
         'odeme',
         'hesabim',
