@@ -75,7 +75,7 @@ class ImportBlogPostsCommand extends Command
 
         DB::transaction(function () use ($posts) {
             $posts->each(function (array $post, int $index) {
-                $this->importPost($post, $index);
+                $this->importPostWithRetry($post, $index);
             });
         });
 
@@ -84,6 +84,34 @@ class ImportBlogPostsCommand extends Command
         $this->info('Blog import tamamlandı.');
 
         return self::SUCCESS;
+    }
+
+    private function importPostWithRetry(array $post, int $index = 0): void
+    {
+        $attempts = 0;
+
+        while (true) {
+            try {
+                $this->importPost($post, $index);
+
+                return;
+            } catch (\Throwable $e) {
+                $attempts++;
+
+                if ($attempts >= 5 || ! $this->isSqliteLocked($e)) {
+                    throw $e;
+                }
+
+                usleep(250_000 * $attempts);
+            }
+        }
+    }
+
+    private function isSqliteLocked(\Throwable $e): bool
+    {
+        $message = strtolower($e->getMessage());
+
+        return str_contains($message, 'database is locked') || str_contains($message, 'database is busy');
     }
 
     private function importPost(array $post, int $index = 0): void
@@ -113,6 +141,10 @@ class ImportBlogPostsCommand extends Command
             ['slug' => $data['slug']],
             $data,
         );
+
+        if ($this->option('from-queue')) {
+            return;
+        }
 
         $post = BlogPost::query()->where('slug', $data['slug'])->first();
         if ($post) {
