@@ -164,7 +164,12 @@ jobs:
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan blog:publish-due --force --all && \
+            \$PHP_BIN artisan blog:import-batch b2-2026-09 --force \
+              --files=29-hidrofor-fiyatlari.json \
+              --files=00-hidrofor-nedir-pillar.json \
+              --files=02-ev-tipi-hidrofor-rehberi.json \
+              --files=03-hidrofor-hidromat-farki.json \
+              --files=04-apartmanda-su-basinci-dusuk.json && \
             if [ -f database/blog-export.json ]; then \
               \$PHP_BIN artisan blog:import database/blog-export.json --force; \
             fi"

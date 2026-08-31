@@ -121,7 +121,6 @@ class ImportBlogPostsCommand extends Command
             'title' => $post['title'] ?? '',
             'excerpt' => $post['excerpt'] ?? null,
             'content' => $post['content'] ?? '',
-            'image' => $post['image'] ?? null,
             'image_alt' => $post['image_alt'] ?? null,
             'published_at' => $this->resolvePublishedAt($post, $index),
             'published' => (bool) ($post['published'] ?? true),
@@ -130,6 +129,12 @@ class ImportBlogPostsCommand extends Command
             'tags' => $post['tags'] ?? [],
             'translations' => $post['translations'] ?? [],
         ];
+
+        if (array_key_exists('image', $post)) {
+            $data['image'] = $post['image'];
+        } elseif (! $this->option('from-queue')) {
+            $data['image'] = null;
+        }
 
         if ($data['title'] === '' || $data['content'] === '') {
             throw new RuntimeException("Eksik blog verisi: {$data['slug']}");
