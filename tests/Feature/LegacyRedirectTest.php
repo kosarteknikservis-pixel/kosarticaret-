@@ -55,6 +55,9 @@ class LegacyRedirectTest extends TestCase
 
     public function test_legacy_shop_urls_redirect_to_products_list(): void
     {
+        $this->get('/magaza')->assertRedirect('/kategoriler');
+        $this->get('/shop')->assertRedirect('/kategoriler');
+        $this->get('/urun-kategori')->assertRedirect('/kategoriler');
         $this->get('/magaza/page/28/')->assertRedirect('/urunler');
         $this->get('/page/18/?product_cat=bahce-yapi-market')->assertRedirect('/urunler');
     }

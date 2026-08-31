@@ -7,7 +7,9 @@ return [
     'exact' => [
         '/siparisler' => '/hesabim',
         '/favori-listesi' => '/favoriler',
-        '/magaza' => '/urunler',
+        '/magaza' => '/kategoriler',
+        '/shop' => '/kategoriler',
+        '/urun-kategori' => '/kategoriler',
         '/locations.kml' => '/',
         '/hakkimizda' => '/sayfa/hakkimizda',
 

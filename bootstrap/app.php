@@ -42,9 +42,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'odeme/paytr/callback',
             'odeme/iyzico/callback',
         ]);
-        $middleware->web(prepend: [
-            \App\Http\Middleware\LegacyRedirect::class,
-        ]);
+        // Global: route'suz eski URL'ler (/magaza, /shop, /favori-listesi) 404'e düşmeden 301 alsın.
+        $middleware->prepend(\App\Http\Middleware\LegacyRedirect::class);
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\ShopMaintenanceMode::class,

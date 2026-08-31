@@ -31,6 +31,11 @@ return [
     '/kategori/sirkulasyon-pompalari' => '/kategoriler/su-pompalari/sirkulasyon-pompalari',
     '/kategori/yedek-parca' => '/urunler',
 
+    // Eski WooCommerce mağaza kökleri (404 → 301; alt yollar resolver'da)
+    '/magaza' => '/kategoriler',
+    '/shop' => '/kategoriler',
+    '/urun-kategori' => '/kategoriler',
+
     // Eski ürün URL'leri (kaldırılmış, artık 404/500 veriyor)
     '/urun/tekli-led-isikli-anahtar' => '/urunler',
     '/urun/tekli-led-isikli-anahtar/' => '/urunler',

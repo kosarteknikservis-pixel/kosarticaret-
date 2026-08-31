@@ -55,7 +55,7 @@ final class LegacyRedirectResolver
             return $legacyBrand;
         }
 
-        if (preg_match('#^/magaza(?:/page/\d+)?$#', $path)) {
+        if (preg_match('#^/magaza/page/\d+$#', $path)) {
             return self::normalizeTarget('/urunler');
         }
 
@@ -122,7 +122,7 @@ final class LegacyRedirectResolver
             }
         }
 
-        if (preg_match('#^/shop(?:/page/\d+)?$#', $path)) {
+        if (preg_match('#^/shop/page/\d+$#', $path)) {
             return self::normalizeTarget('/urunler');
         }
 
@@ -140,6 +140,14 @@ final class LegacyRedirectResolver
 
     private static function resolveStrippedLegacyQuery(Request $request, string $path): ?string
     {
+        if (preg_match('#^/urun-kategori(?:/|$)#', $path)) {
+            return null;
+        }
+
+        if (preg_match('#^/(?:magaza|shop)/page/\d+$#', $path) || preg_match('#^/page/\d+$#', $path)) {
+            return null;
+        }
+
         $legacyKeys = self::legacyQueryKeys();
 
         if (! $request->hasAny($legacyKeys)) {
