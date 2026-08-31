@@ -49,6 +49,7 @@ use App\Http\Controllers\Shop\ContactController;
 use App\Http\Controllers\Shop\CustomerAuthController;
 use App\Http\Controllers\Shop\FavoriteController;
 use App\Http\Controllers\Shop\HeaderSummaryController;
+use App\Http\Controllers\Shop\HomeController;
 use App\Http\Controllers\Shop\LocaleController;
 use App\Http\Controllers\Shop\OrderTrackingController;
 use App\Http\Controllers\Shop\PageController;
