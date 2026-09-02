@@ -134,7 +134,7 @@
                 </div>
             @else
                 <p class="admin-analytics-gsc__empty">{{ $activeLive['message'] ?? 'Canlı GSC verisi henüz çekilmedi.' }}</p>
-                <p class="admin-analytics-gsc__hint">Sunucuda günlük cron veya <code class="text-xs">php artisan seo:fetch-gsc-keywords</code> çalıştırın.</p>
+                <p class="admin-analytics-gsc__hint">Veri henüz yoksa deploy/cron sonrası birkaç dakika bekleyin. Sunucuda GSC API anahtarı (<code class="text-xs">storage/app/private/gsc-service-account.json</code>) tanımlı olmalıdır.</p>
             @endif
         </div>
     </div>

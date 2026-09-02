@@ -145,6 +145,30 @@ jobs:
             \$PHP_BIN artisan schedule:run && \
             echo 'NOT: Saatlik otomatik hatırlatma icin sunucu cron: * * * * * cd ${DEPLOY_PATH}/kosar && php artisan schedule:run'"
 
+      - name: GSC API anahtarini sunucuya yaz
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          GSC_JSON: ${{ secrets.GOOGLE_SEO_CREDENTIALS_JSON }}
+        run: |
+          if [ -z "$GSC_JSON" ]; then
+            echo "GOOGLE_SEO_CREDENTIALS_JSON secret tanimli degil; sunucudaki mevcut anahtar kullanilacak."
+            exit 0
+          fi
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}/kosar/storage/app/private && chmod 750 ${DEPLOY_PATH}/kosar/storage/app/private"
+          printf '%s' "$GSC_JSON" | ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cat > ${DEPLOY_PATH}/kosar/storage/app/private/gsc-service-account.json && chmod 600 ${DEPLOY_PATH}/kosar/storage/app/private/gsc-service-account.json"
+
+      - name: GSC arama kelimelerini cek (panel cache)
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan seo:fetch-gsc-keywords || echo 'GSC kelime cekimi atlandi (credentials/API kontrol edin)'"
+
       - name: Müşteri hareketleri analitiğini sıfırla
         if: github.event.inputs.analitik_sifirla == 'true'
         env:

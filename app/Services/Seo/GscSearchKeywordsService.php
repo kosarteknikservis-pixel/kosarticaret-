@@ -87,6 +87,35 @@ class GscSearchKeywordsService
         return storage_path('seo-reports/gsc-keywords-'.$days.'.json');
     }
 
+    public function snapshotPath(): string
+    {
+        return storage_path('seo-reports/gsc-performance-latest.json');
+    }
+
+    /**
+     * @param  array<string, mixed>  $cache
+     */
+    public function writeSnapshot(array $cache): void
+    {
+        $path = $this->snapshotPath();
+        File::ensureDirectoryExists(dirname($path));
+
+        $snapshot = [
+            'imported_at' => $cache['fetched_at'] ?? now()->toIso8601String(),
+            'source' => $cache['source'] ?? 'api:seo:fetch-gsc-keywords',
+            'period' => $cache['period'] ?? [],
+            'queries' => $cache['queries'] ?? [],
+            'opportunities' => [],
+            'category_tracking' => $cache['category_tracking'] ?? [],
+            'totals' => $cache['totals'] ?? [],
+        ];
+
+        file_put_contents(
+            $path,
+            json_encode($snapshot, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES).PHP_EOL
+        );
+    }
+
     public function searchConsoleUrl(): string
     {
         $site = (string) config('google_seo.gsc_site_url', 'https://kosarticaret.com/');

@@ -5,7 +5,10 @@
  * JSON key repo disinda tutulur; .env ile yol verilir.
  */
 return [
-    'credentials_path' => env('GOOGLE_SEO_CREDENTIALS'),
+    'credentials_path' => env(
+        'GOOGLE_SEO_CREDENTIALS',
+        storage_path('app/private/gsc-service-account.json')
+    ),
 
     'gsc_site_url' => env('GSC_SITE_URL', 'https://kosarticaret.com/'),
 

@@ -17,6 +17,8 @@ class FetchGscSearchKeywordsCommand extends Command
     public function handle(GscQueryApiFetcher $fetcher, GscSearchKeywordsService $keywords): int
     {
         $periods = $this->resolvePeriods();
+        $successCount = 0;
+        $snapshotCache = null;
 
         foreach ($periods as $days) {
             $this->info('GSC sorgulari cekiliyor: son '.$days.' gun');
@@ -24,9 +26,9 @@ class FetchGscSearchKeywordsCommand extends Command
             try {
                 $payload = $fetcher->fetch($days);
             } catch (\Throwable $e) {
-                $this->error('Donem '.$days.' basarisiz: '.$e->getMessage());
+                $this->warn('Donem '.$days.' basarisiz: '.$e->getMessage());
 
-                return self::FAILURE;
+                continue;
             }
 
             $cache = $keywords->buildCachePayload($payload);
@@ -38,6 +40,11 @@ class FetchGscSearchKeywordsCommand extends Command
                 json_encode($cache, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES).PHP_EOL
             );
 
+            if ($days === 90) {
+                $snapshotCache = $cache;
+            }
+
+            $successCount++;
             $this->line(sprintf(
                 '  · %s — %d sorgu, %d tiklama, %d gosterim',
                 basename($path),
@@ -47,7 +54,18 @@ class FetchGscSearchKeywordsCommand extends Command
             ));
         }
 
-        $this->info('GSC kelime onbellegi guncellendi.');
+        if ($snapshotCache !== null) {
+            $keywords->writeSnapshot($snapshotCache);
+            $this->line('  · gsc-performance-latest.json guncellendi (Aylik ozet karti).');
+        }
+
+        if ($successCount === 0) {
+            $this->error('Hicbir GSC donemi cekilemedi. Credentials ve GSC API erisimini kontrol edin.');
+
+            return self::FAILURE;
+        }
+
+        $this->info('GSC kelime onbellegi guncellendi ('.$successCount.'/'.count($periods).' donem).');
 
         return self::SUCCESS;
     }
