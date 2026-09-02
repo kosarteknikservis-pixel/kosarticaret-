@@ -29,6 +29,10 @@ return Application::configure(basePath: dirname(__DIR__))
             ->dailyAt('04:10')
             ->withoutOverlapping();
 
+        $schedule->command('seo:fetch-gsc-keywords')
+            ->dailyAt('05:05')
+            ->withoutOverlapping();
+
         $schedule->command('pagespeed:audit')
             ->weeklyOn(1, '05:30')
             ->withoutOverlapping();

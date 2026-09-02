@@ -17,4 +17,9 @@ return [
     'default_period_days' => (int) env('SEO_MONTHLY_PERIOD_DAYS', 90),
 
     'monthly_output_root' => storage_path('seo-reports/monthly'),
+
+    /*
+    | Panel GSC kelime onbellegi (seo:fetch-gsc-keywords).
+    */
+    'keywords_cache_root' => storage_path('seo-reports'),
 ];

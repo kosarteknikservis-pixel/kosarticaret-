@@ -7,6 +7,7 @@ use App\Models\AbandonedCart;
 use App\Models\AnalyticsEvent;
 use App\Models\AnalyticsVisitor;
 use App\Models\Order;
+use App\Services\Seo\GscSearchKeywordsService;
 use App\Support\AnalyticsIdentity;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ use Illuminate\View\View;
 
 class AnalyticsController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, GscSearchKeywordsService $gscKeywords): View
     {
         // Dönem sınırları yerel saat dilimine (Europe/Istanbul) göre hesaplanır,
         // ardından UTC'ye çevrilir çünkü veritabanı UTC ile kayıt eder.
@@ -166,6 +167,9 @@ class AnalyticsController extends Controller
             'order_created',
         ];
 
+        $gscPeriod = $request->integer('gsc_period', 28);
+        $gscKeywordsData = $gscKeywords->panelData($gscPeriod);
+
         return view('admin.analytics.index', [
             'activeVisitors' => $activeUniqueVisitors->count(),
             'todayVisitors' => $this->countDistinctVisitors($today, $humanEventTypes),
@@ -195,6 +199,8 @@ class AnalyticsController extends Controller
             'period' => $period,
             'periods' => $periods,
             'periodLabel' => $periodLabel,
+            'gscKeywords' => $gscKeywordsData,
+            'gscActiveLive' => $gscKeywordsData['live'][(string) $gscKeywordsData['gsc_period']] ?? null,
         ]);
     }
 

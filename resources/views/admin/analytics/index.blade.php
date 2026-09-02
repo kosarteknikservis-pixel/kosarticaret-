@@ -17,7 +17,7 @@
         </div>
         <div class="admin-chart-toolbar">
             @foreach($periods as $key => $periodOption)
-                <a href="{{ route('admin.analytics.index', ['period' => $key]) }}" class="admin-chart-range {{ $period === $key ? 'is-active' : '' }}">
+                <a href="{{ route('admin.analytics.index', array_filter(['period' => $key, 'gsc_period' => request()->integer('gsc_period') ?: null])) }}" class="admin-chart-range {{ $period === $key ? 'is-active' : '' }}">
                     {{ $periodOption['label'] }}
                 </a>
             @endforeach
@@ -116,6 +116,8 @@
             </div>
         </section>
     </div>
+
+    @include('admin.analytics.partials.gsc-keywords')
 
     <section class="admin-card admin-dashboard-panel admin-analytics-live mt-6">
         <div class="admin-panel-head">
