@@ -169,6 +169,16 @@ jobs:
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan seo:fetch-gsc-keywords || echo 'GSC kelime cekimi atlandi (credentials/API kontrol edin)'"
 
+      - name: Urun schema alanlarini zenginlestir (meta + specs)
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan seo:enrich-product-schema-fields || echo 'Urun schema zenginlestirme atlandi'"
+
       - name: Müşteri hareketleri analitiğini sıfırla
         if: github.event.inputs.analitik_sifirla == 'true'
         env:

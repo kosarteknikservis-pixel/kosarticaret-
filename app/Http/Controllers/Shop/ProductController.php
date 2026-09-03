@@ -82,12 +82,7 @@ class ProductController extends Controller
             'hub' => $hub,
             'breadcrumbs' => $breadcrumbs,
             'metaTitle' => $product->meta_title ?: $product->name,
-            'metaDescription' => Seo::description([
-                $product->meta_description,
-                $product->short_description,
-                $product->description,
-                $product->name,
-            ]),
+            'metaDescription' => Seo::productDescriptionText($product, 160),
             'metaKeywords' => Seo::keywords([$product->tags, $product->name, $product->brand?->name, $product->categories->pluck('name')->all()]),
             'canonical' => route('products.show', $product),
             'ogType' => 'product',

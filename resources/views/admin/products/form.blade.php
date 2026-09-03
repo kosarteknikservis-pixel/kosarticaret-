@@ -109,7 +109,22 @@
                 Pazaryerlerine gönderime açık
             </label>
 
-
+            <h3 class="admin-section-title">Teknik özellikler (schema)</h3>
+            @php
+                $specsText = old('specs_text');
+                if ($specsText === null) {
+                    $specsArr = is_array($product->specs) ? $product->specs : [];
+                    $specsText = collect($specsArr)
+                        ->map(fn ($value, $key) => trim((string) $key).': '.trim(is_scalar($value) ? (string) $value : ''))
+                        ->filter(fn ($line) => ! str_starts_with($line, ':'))
+                        ->implode("\n");
+                }
+            @endphp
+            <div>
+                <label class="admin-label">Özellik satırları</label>
+                <textarea name="specs_text" rows="6" class="admin-input font-mono text-sm" placeholder="Motor Gücü: 1 HP&#10;Voltaj: 220 V Monofaze">{{ $specsText }}</textarea>
+                <p class="text-xs text-slate-500 mt-1">Her satır <code>Ad: Değer</code> formatında. Product schema <code>additionalProperty</code> alanına yazılır.</p>
+            </div>
 
             <h3 class="admin-section-title">Görseller</h3>
 

@@ -425,6 +425,10 @@ class WooCommerceCatalogImporter
             'markalar' => 'Brands',
             'url_slug' => 'URL Slug',
             'attributes_json' => 'Attributes_JSON',
+            'barcode' => 'Barcode',
+            'barkod' => 'Barcode',
+            'ean' => 'Barcode',
+            'gtin' => 'Barcode',
         ];
 
         return array_map(function (?string $cell) use ($aliases): string {
@@ -759,6 +763,7 @@ class WooCommerceCatalogImporter
             'meta_description' => $this->trimOrNull($row['Meta: _yoast_wpseo_metadesc'] ?? null),
             'tags' => $tags,
             'specs' => $specs,
+            'barcode' => $this->trimOrNull($row['Barcode'] ?? $row['GTIN'] ?? $row['EAN'] ?? null),
             'image' => null,
         ]);
 

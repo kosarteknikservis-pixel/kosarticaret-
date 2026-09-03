@@ -341,6 +341,47 @@ class Seo
 
     }
 
+    /**
+     * Eski toplu SEO şablonları (fiyat/stok/garantili alışveriş) — schema/meta için kullanma.
+     */
+    public static function isGenericProductDescription(?string $text): bool
+    {
+        $clean = RichContent::plainText($text);
+
+        if ($clean === '') {
+            return true;
+        }
+
+        $lower = mb_strtolower($clean, 'UTF-8');
+
+        if (str_contains($lower, 'fiyat, stok ve teknik')
+            || str_contains($lower, 'güncel fiyat, teknik özellik ve stok')
+            || str_contains($lower, 'fiyat, stok ve teknik özellikler')) {
+            return true;
+        }
+
+        return str_contains($lower, 'garantili alışveriş')
+            && str_contains($lower, 'hızlı teslimat')
+            && mb_strlen($clean) <= 200;
+    }
+
+    /**
+     * Ürün meta + Product schema description: kısa/uzun açıklama öncelikli, şablon meta atlanır.
+     */
+    public static function productDescriptionText(Product $product, int $limit = 5000): string
+    {
+        $meta = self::isGenericProductDescription($product->meta_description)
+            ? null
+            : $product->meta_description;
+
+        return self::description([
+            $product->short_description,
+            $product->description,
+            $meta,
+            $product->name,
+        ], $limit);
+    }
+
 
 
     /**
@@ -598,17 +639,7 @@ class Seo
 
         $url = route('products.show', $product);
 
-        $description = self::description([
-
-            $product->meta_description,
-
-            $product->short_description,
-
-            $product->description,
-
-            $product->name,
-
-        ], 5000);
+        $description = self::productDescriptionText($product, 5000);
 
 
 

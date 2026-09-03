@@ -300,6 +300,14 @@ class BulkProductUpdateService
             }
         }
 
+        if (($actions['barcode']['mode'] ?? 'none') === 'set') {
+            $barcode = trim((string) ($actions['barcode']['value'] ?? ''));
+            if ($barcode !== '' && (string) $product->barcode !== $barcode) {
+                $product->barcode = $barcode;
+                $dirty = true;
+            }
+        }
+
         if ($dirty) {
             $product->save();
         }
@@ -454,7 +462,7 @@ class BulkProductUpdateService
             }
         }
 
-        return false;
+        return ($actions['barcode']['mode'] ?? 'none') !== 'none';
     }
 
     /** @param  list<int|string>  $ids */
@@ -515,6 +523,10 @@ class BulkProductUpdateService
             'meta_title' => 'meta_title',
             'meta_aciklama' => 'meta_description',
             'meta_description' => 'meta_description',
+            'barkod' => 'barcode',
+            'barcode' => 'barcode',
+            'ean' => 'barcode',
+            'gtin' => 'barcode',
         ];
 
         return array_map(function (string $cell) use ($aliases): string {
@@ -586,6 +598,9 @@ class BulkProductUpdateService
         if (isset($row['meta_description']) && trim($row['meta_description']) !== '') {
             $actions['text']['meta_description'] = ['mode' => 'set', 'value' => $row['meta_description']];
         }
+        if (isset($row['barcode']) && trim($row['barcode']) !== '') {
+            $actions['barcode'] = ['mode' => 'set', 'value' => trim($row['barcode'])];
+        }
 
         return $this->hasAnyAction($actions) ? $actions : [];
     }
@@ -612,6 +627,7 @@ class BulkProductUpdateService
                 'image_alt' => ['mode' => 'none', 'value' => ''],
                 'short_description' => ['mode' => 'none', 'value' => ''],
             ],
+            'barcode' => ['mode' => 'none', 'value' => ''],
         ];
     }
 }

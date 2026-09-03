@@ -147,6 +147,7 @@ class ProductController extends Controller
             'meta_title' => ['nullable', 'string', 'max:70'],
             'meta_description' => ['nullable', 'string', 'max:320'],
             'tags' => ['nullable', 'string', 'max:500'],
+            'specs_text' => ['nullable', 'string', 'max:10000'],
         ]);
 
         $data['slug'] = SlugHelper::assign('products', $data['slug'] ?? null, $data['name'], $product?->id);
@@ -156,6 +157,8 @@ class ProductController extends Controller
         $data['tags'] = $request->filled('tags')
             ? array_values(array_filter(array_map('trim', explode(',', (string) $request->input('tags')))))
             : [];
+        $data['specs'] = $this->parseSpecsText((string) $request->input('specs_text', ''));
+        unset($data['specs_text']);
 
         if ($request->filled('translations')) {
             $translations = $request->input('translations');
@@ -196,6 +199,34 @@ class ProductController extends Controller
         $data['image_alt'] = ProductImageAlt::generate($name, $brandName);
 
         return $data;
+    }
+
+    /**
+     * @return array<string, string>|null
+     */
+    private function parseSpecsText(string $text): ?array
+    {
+        $text = trim($text);
+        if ($text === '') {
+            return null;
+        }
+
+        $specs = [];
+        foreach (preg_split('/\r\n|\r|\n/', $text) ?: [] as $line) {
+            $line = trim($line);
+            if ($line === '' || ! str_contains($line, ':')) {
+                continue;
+            }
+
+            [$name, $value] = array_map('trim', explode(':', $line, 2));
+            if ($name === '' || $value === '') {
+                continue;
+            }
+
+            $specs[$name] = $value;
+        }
+
+        return $specs === [] ? null : $specs;
     }
 
     /**
