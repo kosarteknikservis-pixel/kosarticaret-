@@ -204,7 +204,27 @@ jobs:
               --files=02-ev-tipi-hidrofor-rehberi.json \
               --files=03-hidrofor-hidromat-farki.json \
               --files=04-apartmanda-su-basinci-dusuk.json && \
-            \$PHP_BIN artisan blog:publish-due --force --all && \
+            for f in \
+              database/blog-queue/01-apartman-hidrofor-secimi.json \
+              database/blog-queue/02b-hidrofor-kurulumu-montaj-sync.json \
+              database/blog-queue/05-hidrofor-surekli-calisyor.json \
+              database/blog-queue/08-hidrofor-bakim-rehberi.json \
+              database/blog-queue/11-kuyu-dalgic-pompa-secimi.json \
+              database/blog-queue/18-dalgic-pompa-kurulum.json \
+              database/blog-queue/47-en-iyi-hidrofor-markalari.json \
+              database/blog-queue/72-kuyu-suyu-hidrofor-baglanti.json \
+              database/blog-queue/95-jet-hidrofor-baglanti.json \
+              database/blog-queue/120-dalgic-pompa-motor-tipleri.json \
+              database/blog-queue/155-membran-omru-tank-ariza.json \
+              database/blog-queue/156-genlesme-basinc-tanki-farki.json \
+              database/blog-queue/119-monofaze-trifaze-dalgic.json \
+              database/blog-queue/145-yangin-test-hatti.json \
+              database/blog-queue/162-foseptik-samandira-seviye-ayari.json
+            do
+              [ -f \"\$f\" ] || continue
+              \$PHP_BIN artisan blog:import \"\$f\" --force --from-queue || sleep 2
+              sleep 1
+            done && \
             if [ -f database/blog-export.json ]; then \
               \$PHP_BIN artisan blog:import database/blog-export.json --force; \
             fi"
