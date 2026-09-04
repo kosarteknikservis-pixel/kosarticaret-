@@ -157,9 +157,8 @@ class ImportBlogPostsCommand extends Command
         $model->slug = $slug;
         $model->save();
 
-        // SQLite / Eloquent edge-case: içerik yazılmadıysa query builder ile zorla.
-        $saved = (string) BlogPost::query()->where('slug', $slug)->value('content');
-        if ($saved !== $data['content']) {
+        // from-queue: içerik alanını query builder ile her zaman yaz (Eloquent/SQLite tutarsızlığına karşı).
+        if ($this->option('from-queue')) {
             DB::table('blog_posts')->where('slug', $slug)->update([
                 'content' => $data['content'],
                 'title' => $data['title'],
@@ -168,7 +167,16 @@ class ImportBlogPostsCommand extends Command
                 'meta_description' => $data['meta_description'],
                 'updated_at' => now(),
             ]);
-            $this->warn("İçerik zorla yazıldı: {$slug}");
+            \App\Support\PublicPageCache::forgetAll();
+        } else {
+            $saved = (string) BlogPost::query()->where('slug', $slug)->value('content');
+            if ($saved !== $data['content']) {
+                DB::table('blog_posts')->where('slug', $slug)->update([
+                    'content' => $data['content'],
+                    'updated_at' => now(),
+                ]);
+                $this->warn("İçerik zorla yazıldı: {$slug}");
+            }
         }
 
         if ($this->option('from-queue')) {

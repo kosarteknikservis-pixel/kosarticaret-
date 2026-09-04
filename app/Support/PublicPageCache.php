@@ -91,14 +91,16 @@ class PublicPageCache
 
     public static function forgetAll(): void
     {
-        if (method_exists(Cache::getStore(), 'tags')) {
-            Cache::tags([self::TAG])->flush();
-
-            return;
-        }
-
-        // File/database driver: bump version counter used in keys (fallback flush not global)
+        // Her sürücüde key suffix değişsin (middleware Cache::put tags kullanmıyor).
         Cache::put(self::TAG.':version', (int) Cache::get(self::TAG.':version', 0) + 1, 86400);
+
+        if (method_exists(Cache::getStore(), 'tags')) {
+            try {
+                Cache::tags([self::TAG])->flush();
+            } catch (\Throwable) {
+                // tags desteklenmiyor / yapılandırması yoksa version bump yeterli
+            }
+        }
     }
 
     public static function versionSuffix(): string

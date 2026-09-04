@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Concerns\ClearsPublicPageCache;
 use App\Concerns\HasTranslations;
 use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
 
 class BlogPost extends Model
 {
+    use ClearsPublicPageCache;
     use HasTranslations;
 
     protected array $translatable = ['title', 'excerpt', 'content', 'meta_title', 'meta_description'];
