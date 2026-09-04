@@ -225,6 +225,8 @@ jobs:
               \$PHP_BIN artisan blog:import \"\$f\" --force --from-queue || sleep 2
               sleep 1
             done && \
+            \$PHP_BIN artisan cache:clear && \
+            \$PHP_BIN artisan view:clear && \
             if [ -f database/blog-export.json ]; then \
               \$PHP_BIN artisan blog:import database/blog-export.json --force; \
             fi"

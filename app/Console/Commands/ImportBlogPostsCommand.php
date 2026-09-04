@@ -116,8 +116,18 @@ class ImportBlogPostsCommand extends Command
 
     private function importPost(array $post, int $index = 0): void
     {
+        $slug = trim((string) ($post['slug'] ?? ''));
+        if ($slug === '') {
+            throw new RuntimeException('Blog slug boş.');
+        }
+
+        // Zaten kanonik slug ise Str::slug ile bozma (Türkçe karakter kaybı / eşleşmeme riski).
+        if (! preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug)) {
+            $slug = Str::slug($slug);
+        }
+
         $data = [
-            'slug' => Str::slug($post['slug']),
+            'slug' => $slug,
             'title' => $post['title'] ?? '',
             'excerpt' => $post['excerpt'] ?? null,
             'content' => $post['content'] ?? '',
@@ -142,16 +152,30 @@ class ImportBlogPostsCommand extends Command
 
         $this->restoreImage($post['image_file'] ?? null);
 
-        BlogPost::query()->updateOrCreate(
-            ['slug' => $data['slug']],
-            $data,
-        );
+        $model = BlogPost::query()->firstOrNew(['slug' => $slug]);
+        $model->fill($data);
+        $model->slug = $slug;
+        $model->save();
+
+        // SQLite / Eloquent edge-case: içerik yazılmadıysa query builder ile zorla.
+        $saved = (string) BlogPost::query()->where('slug', $slug)->value('content');
+        if ($saved !== $data['content']) {
+            DB::table('blog_posts')->where('slug', $slug)->update([
+                'content' => $data['content'],
+                'title' => $data['title'],
+                'excerpt' => $data['excerpt'],
+                'meta_title' => $data['meta_title'],
+                'meta_description' => $data['meta_description'],
+                'updated_at' => now(),
+            ]);
+            $this->warn("İçerik zorla yazıldı: {$slug}");
+        }
 
         if ($this->option('from-queue')) {
             return;
         }
 
-        $post = BlogPost::query()->where('slug', $data['slug'])->first();
+        $post = BlogPost::query()->where('slug', $slug)->first();
         if ($post) {
             app(BlogCoverImageService::class)->assign($post);
         }
