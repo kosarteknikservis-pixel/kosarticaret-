@@ -57,6 +57,12 @@ class GscSearchKeywordsServiceTest extends TestCase
         $this->assertSame('on_target', $panel['tracked']['keywords'][0]['status']);
         $this->assertStringContainsString('search-console', $panel['gsc_url']);
 
+        $summary = $service->summaryForAnalyticsPeriod('month');
+        $this->assertTrue($summary['available']);
+        $this->assertSame(28, $summary['days']);
+        $this->assertSame(45, $summary['clicks']);
+        $this->assertSame(1200, $summary['impressions']);
+
         File::delete($snapshotPath);
         File::delete($livePath);
     }

@@ -27,10 +27,9 @@
     <div class="admin-card admin-analytics-note mb-5 p-4 sm:p-5">
         <p class="text-sm text-slate-600 leading-relaxed">
             <strong class="text-slate-800">Not:</strong>
-            Bu ekran mağazadaki gerçek ziyaretçi davranışını ölçer (doğrudan giriş, reklam, sosyal medya, Google arama vb.).
-            Google Search Console ise yalnızca <em>Google arama sonuçlarından gelen tıklamaları</em> sayar; bu yüzden rakamlar birebir aynı olmaz.
-            Ziyaretçi sayımı oturum çerezi ile yapılır; 30 dakika hareketsizlikten sonra yeni oturum başlar. Giriş yapmış müşteriler hesap bazında birleştirilir.
-            Organik Google trafiği için aşağıdaki ayrı kartı Search Console ile karşılaştırın.
+            Ziyaretçi / sepet kartları mağaza oturum verisidir (tüm kaynaklar).
+            <em>Google Search</em> kartı ise Search Console API’den gelir — GSC’deki web arama tıklama / gösterim ile aynı kaynaktır.
+            GSC verisi 1–2 gün gecikmeli olabilir; “Bugün” seçilince de GSC için en yakın dönem (7 gün) gösterilir.
         </p>
     </div>
 
@@ -47,12 +46,23 @@
             <strong>{{ $periodVisitors }}</strong>
             <small>{{ $periodPageViews }} sayfa · {{ $periodProductViews }} ürün görüntüleme · tüm kaynaklar</small>
         </div>
-        <div class="admin-metric-card admin-analytics-metric">
+        <a href="#google-arama-kelimeleri" class="admin-metric-card admin-analytics-metric" aria-label="Google Search Console verisine git">
             <span class="admin-metric-card__icon">G</span>
-            <span class="admin-metric-card__label">{{ $periodLabel }} Google organik</span>
-            <strong>{{ $periodOrganicVisitors }}</strong>
-            <small>{{ $periodOrganicPageViews }} sayfa · Search Console tıklamalarıyla karşılaştırın</small>
-        </div>
+            <span class="admin-metric-card__label">Google Search · {{ $gscSummary['label'] }}</span>
+            @if($gscSummary['available'] ?? false)
+                <strong>{{ number_format((int) $gscSummary['clicks']) }}</strong>
+                <small>
+                    {{ number_format((int) $gscSummary['impressions']) }} gösterim
+                    @if($gscSummary['ctr'] !== null)
+                        · TO %{{ number_format((float) $gscSummary['ctr'], 1, ',', '.') }}
+                    @endif
+                    · Search Console
+                </small>
+            @else
+                <strong>—</strong>
+                <small>{{ $gscSummary['message'] ?? 'GSC verisi bekleniyor' }}</small>
+            @endif
+        </a>
         <div class="admin-metric-card admin-analytics-metric">
             <span class="admin-metric-card__icon">□</span>
             <span class="admin-metric-card__label">Sepet sinyali</span>

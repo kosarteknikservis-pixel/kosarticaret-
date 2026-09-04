@@ -87,6 +87,66 @@ class GscSearchKeywordsService
         return storage_path('seo-reports/gsc-keywords-'.$days.'.json');
     }
 
+    /**
+     * Analytics dönemini GSC cache dönemine eşler (Search Console ile aynı kaynak).
+     *
+     * @return array{
+     *     days: int,
+     *     label: string,
+     *     available: bool,
+     *     clicks: int,
+     *     impressions: int,
+     *     ctr: float|null,
+     *     period_label: ?string,
+     *     message: ?string
+     * }
+     */
+    public function summaryForAnalyticsPeriod(string $analyticsPeriod): array
+    {
+        $days = match ($analyticsPeriod) {
+            'today', 'week' => 7,
+            'month' => 28,
+            'year' => 90,
+            default => 28,
+        };
+
+        $label = match ($days) {
+            7 => 'Son 7 gün',
+            28 => 'Son 28 gün',
+            90 => 'Son 90 gün',
+            default => 'Son '.$days.' gün',
+        };
+
+        $report = $this->cachedPeriod($days);
+
+        if (! ($report['available'] ?? false)) {
+            return [
+                'days' => $days,
+                'label' => $label,
+                'available' => false,
+                'clicks' => 0,
+                'impressions' => 0,
+                'ctr' => null,
+                'period_label' => null,
+                'message' => $report['message'] ?? 'GSC verisi henüz yok.',
+            ];
+        }
+
+        $clicks = (int) ($report['totals']['clicks'] ?? 0);
+        $impressions = (int) ($report['totals']['impressions'] ?? 0);
+
+        return [
+            'days' => $days,
+            'label' => $label,
+            'available' => true,
+            'clicks' => $clicks,
+            'impressions' => $impressions,
+            'ctr' => $impressions > 0 ? round(($clicks / $impressions) * 100, 1) : null,
+            'period_label' => $report['period_label'] ?? null,
+            'message' => null,
+        ];
+    }
+
     public function snapshotPath(): string
     {
         return storage_path('seo-reports/gsc-performance-latest.json');

@@ -167,15 +167,18 @@ class AnalyticsController extends Controller
             'order_created',
         ];
 
-        $gscPeriod = $request->integer('gsc_period', 28);
+        // Üst dönem seçimine göre GSC cache (7/28/90) — Search Console ile aynı kaynak.
+        $gscSummary = $gscKeywords->summaryForAnalyticsPeriod($period);
+        $gscPeriod = $request->has('gsc_period')
+            ? $request->integer('gsc_period', $gscSummary['days'])
+            : $gscSummary['days'];
         $gscKeywordsData = $gscKeywords->panelData($gscPeriod);
 
         return view('admin.analytics.index', [
             'activeVisitors' => $activeUniqueVisitors->count(),
             'todayVisitors' => $this->countDistinctVisitors($today, $humanEventTypes),
             'periodVisitors' => $this->countDistinctVisitors($periodStart, $humanEventTypes),
-            'periodOrganicVisitors' => $this->countDistinctVisitors($periodStart, $humanEventTypes, organicOnly: true),
-            'periodOrganicPageViews' => $this->countOrganicPageViews($periodStart),
+            'gscSummary' => $gscSummary,
             'todayPageViews' => (clone $events)->where('event_type', 'page_view')->where('occurred_at', '>=', $today)->count(),
             'periodPageViews' => AnalyticsEvent::query()->where('event_type', 'page_view')->where('occurred_at', '>=', $periodStart)->count(),
             'periodProductViews' => AnalyticsEvent::query()->where('event_type', 'product_view')->where('occurred_at', '>=', $periodStart)->count(),
@@ -298,36 +301,13 @@ class AnalyticsController extends Controller
     /**
      * @param  list<string>  $eventTypes
      */
-    private function countDistinctVisitors(\Illuminate\Support\Carbon $since, array $eventTypes, bool $organicOnly = false): int
+    private function countDistinctVisitors(\Illuminate\Support\Carbon $since, array $eventTypes): int
     {
         $query = AnalyticsEvent::query()
             ->where('occurred_at', '>=', $since)
             ->whereNotNull('visitor_id')
             ->whereIn('event_type', $eventTypes);
 
-        if ($organicOnly) {
-            $query->whereHas('visitor', fn ($visitorQuery) => $visitorQuery->where(function ($q): void {
-                $q->where('referrer', 'like', '%google.%')
-                    ->orWhere('referrer', 'like', '%//google.%')
-                    ->orWhere('utm_source', 'google')
-                    ->orWhere('utm_medium', 'organic');
-            }));
-        }
-
         return AnalyticsIdentity::countDistinct($query);
-    }
-
-    private function countOrganicPageViews(\Illuminate\Support\Carbon $since): int
-    {
-        return (int) AnalyticsEvent::query()
-            ->where('event_type', 'page_view')
-            ->where('occurred_at', '>=', $since)
-            ->whereHas('visitor', fn ($visitorQuery) => $visitorQuery->where(function ($q): void {
-                $q->where('referrer', 'like', '%google.%')
-                    ->orWhere('referrer', 'like', '%//google.%')
-                    ->orWhere('utm_source', 'google')
-                    ->orWhere('utm_medium', 'organic');
-            }))
-            ->count();
     }
 }
