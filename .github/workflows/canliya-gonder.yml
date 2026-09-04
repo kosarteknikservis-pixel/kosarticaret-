@@ -204,6 +204,7 @@ jobs:
               --files=02-ev-tipi-hidrofor-rehberi.json \
               --files=03-hidrofor-hidromat-farki.json \
               --files=04-apartmanda-su-basinci-dusuk.json && \
+            \$PHP_BIN artisan blog:publish-due --force --all && \
             if [ -f database/blog-export.json ]; then \
               \$PHP_BIN artisan blog:import database/blog-export.json --force; \
             fi"

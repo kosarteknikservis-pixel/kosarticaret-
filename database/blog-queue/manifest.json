@@ -17,6 +17,13 @@
             "series": "hidrofor"
         },
         {
+            "day": 1,
+            "file": "02b-hidrofor-kurulumu-montaj-sync.json",
+            "publish_on": "2026-06-10",
+            "title": "Hidrofor Kurulumu: Adım Adım Montaj ve Bağlantı Rehberi",
+            "series": "hidrofor"
+        },
+        {
             "day": 2,
             "file": "02-ev-tipi-hidrofor-rehberi.json",
             "publish_on": "2026-06-11",
