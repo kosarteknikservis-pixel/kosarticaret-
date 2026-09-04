@@ -165,6 +165,8 @@ class ImportBlogPostsCommand extends Command
                 'excerpt' => $data['excerpt'],
                 'meta_title' => $data['meta_title'],
                 'meta_description' => $data['meta_description'],
+                // Eski en/çeviri gövdesi content kolonunu gölgelemesin.
+                'translations' => json_encode(new \stdClass, JSON_FORCE_OBJECT),
                 'updated_at' => now(),
             ]);
             \App\Support\PublicPageCache::forgetAll();
@@ -173,6 +175,7 @@ class ImportBlogPostsCommand extends Command
             if ($saved !== $data['content']) {
                 DB::table('blog_posts')->where('slug', $slug)->update([
                     'content' => $data['content'],
+                    'translations' => json_encode(new \stdClass, JSON_FORCE_OBJECT),
                     'updated_at' => now(),
                 ]);
                 $this->warn("İçerik zorla yazıldı: {$slug}");

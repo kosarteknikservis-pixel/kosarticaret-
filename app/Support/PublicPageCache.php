@@ -28,6 +28,7 @@ class PublicPageCache
         'favoriler',
         'siparis',
         'urun',
+        'blog',
     ];
 
     /**
