@@ -14,6 +14,27 @@
         })(window,document,'script','dataLayer',@json($gtmId));</script>
         <!-- End Google Tag Manager -->
     @endif
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        window.kosarTrackEcommerce = function (eventName, params) {
+            if (!eventName) {
+                return;
+            }
+            const payload = params && typeof params === 'object' ? params : {};
+            try {
+                window.dataLayer.push({ ecommerce: null });
+                window.dataLayer.push({
+                    event: eventName,
+                    ecommerce: payload,
+                });
+            } catch (e) {}
+            if (typeof window.gtag === 'function') {
+                try {
+                    window.gtag('event', eventName, payload);
+                } catch (e) {}
+            }
+        };
+    </script>
     @include('shop.partials.meta')
     @include('partials.favicon-links')
     @php

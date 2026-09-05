@@ -1,31 +1,18 @@
-@if(filled($ga4Id ?? \App\Models\SiteSetting::get('google_analytics_id')))
 @php
+    $ga4Id = $ga4Id ?? \App\Models\SiteSetting::get('google_analytics_id');
+    $gtmId = $gtmId ?? \App\Models\SiteSetting::get('google_tag_manager_id');
+    $trackingEnabled = filled($ga4Id) || filled($gtmId);
     $ga4Payload = $ga4Payload ?? null;
 @endphp
-@if($ga4Payload)
+@if($trackingEnabled && $ga4Payload)
 <script>
 (() => {
-    const fire = () => {
-        if (typeof window.gtag !== 'function') {
-            return;
-        }
-        window.gtag('event', @json($ga4Payload['event'] ?? ''), @json($ga4Payload['params'] ?? []));
-    };
-
-    if (window.KosarAnalyticsLoaded) {
-        fire();
+    const eventName = @json($ga4Payload['event'] ?? '');
+    const params = @json($ga4Payload['params'] ?? new \stdClass());
+    if (!eventName || typeof window.kosarTrackEcommerce !== 'function') {
         return;
     }
-
-    const onReady = () => {
-        fire();
-        window.removeEventListener('kosar:analytics-ready', onReady);
-    };
-    window.addEventListener('kosar:analytics-ready', onReady);
-    ['pointerdown', 'keydown', 'scroll'].forEach((name) => {
-        window.addEventListener(name, onReady, { once: true, passive: true });
-    });
+    window.kosarTrackEcommerce(eventName, params);
 })();
 </script>
-@endif
 @endif

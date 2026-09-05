@@ -194,22 +194,28 @@ function kosarApplyCsrfToken(token) {
             btn.disabled = true;
             try {
                 const data = await cartRequest(`/sepet/ajax/ekle/${slug}`, 'POST', { quantity: qty });
-                if (data.ok) {
+                    if (data.ok) {
                     updateCartBadge(data.count);
                     toast(data.message || 'Sepete eklendi');
-                    if (typeof window.gtag === 'function' && btn.dataset.gaItemId) {
+                    if (btn.dataset.gaItemId) {
                         const price = parseFloat(btn.dataset.gaPrice || '0');
-                        window.gtag('event', 'add_to_cart', {
+                        const qtySafe = Math.max(1, qty || 1);
+                        const ecommerce = {
                             currency: 'TRY',
-                            value: price * qty,
+                            value: price * qtySafe,
                             items: [{
                                 item_id: btn.dataset.gaItemId,
                                 item_name: btn.dataset.gaItemName || '',
                                 item_brand: btn.dataset.gaBrand || undefined,
                                 price,
-                                quantity: qty,
+                                quantity: qtySafe,
                             }],
-                        });
+                        };
+                        if (typeof window.kosarTrackEcommerce === 'function') {
+                            window.kosarTrackEcommerce('add_to_cart', ecommerce);
+                        } else if (typeof window.gtag === 'function') {
+                            window.gtag('event', 'add_to_cart', ecommerce);
+                        }
                     }
                     btn.classList.remove('is-added');
                     void btn.offsetWidth;
