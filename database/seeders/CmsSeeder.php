@@ -4,25 +4,25 @@ namespace Database\Seeders;
 
 use App\Models\Page;
 use App\Models\SiteSetting;
+use App\Support\LegalPagesContent;
 use Illuminate\Database\Seeder;
 
 class CmsSeeder extends Seeder
 {
     public function run(): void
     {
-        $pages = [
-            ['slug' => 'hakkimizda', 'title' => 'Hakkımızda', 'content' => '<p>Kosar Havalandırma ve Sulama Sistemi olarak pompa, hidrofor ve sulama ekipmanlarında Türkiye genelinde hizmet veriyoruz.</p>', 'sort_order' => 1],
-            ['slug' => 'gizlilik-politikasi', 'title' => 'Gizlilik Politikası', 'content' => '<p>Kişisel verileriniz KVKK kapsamında korunmaktadır.</p>', 'sort_order' => 2],
-            ['slug' => 'kvkk', 'title' => 'KVKK Aydınlatma', 'content' => '<p>6698 sayılı Kanun kapsamında aydınlatma metni.</p>', 'sort_order' => 3],
-            ['slug' => 'kargo-ve-iade', 'title' => 'Kargo ve İade', 'content' => '<p>1000 TL üzeri siparişlerde standart kargo ücretsizdir. 14 gün içinde iade hakkınız saklıdır.</p>', 'sort_order' => 4],
-            ['slug' => 'mesafeli-satis-sozlesmesi', 'title' => 'Mesafeli Satış Sözleşmesi', 'content' => '<p>Mesafeli sözleşmeler yönetmeliği hükümleri geçerlidir.</p>', 'sort_order' => 5],
-            ['slug' => 'on-bilgilendirme', 'title' => 'Ön Bilgilendirme Formu', 'content' => '<p>Satıcı: Kosar Havalandırma ve Sulama Sistemi. Teslimat süresi stok durumuna göre 1–5 iş günüdür. Cayma hakkı 14 gündür.</p>', 'sort_order' => 6],
-            ['slug' => 'sss', 'title' => 'Sıkça Sorulan Sorular', 'content' => '<h2>Kargo ne zaman gelir?</h2><p>Stoktan gönderimlerde 1–3 iş günü içinde kargoya verilir.</h2><h2>İade nasıl yapılır?</h2><p>14 gün içinde iade talebi için iletişim formunu kullanın.</p>', 'sort_order' => 7],
-            ['slug' => 'iletisim', 'title' => 'İletişim', 'content' => '<p>Bize ulaşın: info@kosar.com.tr — <a href="/iletisim">İletişim formu</a></p>', 'sort_order' => 8],
-        ];
-
-        foreach ($pages as $p) {
-            Page::query()->updateOrCreate(['slug' => $p['slug']], $p);
+        foreach (LegalPagesContent::all() as $page) {
+            Page::query()->updateOrCreate(
+                ['slug' => $page['slug']],
+                [
+                    'title' => $page['title'],
+                    'content' => $page['content'],
+                    'meta_title' => $page['meta_title'],
+                    'meta_description' => $page['meta_description'],
+                    'published' => $page['published'],
+                    'sort_order' => $page['sort_order'],
+                ]
+            );
         }
 
         $settings = [

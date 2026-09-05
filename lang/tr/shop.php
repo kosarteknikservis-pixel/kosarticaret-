@@ -83,7 +83,7 @@ return [
     'footer_etbis_pending_hint' => 'ETBİS doğrulama linki panelden eklenebilir',
     'cookie_title' => 'Çerez tercihleri',
     'cookie_text' => 'Deneyiminizi iyileştirmek için çerez kullanıyoruz. Siteyi kullanmaya devam ederek veya “Kabul et”e tıklayarak çerezleri onaylayabilirsiniz.',
-    'cookie_privacy' => 'Gizlilik politikası',
+    'cookie_privacy' => 'Çerez politikası',
     'cookie_accept' => 'Kabul et',
     'cookie_reject' => 'Reddet',
     'menu_more' => 'Diğer',

@@ -213,6 +213,7 @@ Route::middleware(['auth', 'shop.customer'])->prefix('hesabim')->name('account.'
 $legalSlugs = [
     'hakkimizda', 'gizlilik-politikasi', 'kvkk',
     'kargo-ve-iade', 'mesafeli-satis-sozlesmesi', 'on-bilgilendirme', 'sss',
+    'cerez-politikasi', 'kullanim-kosullari',
 ];
 foreach ($legalSlugs as $slug) {
     Route::redirect('/'.$slug, '/sayfa/'.$slug, 301);

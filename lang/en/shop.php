@@ -83,7 +83,7 @@ return [
     'footer_etbis_pending_hint' => 'ETBIS verification link can be added in admin settings',
     'cookie_title' => 'Cookie preferences',
     'cookie_text' => 'We use cookies to improve your experience. You can accept cookies or reject non-essential ones.',
-    'cookie_privacy' => 'Privacy policy',
+    'cookie_privacy' => 'Cookie policy',
     'cookie_accept' => 'Accept',
     'cookie_reject' => 'Reject',
     'menu_more' => 'More',
