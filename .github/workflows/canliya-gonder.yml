@@ -1,5 +1,5 @@
 # Manuel: GitHub → Actions → "Canlıya gönder" → Run workflow
-# İlk kurulum (ürün + görseller): yerelde canli-paket-hazirla.bat → DirectAdmin zip
+# Varsayılan: hızlı kod deploy (~2-4 dk). Ağır SEO/blog/görsel işleri ayrı açılır.
 
 name: Canlıya gönder
 
@@ -14,15 +14,34 @@ on:
         required: true
         default: ''
       blog_aktar:
-        description: 'database/blog-export.json varsa blog içeriklerini canlıya aktar'
+        description: 'Blog kuyruğu / blog-export içe aktar (YAVAS)'
+        required: true
+        type: boolean
+        default: false
+      blog_kapak:
+        description: 'Blog kapak görsellerini üret (YAVAS)'
+        required: true
+        type: boolean
+        default: false
+      gorsel_optimize:
+        description: 'Depolanan görselleri optimize et (YAVAS)'
+        required: true
+        type: boolean
+        default: false
+      seo_toplu:
+        description: 'SEO bulk-run + legal seed + brand seed (orta)'
         required: true
         type: boolean
         default: false
       analitik_sifirla:
-        description: 'Müşteri hareketleri analitik verilerini sıfırla (analytics:reset --force)'
+        description: 'Müşteri hareketleri analitiğini sıfırla'
         required: true
         type: boolean
         default: false
+
+concurrency:
+  group: canliya-gonder
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -48,11 +67,11 @@ jobs:
           cache: 'npm'
 
       - name: Production bağımlılıklar
-        run: composer install --no-dev --optimize-autoloader --no-interaction
+        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
       - name: Vite asset build
         run: |
-          npm ci
+          npm ci --prefer-offline
           npm run build
 
       - name: SSH anahtarı
@@ -61,7 +80,6 @@ jobs:
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
-          # SSH bağlantı sağlamlık ayarları
           cat >> ~/.ssh/config <<'EOF'
           Host *
             ConnectTimeout 30
@@ -75,10 +93,9 @@ jobs:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        # Bağlantı kopunca 3 kere dener (30s, 60s, 90s bekleme)
         run: |
-          RSYNC="rsync -avz --no-perms --omit-dir-times --timeout=120"
-          EXCLUDE="--exclude .env --exclude database/database.sqlite --exclude storage/app/public --exclude storage/logs --exclude storage/framework --exclude node_modules --exclude .git --exclude tests --exclude deploy"
+          RSYNC="rsync -az --no-perms --omit-dir-times --timeout=120"
+          EXCLUDE="--exclude .env --exclude database/database.sqlite --exclude storage/app/public --exclude storage/logs --exclude storage/framework --exclude node_modules --exclude .git --exclude tests --exclude deploy --exclude kosarticaret.com-audit --exclude tmp-gsc-*"
 
           for attempt in 1 2 3; do
             echo "Deneme $attempt/3..."
@@ -92,7 +109,7 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          RSYNC="rsync -avz --no-perms --omit-dir-times --timeout=60"
+          RSYNC="rsync -az --no-perms --omit-dir-times --timeout=60"
           $RSYNC public/css public/js public/build public/favicon.svg public/fonts \
             "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/public_html/" 2>/dev/null || true
           scp deploy/public_html/index.php deploy/public_html/.htaccess \
@@ -100,7 +117,7 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "rm -f ${DEPLOY_PATH}/public_html/robots.txt"
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "ln -sfn ../kosar/storage/app/public ${DEPLOY_PATH}/public_html/storage"
 
-      - name: Sunucuda yeni migrationlari çalıştır
+      - name: Sunucuda migrate + önbellek
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -108,33 +125,16 @@ jobs:
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_140000_create_order_logs_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_170000_create_email_marketing_tables.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_171500_add_html_mode_to_email_marketing_tables.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_01_183000_add_parasut_fields_to_orders_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_03_060000_create_customer_analytics_tables.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_03_100000_add_customer_name_to_abandoned_carts_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_100000_add_phase2_store_features.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_120000_create_page_speed_audits_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_10_100000_create_marketplace_tables.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_11_100000_create_marketplace_external_categories_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_15_100000_add_payment_tracking_fields_to_orders_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_16_100000_create_order_shipments_tables.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_120000_add_telegram_notified_at_to_orders_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_01_100000_ensure_blog_posts_table.php && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_03_100000_normalize_kaysu_brand_slug.php"
+            \$PHP_BIN artisan migrate --force && \
+            \$PHP_BIN artisan cache:clear && \
+            \$PHP_BIN artisan cache:forget seo.robots.txt && \
+            \$PHP_BIN artisan config:cache && \
+            \$PHP_BIN artisan route:cache && \
+            \$PHP_BIN artisan view:cache && \
+            echo 'Hizli deploy tamam (kod + migrate + cache)'"
 
-      - name: Sunucuda önbellek temizle
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            (command -v php >/dev/null && php artisan cache:clear && php artisan cache:forget seo.robots.txt && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan seo:assign-orphan-categories && php artisan seo:bulk-run && php artisan seo:seed-legal-pages --force && php artisan seo:seed-brands --force) || \
-            (/usr/local/php83/bin/php artisan cache:clear && /usr/local/php83/bin/php artisan cache:forget seo.robots.txt && /usr/local/php83/bin/php artisan config:cache && /usr/local/php83/bin/php artisan route:cache && /usr/local/php83/bin/php artisan view:cache && /usr/local/php83/bin/php artisan seo:assign-orphan-categories && /usr/local/php83/bin/php artisan seo:bulk-run && /usr/local/php83/bin/php artisan seo:seed-legal-pages --force && /usr/local/php83/bin/php artisan seo:seed-brands --force)"
-
-      - name: Zamanlayıcı görevlerini çalıştır (ödeme hatırlatma vb.)
+      - name: SEO toplu isler (opsiyonel)
+        if: github.event.inputs.seo_toplu == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -142,8 +142,20 @@ jobs:
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan schedule:run && \
-            echo 'NOT: Saatlik otomatik hatırlatma icin sunucu cron: * * * * * cd ${DEPLOY_PATH}/kosar && php artisan schedule:run'"
+            \$PHP_BIN artisan seo:assign-orphan-categories && \
+            \$PHP_BIN artisan seo:bulk-run && \
+            \$PHP_BIN artisan seo:seed-legal-pages --force && \
+            \$PHP_BIN artisan seo:seed-brands --force"
+
+      - name: Zamanlayıcı (hafif)
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan schedule:run || true"
 
       - name: GSC API anahtarini sunucuya yaz
         env:
@@ -153,31 +165,11 @@ jobs:
           GSC_JSON: ${{ secrets.GOOGLE_SEO_CREDENTIALS_JSON }}
         run: |
           if [ -z "$GSC_JSON" ]; then
-            echo "GOOGLE_SEO_CREDENTIALS_JSON secret tanimli degil; sunucudaki mevcut anahtar kullanilacak."
+            echo "GOOGLE_SEO_CREDENTIALS_JSON yok; atlandi."
             exit 0
           fi
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}/kosar/storage/app/private && chmod 750 ${DEPLOY_PATH}/kosar/storage/app/private"
           printf '%s' "$GSC_JSON" | ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cat > ${DEPLOY_PATH}/kosar/storage/app/private/gsc-service-account.json && chmod 600 ${DEPLOY_PATH}/kosar/storage/app/private/gsc-service-account.json"
-
-      - name: GSC arama kelimelerini cek (panel cache)
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan seo:fetch-gsc-keywords || echo 'GSC kelime cekimi atlandi (credentials/API kontrol edin)'"
-
-      - name: Urun schema alanlarini zenginlestir (meta + specs)
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan seo:enrich-product-schema-fields || echo 'Urun schema zenginlestirme atlandi'"
 
       - name: Müşteri hareketleri analitiğini sıfırla
         if: github.event.inputs.analitik_sifirla == 'true'
@@ -187,69 +179,10 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            (command -v php >/dev/null && php artisan analytics:reset --force) || \
-            (/usr/local/php83/bin/php artisan analytics:reset --force)"
-
-      - name: Vadesi gelen blog yazılarını yayınla
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan blog:import-batch b2-2026-09 --force \
-              --files=29-hidrofor-fiyatlari.json \
-              --files=00-hidrofor-nedir-pillar.json \
-              --files=02-ev-tipi-hidrofor-rehberi.json \
-              --files=03-hidrofor-hidromat-farki.json \
-              --files=04-apartmanda-su-basinci-dusuk.json && \
-            for f in \
-              database/blog-queue/01-apartman-hidrofor-secimi.json \
-              database/blog-queue/02b-hidrofor-kurulumu-montaj-sync.json \
-              database/blog-queue/05-hidrofor-surekli-calisyor.json \
-              database/blog-queue/08-hidrofor-bakim-rehberi.json \
-              database/blog-queue/11-kuyu-dalgic-pompa-secimi.json \
-              database/blog-queue/18-dalgic-pompa-kurulum.json \
-              database/blog-queue/47-en-iyi-hidrofor-markalari.json \
-              database/blog-queue/72-kuyu-suyu-hidrofor-baglanti.json \
-              database/blog-queue/95-jet-hidrofor-baglanti.json \
-              database/blog-queue/120-dalgic-pompa-motor-tipleri.json \
-              database/blog-queue/155-membran-omru-tank-ariza.json \
-              database/blog-queue/156-genlesme-basinc-tanki-farki.json \
-              database/blog-queue/119-monofaze-trifaze-dalgic.json \
-              database/blog-queue/145-yangin-test-hatti.json \
-              database/blog-queue/162-foseptik-samandira-seviye-ayari.json
-            do
-              [ -f \"\$f\" ] || continue
-              \$PHP_BIN artisan blog:import \"\$f\" --force --from-queue || sleep 2
-              sleep 1
-            done && \
-            \$PHP_BIN artisan cache:clear && \
-            \$PHP_BIN artisan view:clear && \
-            \$PHP_BIN -r \"require 'vendor/autoload.php'; \\\$app=require 'bootstrap/app.php'; \\\$app->make(Illuminate\\\\Contracts\\\\Console\\\\Kernel::class)->bootstrap(); App\\\\Support\\\\PublicPageCache::forgetAll(); echo 'public page cache bumped'.PHP_EOL;\""
+            \$PHP_BIN artisan analytics:reset --force"
 
-      - name: Blog kapak görsellerini üret (960x540 başlık metni)
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            (command -v php >/dev/null && php artisan blog:assign-covers --force) || \
-            (/usr/local/php83/bin/php artisan blog:assign-covers --force)"
-
-      - name: Mevcut görselleri optimize et
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
-            (command -v php >/dev/null && php artisan images:optimize-stored) || \
-            (/usr/local/php83/bin/php artisan images:optimize-stored)"
-
-      - name: Blog içeriklerini içe aktar
+      - name: Blog içeriklerini içe aktar (opsiyonel / YAVAS)
         if: github.event.inputs.blog_aktar == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -257,9 +190,30 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             if [ -f database/blog-export.json ]; then \
-              (command -v php >/dev/null && php artisan blog:import database/blog-export.json --force) || \
-              (/usr/local/php83/bin/php artisan blog:import database/blog-export.json --force); \
-            else \
-              echo 'database/blog-export.json bulunamadı, blog import atlandı.'; \
-            fi"
+              \$PHP_BIN artisan blog:import database/blog-export.json --force; \
+            fi && \
+            \$PHP_BIN artisan blog:publish-due --force --all || true"
+
+      - name: Blog kapak görsellerini üret (opsiyonel / YAVAS)
+        if: github.event.inputs.blog_kapak == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan blog:assign-covers --force"
+
+      - name: Mevcut görselleri optimize et (opsiyonel / YAVAS)
+        if: github.event.inputs.gorsel_optimize == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan images:optimize-stored"
