@@ -4,6 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @php $gtmId = \App\Models\SiteSetting::get('google_tag_manager_id'); @endphp
+    @if(filled($gtmId))
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer',@json($gtmId));</script>
+        <!-- End Google Tag Manager -->
+    @endif
     @include('shop.partials.meta')
     @include('partials.favicon-links')
     @php
@@ -21,8 +31,12 @@
     @if($themeCustomCss !== '')
         <style id="theme-custom-css">{!! $themeCustomCss !!}</style>
     @endif
-    @php $gaId = \App\Models\SiteSetting::get('google_analytics_id'); @endphp
-    @if(filled($gaId))
+    @php
+        $gaId = \App\Models\SiteSetting::get('google_analytics_id');
+        // GTM varken GA4'ü GTM içinden yönetin; çift sayımı önlemek için doğrudan gtag yüklenmez.
+        $loadDirectGa4 = filled($gaId) && blank($gtmId ?? \App\Models\SiteSetting::get('google_tag_manager_id'));
+    @endphp
+    @if($loadDirectGa4)
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -32,6 +46,12 @@
     @stack('head')
 </head>
 <body class="shop-body text-slate-900 min-h-screen flex flex-col {{ $themeClasses }}">
+    @if(filled($gtmId ?? null))
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtmId }}"
+        height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+    @endif
     @php $promo = \App\Models\SiteSetting::get('promo_text', config('kosar.defaults.promo_text')); @endphp
     @if(session('preview_settings'))
         <div class="bg-amber-500 text-amber-950 text-center text-xs py-2 px-4 font-medium">{{ __('shop.preview_banner') }}

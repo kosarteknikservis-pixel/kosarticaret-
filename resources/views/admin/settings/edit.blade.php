@@ -209,6 +209,11 @@
                     @endif
                 </div>
                 <div class="mt-4"><label class="admin-label">Google Analytics (GA4) ölçüm kimliği</label><input name="google_analytics_id" value="{{ $values['google_analytics_id'] }}" class="admin-input font-mono text-sm" placeholder="G-XXXXXXXXXX"></div>
+                <div class="mt-4">
+                    <label class="admin-label">Google Tag Manager (GTM) kapsayıcı kimliği</label>
+                    <input name="google_tag_manager_id" value="{{ $values['google_tag_manager_id'] ?? '' }}" class="admin-input font-mono text-sm" placeholder="GTM-XXXXXXX">
+                    <p class="mt-1 text-xs text-slate-500">Doluysa GTM kodları siteye eklenir. GA4’ü GTM içinden ekleyin; bu alanda GTM varken doğrudan GA4 çifti yüklenmez.</p>
+                </div>
 
                 <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <h4 class="text-sm font-bold text-slate-900">Bing Webmaster Tools</h4>
