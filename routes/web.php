@@ -134,7 +134,7 @@ Route::get('/markalar/{legacyBrand}', function (string $legacyBrand) {
 Route::get('/marka/{brand:slug}', [BrandController::class, 'show'])->name('brands.show');
 Route::get('/ara', SearchController::class)->name('search');
 Route::get('/ara/oneri', SearchSuggestController::class)->name('search.suggest');
-Route::post('/analitik/aktif', AnalyticsHeartbeatController::class)->middleware('throttle:12,1')->name('analytics.heartbeat');
+Route::post('/analitik/aktif', AnalyticsHeartbeatController::class)->middleware('throttle:60,1')->name('analytics.heartbeat');
 
 Route::get('/header/ozet', HeaderSummaryController::class)->name('header.summary');
 

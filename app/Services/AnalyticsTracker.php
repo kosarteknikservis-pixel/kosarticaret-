@@ -60,15 +60,8 @@ class AnalyticsTracker
                 'last_seen_at' => now(),
             ])->save();
 
-            AnalyticsEvent::query()->create([
-                'visitor_id' => $visitor->id,
-                'user_id' => $request->user()?->id,
-                'event_type' => 'visitor_heartbeat',
-                'url' => $url,
-                'referrer' => $request->headers->get('referer'),
-                'metadata' => null,
-                'occurred_at' => now(),
-            ]);
+            // Heartbeat sadece varlık sinyali: her ping'de event yazma (DB şişmesi + 429).
+            // Anlık ziyaretçi kartı analytics_visitors.last_seen_at üzerinden okunur.
         } catch (Throwable) {
             // Active visitor pings must never affect storefront performance.
         }
@@ -302,10 +295,8 @@ class AnalyticsTracker
 
     public function shouldTrackInteraction(Request $request): bool
     {
-        if ($this->isAdminRequest($request)) {
-            return false;
-        }
-
+        // Yönetim paneli URL'leri hariç; admin oturumuyla mağaza gezisi kaydedilir
+        // (raporda staff filtresiyle ayrılır — aksi halde sepet/ürün testi görünmez).
         if ($request->is('yonetim', 'yonetim/*', 'admin', 'admin/*')) {
             return false;
         }
@@ -315,6 +306,11 @@ class AnalyticsTracker
         }
 
         return ! $this->isBot((string) $request->userAgent());
+    }
+
+    public function isStaffRequest(Request $request): bool
+    {
+        return (bool) $request->user()?->is_admin;
     }
 
     private function available(): bool
@@ -404,11 +400,6 @@ class AnalyticsTracker
         }
 
         return $request->headers->get('Sec-Fetch-Dest') === 'prefetch';
-    }
-
-    private function isAdminRequest(Request $request): bool
-    {
-        return (bool) $request->user()?->is_admin;
     }
 
     private function sourceFromReferrer(?string $referrer): string

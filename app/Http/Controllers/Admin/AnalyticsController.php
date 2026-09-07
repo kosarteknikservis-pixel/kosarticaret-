@@ -31,10 +31,11 @@ class AnalyticsController extends Controller
         }
         $periodStart = $periods[$period]['start'];
         $periodLabel = $periods[$period]['label'];
+        $adminIds = \App\Models\User::query()->where('is_admin', true)->pluck('id');
 
-        $events = AnalyticsEvent::query();
+        $events = AnalyticsIdentity::customerEvents(AnalyticsEvent::query());
 
-        $topViewedProducts = AnalyticsEvent::query()
+        $topViewedProducts = AnalyticsIdentity::customerEvents(AnalyticsEvent::query())
             ->where('event_type', 'product_view')
             ->where('occurred_at', '>=', $periodStart)
             ->whereNotNull('product_id')
@@ -45,7 +46,7 @@ class AnalyticsController extends Controller
             ->take(8)
             ->get();
 
-        $topCartProducts = AnalyticsEvent::query()
+        $topCartProducts = AnalyticsIdentity::customerEvents(AnalyticsEvent::query())
             ->where('event_type', 'cart_add')
             ->where('occurred_at', '>=', $periodStart)
             ->whereNotNull('product_id')
@@ -65,9 +66,9 @@ class AnalyticsController extends Controller
             ->get();
 
         // Kaynak ziyaretçi: dönem içinde eventi olan benzersiz ziyaretçi, UTM kaynağına göre
-        $sourceVisitors = AnalyticsEvent::query()
+        $sourceVisitors = AnalyticsIdentity::customerEvents(AnalyticsEvent::query())
             ->where('occurred_at', '>=', $periodStart)
-            ->whereNotNull('visitor_id')
+            ->whereNotNull('analytics_events.visitor_id')
             ->join('analytics_visitors', 'analytics_visitors.id', '=', 'analytics_events.visitor_id')
             ->selectRaw("COALESCE(NULLIF(analytics_visitors.utm_source, ''), 'direct') as source, COUNT(DISTINCT analytics_events.visitor_id) as visitors")
             ->groupBy('source')
@@ -85,14 +86,14 @@ class AnalyticsController extends Controller
             ];
         });
 
-        $productViews = AnalyticsEvent::query()
+        $productViews = AnalyticsIdentity::customerEvents(AnalyticsEvent::query())
             ->where('event_type', 'product_view')
             ->where('occurred_at', '>=', $periodStart)
             ->whereNotNull('product_id')
             ->select('product_id', DB::raw('COUNT(*) as views'))
             ->groupBy('product_id');
 
-        $productCartAdds = AnalyticsEvent::query()
+        $productCartAdds = AnalyticsIdentity::customerEvents(AnalyticsEvent::query())
             ->where('event_type', 'cart_add')
             ->where('occurred_at', '>=', $periodStart)
             ->whereNotNull('product_id')
@@ -125,11 +126,16 @@ class AnalyticsController extends Controller
             ->whereIn('status', ['active', 'checkout'])
             ->where('item_count', '>', 0)
             ->where('last_activity_at', '>=', $periodStart)
+            ->when($adminIds->isNotEmpty(), function ($q) use ($adminIds) {
+                $q->where(function ($inner) use ($adminIds) {
+                    $inner->whereNull('user_id')->orWhereNotIn('user_id', $adminIds);
+                });
+            })
             ->latest('last_activity_at')
             ->take(12)
             ->get();
 
-        $recentEvents = AnalyticsEvent::query()
+        $recentEvents = AnalyticsIdentity::customerEvents(AnalyticsEvent::query())
             ->with(['visitor:id,device_type,last_url,last_seen_at', 'product:id,name,slug', 'order:id,order_number,total'])
             ->where('event_type', '!=', 'visitor_heartbeat')
             ->where('occurred_at', '>=', $periodStart)
@@ -144,22 +150,25 @@ class AnalyticsController extends Controller
 
         $recentVisitorSummaries = $this->visitorSummaries($recentEvents);
 
-        $activeHeartbeatEvents = AnalyticsEvent::query()
-            ->with('visitor:id,ip_hash,device_type,utm_source,last_url,last_seen_at')
-            ->where('event_type', 'visitor_heartbeat')
-            ->where('occurred_at', '>=', $activeSince)
-            ->latest('occurred_at')
-            ->get();
-        $activeUniqueVisitors = $activeHeartbeatEvents
-            ->pluck('visitor')
-            ->filter()
+        $activeVisitorQuery = AnalyticsVisitor::query()
+            ->where('last_seen_at', '>=', $activeSince)
+            ->when($adminIds->isNotEmpty(), function ($q) use ($adminIds) {
+                $q->where(function ($inner) use ($adminIds) {
+                    $inner->whereNull('user_id')->orWhereNotIn('user_id', $adminIds);
+                });
+            })
+            ->orderByDesc('last_seen_at');
+
+        $activeUniqueVisitors = (clone $activeVisitorQuery)
+            ->get(['id', 'ip_hash', 'device_type', 'utm_source', 'last_url', 'last_seen_at', 'user_id'])
             ->unique(fn (AnalyticsVisitor $visitor) => $visitor->ip_hash ?: $visitor->id)
             ->values();
         $activeVisitorList = $activeUniqueVisitors->take(12);
 
+        // Ziyaretçi = gerçek sayfa/ürün/sepet etkileşimi (heartbeat sayılmaz)
         $humanEventTypes = [
             'page_view',
-            'visitor_heartbeat',
+            'product_view',
             'cart_add',
             'cart_update',
             'cart_remove',
@@ -180,15 +189,20 @@ class AnalyticsController extends Controller
             'periodVisitors' => $this->countDistinctVisitors($periodStart, $humanEventTypes),
             'gscSummary' => $gscSummary,
             'todayPageViews' => (clone $events)->where('event_type', 'page_view')->where('occurred_at', '>=', $today)->count(),
-            'periodPageViews' => AnalyticsEvent::query()->where('event_type', 'page_view')->where('occurred_at', '>=', $periodStart)->count(),
-            'periodProductViews' => AnalyticsEvent::query()->where('event_type', 'product_view')->where('occurred_at', '>=', $periodStart)->count(),
-            'periodCartAdds' => AnalyticsEvent::query()->where('event_type', 'cart_add')->where('occurred_at', '>=', $periodStart)->count(),
-            'checkoutStarts' => AnalyticsEvent::query()->where('event_type', 'checkout_started')->where('occurred_at', '>=', $periodStart)->count(),
+            'periodPageViews' => AnalyticsIdentity::customerEvents(AnalyticsEvent::query())->where('event_type', 'page_view')->where('occurred_at', '>=', $periodStart)->count(),
+            'periodProductViews' => AnalyticsIdentity::customerEvents(AnalyticsEvent::query())->where('event_type', 'product_view')->where('occurred_at', '>=', $periodStart)->count(),
+            'periodCartAdds' => AnalyticsIdentity::customerEvents(AnalyticsEvent::query())->where('event_type', 'cart_add')->where('occurred_at', '>=', $periodStart)->count(),
+            'checkoutStarts' => AnalyticsIdentity::customerEvents(AnalyticsEvent::query())->where('event_type', 'checkout_started')->where('occurred_at', '>=', $periodStart)->count(),
             'ordersThisPeriod' => Order::query()->where('created_at', '>=', $periodStart)->count(),
             'abandonedCartCount' => AbandonedCart::query()
                 ->whereIn('status', ['active', 'checkout'])
                 ->where('item_count', '>', 0)
                 ->where('last_activity_at', '>=', $periodStart)
+                ->when($adminIds->isNotEmpty(), function ($q) use ($adminIds) {
+                    $q->where(function ($inner) use ($adminIds) {
+                        $inner->whereNull('user_id')->orWhereNotIn('user_id', $adminIds);
+                    });
+                })
                 ->count(),
             'topViewedProducts' => $topViewedProducts,
             'topCartProducts' => $topCartProducts,

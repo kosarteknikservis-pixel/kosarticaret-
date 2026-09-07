@@ -27,9 +27,10 @@
     <div class="admin-card admin-analytics-note mb-5 p-4 sm:p-5">
         <p class="text-sm text-slate-600 leading-relaxed">
             <strong class="text-slate-800">Not:</strong>
-            Ziyaretçi / sepet kartları mağaza oturum verisidir (tüm kaynaklar).
-            <em>Google Search</em> kartı ise Search Console API’den gelir — GSC’deki web arama tıklama / gösterim ile aynı kaynaktır.
-            GSC verisi 1–2 gün gecikmeli olabilir; “Bugün” seçilince de GSC için en yakın dönem (7 gün) gösterilir.
+            Ziyaretçi / sepet kartları mağaza oturum verisidir (müşteri trafiği; panel admin oturumu hariç).
+            Sayfa görüntüleme önbellekli sayfalarda da sayılır.
+            <em>Google Search</em> kartı Search Console API’den gelir — GSC ile site oturumu aynı şey değildir (GSC sadece Google arama).
+            GSC verisi 1–2 gün gecikmeli olabilir; “Bugün” seçilince GSC için en yakın dönem (7 gün) gösterilir.
         </p>
     </div>
 
@@ -89,12 +90,17 @@
                 <div>
                     <span>Aktif ziyaretçi</span>
                     <strong>{{ $periodVisitors }}</strong>
-                    <small>{{ $periodPageViews }} sayfa görüntüleme</small>
+                    <small>{{ $periodPageViews }} sayfa · {{ $periodProductViews }} ürün</small>
+                </div>
+                <div>
+                    <span>Sepete ekleme</span>
+                    <strong>{{ $periodCartAdds }}</strong>
+                    <small>{{ $periodLabel }} sepete ekleme sinyali</small>
                 </div>
                 <div>
                     <span>Checkout başlangıcı</span>
                     <strong>{{ $checkoutStarts }}</strong>
-                    <small>Sepetten ödeme adımına geçenler</small>
+                    <small>Ödeme adımına geçenler</small>
                 </div>
                 <div>
                     <span>Sipariş</span>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\AnalyticsTracker;
 use App\Support\PublicPageCache;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class CachePublicPages
 {
@@ -21,6 +23,10 @@ class CachePublicPages
         /** @var array{content: string, status: int, headers: array<string, string>}|null $cached */
         $cached = Cache::get($key);
         if ($cached !== null) {
+            // Cache hit $next()'i çağırmaz; TrackStorefrontVisit atlanır.
+            // Ziyaretçi sayımı için page_view burada da yazılmalı.
+            $this->trackCachedVisit($request);
+
             return response($cached['content'], $cached['status'], $cached['headers']);
         }
 
@@ -67,5 +73,17 @@ class CachePublicPages
         }
 
         return $headers;
+    }
+
+    private function trackCachedVisit(Request $request): void
+    {
+        try {
+            $tracker = app(AnalyticsTracker::class);
+            if ($tracker->shouldTrackRequest($request)) {
+                $tracker->trackPageView($request);
+            }
+        } catch (Throwable) {
+            // Analytics must never break cached page delivery.
+        }
     }
 }
