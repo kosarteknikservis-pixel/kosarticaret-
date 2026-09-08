@@ -9,8 +9,13 @@ use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    public function show(Page $page): View
+    public function show(Page $page): View|\Illuminate\Http\RedirectResponse
     {
+        // Preferred contact URL is /iletisim (form + NAP). CMS duplicate consolidates here.
+        if ($page->slug === 'iletisim') {
+            return redirect()->route('contact.show', status: 301);
+        }
+
         abort_unless($page->published, 404);
 
         $breadcrumbs = [

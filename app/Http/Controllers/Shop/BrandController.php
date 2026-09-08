@@ -21,13 +21,13 @@ class BrandController extends Controller
     {
         return view('shop.brands.index', [
             'brands' => Brand::query()->where('active', true)->orderBy('sort_order')->get(),
-            'metaTitle' => 'Markalar',
+            'metaTitle' => 'Pompa, Hidrofor ve Vantilatör Markaları',
             'metaDescription' => Seo::description([
-                SiteName::get().' distribütör ve üretici markaları — orijinal ürün garantisi.',
-            ]),
+                SiteName::get().' marka kataloğu: Pedrollo, Sumak, Kaysu, Winpo ve diğer üreticiler. Orijinal pompa, hidrofor ve vantilatör ürünlerini inceleyin.',
+            ], 160),
             'canonical' => route('brands.index'),
             'jsonLd' => [
-                Seo::webPage('Markalar', Seo::description(['Marka listesi']), route('brands.index')),
+                Seo::webPage('Pompa, Hidrofor ve Vantilatör Markaları', Seo::description(['Marka listesi']), route('brands.index')),
             ],
         ]);
     }
@@ -50,6 +50,9 @@ class BrandController extends Controller
         $products = $query->paginate(12)->withQueryString();
         $pageUrl = route('brands.show', $brand);
         $paginationSeo = CatalogPaginationSeo::meta($request, $products);
+        if ($products->total() === 0 && ! CatalogPaginationSeo::hasActiveFilters($request)) {
+            $paginationSeo['robots'] = Seo::ROBOTS_NOINDEX;
+        }
 
         $brandCategories = Category::query()
             ->where('active', true)

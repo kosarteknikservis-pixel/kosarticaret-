@@ -569,7 +569,9 @@ HTML;
             'meta_description' => $c['legal_name'].' iletişim: telefon, e-posta, adres ve iletişim formu.',
             'content' => $content,
             'sort_order' => 10,
-            'published' => true,
+            // Preferred URL is /iletisim; keep row for legacy links but unpublished so sitemap/llms skip it.
+            // PageController still 301s if somehow published.
+            'published' => false,
         ];
     }
 }

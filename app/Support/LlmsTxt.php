@@ -84,6 +84,7 @@ class LlmsTxt
 
         Brand::query()
             ->where('active', true)
+            ->whereHas('products', fn ($q) => $q->where('is_active', true))
             ->orderBy('sort_order')
             ->orderBy('name')
             ->limit(40)
@@ -92,7 +93,11 @@ class LlmsTxt
                 $lines[] = '- ['.$brand->name.']('.route('brands.show', $brand).')';
             });
 
-        $pages = Page::query()->where('published', true)->orderBy('sort_order')->get(['slug', 'title']);
+        $pages = Page::query()
+            ->where('published', true)
+            ->where('slug', '!=', 'iletisim')
+            ->orderBy('sort_order')
+            ->get(['slug', 'title']);
         if ($pages->isNotEmpty()) {
             $lines[] = '';
             $lines[] = '## Sayfalar';

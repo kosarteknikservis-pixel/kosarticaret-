@@ -23,13 +23,13 @@ class CategoryController extends Controller
     {
         return view('shop.categories.index', [
             'categories' => Category::query()->whereNull('parent_id')->where('active', true)->orderBy('sort_order')->get(),
-            'metaTitle' => 'Tüm Ürün Kategorileri — Pompa, Hidrofor, Vantilatör | '.SiteName::get(),
+            'metaTitle' => 'Pompa, Hidrofor ve Vantilatör Kategorileri',
             'metaDescription' => Seo::description([
-                SiteName::get().' ürün kategorileri — dalgıç pompa, hidrofor sistemi, santrifüj pompa, vantilatör ve yedek parça grupları.',
-            ]),
+                SiteName::get().' kategori rehberi: dalgıç pompa, hidrofor sistemi, santrifüj pompa, sanayi vantilatörü ve yedek parça grupları. İhtiyacınıza uygun ürün grubunu seçin.',
+            ], 160),
             'canonical' => route('categories.index'),
             'jsonLd' => [
-                Seo::webPage('Tüm Ürün Kategorileri', Seo::description(['Pompa, hidrofor, vantilatör ve ekipman kategorileri']), route('categories.index')),
+                Seo::webPage('Pompa, Hidrofor ve Vantilatör Kategorileri', Seo::description(['Pompa, hidrofor, vantilatör ve ekipman kategorileri']), route('categories.index')),
             ],
         ]);
     }

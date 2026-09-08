@@ -202,6 +202,7 @@ class SitemapGenerator
 
         Brand::query()
             ->where('active', true)
+            ->whereHas('products', fn ($q) => $q->where('is_active', true))
             ->select('slug', 'updated_at')
             ->each(function (Brand $brand) use ($urls): void {
                 $urls->push([
@@ -247,6 +248,7 @@ class SitemapGenerator
 
         Page::query()
             ->where('published', true)
+            ->where('slug', '!=', 'iletisim')
             ->select('slug', 'updated_at')
             ->each(function (Page $page) use ($urls): void {
                 $urls->push([

@@ -36,13 +36,13 @@ class ProductController extends Controller
             'products' => $products,
             'brands' => Brand::query()->where('active', true)->orderBy('name')->get(),
             'search' => $request->string('q'),
-            'metaTitle' => 'Tüm Ürünler',
+            'metaTitle' => 'Pompa, Hidrofor ve Vantilatör Ürünleri',
             'metaDescription' => Seo::description([
-                'Tüm ürünler — '.SiteName::get().' kataloğu. Pompa, hidrofor, fan ve sulama ekipmanları.',
-            ]),
+                SiteName::get().' ürün kataloğu: dalgıç pompa, hidrofor, santrifüj pompa, sanayi vantilatörü ve teknik ekipman. Güncel stok ve fiyatlarla inceleyin.',
+            ], 160),
             'canonical' => route('products.index'),
             'jsonLd' => array_filter([
-                Seo::webPage('Tüm Ürünler', Seo::description(['Ürün kataloğu']), route('products.index')),
+                Seo::webPage('Pompa, Hidrofor ve Vantilatör Ürünleri', Seo::description(['Ürün kataloğu']), route('products.index')),
                 Seo::itemListProducts($products, route('products.index'), $products->total()),
             ]),
             ...$paginationSeo,

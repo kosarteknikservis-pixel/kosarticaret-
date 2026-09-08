@@ -162,6 +162,58 @@ class AdvancedIndexingSeoTest extends TestCase
             ->assertSee($parent->storefrontUrl(), false);
     }
 
+    public function test_cms_contact_page_redirects_to_preferred_contact_url(): void
+    {
+        \App\Models\Page::query()->updateOrCreate(
+            ['slug' => 'iletisim'],
+            [
+                'title' => 'İletişim Bilgileri',
+                'content' => '<p>Eski CMS iletişim</p>',
+                'published' => true,
+                'sort_order' => 10,
+            ]
+        );
+
+        $this->get('/sayfa/iletisim')
+            ->assertRedirect(route('contact.show'));
+    }
+
+    public function test_empty_brand_is_noindex_and_omitted_from_sitemap(): void
+    {
+        $empty = \App\Models\Brand::query()->create([
+            'slug' => 'bos-marka-seo',
+            'name' => 'Boş Marka SEO',
+            'active' => true,
+        ]);
+
+        $withProduct = \App\Models\Brand::query()->create([
+            'slug' => 'dolu-marka-seo',
+            'name' => 'Dolu Marka SEO',
+            'active' => true,
+        ]);
+
+        \App\Models\Product::query()->create([
+            'slug' => 'dolu-marka-urun',
+            'sku' => 'DMS-1',
+            'name' => 'Dolu Marka Ürün',
+            'price' => 100,
+            'stock' => 1,
+            'brand_id' => $withProduct->id,
+            'is_active' => true,
+        ]);
+
+        $this->get(route('brands.show', $empty))
+            ->assertOk()
+            ->assertSee('noindex, follow', false);
+
+        \Illuminate\Support\Facades\Cache::flush();
+
+        $this->get('/sitemap-brands.xml')
+            ->assertOk()
+            ->assertDontSee(route('brands.show', $empty), false)
+            ->assertSee(route('brands.show', $withProduct), false);
+    }
+
     public function test_legacy_sayfa_query_redirects_to_page(): void
     {
         $category = \App\Models\Category::query()->where('active', true)->firstOrFail();
