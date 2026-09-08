@@ -140,6 +140,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_06_09_120000_add_telegram_notified_at_to_orders_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_01_100000_ensure_blog_posts_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_03_100000_normalize_kaysu_brand_slug.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_08_100000_create_competitor_pricing_tables.php && \
             \$PHP_BIN artisan cache:clear && \
             \$PHP_BIN artisan cache:forget seo.robots.txt && \
             \$PHP_BIN artisan config:cache && \

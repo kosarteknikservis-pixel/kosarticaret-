@@ -87,6 +87,11 @@ class Product extends Model
         return $this->hasMany(MarketplaceListing::class);
     }
 
+    public function competitorOffers(): HasMany
+    {
+        return $this->hasMany(CompetitorOffer::class);
+    }
+
     public function vatRateValue(): float
     {
         return (float) ($this->vat_rate ?? config('marketplace.default_vat_rate', 20));

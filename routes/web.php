@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AnalyticsController as AdminAnalyticsController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\CompetitorPricingController as AdminCompetitorPricingController;
 use App\Http\Controllers\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
@@ -280,6 +281,18 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
             ->except(['show'])
             ->parameters(['kuponlar' => 'coupon'])
             ->names('coupons');
+        Route::get('rakip-fiyat', [AdminCompetitorPricingController::class, 'index'])->name('competitor-pricing.index');
+        Route::get('rakip-fiyat/ayarlar', [AdminCompetitorPricingController::class, 'settings'])->name('competitor-pricing.settings');
+        Route::put('rakip-fiyat/ayarlar', [AdminCompetitorPricingController::class, 'updateSettings'])->name('competitor-pricing.settings.update');
+        Route::get('rakip-fiyat/yeni', [AdminCompetitorPricingController::class, 'create'])->name('competitor-pricing.create');
+        Route::post('rakip-fiyat', [AdminCompetitorPricingController::class, 'store'])->name('competitor-pricing.store');
+        Route::get('rakip-fiyat/{offer}/duzenle', [AdminCompetitorPricingController::class, 'edit'])->name('competitor-pricing.edit');
+        Route::put('rakip-fiyat/{offer}', [AdminCompetitorPricingController::class, 'update'])->name('competitor-pricing.update');
+        Route::delete('rakip-fiyat/{offer}', [AdminCompetitorPricingController::class, 'destroy'])->name('competitor-pricing.destroy');
+        Route::post('rakip-fiyat/{offer}/cek', [AdminCompetitorPricingController::class, 'fetch'])->name('competitor-pricing.fetch');
+        Route::post('rakip-fiyat/{offer}/onayla', [AdminCompetitorPricingController::class, 'approve'])->name('competitor-pricing.approve');
+        Route::post('rakip-fiyat/{offer}/reddet', [AdminCompetitorPricingController::class, 'reject'])->name('competitor-pricing.reject');
+        Route::post('rakip-fiyat/{offer}/uygula', [AdminCompetitorPricingController::class, 'apply'])->name('competitor-pricing.apply');
         Route::resource('sayfalar', AdminPageController::class)
             ->except(['show'])
             ->parameters(['sayfalar' => 'page'])
