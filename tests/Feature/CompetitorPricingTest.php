@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\ScanGoogleMarketPriceJob;
 use App\Models\CompetitorOffer;
 use App\Models\CompetitorPriceRule;
 use App\Models\MarketPriceScan;
@@ -12,6 +13,7 @@ use App\Services\Pricing\CompetitorPricingService;
 use App\Services\Pricing\GoogleShoppingMarketScanner;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -335,5 +337,31 @@ class CompetitorPricingTest extends TestCase
         $this->actingAs($this->admin())
             ->get(route('admin.competitor-pricing.market'))
             ->assertOk();
+    }
+
+    #[Test]
+    public function admin_can_queue_bulk_google_scan(): void
+    {
+        config([
+            'services.dataforseo.login' => 'test-user',
+            'services.dataforseo.password' => 'test-pass',
+        ]);
+
+        Queue::fake();
+
+        $p1 = $this->product(100);
+        $p2 = $this->product(200);
+
+        $this->actingAs($this->admin())
+            ->post(route('admin.competitor-pricing.market.scan-batch'), [
+                'mode' => 'missing',
+                'limit' => '',
+            ])
+            ->assertRedirect()
+            ->assertSessionHas('success');
+
+        Queue::assertPushed(ScanGoogleMarketPriceJob::class, function (ScanGoogleMarketPriceJob $job) use ($p1, $p2) {
+            return in_array($job->productId, [$p1->id, $p2->id], true);
+        });
     }
 }

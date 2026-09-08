@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ScanGoogleMarketPriceJob;
 use App\Models\CompetitorOffer;
 use App\Models\CompetitorPriceRule;
 use App\Models\MarketPriceScan;
@@ -124,6 +125,9 @@ class CompetitorPricingController extends Controller
                 'pending' => MarketPriceScan::query()->where('status', MarketPriceScan::STATUS_PENDING)->count(),
                 'approved' => MarketPriceScan::query()->where('status', MarketPriceScan::STATUS_APPROVED)->count(),
                 'missing' => Product::query()->where('is_active', true)->whereDoesntHave('marketPriceScan')->count(),
+                'queued' => \Illuminate\Support\Facades\DB::table('jobs')
+                    ->where('payload', 'like', '%ScanGoogleMarketPriceJob%')
+                    ->count(),
             ],
         ]);
     }
@@ -156,41 +160,58 @@ class CompetitorPricingController extends Controller
             return back()->with('error', 'DataForSEO kimlik bilgileri eksik.');
         }
 
-        $limit = min(25, max(1, (int) $request->input('limit', 10)));
-        $products = Product::query()
-            ->where('is_active', true)
-            ->whereDoesntHave('marketPriceScan')
-            ->orderBy('id')
-            ->limit($limit)
-            ->get();
+        if ($request->input('limit') === '' || $request->input('limit') === null) {
+            $request->merge(['limit' => null]);
+        }
 
-        if ($products->isEmpty()) {
-            $products = Product::query()
-                ->where('is_active', true)
-                ->whereHas('marketPriceScan', function ($s) {
-                    $s->where(function ($inner) {
-                        $inner->whereNull('last_scanned_at')
-                            ->orWhere('last_scanned_at', '<', now()->subDays(7));
+        $data = $request->validate([
+            'mode' => ['required', 'in:missing,stale,all'],
+            'limit' => ['nullable', 'integer', 'min:1', 'max:5000'],
+        ]);
+
+        $mode = $data['mode'];
+        $limit = isset($data['limit']) ? (int) $data['limit'] : null;
+
+        $query = Product::query()->where('is_active', true)->orderBy('id');
+
+        if ($mode === 'missing') {
+            $query->whereDoesntHave('marketPriceScan');
+        } elseif ($mode === 'stale') {
+            $query->where(function ($q) {
+                $q->whereDoesntHave('marketPriceScan')
+                    ->orWhereHas('marketPriceScan', function ($scan) {
+                        $scan->where(function ($inner) {
+                            $inner->whereNull('last_scanned_at')
+                                ->orWhere('last_scanned_at', '<', now()->subDays(7));
+                        });
                     });
-                })
-                ->orderBy('id')
-                ->limit($limit)
-                ->get();
+            });
         }
 
-        if ($products->isEmpty()) {
-            return back()->with('error', 'Taranacak ürün kalmadı.');
+        if ($limit) {
+            $query->limit($limit);
         }
 
-        $ok = 0;
-        foreach ($products as $product) {
-            $scan = $this->scanner->scanProduct($product);
-            if ($scan->status !== MarketPriceScan::STATUS_ERROR) {
-                $ok++;
-            }
+        $productIds = $query->pluck('id');
+        if ($productIds->isEmpty()) {
+            return back()->with('error', 'Bu filtrede taranacak ürün yok.');
         }
 
-        return back()->with('success', "Toplu tarama: {$ok}/{$products->count()} ürün işlendi.");
+        foreach ($productIds as $productId) {
+            ScanGoogleMarketPriceJob::dispatch((int) $productId);
+        }
+
+        $count = $productIds->count();
+        $modeLabel = match ($mode) {
+            'all' => 'tüm aktif',
+            'stale' => 'eksik/eski',
+            default => 'taranmamış',
+        };
+
+        return back()->with(
+            'success',
+            "{$count} ürün ({$modeLabel}) kuyruğa alındı. Sunucu dakikada işler; sayfayı yenileyerek ilerlemeyi izleyin. Otomatik fiyat uygulanmaz."
+        );
     }
 
     public function approveMarket(MarketPriceScan $scan): RedirectResponse

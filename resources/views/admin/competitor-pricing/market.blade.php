@@ -6,13 +6,6 @@
         <x-slot:actions>
             <a href="{{ route('admin.competitor-pricing.index') }}" class="admin-btn admin-btn-secondary">Manuel teklifler</a>
             <a href="{{ route('admin.competitor-pricing.settings') }}" class="admin-btn admin-btn-secondary">Kurallar</a>
-            <form method="post" action="{{ route('admin.competitor-pricing.market.scan-batch') }}" class="inline">
-                @csrf
-                <input type="hidden" name="limit" value="10">
-                <button type="submit" class="admin-btn admin-btn-primary" @if(! $dataforseoReady) disabled @endif onclick="return confirm('10 ürün Google’da taransın mı? (API ücreti oluşur)')">
-                    10 ürün tara
-                </button>
-            </form>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -22,7 +15,48 @@
         </div>
     @endunless
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+    <form method="post" action="{{ route('admin.competitor-pricing.market.scan-batch') }}" class="admin-card p-4 mb-5">
+        @csrf
+        <div class="flex flex-col lg:flex-row lg:items-end gap-3">
+            <div class="flex-1 min-w-0">
+                <label class="admin-label">Toplu Google tarama (kuyruk)</label>
+                <p class="text-xs text-slate-500 mb-2">~1.400 ürün tek seferde kuyruğa alınabilir; sunucu dakikada işler. Fiyat otomatik düşmez.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="admin-label text-xs">Kapsam</label>
+                        <select name="mode" class="admin-input">
+                            <option value="missing" selected>Sadece taranmamışlar (önerilen)</option>
+                            <option value="stale">Taranmamış + 7 günden eski</option>
+                            <option value="all">Tüm aktif ürünler (yeniden tara)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="admin-label text-xs">Adet limiti</label>
+                        <select name="limit" class="admin-input">
+                            <option value="50">50 ürün</option>
+                            <option value="100">100 ürün</option>
+                            <option value="250">250 ürün</option>
+                            <option value="500">500 ürün</option>
+                            <option value="" selected>Limit yok — hepsi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button
+                type="submit"
+                class="admin-btn admin-btn-primary shrink-0 h-[42px] px-5"
+                @if(! $dataforseoReady) disabled @endif
+                onclick="return confirm('Seçilen ürünler Google Shopping kuyruğuna alınsın mı? API ücreti oluşur; fiyat otomatik değişmez.')"
+            >
+                Kuyruğa al
+            </button>
+        </div>
+        @if(($stats['queued'] ?? 0) > 0)
+            <p class="text-sm text-teal-800 mt-3 font-medium">Kuyrukta bekleyen tarama işi: {{ number_format($stats['queued'], 0, ',', '.') }}</p>
+        @endif
+    </form>
+
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
         <div class="admin-card p-4">
             <p class="text-xs text-slate-500 uppercase tracking-wide">Taranmış</p>
             <p class="text-2xl font-semibold text-slate-900 mt-1">{{ $stats['scanned'] }}</p>
@@ -38,6 +72,10 @@
         <div class="admin-card p-4">
             <p class="text-xs text-slate-500 uppercase tracking-wide">Henüz taranmadı</p>
             <p class="text-2xl font-semibold text-slate-700 mt-1">{{ $stats['missing'] }}</p>
+        </div>
+        <div class="admin-card p-4">
+            <p class="text-xs text-slate-500 uppercase tracking-wide">Kuyruk</p>
+            <p class="text-2xl font-semibold text-slate-900 mt-1">{{ $stats['queued'] ?? 0 }}</p>
         </div>
     </div>
 
