@@ -25,6 +25,7 @@ class MarketPriceScan extends Model
         'google_median_price',
         'offer_count',
         'offers',
+        'diagnostics',
         'last_scanned_at',
         'last_error',
     ];
@@ -35,6 +36,7 @@ class MarketPriceScan extends Model
             'google_min_price' => 'decimal:2',
             'google_median_price' => 'decimal:2',
             'offers' => 'array',
+            'diagnostics' => 'array',
             'last_scanned_at' => 'datetime',
         ];
     }

@@ -20,14 +20,18 @@
         <div class="flex flex-col lg:flex-row lg:items-end gap-3">
             <div class="flex-1 min-w-0">
                 <label class="admin-label">Toplu Google tarama (kuyruk)</label>
-                <p class="text-xs text-slate-500 mb-2">~1.400 ürün tek seferde kuyruğa alınabilir; sunucu dakikada işler. Fiyat otomatik düşmez.</p>
+                <p class="text-xs text-slate-500 mb-2">
+                    “Taranmadı” = henüz hiç taranmadı. Kırmızı uyarı = tarandı ama Google’daki fiyatlar güvenilmez bulunduğu için elendi.
+                    Toplu tarama için <strong>Kuyruğa al</strong> şart; kuyruk 0 iken ürünler kendiliğinden taranmaz.
+                </p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="admin-label text-xs">Kapsam</label>
                         <select name="mode" class="admin-input">
                             <option value="missing" selected>Sadece taranmamışlar (önerilen)</option>
-                            <option value="stale">Taranmamış + 7 günden eski</option>
-                            <option value="all">Tüm aktif ürünler (yeniden tara)</option>
+                            <option value="no_results">Sonuçsuzları yeniden tara</option>
+                            <option value="stale">Taranmamış + eski + sonuçsuz</option>
+                            <option value="all">Tüm aktif ürünler</option>
                         </select>
                     </div>
                     <div>
@@ -52,11 +56,14 @@
             </button>
         </div>
         @if(($stats['queued'] ?? 0) > 0)
-            <p class="text-sm text-teal-800 mt-3 font-medium">Kuyrukta bekleyen tarama işi: {{ number_format($stats['queued'], 0, ',', '.') }}</p>
+            <p class="text-sm text-teal-800 mt-3 font-medium">Kuyrukta bekleyen: {{ number_format($stats['queued'], 0, ',', '.') }} — dakikada birkaç ürün işlenir, sayfayı yenileyin.</p>
+        @endif
+        @if(($stats['failed'] ?? 0) > 0)
+            <p class="text-sm text-red-700 mt-2">Başarısız kuyruk işi: {{ $stats['failed'] }}</p>
         @endif
     </form>
 
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-5">
         <div class="admin-card p-4">
             <p class="text-xs text-slate-500 uppercase tracking-wide">Taranmış</p>
             <p class="text-2xl font-semibold text-slate-900 mt-1">{{ $stats['scanned'] }}</p>
@@ -68,6 +75,10 @@
         <div class="admin-card p-4">
             <p class="text-xs text-slate-500 uppercase tracking-wide">Onaylı</p>
             <p class="text-2xl font-semibold text-teal-800 mt-1">{{ $stats['approved'] }}</p>
+        </div>
+        <div class="admin-card p-4">
+            <p class="text-xs text-slate-500 uppercase tracking-wide">Sonuç yok</p>
+            <p class="text-2xl font-semibold text-slate-600 mt-1">{{ $stats['no_results'] ?? 0 }}</p>
         </div>
         <div class="admin-card p-4">
             <p class="text-xs text-slate-500 uppercase tracking-wide">Henüz taranmadı</p>
@@ -86,6 +97,7 @@
                 'expensive' => 'Biz pahalıyız',
                 'pending' => 'İnceleme',
                 'approved' => 'Onaylı',
+                'no_results' => 'Sonuç yok',
                 'missing' => 'Taranmamış',
             ] as $key => $label)
                 <a href="{{ route('admin.competitor-pricing.market', array_filter(['filter' => $key === 'all' ? null : $key, 'q' => $q ?: null])) }}"
@@ -173,8 +185,11 @@
                                     @if($scan->last_scanned_at)
                                         <p class="text-xs text-slate-400 mt-1">{{ $scan->last_scanned_at->format('d.m.Y H:i') }}</p>
                                     @endif
-                                    @if($scan->last_error && $scan->status === 'error')
-                                        <p class="text-xs text-red-600 mt-1 max-w-[160px]">{{ \Illuminate\Support\Str::limit($scan->last_error, 90) }}</p>
+                                    @if($scan->last_error && in_array($scan->status, ['error', 'no_results'], true))
+                                        <p class="text-xs {{ $scan->status === 'error' ? 'text-red-600' : 'text-slate-500' }} mt-1 max-w-[200px]">{{ \Illuminate\Support\Str::limit($scan->last_error, 120) }}</p>
+                                    @endif
+                                    @if(is_array($scan->diagnostics['model_keys'] ?? null) && $scan->diagnostics['model_keys'])
+                                        <p class="text-xs text-slate-400 mt-1 font-mono">SKU anahtar: {{ implode(', ', $scan->diagnostics['model_keys']) }}</p>
                                     @endif
                                 @else
                                     <span class="text-slate-400 text-sm">Taranmadı</span>
@@ -194,6 +209,11 @@
                                     @if(count($scan->offers) > 3)
                                         <p class="text-xs text-slate-400 mt-1">+{{ count($scan->offers) - 3 }} teklif</p>
                                     @endif
+                                @elseif($scan && ($scan->status === 'no_results') && !empty($scan->diagnostics['passes']))
+                                    @php $pass = $scan->diagnostics['passes'][0] ?? null; @endphp
+                                    <p class="text-xs text-slate-500">
+                                        Ham sonuç: {{ $pass['raw_count'] ?? 0 }} · kabul: 0
+                                    </p>
                                 @else
                                     <span class="text-slate-400">—</span>
                                 @endif

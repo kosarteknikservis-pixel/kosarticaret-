@@ -37,7 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ->weeklyOn(1, '05:30')
             ->withoutOverlapping();
 
-        $schedule->command('queue:work --stop-when-empty --max-time=55')
+        $schedule->command('queue:work --stop-when-empty --max-time=55 --max-jobs=8')
             ->everyMinute()
             ->withoutOverlapping();
     })

@@ -85,6 +85,7 @@ class CompetitorPricingController extends Controller
             })
             ->when($filter === 'pending', fn ($query) => $query->whereHas('marketPriceScan', fn ($s) => $s->where('status', MarketPriceScan::STATUS_PENDING)))
             ->when($filter === 'approved', fn ($query) => $query->whereHas('marketPriceScan', fn ($s) => $s->where('status', MarketPriceScan::STATUS_APPROVED)))
+            ->when($filter === 'no_results', fn ($query) => $query->whereHas('marketPriceScan', fn ($s) => $s->where('status', MarketPriceScan::STATUS_NO_RESULTS)))
             ->when($filter === 'missing', fn ($query) => $query->whereDoesntHave('marketPriceScan'))
             ->when($filter === 'expensive', function ($query) {
                 $query->whereHas('marketPriceScan', function ($s) {
@@ -124,8 +125,12 @@ class CompetitorPricingController extends Controller
                 'scanned' => MarketPriceScan::query()->count(),
                 'pending' => MarketPriceScan::query()->where('status', MarketPriceScan::STATUS_PENDING)->count(),
                 'approved' => MarketPriceScan::query()->where('status', MarketPriceScan::STATUS_APPROVED)->count(),
+                'no_results' => MarketPriceScan::query()->where('status', MarketPriceScan::STATUS_NO_RESULTS)->count(),
                 'missing' => Product::query()->where('is_active', true)->whereDoesntHave('marketPriceScan')->count(),
                 'queued' => \Illuminate\Support\Facades\DB::table('jobs')
+                    ->where('payload', 'like', '%ScanGoogleMarketPriceJob%')
+                    ->count(),
+                'failed' => \Illuminate\Support\Facades\DB::table('failed_jobs')
                     ->where('payload', 'like', '%ScanGoogleMarketPriceJob%')
                     ->count(),
             ],
@@ -145,12 +150,15 @@ class CompetitorPricingController extends Controller
         }
 
         if ($scan->status === MarketPriceScan::STATUS_NO_RESULTS) {
-            return back()->with('error', $scan->last_error ?: 'Google’da uygun teklif bulunamadı.');
+            return back()->with(
+                'success',
+                'Tarama tamam: güvenilir teklif yok. '.$scan->last_error
+            );
         }
 
         return back()->with(
             'success',
-            'Google tarandı: '.$scan->offer_count.' teklif · min '.number_format((float) $scan->google_min_price, 2, ',', '.').' ₺'
+            'Google tarandı: '.$scan->offer_count.' teklif · referans '.number_format((float) ($scan->competitivePrice() ?? $scan->google_min_price), 2, ',', '.').' ₺'
         );
     }
 
@@ -165,7 +173,7 @@ class CompetitorPricingController extends Controller
         }
 
         $data = $request->validate([
-            'mode' => ['required', 'in:missing,stale,all'],
+            'mode' => ['required', 'in:missing,stale,all,no_results'],
             'limit' => ['nullable', 'integer', 'min:1', 'max:5000'],
         ]);
 
@@ -176,13 +184,16 @@ class CompetitorPricingController extends Controller
 
         if ($mode === 'missing') {
             $query->whereDoesntHave('marketPriceScan');
+        } elseif ($mode === 'no_results') {
+            $query->whereHas('marketPriceScan', fn ($s) => $s->where('status', MarketPriceScan::STATUS_NO_RESULTS));
         } elseif ($mode === 'stale') {
             $query->where(function ($q) {
                 $q->whereDoesntHave('marketPriceScan')
                     ->orWhereHas('marketPriceScan', function ($scan) {
                         $scan->where(function ($inner) {
                             $inner->whereNull('last_scanned_at')
-                                ->orWhere('last_scanned_at', '<', now()->subDays(7));
+                                ->orWhere('last_scanned_at', '<', now()->subDays(7))
+                                ->orWhere('status', MarketPriceScan::STATUS_NO_RESULTS);
                         });
                     });
             });
@@ -204,7 +215,8 @@ class CompetitorPricingController extends Controller
         $count = $productIds->count();
         $modeLabel = match ($mode) {
             'all' => 'tüm aktif',
-            'stale' => 'eksik/eski',
+            'stale' => 'eksik/eski/sonuçsuz',
+            'no_results' => 'sonuçsuz (yeniden)',
             default => 'taranmamış',
         };
 
