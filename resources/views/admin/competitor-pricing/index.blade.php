@@ -2,10 +2,11 @@
 @section('title', 'Rakip fiyat')
 
 @section('content')
-    <x-admin.page-header title="Rakip fiyat" subtitle="Onaylı eşleşmelere göre önerilen rekabetçi fiyat — otomatik uygulama kapalı">
+    <x-admin.page-header title="Manuel rakip teklifleri" subtitle="İsteğe bağlı URL eşleştirmesi — asıl akış Google piyasa taramasıdır">
         <x-slot:actions>
+            <a href="{{ route('admin.competitor-pricing.market') }}" class="admin-btn admin-btn-primary">Google piyasa</a>
             <a href="{{ route('admin.competitor-pricing.settings') }}" class="admin-btn admin-btn-secondary">Kurallar</a>
-            <a href="{{ route('admin.competitor-pricing.create') }}" class="admin-btn admin-btn-primary">+ Rakip teklif</a>
+            <a href="{{ route('admin.competitor-pricing.create') }}" class="admin-btn admin-btn-secondary">+ URL teklif</a>
         </x-slot:actions>
     </x-admin.page-header>
 

@@ -141,6 +141,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_01_100000_ensure_blog_posts_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_07_03_100000_normalize_kaysu_brand_slug.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_08_100000_create_competitor_pricing_tables.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_08_110000_create_market_price_scans_table.php && \
             \$PHP_BIN artisan cache:clear && \
             \$PHP_BIN artisan cache:forget seo.robots.txt && \
             \$PHP_BIN artisan config:cache && \
@@ -185,6 +186,45 @@ jobs:
           fi
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}/kosar/storage/app/private && chmod 750 ${DEPLOY_PATH}/kosar/storage/app/private"
           printf '%s' "$GSC_JSON" | ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cat > ${DEPLOY_PATH}/kosar/storage/app/private/gsc-service-account.json && chmod 600 ${DEPLOY_PATH}/kosar/storage/app/private/gsc-service-account.json"
+
+      - name: DataForSEO kimliklerini sunucu .env dosyasina yaz
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DFS_USER: ${{ secrets.DATAFORSEO_USERNAME }}
+          DFS_PASS: ${{ secrets.DATAFORSEO_PASSWORD }}
+        run: |
+          if [ -z "$DFS_USER" ] || [ -z "$DFS_PASS" ]; then
+            echo "DATAFORSEO secrets yok; atlandi."
+            exit 0
+          fi
+          B64_USER=$(printf '%s' "$DFS_USER" | base64 | tr -d '\n')
+          B64_PASS=$(printf '%s' "$DFS_PASS" | base64 | tr -d '\n')
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            DFS_USER_B64='${B64_USER}' DFS_PASS_B64='${B64_PASS}' \$PHP_BIN -r '
+              \$path = \".env\";
+              \$text = is_file(\$path) ? file_get_contents(\$path) : \"\";
+              \$values = [
+                \"DATAFORSEO_USERNAME\" => base64_decode(getenv(\"DFS_USER_B64\")),
+                \"DATAFORSEO_PASSWORD\" => base64_decode(getenv(\"DFS_PASS_B64\")),
+                \"DATAFORSEO_LOCATION_CODE\" => \"2792\",
+                \"DATAFORSEO_LANGUAGE_CODE\" => \"tr\",
+              ];
+              foreach (\$values as \$key => \$val) {
+                \$line = \$key.\"=\".\$val;
+                \$pattern = \"/^\".preg_quote(\$key, \"/\").\"=.*$/m\";
+                if (preg_match(\$pattern, \$text)) {
+                  \$text = preg_replace(\$pattern, \$line, \$text, 1);
+                } else {
+                  \$text = rtrim(\$text).PHP_EOL.\$line.PHP_EOL;
+                }
+              }
+              file_put_contents(\$path, \$text);
+              echo \"DataForSEO env guncellendi\\n\";
+            ' && \
+            \$PHP_BIN artisan config:cache"
 
       - name: Müşteri hareketleri analitiğini sıfırla
         if: github.event.inputs.analitik_sifirla == 'true'

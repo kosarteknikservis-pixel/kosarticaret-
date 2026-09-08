@@ -4,11 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\CompetitorOffer;
 use App\Models\CompetitorPriceRule;
+use App\Models\MarketPriceScan;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\Pricing\CompetitorPriceFetcher;
 use App\Services\Pricing\CompetitorPricingService;
+use App\Services\Pricing\GoogleShoppingMarketScanner;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -195,5 +198,142 @@ class CompetitorPricingTest extends TestCase
         $rule = CompetitorPriceRule::activeRule();
         $this->assertSame('2.50', (string) $rule->undercut_percent);
         $this->assertFalse((bool) $rule->auto_apply);
+    }
+
+    #[Test]
+    public function approved_google_scan_feeds_suggestion(): void
+    {
+        $product = $this->product(15000);
+        MarketPriceScan::query()->create([
+            'product_id' => $product->id,
+            'search_query' => $product->name,
+            'status' => MarketPriceScan::STATUS_APPROVED,
+            'google_min_price' => 14100,
+            'google_median_price' => 14500,
+            'offer_count' => 2,
+            'offers' => [],
+            'last_scanned_at' => now(),
+        ]);
+
+        $rule = CompetitorPriceRule::query()->create([
+            'name' => 'Test',
+            'undercut_percent' => 2,
+            'keep_compare_at' => true,
+            'auto_apply' => false,
+            'active' => true,
+        ]);
+
+        $suggestion = app(CompetitorPricingService::class)
+            ->suggestionForProduct($product->load('marketPriceScan'), $rule);
+
+        $this->assertSame(14100.0, $suggestion['competitor_min']);
+        $this->assertSame('13818.00', $suggestion['suggested']);
+        $this->assertTrue($suggestion['can_apply']);
+    }
+
+    #[Test]
+    public function google_scanner_stores_filtered_offers_from_api(): void
+    {
+        config([
+            'services.dataforseo.login' => 'test-user',
+            'services.dataforseo.password' => 'test-pass',
+            'services.dataforseo.poll_interval' => 0,
+            'services.dataforseo.poll_timeout' => 5,
+            'services.dataforseo.min_match_score' => 0.2,
+            'services.dataforseo.price_band_min' => 0.3,
+            'services.dataforseo.price_band_max' => 3,
+        ]);
+
+        Http::fake([
+            'api.dataforseo.com/v3/merchant/google/products/task_post' => Http::response([
+                'status_code' => 20000,
+                'tasks' => [[
+                    'id' => 'task-1',
+                    'status_code' => 20100,
+                    'status_message' => 'Task Created.',
+                ]],
+            ], 200),
+            'api.dataforseo.com/v3/merchant/google/products/task_get/advanced/task-1' => Http::response([
+                'status_code' => 20000,
+                'tasks' => [[
+                    'status_code' => 20000,
+                    'result' => [[
+                        'items' => [
+                            [
+                                'type' => 'google_shopping_serp',
+                                'title' => 'Test Vantilatör Endüstriyel 50 cm',
+                                'price' => 14000,
+                                'currency' => 'TRY',
+                                'seller' => 'Rakip A',
+                                'shopping_url' => 'https://google.com/x',
+                                'product_id' => '111',
+                            ],
+                            [
+                                'type' => 'google_shopping_serp',
+                                'title' => 'Tamamen alakasız mutfak robotu',
+                                'price' => 500,
+                                'currency' => 'TRY',
+                                'seller' => 'X',
+                            ],
+                            [
+                                'type' => 'google_shopping_serp',
+                                'title' => 'Test Vantilatör Koşar',
+                                'price' => 13900,
+                                'currency' => 'TRY',
+                                'seller' => 'Koşar Ticaret',
+                            ],
+                        ],
+                    ]],
+                ]],
+            ], 200),
+        ]);
+
+        $product = $this->product(14313);
+        $product->name = 'Test Vantilatör Endüstriyel';
+        $product->save();
+
+        $scan = app(GoogleShoppingMarketScanner::class)->scanProduct($product);
+
+        $this->assertSame(MarketPriceScan::STATUS_PENDING, $scan->status);
+        $this->assertSame('14000.00', (string) $scan->google_min_price);
+        $this->assertGreaterThanOrEqual(1, $scan->offer_count);
+        $this->assertFalse(collect($scan->offers)->contains(fn ($o) => str_contains(mb_strtolower($o['seller'] ?? ''), 'koşar')));
+    }
+
+    #[Test]
+    public function admin_can_approve_and_apply_google_scan(): void
+    {
+        $product = $this->product(15000);
+        $scan = MarketPriceScan::query()->create([
+            'product_id' => $product->id,
+            'search_query' => $product->name,
+            'status' => MarketPriceScan::STATUS_PENDING,
+            'google_min_price' => 14100,
+            'offer_count' => 1,
+            'offers' => [['title' => 'X', 'price' => 14100, 'seller' => 'A', 'score' => 0.5]],
+            'last_scanned_at' => now(),
+        ]);
+
+        CompetitorPriceRule::activeRule()->update(['undercut_percent' => 2]);
+
+        $this->actingAs($this->admin())
+            ->post(route('admin.competitor-pricing.market.approve', $scan))
+            ->assertRedirect()
+            ->assertSessionHas('success');
+
+        $this->actingAs($this->admin())
+            ->post(route('admin.competitor-pricing.market.apply', $scan->fresh()))
+            ->assertRedirect()
+            ->assertSessionHas('success');
+
+        $this->assertSame('13818.00', (string) $product->fresh()->price);
+    }
+
+    #[Test]
+    public function market_page_loads_for_admin(): void
+    {
+        $this->actingAs($this->admin())
+            ->get(route('admin.competitor-pricing.market'))
+            ->assertOk();
     }
 }

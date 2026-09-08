@@ -282,6 +282,12 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
             ->parameters(['kuponlar' => 'coupon'])
             ->names('coupons');
         Route::get('rakip-fiyat', [AdminCompetitorPricingController::class, 'index'])->name('competitor-pricing.index');
+        Route::get('rakip-fiyat/google', [AdminCompetitorPricingController::class, 'market'])->name('competitor-pricing.market');
+        Route::post('rakip-fiyat/google/toplu-tara', [AdminCompetitorPricingController::class, 'scanBatch'])->name('competitor-pricing.market.scan-batch');
+        Route::post('rakip-fiyat/google/{product}/tara', [AdminCompetitorPricingController::class, 'scanProduct'])->name('competitor-pricing.market.scan');
+        Route::post('rakip-fiyat/google-scan/{scan}/onayla', [AdminCompetitorPricingController::class, 'approveMarket'])->name('competitor-pricing.market.approve');
+        Route::post('rakip-fiyat/google-scan/{scan}/reddet', [AdminCompetitorPricingController::class, 'rejectMarket'])->name('competitor-pricing.market.reject');
+        Route::post('rakip-fiyat/google-scan/{scan}/uygula', [AdminCompetitorPricingController::class, 'applyMarket'])->name('competitor-pricing.market.apply');
         Route::get('rakip-fiyat/ayarlar', [AdminCompetitorPricingController::class, 'settings'])->name('competitor-pricing.settings');
         Route::put('rakip-fiyat/ayarlar', [AdminCompetitorPricingController::class, 'updateSettings'])->name('competitor-pricing.settings.update');
         Route::get('rakip-fiyat/yeni', [AdminCompetitorPricingController::class, 'create'])->name('competitor-pricing.create');

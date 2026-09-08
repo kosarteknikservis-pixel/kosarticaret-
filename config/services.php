@@ -41,4 +41,18 @@ return [
         'chat_id' => env('TELEGRAM_CHAT_ID'),
     ],
 
+    'dataforseo' => [
+        'login' => env('DATAFORSEO_USERNAME'),
+        'password' => env('DATAFORSEO_PASSWORD'),
+        'base_url' => env('DATAFORSEO_BASE_URL', 'https://api.dataforseo.com'),
+        'location_code' => (int) env('DATAFORSEO_LOCATION_CODE', 2792),
+        'language_code' => env('DATAFORSEO_LANGUAGE_CODE', 'tr'),
+        'shopping_depth' => (int) env('DATAFORSEO_SHOPPING_DEPTH', 40),
+        'poll_timeout' => (int) env('DATAFORSEO_POLL_TIMEOUT', 75),
+        'poll_interval' => (int) env('DATAFORSEO_POLL_INTERVAL', 3),
+        'min_match_score' => (float) env('DATAFORSEO_MIN_MATCH_SCORE', 0.28),
+        'price_band_min' => (float) env('DATAFORSEO_PRICE_BAND_MIN', 0.35),
+        'price_band_max' => (float) env('DATAFORSEO_PRICE_BAND_MAX', 2.75),
+    ],
+
 ];

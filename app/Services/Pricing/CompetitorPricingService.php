@@ -4,6 +4,7 @@ namespace App\Services\Pricing;
 
 use App\Models\CompetitorOffer;
 use App\Models\CompetitorPriceRule;
+use App\Models\MarketPriceScan;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 
@@ -52,6 +53,14 @@ class CompetitorPricingService
             ->filter(fn ($p) => $p !== null && (float) $p > 0)
             ->map(fn ($p) => round((float) $p, 2));
 
+        $scan = $product->relationLoaded('marketPriceScan')
+            ? $product->marketPriceScan
+            : $product->marketPriceScan()->first();
+
+        if ($scan instanceof MarketPriceScan && $scan->isApproved()) {
+            $approvedPrices = $approvedPrices->push(round((float) $scan->google_min_price, 2));
+        }
+
         if ($approvedPrices->isEmpty()) {
             return [
                 'our_price' => $our,
@@ -59,7 +68,7 @@ class CompetitorPricingService
                 'suggested' => null,
                 'difference_percent' => null,
                 'can_apply' => false,
-                'reason' => 'Onaylı ve fiyatı bilinen rakip teklifi yok.',
+                'reason' => 'Onaylı Google piyasa taraması veya rakip teklifi yok.',
             ];
         }
 

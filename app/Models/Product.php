@@ -92,6 +92,11 @@ class Product extends Model
         return $this->hasMany(CompetitorOffer::class);
     }
 
+    public function marketPriceScan(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(MarketPriceScan::class);
+    }
+
     public function vatRateValue(): float
     {
         return (float) ($this->vat_rate ?? config('marketplace.default_vat_rate', 20));

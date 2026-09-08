@@ -39,6 +39,10 @@
             Otomatik uygulama bilinçli olarak kapalıdır. Fiyat yalnızca panelden “Uygula” ile değişir.
         </p>
 
+        <p class="text-xs {{ !empty($dataforseoReady) ? 'text-teal-800 bg-teal-50 border-teal-100' : 'text-red-800 bg-red-50 border-red-100' }} border rounded-lg px-3 py-2">
+            DataForSEO (Google Shopping): {{ !empty($dataforseoReady) ? 'bağlı' : 'eksik — DATAFORSEO_USERNAME / PASSWORD gerekli' }}
+        </p>
+
         <x-admin.form-footer>Kaydet</x-admin.form-footer>
     </form>
 @endsection

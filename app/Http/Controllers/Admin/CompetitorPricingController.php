@@ -5,15 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CompetitorOffer;
 use App\Models\CompetitorPriceRule;
+use App\Models\MarketPriceScan;
 use App\Models\Product;
 use App\Services\Pricing\CompetitorPricingService;
+use App\Services\Pricing\DataForSeoClient;
+use App\Services\Pricing\GoogleShoppingMarketScanner;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CompetitorPricingController extends Controller
 {
-    public function __construct(private CompetitorPricingService $pricing) {}
+    public function __construct(
+        private CompetitorPricingService $pricing,
+        private GoogleShoppingMarketScanner $scanner,
+        private DataForSeoClient $dataForSeo,
+    ) {}
 
     public function index(Request $request): View
     {
@@ -39,7 +46,7 @@ class CompetitorPricingController extends Controller
         $rows = $offers->getCollection()->map(function (CompetitorOffer $offer) use ($rule) {
             $product = $offer->product;
             $suggestion = $product
-                ? $this->pricing->suggestionForProduct($product->loadMissing('competitorOffers'), $rule)
+                ? $this->pricing->suggestionForProduct($product->loadMissing(['competitorOffers', 'marketPriceScan']), $rule)
                 : null;
 
             return compact('offer', 'product', 'suggestion');
@@ -54,8 +61,183 @@ class CompetitorPricingController extends Controller
                 'total' => CompetitorOffer::query()->count(),
                 'approved' => CompetitorOffer::query()->where('match_status', CompetitorOffer::STATUS_APPROVED)->count(),
                 'pending' => CompetitorOffer::query()->where('match_status', CompetitorOffer::STATUS_PENDING)->count(),
+                'market_pending' => MarketPriceScan::query()->where('status', MarketPriceScan::STATUS_PENDING)->count(),
+            ],
+            'dataforseoReady' => $this->dataForSeo->configured(),
+        ]);
+    }
+
+    public function market(Request $request): View
+    {
+        $q = trim((string) $request->query('q', ''));
+        $filter = (string) $request->query('filter', 'all');
+
+        $products = Product::query()
+            ->where('is_active', true)
+            ->with('marketPriceScan')
+            ->when($q !== '', function ($query) use ($q) {
+                $query->where(function ($inner) use ($q) {
+                    $inner->where('name', 'like', '%'.$q.'%')
+                        ->orWhere('sku', 'like', '%'.$q.'%')
+                        ->orWhere('barcode', 'like', '%'.$q.'%');
+                });
+            })
+            ->when($filter === 'pending', fn ($query) => $query->whereHas('marketPriceScan', fn ($s) => $s->where('status', MarketPriceScan::STATUS_PENDING)))
+            ->when($filter === 'approved', fn ($query) => $query->whereHas('marketPriceScan', fn ($s) => $s->where('status', MarketPriceScan::STATUS_APPROVED)))
+            ->when($filter === 'missing', fn ($query) => $query->whereDoesntHave('marketPriceScan'))
+            ->when($filter === 'expensive', function ($query) {
+                $query->whereHas('marketPriceScan', function ($s) {
+                    $s->whereNotNull('google_min_price')
+                        ->whereColumn('products.price', '>', 'market_price_scans.google_min_price');
+                });
+            })
+            ->orderByDesc(
+                MarketPriceScan::query()
+                    ->select('last_scanned_at')
+                    ->whereColumn('market_price_scans.product_id', 'products.id')
+                    ->limit(1)
+            )
+            ->orderBy('name')
+            ->paginate(30)
+            ->withQueryString();
+
+        $rule = CompetitorPriceRule::activeRule();
+        $rows = $products->getCollection()->map(function (Product $product) use ($rule) {
+            $scan = $product->marketPriceScan;
+            $suggestion = $this->pricing->suggestionForProduct(
+                $product->loadMissing(['competitorOffers', 'marketPriceScan']),
+                $rule
+            );
+
+            return compact('product', 'scan', 'suggestion');
+        });
+
+        return view('admin.competitor-pricing.market', [
+            'products' => $products,
+            'rows' => $rows,
+            'rule' => $rule,
+            'q' => $q,
+            'filter' => $filter,
+            'dataforseoReady' => $this->dataForSeo->configured(),
+            'stats' => [
+                'scanned' => MarketPriceScan::query()->count(),
+                'pending' => MarketPriceScan::query()->where('status', MarketPriceScan::STATUS_PENDING)->count(),
+                'approved' => MarketPriceScan::query()->where('status', MarketPriceScan::STATUS_APPROVED)->count(),
+                'missing' => Product::query()->where('is_active', true)->whereDoesntHave('marketPriceScan')->count(),
             ],
         ]);
+    }
+
+    public function scanProduct(Product $product): RedirectResponse
+    {
+        if (! $this->dataForSeo->configured()) {
+            return back()->with('error', 'DataForSEO kimlik bilgileri eksik. Sunucuya DATAFORSEO_USERNAME / PASSWORD ekleyin.');
+        }
+
+        $scan = $this->scanner->scanProduct($product);
+
+        if ($scan->status === MarketPriceScan::STATUS_ERROR) {
+            return back()->with('error', $scan->last_error ?: 'Tarama başarısız.');
+        }
+
+        if ($scan->status === MarketPriceScan::STATUS_NO_RESULTS) {
+            return back()->with('error', $scan->last_error ?: 'Google’da uygun teklif bulunamadı.');
+        }
+
+        return back()->with(
+            'success',
+            'Google tarandı: '.$scan->offer_count.' teklif · min '.number_format((float) $scan->google_min_price, 2, ',', '.').' ₺'
+        );
+    }
+
+    public function scanBatch(Request $request): RedirectResponse
+    {
+        if (! $this->dataForSeo->configured()) {
+            return back()->with('error', 'DataForSEO kimlik bilgileri eksik.');
+        }
+
+        $limit = min(25, max(1, (int) $request->input('limit', 10)));
+        $products = Product::query()
+            ->where('is_active', true)
+            ->whereDoesntHave('marketPriceScan')
+            ->orderBy('id')
+            ->limit($limit)
+            ->get();
+
+        if ($products->isEmpty()) {
+            $products = Product::query()
+                ->where('is_active', true)
+                ->whereHas('marketPriceScan', function ($s) {
+                    $s->where(function ($inner) {
+                        $inner->whereNull('last_scanned_at')
+                            ->orWhere('last_scanned_at', '<', now()->subDays(7));
+                    });
+                })
+                ->orderBy('id')
+                ->limit($limit)
+                ->get();
+        }
+
+        if ($products->isEmpty()) {
+            return back()->with('error', 'Taranacak ürün kalmadı.');
+        }
+
+        $ok = 0;
+        foreach ($products as $product) {
+            $scan = $this->scanner->scanProduct($product);
+            if ($scan->status !== MarketPriceScan::STATUS_ERROR) {
+                $ok++;
+            }
+        }
+
+        return back()->with('success', "Toplu tarama: {$ok}/{$products->count()} ürün işlendi.");
+    }
+
+    public function approveMarket(MarketPriceScan $scan): RedirectResponse
+    {
+        if ($scan->google_min_price === null || (float) $scan->google_min_price <= 0) {
+            return back()->with('error', 'Onaylanacak Google fiyatı yok.');
+        }
+
+        $scan->update(['status' => MarketPriceScan::STATUS_APPROVED, 'last_error' => null]);
+
+        return back()->with('success', 'Google piyasa fiyatı onaylandı. Öneriye dahil.');
+    }
+
+    public function rejectMarket(MarketPriceScan $scan): RedirectResponse
+    {
+        $scan->update(['status' => MarketPriceScan::STATUS_REJECTED]);
+
+        return back()->with('success', 'Google piyasa sonucu reddedildi.');
+    }
+
+    public function applyMarket(MarketPriceScan $scan): RedirectResponse
+    {
+        $product = $scan->product;
+        if (! $product) {
+            return back()->with('error', 'Ürün bulunamadı.');
+        }
+
+        if (! $scan->isApproved()) {
+            return back()->with('error', 'Önce Google sonucunu onaylayın.');
+        }
+
+        $rule = CompetitorPriceRule::activeRule();
+        $suggestion = $this->pricing->suggestionForProduct(
+            $product->load(['competitorOffers', 'marketPriceScan']),
+            $rule
+        );
+
+        if (! $suggestion['can_apply'] || $suggestion['suggested'] === null) {
+            return back()->with('error', $suggestion['reason'] ?: 'Uygulanacak öneri yok.');
+        }
+
+        $this->pricing->applySuggestion($product, (float) $suggestion['suggested'], $rule);
+
+        return back()->with(
+            'success',
+            'Fiyat güncellendi: '.number_format((float) $suggestion['suggested'], 2, ',', '.').' ₺'
+        );
     }
 
     public function create(Request $request): View
@@ -107,7 +289,7 @@ class CompetitorPricingController extends Controller
                 ->get(['id', 'name', 'sku', 'price']),
             'rule' => CompetitorPriceRule::activeRule(),
             'suggestion' => $offer->product
-                ? $this->pricing->suggestionForProduct($offer->product->load('competitorOffers'))
+                ? $this->pricing->suggestionForProduct($offer->product->load(['competitorOffers', 'marketPriceScan']))
                 : null,
         ]);
     }
@@ -170,7 +352,10 @@ class CompetitorPricingController extends Controller
         }
 
         $rule = CompetitorPriceRule::activeRule();
-        $suggestion = $this->pricing->suggestionForProduct($product->load('competitorOffers'), $rule);
+        $suggestion = $this->pricing->suggestionForProduct(
+            $product->load(['competitorOffers', 'marketPriceScan']),
+            $rule
+        );
 
         if (! $suggestion['can_apply'] || $suggestion['suggested'] === null) {
             return back()->with('error', $suggestion['reason'] ?: 'Uygulanacak öneri yok.');
@@ -188,6 +373,7 @@ class CompetitorPricingController extends Controller
     {
         return view('admin.competitor-pricing.settings', [
             'rule' => CompetitorPriceRule::activeRule(),
+            'dataforseoReady' => $this->dataForSeo->configured(),
         ]);
     }
 
