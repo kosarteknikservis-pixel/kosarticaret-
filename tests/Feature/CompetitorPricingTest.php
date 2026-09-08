@@ -234,6 +234,67 @@ class CompetitorPricingTest extends TestCase
     }
 
     #[Test]
+    public function google_scanner_rejects_implausibly_low_shopping_prices(): void
+    {
+        config([
+            'services.dataforseo.login' => 'test-user',
+            'services.dataforseo.password' => 'test-pass',
+            'services.dataforseo.poll_interval' => 0,
+            'services.dataforseo.poll_timeout' => 5,
+            'services.dataforseo.min_match_score' => 0.2,
+            'services.dataforseo.price_band_min' => 0.55,
+            'services.dataforseo.price_band_max' => 2.25,
+            'services.dataforseo.outlier_floor' => 0.75,
+        ]);
+
+        Http::fake([
+            'api.dataforseo.com/v3/merchant/google/products/task_post' => Http::response([
+                'status_code' => 20000,
+                'tasks' => [['id' => 'task-1', 'status_code' => 20100]],
+            ], 200),
+            'api.dataforseo.com/v3/merchant/google/products/task_get/advanced/task-1' => Http::response([
+                'status_code' => 20000,
+                'tasks' => [[
+                    'status_code' => 20000,
+                    'result' => [[
+                        'items' => [
+                            // Google'ın bayat yanlış fiyatı (~32k) — bizim 90k ürün için elenmeli
+                            [
+                                'type' => 'google_shopping_serp',
+                                'title' => 'Pedrollo 2CP 32/200B Çift Fanlı Santrafüj Pompa',
+                                'price' => 32282.70,
+                                'currency' => 'TRY',
+                                'seller' => 'Kampa Store',
+                                'product_id' => '1',
+                            ],
+                            // Gerçeğe yakın Kampa fiyatı
+                            [
+                                'type' => 'google_shopping_serp',
+                                'title' => 'Pedrollo 2CP 32/200B Çift Fanlı Santrafüj Pompa 85 mss',
+                                'price' => 73026.70,
+                                'currency' => 'TRY',
+                                'seller' => 'Kampa',
+                                'product_id' => '2',
+                            ],
+                        ],
+                    ]],
+                ]],
+            ], 200),
+        ]);
+
+        $product = $this->product(90654.49);
+        $product->name = 'Pedrollo 2CP 32/200B Çift Fanlı Santrafüj Pompa 85 mss 15 m³/h';
+        $product->sku = '2CP-32-200B';
+        $product->save();
+
+        $scan = app(GoogleShoppingMarketScanner::class)->scanProduct($product);
+
+        $this->assertSame(MarketPriceScan::STATUS_PENDING, $scan->status);
+        $this->assertSame('73026.70', (string) $scan->google_min_price);
+        $this->assertFalse(collect($scan->offers)->contains(fn ($o) => (float) $o['price'] < 50000));
+    }
+
+    #[Test]
     public function google_scanner_stores_filtered_offers_from_api(): void
     {
         config([
@@ -242,8 +303,8 @@ class CompetitorPricingTest extends TestCase
             'services.dataforseo.poll_interval' => 0,
             'services.dataforseo.poll_timeout' => 5,
             'services.dataforseo.min_match_score' => 0.2,
-            'services.dataforseo.price_band_min' => 0.3,
-            'services.dataforseo.price_band_max' => 3,
+            'services.dataforseo.price_band_min' => 0.55,
+            'services.dataforseo.price_band_max' => 2.25,
         ]);
 
         Http::fake([
@@ -263,7 +324,7 @@ class CompetitorPricingTest extends TestCase
                         'items' => [
                             [
                                 'type' => 'google_shopping_serp',
-                                'title' => 'Test Vantilatör Endüstriyel 50 cm',
+                                'title' => 'Test Vantilatör Endüstriyel 50 cm TV-ABC',
                                 'price' => 14000,
                                 'currency' => 'TRY',
                                 'seller' => 'Rakip A',
@@ -279,7 +340,7 @@ class CompetitorPricingTest extends TestCase
                             ],
                             [
                                 'type' => 'google_shopping_serp',
-                                'title' => 'Test Vantilatör Koşar',
+                                'title' => 'Test Vantilatör Endüstriyel Koşar',
                                 'price' => 13900,
                                 'currency' => 'TRY',
                                 'seller' => 'Koşar Ticaret',
@@ -291,7 +352,8 @@ class CompetitorPricingTest extends TestCase
         ]);
 
         $product = $this->product(14313);
-        $product->name = 'Test Vantilatör Endüstriyel';
+        $product->name = 'Test Vantilatör Endüstriyel TV-ABC';
+        $product->sku = 'TV-ABC';
         $product->save();
 
         $scan = app(GoogleShoppingMarketScanner::class)->scanProduct($product);

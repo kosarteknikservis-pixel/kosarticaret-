@@ -133,11 +133,16 @@
                             <td class="align-top whitespace-nowrap font-semibold">{{ number_format((float) $product->price, 2, ',', '.') }} ₺</td>
                             <td class="align-top whitespace-nowrap">
                                 @if($scan?->google_min_price)
-                                    <span class="font-semibold {{ (float) $product->price > (float) $scan->google_min_price ? 'text-amber-700' : 'text-teal-800' }}">
-                                        {{ number_format((float) $scan->google_min_price, 2, ',', '.') }} ₺
+                                    <span class="font-semibold {{ (float) $product->price > (float) ($scan->competitivePrice() ?? $scan->google_min_price) ? 'text-amber-700' : 'text-teal-800' }}">
+                                        {{ number_format((float) ($scan->competitivePrice() ?? $scan->google_min_price), 2, ',', '.') }} ₺
                                     </span>
                                     @if($scan->google_median_price)
-                                        <p class="text-xs text-slate-400 mt-0.5">medyan {{ number_format((float) $scan->google_median_price, 2, ',', '.') }} ₺</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">
+                                            medyan {{ number_format((float) $scan->google_median_price, 2, ',', '.') }} ₺
+                                            @if((float) $scan->google_min_price < (float) $scan->google_median_price * 0.85)
+                                                · ham min {{ number_format((float) $scan->google_min_price, 2, ',', '.') }} ₺ (elenmiş)
+                                            @endif
+                                        </p>
                                     @endif
                                 @else
                                     <span class="text-slate-400">—</span>

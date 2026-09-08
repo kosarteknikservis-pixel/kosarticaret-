@@ -58,7 +58,10 @@ class CompetitorPricingService
             : $product->marketPriceScan()->first();
 
         if ($scan instanceof MarketPriceScan && $scan->isApproved()) {
-            $approvedPrices = $approvedPrices->push(round((float) $scan->google_min_price, 2));
+            $ref = $scan->competitivePrice();
+            if ($ref !== null) {
+                $approvedPrices = $approvedPrices->push($ref);
+            }
         }
 
         if ($approvedPrices->isEmpty()) {

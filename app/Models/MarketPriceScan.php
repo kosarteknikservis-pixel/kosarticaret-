@@ -47,8 +47,26 @@ class MarketPriceScan extends Model
     public function isApproved(): bool
     {
         return $this->status === self::STATUS_APPROVED
-            && $this->google_min_price !== null
-            && (float) $this->google_min_price > 0;
+            && $this->competitivePrice() !== null;
+    }
+
+    /**
+     * Google bazen bayat düşük fiyat basar; min medyanın çok altındaysa medyanı kullan.
+     */
+    public function competitivePrice(): ?float
+    {
+        if ($this->google_min_price === null || (float) $this->google_min_price <= 0) {
+            return null;
+        }
+
+        $min = round((float) $this->google_min_price, 2);
+        $median = $this->google_median_price !== null ? round((float) $this->google_median_price, 2) : $min;
+
+        if ($median > 0 && $min < ($median * 0.85)) {
+            return $median;
+        }
+
+        return $min;
     }
 
     public function statusLabel(): string

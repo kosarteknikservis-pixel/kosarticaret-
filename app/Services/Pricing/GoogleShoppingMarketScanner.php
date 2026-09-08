@@ -21,6 +21,7 @@ class GoogleShoppingMarketScanner
 
     public function scanProduct(Product $product): MarketPriceScan
     {
+        $product->loadMissing('brand');
         $query = $this->buildQuery($product);
         $scan = MarketPriceScan::query()->firstOrNew(['product_id' => $product->id]);
         $scan->search_query = $query;
@@ -37,7 +38,7 @@ class GoogleShoppingMarketScanner
                     'offer_count' => 0,
                     'offers' => [],
                     'last_scanned_at' => now(),
-                    'last_error' => 'Google Shopping’da uygun teklif bulunamadı (eşleşme eşiği / fiyat bandı).',
+                    'last_error' => 'Google Shopping’da güvenilir teklif yok (model kodu / fiyat bandı filtresi). Yanlış düşük fiyatlar elendi.',
                 ])->save();
 
                 return $scan->fresh();
@@ -71,9 +72,21 @@ class GoogleShoppingMarketScanner
 
     public function buildQuery(Product $product): string
     {
+        $sku = trim((string) $product->sku);
+        $brand = trim((string) ($product->brand?->name ?? ''));
+        $name = trim((string) $product->name);
+
+        // Model SKU varsa kısa ve net ara — uzun SEO başlığı yanlış ürün karıştırıyor.
+        if ($sku !== '' && preg_match('/[A-Za-z].*\d|\d.*[A-Za-z]/', $sku)) {
+            $query = trim($brand !== '' ? $brand.' '.$sku : $sku);
+            if (mb_strlen($query) >= 4) {
+                return Str::limit(preg_replace('/\s+/u', ' ', $query) ?? $query, 200, '');
+            }
+        }
+
         $parts = array_filter([
-            trim((string) $product->name),
-            filled($product->sku) ? trim((string) $product->sku) : null,
+            $name,
+            $sku !== '' ? $sku : null,
             filled($product->barcode) ? trim((string) $product->barcode) : null,
         ]);
 
@@ -117,7 +130,6 @@ class GoogleShoppingMarketScanner
                 return is_array($items) ? $items : [];
             }
 
-            // 40601/40602 = still in queue / crawling
             if ($code >= 40000 && ! in_array($code, [40601, 40602], true)) {
                 throw new RuntimeException((string) ($task['status_message'] ?? 'Shopping görevi başarısız.'));
             }
@@ -133,9 +145,10 @@ class GoogleShoppingMarketScanner
     private function normalizeOffers(array $items, Product $product): array
     {
         $ourPrice = max(0.01, (float) $product->price);
-        $minBand = $ourPrice * (float) config('services.dataforseo.price_band_min', 0.35);
-        $maxBand = $ourPrice * (float) config('services.dataforseo.price_band_max', 2.75);
-        $minScore = (float) config('services.dataforseo.min_match_score', 0.28);
+        $minBand = $ourPrice * (float) config('services.dataforseo.price_band_min', 0.55);
+        $maxBand = $ourPrice * (float) config('services.dataforseo.price_band_max', 2.25);
+        $minScore = (float) config('services.dataforseo.min_match_score', 0.34);
+        $modelKeys = $this->modelKeys($product);
 
         $offers = [];
         foreach ($items as $item) {
@@ -159,8 +172,11 @@ class GoogleShoppingMarketScanner
             if ($price < $minBand || $price > $maxBand) {
                 continue;
             }
+            if ($modelKeys !== [] && ! $this->titleHasModelKeys($title, $modelKeys)) {
+                continue;
+            }
 
-            $score = $this->matchScore($product, $title);
+            $score = $this->matchScore($product, $title, $modelKeys);
             if ($score < $minScore) {
                 continue;
             }
@@ -175,15 +191,89 @@ class GoogleShoppingMarketScanner
             ];
         }
 
+        if ($offers === []) {
+            return [];
+        }
+
+        // Google bazen doğru ürün için bayat/çok düşük fiyat basıyor; medyanın %75 altını at.
+        $prices = collect($offers)->pluck('price')->map(fn ($p) => (float) $p)->sort()->values();
+        $median = (float) $prices->get((int) floor(($prices->count() - 1) / 2));
+        $floor = $median * (float) config('services.dataforseo.outlier_floor', 0.75);
+        $offers = array_values(array_filter($offers, fn (array $o) => (float) $o['price'] >= $floor));
+
         usort($offers, function (array $a, array $b) {
-            if ($a['price'] === $b['price']) {
-                return $b['score'] <=> $a['score'];
+            if ($a['score'] === $b['score']) {
+                return $a['price'] <=> $b['price'];
             }
 
-            return $a['price'] <=> $b['price'];
+            return $b['score'] <=> $a['score'];
         });
 
+        // Skora göre sırala, sonra fiyat için yeniden min hesaplanır; ilk 15'i tut.
+        usort($offers, fn (array $a, array $b) => $a['price'] <=> $b['price']);
+
         return array_slice($offers, 0, 15);
+    }
+
+    /**
+     * Model kodu anahtarları (ör. 2CP-32-200B → 2cp + 200b).
+     *
+     * @return list<string>
+     */
+    public function modelKeys(Product $product): array
+    {
+        $raw = trim((string) $product->sku);
+        if ($raw === '') {
+            if (preg_match('/\b([A-Z]{1,6}\s*\d+[A-Z0-9\/\-]*)\b/i', (string) $product->name, $m)) {
+                $raw = $m[1];
+            }
+        }
+
+        if ($raw === '') {
+            return [];
+        }
+
+        $normalized = Str::lower(Str::ascii($raw));
+        $normalized = str_replace(['/', ' '], '-', $normalized);
+        $parts = preg_split('/[-_]+/', $normalized) ?: [];
+
+        $keys = [];
+        foreach ($parts as $part) {
+            $part = trim($part);
+            if ($part === '' || mb_strlen($part) < 2) {
+                continue;
+            }
+            // Saf sayısal kısa parçalar (32) tek başına yetersiz; harf içerenleri tut.
+            if (preg_match('/[a-z]/', $part) || mb_strlen($part) >= 4) {
+                $keys[] = $part;
+            }
+        }
+
+        // 2CP + 200B gibi en az iki güçlü anahtar tercih et
+        $keys = array_values(array_unique($keys));
+
+        return array_slice($keys, 0, 4);
+    }
+
+    /** @param  list<string>  $keys */
+    private function titleHasModelKeys(string $title, array $keys): bool
+    {
+        $hay = Str::lower(Str::ascii($title));
+        $hay = str_replace(['/', ' '], '-', $hay);
+
+        $hits = 0;
+        foreach ($keys as $key) {
+            if ($key !== '' && str_contains($hay, $key)) {
+                $hits++;
+            }
+        }
+
+        // Tek anahtar varsa zorunlu; birden fazlaysa en az 2 (veya hepsi ≤2 ise hepsi)
+        if (count($keys) === 1) {
+            return $hits >= 1;
+        }
+
+        return $hits >= min(2, count($keys));
     }
 
     private function normalizePrice(mixed $raw): ?float
@@ -234,7 +324,8 @@ class GoogleShoppingMarketScanner
         return false;
     }
 
-    private function matchScore(Product $product, string $title): float
+    /** @param  list<string>  $modelKeys */
+    private function matchScore(Product $product, string $title, array $modelKeys = []): float
     {
         $titleTokens = $this->tokens($title);
         $nameTokens = $this->tokens((string) $product->name);
@@ -254,14 +345,19 @@ class GoogleShoppingMarketScanner
             }
         }
 
-        // Model-like tokens (digits + letters) heavily weighted
+        foreach ($modelKeys as $key) {
+            if ($key !== '' && str_contains(Str::lower(Str::ascii($title)), $key)) {
+                $boost += 0.15;
+            }
+        }
+
         foreach ($nameTokens as $token) {
             if (preg_match('/[a-z].*\d|\d.*[a-z]/i', $token) && in_array($token, $titleTokens, true)) {
                 $boost += 0.12;
             }
         }
 
-        return round(min(1.0, ($jaccard * 0.75) + $boost), 3);
+        return round(min(1.0, ($jaccard * 0.7) + $boost), 3);
     }
 
     /** @return list<string> */
@@ -271,7 +367,7 @@ class GoogleShoppingMarketScanner
         $text = preg_replace('/[^a-z0-9\s]+/u', ' ', $text) ?? '';
         $parts = preg_split('/\s+/', trim($text)) ?: [];
 
-        $stop = ['ve', 'ile', 'icin', 'için', 'the', 'and', 'of', 'pompa', 'urun', 'ürün'];
+        $stop = ['ve', 'ile', 'icin', 'icin', 'the', 'and', 'of', 'pompa', 'urun', 'urun', 'cift', 'fanli', 'santrafuj'];
 
         $tokens = [];
         foreach ($parts as $part) {

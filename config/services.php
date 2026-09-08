@@ -50,9 +50,10 @@ return [
         'shopping_depth' => (int) env('DATAFORSEO_SHOPPING_DEPTH', 40),
         'poll_timeout' => (int) env('DATAFORSEO_POLL_TIMEOUT', 75),
         'poll_interval' => (int) env('DATAFORSEO_POLL_INTERVAL', 3),
-        'min_match_score' => (float) env('DATAFORSEO_MIN_MATCH_SCORE', 0.28),
-        'price_band_min' => (float) env('DATAFORSEO_PRICE_BAND_MIN', 0.35),
-        'price_band_max' => (float) env('DATAFORSEO_PRICE_BAND_MAX', 2.75),
+        'min_match_score' => (float) env('DATAFORSEO_MIN_MATCH_SCORE', 0.34),
+        'price_band_min' => (float) env('DATAFORSEO_PRICE_BAND_MIN', 0.55),
+        'price_band_max' => (float) env('DATAFORSEO_PRICE_BAND_MAX', 2.25),
+        'outlier_floor' => (float) env('DATAFORSEO_OUTLIER_FLOOR', 0.75),
     ],
 
 ];
