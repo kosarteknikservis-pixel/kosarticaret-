@@ -18,7 +18,9 @@
 
 **Sabit günler (bundan sonra her hafta):**
 - **Kontrol günü:** her **Salı** (09:00–11:00)
-- **İçerik günü:** her **Perşembe** (10:00–13:00)
+- **İçerik günleri (14 Eyl–14 Eki):** **Pzt · Çar · Cum · Paz** — haftada **4 blog**  
+  Detay + keyword hacimleri: **`BLOG-30GUN-PLAN.md`**
+- 15 Ekim sonrası: tempo gözden geçirilir (öneri: haftada 2’ye inmek veya 4’te kalmak)
 
 ---
 
@@ -76,9 +78,16 @@ Detay adımlar: `kosarticaret.com-audit/SENIN-AYLIK-GOREVLERIN.md`
 ### İçerik tarihleri (yazılacak / yayınlanacak)
 | Tarih | Gün | İçerik (yazılacak) | Hedef |
 |-------|-----|-------------------|--------|
-| **14.09.2026** | Pzt (erken) | ✅ **Dalgıç Pompa Kablo Bağlantısı** (BLOG-PLAN #2) | `/blog/dalgic-pompa-kablo-baglantisi-kesit-secimi` |
-| **18.09.2026** | Perşembe | (erken yayınlandı; bu slot boş / yedek revizyon) | — |
-| **25.09.2026** | Perşembe | **Sanayi Tipi Vantilatör Kurulum Rehberi** (BLOG-PLAN #3) | vantilatör pillar |
+| **14.09.2026** | Pzt | ✅ **Dalgıç Pompa Kablo Bağlantısı** (#1) | `/blog/dalgic-pompa-kablo-baglantisi-kesit-secimi` |
+| **17.09.2026** | Çar | Sanayi vantilatör kurulum (#2) | vantilatör + Koşar |
+| **19.09.2026** | Cum | Hidrofor kesik kesik çalışıyor (#3) | hidrofor + Sumak |
+| **21.09.2026** | Paz | Hidrofor tankı ne işe yarar (#4) | hidrofor + Winpo |
+| **22.09.2026** | Pzt | Dalgıç su basmıyor (#5) | dalgıç + Pedrollo |
+| **24.09.2026** | Çar | 220V bağlantı şeması (#6) | dalgıç + Sumak |
+| **26.09.2026** | Cum | Sumak SKS vs SKT (#7) | hidrofor + Sumak |
+| **28.09.2026** | Paz | Derin kuyu seçim (#8) | derin kuyu + Pedrollo |
+
+> Tam liste + hacimler: `BLOG-30GUN-PLAN.md` (18 yazı, 14 Eki’ye kadar)
 
 ### Eylül ekstra
 | Tarih | İş |

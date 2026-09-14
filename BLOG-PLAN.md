@@ -1,8 +1,9 @@
 # Blog İçerik Planı (DataForSEO Verileri Bazlı)
 
-> Son güncelleme: 2026-08-19
-> Strateji: Pillar (kategori) sayfalarını destekleyen cluster blog yazıları
-> Hedef: Haftada 3 yazı, 1500-2500 kelime, internal link zorunlu
+> Son güncelleme: 2026-09-14  
+> **Aktif 30 günlük plan:** [`BLOG-30GUN-PLAN.md`](BLOG-30GUN-PLAN.md) — **14 Eyl → 14 Eki 2026**, haftada 4 yazı  
+> Strateji: Pillar (kategori) + marka sayfalarını destekleyen cluster blog yazıları  
+> Eski haftalık liste aşağıda arşiv / gap referansı
 
 ## Pillar Sayfalar (Hedef Keyword → Çıkacak Sayfa)
 
