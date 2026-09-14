@@ -24,10 +24,11 @@
   - Pillar link: /kategoriler/hidrofor-sistemleri/hidroforlar
   - Durum: YAZILDI
 
-- [ ] 2. **Dalgıç Pompa Kablo Bağlantısı: Kesit Seçimi ve Güvenli Montaj**
+- [x] 2. **Dalgıç Pompa Kablo Bağlantısı: Kesit Seçimi ve Güvenli Montaj**
   - Keyword: "dalgıç pompa kablo bağlantısı"
   - Intent: informational
   - Pillar link: /kategoriler/su-pompalari/dalgic-pompalar
+  - Durum: YAZILDI · slug: `dalgic-pompa-kablo-baglantisi-kesit-secimi` · 14.09.2026
 
 - [ ] 3. **Sanayi Tipi Vantilatör Kurulum ve Montaj Rehberi**
   - Keyword: "sanayi tipi vantilatör kurulumu"

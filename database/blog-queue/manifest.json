@@ -1667,6 +1667,13 @@
             "publish_on": "2026-09-12",
             "title": "Kış Öncesi Sirkülasyon Pompası Değişim Rehberi",
             "series": "b2-2026-09"
+        },
+        {
+            "day": 109,
+            "file": "b2-dalgic-pompa-kablo-baglantisi.json",
+            "publish_on": "2026-09-14",
+            "title": "Dalgıç Pompa Kablo Bağlantısı: Kesit Seçimi ve Güvenli Montaj",
+            "series": "b2-2026-09"
         }
     ]
 }
