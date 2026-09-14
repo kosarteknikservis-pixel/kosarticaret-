@@ -29,13 +29,18 @@ class CartController extends Controller
     public function add(Request $request, Product $product): RedirectResponse
     {
         $qty = max(1, (int) $request->input('quantity', 1));
-        $cart = session('cart', []);
-        $cart[$product->id] = ($cart[$product->id] ?? 0) + $qty;
-        session(['cart' => $cart]);
-        app(AnalyticsTracker::class)->trackCartAction($request, 'cart_add', $product, $qty);
+        $result = $this->cart->addProduct($product, $qty);
+
+        if ($result['added'] > 0) {
+            app(AnalyticsTracker::class)->trackCartAction($request, 'cart_add', $product, $result['added']);
+        }
         app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
-        return back()->with('success', 'Ürün sepete eklendi.');
+        if (! $result['ok']) {
+            return back()->with('error', $result['message']);
+        }
+
+        return back()->with('success', $result['message']);
     }
 
     public function update(Request $request, Product $product): RedirectResponse

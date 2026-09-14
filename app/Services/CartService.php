@@ -63,6 +63,64 @@ class CartService
         session()->forget('coupon_code');
     }
 
+    /**
+     * Sepete stok üst sınırıyla ekler. Mevcut adet + istenen miktar stoğu aşamaz.
+     *
+     * @return array{ok: bool, added: int, quantity: int, message: string}
+     */
+    public function addProduct(Product $product, int $qty = 1): array
+    {
+        $qty = max(1, $qty);
+        $stock = max(0, (int) $product->stock);
+        $cart = $this->items();
+        $current = (int) ($cart[$product->id] ?? 0);
+
+        if ($stock <= 0) {
+            if ($current > 0) {
+                unset($cart[$product->id]);
+                session(['cart' => $cart]);
+            }
+
+            return [
+                'ok' => false,
+                'added' => 0,
+                'quantity' => 0,
+                'message' => 'Bu ürün stokta yok.',
+            ];
+        }
+
+        if ($current > $stock) {
+            $cart[$product->id] = $stock;
+            session(['cart' => $cart]);
+            $current = $stock;
+        }
+
+        if ($current >= $stock) {
+            return [
+                'ok' => false,
+                'added' => 0,
+                'quantity' => $stock,
+                'message' => "Stokta en fazla {$stock} adet var. Sepetinizde zaten {$stock} adet bulunuyor.",
+            ];
+        }
+
+        $newQty = min($current + $qty, $stock);
+        $added = $newQty - $current;
+        $cart[$product->id] = $newQty;
+        session(['cart' => $cart]);
+
+        $message = $added < $qty
+            ? "Stokta en fazla {$stock} adet var. Sepete {$added} adet eklendi."
+            : 'Ürün sepete eklendi.';
+
+        return [
+            'ok' => true,
+            'added' => $added,
+            'quantity' => $newQty,
+            'message' => $message,
+        ];
+    }
+
     /** @return list<string> */
     public function stockErrors(): array
     {

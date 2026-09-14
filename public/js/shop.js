@@ -120,8 +120,17 @@ function kosarApplyCsrfToken(token) {
                 if (data?.ok) { updateCartBadge(data.count); refreshCartDrawer(); }
             });
             row.querySelector('[data-drawer-qty-plus]')?.addEventListener('click', async () => {
-                const data = await updateCartLine(slug, getQty() + 1);
-                if (data?.ok) { updateCartBadge(data.count); refreshCartDrawer(); }
+                const next = getQty() + 1;
+                const data = await updateCartLine(slug, next);
+                if (data?.ok) {
+                    updateCartBadge(data.count);
+                    await refreshCartDrawer();
+                    const line = drawerBody?.querySelector(`[data-drawer-line][data-slug="${slug}"] [data-drawer-qty]`);
+                    const applied = parseInt(line?.textContent || '0', 10);
+                    if (applied < next) {
+                        toast('Stok adedine ulaşıldı.');
+                    }
+                }
             });
             row.querySelector('[data-drawer-remove]')?.addEventListener('click', async () => {
                 const data = await updateCartLine(slug, 0);
@@ -194,9 +203,11 @@ function kosarApplyCsrfToken(token) {
             btn.disabled = true;
             try {
                 const data = await cartRequest(`/sepet/ajax/ekle/${slug}`, 'POST', { quantity: qty });
-                    if (data.ok) {
+                if (typeof data.count === 'number') {
                     updateCartBadge(data.count);
-                    toast(data.message || 'Sepete eklendi');
+                }
+                toast(data.message || (data.ok ? 'Sepete eklendi' : 'Sepete eklenemedi'));
+                if (data.ok) {
                     if (btn.dataset.gaItemId) {
                         const price = parseFloat(btn.dataset.gaPrice || '0');
                         const qtySafe = Math.max(1, qty || 1);

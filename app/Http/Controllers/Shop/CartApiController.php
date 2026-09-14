@@ -41,13 +41,14 @@ class CartApiController extends Controller
     public function add(Request $request, Product $product): JsonResponse
     {
         $qty = max(1, (int) $request->input('quantity', 1));
-        $cart = session('cart', []);
-        $cart[$product->id] = ($cart[$product->id] ?? 0) + $qty;
-        session(['cart' => $cart]);
-        app(AnalyticsTracker::class)->trackCartAction($request, 'cart_add', $product, $qty);
+        $result = $this->cart->addProduct($product, $qty);
+
+        if ($result['added'] > 0) {
+            app(AnalyticsTracker::class)->trackCartAction($request, 'cart_add', $product, $result['added']);
+        }
         app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
-        return response()->json($this->payload('Ürün sepete eklendi.'));
+        return response()->json($this->payload($result['message'], $result['ok']));
     }
 
     public function update(Request $request, Product $product): JsonResponse
@@ -78,10 +79,10 @@ class CartApiController extends Controller
     }
 
     /** @return array<string, mixed> */
-    private function payload(?string $message = null): array
+    private function payload(?string $message = null, bool $ok = true): array
     {
         return [
-            'ok' => true,
+            'ok' => $ok,
             'message' => $message,
             'count' => $this->cart->count(),
             'subtotal' => $this->cart->subtotal(),

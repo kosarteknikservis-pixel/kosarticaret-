@@ -183,6 +183,29 @@ class KosarStorefrontTest extends TestCase
             ->assertJsonPath('count', 1);
     }
 
+    public function test_cart_ajax_add_respects_stock_limit(): void
+    {
+        $product = Product::query()->create([
+            'slug' => 'stok-limit-sepet-test',
+            'sku' => 'SLS-1',
+            'name' => 'Stok Limit Sepet Test',
+            'price' => 100,
+            'stock' => 1,
+            'is_active' => true,
+        ]);
+
+        $this->postJson('/sepet/ajax/ekle/'.$product->slug, ['quantity' => 5])
+            ->assertOk()
+            ->assertJsonPath('ok', true)
+            ->assertJsonPath('count', 1);
+
+        $this->postJson('/sepet/ajax/ekle/'.$product->slug, ['quantity' => 1])
+            ->assertOk()
+            ->assertJsonPath('ok', false)
+            ->assertJsonPath('count', 1)
+            ->assertJsonFragment(['message' => 'Stokta en fazla 1 adet var. Sepetinizde zaten 1 adet bulunuyor.']);
+    }
+
     public function test_legal_page_redirects(): void
     {
         $this->get('/hakkimizda')->assertRedirect('/sayfa/hakkimizda');
