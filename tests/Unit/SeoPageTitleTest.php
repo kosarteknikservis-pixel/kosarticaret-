@@ -57,4 +57,13 @@ class SeoPageTitleTest extends TestCase
             Seo::pageTitle('Koşar Ticaret | Su Pompası, Hidrofor')
         );
     }
+
+    #[Test]
+    public function it_preserves_turkish_circumflex_in_titles(): void
+    {
+        $this->assertSame(
+            'Dış Mekân Infrared Isıtıcı Modelleri | Kafe & Teras | Koşar',
+            Seo::pageTitle('Dış Mekân Infrared Isıtıcı Modelleri | Kafe & Teras')
+        );
+    }
 }

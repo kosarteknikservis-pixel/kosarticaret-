@@ -15,6 +15,7 @@ class SiteName
 
     /**
      * Eski "Kosar" yazımı ve .env UTF-8 bozulması (ör. KoÅar → Koşar).
+     * Yalnızca site adı metinleri için; kategori/ürün başlığına uygulama.
      */
     public static function normalize(string $name): string
     {
@@ -24,12 +25,14 @@ class SiteName
             return 'Koşar';
         }
 
-        if (preg_match('/[ÅÃÄâ€Ÿ]/u', $name)) {
+        // "â" (Mekân) geçerli Türkçedir; eski regex'teki â tetikleyicisi başlıkları bozuyordu.
+        // Yalnızca tipik mojibake işaretleri (Å / Ã / Ä) için onarım dene.
+        if (preg_match('/[ÅÃÄ]/u', $name)) {
             $fixed = @mb_convert_encoding($name, 'UTF-8', 'ISO-8859-1');
             if (is_string($fixed) && $fixed !== '' && mb_check_encoding($fixed, 'UTF-8')) {
                 $name = $fixed;
             }
-            if (preg_match('/^Ko[sşÅ].*ar$/iu', $name)) {
+            if (preg_match('/^Ko[sşÅ].*ar$/iu', $name) && mb_strlen($name) <= 24) {
                 return 'Koşar';
             }
         }

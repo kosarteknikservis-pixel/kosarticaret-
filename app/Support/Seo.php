@@ -162,7 +162,9 @@ class Seo
 
         $site = SiteName::get();
 
-        $title = self::stripKnownSiteSuffixes(SiteName::normalize(trim($title)));
+        // SiteName::normalize yalnızca site adı içindir; başlığa uygulanırsa
+        // "Mekân" gibi geçerli Türkçe â karakterleri çift UTF-8 (mojibake) üretir.
+        $title = self::stripKnownSiteSuffixes(trim($title));
 
 
 
