@@ -16,27 +16,27 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * Ardonat Halogen Black 2000W (kumandasız) ürününü SEO alanlarıyla oluşturur/günceller.
+ * Ardonat Halogen Black Pro 2000W (5 kademeli kumandalı) ürününü SEO alanlarıyla oluşturur/günceller.
  */
-final class SeedArdonatHalogenBlack2000Command extends Command
+final class SeedArdonatHalogenBlackPro2000Command extends Command
 {
-    protected $signature = 'catalog:seed-ardonat-halogen-black-2000
-                            {--price=3960 : Satis fiyati (TRY). Uretici sitesinde 0; referans bayi fiyati varsayilan.}
+    protected $signature = 'catalog:seed-ardonat-halogen-black-pro-2000
+                            {--price=7920 : Satis fiyati (TRY, KDV dahil referans). Bayi listesinde 6600+KDV.}
                             {--stock=10 : Stok adedi}
                             {--force : Mevcut urun SEO / gorsellerinin ustune yazar}';
 
-    protected $description = 'Ardonat Halogen Black 2000W kumandasiz dis mekan isiticisini SEO icerik ve gorsellerle yukler.';
+    protected $description = 'Ardonat Halogen Black Pro 2000W 5 kademeli kumandali dis mekan isiticisini SEO icerik ve gorsellerle yukler.';
 
-    private const SKU = 'HB2000W';
+    private const SKU = 'HBP2000W';
 
     private const IMAGE_BASE = 'https://www.ardonatisicozumleri.com/tema/genel/uploads/';
 
     /** @var list<string> */
     private const IMAGE_FILES = [
-        'halogen-black-2000w-duvar-tipi-dis-mekan-isiticisi-kumandasizz.jpg',
-        'halogen-black-2000w-duvar-tipi-dis-mekan-isiticisi-kumandasiz-2.jpg',
-        'halogen-black-2000w-duvar-tipi-dis-mekan-isiticisi-kumandasizz-3.jpg',
-        'halogen-black-2000w-duvar-tipi-dis-mekan-isiticisi-kumandasizz-4.jpg',
+        'halogen-black-pro-2000w-duvar-tipi-dis-mekan-isiticisi-kumandali-5-kademeli.jpg',
+        'halogen-black-pro-2000w-duvar-tipi-dis-mekan-isiticisi-kumandali-5-kademeli-2.jpg',
+        'halogen-black-pro-2000w-duvar-tipi-dis-mekan-isiticisi-kumandali-5-kademeli-3.jpg',
+        'halogen-black-pro-2000w-duvar-tipi-dis-mekan-isiticisi-kumandali-5-kademeli-4.jpg',
     ];
 
     public function handle(): int
@@ -65,8 +65,8 @@ final class SeedArdonatHalogenBlack2000Command extends Command
         }
 
         $meta = $this->loadMetaJson();
-        $name = $meta['name'] ?? 'Ardonat Halogen Black 2000W Duvar Tipi Dış Mekân Isıtıcı (Kumandasız)';
-        $slug = $meta['slug'] ?? 'ardonat-halogen-black-2000w-duvar-tipi-dis-mekan-isitici-kumandasiz';
+        $name = $meta['name'] ?? 'Ardonat Halogen Black Pro 2000W 5 Kademeli Uzaktan Kumandalı Duvar Tipi Dış Mekân Isıtıcı';
+        $slug = $meta['slug'] ?? 'ardonat-halogen-black-pro-2000w-5-kademeli-uzaktan-kumandali-duvar-tipi-dis-mekan-isitici';
         $price = max(0, (float) $this->option('price'));
         $stock = max(0, (int) $this->option('stock'));
 
@@ -82,7 +82,7 @@ final class SeedArdonatHalogenBlack2000Command extends Command
             return self::SUCCESS;
         }
 
-        $imageAlt = $meta['image_alt'] ?? 'Ardonat Halogen Black 2000W duvar tipi dış mekân infrared ısıtıcı ürün görseli';
+        $imageAlt = $meta['image_alt'] ?? 'Ardonat Halogen Black Pro 2000W 5 kademeli uzaktan kumandalı duvar tipi dış mekân infrared ısıtıcı';
         $paths = $this->downloadImages();
         $cover = $paths[0] ?? $product->image;
 
@@ -102,20 +102,21 @@ final class SeedArdonatHalogenBlack2000Command extends Command
             'image_alt' => $imageAlt,
             'specs' => [
                 'Marka' => 'Ardonat',
-                'Model' => 'Halogen Black 2000W',
+                'Model' => 'Halogen Black Pro 2000W',
                 'Güç' => '2000 W',
                 'Voltaj' => '220/230 V',
-                'Ölçüler' => '47 × 12,5 × 8,5 cm',
+                'Ölçüler' => '54 × 12,5 × 8,5 cm',
                 'Renk' => 'Siyah (statik boya)',
                 'Gövde' => 'Alüminyum',
                 'Montaj' => 'Duvar / tavan, yatay',
-                'Kontrol' => 'Kumandasız (tak-çıkar priz)',
+                'Kontrol' => '5 kademeli uzaktan kumanda',
                 'Isıtma teknolojisi' => 'Orta dalga infrared (halojen)',
                 'Kullanım alanı' => 'Dış mekân, yarı açık alan',
+                'Üretici kodu' => (string) ($meta['manufacturer_sku'] ?? 'blackpro2000w'),
                 'SKU' => self::SKU,
             ],
-            'tags' => ['ardonat', 'halogen-black', 'dis-mekan-isitici', 'infrared', 'duvar-tipi', '2000w'],
-            'width_cm' => 47,
+            'tags' => ['ardonat', 'halogen-black-pro', 'dis-mekan-isitici', 'infrared', 'duvar-tipi', '2000w', 'kumandali'],
+            'width_cm' => 54,
             'height_cm' => 12.5,
             'depth_cm' => 8.5,
             'vat_rate' => 20,
@@ -157,7 +158,7 @@ final class SeedArdonatHalogenBlack2000Command extends Command
     /** @return array<string, string> */
     private function loadMetaJson(): array
     {
-        $path = database_path('data/ardonat_halogen_black_2000.json');
+        $path = database_path('data/ardonat_halogen_black_pro_2000.json');
         if (! is_file($path)) {
             return [];
         }
@@ -167,6 +168,7 @@ final class SeedArdonatHalogenBlack2000Command extends Command
         }
         $json = preg_replace('/^\xEF\xBB\xBF/', '', $json) ?? $json;
         $data = json_decode($json, true);
+
         return is_array($data) ? $data : [];
     }
 
@@ -221,39 +223,40 @@ final class SeedArdonatHalogenBlack2000Command extends Command
     private function descriptionHtml(): string
     {
         return <<<'HTML'
-<h2>Ardonat Halogen Black 2000W — Kumandasız Duvar Tipi Dış Mekân Isıtıcı</h2>
-<p><strong>Ardonat Halogen Black 2000W</strong>, kafe terası, restoran verandası, bahçe ve yarı açık oturma alanlarında lokal ısı sağlamak için tasarlanmış duvar tipi infrared (halojen) ısıtıcıdır. Bu model <strong>kumandasız</strong>dır; cihaz prize takılarak açılır-kapanır. Orta dalga kızılötesi teknoloji önce yüzey ve kişileri ısıtır; açık alanda rüzgâra karşı klasik fanlı ısıtıcılara göre daha hedefli konfor sunar.</p>
+<h2>Ardonat Halogen Black Pro 2000W — 5 Kademeli Uzaktan Kumandalı Duvar Tipi Isıtıcı</h2>
+<p><strong>Ardonat Halogen Black Pro 2000W</strong>, kafe terası, restoran verandası ve yarı açık oturma alanlarında lokal ısı için tasarlanmış duvar tipi infrared (halojen) ısıtıcıdır. Standart Halogen Black 2000W’den farkı <strong>5 kademeli uzaktan kumanda</strong>dır: güç ihtiyaca göre düşürülerek hem konfor hem elektrik tüketimi kontrol edilir. Orta dalga kızılötesi teknoloji önce yüzey ve kişileri ısıtır; açık alanda fanlı ısıtıcılara göre daha hedefli ısınma sağlar.</p>
 
 <h3>Teknik Özellikler</h3>
 <table>
 <thead><tr><th>Özellik</th><th>Değer</th></tr></thead>
 <tbody>
-<tr><td>Güç</td><td>2000 W</td></tr>
+<tr><td>Güç</td><td>2000 W (5 kademeli)</td></tr>
 <tr><td>Besleme</td><td>220/230 V</td></tr>
-<tr><td>Ölçüler</td><td>47 × 12,5 × 8,5 cm</td></tr>
+<tr><td>Ölçüler</td><td>54 × 12,5 × 8,5 cm</td></tr>
 <tr><td>Gövde</td><td>Alüminyum, siyah statik boya</td></tr>
 <tr><td>Montaj</td><td>Yatay — duvar veya tavan</td></tr>
-<tr><td>Kontrol</td><td>Tak-çıkar priz (kademe / kumanda yok)</td></tr>
+<tr><td>Kontrol</td><td>5 kademeli uzaktan kumanda</td></tr>
 <tr><td>Kullanım</td><td>Dış mekân ve yarı açık alan</td></tr>
+<tr><td>Üretici kodu</td><td>blackpro2000w</td></tr>
 </tbody>
 </table>
 
 <h3>Kimler İçin Uygun?</h3>
 <ul>
-  <li>Sabit duvar montajı isteyen kafe ve küçük restoran terasları</li>
-  <li>Balkon, veranda ve bahçe oturma gruplarında lokal ısı ihtiyacı</li>
-  <li>Uzaktan kumanda veya güç kademesi istemeyen, sade aç-kapa kullanım</li>
-  <li>Standart prize bağlanabilen 2000 W tek lamba çözümler</li>
+  <li>Kafe ve restoran teraslarında gün içinde güç kademesi değiştirmek isteyen işletmeler</li>
+  <li>Uzaktan kumanda ile pratik kullanım arayan balkon, veranda ve bahçe oturma grupları</li>
+  <li>Sabit 2000 W yerine kademeli tüketim kontrolü isteyen kullanıcılar</li>
+  <li>Duvar tipi yatay montajla alan tasarrufu arayan yarı açık mekânlar</li>
 </ul>
-<p>Daha geniş alan veya kumandalı kademe gerekiyorsa <a href="/urun/ardonat-halogen-black-pro-2000w-5-kademeli-uzaktan-kumandali-duvar-tipi-dis-mekan-isitici">Halogen Black Pro 2000W (5 kademeli kumandalı)</a>, <a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar/duvar-tipi-dis-mekan-isiticilar">duvar tipi dış mekân ısıtıcılar</a> veya <a href="/marka/ardonat">Ardonat marka sayfasını</a> inceleyin.</p>
+<p>Kumandasız / daha ekonomik seçenek için <a href="/urun/ardonat-halogen-black-2000w-duvar-tipi-dis-mekan-isitici-kumandasiz">Halogen Black 2000W (kumandasız)</a> modeline bakın. Geniş alanlarda Twin veya 3000 W serileri <a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar/duvar-tipi-dis-mekan-isiticilar">duvar tipi dış mekân ısıtıcılar</a> ve <a href="/marka/ardonat">Ardonat marka sayfasında</a> yer alır.</p>
+
+<h3>Pro vs Standart Black 2000W</h3>
+<p>Standart model prize tak-çıkar aç-kapa kontroldür. <strong>Pro</strong> modelde 5 kademeli uzaktan kumanda vardır; kısmi doluluk veya ılık akşamlarda düşük kademe ile çalıştırılabilir. Ölçü bandı Pro’da 54 cm uzunluktadır (standart 2000W modeli daha kompakt 47 cm gövdeye sahiptir).</p>
 
 <h3>Kurulum ve Güvenlik Notları</h3>
-<p>Yatay montajda üreticinin önerdiği yükseklik ve yanıcı malzemeye uzaklık korunmalıdır. Mümkünse saçak altı veya yarı açık konum tercih edilir; elektrik bağlantısı uygun kesitte ve yetkili elektrikçi kontrolünde yapılmalıdır. Cihaz dış mekân kullanımına yöneliktir; iç mekân sürekli oda ısıtması için panel veya ev tipi seriler daha uygundur.</p>
+<p>Yatay montajda üreticinin önerdiği yükseklik ve yanıcı malzemeye uzaklık korunmalıdır. Mümkünse saçak altı veya yarı açık konum tercih edilir; elektrik bağlantısı uygun kesitte ve yetkili elektrikçi kontrolünde yapılmalıdır. Cihaz dış mekân / yarı açık kullanımına yöneliktir; sürekli kapalı oda ısıtması için ev tipi veya panel seriler daha uygundur.</p>
 
-<h3>Halogen Black 2000W ile Pro Farkı</h3>
-<p>Bu ürün <strong>aç-kapa (kumandasız)</strong> kontroldür. Aynı güç bandındaki <a href="/urun/ardonat-halogen-black-pro-2000w-5-kademeli-uzaktan-kumandali-duvar-tipi-dis-mekan-isitici"><strong>Halogen Black Pro 2000W</strong></a> modelinde 5 kademeli uzaktan kumanda bulunur. Bütçe ve kullanım sıklığına göre sade model veya Pro tercih edilir.</p>
-
-<p>Koşar Ticaret’te orijinal Ardonat ürünleri teknik özellikleriyle listelenir. Stok ve teslimat için ürün kartındaki fiyat ile stok bilgisini kontrol edin; uygulama ölçünüzü paylaşırsanız <a href="/iletisim">teknik destek</a> üzerinden model önerisi alabilirsiniz.</p>
+<p>Koşar Ticaret’te orijinal Ardonat ürünleri teknik özellikleriyle listelenir. Stok ve teslimat için ürün kartındaki fiyat ile stok bilgisini kontrol edin; alan ölçünüzü paylaşırsanız <a href="/iletisim">teknik destek</a> üzerinden model önerisi alabilirsiniz.</p>
 HTML;
     }
 }
