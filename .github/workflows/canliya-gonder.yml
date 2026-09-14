@@ -143,6 +143,19 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_08_100000_create_competitor_pricing_tables.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_08_110000_create_market_price_scans_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_08_120000_add_diagnostics_to_market_price_scans.php && \
+            \$PHP_BIN artisan catalog:seed-ardonat-heating --force-meta && \
+            \$PHP_BIN artisan seo:seed-brands --force && \
+            \$PHP_BIN artisan seo:enrich-categories \
+              --path=isitma-sistemleri \
+              --path=isitma-sistemleri/elektrikli-isiticilar \
+              --path=isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar \
+              --path=isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar/duvar-tipi-dis-mekan-isiticilar \
+              --path=isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar/dikey-tower-dis-mekan-isiticilar \
+              --path=isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar \
+              --path=isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar/dikey-ev-tipi-isiticilar \
+              --path=isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar/duvar-tipi-ev-isiticilar \
+              --path=isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar/panel-isiticilar \
+              --guides --force && \
             \$PHP_BIN artisan cache:clear && \
             \$PHP_BIN artisan cache:forget seo.robots.txt && \
             \$PHP_BIN artisan config:cache && \

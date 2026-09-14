@@ -54,6 +54,7 @@ HTML,
 </ul>
 
 <p>Kaysu Pompa ürünleri, Türkiye'nin her bölgesinde kolaylıkla ulaşılabilecek yedek parça ve servis ağıyla desteklenmektedir. Bütçe odaklı projeler için güvenilir ve pratik bir tercih olan Kaysu, Koşar Ticaret güvencesiyle sunulmaktadır.</p>
+<p>Model seçerken yalnız fiyatı değil; istenen debi, basma yüksekliği, elektrik tipi ve kullanım sıklığını birlikte kontrol edin. Kararsızsanız <a href="/pompa-secici">Pompa Seçici</a> ile filtreleyebilir veya <a href="/kategoriler/hidrofor-sistemleri">hidrofor sistemleri</a> ile <a href="/kategoriler/su-pompalari/dalgic-pompalar">dalgıç pompa</a> kategorilerindeki Kaysu stoklarını karşılaştırabilirsiniz.</p>
 HTML,
         'faq' => [
             [
@@ -97,6 +98,7 @@ HTML,
 
 <h3>Pedrollo Pompa Seçerken Nelere Bakılmalı?</h3>
 <p>Kuyu veya depodaki su seviyesini, kullanım noktasına olan yükseklik farkını, boru hattı kayıplarını ve ihtiyaç duyulan debiyi birlikte değerlendirin. Derin kuyuda kuyu çapı ile motor gücü; yüzey pompasında ise emme yüksekliği ve sıvı koşulları kritik olur. Teknik terimler için <a href="/blog/su-pompasi-cesitleri-nasil-secilir">su pompası seçim rehberini</a>, yüksek basınç uygulamaları için <a href="/kategoriler/su-pompalari/kademeli-pompalar">kademeli pompaları</a> inceleyebilirsiniz.</p>
+<p>Pedrollo stokumuzu <a href="/marka/sumak">Sumak</a> ve <a href="/marka/winpo">Winpo</a> seçenekleriyle aynı debi/basınç noktasında kıyaslayabilir; konut basıncı için <a href="/kategoriler/hidrofor-sistemleri/pedrollo-hidrofor">Pedrollo hidrofor</a> paketlerine bakabilirsiniz. Ölçülerinizi paylaşırsanız teknik ekibimiz model önerisi çıkarır.</p>
 HTML,
         'faq' => [
             [
@@ -139,6 +141,7 @@ HTML,
 </ul>
 
 <p>Model kodlarını karşılaştırmadan önce kullanım alanınızı ve gerekli basınç/debi değerlerini belirleyin. Derin kuyu uygulamaları için <a href="/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi">kuyu pompa seçim rehberini</a> inceleyebilir, teknik destek için bizimle iletişime geçebilirsiniz.</p>
+<p>Winpo ürünlerini <a href="/marka/pedrollo">Pedrollo</a> ve <a href="/marka/sumak">Sumak</a> alternatifleriyle aynı çalışma noktası üzerinden kıyaslamak; paket içeriği (tank, şalter, kablo) ve yedek parça erişimini de hesaba katmak uzun vadede daha doğru satın alma kararı verir. Stok ve teklif için <a href="/iletisim">iletişim</a> formunu kullanabilirsiniz.</p>
 HTML,
         'faq' => [
             [
@@ -148,6 +151,18 @@ HTML,
             [
                 'q' => 'Winpo WNP pompa seçerken nelere bakılmalı?',
                 'a' => 'Kullanım alanı, istenen debi, basma yüksekliği, elektrik beslemesi ve akışkanın temiz ya da kirli olması birlikte değerlendirilmelidir.',
+            ],
+            [
+                'q' => 'Winpo pompa derin kuyuda kullanılabilir mi?',
+                'a' => 'Winpo ürün gamında derin kuyuya uygun seriler bulunur. Kuyu çapı, dinamik su seviyesi, toplam basma yüksekliği ve istenen debi doğrulanmadan yalnız motor gücüne göre seçim yapılmamalıdır.',
+            ],
+            [
+                'q' => 'Winpo hidrofor ev için nasıl seçilir?',
+                'a' => 'Aynı anda kullanılacak musluk sayısı, en üst kullanım noktasının yüksekliği, depo konumu ve tank hacmi birlikte değerlendirilir. Küçük tankın sık devreye girme yaratabileceği unutulmamalıdır.',
+            ],
+            [
+                'q' => 'Winpo ürünlerinde monofaze ve trifaze seçenekleri var mı?',
+                'a' => 'Seriye ve motor gücüne göre 220 V monofaze veya 380 V trifaze seçenekler bulunabilir. Sipariş öncesinde tesisat beslemesiyle ürün etiketinin uyumu kontrol edilmelidir.',
             ],
         ],
     ],
@@ -170,6 +185,95 @@ HTML,
 </ul>
 
 <p>Pompa seçiminde doğru kararı vermek için <a href="/kategoriler/su-pompalari">su pompası çeşitlerimizi</a> inceleyebilir ya da uzman ekibimizle doğrudan iletişime geçebilirsiniz.</p>
+
+<h3>İhtiyaca Göre Ürün Seçimi</h3>
+<p>Basınçlı konut suyu için <a href="/kategoriler/hidrofor-sistemleri">hidrofor sistemleri</a>, kuyu ve tahliye uygulamaları için <a href="/kategoriler/su-pompalari/dalgic-pompalar">dalgıç pompalar</a>, geniş çalışma alanlarında hava hareketi için ise <a href="/kategoriler/vantilatorler">vantilatörler</a> ayrı teknik ölçütlerle seçilir. Kat sayısı, kuyu dinamik seviyesi, partikül yapısı veya alan hacmi gibi saha bilgileri ürün adından daha belirleyicidir.</p>
+<p>Uygulamanızın debi ve basma yüksekliğini biliyorsanız <a href="/pompa-secici">Pompa Seçici</a> ile uygun ürün grubunu daraltabilirsiniz. Mevcut cihazın etiketi, bağlantı çapı ve kullanım senaryosu paylaşıldığında ekibimiz alternatif modelleri teknik açıdan karşılaştırır; böylece yalnız ilk fiyata değil enerji tüketimi, bakım erişimi ve sistem uyumuna göre karar verebilirsiniz.</p>
 HTML,
+    ],
+
+    'horoz-electric' => [
+        'h1' => 'Horoz Electric Aydınlatma ve Elektrik Ürünleri',
+        'meta_title' => 'Horoz Electric Ürünleri ve Fiyatları | Koşar Ticaret',
+        'meta_description' => 'Horoz Electric aydınlatma, elektrik ve aspiratör ürünlerini kullanım alanı, ışık kapasitesi ve montaj özelliklerine göre karşılaştırın.',
+        'description' => <<<'HTML'
+<h2>Horoz Electric Aydınlatma ve Havalandırma Ürünleri</h2>
+<p><strong>Horoz Electric</strong>, konut, ticari alan ve yardımcı tesisat ihtiyaçlarına yönelik farklı aydınlatma ve elektrik ürünleri sunar. Model seçerken yalnız güç tüketimine değil; lümen değeri, ışık rengi, IP koruma sınıfı, montaj ölçüsü ve besleme gerilimine birlikte bakılmalıdır. İç ve dış mekân ürünlerinin çevre dayanımı aynı değildir.</p>
+<p>Armatür, ampul ve tamamlayıcı seçenekleri <a href="/kategoriler/elektrik-ve-aydinlatma">elektrik ve aydınlatma</a> kategorisinde karşılaştırabilirsiniz. Hava hareketi veya aspirasyon ihtiyacında alan hacmi, kanal yapısı ve ses seviyesi belirleyicidir; ilgili çözümler için <a href="/kategoriler/vantilatorler">vantilatörler</a> bölümünü inceleyin. Koşar Ticaret, orijinal ürünleri teknik özellikleriyle sunar ve doğru ürün grubunun belirlenmesinde destek sağlar.</p>
+<h3>Horoz Electric Ürünü Seçerken</h3>
+<p>Aydınlatılacak alanın metrekaresi tek başına yeterli değildir. Tavan yüksekliği, çalışma yüzeyinde istenen aydınlık, armatürün ışık açısı ve gün içindeki kullanım süresi birlikte değerlendirilmelidir. Sıcak beyaz ışık dinlenme alanlarında daha yumuşak bir görünüm sağlarken, nötr veya soğuk beyaz seçenekler çalışma alanlarında ayrıntıları belirginleştirebilir. Dış mekânda ise yağmurun yönü ve montaj noktası uygun IP sınıfının seçimini etkiler.</p>
+<p>Aspiratör ve hava aktarım ürünlerinde çap kadar kanal uzunluğu, dirsek sayısı ve dış ortam çıkışı da önemlidir. Gereğinden küçük ürün yetersiz hava değişimine; ölçüsüz büyük ürün ise gereksiz ses ve enerji tüketimine neden olabilir. Mevcut ürün değişiminde montaj boşluğu, bağlantı çapı ve elektrik değerlerini siparişten önce karşılaştırın.</p>
+HTML,
+        'faq' => [
+            [
+                'q' => 'Horoz Electric ürünlerinde iç ve dış mekân ayrımı nasıl yapılır?',
+                'a' => 'Ürünün IP koruma sınıfı, gövde malzemesi ve üretici kullanım tanımı kontrol edilmelidir. Nem veya yağmura açık yerde yalnız iç mekân için belirtilen ürün kullanılmamalıdır.',
+            ],
+            [
+                'q' => 'Aydınlatma seçerken watt mı lümen mi önemlidir?',
+                'a' => 'Watt enerji tüketimini, lümen ise üretilen ışık miktarını gösterir. Alanın aydınlık ihtiyacını karşılaştırırken lümen değeri ve ışığın dağılım açısı esas alınmalıdır.',
+            ],
+        ],
+    ],
+
+    'ardonat' => [
+        'h1' => 'Ardonat Isıtıcı Modelleri ve Fiyatları',
+        'meta_title' => 'Ardonat Infrared Isıtıcı Modelleri | Dış Mekân & Ev Tipi',
+        'meta_description' => 'Ardonat Halogen Black, Tower, Twin ve panel ısıtıcı modelleri. Kafe terası, balkon ve ev için infrared ısıtıcılar. Orijinal ürün, teknik destek, hızlı kargo.',
+        'description' => <<<'HTML'
+<h2>Ardonat Infrared Isıtıcı Modelleri</h2>
+<p><strong>Ardonat</strong>, dış mekân ve ev tipi uygulamalar için kızılötesi (infrared / halojen) elektrikli ısıtıcı üreten bir ısıtma markasıdır. Kafe, restoran, otel terası, balkon, veranda ve iç mekân lokal ısıtma ihtiyaçlarında <strong>duvar tipi</strong>, <strong>dikey tower</strong> ve <strong>panel</strong> formlarıyla hızlı ısınma sağlar. Koşar Ticaret olarak Ardonat ürünlerini teknik özellikleriyle sunuyor; model seçiminde alan tipi, montaj ve güç ihtiyacını birlikte netleştiriyoruz.</p>
+
+<h3>Ardonat Ürün Serileri</h3>
+<ul>
+  <li><a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar/duvar-tipi-dis-mekan-isiticilar"><strong>Halogen Black / Pro / Plus / Twin</strong></a> — Duvar tipi dış mekân infrared ısıtıcılar; kafe ve restoran terası için yatay montaj.</li>
+  <li><a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar/dikey-tower-dis-mekan-isiticilar"><strong>Halogen Tower / Pro / Twin</strong></a> — Dikey tower form; veranda, yarı açık alan ve esnek konumlandırma.</li>
+  <li><a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar/dikey-ev-tipi-isiticilar"><strong>Dikey ev tipi tower</strong></a> — Oda, kapalı balkon ve ev ofisi için dikey infrared çözümler.</li>
+  <li><a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar/duvar-tipi-ev-isiticilar"><strong>Step Carbon / Micatronic ve duvar tipi ev</strong></a> — İç mekân duvar montajı, kademeli kontrol.</li>
+  <li><a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar/panel-isiticilar"><strong>Panel ısıtıcılar</strong></a> — Sessiz ve homojen iç mekân ısıtma.</li>
+</ul>
+
+<h3>Seri Karşılaştırması</h3>
+<table>
+<thead><tr><th>Seri</th><th>Montaj</th><th>Tipik güç</th><th>Kullanım</th></tr></thead>
+<tbody>
+<tr><td><strong>Halogen Black</strong></td><td>Duvar, yatay</td><td>2000–3000 W</td><td>Dış / yarı açık teras</td></tr>
+<tr><td><strong>Halogen Black Pro</strong></td><td>Duvar</td><td>2000–3000 W</td><td>5 kademe + kumanda</td></tr>
+<tr><td><strong>Halogen Black Twin</strong></td><td>Duvar</td><td>3000–4000 W</td><td>Geniş kafe / restoran</td></tr>
+<tr><td><strong>Halogen Tower</strong></td><td>Dikey</td><td>1500–3000 W</td><td>Veranda, balkon, yarı açık</td></tr>
+<tr><td><strong>Panel / Carbon</strong></td><td>Duvar / ayak</td><td>1000–2500 W</td><td>İç mekân oda ısıtması</td></tr>
+</tbody>
+</table>
+
+<h3>Doğru Ardonat Modeli Nasıl Seçilir?</h3>
+<p>Önce alanın <strong>açık, yarı açık veya kapalı</strong> olduğunu belirleyin. Kafe terası için duvar tipi Black veya Twin; balkon ve veranda için Tower; kapalı oda için panel veya Step Carbon daha uygundur. Güç seçiminde yalnız watt değil, montaj yüksekliği, rüzgâr ve oturma grubunun genişliği de etkilidir. Kumandalı Pro modeller enerjiyi kademeli kullanmanıza yardımcı olur.</p>
+<p>Tüm ısıtıcı kategorileri: <a href="/kategoriler/isitma-sistemleri">ısıtma sistemleri</a> · <a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar">dış mekân ısıtıcılar</a> · <a href="/kategoriler/isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar">ev tipi ısıtıcılar</a>. Teknik destek için <a href="/iletisim">iletişim</a> formunu kullanabilirsiniz.</p>
+HTML,
+        'faq' => [
+            [
+                'q' => 'Ardonat ısıtıcı hangi alanlar için uygundur?',
+                'a' => 'Dış ve yarı açık alanlarda Halogen Black ve Tower serileri; kapalı oda ve ofiste panel veya Step Carbon / Micatronic modeller tercih edilir. Kafe, restoran, otel terası, balkon ve ev kullanımı senaryoya göre ayrılır.',
+            ],
+            [
+                'q' => 'Halogen Black ile Pro arasındaki fark nedir?',
+                'a' => 'Standart Black modellerde aç-kapa kontrol yaygındır. Pro serilerde 5 kademeli uzaktan kumanda bulunur; güç ihtiyaca göre düşürülerek enerji tüketimi kontrol edilebilir.',
+            ],
+            [
+                'q' => '3000W Ardonat ısıtıcı kaç m² ısıtır?',
+                'a' => 'Açık alanda infrared ısı lokal çalışır; rüzgâr ve tavan yüksekliği etkiyi değiştirir. Pratikte 15–25 m² lokal oturma grubu için rehber değer kabul edilir; geniş teraslarda Twin veya birden fazla cihaz planlanır.',
+            ],
+            [
+                'q' => 'Dış mekân Ardonat ısıtıcı yağmura dayanıklı mı?',
+                'a' => 'Modelin kullanım kılavuzundaki dış mekân uygunluğu esas alınır. Mümkün olduğunca saçak altı veya yarı açık montaj, üreticinin belirttiği güvenlik mesafeleri ve doğru elektrik tesisatı önerilir.',
+            ],
+            [
+                'q' => 'Infrared ısıtıcı çok elektrik yakar mı?',
+                'a' => 'Tüketim watt × çalışma süresine bağlıdır. Kademeli modellerde düşük kademede çalıştırmak ve yalnız kullanılan bölgeyi ısıtmak, tüm mekânı ısıtmaya göre daha kontrollü bir fatura oluşturabilir.',
+            ],
+            [
+                'q' => 'Ev tipi dikey tower ile dış mekân tower aynı mı?',
+                'a' => 'Form benzer olsa da kullanım sınırı farklıdır. Ev tipi seçimde iç mekân güvenliği, oda m² ve gürültü; dış mekân seçimde rüzgâr, montaj ve yüksek güç önceliklidir. Ürün kartındaki kullanım tanımı kontrol edilmelidir.',
+            ],
+        ],
     ],
 ];
