@@ -93,10 +93,10 @@ final class SeedArdonatHalogenBlack2000Command extends Command
             'price' => $price,
             'compare_at_price' => null,
             'stock' => $stock,
-            'short_description' => '2000W duvar tipi dış mekân infrared ısıtıcı. Yatay montaj, alüminyum gövde, tak-çıkar priz. Kafe, teras ve bahçe için kumandasız Halogen Black modeli.',
+            'short_description' => 'Ardonat Halogen Black 2000W kumandasız duvar tipi dış mekân infrared ısıtıcı. 47x12.5x8.5 cm, alüminyum gövde, 220/230V. Kafe ve teras için.',
             'description' => RichContent::normalize($this->descriptionHtml()),
             'meta_title' => 'Ardonat Halogen Black 2000W Dış Mekân Isıtıcı',
-            'meta_description' => 'Ardonat Halogen Black 2000W kumandasız duvar tipi dış mekân infrared ısıtıcı. 47×12,5×8,5 cm, alüminyum gövde, 220/230V. Kafe ve teras için. Koşar Ticaret.',
+            'meta_description' => 'Ardonat Halogen Black 2000W kumandasız duvar tipi dış mekân infrared ısıtıcı. 47x12.5x8.5 cm, alüminyum gövde, 220/230V. Kafe ve teras için. Koşar Ticaret.',
             'image' => $cover,
             'image_alt' => $imageAlt,
             'specs' => [
