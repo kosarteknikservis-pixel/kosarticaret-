@@ -146,6 +146,7 @@ jobs:
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan catalog:seed-ardonat-heating --force-meta && \
             \$PHP_BIN artisan seo:seed-brands --force && \
+            \$PHP_BIN artisan catalog:seed-ardonat-halogen-black-2000 --force --price=3960 --stock=10 && \
             \$PHP_BIN artisan seo:enrich-categories \
               --path=isitma-sistemleri \
               --path=isitma-sistemleri/elektrikli-isiticilar \
