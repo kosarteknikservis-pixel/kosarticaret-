@@ -28,16 +28,23 @@ class ImportBlogBatchCommand extends Command
 
         $manifest = json_decode(File::get($manifestPath), true);
         $series = $this->argument('series');
+        $extraFiles = collect($this->option('files'))->filter()->values();
 
-        $files = collect($manifest['posts'] ?? [])
-            ->when(filled($series), fn ($entries) => $entries->filter(
-                fn (array $entry) => ($entry['series'] ?? '') === $series
-            ))
-            ->pluck('file')
-            ->filter()
-            ->merge($this->option('files'))
-            ->unique()
-            ->values();
+        // Yalnızca --files verilmişse (series yok) sadece o dosyaları aktar.
+        // Aksi halde --files tüm manifest listesine merge edilince 200+ yazı yeniden import olur.
+        if ($extraFiles->isNotEmpty() && blank($series)) {
+            $files = $extraFiles->unique()->values();
+        } else {
+            $files = collect($manifest['posts'] ?? [])
+                ->when(filled($series), fn ($entries) => $entries->filter(
+                    fn (array $entry) => ($entry['series'] ?? '') === $series
+                ))
+                ->pluck('file')
+                ->filter()
+                ->merge($extraFiles)
+                ->unique()
+                ->values();
+        }
 
         if ($files->isEmpty()) {
             $this->warn('İçe aktarılacak dosya bulunamadı.');
