@@ -263,12 +263,12 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
+          # --all + blog-export toplu import SQLite kilidine (239 yazı) takılıyor;
+          # yalnızca henüz yayınlanmamış / gelecek tarihli kuyruk yazılarını aktar.
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            if [ -f database/blog-export.json ]; then \
-              \$PHP_BIN artisan blog:import database/blog-export.json --force; \
-            fi && \
-            \$PHP_BIN artisan blog:publish-due --force --all || true"
+            \$PHP_BIN artisan blog:publish-due --force && \
+            \$PHP_BIN artisan blog:import-batch --files=b2-dalgic-pompa-kablo-baglantisi.json --force"
 
       - name: Blog kapak görsellerini üret (opsiyonel / YAVAS)
         if: github.event.inputs.blog_kapak == 'true'
