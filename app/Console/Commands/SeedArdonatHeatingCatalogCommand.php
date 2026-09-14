@@ -145,6 +145,48 @@ final class SeedArdonatHeatingCatalogCommand extends Command
         foreach ($tree as $node) {
             $this->upsertCategoryNode($node, null);
         }
+
+        $this->applyMetaFromJson();
+    }
+
+    private function applyMetaFromJson(): void
+    {
+        $path = database_path('data/ardonat_heating_meta.json');
+        if (! is_file($path)) {
+            $this->warn('Meta JSON yok: database/data/ardonat_heating_meta.json');
+
+            return;
+        }
+
+        $json = file_get_contents($path);
+        if ($json === false) {
+            return;
+        }
+
+        // BOM temizle
+        $json = preg_replace('/^\xEF\xBB\xBF/', '', $json) ?? $json;
+        $rows = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        if (! is_array($rows)) {
+            return;
+        }
+
+        foreach ($rows as $slug => $meta) {
+            $category = Category::query()->where('slug', $slug)->first();
+            if ($category === null) {
+                continue;
+            }
+            if (! empty($meta['name'])) {
+                $category->name = $meta['name'];
+            }
+            if (! empty($meta['meta_title'])) {
+                $category->meta_title = $meta['meta_title'];
+            }
+            if (! empty($meta['meta_description'])) {
+                $category->meta_description = $meta['meta_description'];
+            }
+            $category->save();
+            $this->line("Meta JSON uygulandi: {$slug}");
+        }
     }
 
     /**

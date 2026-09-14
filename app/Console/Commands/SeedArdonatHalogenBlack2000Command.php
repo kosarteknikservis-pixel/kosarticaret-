@@ -64,8 +64,9 @@ final class SeedArdonatHalogenBlack2000Command extends Command
             return self::FAILURE;
         }
 
-        $name = 'Ardonat Halogen Black 2000W Duvar Tipi Dış Mekân Isıtıcı (Kumandasız)';
-        $slug = 'ardonat-halogen-black-2000w-duvar-tipi-dis-mekan-isitici-kumandasiz';
+        $meta = $this->loadMetaJson();
+        $name = $meta['name'] ?? 'Ardonat Halogen Black 2000W Duvar Tipi Dış Mekân Isıtıcı (Kumandasız)';
+        $slug = $meta['slug'] ?? 'ardonat-halogen-black-2000w-duvar-tipi-dis-mekan-isitici-kumandasiz';
         $price = max(0, (float) $this->option('price'));
         $stock = max(0, (int) $this->option('stock'));
 
@@ -81,7 +82,7 @@ final class SeedArdonatHalogenBlack2000Command extends Command
             return self::SUCCESS;
         }
 
-        $imageAlt = 'Ardonat Halogen Black 2000W duvar tipi dış mekân infrared ısıtıcı ürün görseli';
+        $imageAlt = $meta['image_alt'] ?? 'Ardonat Halogen Black 2000W duvar tipi dış mekân infrared ısıtıcı ürün görseli';
         $paths = $this->downloadImages();
         $cover = $paths[0] ?? $product->image;
 
@@ -93,10 +94,10 @@ final class SeedArdonatHalogenBlack2000Command extends Command
             'price' => $price,
             'compare_at_price' => null,
             'stock' => $stock,
-            'short_description' => 'Ardonat Halogen Black 2000W kumandasız duvar tipi dış mekân infrared ısıtıcı. 47x12.5x8.5 cm, alüminyum gövde, 220/230V. Kafe ve teras için.',
+            'short_description' => $meta['short_description'] ?? null,
             'description' => RichContent::normalize($this->descriptionHtml()),
-            'meta_title' => 'Ardonat Halogen Black 2000W Dış Mekân Isıtıcı',
-            'meta_description' => 'Ardonat Halogen Black 2000W kumandasız duvar tipi dış mekân infrared ısıtıcı. 47x12.5x8.5 cm, alüminyum gövde, 220/230V. Kafe ve teras için. Koşar Ticaret.',
+            'meta_title' => $meta['meta_title'] ?? null,
+            'meta_description' => $meta['meta_description'] ?? null,
             'image' => $cover,
             'image_alt' => $imageAlt,
             'specs' => [
@@ -151,6 +152,22 @@ final class SeedArdonatHalogenBlack2000Command extends Command
         }
 
         return self::SUCCESS;
+    }
+
+    /** @return array<string, string> */
+    private function loadMetaJson(): array
+    {
+        $path = database_path('data/ardonat_halogen_black_2000.json');
+        if (! is_file($path)) {
+            return [];
+        }
+        $json = file_get_contents($path);
+        if ($json === false) {
+            return [];
+        }
+        $json = preg_replace('/^\xEF\xBB\xBF/', '', $json) ?? $json;
+        $data = json_decode($json, true);
+        return is_array($data) ? $data : [];
     }
 
     /** @return list<string> relative public-disk paths */

@@ -158,6 +158,7 @@ jobs:
               --path=isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar/duvar-tipi-ev-isiticilar \
               --path=isitma-sistemleri/elektrikli-isiticilar/ev-tipi-isiticilar/panel-isiticilar \
               --guides --force && \
+            \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
             \$PHP_BIN artisan cache:forget seo.robots.txt && \
             \$PHP_BIN artisan config:cache && \
