@@ -75,12 +75,15 @@ class AdvancedIndexingSeoTest extends TestCase
             ->assertSee('Applebot-Extended', false)
             ->assertSee('Amazonbot', false)
             ->assertSee('cohere-ai', false)
-            ->assertDontSee('filter', false)
             ->assertDontSee('Disallow: /urun-kategori', false)
             ->assertDontSee('Disallow: /magaza', false)
             ->assertDontSee('Disallow: /shop', false)
             ->assertSee('Disallow: /urun-etiket', false)
-            ->assertSee('Disallow: /tag/', false);
+            ->assertSee('Disallow: /tag/', false)
+            ->assertSee('Disallow: /*?filtering*', false)
+            ->assertSee('Disallow: /*?filter_*', false)
+            ->assertSee('Disallow: /*?filter_product_brand*', false)
+            ->assertSee('Disallow: /*?lang=', false);
     }
 
     public function test_bing_site_auth_xml_is_served_when_configured(): void

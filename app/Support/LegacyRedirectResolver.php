@@ -173,7 +173,27 @@ final class LegacyRedirectResolver
             return null;
         }
 
-        return self::normalizeTarget($page > 1 ? $path.'?page='.$page : $path);
+        // Tek hop: query strip + marka alias / ürün slug remap birlikte.
+        $targetPath = self::canonicalizePathAfterLegacyQueryStrip($path);
+
+        return self::normalizeTarget($page > 1 ? $targetPath.'?page='.$page : $targetPath);
+    }
+
+    /**
+     * Legacy query temizlendikten sonra path'i kanonik hedefe çevirir
+     * (çift 301: önce query, sonra marka alias engellenir).
+     */
+    private static function canonicalizePathAfterLegacyQueryStrip(string $path): string
+    {
+        if (preg_match('#^/marka/([^/]+)$#', $path, $matches)) {
+            if ($matches[1] === 'marmara') {
+                return '/markalar';
+            }
+
+            return '/marka/'.self::resolveBrandSlug($matches[1]);
+        }
+
+        return $path;
     }
 
     /** @return list<string> */
