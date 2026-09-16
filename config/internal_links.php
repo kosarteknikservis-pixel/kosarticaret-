@@ -97,6 +97,15 @@ return [
         'kaysu' => [
             'kaysu-pompa-marka-rehberi',
         ],
+        'winpo' => [
+            'winpo-hidrofor-marka-rehberi',
+            'winpo-paket-hidrofor-secimi',
+        ],
+        'kosar' => [
+            'kosar-vantilator-modelleri-rehberi',
+            'sanayi-tipi-vantilator-secimi-rehberi',
+            'depo-fabrika-havalandirma-rehberi',
+        ],
     ],
 
     'blog_guides_by_category_slug' => [
@@ -109,6 +118,31 @@ return [
             'dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir',
             'dalgic-pompa-kurulum-ipuclari',
             'kuyu-dalgic-pompa-secimi-derinlik-rehberi',
+        ],
+        'derin-kuyu-dalgic-pompa' => [
+            'kuyu-dalgic-pompa-secimi-derinlik-rehberi',
+            '4-inc-derin-kuyu-dalgic-pompa-secimi',
+            'dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir',
+        ],
+        'foseptik-dalgic-pompa' => [
+            'foseptik-dalgic-pompa-secimi-rehberi',
+            'foseptik-tahliye-cihazi-rehberi',
+            'dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir',
+        ],
+        'drenaj-dalgic-pompa' => [
+            'drenaj-dalgic-pompa-rehberi-bodrum-yagmur-suyu',
+            'paslanmaz-drenaj-dalgic-pompa-secimi',
+            'dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir',
+        ],
+        'santrifuj-pompalar' => [
+            'santrifuj-pompa-nedir-kullanim-alanlari',
+            'santrifuj-pompa-emme-priming-rehberi',
+            'santrifuj-pompa-turleri-secim-rehberi',
+        ],
+        'jet-pompalar-derinden-emisli' => [
+            'jet-pompa-nedir-kullanim-alanlari',
+            'tek-cift-ejektorlu-jet-pompa-farki',
+            'jet-pompa-bahce-sulama-rehberi',
         ],
         'sirkulasyon-pompalari' => [
             'sicak-su-sirkulasyon-pompasi-secimi',
