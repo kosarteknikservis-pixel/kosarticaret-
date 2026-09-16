@@ -12,6 +12,9 @@ return [
         '/urun-kategori' => '/kategoriler',
         '/locations.kml' => '/',
         '/hakkimizda' => '/sayfa/hakkimizda',
+        '/siparis-takibi' => '/siparis-takip',
+        '/wp-json' => '/',
+        '/6' => '/',
 
         // GSC 5xx → slug değişimi veya kaldırılan ürünler (Search Console 2026-06-06)
         '/urun/kosar-ksv-750-sanayi-tipi-vantilator' => '/urun/kosar-ksv-750-sanayi-tipi-vantilator-30-ayakli',
@@ -24,6 +27,19 @@ return [
         '/urun/elektrikli-soba-isitici-1600-w' => '/urunler',
         '/urun/etna-ear4-65-32-75-yatay-monoblok-tek-kademeli-pompa-ear-serisi' => '/kategoriler/su-pompalari/kademeli-pompalar',
         '/marka/marmara' => '/markalar',
+        '/marka/etna' => '/markalar',
+        '/marka/welko' => '/markalar',
+
+        // GSC 404 Coverage 2026-09-16 — kaldırılan Woo alt kategorileri
+        '/kategoriler/hidrofor-sistemleri/frekans-kontrollu-hidroforlar' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+        '/kategoriler/hidrofor-sistemleri/12-ve-24-volt-hidroforlar' => '/kategoriler/hidrofor-sistemleri',
+    ],
+
+    /** Katalogda olmayan marka slug'ları → /markalar (tek hop) */
+    'removed_brands' => [
+        'marmara',
+        'etna',
+        'welko',
     ],
 
     'removed_product_fallback' => '/urunler',
@@ -57,6 +73,7 @@ return [
         'etna-uc-pompali-paket-hidrofor' => 'etna',
         'sumak-santrifuj-pompa' => 'sumak',
         'sumak-keson-kuyu-dalgic-pompa' => 'sumak',
+        'sumak-paslanmaz-govdeli-su-pompasi' => 'sumak',
         'cosar' => 'kosar',
         'cosar-ticaret' => 'kosar',
     ],
@@ -67,6 +84,10 @@ return [
         '/sirkulasyon-pompasi-nedir' => '/kategoriler/su-pompalari/sirkulasyon-pompalari',
         '/su-basinc-sistemi-pompa-mi-hidrofor-mu' => '/kategoriler/hidrofor-sistemleri',
         '/sanayi-tipi-vantilator-rehberi' => '/kategoriler/vantilatorler/sanayi-tipi-vantilator',
+        // GSC 404 Coverage 2026-09-16 — kısa / yanlış blog slug
+        '/blog/hidrofor-surekli-calisiyor-7-olasi-sebep-ve-cozum' => '/blog/hidrofor-surekli-calisyor-sebepler-cozum',
+        '/blog/dalgic-pompa-motor-tipleri' => '/blog/dalgic-pompa-motor-tipleri-yag-su-sogutmali',
+        '/blog/jet-pompa-mi-dalgic-pompa-mi' => '/blog/jet-pompa-mi-dalgic-pompa-mi-farki',
     ],
 
     'category_aliases' => [
@@ -123,7 +144,7 @@ return [
         'su-pompalari/sirkulasyon-pompalari' => 'su-pompalari/sirkulasyon-pompalari',
         'su-pompalari/ozel-amacli-pompalar' => 'su-pompalari/ozel-amacli-pompalar',
         'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
-        'hidroforlar/frekans-kontrollu-hidrofor' => 'hidrofor-sistemleri/frekans-kontrollu-hidroforlar',
+        'hidroforlar/frekans-kontrollu-hidrofor' => 'hidrofor-sistemleri/hidroforlar',
         'vantilator' => 'vantilatorler',
         'vantilatorler/sanayi-tipi-vantilator' => 'vantilatorler/sanayi-tipi-vantilator',
         'endustriyel-urunler' => 'elektrik-ve-aydinlatma',
@@ -134,7 +155,7 @@ return [
         'bahce-yapi-market/dalgic-pompa/keson-kuyu-dalgic-pompalari' => 'su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa',
         'bahce-yapi-market/dalgic-pompa/temiz-su-dalgic-pompalari' => 'su-pompalari/dalgic-pompalar/temiz-su-dalgic-pompasi',
         'bahce-yapi-market/hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
-        'bahce-yapi-market/hidroforlar/frekans-kontrollu-hidrofor' => 'hidrofor-sistemleri/frekans-kontrollu-hidroforlar',
+        'bahce-yapi-market/hidroforlar/frekans-kontrollu-hidrofor' => 'hidrofor-sistemleri/hidroforlar',
         'bahce-yapi-market/su-pompasi/havuz-pompasi' => 'su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi',
         'bahce-yapi-market/su-pompalari/havuz-pompasi' => 'su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi',
         'bahce-yapi-market/su-pompasi/paslanmaz-govdeli-su-pompalari' => 'su-pompalari/santrifuj-pompalar/paslanmaz-pompalar-kimyasal',

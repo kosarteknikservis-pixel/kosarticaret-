@@ -161,4 +161,46 @@ class LegacyRedirectTest extends TestCase
         $this->get('/kategoriler/hidroforlar')
             ->assertRedirect('/kategoriler/hidrofor-sistemleri/hidroforlar');
     }
+
+    public function test_gsc_404_coverage_2026_09_16_redirects(): void
+    {
+        $this->get('/siparis-takibi/')
+            ->assertRedirect('/siparis-takip');
+
+        $this->get('/wp-json/')
+            ->assertRedirect('/');
+
+        $this->get('/6')
+            ->assertRedirect('/');
+
+        $this->get('/marka/etna')
+            ->assertRedirect('/markalar');
+
+        $this->get('/marka/welko')
+            ->assertRedirect('/markalar');
+
+        $this->get('/markalar/etna-uc-pompali-paket-hidrofor/page/4/')
+            ->assertRedirect('/markalar');
+
+        $this->get('/marka/sumak-paslanmaz-govdeli-su-pompasi/')
+            ->assertRedirect('/marka/sumak');
+
+        $this->get('/kategoriler/hidrofor-sistemleri/frekans-kontrollu-hidroforlar')
+            ->assertRedirect('/kategoriler/hidrofor-sistemleri/hidroforlar');
+
+        $this->get('/kategoriler/hidrofor-sistemleri/12-ve-24-volt-hidroforlar')
+            ->assertRedirect('/kategoriler/hidrofor-sistemleri');
+
+        $this->get('/blog/hidrofor-surekli-calisiyor-7-olasi-sebep-ve-cozum')
+            ->assertRedirect('/blog/hidrofor-surekli-calisyor-sebepler-cozum');
+
+        $this->get('/blog/dalgic-pompa-motor-tipleri')
+            ->assertRedirect('/blog/dalgic-pompa-motor-tipleri-yag-su-sogutmali');
+
+        $this->get('/blog/jet-pompa-mi-dalgic-pompa-mi')
+            ->assertRedirect('/blog/jet-pompa-mi-dalgic-pompa-mi-farki');
+
+        $this->get('/urun-kategori/hidroforlar/frekans-kontrollu-hidrofor')
+            ->assertRedirect('/kategoriler/hidrofor-sistemleri/hidroforlar');
+    }
 }

@@ -186,11 +186,7 @@ final class LegacyRedirectResolver
     private static function canonicalizePathAfterLegacyQueryStrip(string $path): string
     {
         if (preg_match('#^/marka/([^/]+)$#', $path, $matches)) {
-            if ($matches[1] === 'marmara') {
-                return '/markalar';
-            }
-
-            return '/marka/'.self::resolveBrandSlug($matches[1]);
+            return self::brandTargetPath($matches[1]);
         }
 
         return $path;
@@ -254,41 +250,47 @@ final class LegacyRedirectResolver
     private static function resolveLegacyBrandPath(string $path, Request $request): ?string
     {
         if (preg_match('#^/markalar/([^/]+)(?:/page/\d+)?$#', $path, $matches)) {
-            if ($matches[1] === 'marmara') {
-                return self::normalizeTarget('/markalar');
-            }
-
-            return self::normalizeTarget('/marka/'.self::resolveBrandSlug($matches[1]));
+            return self::normalizeTarget(self::brandTargetPath($matches[1]));
         }
 
         if (preg_match('#^/marka/([^/]+)/page/\d+$#', $path, $matches)) {
-            if ($matches[1] === 'marmara') {
-                return self::normalizeTarget('/markalar');
-            }
-
-            return self::normalizeTarget('/marka/'.self::resolveBrandSlug($matches[1]));
+            return self::normalizeTarget(self::brandTargetPath($matches[1]));
         }
 
         if (preg_match('#^/marka/([^/]+)$#', $path, $matches) && $request->has('filtering')) {
-            return self::normalizeTarget('/marka/'.self::resolveBrandSlug($matches[1]));
+            return self::normalizeTarget(self::brandTargetPath($matches[1]));
         }
 
         if (preg_match('#^/marka/([^/]+)$#', $path, $matches) && $request->hasAny(['filter_product_brand', 'filter_cat', 'shop_view', 'on_sale', 'stock_status'])) {
-            return self::normalizeTarget('/marka/'.self::resolveBrandSlug($matches[1]));
+            return self::normalizeTarget(self::brandTargetPath($matches[1]));
         }
 
         $aliases = config('legacy_redirects.brand_aliases', []);
         if (preg_match('#^/marka/([^/]+)$#', $path, $matches)) {
-            if ($matches[1] === 'marmara') {
-                return self::normalizeTarget('/markalar');
-            }
-
-            if (isset($aliases[$matches[1]])) {
-                return self::normalizeTarget('/marka/'.$aliases[$matches[1]]);
+            if (self::isRemovedBrand($matches[1]) || isset($aliases[$matches[1]])) {
+                return self::normalizeTarget(self::brandTargetPath($matches[1]));
             }
         }
 
         return null;
+    }
+
+    private static function brandTargetPath(string $slug): string
+    {
+        $resolved = self::resolveBrandSlug($slug);
+
+        if (self::isRemovedBrand($slug) || self::isRemovedBrand($resolved)) {
+            return '/markalar';
+        }
+
+        return '/marka/'.$resolved;
+    }
+
+    private static function isRemovedBrand(string $slug): bool
+    {
+        $removed = config('legacy_redirects.removed_brands', []);
+
+        return in_array($slug, $removed, true);
     }
 
     private static function resolveBrandSlug(string $slug): string
