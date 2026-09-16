@@ -263,12 +263,15 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          # Toplu --all / blog-export SQLite kilidine takılıyor.
-          # Yalnızca henüz yok veya gelecek tarihli kuyruk yazılarını aktar.
-          # Belirli dosya: artisan blog:import-batch --files=dosya.json --force
+          # D2 batch-1: 30 kategori-only yazıya marka linki (kapak yenileme yok).
+          FILES="02b-hidrofor-kurulumu-montaj-sync.json 03-hidrofor-hidromat-farki.json 04-apartmanda-su-basinci-dusuk.json 05-hidrofor-surekli-calisyor.json 06-hidrofor-basinc-tanki-secimi.json 08-hidrofor-bakim-rehberi.json 09-inverter-hidrofor-avantajlari.json 102-cok-pompali-hidrofor.json geo-kac-katli-binaya-hangi-hidrofor.json 11-kuyu-dalgic-pompa-secimi.json 117-4-inc-derin-kuyu-dalgic.json 15-dalgic-pompa-calismiyor.json 18-dalgic-pompa-kurulum.json 14-drenaj-dalgic-pompa-rehberi.json 114-bicakli-dalgic-pompa.json 69-foseptik-tahliye-cihazi.json 17-solar-dc-dalgic-pompa.json 125-cati-fani-secimi.json 32-duvar-tipi-vantilator.json 33-depo-fabrika-havalandirma.json 34-vantilator-debi-hesabi.json 40-inline-sirkulasyon-pompa.json 46-sirkulasyon-pompa-ariza.json 133-sirkulasyon-pompa-egrisi-okuma.json b2-kis-oncesi-sirkulasyon-degisim.json 56-yangin-pompasi-nedir.json 59-bina-yangin-pompasi.json 61-jockey-pompa.json 99-jet-ariza-bakim.json 90-santrifuj-ariza-bakim.json"
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan blog:publish-due --force"
+            for f in ${FILES}; do \
+              echo \"Import: \$f\" && \
+              \$PHP_BIN artisan blog:import \"database/blog-queue/\$f\" --force --from-queue || exit 1; \
+            done && \
+            \$PHP_BIN artisan cache:clear"
 
       - name: Blog kapak görsellerini üret (opsiyonel / YAVAS)
         if: github.event.inputs.blog_kapak == 'true'
