@@ -263,12 +263,16 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          # Toplu --all / blog-export SQLite kilidine takılıyor.
-          # Yalnızca henüz yok veya gelecek tarihli kuyruk yazılarını aktar.
-          # Belirli dosya: artisan blog:import-batch --files=dosya.json --force
+          # D4: kırık jet-pompalar (404) → kanonik jet-pompalar-derinden-emisli (sleep ile SQLite lock önlemi)
+          FILES="19-su-pompasi-cesitleri.json 21-jet-pompa-nedir.json 221-jet-isletme-pillar.json 222-jet-emme-yuksekligi.json 223-jet-ejektor-nozul.json 224-jet-cift-kademe-start.json 225-jet-debi-dususu.json 226-jet-kisa-cevrim.json 227-jet-sulama-hatti.json 228-jet-ses-titresim.json 229-jet-mevsimsel.json 230-jet-bakim-disiplini.json 25-jet-pompa-mi-dalgic-pompa-mi.json 91-jet-pompa-secim-rehberi.json 92-derinden-emisli-jet.json 93-sig-kuyu-jet.json 98-jet-fiyatlari.json 99-jet-ariza-bakim.json"
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan blog:publish-due --force"
+            for f in ${FILES}; do \
+              echo \"Import: \$f\" && \
+              \$PHP_BIN artisan blog:import \"database/blog-queue/\$f\" --force --from-queue || exit 1; \
+              sleep 2; \
+            done && \
+            \$PHP_BIN artisan cache:clear"
 
       - name: Blog kapak görsellerini üret (opsiyonel / YAVAS)
         if: github.event.inputs.blog_kapak == 'true'
