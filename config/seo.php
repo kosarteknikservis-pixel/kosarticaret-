@@ -86,9 +86,11 @@ return [
         'featured_blog_slugs' => [
             'hidrofor-fiyatlari-2026-ev-apartman',
             'hidrofor-nedir-ne-ise-yarar-nasil-calisir',
+            'hidrofor-hidromat-farki',
             'dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir',
             'sumak-pompa-marka-rehberi',
             'sanayi-tipi-vantilator-secimi-rehberi',
+            'sanayi-tipi-vantilator-kurulum-montaj',
             'sicak-su-sirkulasyon-pompasi-secimi',
             'pedrollo-sumak-hidrofor-karsilastirma',
             'ev-tipi-hidrofor-rehberi-mustakil-ev-villa',

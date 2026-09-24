@@ -22,6 +22,18 @@
 4. Exact-match spam / keyword stuffing yok
 5. Meta title ≤ ~60 · description ≤ ~155 · tek H1 · FAQ 3–5
 
+### GEO / AI arama (zorunlu — her yazı)
+
+Kaynak: [`GEO-PLAN.md`](GEO-PLAN.md) Faz G2. Amaç: AI Overviews / ChatGPT / Perplexity alıntısı.
+
+1. Girişte **2–3 cümle doğrudan cevap** (ilk 40–60 kelime)
+2. En az bir **H2 soru** (`… nedir?`, `… nasıl kurulur?`)
+3. Bir **karşılaştırma / seçim tablosu**
+4. **FAQ 4–6** (görünür HTML)
+5. `config/geo_page_blocks.php` → `blog.{slug}` **short_answer + selection_table** ekle
+6. Ticari niyet varsa `config/seo.php` → `llms.featured_blog_slugs` (max ~25) güncelle
+7. Gizli / stuffing / sahte fiyat yok — GEO = iyi SEO
+
 ### Pillar / marka rotasyonu
 
 | Tip | URL / hedef |

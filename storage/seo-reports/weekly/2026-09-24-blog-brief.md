@@ -48,3 +48,10 @@ Ritim: Çarşamba = konu 1 · Cuma = konu 2 + deploy
 |-----|-----|
 | **24.09 Çar** | Konu 1: hidromat JSON güncelle |
 | **26.09 Cum** | Konu 2: vantilatör kurulum JSON + manifest + deploy |
+
+## GEO checklist (bu sprint)
+
+| Slug | Giriş cevap | Soru H2 | Tablo | FAQ | geo_page_blocks | llms.txt |
+|------|:-----------:|:-------:|:-----:|:---:|:---------------:|:--------:|
+| `hidrofor-hidromat-farki` | evet | evet | evet | evet | eklendi | featured |
+| `sanayi-tipi-vantilator-kurulum-montaj` | evet | evet | evet | evet | eklendi | featured |

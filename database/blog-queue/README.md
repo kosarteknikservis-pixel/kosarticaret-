@@ -10,9 +10,22 @@ Yazı hazır → commit → canlıya deploy → **anında yayında**.
 |-----|-------|
 | Cluster yazı | **600–1000 kelime** |
 | Pillar | **1200–1800 kelime** |
-| FAQ | 3–5 soru, cevap 2–4 cümle |
+| FAQ | 4–6 soru, cevap 2–4 cümle |
 
 Her yazıda: giriş, 3–5 H2, en az 6 iç link ve ilgili kategori + iletişim CTA. Pompa içeriklerinde uygunsa Pompa Seçici kullanılır; fan gibi ilgisiz kümelerde zorlanmaz.
+
+## GEO / AI citability (zorunlu)
+
+Her yeni veya güçlendirilen yazı AI Overviews / ChatGPT / Perplexity için:
+
+1. İlk paragrafta **doğrudan cevap** (2–3 cümle)
+2. En az bir **soru H2**
+3. Bir **tablo** (karşılaştırma veya checklist)
+4. **FAQ 4–6**
+5. `config/geo_page_blocks.php` içinde `blog.{slug}` bloğu (`short_answer` + `selection_table`)
+6. Yüksek niyetli yazılarda `config/seo.php` → `llms.featured_blog_slugs` (≤25 rehber)
+
+Detay: `GEO-PLAN.md` · Ajan checklist: haftalık brief’te “GEO: evet” satırı.
 
 ## Komutlar
 

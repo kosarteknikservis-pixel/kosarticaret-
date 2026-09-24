@@ -37,6 +37,14 @@ class GeoPageBlocksTest extends TestCase
         $this->assertNotNull($blog);
         $this->assertArrayHasKey('selection_table', $blog);
         $this->assertNotNull(GeoPageBlocks::forBlog('dalgic-pompa-kablo-baglantisi-kesit-secimi'));
+
+        $this->assertNotNull(GeoPageBlocks::forCategory('hidrofor-sistemleri/hidromat'));
+        $hidromat = GeoPageBlocks::forBlog('hidrofor-hidromat-farki');
+        $this->assertNotNull($hidromat);
+        $this->assertStringContainsString('Hidromat', $hidromat['short_answer']);
+        $kurulum = GeoPageBlocks::forBlog('sanayi-tipi-vantilator-kurulum-montaj');
+        $this->assertNotNull($kurulum);
+        $this->assertArrayHasKey('selection_table', $kurulum);
     }
 
     public function test_returns_null_for_unknown_slug(): void

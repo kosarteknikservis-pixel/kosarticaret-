@@ -18,9 +18,9 @@
 
 **Sabit günler (24 Eyl 2026’dan itibaren):**
 - **Salı:** GSC kontrol + **blog konu seçimi** (2 brief; yazı yok) → `storage/seo-reports/weekly/`
-- **Çarşamba:** blog yazı 1 (yeni veya eski güçlendirme)
-- **Cuma:** blog yazı 2 + deploy  
-  Detay: **`BLOG-30GUN-PLAN.md`** · Tempo: **haftada 2 blog** (eski 4/hafta arşiv)
+- **Çarşamba:** blog yazı 1 (yeni veya eski güçlendirme) — **GEO checklist zorunlu**
+- **Cuma:** blog yazı 2 + deploy (`geo_page_blocks` + gerektiğinde `llms.txt`)  
+  Detay: **`BLOG-30GUN-PLAN.md`** · **`GEO-PLAN.md`** · Tempo: **haftada 2 blog**
 
 ---
 

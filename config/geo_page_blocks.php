@@ -56,6 +56,10 @@ return [
                 'currency' => 'TRY',
                 'note' => 'Duvar/ayaklı modellerden uzaktan kumandalı büyük çaplı modellere; çap ve kW\'a göre değişir.',
             ],
+            'guide_cta' => [
+                'label' => 'Sanayi tipi vantilatör kurulum rehberi',
+                'url' => '/blog/sanayi-tipi-vantilator-kurulum-montaj',
+            ],
             'selection_table' => [
                 'title' => 'Sanayi vantilatörü hızlı seçim',
                 'headers' => ['Alan tipi', 'Tercih edilen tip', 'Debi ipucu'],
@@ -63,6 +67,29 @@ return [
                     ['Atölye / garaj', 'Duvar veya ayaklı aksiyel', '5.000–15.000 m³/h'],
                     ['Depo / hangar', 'Büyük çaplı aksiyel', '20.000 m³/h+'],
                     ['Tozlu ortam', 'Metal kanat, IP55+', 'Filtre + hız kontrol'],
+                ],
+            ],
+        ],
+
+        'hidrofor-sistemleri/hidromat' => [
+            'short_answer' => 'Hidromat, pompayı akış veya basınç sensörüyle otomatik açıp kapatan, genelde tanksız kompakt bir kontrol ünitesidir. Tek musluk ve düşük yoğunluklu kullanımda pratiktir; apartman ve eşzamanlı çok noktada tanklı hidrofor daha uygundur.',
+            'price_band' => [
+                'from' => 1500,
+                'to' => 12000,
+                'currency' => 'TRY',
+                'note' => 'Kompakt hidromat ünitelerinden güçlü pompa + kontrol paketlerine; modele göre değişir.',
+            ],
+            'guide_cta' => [
+                'label' => 'Hidromat nedir? Hidrofor ile farkı',
+                'url' => '/blog/hidrofor-hidromat-farki',
+            ],
+            'selection_table' => [
+                'title' => 'Hidromat mı hidrofor mu?',
+                'headers' => ['Senaryo', 'Tercih', 'Neden'],
+                'rows' => [
+                    ['Tek musluk / yazlık', 'Hidromat', 'Kompakt, düşük ilk maliyet'],
+                    ['Villa / 2 banyo', 'Ev tipi hidrofor', 'Tank ile seyrek start'],
+                    ['Apartman / site', 'Hidrofor grubu', 'Yoğun kullanım + yedeklilik'],
                 ],
             ],
         ],
@@ -577,6 +604,40 @@ return [
             'guide_cta' => [
                 'label' => 'Dalgıç pompa kategorisi',
                 'url' => '/kategoriler/su-pompalari/dalgic-pompalar',
+            ],
+        ],
+
+        'hidrofor-hidromat-farki' => [
+            'short_answer' => 'Hidromat, pompayı akış/basınç sensörüyle otomatik çalıştıran genelde tanksız kompakt kontroldür; hidrofor ise pompa + basınç tankı + presostat ile seyrek start ve daha dengeli basınç sağlar. Tek muslukta hidromat yeterli olabilir; villa ve apartmanda tanklı hidrofor tercih edilir.',
+            'selection_table' => [
+                'title' => 'Hidromat ile hidrofor farkı',
+                'headers' => ['Özellik', 'Hidromat', 'Hidrofor'],
+                'rows' => [
+                    ['Tank', 'Yok / minimal', '24–500 L'],
+                    ['Start sıklığı', 'Sık', 'Daha seyrek'],
+                    ['Apartman', 'Genelde yetersiz', 'Uygun / grup'],
+                ],
+            ],
+            'guide_cta' => [
+                'label' => 'Hidromat ve hidrofor ürünleri',
+                'url' => '/kategoriler/hidrofor-sistemleri/hidromat',
+            ],
+        ],
+
+        'sanayi-tipi-vantilator-kurulum-montaj' => [
+            'short_answer' => 'Sanayi tipi vantilatör kurulumunda duvar/çatı açıklığı fan çapına uyumlu olmalı, koruma ızgarası ve titreşim yalıtımı takılmalı, elektrik hattı etiket gerilimine (mono/trifaze) ve topraklamaya uygun çekilmelidir. Ters dönüş ve eksik taze hava girişi debiyi düşürür.',
+            'selection_table' => [
+                'title' => 'Kurulum kontrol listesi',
+                'headers' => ['Adım', 'Kontrol', 'Risk'],
+                'rows' => [
+                    ['Açıklık / çerçeve', 'Çap uyumu + yalıtım', 'Debi kaybı, titreşim'],
+                    ['Izgara', 'İç/dış koruma', 'Yaralanma, cisim kaçması'],
+                    ['Elektrik', 'Faz, toprak, kesit', 'Motor arızası'],
+                ],
+            ],
+            'guide_cta' => [
+                'label' => 'Koşar sanayi tipi vantilatörler',
+                'url' => '/kategoriler/vantilatorler/sanayi-tipi-vantilator',
             ],
         ],
     ],
