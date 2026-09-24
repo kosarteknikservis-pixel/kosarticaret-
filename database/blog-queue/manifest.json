@@ -34,8 +34,9 @@
             "day": 3,
             "file": "03-hidrofor-hidromat-farki.json",
             "publish_on": "2026-06-12",
-            "title": "Hidrofor mu Hidromat mı?",
-            "series": "hidrofor"
+            "title": "Hidromat Nedir? Hidrofor ile Farkı",
+            "series": "hidrofor",
+            "force_update": true
         },
         {
             "day": 3,
@@ -1674,6 +1675,13 @@
             "publish_on": "2026-09-14",
             "title": "Dalgıç Pompa Kablo Bağlantısı: Kesit Seçimi ve Güvenli Montaj",
             "series": "b2-2026-09"
+        },
+        {
+            "day": 110,
+            "file": "231-sanayi-tipi-vantilator-kurulum.json",
+            "publish_on": "2026-09-26",
+            "title": "Sanayi Tipi Vantilatör Kurulumu: Montaj, Elektrik ve Güvenlik",
+            "series": "weekly-2026-09"
         }
     ]
 }

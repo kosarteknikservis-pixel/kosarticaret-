@@ -92,6 +92,10 @@ class PublishDueBlogPostsCommand extends Command
             return true;
         }
 
+        if (! empty($entry['force_update'])) {
+            return true;
+        }
+
         $slug = $this->slugFromQueueFile($file);
         if ($slug === '') {
             return false;

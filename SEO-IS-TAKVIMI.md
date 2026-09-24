@@ -3,7 +3,7 @@
 > Başlangıç: **14 Eylül 2026 (Pazartesi)**  
 > Kaynak: canlı site `kosarticaret.com` · Panel: Google piyasa / GSC / Merchant  
 > Amaç: “Bekleyelim” değil — **hangi gün ne bakılacak / ne yazılacak** net olsun.  
-> İlgili: `BLOG-PLAN.md` · `kosarticaret.com-audit/SENIN-AYLIK-GOREVLERIN.md`
+> İlgili: `BLOG-PLAN.md` · `BLOG-30GUN-PLAN.md` · `BLOG-SEO-DESTEK-PLANI.md` · `GEO-PLAN.md` · `kosarticaret.com-audit/SENIN-AYLIK-GOREVLERIN.md`
 
 ---
 
@@ -11,16 +11,16 @@
 
 | Tip | Ne sıklıkla | Kim |
 |-----|-------------|-----|
-| **Kontrol (GSC / teknik / fiyat)** | Haftada 1 sabit gün | Siz + Cursor destek |
-| **İçerik (blog / kategori güçlendirme)** | Haftada 1 sabit gün | Siz yazar / Cursor taslak |
+| **Kontrol (GSC / teknik / fiyat)** | Haftada 1 (Salı) | Siz + Cursor destek |
+| **İçerik (blog / kategori güçlendirme)** | Haftada 2 (Çarşamba + Cuma) | Cursor yazım · siz onay |
 | **Aylık büyük kontrol** | Her ayın **1–3’ü** | Siz (veri) + Cursor (analiz) |
 | **Çeyrek strateji** | 3 ayda bir | Siz |
 
-**Sabit günler (bundan sonra her hafta):**
-- **Kontrol günü:** her **Salı** (09:00–11:00)
-- **İçerik günleri (14 Eyl–14 Eki):** **Pzt · Çar · Cum · Paz** — haftada **4 blog**  
-  Detay + keyword hacimleri: **`BLOG-30GUN-PLAN.md`**
-- 15 Ekim sonrası: tempo gözden geçirilir (öneri: haftada 2’ye inmek veya 4’te kalmak)
+**Sabit günler (24 Eyl 2026’dan itibaren):**
+- **Salı:** GSC kontrol + **blog konu seçimi** (2 brief; yazı yok) → `storage/seo-reports/weekly/`
+- **Çarşamba:** blog yazı 1 (yeni veya eski güçlendirme)
+- **Cuma:** blog yazı 2 + deploy  
+  Detay: **`BLOG-30GUN-PLAN.md`** · Tempo: **haftada 2 blog** (eski 4/hafta arşiv)
 
 ---
 

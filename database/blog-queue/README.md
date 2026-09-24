@@ -34,7 +34,8 @@ php artisan blog:publish-due --dry-run --all
 
 1. `database/blog-queue/XX-baslik.json` oluştur (`kosar-blog-export` formatı)
 2. `manifest.json` içine `file` + `title` ekle (sıra önemli)
-3. Commit + push + **Canlıya gönder**
+3. Mevcut yazıyı güçlendirirken: manifest satırına `"force_update": true` ekle (yoksa `publish-due` atlar)
+4. Commit + push + **Canlıya gönder** (`blog_aktar=true`)
 
 JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yok sayılır.
 
@@ -67,9 +68,16 @@ JSON içindeki `published_at` isteğe bağlıdır; kuyruktan import edilirken yo
 | Kademeli pompa işletme | 211–220 | Deploy ile yayınlanır |
 | Jet pompa işletme | 221–230 | Deploy ile yayınlanır |
 
-## Sıradaki küme (plan)
+## Haftalık ritim (2 yazı)
 
-Hidrofor grubu işletme kümesi (231–240): çok pompalı start sırası, ortak tank-presostat, lead-lag kontrol ve grup arıza teşhisi. Mevcut 101–110 (grup seçim) ve 151–160 (tank-presostat) içerikleriyle çakışmadan işletme niyetlerine iner.
+- **Salı:** GSC 28g + envanter overlap → `storage/seo-reports/weekly/YYYY-MM-DD-blog-brief.md`
+- **Çarşamba / Cuma:** brief’teki 2 konu (yeni JSON veya mevcut güçlendirme) + deploy
+- Aynı niyet varsa yeni slug açma; eski yazıyı güncelle
+- Plan: `BLOG-30GUN-PLAN.md`
+
+## Sıradaki küme (plan — ezbere değil)
+
+Yeni küme ancak GSC brief boş kalırsa: hidrofor grubu işletme (231–240). Önce haftalık GSC fırsatları.
 
 ## Kapak görseli
 

@@ -1,9 +1,11 @@
-# Blog İçerik Planı (DataForSEO Verileri Bazlı)
+# Blog İçerik Planı (DataForSEO + GSC)
 
-> Son güncelleme: 2026-09-14  
-> **Aktif 30 günlük plan:** [`BLOG-30GUN-PLAN.md`](BLOG-30GUN-PLAN.md) — **14 Eyl → 14 Eki 2026**, haftada 4 yazı  
-> Strateji: Pillar (kategori) + marka sayfalarını destekleyen cluster blog yazıları  
-> Eski haftalık liste aşağıda arşiv / gap referansı
+> Son güncelleme: 2026-09-24  
+> **Aktif ritim:** [`BLOG-30GUN-PLAN.md`](BLOG-30GUN-PLAN.md) — **haftada 2 yazı** (Salı konu · Çarşamba yazı 1 · Cuma yazı 2)  
+> Kaynak önceliği: **GSC 28g** gerçek arama; DataForSEO hacim destek  
+> Brief dosyaları: `storage/seo-reports/weekly/YYYY-MM-DD-blog-brief.md`  
+> Strateji: kategori + marka besleyen cluster; **tekrar niyet yok** (çakışırsa eski güncelle)  
+> Aşağıdaki Ağustos–Eylül listesi **arşiv / gap referansı**dır
 
 ## Pillar Sayfalar (Hedef Keyword → Çıkacak Sayfa)
 
