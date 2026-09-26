@@ -88,6 +88,7 @@ return [
             'hidrofor-nedir-ne-ise-yarar-nasil-calisir',
             'hidrofor-hidromat-farki',
             'dalgic-pompa-nedir-ne-ise-yarar-nasil-secilir',
+            'en-iyi-dalgic-pompa-markasi-rehberi',
             'sumak-pompa-marka-rehberi',
             'sanayi-tipi-vantilator-secimi-rehberi',
             'sanayi-tipi-vantilator-kurulum-montaj',

@@ -403,7 +403,7 @@ return [
 
     'blog' => [
         'hidrofor-fiyatlari-2026-ev-apartman' => [
-            'short_answer' => 'Hidrofor fiyatları 2026\'da ev tipi paketlerde yaklaşık 2.500–18.000 TL, apartman ve grup sistemlerinde 15.000–120.000 TL bandında değişir. Fiyatı motor gücü (kW), tank hacmi (L), pompa sayısı ve frekans invertörü belirler; güncel tutar ürün sayfasındadır.',
+            'short_answer' => 'Apartman hidrofor fiyatları 2026’da orta boy paketlerde on binlerce TL’den başlar; çok pompalı gruplarda yüz bin TL bandına çıkabilir. Ev tipi paketler daha düşüktür. Fiyatı kW, tank hacmi, pompa sayısı, frekans invertörü ve marka belirler; güncel tutar ürün sayfasındadır.',
             'price_band' => [
                 'from' => 2500,
                 'to' => 120000,
@@ -415,9 +415,13 @@ return [
                 'headers' => ['Segment', 'Tipik kullanım', 'Fiyat orientasyonu'],
                 'rows' => [
                     ['Ev tipi paket', '1 daire / müstakil', '2.500–15.000 TL'],
-                    ['Villa / büyük ev', '2–3 kat, bahçe', '8.000–25.000 TL'],
-                    ['Apartman grubu', 'Çok daire', '15.000–120.000 TL'],
+                    ['Apartman paket / frekans', '3–6 kat', '15.000–45.000 TL'],
+                    ['Apartman / site grubu', 'Çok daire', '25.000–120.000 TL+'],
                 ],
+            ],
+            'guide_cta' => [
+                'label' => 'Apartman hidrofor seçim rehberi',
+                'url' => '/blog/apartman-icin-hidrofor-nasil-secilir',
             ],
         ],
 
@@ -555,7 +559,7 @@ return [
         ],
 
         'en-iyi-dalgic-pompa-markasi-rehberi' => [
-            'short_answer' => 'Tek bir en iyi dalgıç pompa markası yoktur; kuyu derinliği, su kalitesi ve bütçeye göre Pedrollo (premium), Sumak (yerli/ekonomik), Wilo ve Grundfos (endüstriyel) değerlendirilir. Seçimde debi, basma yüksekliği ve garanti esas alınır.',
+            'short_answer' => 'En iyi dalgıç pompa hangisi sorusunun tek cevabı yoktur; kuyu derinliği, su tipi ve bütçeye göre Pedrollo (premium), Sumak (yerli/ekonomik) ve endüstriyel markalar değerlendirilir. Önce debi ve basma yüksekliği, sonra marka seçilir.',
             'price_band' => [
                 'from' => 3500,
                 'to' => 95000,
@@ -567,9 +571,13 @@ return [
                 'headers' => ['Segment', 'Markalar', 'Kullanım'],
                 'rows' => [
                     ['Premium', 'Pedrollo, Grundfos', 'Derin kuyu, sürekli işletme'],
-                    ['Orta', 'Winpo, Alarko', 'Konut, orta derinlik'],
+                    ['Orta', 'Winpo ve benzeri', 'Konut, orta derinlik'],
                     ['Bütçe', 'Sumak, Kaysu', 'Ekonomik proje, yerli servis'],
                 ],
+            ],
+            'guide_cta' => [
+                'label' => 'Dalgıç pompa kategorisi',
+                'url' => '/kategoriler/su-pompalari/dalgic-pompalar',
             ],
         ],
 
