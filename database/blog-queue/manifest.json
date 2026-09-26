@@ -217,8 +217,7 @@
             "file": "29-hidrofor-fiyatlari.json",
             "publish_on": "2026-07-10",
             "title": "Apartman Hidrofor Fiyatları 2026",
-            "series": "hidrofor",
-            "force_update": true
+            "series": "hidrofor"
         },
         {
             "day": 15,
@@ -1646,8 +1645,7 @@
             "file": "geo-en-iyi-dalgic-pompa-markasi.json",
             "publish_on": "2026-08-31",
             "title": "En İyi Dalgıç Pompa Hangisi? Marka Rehberi",
-            "series": "geo-2026-08",
-            "force_update": true
+            "series": "geo-2026-08"
         },
         {
             "day": 108,
