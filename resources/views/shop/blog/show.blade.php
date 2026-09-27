@@ -55,6 +55,18 @@
             @endif
         </div>
 
+        @if(!empty($commercialLink['href']) && !empty($commercialLink['label']))
+            <aside class="shop-article-catalog shop-reveal" aria-label="{{ $commercialLink['label'] }}">
+                <a class="shop-article-catalog__link" href="{{ $commercialLink['href'] }}">
+                    <span class="shop-article-catalog__text">
+                        <span class="shop-article-catalog__kicker">Modeller ve fiyatlar</span>
+                        <span class="shop-article-catalog__label">{{ $commercialLink['label'] }}</span>
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                </a>
+            </aside>
+        @endif
+
         @if(!empty($geo))
             <div class="mt-6 shop-reveal">
                 <x-shop.geo-block :geo="$geo" />

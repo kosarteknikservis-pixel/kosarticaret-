@@ -33,6 +33,14 @@ return [
         // GSC 404 Coverage 2026-09-16 — kaldırılan Woo alt kategorileri
         '/kategoriler/hidrofor-sistemleri/frekans-kontrollu-hidroforlar' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
         '/kategoriler/hidrofor-sistemleri/12-ve-24-volt-hidroforlar' => '/kategoriler/hidrofor-sistemleri',
+
+        // İnce kopya kategoriler (2026-09-27): aynı kelimeyi asıl katalogla paylaşıyorlardı.
+        '/kategoriler/su-pompalari/su-pompasi' => '/kategoriler/su-pompalari',
+        '/kategoriler/su-pompalari/dalgic-pompalar/dalgic-pompa' => '/kategoriler/su-pompalari/dalgic-pompalar',
+        // Blogda kalan, katalogda olmayan kategori yolları.
+        '/kategoriler/su-pompalari/dalgic-pompalar/pedrollo-dalgic-pompa' => '/marka/pedrollo',
+        '/kategoriler/su-pompalari/dalgic-pompalar/sumak-dalgic-pompa' => '/marka/sumak',
+        '/kategoriler/su-pompalari/dalgic-pompalar/solar-dc-dalgic-pompalar' => '/kategoriler/su-pompalari/dalgic-pompalar',
     ],
 
     /** Katalogda olmayan marka slug'ları → /markalar (tek hop) */
@@ -104,6 +112,8 @@ return [
         'drenaj-dalgic-pompa' => 'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
         'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
         'ev-tipi-hidroforlar' => 'hidrofor-sistemleri/ev-tipi-hidroforlar',
+        'su-pompasi' => 'su-pompalari',
+        'dalgic-pompa' => 'su-pompalari/dalgic-pompalar',
     ],
 
     /** WooCommerce üst kategori slug → yeni kategori yolu */

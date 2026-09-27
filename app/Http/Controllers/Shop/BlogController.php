@@ -99,10 +99,15 @@ class BlogController extends Controller
         ];
 
         $author = BlogAuthor::forPost($post);
+        $commercialLink = config('blog_commercial_links.'.$post->slug);
+        if (! is_array($commercialLink) || empty($commercialLink['href']) || empty($commercialLink['label'])) {
+            $commercialLink = null;
+        }
 
         return view('shop.blog.show', [
             'post' => $post,
             'author' => $author,
+            'commercialLink' => $commercialLink,
             'suggestedProducts' => $suggestedProducts,
             'relatedPosts' => $relatedPosts,
             'breadcrumbs' => $breadcrumbs,

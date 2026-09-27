@@ -203,4 +203,28 @@ class LegacyRedirectTest extends TestCase
         $this->get('/urun-kategori/hidroforlar/frekans-kontrollu-hidrofor')
             ->assertRedirect('/kategoriler/hidrofor-sistemleri/hidroforlar');
     }
+
+    public function test_thin_duplicate_categories_redirect_to_catalog_hubs(): void
+    {
+        $this->get('/kategoriler/su-pompalari/su-pompasi')
+            ->assertRedirect('/kategoriler/su-pompalari');
+
+        $this->get('/kategoriler/su-pompasi')
+            ->assertRedirect('/kategoriler/su-pompalari');
+
+        $this->get('/kategoriler/su-pompalari/dalgic-pompalar/dalgic-pompa')
+            ->assertRedirect('/kategoriler/su-pompalari/dalgic-pompalar');
+
+        $this->get('/kategoriler/dalgic-pompa')
+            ->assertRedirect('/kategoriler/su-pompalari/dalgic-pompalar');
+
+        $this->get('/kategoriler/su-pompalari/dalgic-pompalar/pedrollo-dalgic-pompa')
+            ->assertRedirect('/marka/pedrollo');
+
+        $this->get('/kategoriler/su-pompalari/dalgic-pompalar/sumak-dalgic-pompa')
+            ->assertRedirect('/marka/sumak');
+
+        $this->get('/kategoriler/su-pompalari/dalgic-pompalar/solar-dc-dalgic-pompalar')
+            ->assertRedirect('/kategoriler/su-pompalari/dalgic-pompalar');
+    }
 }

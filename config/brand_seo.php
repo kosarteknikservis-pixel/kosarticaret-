@@ -7,7 +7,7 @@
 return [
     'sumak' => [
         'h1' => 'Sumak Pompa Fiyatları ve Modelleri',
-        'meta_title' => 'Sumak Pompa ve Hidrofor Modelleri | Yetkili Satıcı',
+        'meta_title' => 'Sumak Pompa Fiyatları ve Modelleri',
         'meta_description' => 'Sumak pompa fiyatları ve modelleri: hidrofor SKS/SKT, dalgıç pompa, jet ve santrifüj. Orijinal ürün, geniş stok, hızlı kargo. Koşar Ticaret yetkili satıcı.',
         'description' => <<<'HTML'
 <h2>Sumak Su Pompası ve Hidrofor Modelleri</h2>
@@ -40,7 +40,7 @@ HTML,
 
     'kaysu' => [
         'h1' => 'Kaysu Pompa ve Hidrofor Fiyatları',
-        'meta_title' => 'Kaysu Hidrofor ve Pompa Fiyatları | Orijinal Ürün',
+        'meta_title' => 'Kaysu Pompa ve Hidrofor Fiyatları',
         'meta_description' => 'Kaysu hidrofor modelleri ve fiyatları: ev tipi paket sistemler, santrifüj ve dalgıç pompa. Yerli üretim, yedek parça, hızlı teslimat. Koşar Ticaret.',
         'description' => <<<'HTML'
 <h2>Kaysu Pompa Modelleri ve Fiyatları</h2>
@@ -126,7 +126,7 @@ HTML,
 
     'winpo' => [
         'h1' => 'Winpo Pompa Modelleri ve Fiyatları',
-        'meta_title' => 'Winpo Pompa ve WNP Modelleri | Orijinal Ürün',
+        'meta_title' => 'Winpo Pompa Modelleri ve Fiyatları',
         'meta_description' => 'Winpo WNP pompa modelleri: derin kuyu, dalgıç, dik milli ve paket hidrofor seçenekleri. Teknik özellik, stok ve uzman seçim desteği.',
         'description' => <<<'HTML'
 <h2>Winpo Pompa ve WNP Model Rehberi</h2>

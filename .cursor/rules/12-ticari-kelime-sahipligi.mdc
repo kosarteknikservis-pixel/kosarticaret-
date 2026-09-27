@@ -1,0 +1,41 @@
+---
+description: Ticari kategori ve marka kelimelerinin sahip sayfası. Blog bu kelimelerin önüne geçmez.
+alwaysApply: true
+---
+
+# 12 — Ticari kelime sahipliği
+
+27 Eylül 2026, Search Console (27 Haziran–26 Eylül) ve Türkiye arama hacmiyle uygulandı. Her sohbette bu harita geçerlidir. Başlığı veya linki geri alıp blogu tekrar ticari kelimenin sahibi yapma.
+
+## Sahip sayfa
+
+| Kelime | Sahip URL |
+|---|---|
+| su pompası, su pompası fiyatları | `/kategoriler/su-pompalari` |
+| dalgıç pompa, dalgıç pompa fiyatları | `/kategoriler/su-pompalari/dalgic-pompalar` |
+| hidrofor, hidrofor fiyatları | `/kategoriler/hidrofor-sistemleri/hidroforlar` |
+| hidrofor grubu | `/kategoriler/hidrofor-sistemleri/hidrofor-grubu` |
+| derin kuyu dalgıç pompa | `/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa` |
+| santrifüj pompa | `/kategoriler/su-pompalari/santrifuj-pompalar` |
+| sirkülasyon pompası | `/kategoriler/su-pompalari/sirkulasyon-pompalari` |
+| jet pompa | `/kategoriler/su-pompalari/jet-pompalar-derinden-emisli` |
+| kademeli pompa | `/kategoriler/su-pompalari/kademeli-pompalar` |
+| yangın pompası | `/kategoriler/su-pompalari/ozel-amacli-pompalar/yangin-pompalari` |
+| sumak pompa | `/marka/sumak` |
+| sumak hidrofor | `/kategoriler/hidrofor-sistemleri/sumak-hidrofor` |
+| pedrollo pompa, pedrollo dalgıç | `/marka/pedrollo` |
+| kaysu pompa | `/marka/kaysu` |
+| winpo pompa | `/marka/winpo` |
+
+Peşine düşülmez: genel “vantilatör” (ev tipi yaz fanı). “Sanayi tipi vantilatör” ve “hidromat” katalogları ince; başlıkla 1. sayfa vaadi yok.
+
+## Yapılan iş
+
+- `su-pompasi` ve `dalgic-pompa` pasif. Eski adresler 301 ile üstteki sahip sayfaya gider. Sitemap’e geri alma.
+- Fiyat rehberleri “maliyetini ne belirler” yazısıdır. Üstte tek katalog linki `config/blog_commercial_links.php` içindedir. Slug değişmedi.
+- Marka rehberleri “nasıl seçilir” yazısıdır ve `/marka/...` linki taşır. Karşılaştırma yazıları ayrı niyettir; marka sayfasına 301 yapılmaz.
+- Kurulum, arıza ve “nasıl bağlanır” yazıları indexlenir. Bunları noindex etme; ticari kelimeyi onlara canonical ile bağlama.
+
+## Sınır
+
+İç link ve başlık, pazaryeri ile resmi marka sitesinin önüne geçmeyi garanti etmez. Sumak pompa 27 Eylül 2026’da ortalama 41. sıradaydı. Sıra uydurma.
