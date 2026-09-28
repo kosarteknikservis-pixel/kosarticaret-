@@ -88,11 +88,11 @@ class InternalLinkingSeoTest extends TestCase
             ->assertDontSee('<span class="shop-article-tag">', false);
     }
 
-    public function test_thin_blog_tag_page_is_noindex_until_clustered(): void
+    public function test_blog_tag_page_stays_noindex_and_out_of_sitemap(): void
     {
         $this->get('/blog/etiket/hidrofor')
             ->assertOk()
-            ->assertSee('noindex', false);
+            ->assertSee('noindex, follow', false);
 
         BlogPost::query()->create([
             'slug' => 'apartman-hidrofor-secimi',
@@ -106,7 +106,7 @@ class InternalLinkingSeoTest extends TestCase
 
         $this->get('/blog/etiket/hidrofor')
             ->assertOk()
-            ->assertSee('index, follow', false);
+            ->assertSee('noindex, follow', false);
 
         $this->get('/blog/hidrofor-secimi-rehberi')
             ->assertOk()
@@ -117,7 +117,8 @@ class InternalLinkingSeoTest extends TestCase
 
         $this->get('/sitemap-blog.xml')
             ->assertOk()
-            ->assertSee('/blog/etiket/hidrofor', false);
+            ->assertSee('/blog/apartman-hidrofor-secimi', false)
+            ->assertDontSee('/blog/etiket/', false);
 
         $this->get('/site-haritasi')
             ->assertOk()

@@ -70,7 +70,7 @@ class CategoryController extends Controller
 
         $products = $query->paginate(12)->withQueryString();
         $pageUrl = $category->storefrontUrl();
-        $paginationSeo = CatalogPaginationSeo::meta($request, $products);
+        $paginationSeo = CatalogPaginationSeo::meta($request, $products, $pageUrl);
         if ($category->activeChildren->isEmpty() && $products->total() === 0) {
             $paginationSeo['robots'] = Seo::ROBOTS_NOINDEX;
         }
@@ -96,7 +96,6 @@ class CategoryController extends Controller
                 $category->name.' ürünleri — '.SiteName::get(),
             ]),
             'metaKeywords' => Seo::keywords([$category->name, SiteName::get()]),
-            'canonical' => $pageUrl,
             'ogImageMeta' => Seo::openGraphImage($category->image, 'category-card', $category->name),
             'ogImage' => $category->imageUrl('category-card') ?? $category->imageUrl(),
             'jsonLd' => array_filter([

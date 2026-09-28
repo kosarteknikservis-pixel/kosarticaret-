@@ -29,6 +29,18 @@ class CatalogPaginationSeoTest extends TestCase
         $this->assertSame('noindex, follow', CatalogPaginationSeo::robots($request, 2));
     }
 
+    public function test_paginated_pages_are_self_canonical_without_filters(): void
+    {
+        $base = 'https://kosarticaret.com/kategoriler/su-pompalari';
+
+        $this->assertSame($base, CatalogPaginationSeo::canonical($base, 1));
+        $this->assertSame($base.'?page=3', CatalogPaginationSeo::canonical($base, 3));
+        $this->assertSame(
+            'https://kosarticaret.com/ara?q=pompa&page=2',
+            CatalogPaginationSeo::canonical('https://kosarticaret.com/ara?q=pompa', 2),
+        );
+    }
+
     public function test_legacy_sayfa_param_redirects_to_page(): void
     {
         $request = Request::create('https://kosarticaret.com/urunler?sayfa=2', 'GET');

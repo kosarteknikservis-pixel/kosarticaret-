@@ -30,7 +30,7 @@ class ProductController extends Controller
         CatalogQuery::apply($request, $query);
 
         $products = $query->paginate(12)->withQueryString();
-        $paginationSeo = CatalogPaginationSeo::meta($request, $products);
+        $paginationSeo = CatalogPaginationSeo::meta($request, $products, route('products.index'));
 
         return view('shop.products.index', [
             'products' => $products,
@@ -40,7 +40,6 @@ class ProductController extends Controller
             'metaDescription' => Seo::description([
                 SiteName::get().' ürün kataloğu: dalgıç pompa, hidrofor, santrifüj pompa, sanayi vantilatörü ve teknik ekipman. Güncel stok ve fiyatlarla inceleyin.',
             ], 160),
-            'canonical' => route('products.index'),
             'jsonLd' => array_filter([
                 Seo::webPage('Pompa, Hidrofor ve Vantilatör Ürünleri', Seo::description(['Ürün kataloğu']), route('products.index')),
                 Seo::itemListProducts($products, route('products.index'), $products->total()),
@@ -82,7 +81,7 @@ class ProductController extends Controller
             'hub' => $hub,
             'breadcrumbs' => $breadcrumbs,
             'metaTitle' => $product->meta_title ?: $product->name,
-            'metaDescription' => Seo::productDescriptionText($product, 160),
+            'metaDescription' => Seo::productMetaDescription($product),
             'metaKeywords' => Seo::keywords([$product->tags, $product->name, $product->brand?->name, $product->categories->pluck('name')->all()]),
             'canonical' => route('products.show', $product),
             'ogType' => 'product',

@@ -41,15 +41,28 @@ class CatalogPaginationSeo
     }
 
     /**
-     * @return array{robots: string, paginationPrev: ?string, paginationNext: ?string}
+     * @return array{robots: string, canonical: string, paginationPrev: ?string, paginationNext: ?string}
      */
-    public static function meta(Request $request, LengthAwarePaginator $paginator): array
+    public static function meta(Request $request, LengthAwarePaginator $paginator, string $baseUrl): array
     {
         return [
             'robots' => self::robots($request, $paginator->currentPage()),
+            'canonical' => self::canonical($baseUrl, $paginator->currentPage()),
             'paginationPrev' => $paginator->previousPageUrl(),
             'paginationNext' => $paginator->nextPageUrl(),
         ];
+    }
+
+    /**
+     * Filtre/sıralama parametreleri düşer; 2+ sayfa 1. sayfaya değil kendi adresine işaret eder.
+     */
+    public static function canonical(string $baseUrl, int $currentPage = 1): string
+    {
+        if ($currentPage <= 1) {
+            return $baseUrl;
+        }
+
+        return $baseUrl.(str_contains($baseUrl, '?') ? '&' : '?').'page='.$currentPage;
     }
 
     public static function robots(Request $request, int $currentPage = 1): string

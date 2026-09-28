@@ -49,7 +49,7 @@ class BrandController extends Controller
 
         $products = $query->paginate(12)->withQueryString();
         $pageUrl = route('brands.show', $brand);
-        $paginationSeo = CatalogPaginationSeo::meta($request, $products);
+        $paginationSeo = CatalogPaginationSeo::meta($request, $products, $pageUrl);
         if ($products->total() === 0 && ! CatalogPaginationSeo::hasActiveFilters($request)) {
             $paginationSeo['robots'] = Seo::ROBOTS_NOINDEX;
         }
@@ -84,7 +84,6 @@ class BrandController extends Controller
                 $brand->name.' marka ürünleri — '.SiteName::get(),
             ]),
             'metaKeywords' => Seo::keywords([$brand->name, SiteName::get()]),
-            'canonical' => $pageUrl,
             'ogImageMeta' => Seo::openGraphImage($brand->logo, 'brand-logo', $brand->name.' logo'),
             'ogImage' => $brand->logoUrl('brand-logo') ?? $brand->logoUrl(),
             'jsonLd' => array_filter([

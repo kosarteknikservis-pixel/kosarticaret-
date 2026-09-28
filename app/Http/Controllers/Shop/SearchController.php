@@ -21,7 +21,7 @@ class SearchController extends Controller
         CatalogQuery::apply($request, $query);
 
         $products = $query->paginate(12)->withQueryString();
-        $paginationSeo = CatalogPaginationSeo::meta($request, $products);
+        $paginationSeo = CatalogPaginationSeo::meta($request, $products, route('search', $q->isNotEmpty() ? ['q' => (string) $q] : []));
 
         if ($q !== '') {
             app(SearchAnalyticsService::class)->record($request, (string) $q, $products->total());
@@ -45,7 +45,6 @@ class SearchController extends Controller
                 $q ? "{$q} için ".SiteName::get().' ürün arama sonuçları.' : null,
                 config('kosar.description'),
             ]),
-            'canonical' => route('search', $q ? ['q' => $q] : []),
             ...$paginationSeo,
             ...Seo::noIndexMeta(),
         ]);

@@ -83,41 +83,22 @@ class SeoController extends Controller
         $cacheSeconds = (int) config('seo.robots_cache_seconds', 86400);
 
         $body = Cache::remember('seo.robots.txt', $cacheSeconds, function (): string {
-            $lines = [
-                'User-agent: GPTBot',
-                'Allow: /',
-                '',
-                'User-agent: ChatGPT-User',
-                'Allow: /',
-                '',
-                'User-agent: OAI-SearchBot',
-                'Allow: /',
-                '',
-                'User-agent: ClaudeBot',
-                'Allow: /',
-                '',
-                'User-agent: PerplexityBot',
-                'Allow: /',
-                '',
-                'User-agent: Google-Extended',
-                'Allow: /',
-                '',
-                'User-agent: Claude-SearchBot',
-                'Allow: /',
-                '',
-                'User-agent: Perplexity-User',
-                'Allow: /',
-                '',
-                'User-agent: Applebot-Extended',
-                'Allow: /',
-                '',
-                'User-agent: Amazonbot',
-                'Allow: /',
-                '',
-                'User-agent: cohere-ai',
-                'Allow: /',
-                '',
-                'User-agent: *',
+            $aiAgents = [
+                'GPTBot',
+                'ChatGPT-User',
+                'OAI-SearchBot',
+                'ClaudeBot',
+                'Claude-SearchBot',
+                'PerplexityBot',
+                'Perplexity-User',
+                'Google-Extended',
+                'Applebot-Extended',
+                'Amazonbot',
+                'cohere-ai',
+            ];
+
+            // Adı geçen bot yalnızca kendi grubunu okur; `*` kuralları ona ayrıca yazılmalı.
+            $rules = [
                 'Allow: /',
                 'Disallow: /yonetim',
                 'Disallow: /odeme',
@@ -149,6 +130,14 @@ class SeoController extends Controller
                 'Disallow: /*?per_page=',
                 'Disallow: /*?lang=',
                 'Disallow: /urun-feed.xml',
+            ];
+
+            $lines = [
+                ...array_map(fn (string $agent): string => 'User-agent: '.$agent, $aiAgents),
+                ...$rules,
+                '',
+                'User-agent: *',
+                ...$rules,
                 '',
                 '# llms.txt: '.Seo::absolute('/llms.txt'),
                 '',

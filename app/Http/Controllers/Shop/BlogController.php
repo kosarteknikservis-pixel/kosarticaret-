@@ -25,7 +25,7 @@ class BlogController extends Controller
         }
 
         $posts = BlogPost::published()->paginate(12)->withQueryString();
-        $paginationSeo = CatalogPaginationSeo::meta($request, $posts);
+        $paginationSeo = CatalogPaginationSeo::meta($request, $posts, route('blog.index'));
 
         return view('shop.blog.index', [
             'posts' => $posts,
@@ -35,7 +35,6 @@ class BlogController extends Controller
             'metaDescription' => Seo::description([
                 SiteName::get().' blog — pompa, hidrofor ve sulama rehberleri.',
             ]),
-            'canonical' => route('blog.index'),
             'jsonLd' => [Seo::webPage('Blog', Seo::description(['Blog']), route('blog.index'))],
             ...$paginationSeo,
         ]);
@@ -76,7 +75,8 @@ class BlogController extends Controller
             'metaDescription' => $description,
             'canonical' => route('blog.tag', $tag),
             'jsonLd' => [Seo::webPage($title, $description, route('blog.tag', $tag))],
-            'robots' => ($matches->count() >= 2 && $page === 1) ? Seo::ROBOTS_INDEX : Seo::ROBOTS_NOINDEX,
+            // Etiket listeleri rehber yazılarıyla aynı sorgulara giriyor; yazılar ve kategoriler öne çıksın.
+            'robots' => Seo::ROBOTS_NOINDEX,
             'breadcrumbs' => [
                 ['name' => __('shop.home'), 'url' => route('home')],
                 ['name' => __('shop.blog'), 'url' => route('blog.index')],

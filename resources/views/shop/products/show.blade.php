@@ -3,8 +3,10 @@
 @section('content')
     @php
         use App\Support\ProductCardFreeShipping;
+        use App\Support\ProductSpecs;
 
         $showFreeShipping = ProductCardFreeShipping::qualifies($product);
+        $specRows = ProductSpecs::rows(is_array($product->specs) ? $product->specs : null);
     @endphp
     <div class="shop-page shop-page--pdp">
     @include('shop.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
@@ -109,17 +111,7 @@
                 @endif
 
                 @php
-                    $visibleSpecs = collect($product->specs ?? [])
-                        ->map(function ($value, $key) {
-                            $label = is_string($key) ? $key : ($value['label'] ?? '');
-                            $text = is_string($key) ? $value : ($value['value'] ?? '');
-                            $label = trim((string) $label);
-                            $text = trim(is_scalar($text) ? (string) $text : '');
-
-                            return $label !== '' && $text !== '' ? [$label, $text] : null;
-                        })
-                        ->filter()
-                        ->take(6);
+                    $visibleSpecs = $specRows->take(6);
                 @endphp
                 @if($visibleSpecs->isNotEmpty())
                     <dl class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm max-w-xl">
@@ -195,7 +187,7 @@
     <section class="shop-pdp-content mt-14 shop-reveal">
         <div class="shop-pdp-tabs flex overflow-x-auto" role="tablist">
             <button type="button" data-pdp-tab="description" class="shop-pdp-tab pdp-tab is-active" role="tab" aria-selected="true">{{ __('shop.tab_description') }}</button>
-            @if(!empty($product->specs))
+            @if($specRows->isNotEmpty())
                 <button type="button" data-pdp-tab="specs" class="shop-pdp-tab pdp-tab" role="tab" aria-selected="false">{{ __('shop.tab_specs') }}</button>
             @endif
             <button type="button" data-pdp-tab="installments" class="shop-pdp-tab pdp-tab" role="tab" aria-selected="false">{{ __('shop.tab_installments') }}</button>
@@ -208,13 +200,13 @@
             <x-shop.rich-content :content="$product->description" />
         </div>
 
-        @if(!empty($product->specs))
+        @if($specRows->isNotEmpty())
             <div id="pdp-panel-specs" class="pdp-panel shop-pdp-panel mt-6 hidden">
                 <dl class="rounded-2xl border border-slate-200 overflow-hidden divide-y divide-slate-100">
-                    @foreach($product->specs as $key => $value)
+                    @foreach($specRows as [$specLabel, $specValue])
                         <div class="grid sm:grid-cols-2 bg-white even:bg-slate-50">
-                            <dt class="px-4 py-3 text-sm font-semibold text-slate-700">{{ is_string($key) ? $key : $value['label'] ?? '' }}</dt>
-                            <dd class="px-4 py-3 text-sm text-slate-600">{{ is_string($key) ? $value : ($value['value'] ?? '') }}</dd>
+                            <dt class="px-4 py-3 text-sm font-semibold text-slate-700">{{ $specLabel }}</dt>
+                            <dd class="px-4 py-3 text-sm text-slate-600">{{ $specValue }}</dd>
                         </div>
                     @endforeach
                 </dl>

@@ -88,43 +88,6 @@ class InternalLinking
     }
 
     /**
-     * @return Collection<int, array{slug: string, label: string, count: int, lastmod: string}>
-     */
-    public static function indexableTagHubs(int $minPosts = 2): Collection
-    {
-        $hubs = [];
-
-        BlogPost::published()->get(['tags', 'updated_at'])->each(function (BlogPost $post) use (&$hubs): void {
-            foreach ($post->tags ?? [] as $tag) {
-                if (! is_string($tag) || $tag === '') {
-                    continue;
-                }
-
-                $slug = self::tagSlug($tag);
-                if (! isset($hubs[$slug])) {
-                    $hubs[$slug] = [
-                        'slug' => $slug,
-                        'label' => $tag,
-                        'count' => 0,
-                        'lastmod' => $post->updated_at?->toAtomString() ?? now()->toAtomString(),
-                    ];
-                }
-
-                $hubs[$slug]['count']++;
-                $atom = $post->updated_at?->toAtomString();
-                if ($atom && $atom > $hubs[$slug]['lastmod']) {
-                    $hubs[$slug]['lastmod'] = $atom;
-                }
-            }
-        });
-
-        return collect($hubs)
-            ->filter(fn (array $hub) => $hub['count'] >= $minPosts)
-            ->sortByDesc('count')
-            ->values();
-    }
-
-    /**
      * @return Collection<int, Category>
      */
     public static function crossSellCategories(Category|Product $source): Collection

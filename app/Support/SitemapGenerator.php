@@ -230,14 +230,6 @@ class SitemapGenerator
                 ]);
             });
 
-        InternalLinking::indexableTagHubs()->each(function (array $hub) use ($urls): void {
-            $urls->push([
-                'loc' => route('blog.tag', $hub['slug']),
-                'lastmod' => $hub['lastmod'],
-                'priority' => '0.45',
-            ]);
-        });
-
         return $urls;
     }
 

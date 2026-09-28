@@ -372,16 +372,45 @@ class Seo
      */
     public static function productDescriptionText(Product $product, int $limit = 5000): string
     {
-        $meta = self::isGenericProductDescription($product->meta_description)
-            ? null
-            : $product->meta_description;
-
         return self::description([
-            $product->short_description,
+            self::productShortDescription($product),
             $product->description,
-            $meta,
+            self::productManualMeta($product),
             $product->name,
         ], $limit);
+    }
+
+    /**
+     * Meta description: kısa açıklama, ardından elle yazılmış meta, en son uzun açıklama.
+     */
+    public static function productMetaDescription(Product $product): string
+    {
+        return self::description([
+            self::productShortDescription($product),
+            self::productManualMeta($product),
+            $product->description,
+            $product->name,
+        ], 160);
+    }
+
+    private static function productShortDescription(Product $product): ?string
+    {
+        $short = RichContent::plainText($product->short_description);
+
+        return $short !== '' && mb_strtolower($short) !== mb_strtolower(trim((string) $product->name))
+            ? $short
+            : null;
+    }
+
+    private static function productManualMeta(Product $product): ?string
+    {
+        if (self::isGenericProductDescription($product->meta_description)) {
+            return null;
+        }
+
+        $meta = RichContent::plainText($product->meta_description);
+
+        return mb_strtolower($meta) !== mb_strtolower(trim((string) $product->name)) ? $meta : null;
     }
 
 
@@ -769,27 +798,16 @@ class Seo
             $schema['gtin'.$gtin['length']] = $gtin['value'];
         }
 
-        if (is_array($product->specs) && $product->specs !== []) {
-            $properties = [];
+        $properties = ProductSpecs::rows(is_array($product->specs) ? $product->specs : null)
+            ->map(fn (array $row): array => [
+                '@type' => 'PropertyValue',
+                'name' => $row[0],
+                'value' => $row[1],
+            ])
+            ->all();
 
-            foreach ($product->specs as $name => $value) {
-                $name = trim((string) $name);
-                $value = trim(is_scalar($value) ? (string) $value : '');
-
-                if ($name === '' || $value === '') {
-                    continue;
-                }
-
-                $properties[] = [
-                    '@type' => 'PropertyValue',
-                    'name' => $name,
-                    'value' => $value,
-                ];
-            }
-
-            if ($properties !== []) {
-                $schema['additionalProperty'] = $properties;
-            }
+        if ($properties !== []) {
+            $schema['additionalProperty'] = $properties;
         }
 
         if ($product->hasDiscount()) {

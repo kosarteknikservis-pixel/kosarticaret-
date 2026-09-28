@@ -86,6 +86,20 @@ class AdvancedIndexingSeoTest extends TestCase
             ->assertSee('Disallow: /*?lang=', false);
     }
 
+    public function test_ai_crawler_group_inherits_cart_search_and_filter_disallows(): void
+    {
+        $body = $this->get('/robots.txt')->assertOk()->getContent();
+        $aiGroup = strstr($body, 'User-agent: *', true);
+
+        $this->assertIsString($aiGroup);
+        $this->assertStringContainsString('User-agent: GPTBot', $aiGroup);
+        $this->assertStringContainsString('User-agent: ClaudeBot', $aiGroup);
+        $this->assertStringContainsString('Allow: /', $aiGroup);
+        foreach (['Disallow: /sepet', 'Disallow: /odeme', 'Disallow: /ara', 'Disallow: /*?marka='] as $rule) {
+            $this->assertStringContainsString($rule, $aiGroup);
+        }
+    }
+
     public function test_bing_site_auth_xml_is_served_when_configured(): void
     {
         SiteSetting::set('bing_site_auth_xml', '<user>1574AB4B2731BD4765E799EE759774C9</user>');

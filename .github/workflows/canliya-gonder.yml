@@ -146,6 +146,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_27_100000_consolidate_thin_duplicate_categories.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_27_110000_retitle_price_guide_posts.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_27_120000_align_brand_queries_to_brand_pages.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_28_100000_fix_duplicate_product_titles_and_thin_meta.php && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan catalog:seed-ardonat-heating --force-meta && \
             \$PHP_BIN artisan seo:seed-brands --force && \
