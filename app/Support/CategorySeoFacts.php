@@ -172,9 +172,9 @@ HTML;
                 'brands_note' => 'Pedrollo serilerinde orijinal ürün kodunu, pompa eğrisini ve paket içindeki tank-kontrol bileşenlerini birlikte doğrulayın.',
             ],
             'hidrofor-sistemleri/sumak-hidrofor' => [
-                'hook' => 'Sumak hidroforlar, yerli üretim pompa ve yaygın parça erişimini konut ile küçük bina basınçlandırma paketlerinde bir araya getirir.',
+                'hook' => 'Sumak hidroforlar, Türkiye\'de üretilen pompaları hidromat veya basınç tankıyla konut ve bina basınçlandırma paketlerinde bir araya getirir.',
                 'uses' => ['Tek ve çift katlı konutlar', 'Küçük apartman sistemleri', 'Atölye kullanım suyu', 'Yazlık depo çıkışı'],
-                'criteria' => ['SKS veya SKT seri kapasitesi', 'Tank litre değeri', 'Servis alanına uygun yerleşim', 'Günlük devreye girme sıklığı'],
+                'criteria' => ['Ürün adındaki kat ve daire kapasitesi', 'Hidromatlı veya tanklı kontrol tipi', 'Tank litre değeri', '220 V veya 380 V besleme'],
                 'mistake' => 'Tank hacmini yalnız yer kaplamasına göre küçültmek, motorun çok sık çalışmasına ve enerji tüketiminin artmasına yol açabilir.',
                 'related' => [['href' => '/marka/sumak', 'label' => 'Sumak markası'], ['href' => '/kategoriler/hidrofor-sistemleri/hidroforlar', 'label' => 'Hidroforlar'], ['href' => '/kategoriler/hidrofor-sistemleri/pedrollo-hidrofor', 'label' => 'Pedrollo hidroforlar']],
                 'brands_note' => 'Sumak paketlerinde seri kodu, tank kapasitesi ve faz seçeneği aynı isim altında değişebildiği için teknik etiketi kontrol etmek önemlidir.',
@@ -203,7 +203,7 @@ HTML;
             'su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa' => [
                 'hook' => 'Derin kuyu dalgıç pompaları, sondaj içindeki dinamik su seviyesinden yüzeye ve kullanım kotuna yüksek basınçla su çıkarır.',
                 'uses' => ['Tarımsal sulama sondajları', 'Kırsal konut su temini', 'Hayvancılık işletmesi beslemesi', 'Depo ve sulama havuzu dolumu'],
-                'criteria' => ['4 veya 6 inç kuyu iç çapı', 'Statik ve dinamik su seviyesi', 'Toplam manometrik yükseklik', 'Kuyunun güvenli verimi ve motor gücü'],
+                'criteria' => ['Kuyu iç çapı ile pompa gövde çapı uyumu', 'Statik ve dinamik su seviyesi', 'Toplam manometrik yükseklik', 'Kuyunun güvenli verimi ve motor gücü'],
                 'mistake' => 'Sadece kuyu toplam derinliğini baz almak; dinamik seviye, kot ve boru kayıplarını eklememek yanlış kademe sayısı seçtirir.',
                 'related' => [['href' => '/kategoriler/su-pompalari/dalgic-pompalar/temiz-su-dalgic-pompasi', 'label' => 'Temiz su dalgıç pompaları'], ['href' => '/kategoriler/su-pompalari/ozel-amacli-pompalar/keson-kuyu-pompa', 'label' => 'Keson kuyu pompaları'], ['href' => '/marka/pedrollo', 'label' => 'Pedrollo pompalar']],
                 'blog' => ['href' => '/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi', 'label' => 'Kuyu pompası derinlik rehberi'],

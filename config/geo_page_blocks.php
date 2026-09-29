@@ -442,13 +442,13 @@ return [
                 'from' => 2800,
                 'to' => 90000,
                 'currency' => 'TRY',
-                'note' => 'SKS/SKT hidrofordan endüstriyel dalgıç gruplarına; stoktaki modele göre değişir.',
+                'note' => 'SM/SMJ paket hidrofordan SYMH bina hidroforu ve dalgıç pompalara; modele göre değişir.',
             ],
             'selection_table' => [
                 'title' => 'Sumak pompa serileri ne için?',
                 'headers' => ['Seri / tip', 'Uygulama', 'Güç aralığı'],
                 'rows' => [
-                    ['SKS / SKT hidrofor', 'Ev, apartman', '0,5–2,2 kW'],
+                    ['SM / SMJ paket, SYMH bina hidroforu', 'Ev, apartman', '0,5–3 HP'],
                     ['Sumak dalgıç', 'Kuyu, drenaj', '0,5–7,5 kW'],
                     ['Jet / santrifüj', 'Sulama, transfer', '0,5–3 kW'],
                 ],
