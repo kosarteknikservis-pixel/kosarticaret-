@@ -160,6 +160,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_29_230000_fill_kaysu_empty_content_and_preferikal.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_29_231000_fix_preferikal_in_pedrollo_specs.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_29_232000_clean_sumak_pedrollo_winpo_claims.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_29_233000_fix_pump_category_meta_brands_and_claims.php && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
