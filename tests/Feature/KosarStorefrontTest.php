@@ -95,6 +95,27 @@ class KosarStorefrontTest extends TestCase
         }
     }
 
+    public function test_product_breadcrumb_schema_links_every_item_except_last(): void
+    {
+        $product = Product::query()->with('categories')->get()->first(fn (Product $p) => $p->primaryCategory() !== null);
+        $this->assertNotNull($product);
+
+        $content = $this->get('/urun/'.$product->slug)->assertOk()->getContent();
+
+        preg_match_all('#<script type="application/ld\+json">(.*?)</script>#s', $content, $matches);
+        $breadcrumb = collect($matches[1])
+            ->map(fn (string $json) => json_decode($json, true))
+            ->first(fn ($data) => ($data['@type'] ?? null) === 'BreadcrumbList');
+
+        $this->assertNotNull($breadcrumb);
+        $items = $breadcrumb['itemListElement'];
+        $this->assertSame($product->primaryCategory()->storefrontUrl(), $items[count($items) - 2]['item'] ?? null);
+
+        foreach (array_slice($items, 0, -1) as $item) {
+            $this->assertNotEmpty($item['item'] ?? null, 'Breadcrumb item without URL: '.$item['name']);
+        }
+    }
+
     public function test_search_with_query_is_noindex(): void
     {
         $this->get('/ara?q=pompa')

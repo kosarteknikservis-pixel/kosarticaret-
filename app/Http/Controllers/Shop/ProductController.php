@@ -59,7 +59,7 @@ class ProductController extends Controller
 
         $primaryCategory = $product->primaryCategory();
         $breadcrumbs = $primaryCategory
-            ? array_merge(CategoryBreadcrumbs::for($primaryCategory), [['name' => $product->name]])
+            ? array_merge(CategoryBreadcrumbs::for($primaryCategory, linkSelf: true), [['name' => $product->name]])
             : [
                 ['name' => 'Ana Sayfa', 'url' => route('home')],
                 ['name' => 'Ürünler', 'url' => route('products.index')],

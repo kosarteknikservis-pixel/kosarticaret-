@@ -9,7 +9,7 @@ class CategoryBreadcrumbs
     /**
      * @return list<array{name: string, url?: string}>
      */
-    public static function for(Category $category): array
+    public static function for(Category $category, bool $linkSelf = false): array
     {
         $crumbs = [
             ['name' => __('shop.home'), 'url' => route('home')],
@@ -22,7 +22,7 @@ class CategoryBreadcrumbs
         foreach ($chain as $index => $node) {
             $crumbs[] = [
                 'name' => $node->name,
-                'url' => $index < $lastIndex ? $node->storefrontUrl() : null,
+                'url' => $linkSelf || $index < $lastIndex ? $node->storefrontUrl() : null,
             ];
         }
 
