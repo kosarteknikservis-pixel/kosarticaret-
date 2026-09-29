@@ -165,6 +165,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_30_010000_improve_zero_click_product_snippets.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_30_020000_rewrite_dalgic_wave_category_content.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_30_030000_rewrite_sirkulasyon_wave_category_content.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_30_040000_rewrite_santrifuj_wave_category_content.php && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
