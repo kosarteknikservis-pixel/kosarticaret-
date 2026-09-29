@@ -8,34 +8,58 @@ return [
     'sumak' => [
         'h1' => 'Sumak Pompa Fiyatları ve Modelleri',
         'meta_title' => 'Sumak Pompa Fiyatları ve Modelleri',
-        'meta_description' => 'Sumak pompa fiyatları ve modelleri: hidrofor SKS/SKT, dalgıç pompa, jet ve santrifüj. Orijinal ürün, geniş stok, hızlı kargo. Koşar Ticaret yetkili satıcı.',
+        'meta_description' => 'Sumak pompa fiyatları ve modelleri: hidrofor, derin kuyu dalgıç pompa, santrifüj, kademeli ve sirkülasyon pompaları. Teknik tablo ve model seçim desteği.',
         'description' => <<<'HTML'
-<h2>Sumak Su Pompası ve Hidrofor Modelleri</h2>
-<p><strong>Sumak Pompa</strong>, Türkiye'nin önde gelen yerli pompa üreticilerinden biri olarak konut, tarım ve küçük ölçekli sanayi uygulamaları için geniş bir ürün yelpazesi sunmaktadır. Uygun fiyatı, yaygın yedek parça ağı ve Türkiye genelindeki servis desteğiyle Sumak; özellikle <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">ev tipi hidrofor</a> ve santrifüj pompa segmentinde en çok tercih edilen markalar arasındadır.</p>
+<h2>Sumak Pompa Modelleri ve Ürün Grupları</h2>
+<p><strong>Sumak pompa</strong> ürünleri; müstakil ev ve apartman hidroforlarından derin kuyu dalgıç pompalarına, sulamada kullanılan santrifüj pompalardan ısıtma devrelerindeki sirkülasyon pompalarına kadar geniş bir alanı kapsar. Yerli üretici Sumak'ın serilerini aşağıda ürün grubuna göre özetledik; her bağlantıdan o gruptaki güncel modelleri ve fiyatları görebilirsiniz.</p>
 
-<h3>Sumak Pompa Kategorileri</h3>
+<h3>Sumak Hidrofor Modelleri</h3>
+<p>Ev ve küçük binalar için <strong>SM</strong> ve <strong>SMJ</strong> serisi paket hidroforlar 24 veya 50 litre tankla gelir; kapasiteleri 2 kat 2 daireden 5 kat 10 daireye kadar uzanır. Daha yüksek binalarda <strong>SYMH / SYMTH</strong> yatay kademeli bina hidroforları (100 litre tank) ile tek, çift ve üç pompalı <strong>SHT, SHM, SHTP ve SHTPD</strong> düşey milli kademeli hidrofor grupları kullanılır. Sessiz çalışma öncelikliyse frekans kontrollü <strong>SMH 120 BOX</strong> modeline bakabilirsiniz.</p>
+<p>Ev tipi modeller için <a href="/kategoriler/hidrofor-sistemleri/sumak-hidrofor">Sumak hidrofor</a> sayfasını, apartman ve site uygulamaları için <a href="/kategoriler/hidrofor-sistemleri/hidrofor-grubu">hidrofor grubu</a> kategorisini inceleyin.</p>
+
+<h3>Sumak Dalgıç Pompa Modelleri</h3>
 <ul>
-  <li><a href="/kategoriler/hidrofor-sistemleri/sumak-hidrofor"><strong>Sumak hidrofor fiyatları</strong></a> — SKS ve SKT serileri ev tipi ve çok katlı bina hidroforları; 24-100 lt tank seçenekleri.</li>
-  <li><a href="/kategoriler/su-pompalari/santrifuj-pompalar"><strong>Santrifüj Pompalar</strong></a> — Tek ve çift fanlı modeller; tarımsal sulama ve bina tesisatı için ekonomik çözüm.</li>
-  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar"><strong>Dalgıç Pompalar</strong></a> — Temiz su, drenaj ve kirli su dalgıç pompaları; keson kuyu ve sarnıç uygulamaları.</li>
-  <li><a href="/kategoriler/su-pompalari/sirkulasyon-pompalari"><strong>Sirkülasyon Pompaları</strong></a> — Kalorifer ve yerden ısıtma devreleri için enerji tasarruflu modeller.</li>
+  <li><strong>Derin kuyu:</strong> 4 inç <strong>4SD / 4SDM</strong> motorlu dalgıç pompalar 3, 6, 12 ve 18 ton serilerinde, monofaze (220 V) ve trifaze (380 V) olarak sunulur. Yalnızca motor gerekiyorsa 4SM / 4SMT dalgıç pompa motorları bulunur. <a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa">Derin kuyu dalgıç pompa modelleri</a></li>
+  <li><strong>Keson kuyu:</strong> 5 inç <strong>5SD / 5SDT</strong> modelleri kablolu ve panolu gelir; <strong>5SDF</strong> modelleri şamandıralıdır. <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/keson-kuyu-pompa">Keson kuyu pompaları</a></li>
+  <li><strong>Drenaj ve kirli su:</strong> <strong>SDF</strong> drenaj dalgıç pompaları bodrum ve depo tahliyesinde, komple paslanmaz <strong>SDT İNOX</strong> modelleri kirli su uygulamalarında kullanılır. <a href="/kategoriler/su-pompalari/dalgic-pompalar/kirli-su-dalgic-pompa">Kirli su dalgıç pompaları</a></li>
+  <li><strong>Foseptik:</strong> Vortex çarklı <strong>SDTV</strong>, bıçaklı ve parçalayıcı <strong>SBRT</strong> ile yüksek güçlü <strong>SDTK</strong> serileri atık su ve foseptik tahliyesi içindir. <a href="/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa">Foseptik dalgıç pompaları</a></li>
 </ul>
 
-<h3>Sumak Seri Karşılaştırması</h3>
-<table>
-<thead><tr><th>Seri</th><th>Kullanım</th><th>Tank / güç</th><th>Not</th></tr></thead>
-<tbody>
-<tr><td><strong>SKS</strong></td><td>Müstakil ev, yazlık</td><td>24–50 L · 0,5–1 HP</td><td>Kompakt paket hidrofor</td></tr>
-<tr><td><strong>SKT</strong></td><td>Apartman, yoğun kullanım</td><td>50–100 L · 1–2 HP</td><td>Yüksek debi</td></tr>
-<tr><td><strong>SSP-INV</strong></td><td>Konfor + enerji tasarrufu</td><td>Frekans kontrollü</td><td>Sessiz inverter motor</td></tr>
-<tr><td><strong>Dalgıç serileri</strong></td><td>Kuyu, drenaj, foseptik</td><td>Derinliğe göre kW</td><td>Temiz / kirli su ayrımı</td></tr>
-</tbody>
-</table>
-<p>Detaylı seri farkları: <a href="/blog/sumak-hidrofor-sks-skt-serileri">Sumak SKS/SKT rehberi</a> · Genel marka bilgisi: <a href="/blog/sumak-pompa-marka-rehberi">Sumak pompa marka rehberi</a></p>
+<h3>Santrifüj, Kademeli ve Jet Pompalar</h3>
+<p><strong>SMT</strong> ve <strong>SM</strong> serileri santrifüj ve preferikal pompaları kapsar; bahçe sulaması, depo transferi ve basınçlandırmada kullanılır. Bol su gereken tarımsal uygulamalarda salyangoz tipi modeller öne çıkar. Yüksek basınç isteyen tesisatlarda <strong>SYM / SYMT</strong> yatay kademeli, <strong>SHT / SHM</strong> dik milli kademeli ve büyük debiler için <strong>SYT</strong> norm tipi yatay kademeli pompalar bulunur. Paslanmaz gövde gereken yerlerde <strong>SMINOX</strong> ve <strong>SYMP / SYMTP</strong>, kendinden emişli kullanım için <strong>SMJ</strong> jet pompalar tercih edilir.</p>
+<p><a href="/kategoriler/su-pompalari/santrifuj-pompalar">Santrifüj pompalar</a> · <a href="/kategoriler/su-pompalari/kademeli-pompalar">Kademeli pompalar</a> · <a href="/kategoriler/su-pompalari/jet-pompalar-derinden-emisli">Jet pompalar</a></p>
 
-<h3>Sumak'ın Avantajları</h3>
-<p>Türkiye'de üretilen Sumak pompalarda <strong>yerli yedek parça bulunabilirliği</strong> ve <strong>geniş servis ağı</strong> en büyük avantajdır. İthal markaya göre daha kısa teslimat süresi ve ekonomik fiyatıyla Sumak; bütçe odaklı projeler için güvenilir bir tercih olmaya devam etmektedir. Koşar Ticaret olarak Sumak'ın yetkili satıcısıyız; stokta hazır ürünler için aynı gün kargo desteği sunuyoruz.</p>
+<h3>Sirkülasyon, Sıcak Su ve Özel Amaçlı Pompalar</h3>
+<p>Kalorifer ve yerden ısıtma devrelerinde frekans konvertörlü <strong>SSP INV</strong> <a href="/kategoriler/su-pompalari/sirkulasyon-pompalari">sirkülasyon pompaları</a>, büyük tesisatlarda <strong>SML</strong> inline pompalar kullanılır. <strong>SMK</strong> ve <strong>SMKT -S</strong> modelleri 90 °C'ye kadar sıcak su içindir. Özel uygulamalar için <strong>SMH</strong> havuz pompaları, <strong>SMJB</strong> jakuzi pompaları, elektrikli ve dizel <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/yangin-pompalari">yangın pompası</a> grupları ile dizel motopomplar bulunur.</p>
+
+<h3>Sumak Pompa Fiyatları Neye Göre Değişir?</h3>
+<p>Sumak pompa fiyatlarını en çok motor gücü (HP / kW), besleme tipi (220 V monofaze veya 380 V trifaze), pompa ve kademe sayısı, tank hacmi ve gövde malzemesi belirler. Aynı kat ve daire kapasitesinde tek pompalı hidrofor, çift veya üç pompalı gruba göre daha ekonomiktir; paslanmaz çark ve difüzörlü SHTPD gibi versiyonlar üst fiyat bandındadır. Güncel fiyat ve stok bilgisi her ürün sayfasında yer alır.</p>
+
+<h3>Doğru Sumak Modelini Seçmek</h3>
+<p>Hidroforda kat ve daire sayısını; dalgıç pompada kuyu çapını (4" veya 5"), su seviyesini ve istenen debiyi; santrifüj ve kademeli pompada basma yüksekliğini (mss) ve debiyi (m³/h) netleştirin. Model kodundaki <strong>T</strong> harfi çoğu seride trifaze (380 V) versiyonu gösterir; kesin değer için ürün sayfasındaki teknik tabloya bakın. Kararsız kaldığınızda <a href="/pompa-secici">pompa seçici</a> aracını kullanabilir, <a href="/blog/sumak-pompa-marka-rehberi">Sumak pompa seçim rehberini</a> okuyabilir veya <a href="/iletisim">bize ulaşarak</a> model önerisi alabilirsiniz. Koşar Ticaret, Sumak ürünlerinin yetkili bayisidir.</p>
 HTML,
+        'faq' => [
+            [
+                'q' => 'Sumak hidrofor modelleri arasındaki fark nedir?',
+                'a' => '<strong>SM</strong> ve <strong>SMJ</strong> serileri 24 veya 50 litre tanklı paket hidroforlardır; müstakil ev ve küçük apartmanlar içindir. <strong>SYMH / SYMTH</strong> yatay kademeli bina hidroforları 100 litre tankla gelir. <strong>SHT, SHM, SHTP ve SHTPD</strong> ise tek, çift veya üç pompalı düşey kademeli gruplardır ve çok katlı binalarda kullanılır. Her modelin kat ve daire kapasitesi ürün adında belirtilir.',
+            ],
+            [
+                'q' => 'Sumak dalgıç pompa hangi kuyu için uygundur?',
+                'a' => '4 inç ve üzeri sondaj kuyularında <strong>4SD / 4SDM</strong> serisi derin kuyu dalgıç pompalar kullanılır; serideki 3, 6, 12 ve 18 ton ifadesi pompanın saatlik nominal debi sınıfını gösterir. Keson kuyularda 5 inç <strong>5SD</strong> serisi, bodrum ve drenaj tahliyesinde <strong>SDF</strong> serisi, atık suda ise <strong>SDTV, SBRT ve SDTK</strong> foseptik pompaları tercih edilir.',
+            ],
+            [
+                'q' => 'Sumak pompa fiyatları neden bu kadar farklı?',
+                'a' => 'Fiyat; motor gücü, 220 V veya 380 V besleme, pompa ve kademe sayısı, tank hacmi ve gövde malzemesine göre değişir. Küçük bir paket hidrofor ile üç pompalı paslanmaz bir hidrofor grubu aynı markada çok farklı fiyat bantlarındadır. Güncel fiyat ve stok bilgisi her ürün sayfasında yer alır.',
+            ],
+            [
+                'q' => 'Sumak pompada 220 V mu 380 V mu seçmeliyim?',
+                'a' => 'Binanızda trifaze (380 V) hat yoksa monofaze (220 V) model seçmeniz gerekir. Yüksek güçlü pompalar ve büyük hidrofor grupları çoğunlukla yalnızca trifaze üretilir. Birçok seride aynı modelin iki versiyonu vardır; model kodundaki <strong>T</strong> harfi genellikle trifaze versiyonu gösterir. Emin değilseniz ürün sayfasındaki teknik tabloyu kontrol edin.',
+            ],
+            [
+                'q' => 'Sumak mı Pedrollo mu tercih edilmeli?',
+                'a' => 'İki marka da hidrofor, dalgıç ve santrifüj pompa üretir; seçim model bazında yapılmalıdır. Aynı debi ve basınçtaki modellerin fiyatını, gövde malzemesini ve teknik tablosunu karşılaştırın. Ayrıntılar için <a href="/blog/pedrollo-sumak-dalgic-pompa-karsilastirma">Pedrollo mu Sumak mı?</a> rehberine, Pedrollo modelleri için <a href="/marka/pedrollo">Pedrollo pompa</a> sayfasına bakabilirsiniz.',
+            ],
+        ],
     ],
 
     'kaysu' => [

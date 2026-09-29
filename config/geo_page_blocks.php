@@ -296,22 +296,20 @@ return [
 
     'brands' => [
         'sumak' => [
-            'short_answer' => 'Sumak, Türkiye\'de üretilen yerli bir pompa markasıdır; hidrofor (SKS/SKT), dalgıç, jet ve santrifüj segmentlerinde bütçe odaklı projeler için yaygın tercih edilir. Yedek parça ve servis erişimi güçlüdür; premium dayanıklılık için Pedrollo alternatif olarak değerlendirilir.',
-            'price_band' => [
-                'from' => 2800,
-                'to' => 90000,
-                'currency' => 'TRY',
-                'note' => 'Ev tipi hidrofordan endüstriyel dalgıç gruplarına; seri ve kW\'a göre değişir.',
-            ],
+            'short_answer' => 'Sumak, Türkiye\'de üretilen bir pompa markasıdır. Ürün gamında paket hidroforlar, çok katlı binalar için hidrofor grupları, derin kuyu ve foseptik dalgıç pompalar, santrifüj, kademeli ve sirkülasyon pompaları bulunur. Doğru model; kat ve daire sayısı, kuyu çapı, debi ve 220 V / 380 V beslemeye göre seçilir.',
             'selection_table' => [
-                'title' => 'Sumak seri karşılaştırması (SKS / SKT / dalgıç)',
-                'headers' => ['Seri / grup', 'Kullanım', 'Tank / güç', 'Not'],
+                'title' => 'Sumak seri özeti',
+                'headers' => ['Seri', 'Ürün tipi', 'Tipik kullanım'],
                 'rows' => [
-                    ['SKS hidrofor', 'Müstakil ev, yazlık', '24–50 L · 0,5–1 HP', 'Kompakt paket'],
-                    ['SKT hidrofor', 'Apartman, yoğun kullanım', '50–100 L · 1–2 HP', 'Yüksek debi'],
-                    ['SSP-INV', 'Konfor + enerji tasarrufu', 'Frekans kontrollü', 'Sessiz çalışma'],
-                    ['Sumak dalgıç', 'Kuyu, drenaj, foseptik', 'Derinliğe göre kW', 'Temiz / kirli su'],
-                    ['Jet / santrifüj', 'Sulama, transfer', 'Yüzey montaj', 'Ekonomik segment'],
+                    ['SM, SMJ', 'Paket hidrofor, jet pompa', 'Müstakil ev, bahçe, küçük apartman'],
+                    ['SYMH, SYMTH', 'Yatay kademeli bina hidroforu', 'Orta yükseklikte bina'],
+                    ['SHT, SHM, SHTP, SHTPD', 'Düşey milli kademeli hidrofor grubu', 'Apartman, site, iş merkezi'],
+                    ['4SD, 4SDM', '4 inç derin kuyu dalgıç pompa', 'Sondaj kuyusu'],
+                    ['5SD, 5SDF', '5 inç keson kuyu pompası', 'Keson kuyu, depo'],
+                    ['SDF, SDT', 'Drenaj ve kirli su dalgıç pompa', 'Bodrum, şantiye, tahliye'],
+                    ['SDTV, SBRT, SDTK', 'Foseptik dalgıç pompa', 'Atık su, foseptik'],
+                    ['SMT, SM', 'Santrifüj ve preferikal pompa', 'Sulama, su transferi'],
+                    ['SSP INV, SML', 'Sirkülasyon ve inline pompa', 'Isıtma ve soğutma devresi'],
                 ],
             ],
         ],
