@@ -271,7 +271,7 @@ return [
         ],
 
         'su-pompalari/jet-pompalar-derinden-emisli' => [
-            'short_answer' => 'Jet (derinden emişli) pompa, ejektör yardımıyla yüzeyden daha derin kuyu veya sarnıçtan su çekmek için kullanılır; klasik santrifüje göre emme kapasitesi yüksektir. Tek/çift ejektör seçimi derinlik ve debiye göre yapılır; priming ve emme hattı sızdırmazlığı kritiktir.',
+            'short_answer' => 'Jet (derinden emişli) pompa, gövdesindeki ejektör sayesinde su seviyesi pompanın altında kalan sığ kuyu, sarnıç ve depolardan su çeken yüzey pompasıdır. Kataloğumuzdaki modellerde emiş derinliği 6–9 metredir; daha derindeki su için dalgıç pompa gerekir. İlk çalıştırmada gövde suyla doldurulmalı, emme hattı hava almamalıdır.',
             'price_band' => [
                 'from' => 3200,
                 'to' => 28000,
@@ -284,11 +284,11 @@ return [
             ],
             'selection_table' => [
                 'title' => 'Jet pompa ne zaman tercih edilir?',
-                'headers' => ['Senaryo', 'Ejektör', 'Not'],
+                'headers' => ['Senaryo', 'Öneri', 'Not'],
                 'rows' => [
-                    ['Sığ kuyu / sarnıç', 'Tek ejektör', 'Bahçe sulama'],
-                    ['Daha derin emiş', 'Çift ejektör', 'Debi düşebilir'],
-                    ['Çok derin kuyu', 'Dalgıç tercih', 'Jet sınırı aşılır'],
+                    ['Sığ kuyu / sarnıç (6–9 m)', 'Jet pompa', 'Ev suyu, bahçe sulama'],
+                    ['Kireçli veya aşındırıcı su', 'Paslanmaz gövdeli jet', 'JCRm, CR, WNP 100P'],
+                    ['Su seviyesi 9 m\'den derin', 'Dalgıç pompa', 'Jet emiş sınırı aşılır'],
                 ],
             ],
         ],
