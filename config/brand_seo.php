@@ -276,4 +276,8 @@ HTML,
             ],
         ],
     ],
+    // Açıklama, meta ve SSS 2026_09_29_130000 migration'ında; seo:seed-brands yalnızca h1 içeren kaydı atlar.
+    'renato' => [
+        'h1' => 'Renato Isıtıcı Modelleri ve Fiyatları',
+    ],
 ];
