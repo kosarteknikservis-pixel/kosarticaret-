@@ -315,20 +315,20 @@ return [
         ],
 
         'pedrollo' => [
-            'short_answer' => 'Pedrollo, İtalya menşeli premium pompa markasıdır; derin kuyu dalgıç, santrifüj ve hidrofor uygulamalarında yüksek verim, uzun ömür ve düşük arıza oranı arayan projeler için tercih edilir. Fiyat Sumak\'a göre yüksektir; kritik ve sürekli çalışan sistemlerde amortisman avantajı sağlar.',
-            'price_band' => [
-                'from' => 5500,
-                'to' => 150000,
-                'currency' => 'TRY',
-                'note' => '4" kuyu dalgıçtan çok pompalı hidrofora; model ve kW\'a göre değişir.',
-            ],
+            'short_answer' => 'Pedrollo, İtalyan pompa üreticisidir. Ürün gamında 4 inç 4SR derin kuyu dalgıç pompaları ve 4PD motorları, TOP ve RXm drenaj, VXm ve VXCm foseptik, TR bıçaklı dalgıç pompalar, 2 kat 2 daireden 9 kat 20 daireye kadar paket hidroforlar, CP, 2CP ve F santrifüj, kademeli ve preferikal pompalar bulunur.',
             'selection_table' => [
-                'title' => 'Pedrollo ne zaman tercih edilir?',
-                'headers' => ['Senaryo', 'Pedrollo avantajı', 'Alternatif'],
+                'title' => 'Pedrollo seri özeti',
+                'headers' => ['Seri', 'Ürün tipi', 'Kullanım'],
                 'rows' => [
-                    ['Derin kuyu (50 m+)', 'Yüksek verim, ince gövde', 'Sumak derin kuyu'],
-                    ['Sürekli çalışma', 'Endüstriyel dayanım', 'Winpo orta segment'],
-                    ['Apartman grubu', 'Düşük enerji tüketimi', 'Frekans kontrollü grup'],
+                    ['4SR, 4PDm / 4PD', '4" derin kuyu dalgıç pompa ve motor', 'Sondaj kuyusu, sulama'],
+                    ['UPm / UP, TOP MULTI', 'Keson kuyu ve çok kademeli dalgıç', 'Keson kuyu, depodan basınçlı su'],
+                    ['TOP, RXm / RX, DM', 'Drenaj dalgıç pompa', 'Bodrum, garaj ve depo tahliyesi'],
+                    ['VXm, VXCm, MCm, BCm, ZXm', 'Foseptik dalgıç pompa', 'Atık su ve foseptik'],
+                    ['TRm / TR', 'Parçalayıcı bıçaklı dalgıç', 'Lifli atık su'],
+                    ['PKm 60, JCRm, JSWm, 4CPm, 2CPm', 'Paket hidrofor', 'Müstakil ev ve apartman'],
+                    ['CPm / CP, 2CP, HF, F', 'Santrifüj pompa', 'Sulama, su transferi, basınçlandırma'],
+                    ['3CR–5CR, MKm / MK', 'Yatay ve dik milli kademeli', 'Yüksek basınç gereken hatlar'],
+                    ['PKm, PQm, PQA, PVm, CKm', 'Preferikal ve yakıt pompası', 'Küçük basınçlandırma, mazot ve yağ'],
                 ],
             ],
         ],

@@ -151,6 +151,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_29_130000_add_renato_r3001_carbon_heater.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_29_150000_update_sumak_brand_content.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_29_160000_update_kaysu_brand_and_categories.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_09_29_170000_update_pedrollo_brand_and_categories.php && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \

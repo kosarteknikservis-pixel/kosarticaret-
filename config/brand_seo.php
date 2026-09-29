@@ -123,44 +123,54 @@ HTML,
 
     'pedrollo' => [
         'h1' => 'Pedrollo Pompa Fiyatları ve Modelleri',
-        'meta_title' => 'Pedrollo Pompa Modelleri ve Fiyatları | Koşar Ticaret',
-        'meta_description' => 'Pedrollo pompa modelleri: derin kuyu dalgıç, santrifüj, hidrofor ve drenaj çözümleri. Teknik özellikleri karşılaştırın, ihtiyacınıza uygun modeli seçin.',
+        'meta_title' => 'Pedrollo Pompa, Dalgıç Pompa ve Hidrofor Fiyatları',
+        'meta_description' => 'Pedrollo pompa fiyatları: 4SR derin kuyu dalgıç, TOP ve RXm drenaj, VXm foseptik pompa, PKm ve JSWm hidrofor, CP santrifüj modelleri ve seçim desteği.',
         'description' => <<<'HTML'
-<h2>Pedrollo Pompa Modelleri ve Teknik Seçim</h2>
-<p><strong>Pedrollo</strong>; evsel su temini, sulama, bina basınçlandırma ve endüstriyel uygulamalar için farklı pompa serileri sunar. Doğru model seçimi, ürün adından çok <strong>debi</strong>, <strong>basma yüksekliği</strong>, su kaynağı ve elektrik beslemesine göre yapılmalıdır.</p>
+<h2>Pedrollo Pompa Modelleri ve Ürün Grupları</h2>
+<p><strong>Pedrollo pompa</strong> ürünleri; müstakil ev ve apartman hidroforlarından sondaj kuyusu için derin kuyu dalgıç pompalara, bodrum ve foseptik tahliyesinden tarımsal sulamada kullanılan flanşlı santrifüj pompalara kadar geniş bir alanı kapsar. İtalyan üretici Pedrollo'nun serilerini aşağıda ürün grubuna göre özetledik; her bağlantıdan o gruptaki güncel modelleri ve fiyatları görebilirsiniz.</p>
 
-<h3>Pedrollo Pompa Hangi Uygulamada Kullanılır?</h3>
+<h3>Pedrollo Hidrofor Modelleri</h3>
+<p>Ev ve apartman için Pedrollo paket hidroforları pompa tipine göre ayrılır. Küçük evlerde preferikal <strong>PKm 60</strong> (2 kat 2 daire), müstakil ev ve küçük binalarda jet pompalı <strong>JCRm 1A / 2A</strong> (paslanmaz gövde) ile <strong>JSWm 2CX / 2AX</strong> (döküm gövde) kullanılır. Sessiz çalışma istenen yerlerde <strong>4CPm 80-C / 100-C</strong>, daha yüksek binalarda çift fanlı <strong>2CPm 25/130N, 25/14B ve 25/14A</strong> modelleri 9 kat 20 daireye kadar çıkar. Modellerin hidromatlı, 24 veya 50 litre tanklı ve dijital kontrollü versiyonları bulunur; kat ve daire kapasitesi ürün adında yazar.</p>
+<p><a href="/kategoriler/hidrofor-sistemleri/pedrollo-hidrofor">Pedrollo hidrofor modelleri</a> · <a href="/kategoriler/hidrofor-sistemleri/ev-tipi-hidroforlar">Ev tipi hidroforlar</a></p>
+
+<h3>Pedrollo Dalgıç Pompa Modelleri</h3>
 <ul>
-  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa"><strong>Derin kuyu dalgıç pompalar</strong></a> — sondaj, artezyen ve sulama uygulamaları için</li>
-  <li><a href="/kategoriler/su-pompalari/santrifuj-pompalar"><strong>Santrifüj pompalar</strong></a> — bahçe sulama, su transferi ve tesisat beslemesi için</li>
-  <li><a href="/kategoriler/hidrofor-sistemleri"><strong>Hidrofor sistemleri</strong></a> — ev, apartman ve işletmelerde basınçlı su ihtiyacı için</li>
-  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar"><strong>Dalgıç ve drenaj pompaları</strong></a> — kuyu, depo ve tahliye uygulamaları için</li>
+  <li><strong>Derin kuyu:</strong> 4 inç <strong>4SR</strong> motorlu dalgıç pompalar üç debi sınıfında sunulur: 4SR 2/… serisi 3,6 m³/h, 4SR 4/… serisi 6 m³/h, 4SR 6/… serisi 9 m³/h'e kadar su verir. Kademe sayısı arttıkça basma yüksekliği yükselir (4SR 4/7 46 mss, 4SR 4/60 405 mss). Yalnızca motor gerekiyorsa monofaze <strong>4PDm</strong> ve trifaze <strong>4PD</strong> dalgıç motorları bulunur. <a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa">Derin kuyu dalgıç pompa modelleri</a></li>
+  <li><strong>Keson kuyu ve depo:</strong> 5 inç <strong>UPm / UP GE</strong> flatörlü keson kuyu pompaları ile çok kademeli <strong>TOP MULTI</strong> serisi (EVO ve otomatik basınç kontrollü TECH versiyonlarıyla) kuyu ve depodan basınçlı su almak için kullanılır. <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/keson-kuyu-pompa">Keson kuyu pompaları</a></li>
+  <li><strong>Drenaj:</strong> Plastik gövdeli <strong>TOP</strong> serisi (TOP-1'den TOP 5'e, VORTEX ve gizli flatörlü GM versiyonlarıyla, zemine yakın seviyeye kadar emen TOP2 FLOOR), komple paslanmaz <strong>RXm / RX</strong> ve paslanmaz gövdeli <strong>DM</strong> serileri bodrum, garaj ve depo tahliyesi içindir. <a href="/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa">Drenaj dalgıç pompaları</a></li>
+  <li><strong>Foseptik:</strong> Paslanmaz <strong>VXm / VX</strong> (-N paslanmaz gövdeli, ST komple paslanmaz), döküm gövdeli <strong>VXCm / VXC</strong> ve <strong>MCm / MC</strong>, <strong>BCm / BC</strong> ve <strong>ZXm</strong> serileri atık su ve foseptik tahliyesinde kullanılır. Lifli atık su için parçalayıcı bıçaklı <strong>TRm / TR</strong> modelleri bulunur. <a href="/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa">Foseptik dalgıç pompaları</a> · <a href="/kategoriler/su-pompalari/dalgic-pompalar/bicakli-dalgic-pompa">Bıçaklı dalgıç pompalar</a></li>
 </ul>
 
-<h3>Pedrollo Pompa Seçerken Nelere Bakılmalı?</h3>
-<p>Kuyu veya depodaki su seviyesini, kullanım noktasına olan yükseklik farkını, boru hattı kayıplarını ve ihtiyaç duyulan debiyi birlikte değerlendirin. Derin kuyuda kuyu çapı ile motor gücü; yüzey pompasında ise emme yüksekliği ve sıvı koşulları kritik olur. Teknik terimler için <a href="/blog/su-pompasi-cesitleri-nasil-secilir">su pompası seçim rehberini</a>, yüksek basınç uygulamaları için <a href="/kategoriler/su-pompalari/kademeli-pompalar">kademeli pompaları</a> inceleyebilirsiniz.</p>
-<p>Pedrollo stokumuzu <a href="/marka/sumak">Sumak</a> ve <a href="/marka/winpo">Winpo</a> seçenekleriyle aynı debi/basınç noktasında kıyaslayabilir; konut basıncı için <a href="/kategoriler/hidrofor-sistemleri/pedrollo-hidrofor">Pedrollo hidrofor</a> paketlerine bakabilirsiniz. Ölçülerinizi paylaşırsanız teknik ekibimiz model önerisi çıkarır.</p>
+<h3>Santrifüj, Jet ve Kademeli Pompalar</h3>
+<p>Bahçe sulaması, su transferi ve basınçlandırma için tek fanlı <strong>CPm / CP</strong> ve çift fanlı <strong>2CPm / 2CP</strong> santrifüj pompalar kullanılır. Bol su gereken tarımsal sulamada yüksek debili <strong>HF</strong> serisi ile <strong>F / Fm</strong> flanşlı santrifüj pompalar öne çıkar; F serisinin paslanmaz (-I) versiyonları da vardır. Paslanmaz gövde gereken yerlerde <strong>CP-ST4 / CP-ST6</strong> komple paslanmaz pompalar, kirli su için döküm gövdeli <strong>NGAm / NGA</strong> ve komple paslanmaz <strong>PRO-NGA</strong> modelleri bulunur. Kendinden emişli kullanımda <strong>JSWm</strong> ve <strong>JCRm</strong> jet pompalar, yüksek basınç gereken hatlarda paslanmaz <strong>3CR, 4CRm ve 5CR</strong> yatay kademeli ile <strong>MKm / MK</strong> dik milli kademeli pompalar tercih edilir.</p>
+<p><a href="/kategoriler/su-pompalari/santrifuj-pompalar">Santrifüj pompalar</a> · <a href="/kategoriler/su-pompalari/jet-pompalar-derinden-emisli">Jet pompalar</a> · <a href="/kategoriler/su-pompalari/kademeli-pompalar">Kademeli pompalar</a></p>
+
+<h3>Preferikal ve Yakıt Pompaları</h3>
+<p>Düşük debide yüksek basınç veren <strong>PKm / PK</strong>, döküm veya bronz gövdeli <strong>PQm</strong>, yandan emişli <strong>PQA</strong> ve bronz gövdeli <strong>PVm / PV</strong> <a href="/kategoriler/su-pompalari/preferikal-pompalar-surtme-fanli">preferikal pompalar</a> küçük basınçlandırma ve sulama içindir. <strong>CKm / CK</strong> serisi mazot ve yağ transferinde kullanılır. Mevcut santrifüj pompayı otomatik çalıştırmak için <strong>EASY SMALL II</strong> <a href="/kategoriler/hidrofor-sistemleri/hidromat">hidromat</a> bulunur.</p>
+
+<h3>Pedrollo Pompa Fiyatları ve Model Seçimi</h3>
+<p>Pedrollo pompa fiyatlarını en çok motor gücü, 220 V veya 380 V besleme, kademe sayısı, tank hacmi ve gövde malzemesi (döküm, paslanmaz, bronz) belirler; güncel fiyat ve stok her ürün sayfasında yer alır. Model kodundaki küçük <strong>m</strong> harfi monofaze (220 V) versiyonu gösterir: CPm 158 monofaze, CP 158 trifazedir. Hidroforda kat ve daire sayısını, dalgıç pompada kuyu çapını, su seviyesini ve istenen debiyi, drenaj ve foseptikte suyun içindeki katı maddeyi netleştirin. Kararsız kaldığınızda <a href="/pompa-secici">pompa seçici</a> aracını kullanabilir, <a href="/blog/pedrollo-dalgic-pompa-modelleri-rehberi">Pedrollo dalgıç pompa rehberini</a> okuyabilir veya <a href="/iletisim">bize ulaşarak</a> model önerisi alabilirsiniz. Koşar Ticaret, Pedrollo ürünlerinin yetkili bayisidir.</p>
 HTML,
         'faq' => [
             [
-                'q' => 'Pedrollo pompa hangi kullanım alanları için uygundur?',
-                'a' => 'Pedrollo ürün gamında evsel su temini, bahçe sulama, bina basınçlandırma, derin kuyu, drenaj ve su transferi uygulamalarına yönelik farklı pompa tipleri bulunur. Uygun seri; gerekli debi, basma yüksekliği ve su kaynağına göre belirlenmelidir.',
+                'q' => 'Pedrollo 4SR dalgıç pompa model kodu nasıl okunur?',
+                'a' => '4SR, 4 inç derin kuyu dalgıç pompa serisidir. Eğik çizgiden önceki sayı debi sınıfını, sonraki sayı kademe sayısını gösterir. Mağazamızdaki 4SR 2/… modelleri en fazla 3,6 m³/h, 4SR 4/… modelleri 6 m³/h, 4SR 6/… modelleri 9 m³/h debi verir. Kademe arttıkça basma yüksekliği ve motor gücü artar: örneğin <strong>4SR 4/14</strong> 1,5 HP ile 92 mss, <strong>4SR 4/35</strong> 4 HP ile 230 mss basar.',
             ],
             [
-                'q' => 'Pedrollo derin kuyu pompası nasıl seçilir?',
-                'a' => 'Kuyu iç çapı, statik ve dinamik su seviyesi, istenen debi, toplam basma yüksekliği ve elektrik beslemesi birlikte değerlendirilmelidir. Kuyu derinliği tek başına yeterli seçim kriteri değildir.',
+                'q' => 'Pedrollo hidrofor kaç daireye yeter?',
+                'a' => 'Modele göre değişir: <strong>PKm 60</strong> 2 kat 2 daire, <strong>JCRm 1A</strong> 2 kat 4 daire, <strong>JSWm 2CX</strong> 4 kat 6 daire, <strong>4CPm 80-C</strong> 4 kat 8 daire, <strong>JSWm 2AX</strong> 6 kat 10 daire, <strong>4CPm 100-C</strong> 5 kat 12 daire, <strong>2CPm 25/14B</strong> 7 kat 14 daire ve <strong>2CPm 25/14A</strong> 9 kat 20 daire için sunulur. Bina yüksekliği ve kullanım yoğunluğu arttıkça bir üst modeli seçin.',
             ],
             [
-                'q' => 'Pedrollo santrifüj pompa emiş yüksekliği ne olmalıdır?',
-                'a' => 'Yüzey tipi santrifüj pompalarda pratik emiş yüksekliği tesisat ve su koşullarına bağlı olarak genellikle 7-8 metreyi aşmamalıdır. Daha derin su seviyelerinde dalgıç pompa daha verimli olabilir.',
+                'q' => 'Drenaj pompası ile foseptik pompası arasındaki fark nedir?',
+                'a' => 'Drenaj pompaları (<strong>TOP, RXm, DM</strong>) temiz veya az kirli suyu bodrum, garaj ve depodan tahliye eder. Foseptik pompaları (<strong>VXm, VXCm, MCm, BCm</strong>) daha geniş geçişli çarkıyla katı madde içeren atık suyu basar; örneğin VXm 10/35 modelleri 40 mm\'ye kadar parçayı geçirir. Lif ve ıslak mendil gibi atıklar varsa parçalayıcı bıçaklı <strong>TRm / TR</strong> modelleri tıkanma riskini azaltır.',
             ],
             [
-                'q' => 'Pedrollo pompa ile hidrofor arasındaki fark nedir?',
-                'a' => 'Pompa suyu transfer eden ana ekipmandır. Hidrofor ise pompa, basınç tankı ve otomatik kontrol elemanlarının birlikte çalıştığı basınçlandırma sistemidir. Ev ve apartmanlarda sabit su basıncı için hidrofor tercih edilir.',
+                'q' => 'Pedrollo model kodundaki m ve GM ne anlama gelir?',
+                'a' => 'Küçük <strong>m</strong> harfi monofaze (220 V) versiyonu gösterir; aynı modelin m harfi olmayan versiyonu trifaze (380 V) çalışır. Örneğin <strong>PKm 60</strong> monofaze, <strong>PK 60</strong> trifazedir. Drenaj pompalarındaki <strong>GM</strong> ibaresi ise flatörün gövdeye gizlendiği versiyonu belirtir; dar kuyularda dışarıdaki şamandıranın takılma riskini azaltır.',
             ],
             [
-                'q' => 'Pedrollo pompa seçimi için hangi bilgiler gerekir?',
-                'a' => 'Kullanım alanı, su kaynağı tipi, gerekli debi, toplam basma yüksekliği, boru çapı, elektrik beslemesi ve akışkanın temiz veya kirli olması paylaşılmalıdır. Bu bilgiler doğru modelin belirlenmesini sağlar.',
+                'q' => '4SR motorlu pompa mı, 4PD motor mu almalıyım?',
+                'a' => 'Mağazamızdaki <strong>4SR</strong> modelleri motoruyla birlikte komple dalgıç pompadır; yeni kuyu veya komple değişim için bunları seçin. <strong>4PDm</strong> (monofaze) ve <strong>4PD</strong> (trifaze) yalnızca dalgıç motordur; pompa gövdesi sağlam, motoru arızalı sistemlerde motor değişimi için kullanılır. Motor gücünün mevcut pompa kademesine uygun olması gerekir.',
             ],
         ],
     ],
