@@ -177,43 +177,54 @@ HTML,
 
     'winpo' => [
         'h1' => 'Winpo Pompa Modelleri ve Fiyatları',
-        'meta_title' => 'Winpo Pompa Modelleri ve Fiyatları',
-        'meta_description' => 'Winpo WNP pompa modelleri: derin kuyu, dalgıç, dik milli ve paket hidrofor seçenekleri. Teknik özellik, stok ve uzman seçim desteği.',
+        'meta_title' => 'Winpo Pompa, Dalgıç Pompa ve Hidrofor Fiyatları',
+        'meta_description' => 'Winpo pompa fiyatları: WNP derin kuyu ve drenaj dalgıç pompa, WNP 100 ev tipi hidrofor, VM dik milli, CMI paslanmaz kademeli ve havuz pompası modelleri.',
         'description' => <<<'HTML'
-<h2>Winpo Pompa ve WNP Model Rehberi</h2>
-<p><strong>Winpo</strong>, farklı uygulamalara yönelik derin kuyu dalgıç, drenaj, dik milli ve paket hidrofor modelleri sunar. WNP adı tek bir ürün tipini değil; kullanım alanına göre değişen pompa serilerini ifade eder. Doğru seçim için ürünün <strong>debi</strong>, <strong>basma yüksekliği</strong>, enerji tipi ve akışkan koşulları birlikte değerlendirilmelidir.</p>
+<h2>Winpo Pompa Modelleri ve Ürün Grupları</h2>
+<p><strong>Winpo pompa</strong> ürünleri; ev tipi paket hidroforlardan apartman hidrofor gruplarına, 4 inç derin kuyu dalgıç pompalardan drenaj, foseptik ve havuz pompalarına kadar geniş bir alanı kapsar. Model adlarının çoğu <strong>WNP</strong> ile başlar; WNP tek bir ürün tipi değil, markanın farklı pompa serilerinde kullandığı ön ektir. Serileri aşağıda ürün grubuna göre özetledik.</p>
 
-<h3>Winpo WNP Serileri Nerede Kullanılır?</h3>
+<h3>Winpo Hidrofor Modelleri</h3>
+<p>Müstakil ev ve küçük binalar için <strong>WNP 100</strong> (4 kat), <strong>WNP 150</strong> (5 kat) ve <strong>WNP 200</strong> (7 kat) paket hidroforları hidromatlı, 24 litre dik veya yatay tanklı ve 50 litre yatay tanklı versiyonlarla sunulur. Çok katlı binalarda <strong>VM</strong> dik milli pompalarla kurulan tek pompalı <strong>WNP1 VM</strong> ve iki pompalı <strong>WNP2 VM</strong> hidrofor grupları kullanılır. Güneş enerjili sıcak su sistemlerinin basıncı için <strong>WNP 226</strong> sıcak su hidroforu, mevcut pompayı otomatik çalıştırmak için <strong>WNP-10H</strong> hidromat bulunur.</p>
+<p><a href="/kategoriler/hidrofor-sistemleri/ev-tipi-hidroforlar">Ev tipi hidroforlar</a> · <a href="/kategoriler/hidrofor-sistemleri/hidrofor-grubu">Hidrofor grubu</a> · <a href="/blog/winpo-paket-hidrofor-secimi">Winpo paket hidrofor seçimi</a></p>
+
+<h3>Winpo Dalgıç Pompa Modelleri</h3>
 <ul>
-  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa"><strong>Derin kuyu dalgıç pompalar</strong></a> — sondaj, artezyen ve sulama uygulamaları</li>
-  <li><a href="/kategoriler/su-pompalari/kademeli-pompalar"><strong>Dik milli / kademeli pompalar</strong></a> — bina, tank ve basınçlı su hatları</li>
-  <li><a href="/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa"><strong>Drenaj ve foseptik pompaları</strong></a> — atık su, yağmur suyu ve tahliye</li>
-  <li><a href="/kategoriler/hidrofor-sistemleri/hidroforlar"><strong>Paket hidroforlar</strong></a> — ev ve küçük bina basınçlandırma</li>
+  <li><strong>Derin kuyu:</strong> 4 inç <strong>WNP 2/…, 4/…, 6/… ve 8/…</strong> motorlu dalgıç pompalar sırasıyla 3, 6, 8,4 ve 12 m³/h'e kadar su verir. Kademe sayısı arttıkça basma yüksekliği yükselir; seride 1 HP'den 10 HP'ye, 305 mss'ye kadar monofaze ve trifaze modeller bulunur. <a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa">Derin kuyu dalgıç pompa modelleri</a></li>
+  <li><strong>Keson kuyu:</strong> 5 inç <strong>WNP 406, 408, 805 ve 807 MF</strong> ile panolu 4 inç <strong>4SKM 100 / 150</strong> modelleri keson kuyu ve depodan basınçlı su almak içindir. <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/keson-kuyu-pompa">Keson kuyu pompaları</a></li>
+  <li><strong>Drenaj:</strong> <strong>QDP</strong> ve <strong>WNP 400 / 550 / 750</strong> serileri flatörlü (A), kirli su için (AW) ve gizli flatörlü (GF) versiyonlarla gelir. Paslanmaz gövde için <strong>QCK</strong> ve <strong>WNP 750 PD</strong>, daha yüksek basma için <strong>PF</strong> serisi, yağmur suyu için <strong>WNP V 370 F / V 750 F</strong> kullanılır. <a href="/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa">Drenaj dalgıç pompaları</a></li>
+  <li><strong>Foseptik:</strong> Flatörlü <strong>WNP-V 1100 F / V 1500 F</strong> foseptik pompalar ile lifli atık su için kırıcılı <strong>WNP 7-8, 7-12, 7-16 GR</strong> (monofaze), <strong>WNP 7-12T, 7-16T, 9-18T</strong> (trifaze) ve bıçaklı <strong>V 1100 D (F)</strong> modelleri bulunur. <a href="/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa">Foseptik dalgıç pompaları</a></li>
 </ul>
 
-<p>Model kodlarını karşılaştırmadan önce kullanım alanınızı ve gerekli basınç/debi değerlerini belirleyin. Derin kuyu uygulamaları için <a href="/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi">kuyu pompa seçim rehberini</a> inceleyebilir, teknik destek için bizimle iletişime geçebilirsiniz.</p>
-<p>Winpo ürünlerini <a href="/marka/pedrollo">Pedrollo</a> ve <a href="/marka/sumak">Sumak</a> alternatifleriyle aynı çalışma noktası üzerinden kıyaslamak; paket içeriği (tank, şalter, kablo) ve yedek parça erişimini de hesaba katmak uzun vadede daha doğru satın alma kararı verir. Stok ve teklif için <a href="/iletisim">iletişim</a> formunu kullanabilirsiniz.</p>
+<h3>Kademeli, Paslanmaz ve Kimyasal Pompalar</h3>
+<p>Bina ve tesis basınçlandırmasında <strong>WNP VM</strong> dik milli pompalar, daha yüksek basınç ve paslanmaz gövde gereken yerlerde <strong>WNP CVL</strong> komple paslanmaz dik milli pompalar kullanılır; CVL serisi 165 mss'ye kadar çıkar. Yatay çok kademeli <strong>WNP 90 SH</strong> ile AISI 304 paslanmaz <strong>CMI</strong> ve <strong>CMF</strong> çok kademeli santrifüj pompalar da bulunur; CMF'nin SS6 kodlu versiyonları AISI 316 paslanmazdır. Kimyasal ve asitli sıvı transferi için <strong>DWK</strong> ve <strong>BLC</strong> paslanmaz pompalar, yüksek debi için AISI 304 <strong>WF4</strong> ve AISI 316 <strong>WF6</strong> flanşlı pompalar 130 m³/h'e kadar debi sunar.</p>
+<p><a href="/kategoriler/su-pompalari/kademeli-pompalar">Kademeli pompalar</a> · <a href="/kategoriler/su-pompalari/santrifuj-pompalar/paslanmaz-pompalar-kimyasal">Paslanmaz ve kimyasal pompalar</a></p>
+
+<h3>Jet, Santrifüj, Preferikal ve Havuz Pompaları</h3>
+<p>Kuyu ve depodan emiş için döküm gövdeli <strong>WNP 100M / 150M</strong> ve paslanmaz gövdeli <strong>WNP 100P</strong> <a href="/kategoriler/su-pompalari/jet-pompalar-derinden-emisli">jet pompalar</a>, sulama ve transfer için tek fanlı <strong>WNP 158</strong> santrifüj pompa, küçük basınçlandırma için <strong>WNP 60, 70 ve 80</strong> <a href="/kategoriler/su-pompalari/preferikal-pompalar-surtme-fanli">preferikal pompalar</a> kullanılır. Havuz filtrasyonu için ön filtreli <strong>Pool-1</strong> ve <strong>Pool-2</strong> <a href="/kategoriler/su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi">havuz pompaları</a> 0,5 HP'den 4 HP'ye kadar sunulur.</p>
+
+<h3>Winpo Pompa Fiyatları ve Model Seçimi</h3>
+<p>Winpo pompa fiyatlarını motor gücü, 220 V veya 380 V besleme, kademe ve pompa sayısı, tank hacmi ve gövde malzemesi belirler; güncel fiyat ve stok her ürün sayfasında yer alır. Birçok seride model kodunun sonundaki <strong>M</strong> monofaze (220 V), <strong>T</strong> trifaze (380 V) versiyonu gösterir: VM 2-7M monofaze, VM 2-7T trifazedir. Hidroforda kat ve daire sayısını, dalgıç pompada kuyu çapını ve istenen debiyi, drenaj ve foseptikte suyun içindeki katı maddeyi netleştirin; kapasiteyi ürün sayfasındaki teknik tablodan doğrulayın. Kararsız kaldığınızda <a href="/pompa-secici">pompa seçici</a> aracını kullanabilir veya <a href="/iletisim">bize ulaşarak</a> model önerisi alabilirsiniz. Koşar Ticaret, Winpo ürünlerinin yetkili bayisidir.</p>
 HTML,
         'faq' => [
             [
-                'q' => 'Winpo WNP nedir?',
-                'a' => 'WNP, Winpo ürünlerinde farklı pompa serilerinde kullanılan model ailesi ifadesidir. Modelin derin kuyu, drenaj, dik milli veya paket hidrofor olduğunu teknik özelliklerinden doğrulamak gerekir.',
+                'q' => 'Winpo WNP ne anlama gelir?',
+                'a' => 'WNP, Winpo\'nun farklı pompa serilerinde kullandığı model ön ekidir; tek başına ürün tipini göstermez. Ürün tipini modelin devamı belirler: <strong>WNP 100</strong> paket hidrofor, <strong>WNP 4/14</strong> derin kuyu dalgıç pompa, <strong>WNP VM 4-6T</strong> dik milli kademeli pompa, <strong>WNP 750 A</strong> drenaj dalgıç pompadır.',
             ],
             [
-                'q' => 'Winpo WNP pompa seçerken nelere bakılmalı?',
-                'a' => 'Kullanım alanı, istenen debi, basma yüksekliği, elektrik beslemesi ve akışkanın temiz ya da kirli olması birlikte değerlendirilmelidir.',
+                'q' => 'Winpo derin kuyu dalgıç pompa nasıl seçilir?',
+                'a' => 'Model kodundaki ilk sayı debi sınıfını, eğik çizgiden sonraki sayı kademe sayısını gösterir. Mağazamızdaki <strong>WNP 2/…</strong> modelleri 3 m³/h, <strong>4/…</strong> modelleri 6 m³/h, <strong>6/…</strong> modelleri 8,4 m³/h ve <strong>8/…</strong> modelleri 12 m³/h debi verir. Kademe arttıkça basma yüksekliği artar: örneğin <strong>WNP 4/14</strong> 1,5 HP ile 98 mss, <strong>WNP 4/25</strong> 3 HP ile 175 mss basar. Kuyu çapı, su seviyesi ve istenen debiye göre seçim yapın.',
             ],
             [
-                'q' => 'Winpo pompa derin kuyuda kullanılabilir mi?',
-                'a' => 'Winpo ürün gamında derin kuyuya uygun seriler bulunur. Kuyu çapı, dinamik su seviyesi, toplam basma yüksekliği ve istenen debi doğrulanmadan yalnız motor gücüne göre seçim yapılmamalıdır.',
+                'q' => 'Winpo ev tipi hidrofor hangi binaya uygundur?',
+                'a' => '<strong>WNP 100</strong> 4 katlı, <strong>WNP 150</strong> 5 katlı, <strong>WNP 200</strong> 7 katlı binalar için sunulur. Hidromatlı versiyon tanksızdır; 24 veya 50 litre tanklı versiyonlar pompanın daha seyrek devreye girmesini sağlar. Daire sayısı ve kullanım yoğunluğu arttıkça bir üst modeli seçin; daha yüksek binalarda <strong>WNP1 VM</strong> veya <strong>WNP2 VM</strong> hidrofor gruplarına bakın.',
             ],
             [
-                'q' => 'Winpo hidrofor ev için nasıl seçilir?',
-                'a' => 'Aynı anda kullanılacak musluk sayısı, en üst kullanım noktasının yüksekliği, depo konumu ve tank hacmi birlikte değerlendirilir. Küçük tankın sık devreye girme yaratabileceği unutulmamalıdır.',
+                'q' => 'Winpo drenaj pompalarında A, AW ve GF ne demek?',
+                'a' => '<strong>A</strong> versiyonları flatörlü drenaj pompasıdır ve temiz veya az kirli su içindir. <strong>AW</strong> versiyonları mağazamızda kirli su pompaları arasında yer alır. <strong>GF</strong> ise flatörün gövdeye gizlendiği versiyondur; dar çukurlarda şamandıranın takılma riskini azaltır. Paslanmaz gövde gerekiyorsa <strong>QCK</strong> veya <strong>WNP 750 PD</strong> modellerine bakın.',
             ],
             [
-                'q' => 'Winpo ürünlerinde monofaze ve trifaze seçenekleri var mı?',
-                'a' => 'Seriye ve motor gücüne göre 220 V monofaze veya 380 V trifaze seçenekler bulunabilir. Sipariş öncesinde tesisat beslemesiyle ürün etiketinin uyumu kontrol edilmelidir.',
+                'q' => 'Winpo pompada M ve T harfleri ne anlama gelir?',
+                'a' => 'Birçok Winpo serisinde model kodunun sonundaki <strong>M</strong> monofaze (220 V), <strong>T</strong> trifaze (380 V) versiyonu gösterir; örneğin <strong>CMI 2-6M</strong> monofaze, <strong>CMI 2-6T</strong> trifazedir. Binanızda trifaze hat yoksa M versiyonunu seçin. Yüksek güçlü modeller çoğunlukla yalnızca trifaze üretilir; kesin bilgi için ürün sayfasındaki teknik tabloya bakın.',
             ],
         ],
     ],

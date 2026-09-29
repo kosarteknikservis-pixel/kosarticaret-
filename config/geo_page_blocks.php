@@ -334,20 +334,20 @@ return [
         ],
 
         'winpo' => [
-            'short_answer' => 'Winpo, konut ve hafif ticari projelerde jet, santrifüj ve dalgıç segmentlerinde orta fiyat / performans dengesi sunan markadır. Pedrollo kadar premium olmayan, Sumak\'tan biraz daha üst konumlanan uygulamalarda sık tercih edilir; seçimde debi-basma eğrisi ve garanti şartları kontrol edilmelidir.',
-            'price_band' => [
-                'from' => 3500,
-                'to' => 70000,
-                'currency' => 'TRY',
-                'note' => 'Jet ve yüzey pompalarından orta boy dalgıç modellere; seriye göre değişir.',
-            ],
+            'short_answer' => 'Winpo, model adlarının çoğu WNP ile başlayan bir pompa markasıdır. Ürün gamında WNP 100, 150 ve 200 ev tipi hidroforlar, WNP1 ve WNP2 VM apartman hidrofor grupları, 4 inç derin kuyu dalgıç pompalar, drenaj, foseptik ve kırıcılı dalgıç pompalar, VM ve CVL dik milli, CMI paslanmaz kademeli, kimyasal ve havuz pompaları bulunur.',
             'selection_table' => [
-                'title' => 'Winpo ne zaman uygun?',
-                'headers' => ['Senaryo', 'Avantaj', 'Alternatif'],
+                'title' => 'Winpo seri özeti',
+                'headers' => ['Seri', 'Ürün tipi', 'Kullanım'],
                 'rows' => [
-                    ['Bahçe / jet emiş', 'Orta segment fiyat', 'Sumak jet'],
-                    ['Konut dalgıç', 'Dengeli performans', 'Pedrollo premium'],
-                    ['Transfer / sulama', 'Yüzey montaj', 'Santrifüj alternatif'],
+                    ['WNP 100 / 150 / 200', 'Ev tipi paket hidrofor', 'Müstakil ev, 4-7 katlı bina'],
+                    ['WNP1 VM, WNP2 VM', 'Tek ve iki pompalı hidrofor grubu', 'Apartman ve site'],
+                    ['WNP 2/… – 8/…', '4" derin kuyu dalgıç pompa', 'Sondaj kuyusu, sulama'],
+                    ['WNP MF, 4SKM', 'Keson kuyu dalgıç pompa', 'Keson kuyu, depo'],
+                    ['QDP, WNP 400-750, QCK, PF', 'Drenaj dalgıç pompa', 'Bodrum, garaj, yağmur suyu'],
+                    ['WNP-V, WNP 7-… GR / T', 'Foseptik ve kırıcılı dalgıç', 'Atık su, lifli atık'],
+                    ['WNP VM, CVL, CMI, CMF', 'Dik milli ve çok kademeli', 'Bina ve tesis basınçlandırma'],
+                    ['DWK, BLC, WF4 / WF6', 'Paslanmaz ve kimyasal pompa', 'Kimyasal ve asitli sıvı transferi'],
+                    ['Pool-1, Pool-2', 'Ön filtreli havuz pompası', 'Havuz filtrasyonu'],
                 ],
             ],
         ],
