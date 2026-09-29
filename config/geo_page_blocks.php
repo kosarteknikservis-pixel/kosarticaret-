@@ -353,24 +353,18 @@ return [
         ],
 
         'kaysu' => [
-            'short_answer' => 'Kaysu, özellikle sirkülasyon ve konut pompa uygulamalarında bütçe odaklı yerli seçenek sunar. Sıcak su devridaimi ve ekonomik hidrofor/dalgıç ihtiyaçlarında değerlendirilir; kritik sürekli işletmede premium markalarla karşılaştırma yapılmalıdır.',
-            'price_band' => [
-                'from' => 1800,
-                'to' => 40000,
-                'currency' => 'TRY',
-                'note' => 'Sirkülasyon modellerinden ekonomik dalgıç/hidrofor paketlerine; modele göre değişir.',
-            ],
-            'guide_cta' => [
-                'label' => 'Sıcak su sirkülasyon pompası seçimi',
-                'url' => '/blog/sicak-su-sirkulasyon-pompasi-secimi',
-            ],
+            'short_answer' => 'Kaysu, ev ve küçük bina uygulamalarına yönelik bir pompa markasıdır. Ürün gamında 1 daireden 8 kat 18 daireye kadar paket hidroforlar, foseptik, drenaj ve temiz su dalgıç pompaları, jet ve preferikal pompalar ile basınç şalterleri bulunur. Kaysu ürünlerimiz arasında sondaj kuyusu için derin kuyu pompası yoktur.',
             'selection_table' => [
                 'title' => 'Kaysu hangi iş için?',
-                'headers' => ['Uygulama', 'Tip', 'Not'],
+                'headers' => ['İhtiyaç', 'Kaysu modeli', 'Not'],
                 'rows' => [
-                    ['Sıcak su hattı', 'Sirkülasyon', 'Timer / enerji sınıfı'],
-                    ['Bütçe konut', 'Ekonomik pompa', 'Yoğun endüstriyel değil'],
-                    ['Yedek / geçici', 'Hızlı tedarik', 'Premium alternatifle kıyasla'],
+                    ['1–4 daire', '0,50 HP hidrofor, HQBM60, HKJM', '24 L tank veya hidromatlı'],
+                    ['4–5 kat, 8 daireye kadar', 'HKJM15H', '24–50 L tank'],
+                    ['7–8 katlı bina', '2HCP-160, HMC145-65H', '50–100 L tank'],
+                    ['Foseptik, atık su', 'WQD, WQH, H1100F-B', 'Lifli atıkta CUT1500'],
+                    ['Bodrum, rögar tahliyesi', 'SP1000/50, SP1300/50, HWD-1100S', 'Drenaj ve kirli su'],
+                    ['Depo, havuz boşaltma', 'SP, SPAUTO, QDX', 'Temiz su'],
+                    ['Pompanın altındaki kuyu', 'HKJM100, HKJM150', 'Derinden emişli jet'],
                 ],
             ],
         ],

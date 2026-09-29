@@ -65,41 +65,58 @@ HTML,
     'kaysu' => [
         'h1' => 'Kaysu Pompa ve Hidrofor Fiyatları',
         'meta_title' => 'Kaysu Pompa ve Hidrofor Fiyatları',
-        'meta_description' => 'Kaysu hidrofor modelleri ve fiyatları: ev tipi paket sistemler, santrifüj ve dalgıç pompa. Yerli üretim, yedek parça, hızlı teslimat. Koşar Ticaret.',
+        'meta_description' => 'Kaysu pompa fiyatları: paket hidrofor, foseptik ve drenaj dalgıç pompa, jet pompa, basınç şalteri ve hidromat modelleri. Teknik özellik ve seçim desteği.',
         'description' => <<<'HTML'
-<h2>Kaysu Pompa Modelleri ve Fiyatları</h2>
-<p><strong>Kaysu Pompa</strong>, Türk mühendislik birikimi ve uygun maliyetli üretimiyle konut ve küçük sanayi uygulamaları için pratik su pompası çözümleri sunan yerli bir pompa markasıdır. Özellikle <a href="/kategoriler/su-pompalari/santrifuj-pompalar">santrifüj pompa</a> ve <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">Kaysu hidrofor</a> ürünleriyle bilinmektedir.</p>
+<h2>Kaysu Pompa Modelleri ve Ürün Grupları</h2>
+<p><strong>Kaysu pompa</strong> ürünleri ağırlıklı olarak ev ve küçük bina uygulamalarına yöneliktir: paket hidroforlar, foseptik ve drenaj dalgıç pompaları, derinden emişli jet pompalar ve bunları tamamlayan basınç şalteri ile hidromatlar. Aşağıda Kaysu modellerini ürün grubuna göre özetledik; güncel fiyatları bu sayfadaki listeden veya ilgili kategoriden görebilirsiniz.</p>
 
-<h3>Kaysu Pompa Ürün Grubu</h3>
+<h3>Kaysu Hidrofor Modelleri</h3>
+<p>Kaysu paket hidroforları 24, 50 ve 100 litre tank seçenekleriyle tek daireden 8 katlı binalara kadar farklı ihtiyaçlara göre sunulur:</p>
 <ul>
-  <li><strong>Santrifüj Su Pompaları</strong> — Bahçe sulama, küçük tarım ve ev suyu için ekonomik ve güvenilir modeller.</li>
-  <li><strong>Ev Tipi Hidrofor Sistemleri</strong> — Kompakt tasarım, otomatik basınç kontrolü, kolay montaj; tek daire ve müstakil konut için ideal.</li>
-  <li><strong>Dalgıç Pompalar</strong> — Keson kuyu ve sarnıç uygulamaları için uygun fiyatlı çözümler.</li>
+  <li><strong>0,50 HP hidrofor ve HQBM60:</strong> 1 kat 1 daire ile 4 kat 4 daire arası küçük kullanımlar; HQBM60'ın hidromatlı versiyonu da bulunur.</li>
+  <li><strong>HKJM ve HKJM15H:</strong> Kendinden emişli jet pompalı paket hidroforlar; 1 ve 1,5 HP motor, 24 veya 50 litre tank, 4 kat 4 daireden 5 kat 8 daireye kadar.</li>
+  <li><strong>2HCP-160 ve HMC145-65H:</strong> Kademeli pompalı modellerle 7 kat 14 daire ve 8 kat 18 daireye kadar daha yüksek binalar.</li>
+  <li><strong>PS-370A:</strong> Sürtme fanlı, sessiz çalışma odaklı küçük hidrofor.</li>
 </ul>
+<p>Tüm seçenekler için <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">hidrofor modelleri</a>, küçük konutlar için <a href="/kategoriler/hidrofor-sistemleri/ev-tipi-hidroforlar">ev tipi hidroforlar</a> sayfasına bakabilirsiniz.</p>
 
-<p>Kaysu Pompa ürünleri, Türkiye'nin her bölgesinde kolaylıkla ulaşılabilecek yedek parça ve servis ağıyla desteklenmektedir. Bütçe odaklı projeler için güvenilir ve pratik bir tercih olan Kaysu, Koşar Ticaret güvencesiyle sunulmaktadır.</p>
-<p>Model seçerken yalnız fiyatı değil; istenen debi, basma yüksekliği, elektrik tipi ve kullanım sıklığını birlikte kontrol edin. Kararsızsanız <a href="/pompa-secici">Pompa Seçici</a> ile filtreleyebilir veya <a href="/kategoriler/hidrofor-sistemleri">hidrofor sistemleri</a> ile <a href="/kategoriler/su-pompalari/dalgic-pompalar">dalgıç pompa</a> kategorilerindeki Kaysu stoklarını karşılaştırabilirsiniz.</p>
+<h3>Kaysu Dalgıç Pompa Modelleri</h3>
+<ul>
+  <li><strong>Foseptik ve atık su:</strong> <strong>WQD</strong>, <strong>WQH</strong> ve <strong>H1100F-B</strong> foseptik dalgıç pompaları evsel atık su ve foseptik çukuru tahliyesi içindir. Lifli atıkta tıkanma riskine karşı bıçaklı ve öğütücülü <strong>CUT1500</strong> ile döküm gövdeli, öğütücülü <strong>WQH2200QG</strong> (380 V) modelleri bulunur. <a href="/kategoriler/su-pompalari/dalgic-pompalar/foseptik-dalgic-pompa">Foseptik dalgıç pompaları</a></li>
+  <li><strong>Drenaj ve kirli su:</strong> Plastik gövdeli <strong>SP1000/50</strong> (kapalı fan) ve <strong>SP1300/50</strong> (açık fan) drenaj pompaları su basan bodrum ve rögar tahliyesinde; paslanmaz gövdeli <strong>HWD-1100S</strong> 40 mm'ye kadar katı geçişli kirli su uygulamalarında kullanılır. <a href="/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa">Drenaj dalgıç pompaları</a></li>
+  <li><strong>Temiz su:</strong> <strong>SP400 / SP750</strong> ve gizli flatörlü <strong>SPAUTO</strong> modelleri depo, havuz ve sarnıç boşaltmada; <strong>QDX</strong> serisi temiz su transferinde kullanılır. <a href="/kategoriler/su-pompalari/dalgic-pompalar/temiz-su-dalgic-pompasi">Temiz su dalgıç pompaları</a></li>
+</ul>
+<p>Kaysu ürünlerimiz arasında 4 inç sondaj kuyusu için derin kuyu pompası bulunmuyor; bu ihtiyaç için <a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa">derin kuyu dalgıç pompa</a> modellerine bakabilirsiniz.</p>
+
+<h3>Jet, Preferikal ve Kademeli Pompalar</h3>
+<p>Su seviyesi pompanın altında kalan kuyu ve depolarda <strong>HKJM100 / HKJM150</strong> derinden emişli <a href="/kategoriler/su-pompalari/jet-pompalar-derinden-emisli">jet pompalar</a> kullanılır. Küçük basınçlandırma ve bahçe sulaması için <strong>HQBm60 / HQBm80</strong> <a href="/kategoriler/su-pompalari/preferikal-pompalar-surtme-fanli">preferikal (sürtme fanlı) pompalar</a>, daha yüksek basma için <strong>2HCP-160</strong> çift kademeli ve <strong>HMC145-6SH</strong> yatay milli çok kademeli <a href="/kategoriler/su-pompalari/kademeli-pompalar">kademeli pompalar</a> bulunur. Gamda ayrıca <strong>HCPF-70</strong> tek fanlı santrifüj pompa yer alır.</p>
+
+<h3>Basınç Şalteri ve Hidromat</h3>
+<p>Mevcut hidroforun kontrol ekipmanını yenilemek için <strong>Water Bender</strong> basınç şalterleri (1-6, 2-8 ve 3-11 modelleri) ve fişli kablolu <strong>DSK2.2</strong> hidromat bulunur. Diğer seçenekler için <a href="/kategoriler/hidrofor-sistemleri/hidromat">hidromat</a> kategorisine bakabilirsiniz.</p>
+
+<h3>Kaysu Pompa Fiyatları ve Model Seçimi</h3>
+<p>Kaysu pompa fiyatları motor gücüne, 220 V veya 380 V beslemeye, tank hacmine ve gövde malzemesine (plastik, paslanmaz, döküm) göre değişir; güncel fiyat ve stok her ürün sayfasında yer alır. Hidroforda kat ve daire sayısını, dalgıç pompada suyun temiz, kirli ya da atık su olduğunu ve katı madde boyutunu, jet pompada ise suyun pompaya göre derinliğini netleştirin. Emin değilseniz <a href="/pompa-secici">pompa seçici</a> aracını kullanabilir veya <a href="/iletisim">bize ulaşabilirsiniz</a>. Koşar Ticaret, Kaysu ürünlerinin yetkili bayisidir.</p>
 HTML,
         'faq' => [
             [
-                'q' => 'Kaysu pompa Türkiye\'de mi üretiliyor?',
-                'a' => 'Evet, Kaysu Pompa Türkiye menşeli bir markadır. Yerli üretim avantajı; yedek parça temininin kolaylığı, teknik destek erişiminin hızı ve ürün fiyatlarının ithal alternatiflerine göre daha rekabetçi olması anlamına gelir.',
+                'q' => 'Kaysu hidrofor kaç daireye yeter?',
+                'a' => 'Modele göre değişir: 0,50 HP hidrofor 1 kat 1 daire, <strong>HQBM60</strong> 2 kat 2 daire ile 4 kat 4 daire, <strong>HKJM / HKJM15H</strong> 4 kat 4 daire ile 5 kat 8 daire, <strong>2HCP-160</strong> 7 kat 14 daire, <strong>HMC145-65H</strong> ise 8 kat 18 daire için sunulur. Kapasite ürün adında yazar; bina yüksekliği ve kullanım yoğunluğu arttıkça bir üst modeli seçin.',
             ],
             [
-                'q' => 'Kaysu hidrofor ev kullanımı için yeterli mi?',
-                'a' => 'Evet. Kaysu\'nun ev tipi hidrofor modelleri, <strong>tek daire ve müstakil konut</strong> uygulamaları için yeterlidir. 0,5-1 HP motor ve 24 litre tank kapasitesiyle günlük su kullanımında tatmin edici basınç sağlar.',
+                'q' => 'Kaysu dalgıç pompa hangi işte kullanılır?',
+                'a' => 'Foseptik ve atık su için <strong>WQD, WQH, H1100F-B ve CUT1500</strong>; drenaj ve kirli su için <strong>SP1000/50, SP1300/50 ve HWD-1100S</strong>; temiz su için <strong>SP, SPAUTO ve QDX</strong> modelleri kullanılır. Kaysu ürünlerimiz arasında sondaj kuyusu için derin kuyu pompası yoktur; bunun için <a href="/kategoriler/su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa">derin kuyu dalgıç pompa</a> modellerine bakın.',
             ],
             [
-                'q' => 'Kaysu pompa yedek parçaları bulunuyor mu?',
-                'a' => 'Kaysu pompaların standart yedek parçaları (mekanik conta, impeller, motor kapakçığı) büyükşehirlerdeki pompa bayilerinde genellikle bulunabilmektedir. Koşar Ticaret olarak Kaysu ürünlerini stokladığımız için teknik destek ve yedek parça konusunda yardımcı olabiliriz.',
+                'q' => 'Foseptik için bıçaklı pompa gerekli mi?',
+                'a' => 'Atık suda lif, ıslak mendil veya benzeri katılar varsa bıçaklı ve öğütücülü modeller (<strong>CUT1500, WQH2200QG</strong>) tıkanma riskini azaltır. Yalnız evsel atık su basılacaksa standart foseptik pompa (<strong>WQD, H1100F-B</strong>) yeterli olabilir. Her iki durumda da çıkış çapını ve basma yüksekliğini hat uzunluğuna göre kontrol edin.',
             ],
             [
-                'q' => 'Kaysu santrifüj pompa ne kadar basınç üretir?',
-                'a' => 'Kaysu\'nun konut tipi santrifüj pompa modelleri genellikle <strong>20-45 metre basma yüksekliği ve 1,5-7 m³/saat debi</strong> aralığında çalışır. Bahçe sulama ve konut su tesisatı ihtiyaçlarına uygundur.',
+                'q' => 'Jet pompa ile preferikal pompa arasındaki fark nedir?',
+                'a' => 'Jet pompalar (<strong>HKJM100 / HKJM150</strong>) ejektör sayesinde pompanın altındaki kuyu ve depolardan su emmek için tasarlanır. Preferikal (sürtme fanlı) pompalar (<strong>HQBm60 / HQBm80</strong>) ise düşük debide yüksek basınç üretir; küçük basınçlandırma ve bahçe sulaması için ekonomik bir seçenektir.',
             ],
             [
-                'q' => 'Kaysu pompa kurulumu kolay mı?',
-                'a' => 'Kaysu\'nun konut tipi santrifüj pompaları ve ev tipi hidroforları görece basit montaj yapısına sahiptir. Elektrik bağlantısının mutlaka yetkili elektrikçi tarafından yapılmasını, garantinin korunması için yetkili servis kurulumunu öneririz.',
+                'q' => 'Hidroforumun basınç şalterini değiştirebilir miyim?',
+                'a' => 'Evet. <strong>Water Bender</strong> 1-6, 2-8 ve 3-11 basınç şalterleri ile <strong>DSK2.2</strong> hidromat mevcut hidroforların kontrol ekipmanını yenilemek için kullanılır. Değişimde yeni parçanın ayar aralığının ve bağlantı ölçüsünün mevcut sistemle uyumlu olmasına dikkat edin; elektrik bağlantısını bir elektrikçiye yaptırın.',
             ],
         ],
     ],
