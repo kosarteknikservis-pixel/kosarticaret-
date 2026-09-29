@@ -14,7 +14,7 @@ return [
 
     'landings' => [
         'su-pompalari' => [
-            'subtitle' => '1.000\'i aşkın su pompası modeli — Pedrollo, Sumak, Winpo ve Ebara garantili. Ücretsiz teknik danışmanlık ve hızlı teslimat.',
+            'subtitle' => '1.000\'i aşkın su pompası modeli: Sumak, Pedrollo, Winpo ve Kaysu. Dalgıç, santrifüj, kademeli ve jet pompalar için teknik seçim desteği.',
             'buying_guide' => <<<'HTML'
 <h3>Su Pompası Nasıl Seçilir?</h3>
 <p>Doğru pompa seçimi için dört parametreyi netleştirin: <strong>debi (Q, m³/saat)</strong>, <strong>basma yüksekliği (H, metre)</strong>, <strong>sıvı tipi</strong> (temiz, kirli, kimyasal) ve <strong>kurulum yeri</strong> (yüzey veya su altı). Bu değerler belirlendikten sonra santrifüj, dalgıç, kademeli veya hidrofor yolu netleşir.</p>
@@ -33,7 +33,7 @@ HTML,
         ],
 
         'su-pompalari/dalgic-pompalar' => [
-            'subtitle' => 'Temiz su, drenaj, foseptik, derin kuyu ve kirli su dalgıç pompaları — IP68 koruma, garantili markalar.',
+            'subtitle' => 'Temiz su, drenaj, foseptik, derin kuyu ve kirli su dalgıç pompaları: Sumak, Pedrollo, Winpo ve Kaysu modelleri.',
             'buying_guide' => <<<'HTML'
 <h3>Dalgıç Pompa Seçim Rehberi</h3>
 <p>Dalgıç pompa seçiminde önce <strong>su kaynağı</strong> ve <strong>partikül boyutu</strong> belirlenir. Temiz su uygulamalarında gıda uyumlu malzeme; drenaj ve foseptikte geçirebilir parçacık çapı (mm) kritiktir.</p>
@@ -63,7 +63,7 @@ HTML,
         ],
 
         'hidrofor-sistemleri' => [
-            'subtitle' => 'Pedrollo, Sumak ve Winpo hidrofor modelleri — ev, apartman ve sanayi için stoktan teslim, teknik seçim desteği.',
+            'subtitle' => 'Pedrollo, Sumak ve Winpo hidrofor modelleri: ev, apartman ve sanayi için teknik seçim desteği.',
             'buying_guide' => <<<'HTML'
 <h3>Hidrofor Sistemi Seçim Rehberi</h3>
 <p>Ev, apartman ve işletmeler için doğru hidrofor modeli; <strong>kat/daire sayısı</strong>, <strong>eşzamanlı kullanım</strong>, su deposunun konumu ve gerekli debiye göre belirlenir. Teknik çalışma prensibi için <a href="/blog/hidrofor-nedir-ne-ise-yarar-nasil-calisir">detaylı teknik rehberi</a>, apartman uygulamaları için <a href="/blog/apartman-icin-hidrofor-nasil-secilir">apartman seçim rehberini</a> inceleyin.</p>
@@ -101,7 +101,7 @@ HTML,
         ],
 
         'su-pompalari/sirkulasyon-pompalari/sicak-su-pompalari' => [
-            'subtitle' => 'Sıcak su devridaim hatları için ısıya dayanıklı sirkülasyon pompaları — hızlı sıcak su ve düşük su israfı.',
+            'subtitle' => 'Kazan dairesi, boyler ve güneş enerjisi hatları için 90 °C\'ye dayanıklı Sumak sıcak su pompaları.',
             'buying_guide' => <<<'HTML'
 <h3>Sıcak Su Sirkülasyon Pompası Nasıl Seçilir?</h3>
 <p>Sıcak su sirkülasyon pompası, uzun boru hatlarında musluğu açtığınızda sıcak suya ulaşma süresini azaltan devridaim çözümüdür. Seçimde <strong>hat uzunluğu</strong>, <strong>sıvı sıcaklığı</strong>, bağlantı çapı ve zamanlayıcı ihtiyacı önemlidir.</p>
@@ -129,7 +129,7 @@ HTML,
         ],
 
         'su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa' => [
-            'subtitle' => 'Sondaj ve artezyen kuyular için 4 inç ve 6 inç derin kuyu dalgıç pompa modelleri — debi ve basma yüksekliğine göre seçim.',
+            'subtitle' => 'Sondaj ve artezyen kuyular için 4 inç derin kuyu dalgıç pompa modelleri: debi ve basma yüksekliğine göre seçim.',
             'buying_guide' => <<<'HTML'
 <h3>Derin Kuyu Pompası Seçim Rehberi</h3>
 <p>Derin kuyu dalgıç pompa seçimi yalnızca kuyu derinliğine göre yapılmaz. <strong>Statik su seviyesi</strong>, dinamik seviye, istenen debi, toplam basma yüksekliği ve kuyu çapı birlikte hesaplanmalıdır.</p>
