@@ -42,18 +42,25 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
 
+    const sameOriginLink = (raw, label) => {
+        try {
+            const parsed = new URL(raw.replace(/&amp;/g, '&'), window.location.origin);
+            if (parsed.origin !== window.location.origin) return null;
+            return '<a href="' + escapeHtml(parsed.href) + '">' + label + '</a>';
+        } catch (e) {
+            return null;
+        }
+    };
+
     const inline = (text) => {
         let html = escapeHtml(text);
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/https?:\/\/[^\s<]+[^\s<.,;:!?)]/g, (url) => {
-            const raw = url.replace(/&amp;/g, '&');
-            try {
-                const parsed = new URL(raw);
-                if (parsed.origin !== window.location.origin) return url;
-                return '<a href="' + escapeHtml(parsed.href) + '">' + escapeHtml(parsed.pathname === '/' ? parsed.host : parsed.pathname) + '</a>';
-            } catch (e) {
-                return url;
-            }
+        html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g, (match, label, url) => sameOriginLink(url, label) || label);
+        html = html.replace(/(^|[^"=>])(https?:\/\/[^\s<]+[^\s<.,;:!?)])/g, (match, lead, url) => {
+            const parsed = (() => { try { return new URL(url.replace(/&amp;/g, '&')); } catch (e) { return null; } })();
+            if (!parsed) return match;
+            const link = sameOriginLink(url, escapeHtml(parsed.pathname === '/' ? parsed.host : decodeURIComponent(parsed.pathname)));
+            return link ? lead + link : match;
         });
         return html;
     };
