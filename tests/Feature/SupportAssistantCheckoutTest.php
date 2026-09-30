@@ -106,8 +106,49 @@ class SupportAssistantCheckoutTest extends TestCase
             ->assertJsonPath('checkout_url', null);
 
         $this->assertNull(session('support_chat_checkout'));
-        Http::assertSent(fn ($request) => str_contains(json_encode($request->data(), JSON_UNESCAPED_UNICODE), 'İlçe (Kadıköy) İZMİR ilinde bulunamadı')
-            && str_contains(json_encode($request->data(), JSON_UNESCAPED_UNICODE), 'Telefon'));
+        Http::assertSent(fn ($request) => str_contains(json_encode($request->data(), JSON_UNESCAPED_UNICODE), 'Kadıköy ilçesi İZMİR ilinde bulunamadı')
+            && str_contains(json_encode($request->data(), JSON_UNESCAPED_UNICODE), 'Cep telefonu 11 haneli olmalı'));
+    }
+
+    #[Test]
+    public function partial_details_are_kept_and_only_missing_fields_are_reported(): void
+    {
+        Http::fake(['api.openai.com/*' => Http::sequence()
+            ->push($this->toolCall('add_to_cart', ['product' => 'test-hidrofor']))
+            ->push($this->toolCall('prepare_checkout', ['ad' => 'Mehmet Demir', 'telefon' => '5321112233', 'il' => 'Ankara']))
+            ->push($this->text('Eksik: e-posta, ilçe, açık adres.'))
+            ->push($this->text('Kalan eksikler: e-posta, ilçe, açık adres.'))
+            ->push($this->toolCall('prepare_checkout', ['eposta' => 'mehmet@example.com', 'ilce' => 'Çankaya', 'adres' => 'Kızılay Mah. Atatürk Blv. No:10 D:4']))
+            ->push($this->text('Bilgileriniz tamam, ödeme sayfasına yönlendiriyorum.')),
+        ]);
+
+        $this->postJson(route('support-chat.message'), ['message' => 'Alacağım. Mehmet Demir 5321112233 Ankara', 'page' => '/'])
+            ->assertOk()
+            ->assertJsonPath('checkout_url', null);
+
+        Http::assertSent(function ($request) {
+            $result = collect($request->data()['messages'] ?? [])
+                ->where('role', 'tool')
+                ->map(fn ($m) => json_decode($m['content'], true))
+                ->first(fn ($r) => isset($r['eksik']));
+
+            return ($result['eksik'] ?? null) === ['E-posta', 'İlçe', 'Açık adres']
+                && ($result['alinan'] ?? null) === ['Ad', 'Soyad', 'Cep telefonu', 'İl'];
+        });
+
+        $this->postJson(route('support-chat.message'), ['message' => 'Kargo ne kadar sürer?', 'page' => '/'])->assertOk();
+        Http::assertSent(fn ($request) => str_contains(json_encode($request->data(), JSON_UNESCAPED_UNICODE), 'SİPARİŞ FORMU (devam ediyor): Alınan: Ad, Soyad, Cep telefonu, İl. Eksik: E-posta, İlçe, Açık adres'));
+
+        $this->postJson(route('support-chat.message'), ['message' => 'mehmet@example.com, Çankaya, Kızılay Mah. Atatürk Blv. No:10 D:4', 'page' => '/'])
+            ->assertOk()
+            ->assertJsonPath('checkout_url', route('support-chat.checkout'));
+
+        $this->get(route('support-chat.checkout'))
+            ->assertSessionHasInput('ad', 'Mehmet')
+            ->assertSessionHasInput('soyad', 'Demir')
+            ->assertSessionHasInput('telefon', '05321112233')
+            ->assertSessionHasInput('il', 'ANKARA')
+            ->assertSessionHasInput('ilce', 'ÇANKAYA');
     }
 
     #[Test]

@@ -48,7 +48,7 @@ class SupportChatController extends Controller
 
     public function reset(Request $request): JsonResponse
     {
-        $request->session()->forget([self::SESSION_KEY, self::SESSION_ORDER_LOOKUPS, SupportAssistantTools::CHECKOUT_SESSION_KEY]);
+        $request->session()->forget([self::SESSION_KEY, self::SESSION_ORDER_LOOKUPS, SupportAssistantTools::CHECKOUT_SESSION_KEY, SupportAssistantTools::CHECKOUT_DRAFT_KEY]);
 
         return $this->json(['ok' => true]);
     }
