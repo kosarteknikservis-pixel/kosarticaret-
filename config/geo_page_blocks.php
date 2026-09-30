@@ -624,6 +624,40 @@ return [
             ],
         ],
 
+        'kuyu-suyu-hidrofor-baglanti-rehberi' => [
+            'short_answer' => 'Hidrofor bağlantı sırası: kaynak (kuyu veya depo) → pompa → çekvalf → beş yollu rakor üzerinde basınç tankı, presostat ve manometre → vana → tesisat. Kuyudaki su 7–8 m’den derindeyse yüzey hidroforu suyu çekemez; dalgıç pompa, tank ve presostat birlikte kurulur.',
+            'selection_table' => [
+                'title' => 'Su seviyesine göre hidrofor bağlantısı',
+                'headers' => ['Su seviyesi', 'Kurulum', 'Kritik parça'],
+                'rows' => [
+                    ['7–8 m’ye kadar', 'Paket hidrofor (yüzey pompası)', 'Süzgeçli dip klapesi'],
+                    ['7–8 m’den derin', 'Derinden emişli jet pompa + tank', 'Ejektör, emiş sınırı etikette'],
+                    ['Sondaj kuyusu', 'Dalgıç pompa + tank + presostat', 'Çekvalf, kuru çalışma koruması'],
+                ],
+            ],
+            'guide_cta' => [
+                'label' => 'Hidrofor ürünlerini incele',
+                'url' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+            ],
+        ],
+
+        'hidrofor-presostat-histerezis-set-noktalari' => [
+            'short_answer' => 'Hidrofor basınç ayarı presostattan yapılır: büyük vida açma ve kapama basıncını birlikte, küçük vida yalnızca kapama basıncını değiştirir. Tek katlı evde 1,5 bar açma / 2,5 bar kapama iyi bir başlangıçtır; her ek kat için yaklaşık 0,3 bar eklenir. Tank ön basıncı açma basıncının 0,2 bar altına ayarlanır.',
+            'selection_table' => [
+                'title' => 'Bina tipine göre başlangıç basınç ayarı',
+                'headers' => ['Bina', 'Açma / kapama', 'Tank ön basıncı'],
+                'rows' => [
+                    ['Tek katlı ev', '1,5 / 2,5 bar', '1,3 bar'],
+                    ['3 katlı ev / villa', '2,0 / 3,0 bar', '1,8 bar'],
+                    ['5 katlı apartman', '2,5–3,0 / 3,5–4,0 bar', 'Açma − 0,2 bar'],
+                ],
+            ],
+            'guide_cta' => [
+                'label' => 'Hidrofor ürünlerini incele',
+                'url' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+            ],
+        ],
+
         'sanayi-tipi-vantilator-kurulum-montaj' => [
             'short_answer' => 'Sanayi tipi vantilatör kurulumunda duvar/çatı açıklığı fan çapına uyumlu olmalı, koruma ızgarası ve titreşim yalıtımı takılmalı, elektrik hattı etiket gerilimine (mono/trifaze) ve topraklamaya uygun çekilmelidir. Ters dönüş ve eksik taze hava girişi debiyi düşürür.',
             'selection_table' => [

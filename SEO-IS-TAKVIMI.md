@@ -3,6 +3,7 @@
 > Başlangıç: **14 Eylül 2026 (Pazartesi)**  
 > Kaynak: canlı site `kosarticaret.com` · Panel: Google piyasa / GSC / Merchant  
 > Amaç: “Bekleyelim” değil — **hangi gün ne bakılacak / ne yazılacak** net olsun.  
+> Yapılan işler (tarihli): `CALISMA-GUNLUGU.md`  
 > İlgili: `BLOG-PLAN.md` · `BLOG-30GUN-PLAN.md` · `BLOG-SEO-DESTEK-PLANI.md` · `GEO-PLAN.md` · `kosarticaret.com-audit/SENIN-AYLIK-GOREVLERIN.md`
 
 ---

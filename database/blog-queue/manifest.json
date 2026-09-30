@@ -517,8 +517,9 @@
             "day": 29,
             "file": "72-kuyu-suyu-hidrofor-baglanti.json",
             "publish_on": "2026-07-26",
-            "title": "Kuyu Suyu Hidrofor Bağlantısı Rehberi",
-            "series": "ozel-amacli"
+            "title": "Hidrofor Bağlantı Şeması: Kuyuya Hidrofor Nasıl Bağlanır?",
+            "series": "ozel-amacli",
+            "force_update": true
         },
         {
             "day": 30,
@@ -1084,8 +1085,9 @@
             "day": 61,
             "file": "153-presostat-histerezis.json",
             "publish_on": "2026-08-27",
-            "title": "Hidrofor Presostat Histerezisi: Açma-Kapama Basıncı Nasıl Ayarlanır?",
-            "series": "hidrofor-tank-presostat"
+            "title": "Hidrofor Basınç Ayarı Nasıl Yapılır? Presostat Açma-Kapama Ayarı",
+            "series": "hidrofor-tank-presostat",
+            "force_update": true
         },
         {
             "day": 62,
