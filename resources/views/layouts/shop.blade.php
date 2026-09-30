@@ -118,9 +118,8 @@
         $wa = \App\Models\SiteSetting::get('contact_whatsapp', config('kosar.contact.whatsapp'));
         $waFloatingEnabled = \App\Models\SiteSetting::get('floating_whatsapp_enabled', '1') === '1';
         $scrollTopEnabled = \App\Models\SiteSetting::get('scroll_top_enabled', '1') === '1';
-        $pumpPillEnabled = \App\Support\PumpSelectorUiConfig::isEnabled() && ! request()->routeIs('pump-selector.*');
         $supportChatEnabled = \App\Support\SupportAssistantConfig::isEnabled();
-        $showFloatDock = ($wa && $waFloatingEnabled) || $pumpPillEnabled || $scrollTopEnabled || $supportChatEnabled;
+        $showFloatDock = ($wa && $waFloatingEnabled) || $scrollTopEnabled || $supportChatEnabled;
     @endphp
     @if($showFloatDock)
     <div class="shop-float-dock" data-float-dock aria-hidden="false">
@@ -157,17 +156,6 @@
                 </span>
                 <span class="shop-ai-launcher__label">Asistana sor</span>
             </button>
-        @endif
-
-        @if($pumpPillEnabled)
-            <div class="shop-float-dock__pump-slot">
-                <a href="{{ route('pump-selector.show') }}"
-                   class="shop-pump-scroll-pill"
-                   aria-label="{{ __('shop.pump_selector_program') }}">
-                    <span class="shop-pump-scroll-pill__text">{{ __('shop.pump_selector_program') }}</span>
-                    <x-shop.icon name="chevron-right" class="shop-pump-scroll-pill__icon" />
-                </a>
-            </div>
         @endif
 
         @if($scrollTopEnabled)
