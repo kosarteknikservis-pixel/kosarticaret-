@@ -2139,10 +2139,9 @@ body.theme-motion-reduced *::after {
     visibility: hidden;
     transform: translateY(-8px) scale(0.985);
     transition:
-        opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0.25s;
-    pointer-events: none;
+        opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+        transform 0.2s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+        visibility 0s linear 0.35s;
 }
 .shop-mega-panel__grid {
     display: grid;
@@ -2232,8 +2231,16 @@ body.theme-motion-reduced *::after {
     opacity: 0;
     visibility: hidden;
     transform: translateX(-0.35rem) scale(0.98);
-    pointer-events: none;
-    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    transition: opacity 0.18s ease 0.12s, transform 0.18s ease 0.12s, visibility 0s linear 0.3s;
+}
+/* Öğe ile açılır panel arasındaki boşluğu hover alanıyla köprüler */
+.shop-mega-panel__grandchildren::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.9rem;
+    width: 0.9rem;
 }
 .shop-mega-panel__grandchild {
     display: block;
@@ -2255,15 +2262,24 @@ body.theme-motion-reduced *::after {
     opacity: 1;
     visibility: visible;
     transform: translateX(0) scale(1);
-    pointer-events: auto;
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s;
 }
-.shop-mega-panel__col:nth-child(n+3) .shop-mega-panel__grandchildren {
+/* 4 sütunlu satırda sağdaki iki sütun (3. ve 4.) alt menüyü sola açar */
+.shop-mega-panel__col:nth-child(4n+3) .shop-mega-panel__grandchildren,
+.shop-mega-panel__col:nth-child(4n+4) .shop-mega-panel__grandchildren {
     left: auto;
     right: calc(100% + 0.55rem);
     transform: translateX(0.35rem) scale(0.98);
 }
-.shop-mega-panel__col:nth-child(n+3) .shop-mega-panel__child-item:hover > .shop-mega-panel__grandchildren,
-.shop-mega-panel__col:nth-child(n+3) .shop-mega-panel__child-item:focus-within > .shop-mega-panel__grandchildren {
+.shop-mega-panel__col:nth-child(4n+3) .shop-mega-panel__grandchildren::before,
+.shop-mega-panel__col:nth-child(4n+4) .shop-mega-panel__grandchildren::before {
+    left: auto;
+    right: -0.9rem;
+}
+.shop-mega-panel__col:nth-child(4n+3) .shop-mega-panel__child-item:hover > .shop-mega-panel__grandchildren,
+.shop-mega-panel__col:nth-child(4n+3) .shop-mega-panel__child-item:focus-within > .shop-mega-panel__grandchildren,
+.shop-mega-panel__col:nth-child(4n+4) .shop-mega-panel__child-item:hover > .shop-mega-panel__grandchildren,
+.shop-mega-panel__col:nth-child(4n+4) .shop-mega-panel__child-item:focus-within > .shop-mega-panel__grandchildren {
     transform: translateX(0) scale(1);
 }
 .shop-mega-panel__link {
@@ -2314,7 +2330,10 @@ body.theme-motion-reduced *::after {
     opacity: 1;
     visibility: visible;
     transform: translateY(0.45rem) scale(1);
-    pointer-events: auto;
+    transition:
+        opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s;
 }
 
 /* Ana sayfa banner carousel */
