@@ -80,12 +80,14 @@ class SupportAssistantService
         $toolOutputs = [];
         $tokens = 0;
         $content = '';
+        $forceTool = $this->tools->orderFlow()->inProgress();
 
         try {
             for ($round = 0; $round <= self::MAX_TOOL_ROUNDS; $round++) {
                 $response = $this->openAi->completeMessages(
                     $messages,
                     $round < self::MAX_TOOL_ROUNDS ? $this->tools->definitions() : [],
+                    toolChoice: $round === 0 && $forceTool ? 'required' : 'auto',
                 );
                 $tokens += $response['tokens'];
                 $message = $response['message'];

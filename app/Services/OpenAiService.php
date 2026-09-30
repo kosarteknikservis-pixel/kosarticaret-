@@ -64,7 +64,7 @@ class OpenAiService
      * @param  list<array<string, mixed>>  $tools
      * @return array{message: array<string, mixed>, tokens: int}
      */
-    public function completeMessages(array $messages, array $tools = [], float $temperature = 0.2, int $maxTokens = 700, int $timeout = 40): array
+    public function completeMessages(array $messages, array $tools = [], float $temperature = 0.2, int $maxTokens = 700, int $timeout = 40, string $toolChoice = 'auto'): array
     {
         $key = self::apiKey();
         if ($key === '') {
@@ -79,7 +79,7 @@ class OpenAiService
         ];
         if ($tools !== []) {
             $payload['tools'] = $tools;
-            $payload['tool_choice'] = 'auto';
+            $payload['tool_choice'] = $toolChoice;
         }
 
         try {

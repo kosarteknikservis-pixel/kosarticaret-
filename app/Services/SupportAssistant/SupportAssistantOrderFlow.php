@@ -97,6 +97,21 @@ class SupportAssistantOrderFlow
         return is_array(session(self::OTP_KEY));
     }
 
+    /**
+     * Sipariş bilgisi toplanırken her müşteri mesajı bir araç çağrısıyla işlenir; model bilgiyi kaydetmeden geçemez.
+     */
+    public function inProgress(): bool
+    {
+        return (session()->has(self::DRAFT_KEY) || $this->awaitingCode()) && ! $this->cart->isEmpty();
+    }
+
+    public function start(): void
+    {
+        if (! session()->has(self::DRAFT_KEY)) {
+            session()->put(self::DRAFT_KEY, []);
+        }
+    }
+
     public static function forgetSession(): void
     {
         session()->forget([self::DRAFT_KEY, self::PREFILL_KEY, self::SUMMARY_KEY, self::OTP_KEY]);
@@ -236,12 +251,11 @@ class SupportAssistantOrderFlow
             return 'SİPARİŞ: Müşterinin telefonuna doğrulama kodu gönderildi. Kod yazarsa verify_order_code çağır; gelmediyse resend_order_code.';
         }
 
-        $draft = (array) session(self::DRAFT_KEY, []);
-        if ($draft === [] || $this->cart->isEmpty()) {
+        if (! session()->has(self::DRAFT_KEY) || $this->cart->isEmpty()) {
             return null;
         }
 
-        $check = $this->validate($draft);
+        $check = $this->validate((array) session(self::DRAFT_KEY, []));
         if ($check['tamam']) {
             return session()->has(self::SUMMARY_KEY)
                 ? 'SİPARİŞ: Bilgiler tamam, özet müşteriye gösterildi. Müşteri açıkça onaylarsa create_order(customer_confirmed=true) çağır; değişiklik isterse yalnızca o alanla update_order_details çağır.'
@@ -267,6 +281,9 @@ class SupportAssistantOrderFlow
             if ($value !== '') {
                 $incoming[$key] = $value;
             }
+        }
+        if (isset($incoming['odeme_yontemi'])) {
+            $incoming['odeme_yontemi'] = $this->normalizePayment($incoming['odeme_yontemi']);
         }
         if (array_key_exists('kurumsal_fatura', $args)) {
             $incoming['kurumsal_fatura'] = filter_var($args['kurumsal_fatura'], FILTER_VALIDATE_BOOL) ? '1' : '';
@@ -344,7 +361,8 @@ class SupportAssistantOrderFlow
         }
 
         if (! isset($missing['odeme_yontemi']) && ! in_array($draft['odeme_yontemi'], $paymentIds, true)) {
-            $invalid['odeme_yontemi'] = 'Bu ödeme yöntemi şu an kullanılamıyor';
+            $label = collect(config('shipping.payment_methods'))->firstWhere('id', $draft['odeme_yontemi'])['name'] ?? $draft['odeme_yontemi'];
+            $invalid['odeme_yontemi'] = 'Seçilen ödeme yöntemi ('.$label.') şu an kullanılamıyor; açık seçeneklerden biri seçilmeli';
         }
 
         $shippingIds = array_column($this->store->shippingMethods(), 'id');
@@ -390,7 +408,9 @@ class SupportAssistantOrderFlow
             'alinan' => $check['alinan'],
             'eksik' => $check['eksik'],
             'hatali' => $check['hatali'],
-            'odeme_secenekleri' => in_array(self::FIELDS['odeme_yontemi'], $check['eksik'], true) ? $this->paymentOptions() : [],
+            'odeme_secenekleri' => in_array(self::FIELDS['odeme_yontemi'], $check['eksik'], true) || collect($check['hatali'])->contains(fn (string $h) => str_contains($h, 'ödeme yöntemi'))
+                ? $this->paymentOptions()
+                : [],
             'not' => 'Müşteriye eksik ve hatalı alanları adıyla madde madde yaz (hatalıysa nedenini de söyle; öneri varsa sun). Ödeme yöntemi eksikse seçenekleri adıyla say. Alınan bilgileri tekrar isteme, listeyi baştan sayma.',
         ], fn ($v) => $v !== []);
     }
@@ -620,6 +640,19 @@ class SupportAssistantOrderFlow
     private function paymentName(string $id): string
     {
         return collect($this->store->paymentMethods())->firstWhere('id', $id)['name'] ?? $id;
+    }
+
+    private function normalizePayment(string $value): string
+    {
+        $key = $this->ascii($value);
+
+        return match (true) {
+            in_array(mb_strtolower($value), ['kredi_karti', 'havale', 'kapida_odeme'], true) => mb_strtolower($value),
+            str_contains($key, 'KAPI') => 'kapida_odeme',
+            str_contains($key, 'HAVALE') || str_contains($key, 'EFT') => 'havale',
+            str_contains($key, 'KART') || str_contains($key, 'KREDI') => 'kredi_karti',
+            default => $value,
+        };
     }
 
     private function soundsLikeRefusal(string $text): bool

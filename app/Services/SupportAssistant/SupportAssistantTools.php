@@ -152,7 +152,7 @@ class SupportAssistantTools
                 'ilce' => ['type' => 'string', 'description' => 'İlçe'],
                 'adres' => ['type' => 'string', 'description' => 'Açık adres: mahalle, cadde/sokak, bina no, daire'],
                 'posta_kodu' => ['type' => 'string', 'description' => 'Posta kodu, isteğe bağlı'],
-                'odeme_yontemi' => ['type' => 'string', 'enum' => $this->orders->paymentIds() ?: ['kredi_karti'], 'description' => 'kredi_karti: kredi/banka kartı (güvenli ödeme sayfası), havale: Havale/EFT, kapida_odeme: kapıda ödeme'],
+                'odeme_yontemi' => ['type' => 'string', 'description' => 'Müşterinin seçtiği ödeme yöntemi (kredi_karti, havale veya kapida_odeme). Şu an açık olanlar: '.implode(', ', $this->orders->paymentIds()).'. Müşteri kapalı bir yöntem isterse de yazdığı gibi gönder; araç uygun olmadığını bildirir.'],
                 'kargo_yontemi' => ['type' => 'string', 'description' => 'Kargo seçeneği id; müşteri farklı kargo isterse (varsayılan standart)'],
                 'kurumsal_fatura' => ['type' => 'boolean', 'description' => 'Müşteri şirket adına fatura isterse true'],
                 'firma_adi' => ['type' => 'string', 'description' => 'Kurumsal fatura: firma adı'],
@@ -370,6 +370,10 @@ class SupportAssistantTools
         }
         app(AnalyticsTracker::class)->syncCart(request(), $cart);
         $this->cartCount = $cart->count();
+        $hasDraft = ! empty(session(SupportAssistantOrderFlow::DRAFT_KEY));
+        if ($result['ok']) {
+            $this->orders->start();
+        }
 
         return array_filter([
             'eklendi' => $result['ok'],
@@ -378,7 +382,7 @@ class SupportAssistantTools
             'sepetteki_adet' => $result['quantity'],
             'sepet_ara_toplam' => $cart->isEmpty() ? null : $this->money($cart->subtotal()),
             'not' => $result['ok']
-                ? (session()->has(SupportAssistantOrderFlow::DRAFT_KEY)
+                ? ($hasDraft
                     ? 'Sipariş bilgileri daha önce alındı; tekrar isteme. update_order_details çağırıp güncel özeti göster veya yalnızca eksikleri sor.'
                     : 'Siparişi buradan tamamlamak için tek mesajda iste: ad soyad, cep telefonu, e-posta, il, ilçe, açık adres ve ödeme yöntemi ('.implode(', ', array_column($this->store->paymentMethods(), 'name')).').')
                 : 'Ürün sepete eklenemedi; mesajı müşteriye aktar.',

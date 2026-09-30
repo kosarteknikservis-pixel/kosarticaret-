@@ -197,6 +197,38 @@ class SupportAssistantCheckoutTest extends TestCase
     }
 
     #[Test]
+    public function disabled_payment_method_is_rejected_and_tool_call_is_required_while_collecting(): void
+    {
+        SiteSetting::query()->updateOrCreate(['key' => 'payment_checkout_enabled'], ['value' => 'kredi_karti,havale']);
+        Cache::flush();
+
+        Http::fake(['api.openai.com/*' => Http::sequence()
+            ->push($this->toolCall('add_to_cart', ['product' => 'test-hidrofor']))
+            ->push($this->text('Bilgilerinizi yazar mısınız?'))
+            ->push($this->toolCall('update_order_details', [...self::DETAILS, 'odeme_yontemi' => 'kapıda ödeme']))
+            ->push($this->text('Kapıda ödeme şu an yok; kart veya havale seçebilirsiniz.'))
+            ->push($this->toolCall('update_order_details', ['odeme_yontemi' => 'Havale / EFT']))
+            ->push($this->text('Özeti kontrol eder misiniz?')),
+        ]);
+
+        $this->chat('Test hidroforu alacağım');
+        Http::assertSent(fn ($request) => ($request->data()['tool_choice'] ?? null) === 'auto');
+
+        $this->chat('Ahmet Yılmaz 0532 111 22 33 ahmet@example.com İstanbul Kadıköy Caferağa Mah. Moda Cad. No:5 D:3, kapıda ödeme');
+        $recorded = collect(Http::recorded())->map(fn (array $pair) => $pair[0]->data());
+        $this->assertSame('required', $recorded[2]['tool_choice']);
+        $this->assertSame('auto', $recorded[3]['tool_choice']);
+
+        $result = $this->lastToolResult('hatali');
+        $this->assertStringContainsString('Seçilen ödeme yöntemi (Kapıda Ödeme) şu an kullanılamıyor', implode(' ', $result['hatali']));
+        $this->assertSame(['kredi_karti', 'havale'], array_column($result['odeme_secenekleri'], 'id'));
+        $this->assertContains('Açık adres', $result['alinan']);
+
+        $this->chat('Havale olsun');
+        $this->assertSame('Havale / EFT', $this->lastToolResult('ozet')['ozet']['odeme_yontemi']);
+    }
+
+    #[Test]
     public function cash_on_delivery_order_is_created_after_sms_code(): void
     {
         foreach (['sms_enabled' => '1', 'sms_provider' => 'netgsm', 'netgsm_usercode' => 'u', 'netgsm_password' => 'p', 'netgsm_header' => 'KOSAR'] as $key => $value) {
