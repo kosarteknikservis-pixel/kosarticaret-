@@ -22,7 +22,7 @@ return [
         '/urun/sumak-smjkt100-trifaze-jet-pompa' => '/urun/sumak-smjkt-100-kendinden-emisli-jet-pompa-trifaze-380v-1hp',
         '/urun/sumak-smj-150-jet-hidrofor-4-kat-8-daire-24-litre-tankli' => '/urun/sumak-smj-150-hidrofor-4-kat-6-daire-24-litre-tankli-hidrofor',
         '/urun/sumak-sdf15y-drenaj-dalgic-pompasi' => '/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
-        '/urun/sumak-smh200-havuz-pompasi' => '/kategoriler/su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi',
+        '/urun/sumak-smh200-havuz-pompasi' => '/urun/sumak-smh-200-havuz-pompasi-monofaze-220v-2hp',
         '/urun/winpo-wnp-cmi-8-40-t-full-paslanmaz-cok-kademeli-santrifuj-pompa' => '/kategoriler/su-pompalari/kademeli-pompalar',
         '/urun/elektrikli-soba-isitici-1600-w' => '/urunler',
         '/urun/etna-ear4-65-32-75-yatay-monoblok-tek-kademeli-pompa-ear-serisi' => '/kategoriler/su-pompalari/kademeli-pompalar',

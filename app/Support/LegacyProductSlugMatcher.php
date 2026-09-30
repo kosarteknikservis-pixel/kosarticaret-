@@ -11,8 +11,16 @@ final class LegacyProductSlugMatcher
     /** @var Collection<int, string>|null */
     private static ?Collection $activeSlugs = null;
 
+    /** @var array<string, string>|null */
+    private static ?array $normalizedExact = null;
+
     public static function targetForLegacySlug(string $rawSlug): ?string
     {
+        $decoded = urldecode(trim($rawSlug, '/'));
+        if (self::activeSlugs()->has($decoded)) {
+            return '/urun/'.$decoded;
+        }
+
         $slug = self::normalizeSlug($rawSlug);
 
         if ($slug === '') {
@@ -23,10 +31,9 @@ final class LegacyProductSlugMatcher
             return '/urun/'.$slug;
         }
 
-        $exact = config('legacy_product_redirects', []);
-        $key = '/urun/'.$slug;
-        if (isset($exact[$key])) {
-            return (string) $exact[$key];
+        $exactTarget = self::exactTarget($rawSlug, $slug);
+        if ($exactTarget !== null) {
+            return $exactTarget;
         }
 
         $tokenMatch = self::bestTokenMatch($slug);
@@ -63,6 +70,35 @@ final class LegacyProductSlugMatcher
         $slug = preg_replace('/-+/', '-', $slug) ?? $slug;
 
         return trim(strtolower($slug), '-');
+    }
+
+    /**
+     * Config anahtarları ham (m³-h, smh200) yazılır; gelen slug normalizeSlug'dan geçtiği için
+     * anahtarlar da aynı kuralla normalleştirilerek aranır.
+     */
+    private static function exactTarget(string $rawSlug, string $slug): ?string
+    {
+        $exact = config('legacy_product_redirects', []);
+
+        foreach (['/urun/'.trim($rawSlug, '/'), '/urun/'.urldecode(trim($rawSlug, '/')), '/urun/'.$slug] as $key) {
+            if (isset($exact[$key])) {
+                return (string) $exact[$key];
+            }
+        }
+
+        if (self::$normalizedExact === null) {
+            self::$normalizedExact = [];
+            foreach ($exact as $source => $target) {
+                if (! str_starts_with((string) $source, '/urun/')) {
+                    continue;
+                }
+
+                $normalized = self::normalizeSlug(substr((string) $source, 6));
+                self::$normalizedExact[$normalized] ??= (string) $target;
+            }
+        }
+
+        return self::$normalizedExact[$slug] ?? null;
     }
 
     /** @return Collection<int, string> */
