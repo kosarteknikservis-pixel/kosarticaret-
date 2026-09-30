@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\SupportChatConversation;
 use App\Services\SupportAssistant\SupportAssistantService;
-use App\Services\SupportAssistant\SupportAssistantTools;
+use App\Services\SupportAssistant\SupportAssistantOrderFlow;
 use Illuminate\Http\RedirectResponse;
 use App\Support\SupportAssistantConfig;
 use App\Support\Utf8Mojibake;
@@ -48,7 +48,8 @@ class SupportChatController extends Controller
 
     public function reset(Request $request): JsonResponse
     {
-        $request->session()->forget([self::SESSION_KEY, self::SESSION_ORDER_LOOKUPS, SupportAssistantTools::CHECKOUT_SESSION_KEY, SupportAssistantTools::CHECKOUT_DRAFT_KEY]);
+        $request->session()->forget([self::SESSION_KEY, self::SESSION_ORDER_LOOKUPS]);
+        SupportAssistantOrderFlow::forgetSession();
 
         return $this->json(['ok' => true]);
     }
@@ -58,7 +59,7 @@ class SupportChatController extends Controller
      */
     public function checkout(Request $request): RedirectResponse
     {
-        $prefill = $request->session()->get(SupportAssistantTools::CHECKOUT_SESSION_KEY);
+        $prefill = $request->session()->get(SupportAssistantOrderFlow::PREFILL_KEY);
 
         return is_array($prefill) && $prefill !== []
             ? redirect()->route('checkout.show')->withInput($prefill)

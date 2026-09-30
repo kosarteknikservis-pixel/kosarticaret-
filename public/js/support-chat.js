@@ -210,6 +210,21 @@
         return wrap;
     };
 
+    const orderAction = (action) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'kc-cart-actions';
+        const link = document.createElement('a');
+        link.className = 'kc-cart-actions__btn is-primary';
+        link.href = action.url;
+        link.textContent = action.label || 'Devam et';
+        link.addEventListener('click', () => {
+            track('support_chat_order_nav', { target: action.label || '' });
+            setOpenFlag(false);
+        });
+        wrap.appendChild(link);
+        return wrap;
+    };
+
     const updateCartBadge = (count) => {
         document.querySelectorAll('[data-cart-count]').forEach((el) => {
             el.textContent = String(count);
@@ -295,6 +310,9 @@
         }
         if (message.cart) {
             row.appendChild(cartActions(message.cart));
+        }
+        if (message.action) {
+            row.appendChild(orderAction(message.action));
         }
         if (message.handoffUrl) {
             row.appendChild(handoffLink(message.handoffUrl));
@@ -397,18 +415,24 @@
 
             if (typeof data.cart_count === 'number') updateCartBadge(data.cart_count);
 
+            const action = data.order_action && data.order_action.url ? data.order_action : null;
             addMessage({
                 role: 'assistant',
                 text: data.reply,
                 products: Array.isArray(data.products) ? data.products : [],
                 handoffUrl: data.handoff && data.handoff_url ? data.handoff_url : null,
-                cart: data.checkout_url ? { checkoutUrl: data.checkout_url } : null,
+                action: action ? { url: action.url, label: action.label } : null,
             });
 
-            if (data.checkout_url) {
-                track('support_chat_checkout_prefill');
+            input.setAttribute('inputmode', data.awaiting_code ? 'numeric' : 'text');
+            input.setAttribute('autocomplete', data.awaiting_code ? 'one-time-code' : 'off');
+
+            if (data.order_number) {
+                track('support_chat_order', { order_number: data.order_number });
+            }
+            if (action && action.redirect) {
                 setOpenFlag(false);
-                window.setTimeout(() => { window.location.href = data.checkout_url; }, 2200);
+                window.setTimeout(() => { window.location.href = action.url; }, 2500);
             }
         } catch (e) {
             typing.remove();

@@ -40,30 +40,26 @@ class SupportAssistantTools
 
     private int $orderLookups = 0;
 
-    public const CHECKOUT_SESSION_KEY = 'support_chat_checkout';
-
-    public const CHECKOUT_DRAFT_KEY = 'support_chat_checkout_draft';
-
-    private const CHECKOUT_FIELDS = [
-        'ad' => 'Ad',
-        'soyad' => 'Soyad',
-        'telefon' => 'Cep telefonu',
-        'eposta' => 'E-posta',
-        'il' => 'İl',
-        'ilce' => 'İlçe',
-        'adres' => 'Açık adres',
-    ];
-
-    /** @var array<string, string>|null */
-    private ?array $checkoutPrefill = null;
-
     private ?int $cartCount = null;
+
+    private string $userText = '';
 
     public function __construct(
         private StoreConfig $store,
         private InstallmentOptionsService $installments,
         private PumpRecommendationService $pumps,
+        private SupportAssistantOrderFlow $orders,
     ) {}
+
+    public function orderFlow(): SupportAssistantOrderFlow
+    {
+        return $this->orders;
+    }
+
+    public function setUserText(string $text): void
+    {
+        $this->userText = $text;
+    }
 
     public function setOrderLookups(int $count): void
     {
@@ -94,12 +90,6 @@ class SupportAssistantTools
     public function handoffSummary(): ?string
     {
         return $this->handoffSummary;
-    }
-
-    /** @return array<string, string>|null */
-    public function checkoutPrefill(): ?array
-    {
-        return $this->checkoutPrefill;
     }
 
     public function cartCount(): ?int
@@ -153,16 +143,30 @@ class SupportAssistantTools
                 'product' => ['type' => 'string', 'description' => 'Ürün slug, stok kodu (SKU) veya tam ürün adı'],
                 'quantity' => ['type' => 'integer', 'description' => 'Adet (1-20), varsayılan 1'],
             ], ['product']),
-            $this->fn('prepare_checkout', 'Müşterinin teslimat bilgilerini sipariş formuna kaydeder; hepsi tamam ve geçerliyse arayüz müşteriyi ödeme sayfasına yönlendirir. Sepette ürün olmalı. Müşteri teslimat bilgisi yazdığı her mesajda, eksik olsa bile, yalnızca o mesajda verdiği alanlarla çağır; önceki bilgiler sistemde saklanır. Araç eksik ve hatalı alanları döndürür. Bilgileri müşterinin yazdığı gibi aktar, uydurma.', [
+            $this->fn('update_order_details', 'Sipariş bilgilerini kaydeder (sepetteki ürünler için). Müşteri sipariş bilgisi yazdığı her mesajda, eksik olsa bile, yalnızca o mesajda verdiği alanlarla çağır; önceki bilgiler sistemde saklanır. Eksik/hatalı alanları döndürür; hepsi tamamsa sipariş özetini (tutar, kargo, sözleşme linkleri) döndürür. Bilgileri müşterinin yazdığı gibi aktar, uydurma.', [
                 'ad' => ['type' => 'string', 'description' => 'Ad'],
                 'soyad' => ['type' => 'string', 'description' => 'Soyad'],
-                'telefon' => ['type' => 'string', 'description' => 'Telefon numarası'],
+                'telefon' => ['type' => 'string', 'description' => 'Cep telefonu'],
                 'eposta' => ['type' => 'string', 'description' => 'E-posta adresi'],
                 'il' => ['type' => 'string', 'description' => 'İl'],
                 'ilce' => ['type' => 'string', 'description' => 'İlçe'],
                 'adres' => ['type' => 'string', 'description' => 'Açık adres: mahalle, cadde/sokak, bina no, daire'],
                 'posta_kodu' => ['type' => 'string', 'description' => 'Posta kodu, isteğe bağlı'],
+                'odeme_yontemi' => ['type' => 'string', 'enum' => $this->orders->paymentIds() ?: ['kredi_karti'], 'description' => 'kredi_karti: kredi/banka kartı (güvenli ödeme sayfası), havale: Havale/EFT, kapida_odeme: kapıda ödeme'],
+                'kargo_yontemi' => ['type' => 'string', 'description' => 'Kargo seçeneği id; müşteri farklı kargo isterse (varsayılan standart)'],
+                'kurumsal_fatura' => ['type' => 'boolean', 'description' => 'Müşteri şirket adına fatura isterse true'],
+                'firma_adi' => ['type' => 'string', 'description' => 'Kurumsal fatura: firma adı'],
+                'vergi_numarasi' => ['type' => 'string', 'description' => 'Kurumsal fatura: vergi numarası'],
+                'vergi_dairesi' => ['type' => 'string', 'description' => 'Kurumsal fatura: vergi dairesi'],
+                'fatura_adresi' => ['type' => 'string', 'description' => 'Kurumsal fatura: fatura adresi'],
             ], []),
+            $this->fn('create_order', 'Müşteri sipariş özetini açıkça onayladıktan sonra siparişi oluşturur. Kredi kartında güvenli ödeme sayfasına yönlendirir; kapıda ödeme/havalede gerekirse telefona doğrulama kodu gönderir.', [
+                'customer_confirmed' => ['type' => 'boolean', 'description' => 'Müşteri özeti açıkça onayladıysa true'],
+            ], ['customer_confirmed']),
+            $this->fn('verify_order_code', 'Müşterinin telefonuna gelen 6 haneli doğrulama kodunu kontrol eder ve siparişi kesinleştirir.', [
+                'code' => ['type' => 'string'],
+            ], ['code']),
+            $this->fn('resend_order_code', 'Doğrulama kodunu aynı numaraya yeniden gönderir.', [], []),
             $this->fn('handoff_to_human', 'Müşteriyi WhatsApp üzerinden satış/destek ekibine aktarır. Bilgi yoksa, müşteri temsilci isterse, şikâyet, iade, hasar, toptan/proje teklifi, özel fiyat, montaj/servis gibi konularda çağır.', [
                 'summary' => ['type' => 'string', 'description' => 'Temsilcinin göreceği 1-2 cümlelik Türkçe özet (müşterinin ne istediği, ilgili ürün)'],
                 'reason' => ['type' => 'string', 'enum' => ['bilgi_yok', 'musteri_istegi', 'siparis_sorunu', 'teklif_toptan', 'sikayet_iade', 'diger']],
@@ -185,7 +189,10 @@ class SupportAssistantTools
                 'recommend_pump' => $this->recommendPump($args),
                 'handoff_to_human' => $this->handoff((string) ($args['summary'] ?? ''), (string) ($args['reason'] ?? 'diger')),
                 'add_to_cart' => $this->addToCart((string) ($args['product'] ?? ''), (int) ($args['quantity'] ?? 1)),
-                'prepare_checkout' => $this->prepareCheckout($args),
+                'update_order_details' => $this->orders->update($args),
+                'create_order' => $this->withCartCount($this->orders->create(filter_var($args['customer_confirmed'] ?? false, FILTER_VALIDATE_BOOL), $this->userText)),
+                'verify_order_code' => $this->withCartCount($this->orders->verifyCode((string) ($args['code'] ?? ''))),
+                'resend_order_code' => $this->orders->resendCode(),
                 default => ['hata' => 'Bilinmeyen araç.'],
             };
         } catch (Throwable $e) {
@@ -371,194 +378,24 @@ class SupportAssistantTools
             'sepetteki_adet' => $result['quantity'],
             'sepet_ara_toplam' => $cart->isEmpty() ? null : $this->money($cart->subtotal()),
             'not' => $result['ok']
-                ? (session()->has(self::CHECKOUT_DRAFT_KEY)
-                    ? 'Teslimat bilgileri daha önce alındı; tekrar isteme. Eksik yoksa prepare_checkout çağırıp müşteriyi ödemeye yönlendir, varsa yalnızca eksikleri sor.'
-                    : 'Satın alma için teslimat bilgilerini tek mesajda iste: ad soyad, cep telefonu, e-posta, il, ilçe, açık adres.')
+                ? (session()->has(SupportAssistantOrderFlow::DRAFT_KEY)
+                    ? 'Sipariş bilgileri daha önce alındı; tekrar isteme. update_order_details çağırıp güncel özeti göster veya yalnızca eksikleri sor.'
+                    : 'Siparişi buradan tamamlamak için tek mesajda iste: ad soyad, cep telefonu, e-posta, il, ilçe, açık adres ve ödeme yöntemi ('.implode(', ', array_column($this->store->paymentMethods(), 'name')).').')
                 : 'Ürün sepete eklenemedi; mesajı müşteriye aktar.',
         ], fn ($v) => $v !== null);
     }
 
     /**
-     * @param  array<string, mixed>  $args
+     * @param  array<string, mixed>  $result
      * @return array<string, mixed>
      */
-    private function prepareCheckout(array $args): array
+    private function withCartCount(array $result): array
     {
-        $cart = app(CartService::class);
-        if ($cart->isEmpty()) {
-            return ['hazir' => false, 'not' => 'Sepet boş. Önce add_to_cart ile ürünü sepete ekle.'];
+        if ($this->orders->placed() !== null) {
+            $this->cartCount = app(CartService::class)->count();
         }
 
-        $draft = $this->mergeCheckoutDraft($args);
-        $check = $this->validateCheckoutDraft($draft);
-
-        if ($check['eksik'] !== [] || $check['hatali'] !== []) {
-            return array_filter([
-                'hazir' => false,
-                'alinan' => $check['alinan'],
-                'eksik' => $check['eksik'],
-                'hatali' => $check['hatali'],
-                'not' => 'Müşteriye eksik ve hatalı alanları adıyla tek tek yaz (hatalıysa nedenini de söyle). Alınan bilgileri tekrar isteme, tüm listeyi baştan sayma.',
-            ], fn ($v) => $v !== []);
-        }
-
-        $prefill = $check['temiz'];
-        session()->put(self::CHECKOUT_SESSION_KEY, $prefill);
-        $this->checkoutPrefill = $prefill;
-        $this->cartCount = $cart->count();
-        app(AnalyticsTracker::class)->updateCheckoutContact(request(), $cart, [
-            'ad' => $prefill['ad'], 'soyad' => $prefill['soyad'], 'eposta' => $prefill['eposta'], 'telefon' => $prefill['telefon'],
-        ]);
-
-        return [
-            'hazir' => true,
-            'sepet' => collect($cart->lines())->map(fn ($line) => $line['product']->name.' × '.$line['quantity'])->values()->all(),
-            'sepet_ara_toplam' => $this->money($cart->subtotal()),
-            'not' => 'Bilgiler ödeme formuna aktarıldı; arayüz müşteriyi ödeme sayfasına yönlendiriyor. Müşteriye orada kargo ve ödeme yöntemini kontrol edip sözleşmeyi onaylayarak ödemeyi tamamlayacağını söyle. Kişisel bilgileri tekrar yazma, URL yazma, kart bilgisi isteme.',
-        ];
-    }
-
-    /**
-     * Sohbet boyunca verilen teslimat bilgileri oturumda birikir; yeni değer eskisinin yerine geçer.
-     *
-     * @param  array<string, mixed>  $args
-     * @return array<string, string>
-     */
-    private function mergeCheckoutDraft(array $args): array
-    {
-        $incoming = [];
-        foreach ([...array_keys(self::CHECKOUT_FIELDS), 'posta_kodu'] as $key) {
-            $value = Str::limit(trim(strip_tags((string) ($args[$key] ?? ''))), $key === 'adres' ? 500 : 190, '');
-            if ($value !== '') {
-                $incoming[$key] = $value;
-            }
-        }
-        if (! isset($incoming['soyad']) && str_contains($incoming['ad'] ?? '', ' ')) {
-            $incoming['soyad'] = Str::afterLast($incoming['ad'], ' ');
-            $incoming['ad'] = Str::beforeLast($incoming['ad'], ' ');
-        }
-        if (isset($incoming['il']) && ! isset($incoming['ilce'])) {
-            $previous = (array) session(self::CHECKOUT_DRAFT_KEY, []);
-            $cities = config('turkiye.cities', []);
-            $city = $this->matchPlace($incoming['il'], array_keys($cities));
-            if ($city === null || $this->matchPlace($previous['ilce'] ?? '', $cities[$city] ?? []) === null) {
-                $incoming['ilce'] = '';
-            }
-        }
-
-        $draft = array_filter([...(array) session(self::CHECKOUT_DRAFT_KEY, []), ...$incoming], fn ($v) => $v !== '');
-        session()->put(self::CHECKOUT_DRAFT_KEY, $draft);
-
-        return $draft;
-    }
-
-    /**
-     * @param  array<string, string>  $draft
-     * @return array{temiz: array<string, string>, alinan: list<string>, eksik: list<string>, hatali: list<string>}
-     */
-    private function validateCheckoutDraft(array $draft): array
-    {
-        $missing = [];
-        $invalid = [];
-        foreach (self::CHECKOUT_FIELDS as $key => $label) {
-            if (($draft[$key] ?? '') === '') {
-                $missing[$key] = $label;
-            }
-        }
-
-        $phoneDigits = preg_replace('/\D/', '', $draft['telefon'] ?? '');
-        $phone = match (true) {
-            strlen($phoneDigits) === 10 => '0'.$phoneDigits,
-            strlen($phoneDigits) === 12 && str_starts_with($phoneDigits, '90') => '0'.substr($phoneDigits, 2),
-            default => $phoneDigits,
-        };
-        if (! isset($missing['telefon']) && (strlen($phone) !== 11 || $phone[0] !== '0')) {
-            $invalid['telefon'] = 'Cep telefonu 11 haneli olmalı, ör. 05xx xxx xx xx (yazılan: '.$draft['telefon'].')';
-        }
-
-        $email = mb_strtolower($draft['eposta'] ?? '');
-        if (! isset($missing['eposta']) && ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $invalid['eposta'] = 'E-posta adresi geçersiz (yazılan: '.$draft['eposta'].')';
-        }
-
-        $cities = config('turkiye.cities', []);
-        $city = isset($missing['il']) ? null : $this->matchPlace($draft['il'], array_keys($cities));
-        if (! isset($missing['il']) && $city === null) {
-            $invalid['il'] = 'İl tanınmadı (yazılan: '.$draft['il'].')';
-        }
-        $district = $city !== null && ! isset($missing['ilce']) ? $this->matchPlace($draft['ilce'], $cities[$city] ?? []) : null;
-        if ($city !== null && ! isset($missing['ilce']) && $district === null) {
-            $invalid['ilce'] = $draft['ilce'].' ilçesi '.$city.' ilinde bulunamadı';
-        }
-
-        if (! isset($missing['adres']) && mb_strlen($draft['adres']) < 10) {
-            $invalid['adres'] = 'Açık adres çok kısa; mahalle, cadde/sokak, bina no ve daire gerekli';
-        }
-
-        $received = array_values(array_diff_key(self::CHECKOUT_FIELDS, $missing, $invalid));
-
-        return [
-            'temiz' => array_filter([
-                'ad' => $draft['ad'] ?? '',
-                'soyad' => $draft['soyad'] ?? '',
-                'eposta' => $email,
-                'telefon' => $phone,
-                'il' => $city ?? '',
-                'ilce' => $district ?? '',
-                'adres' => $draft['adres'] ?? '',
-                'posta_kodu' => preg_replace('/\D/', '', Str::limit($draft['posta_kodu'] ?? '', 10, '')),
-            ], fn ($v) => $v !== ''),
-            'alinan' => $received,
-            'eksik' => array_values($missing),
-            'hatali' => array_values($invalid),
-        ];
-    }
-
-    /**
-     * Her turda modele sipariş formunun durumunu verir; geçmiş kısalsa bile baştan sormasın.
-     */
-    public function checkoutStatus(): ?string
-    {
-        $draft = (array) session(self::CHECKOUT_DRAFT_KEY, []);
-        if ($draft === [] || app(CartService::class)->isEmpty()) {
-            return null;
-        }
-
-        $check = $this->validateCheckoutDraft($draft);
-        if ($check['eksik'] === [] && $check['hatali'] === []) {
-            return 'SİPARİŞ FORMU: Teslimat bilgileri tamam ve ödeme formuna aktarıldı. Müşteri bir bilgiyi değiştirmek isterse yalnızca o alanla prepare_checkout çağır.';
-        }
-
-        return 'SİPARİŞ FORMU (devam ediyor): Alınan: '.($check['alinan'] ? implode(', ', $check['alinan']) : 'yok')
-            .'. Eksik: '.($check['eksik'] ? implode(', ', $check['eksik']) : 'yok')
-            .'. Hatalı: '.($check['hatali'] ? implode('; ', $check['hatali']) : 'yok')
-            .'. Alınanları tekrar isteme; yalnızca eksik/hatalı olanları adıyla sor.';
-    }
-
-    /**
-     * @param  list<string>  $options
-     */
-    private function matchPlace(string $value, array $options): ?string
-    {
-        $normalize = fn (string $v) => mb_strtoupper(str_replace(['i', 'ı'], ['İ', 'I'], trim(preg_replace('/\s+(ili|ilçesi|ilcesi)$/iu', '', $v))), 'UTF-8');
-        $ascii = fn (string $v) => strtr($normalize($v), ['İ' => 'I', 'Ş' => 'S', 'Ğ' => 'G', 'Ü' => 'U', 'Ö' => 'O', 'Ç' => 'C']);
-        $needle = $normalize($value);
-        if ($needle === '') {
-            return null;
-        }
-
-        foreach ($options as $option) {
-            if ($normalize($option) === $needle) {
-                return $option;
-            }
-        }
-        foreach ($options as $option) {
-            if ($ascii($option) === $ascii($value)) {
-                return $option;
-            }
-        }
-
-        return null;
+        return $result;
     }
 
     /** @return array<string, mixed> */
@@ -881,7 +718,7 @@ class SupportAssistantTools
                 'description' => $description,
                 'parameters' => [
                     'type' => 'object',
-                    'properties' => $properties,
+                    'properties' => (object) $properties,
                     'required' => $required,
                 ],
             ],
