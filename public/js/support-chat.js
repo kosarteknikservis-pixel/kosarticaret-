@@ -395,12 +395,21 @@
                 return;
             }
 
+            if (typeof data.cart_count === 'number') updateCartBadge(data.cart_count);
+
             addMessage({
                 role: 'assistant',
                 text: data.reply,
                 products: Array.isArray(data.products) ? data.products : [],
                 handoffUrl: data.handoff && data.handoff_url ? data.handoff_url : null,
+                cart: data.checkout_url ? { checkoutUrl: data.checkout_url } : null,
             });
+
+            if (data.checkout_url) {
+                track('support_chat_checkout_prefill');
+                setOpenFlag(false);
+                window.setTimeout(() => { window.location.href = data.checkout_url; }, 2200);
+            }
         } catch (e) {
             typing.remove();
             addMessage({ role: 'assistant', text: errorText(0), handoffUrl: config.whatsapp, error: true });

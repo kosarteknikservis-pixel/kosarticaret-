@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\SiteSetting;
+use App\Services\AnalyticsTracker;
+use App\Services\CartService;
 use App\Services\CatalogQuery;
 use App\Services\Payment\InstallmentOptionsService;
 use App\Services\PumpSelection\PumpRecommendationService;
@@ -37,6 +39,13 @@ class SupportAssistantTools
     private ?string $handoffReason = null;
 
     private int $orderLookups = 0;
+
+    public const CHECKOUT_SESSION_KEY = 'support_chat_checkout';
+
+    /** @var array<string, string>|null */
+    private ?array $checkoutPrefill = null;
+
+    private ?int $cartCount = null;
 
     public function __construct(
         private StoreConfig $store,
@@ -73,6 +82,17 @@ class SupportAssistantTools
     public function handoffSummary(): ?string
     {
         return $this->handoffSummary;
+    }
+
+    /** @return array<string, string>|null */
+    public function checkoutPrefill(): ?array
+    {
+        return $this->checkoutPrefill;
+    }
+
+    public function cartCount(): ?int
+    {
+        return $this->cartCount;
     }
 
     /** @return list<array<string, mixed>> */
@@ -117,6 +137,20 @@ class SupportAssistantTools
                 'lift' => ['type' => 'string', 'enum' => ['low', 'medium', 'high']],
                 'environment' => ['type' => 'string', 'enum' => ['workshop', 'warehouse', 'kitchen']],
             ], ['application']),
+            $this->fn('add_to_cart', 'Ürünü müşterinin sepetine ekler. Yalnızca müşteri satın almak/sepete eklemek istediğini açıkça söylediğinde kullan.', [
+                'product' => ['type' => 'string', 'description' => 'Ürün slug, stok kodu (SKU) veya tam ürün adı'],
+                'quantity' => ['type' => 'integer', 'description' => 'Adet (1-20), varsayılan 1'],
+            ], ['product']),
+            $this->fn('prepare_checkout', 'Müşterinin teslimat bilgilerini ödeme formuna aktarır; arayüz müşteriyi ödeme sayfasına yönlendirir. Sepette ürün olmalı. Tüm bilgiler müşteriden alındıktan sonra çağır; bilgileri müşterinin yazdığı gibi aktar, uydurma.', [
+                'ad' => ['type' => 'string', 'description' => 'Ad'],
+                'soyad' => ['type' => 'string', 'description' => 'Soyad'],
+                'telefon' => ['type' => 'string', 'description' => 'Telefon numarası'],
+                'eposta' => ['type' => 'string', 'description' => 'E-posta adresi'],
+                'il' => ['type' => 'string', 'description' => 'İl'],
+                'ilce' => ['type' => 'string', 'description' => 'İlçe'],
+                'adres' => ['type' => 'string', 'description' => 'Açık adres: mahalle, cadde/sokak, bina no, daire'],
+                'posta_kodu' => ['type' => 'string', 'description' => 'Posta kodu, isteğe bağlı'],
+            ], ['ad', 'soyad', 'telefon', 'eposta', 'il', 'ilce', 'adres']),
             $this->fn('handoff_to_human', 'Müşteriyi WhatsApp üzerinden satış/destek ekibine aktarır. Bilgi yoksa, müşteri temsilci isterse, şikâyet, iade, hasar, toptan/proje teklifi, özel fiyat, montaj/servis gibi konularda çağır.', [
                 'summary' => ['type' => 'string', 'description' => 'Temsilcinin göreceği 1-2 cümlelik Türkçe özet (müşterinin ne istediği, ilgili ürün)'],
                 'reason' => ['type' => 'string', 'enum' => ['bilgi_yok', 'musteri_istegi', 'siparis_sorunu', 'teklif_toptan', 'sikayet_iade', 'diger']],
@@ -138,6 +172,8 @@ class SupportAssistantTools
                 'check_order_status' => $this->orderStatus((string) ($args['order_number'] ?? ''), (string) ($args['email'] ?? '')),
                 'recommend_pump' => $this->recommendPump($args),
                 'handoff_to_human' => $this->handoff((string) ($args['summary'] ?? ''), (string) ($args['reason'] ?? 'diger')),
+                'add_to_cart' => $this->addToCart((string) ($args['product'] ?? ''), (int) ($args['quantity'] ?? 1)),
+                'prepare_checkout' => $this->prepareCheckout($args),
                 default => ['hata' => 'Bilinmeyen araç.'],
             };
         } catch (Throwable $e) {
@@ -261,11 +297,7 @@ class SupportAssistantTools
             return ['hata' => 'Ürün belirtilmedi.'];
         }
 
-        $query = CatalogQuery::products()->with(['brand:id,name', 'categories:id,name,slug,parent_id']);
-        $product = (clone $query)->where('slug', $identifier)->first()
-            ?? (clone $query)->where('sku', $identifier)->first()
-            ?? (clone $query)->where('name', $identifier)->first()
-            ?? (clone $query)->where('name', 'like', '%'.$identifier.'%')->orderByRaw('CASE WHEN stock > 0 THEN 0 ELSE 1 END')->first();
+        $product = $this->findProduct($identifier);
 
         if (! $product) {
             return ['bulunamadi' => true, 'not' => 'Bu ürün katalogda bulunamadı. search_products ile farklı kelimelerle ara.'];
@@ -291,6 +323,155 @@ class SupportAssistantTools
         }
 
         return $data;
+    }
+
+    private function findProduct(string $identifier): ?Product
+    {
+        $query = CatalogQuery::products()->with(['brand:id,name', 'categories:id,name,slug,parent_id']);
+
+        return (clone $query)->where('slug', $identifier)->first()
+            ?? (clone $query)->where('sku', $identifier)->first()
+            ?? (clone $query)->where('name', $identifier)->first()
+            ?? (clone $query)->where('name', 'like', '%'.$identifier.'%')->orderByRaw('CASE WHEN stock > 0 THEN 0 ELSE 1 END')->first();
+    }
+
+    /** @return array<string, mixed> */
+    private function addToCart(string $identifier, int $quantity): array
+    {
+        $identifier = trim($identifier);
+        $product = $identifier !== '' ? $this->findProduct($identifier) : null;
+        if (! $product) {
+            return ['eklendi' => false, 'not' => 'Ürün bulunamadı. search_products ile ürünü bulup tam adıyla tekrar dene veya müşteriye hangi ürünü istediğini sor.'];
+        }
+
+        $cart = app(CartService::class);
+        $result = $cart->addProduct($product, min(20, max(1, $quantity)));
+        if ($result['added'] > 0) {
+            app(AnalyticsTracker::class)->trackCartAction(request(), 'cart_add', $product, $result['added']);
+        }
+        app(AnalyticsTracker::class)->syncCart(request(), $cart);
+        $this->cartCount = $cart->count();
+
+        return array_filter([
+            'eklendi' => $result['ok'],
+            'mesaj' => $result['message'],
+            'urun' => $product->name,
+            'sepetteki_adet' => $result['quantity'],
+            'sepet_ara_toplam' => $cart->isEmpty() ? null : $this->money($cart->subtotal()),
+            'not' => $result['ok']
+                ? 'Satın alma için teslimat bilgilerini tek mesajda iste: ad soyad, cep telefonu, e-posta, il, ilçe, açık adres.'
+                : 'Ürün sepete eklenemedi; mesajı müşteriye aktar.',
+        ], fn ($v) => $v !== null);
+    }
+
+    /**
+     * @param  array<string, mixed>  $args
+     * @return array<string, mixed>
+     */
+    private function prepareCheckout(array $args): array
+    {
+        $cart = app(CartService::class);
+        if ($cart->isEmpty()) {
+            return ['hazir' => false, 'not' => 'Sepet boş. Önce add_to_cart ile ürünü sepete ekle.'];
+        }
+
+        $clean = fn (string $key, int $max) => Str::limit(trim(strip_tags((string) ($args[$key] ?? ''))), $max, '');
+        $ad = $clean('ad', 100);
+        $soyad = $clean('soyad', 100);
+        if ($soyad === '' && str_contains($ad, ' ')) {
+            $soyad = Str::afterLast($ad, ' ');
+            $ad = Str::beforeLast($ad, ' ');
+        }
+        $email = mb_strtolower($clean('eposta', 190));
+        $phoneDigits = preg_replace('/\D/', '', (string) ($args['telefon'] ?? ''));
+        $phone = match (true) {
+            strlen($phoneDigits) === 10 => '0'.$phoneDigits,
+            strlen($phoneDigits) === 12 && str_starts_with($phoneDigits, '90') => '0'.substr($phoneDigits, 2),
+            default => $phoneDigits,
+        };
+        $address = $clean('adres', 500);
+
+        $cities = config('turkiye.cities', []);
+        $city = $this->matchPlace($clean('il', 100), array_keys($cities));
+        $district = $city !== null ? $this->matchPlace($clean('ilce', 100), $cities[$city] ?? []) : null;
+
+        $errors = [];
+        if ($ad === '' || $soyad === '') {
+            $errors[] = 'Ad ve soyad';
+        }
+        if (strlen($phone) !== 11 || $phone[0] !== '0') {
+            $errors[] = 'Telefon (ör. 05xx xxx xx xx)';
+        }
+        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'Geçerli bir e-posta adresi';
+        }
+        if ($city === null) {
+            $errors[] = 'İl adı tanınmadı';
+        } elseif ($district === null) {
+            $errors[] = 'İlçe ('.$clean('ilce', 100).') '.$city.' ilinde bulunamadı';
+        }
+        if (mb_strlen($address) < 10) {
+            $errors[] = 'Açık adres (mahalle, sokak, bina no, daire)';
+        }
+
+        if ($errors !== []) {
+            return [
+                'hazir' => false,
+                'eksik_veya_hatali' => $errors,
+                'not' => 'Müşteriden yalnızca bu bilgileri kibarca tekrar iste; doğru olan bilgileri yeniden sorma.',
+            ];
+        }
+
+        $prefill = array_filter([
+            'ad' => $ad,
+            'soyad' => $soyad,
+            'eposta' => $email,
+            'telefon' => $phone,
+            'il' => $city,
+            'ilce' => $district,
+            'adres' => $address,
+            'posta_kodu' => preg_replace('/\D/', '', $clean('posta_kodu', 10)) ?: null,
+        ], fn ($v) => $v !== null && $v !== '');
+
+        session()->put(self::CHECKOUT_SESSION_KEY, $prefill);
+        $this->checkoutPrefill = $prefill;
+        $this->cartCount = $cart->count();
+        app(AnalyticsTracker::class)->updateCheckoutContact(request(), $cart, [
+            'ad' => $ad, 'soyad' => $soyad, 'eposta' => $email, 'telefon' => $phone,
+        ]);
+
+        return [
+            'hazir' => true,
+            'sepet' => collect($cart->lines())->map(fn ($line) => $line['product']->name.' × '.$line['quantity'])->values()->all(),
+            'sepet_ara_toplam' => $this->money($cart->subtotal()),
+            'not' => 'Bilgiler ödeme formuna aktarıldı; arayüz müşteriyi ödeme sayfasına yönlendiriyor. Müşteriye orada kargo ve ödeme yöntemini kontrol edip sözleşmeyi onaylayarak ödemeyi tamamlayacağını söyle. Kişisel bilgileri tekrar yazma, URL yazma, kart bilgisi isteme.',
+        ];
+    }
+
+    /**
+     * @param  list<string>  $options
+     */
+    private function matchPlace(string $value, array $options): ?string
+    {
+        $normalize = fn (string $v) => mb_strtoupper(str_replace(['i', 'ı'], ['İ', 'I'], trim(preg_replace('/\s+(ili|ilçesi|ilcesi)$/iu', '', $v))), 'UTF-8');
+        $ascii = fn (string $v) => strtr($normalize($v), ['İ' => 'I', 'Ş' => 'S', 'Ğ' => 'G', 'Ü' => 'U', 'Ö' => 'O', 'Ç' => 'C']);
+        $needle = $normalize($value);
+        if ($needle === '') {
+            return null;
+        }
+
+        foreach ($options as $option) {
+            if ($normalize($option) === $needle) {
+                return $option;
+            }
+        }
+        foreach ($options as $option) {
+            if ($ascii($option) === $ascii($value)) {
+                return $option;
+            }
+        }
+
+        return null;
     }
 
     /** @return array<string, mixed> */

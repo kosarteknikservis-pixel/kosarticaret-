@@ -101,6 +101,7 @@ Route::get('/pompa-secici', [PumpSelectorController::class, 'show'])->name('pump
 Route::post('/pompa-secici/oner', [PumpSelectorController::class, 'recommend'])->middleware('throttle:20,1')->name('pump-selector.recommend');
 Route::post('/destek-asistani/mesaj', [SupportChatController::class, 'message'])->middleware('throttle:12,1')->name('support-chat.message');
 Route::post('/destek-asistani/sifirla', [SupportChatController::class, 'reset'])->middleware('throttle:10,1')->name('support-chat.reset');
+Route::get('/destek-asistani/odemeye-gec', [SupportChatController::class, 'checkout'])->middleware('throttle:20,1')->name('support-chat.checkout');
 Route::get('/urun/{product:slug}/taksit', ProductInstallmentController::class)->name('products.installments');
 Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:3,1')->name('products.review');
 Route::get('/kategoriler', [CategoryController::class, 'index'])->name('categories.index');

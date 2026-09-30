@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\SupportChatConversation;
 use App\Services\SupportAssistant\SupportAssistantService;
+use App\Services\SupportAssistant\SupportAssistantTools;
+use Illuminate\Http\RedirectResponse;
 use App\Support\SupportAssistantConfig;
 use App\Support\Utf8Mojibake;
 use Illuminate\Http\JsonResponse;
@@ -26,7 +28,7 @@ class SupportChatController extends Controller
             'page' => ['nullable', 'string', 'max:500'],
         ]);
 
-        $text = trim((string) Utf8Mojibake::repair(strip_tags($data['message'])));
+        $text = $this->maskCardNumbers(trim((string) Utf8Mojibake::repair(strip_tags($data['message']))));
         if ($text === '') {
             return $this->json(['message' => 'Mesaj boş olamaz.'], 422);
         }
@@ -46,9 +48,35 @@ class SupportChatController extends Controller
 
     public function reset(Request $request): JsonResponse
     {
-        $request->session()->forget([self::SESSION_KEY, self::SESSION_ORDER_LOOKUPS]);
+        $request->session()->forget([self::SESSION_KEY, self::SESSION_ORDER_LOOKUPS, SupportAssistantTools::CHECKOUT_SESSION_KEY]);
 
         return $this->json(['ok' => true]);
+    }
+
+    /**
+     * Asistanın topladığı teslimat bilgileriyle ödeme formunu doldurup ödeme sayfasına yönlendirir.
+     */
+    public function checkout(Request $request): RedirectResponse
+    {
+        $prefill = $request->session()->get(SupportAssistantTools::CHECKOUT_SESSION_KEY);
+
+        return is_array($prefill) && $prefill !== []
+            ? redirect()->route('checkout.show')->withInput($prefill)
+            : redirect()->route('checkout.show');
+    }
+
+    private function maskCardNumbers(string $text): string
+    {
+        return (string) preg_replace_callback('/\b(?:\d[ -]?){12,18}\d\b/', function (array $match) {
+            $digits = preg_replace('/\D/', '', $match[0]);
+            $sum = 0;
+            foreach (str_split(strrev($digits)) as $i => $digit) {
+                $n = (int) $digit * ($i % 2 === 1 ? 2 : 1);
+                $sum += $n > 9 ? $n - 9 : $n;
+            }
+
+            return $sum % 10 === 0 ? '[kart numarası gizlendi]' : $match[0];
+        }, $text);
     }
 
     private function conversation(Request $request, ?string $page): SupportChatConversation
