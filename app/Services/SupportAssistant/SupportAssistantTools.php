@@ -18,7 +18,7 @@ use App\Support\ProductSpecs;
 use App\Support\PumpSelectorUiConfig;
 use App\Support\RichContent;
 use App\Support\SupportAssistantConfig;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Throwable;
@@ -49,6 +49,7 @@ class SupportAssistantTools
         private InstallmentOptionsService $installments,
         private PumpRecommendationService $pumps,
         private SupportAssistantOrderFlow $orders,
+        private SupportAssistantCatalogSearch $catalog,
     ) {}
 
     public function orderFlow(): SupportAssistantOrderFlow
@@ -103,8 +104,9 @@ class SupportAssistantTools
         $applications = array_keys(config('pump_selector.applications', []));
 
         return [
-            $this->fn('search_products', 'Mağaza kataloğunda ürün ve kategori arar. Ürün adı, marka, model, stok kodu veya ürün türü (ör. "dalgıç pompa 1 hp", "sumak hidrofor") ile kullan. Türkçe karakterli yaz.', [
-                'query' => ['type' => 'string', 'description' => 'Arama ifadesi'],
+            $this->fn('search_products', 'Mağazanın tüm kataloğunda (pompa, hidrofor, fan/vantilatör, ısıtıcı, aydınlatma ve diğer tüm ürünler) ürün ve kategori arar. Ürün adı, model, stok kodu veya ürün türü (ör. "ısıtıcı", "dalgıç pompa 1 hp", "sumak hidrofor") ile kullan. Sonuç farklı markalardan örnekler ve "markalar" listesini döndürür.', [
+                'query' => ['type' => 'string', 'description' => 'Arama ifadesi: ürün türü/model; "fiyat", "en iyi" gibi kelimeleri ekleme'],
+                'brand' => ['type' => 'string', 'description' => 'Yalnızca müşteri bir marka istediğinde: marka adı (isteğe bağlı)'],
                 'min_price' => ['type' => 'number', 'description' => 'En düşük fiyat (TL), isteğe bağlı'],
                 'max_price' => ['type' => 'number', 'description' => 'En yüksek fiyat (TL), isteğe bağlı'],
                 'only_in_stock' => ['type' => 'boolean', 'description' => 'Yalnızca stoktakiler'],
@@ -138,6 +140,7 @@ class SupportAssistantTools
                 'method' => ['type' => 'string', 'enum' => ['sprinkler', 'drip']],
                 'lift' => ['type' => 'string', 'enum' => ['low', 'medium', 'high']],
                 'environment' => ['type' => 'string', 'enum' => ['workshop', 'warehouse', 'kitchen']],
+                'brand' => ['type' => 'string', 'description' => 'Yalnızca müşteri bir marka tercih ettiğinde: marka adı (isteğe bağlı)'],
             ], ['application']),
             $this->fn('add_to_cart', 'Ürünü müşterinin sepetine ekler. Yalnızca müşteri satın almak/sepete eklemek istediğini açıkça söylediğinde kullan.', [
                 'product' => ['type' => 'string', 'description' => 'Ürün slug, stok kodu (SKU) veya tam ürün adı'],
@@ -209,53 +212,34 @@ class SupportAssistantTools
     private function searchProducts(array $args): array
     {
         $query = Str::limit(trim((string) ($args['query'] ?? '')), 80, '');
-        $terms = collect(preg_split('/\s+/u', mb_strtolower($query)) ?: [])
-            ->map(fn ($t) => trim($t, " \t,.;:!?\"'()"))
-            ->filter(fn ($t) => mb_strlen($t) >= 2)
-            ->unique()
-            ->take(6)
-            ->values();
-
-        if ($terms->isEmpty()) {
-            return ['hata' => 'Arama ifadesi boş.'];
+        if ($this->catalog->terms($query) === []) {
+            return ['hata' => 'Arama ifadesi boş veya çok genel. Ürün türü, marka ya da model ile ara.'];
         }
 
-        $base = CatalogQuery::products()->with('brand:id,name');
-        if (isset($args['min_price']) && is_numeric($args['min_price'])) {
-            $base->where('price', '>=', (float) $args['min_price']);
-        }
-        if (isset($args['max_price']) && is_numeric($args['max_price']) && (float) $args['max_price'] > 0) {
-            $base->where('price', '<=', (float) $args['max_price']);
-        }
-        if (! empty($args['only_in_stock'])) {
-            $base->where('stock', '>', 0);
+        $brand = trim((string) ($args['brand'] ?? ''));
+        $filters = [
+            'min_price' => isset($args['min_price']) && is_numeric($args['min_price']) ? (float) $args['min_price'] : null,
+            'max_price' => isset($args['max_price']) && is_numeric($args['max_price']) && (float) $args['max_price'] > 0 ? (float) $args['max_price'] : null,
+            'only_in_stock' => ! empty($args['only_in_stock']),
+            'brand' => $brand,
+        ];
+        $result = $this->catalog->search($query, array_filter($filters, fn ($v) => $v !== null && $v !== ''));
+        $withoutBrand = $brand !== '' && $result['products']->isEmpty()
+            ? $this->catalog->search($query, array_filter([...$filters, 'brand' => null], fn ($v) => $v !== null && $v !== ''))
+            : null;
+
+        if (! $result['brand_found'] || ($withoutBrand !== null && $withoutBrand['products']->isNotEmpty())) {
+            return [
+                'sorgu' => $query,
+                'marka' => $brand,
+                'bulunamadi' => true,
+                'not' => 'Katalogda "'.$brand.'" markasında bu aramaya uygun ürün yok. Kullanıcıya bunu söyle ve varsa diğer markaları sun.',
+                'diger_markalar' => $withoutBrand['brands'] ?? [],
+            ];
         }
 
-        $matchTerm = function (Builder $q, string $term): void {
-            $like = '%'.$term.'%';
-            $q->where('name', 'like', $like)
-                ->orWhere('sku', 'like', $like)
-                ->orWhereHas('brand', fn (Builder $b) => $b->where('name', 'like', $like));
-        };
-
-        $strict = (clone $base);
-        foreach ($terms as $term) {
-            $strict->where(fn (Builder $q) => $matchTerm($q, $term));
-        }
-        $products = $this->ordered($strict->orderByRaw('CASE WHEN name LIKE ? THEN 0 ELSE 1 END', ['%'.$query.'%']))->limit(6)->get();
-        $approximate = false;
-
-        if ($products->isEmpty()) {
-            $loose = $terms->filter(fn ($t) => mb_strlen($t) >= 3);
-            if ($loose->isNotEmpty()) {
-                $products = $this->ordered((clone $base)->where(function (Builder $q) use ($loose, $matchTerm) {
-                    foreach ($loose as $term) {
-                        $q->orWhere(fn (Builder $inner) => $matchTerm($inner, $term));
-                    }
-                }))->limit(6)->get();
-                $approximate = $products->isNotEmpty();
-            }
-        }
+        $products = $result['products'];
+        $approximate = $result['approximate'];
 
         if (! $approximate && $products->isNotEmpty()) {
             $this->startCards('search_products');
@@ -264,48 +248,18 @@ class SupportAssistantTools
             }
         }
 
-        return [
+        return array_filter([
             'sorgu' => $query,
+            'marka_filtresi' => $brand !== '' ? $brand : null,
             'yaklasik_eslesme' => $approximate,
-            'not' => $approximate ? 'Tam eşleşme yok; bunlar kelimelerden bazılarıyla eşleşen ürünler. Kullanıcıya birebir aradığı ürün olmayabileceğini belirt.' : null,
+            'not' => $approximate
+                ? 'Tam eşleşme yok; bunlar kelimelerden bazılarıyla eşleşen ürünler. Kullanıcıya birebir aradığı ürün olmayabileceğini belirt.'
+                : ($products->isEmpty() ? 'Bu ifadeyle katalogda ürün bulunamadı. Daha genel bir ürün türüyle (tekil, ör. "ısıtıcı") bir kez daha ara; yine yoksa bulamadığını söyle, ürün uydurma.' : null),
             'urunler' => $products->map(fn (Product $p) => $this->productSummary($p))->all(),
-            'kategoriler' => $this->matchingCategories($query, $terms->all()),
-        ];
-    }
-
-    private function ordered(Builder $query): Builder
-    {
-        return $query->orderByRaw('CASE WHEN stock > 0 THEN 0 ELSE 1 END')
-            ->orderByDesc('featured')
-            ->orderBy('name');
-    }
-
-    /**
-     * @param  list<string>  $terms
-     * @return list<array{ad: string, url: string}>
-     */
-    private function matchingCategories(string $query, array $terms): array
-    {
-        $categories = Category::query()->where('active', true)
-            ->where('name', 'like', '%'.$query.'%')
-            ->orderByRaw('CASE WHEN name LIKE ? THEN 0 ELSE 1 END', [$query.'%'])
-            ->orderByRaw('LENGTH(name)')
-            ->orderBy('sort_order')
-            ->limit(3)
-            ->get();
-
-        if ($categories->isEmpty()) {
-            $long = array_values(array_filter($terms, fn ($t) => mb_strlen($t) >= 4));
-            if ($long !== []) {
-                $q = Category::query()->where('active', true);
-                foreach ($long as $term) {
-                    $q->where('name', 'like', '%'.$term.'%');
-                }
-                $categories = $q->orderBy('sort_order')->limit(3)->get();
-            }
-        }
-
-        return $categories->map(fn (Category $c) => ['ad' => (string) $c->name, 'url' => $c->storefrontUrl()])->all();
+            'markalar' => count($result['brands']) > 1 ? $result['brands'] : null,
+            'kategoriler' => $this->catalog->categories($query)
+                ->map(fn (Category $c) => ['ad' => (string) $c->name, 'url' => $c->storefrontUrl()])->all(),
+        ], fn ($v) => $v !== null);
     }
 
     /** @return array<string, mixed> */
@@ -351,7 +305,21 @@ class SupportAssistantTools
         return (clone $query)->where('slug', $identifier)->first()
             ?? (clone $query)->where('sku', $identifier)->first()
             ?? (clone $query)->where('name', $identifier)->first()
-            ?? (clone $query)->where('name', 'like', '%'.$identifier.'%')->orderByRaw('CASE WHEN stock > 0 THEN 0 ELSE 1 END')->first();
+            ?? (clone $query)->where('name', 'like', '%'.$identifier.'%')->orderByRaw('CASE WHEN stock > 0 THEN 0 ELSE 1 END')->first()
+            ?? $this->closestProduct($identifier);
+    }
+
+    private function closestProduct(string $identifier): ?Product
+    {
+        if (count($this->catalog->terms($identifier)) < 3) {
+            return null;
+        }
+        $result = $this->catalog->search($identifier, [], 1);
+        if ($result['approximate']) {
+            return null;
+        }
+
+        return $result['products']->first()?->loadMissing(['brand:id,name', 'categories:id,name,slug,parent_id']);
     }
 
     /** @return array<string, mixed> */
@@ -654,10 +622,28 @@ class SupportAssistantTools
         }
 
         $inputs = collect($validator->validated())->filter(fn ($v) => $v !== null)->all();
-        $result = $this->pumps->recommend($application, $inputs);
+        $result = $this->pumps->recommend($application, $inputs, 40);
         $requirements = $result['requirements'] ?? [];
 
-        $products = collect($result['products'] ?? [])->take(5);
+        $all = collect($result['products'] ?? []);
+        $brands = $all->pluck('brand')->filter()->unique()->values()->all();
+        $brand = trim((string) ($args['brand'] ?? ''));
+
+        if ($brand !== '') {
+            $needle = SupportAssistantCatalogSearch::fold($brand);
+            $products = $all->filter(fn (array $p) => $needle !== '' && str_contains(SupportAssistantCatalogSearch::fold((string) ($p['brand'] ?? '')), $needle))->take(5)->values();
+            if ($products->isEmpty() && $all->isNotEmpty()) {
+                return [
+                    'ihtiyac_ozeti' => $requirements['summary'] ?? null,
+                    'marka' => $brand,
+                    'not' => 'Katalogda "'.$brand.'" markasında bu ihtiyaca uygun ürün bulunamadı. Kullanıcıya bunu söyle ve uygun_markalar içinden başka marka öner.',
+                    'uygun_markalar' => $brands,
+                ];
+            }
+        } else {
+            $products = $this->diversifyBrands($all, 5);
+        }
+
         $productModels = Product::query()->with('brand:id,name')->whereIn('id', $products->pluck('id'))->get()->keyBy('id');
         if ($products->isNotEmpty()) {
             $this->startCards('recommend_pump');
@@ -681,13 +667,54 @@ class SupportAssistantTools
                 'uygunluk' => $p['match_reason'] ?? null,
                 'url' => $p['url'] ?? null,
             ]))->all(),
-            'siralama' => 'Ürünler en uygun seçimden başlayarak sıralıdır; bu sırayı koru.',
+            'siralama' => $brand !== ''
+                ? 'Ürünler en uygun seçimden başlayarak sıralıdır; bu sırayı koru.'
+                : 'İlk ürün en uygun seçimdir; sonrakiler mümkün olduğunca farklı markalardan uygun alternatiflerdir. Bu sırayı koru.',
+            'marka_filtresi' => $brand !== '' ? $brand : null,
+            'uygun_markalar' => $brand === '' && count($brands) > 1 ? $brands : null,
             'kategori_url' => $result['category_url'] ?? null,
             'pompa_secici_sayfasi' => route('pump-selector.show'),
             'not' => $products->isEmpty()
                 ? 'Katalogda bu ihtiyaca uygun ürün bulunamadı; teknik ekibe aktarmayı öner.'
                 : 'Bu hesap ön seçimdir; boru çapı, mesafe ve montaj koşulları sonucu değiştirebilir. Kesin seçim için teknik ekiple görüşmeyi öner.',
         ], fn ($v) => $v !== null && $v !== []);
+    }
+
+    /**
+     * Keeps the best match first, then prefers suitable products from other brands before repeating one.
+     *
+     * @param  Collection<int, array<string, mixed>>  $rows
+     * @return Collection<int, array<string, mixed>>
+     */
+    private function diversifyBrands(Collection $rows, int $limit): Collection
+    {
+        $first = $rows->first();
+        if ($first === null) {
+            return $rows;
+        }
+
+        $picked = [0 => $first];
+        $seen = [(string) ($first['brand'] ?? '') => true];
+        foreach ($rows->slice(1) as $key => $row) {
+            $brand = (string) ($row['brand'] ?? '');
+            $stockOk = ! empty($row['in_stock']) || empty($first['in_stock']);
+            if ($brand !== '' && ! isset($seen[$brand]) && $stockOk && (int) ($row['match_score'] ?? 0) >= 60) {
+                $picked[$key] = $row;
+                $seen[$brand] = true;
+            }
+            if (count($picked) >= $limit) {
+                break;
+            }
+        }
+
+        foreach ($rows as $key => $row) {
+            if (count($picked) >= $limit) {
+                break;
+            }
+            $picked[$key] ??= $row;
+        }
+
+        return collect(array_values($picked));
     }
 
     /** @return array<string, mixed> */

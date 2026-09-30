@@ -21,7 +21,7 @@ class PumpRecommendationService
      *     category_url: ?string
      * }
      */
-    public function recommend(string $application, array $inputs): array
+    public function recommend(string $application, array $inputs, ?int $limit = null): array
     {
         $requirements = $this->calculator->calculate($application, $inputs);
         $config = config("pump_selector.applications.{$application}");
@@ -65,7 +65,7 @@ class PumpRecommendationService
             ] <=> [
                 $b['fit'] ?? PHP_INT_MAX, $b['product']->stock > 0 ? 0 : 1, $a['score'], (float) $b['product']->price,
             ])
-            ->take((int) config('pump_selector.limits.max_recommendations', 8))
+            ->take($limit ?? (int) config('pump_selector.limits.max_recommendations', 8))
             ->values();
 
         $categorySlugs = array_values(array_filter([$config['primary_category'] ?? null, ...($config['category_slugs'] ?? [])]));

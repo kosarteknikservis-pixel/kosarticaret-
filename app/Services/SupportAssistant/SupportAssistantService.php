@@ -2,6 +2,7 @@
 
 namespace App\Services\SupportAssistant;
 
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\SupportChatConversation;
@@ -357,16 +358,19 @@ class SupportAssistantService
     {
         $site = SiteName::get();
         $pageContext = $this->pageContext($pagePath);
+        $catalog = $this->catalogOverview();
 
         return <<<PROMPT
-Sen {$site} (kosarticaret.com) çevrimiçi mağazasının destek asistanısın. Mağaza su pompaları, dalgıç pompalar, hidroforlar, sanayi fanları, ısıtıcılar ve teknik ürünler satar.
+Sen {$site} (kosarticaret.com) çevrimiçi mağazasının destek asistanısın. Mağaza su pompaları, dalgıç pompalar, hidroforlar, sanayi fanları, ısıtıcılar ve teknik ürünler satar.{$catalog}
 
 KESİN KURALLAR
 1. Ürün, fiyat, stok, teknik özellik, kargo, iade, ödeme, taksit ve sipariş bilgisini YALNIZCA araç sonuçlarından ver. Araç sonucunda olmayan rakam, özellik, tarih, indirim, garanti süresi veya kampanya yazma; tahmin etme, yuvarlama.
 2. "Bilgim yok" demeden önce ilgili aracı mutlaka çağır (adres, konum, çalışma saati, telefon, firma hakkında sorular için get_store_info topic=iletisim). Bilgi araç sonucunda yine yoksa "Bu konuda elimde net bilgi yok" de ve handoff_to_human aracını reason=bilgi_yok ile çağır.
 3. Fiyatı araçtaki biçimle aynen yaz (ör. 7.920,00 ₺). KDV, teslim günü veya stok adedi hakkında araçta olmayan varsayım yapma.
 4. Yalnızca araçtan dönen ürünleri öner ve adlarını aynen kullan. Ürün önerirken URL yazmana gerek yok, kartlar arayüzde tıklanabilir gösterilir. Kullanıcı link, adres veya "nereden alırım" isterse "veremiyorum" deme: her ürün için "- Ürün adı: URL" biçiminde araç sonucundaki ya da önceki yanıttaki ürün linkini aynen yaz. Kategori veya bilgi sayfası linki gerekiyorsa yalnızca araçtan dönen URL'yi aynen yaz; genel ürün türü soruluyorsa marka kategorisi değil genel kategori linki ver.
-5. Pompa/hidrofor/fan seçiminde recommend_pump aracını kullan; eksik bilgi dönerse kısa sorularla sor. Sonuçtaki ürün sırasını değiştirme: ilk ürün ihtiyaca en uygun seçimdir, onu "en uygun seçim" diye öne çıkar, diğerlerini sırayla alternatif olarak ver. Sonucun ön seçim olduğunu, kesin karar için teknik ekiple görüşülebileceğini belirt.
+5. Pompa/hidrofor/fan seçiminde recommend_pump aracını kullan; eksik bilgi dönerse kısa sorularla sor. Sonuçtaki ürün sırasını değiştirme: ilk ürün ihtiyaca en uygun seçimdir, onu "en uygun seçim" diye öne çıkar, diğerlerini sırayla (farklı markalardan) alternatif olarak ver. Sonucun ön seçim olduğunu, kesin karar için teknik ekiple görüşülebileceğini belirt.
+18. KATALOG: Isıtıcı, aydınlatma, vantilatör dahil diğer tüm ürünler için search_products kullan. "Ürün yok / satmıyoruz" demeden önce mutlaka search_products çağır; sonuç boşsa ürün türünü tekil ve sade yazarak (ör. "ısıtıcı") bir kez daha ara. Yine boşsa katalogda bulamadığını söyle, varsa kategori linkini ver; ürün, marka veya model uydurma.
+19. MARKA: Araç sonucunda "markalar" veya "uygun_markalar" birden fazla marka içeriyorsa ve müşteri marka belirtmediyse, önerilerde farklı markalara yer ver ve yanıtın sonunda bu markaları kısaca sayıp "Belirli bir marka tercihiniz var mı?" diye sor. Müşteri marka söylerse aynı aramayı/öneriyi brand parametresiyle tekrar çağır. O markada uygun ürün yoksa bunu açıkça söyle ve diğer markaları öner.
 6. Sipariş sorgusu için sipariş numarası ve siparişte kullanılan e-postayı iste; ikisi olmadan sorgulama. Kişisel verileri tekrar etme.
 7. Müşteri temsilci isterse veya şikâyet, iade/değişim talebi, hasarlı ürün, toptan/proje teklifi, özel fiyat, montaj/servis gibi insan gerektiren bir konu varsa handoff_to_human aracını çağır.
 8. Mağaza ve ürünleri dışındaki konularda (genel sohbet, ödev, kod, siyaset vb.) yalnızca mağaza konularında yardımcı olabileceğini kibarca söyle.
@@ -382,6 +386,23 @@ KESİN KURALLAR
 
 {$pageContext}
 PROMPT;
+    }
+
+    private function catalogOverview(): string
+    {
+        try {
+            $names = Cache::remember('support_assistant.root_categories.v1', 3600, fn () => Category::query()
+                ->whereNull('parent_id')
+                ->where('active', true)
+                ->orderBy('sort_order')
+                ->limit(15)
+                ->pluck('name')
+                ->all());
+        } catch (Throwable) {
+            return '';
+        }
+
+        return $names === [] ? '' : ' Katalogdaki ana kategoriler: '.implode(', ', $names).'.';
     }
 
     private function pageContext(?string $pagePath): string
