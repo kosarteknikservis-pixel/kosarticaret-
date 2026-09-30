@@ -37,9 +37,18 @@ class PumpRecommendationService
         $requiredHead = (float) $requirements['head_m'];
         $isFan = $application === 'industrial_fan';
 
-        $scored = $candidates->map(function (Product $product) use ($requiredFlow, $requiredHead, $isFan, $config) {
+        $building = match ($application) {
+            'hydrofor_apartment' => ['floors' => (int) ($inputs['floors'] ?? 0), 'apartments' => (int) ($inputs['apartments'] ?? 0), 'soft' => false],
+            'hydrofor_villa' => ['floors' => (int) ($inputs['floors'] ?? 0), 'apartments' => (int) ($inputs['bathrooms'] ?? 0), 'soft' => true],
+            default => null,
+        };
+
+        $scored = $candidates->map(function (Product $product) use ($requiredFlow, $requiredHead, $isFan, $config, $building) {
             $specs = $this->extractor->extract($product);
             $score = $this->scoreProduct($product, $specs, $requiredFlow, $requiredHead, $isFan, $config);
+            if ($building !== null && $score['score'] > 0) {
+                $score = $this->applyBuildingCapacity($product, $score, $building['floors'], $building['apartments'], $building['soft']);
+            }
 
             return [
                 'product' => $product,
@@ -209,6 +218,72 @@ class PumpRecommendationService
         return [
             'score' => max(0, $score),
             'reason' => implode(' · ', array_slice($reasons, 0, 3)) ?: 'Önerilen model',
+        ];
+    }
+
+    /**
+     * Hidrofor adındaki "N Kat M Daire" etiketi üreticinin kapasite beyanıdır:
+     * istenenin altındaysa ürün elenir, en yakın uygun kapasite öne çıkar.
+     * Villada daire sayısı yerine banyo sayısı yalnızca sıralama için kullanılır ($softApartments).
+     *
+     * @param  array{score: int, reason: string}  $score
+     * @return array{score: int, reason: string}
+     */
+    private function applyBuildingCapacity(Product $product, array $score, int $floors, int $apartments, bool $softApartments = false): array
+    {
+        $capacity = self::nameCapacity($product->name);
+        if ($capacity['floors'] === null && $capacity['apartments'] === null) {
+            return $score;
+        }
+
+        $checks = array_filter([
+            'floors' => $floors > 0 && $capacity['floors'] !== null ? [$floors, $capacity['floors']] : null,
+            'apartments' => $apartments > 0 && $capacity['apartments'] !== null ? [$apartments, $capacity['apartments']] : null,
+        ]);
+
+        foreach ($checks as $dimension => [$required, $rated]) {
+            if ($rated < $required && ! ($softApartments && $dimension === 'apartments')) {
+                return ['score' => 0, 'reason' => $score['reason']];
+            }
+        }
+
+        $points = $score['score'];
+        foreach ($checks as [$required, $rated]) {
+            $ratio = $rated / $required;
+            $points += match (true) {
+                $ratio < 1 => 0,
+                $ratio <= 1.2 => 22,
+                $ratio <= 1.5 => 18,
+                $ratio <= 2.5 => 10,
+                $ratio <= 4 => 2,
+                default => -10,
+            };
+        }
+
+        $label = implode(' / ', array_filter([
+            $capacity['floors'] !== null ? $capacity['floors'].' kat' : null,
+            $capacity['apartments'] !== null ? $capacity['apartments'].' daire' : null,
+        ]));
+
+        return [
+            'score' => max(1, $points),
+            'reason' => 'Üretici kapasitesi: '.$label.' · '.$score['reason'],
+        ];
+    }
+
+    /**
+     * @return array{floors: ?int, apartments: ?int}
+     */
+    public static function nameCapacity(string $name): array
+    {
+        $normalized = mb_strtolower(str_replace(['İ', 'I'], ['i', 'ı'], $name), 'UTF-8');
+
+        $floors = preg_match('/(\d{1,3})\s*kat(?:l[ıi])?\b/u', $normalized, $m) ? (int) $m[1] : null;
+        $apartments = preg_match('/(\d{1,3})\s*daire/u', $normalized, $m) ? (int) $m[1] : null;
+
+        return [
+            'floors' => $floors > 0 ? $floors : null,
+            'apartments' => $apartments > 0 ? $apartments : null,
         ];
     }
 

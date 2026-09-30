@@ -113,7 +113,7 @@ class PumpSpecExtractor
     {
         $value = str_replace(',', '.', mb_strtolower(trim($value), 'UTF-8'));
 
-        if (preg_match('/([\d.]+)\s*(?:m|metre)(?!\s*[³3])/u', $value, $m)) {
+        if (preg_match('/([\d.]+)\s*(?:metre|mss|m)(?![a-zçğıöşü³3])/u', $value, $m)) {
             return round((float) $m[1], 1);
         }
 

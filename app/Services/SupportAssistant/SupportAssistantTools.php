@@ -90,7 +90,7 @@ class SupportAssistantTools
             $this->fn('get_product_details', 'Tek ürünün güncel fiyatını, stok durumunu, teknik özelliklerini ve açıklamasını getirir.', [
                 'product' => ['type' => 'string', 'description' => 'Ürün slug, stok kodu (SKU) veya tam ürün adı'],
             ], ['product']),
-            $this->fn('get_store_info', 'Mağaza politikalarını getirir: kargo, iade/değişim, ödeme yöntemleri, taksit, iletişim, sık sorulan sorular.', [
+            $this->fn('get_store_info', 'Mağaza bilgilerini getirir: kargo, iade/değişim, ödeme yöntemleri, taksit, sık sorulan sorular. topic=iletisim: adres, konum ("yeriniz nerede"), çalışma saatleri, telefon, e-posta, WhatsApp ve firma hakkında bilgi.', [
                 'topic' => ['type' => 'string', 'enum' => ['kargo', 'iade', 'odeme', 'taksit', 'iletisim', 'sss', 'genel']],
                 'amount' => ['type' => 'number', 'description' => 'Taksit hesabı için sepet/ürün tutarı (TL)'],
             ], ['topic']),
@@ -394,7 +394,12 @@ class SupportAssistantTools
             'iade' => ['kargo_ve_iade_sayfasi' => $pageText('kargo-ve-iade', 3500)],
             'odeme' => $payments(),
             'taksit' => $this->installmentInfo($amount),
-            'iletisim' => $contact(),
+            'iletisim' => [
+                ...$contact(),
+                'iletisim_sayfasi_metni' => $pageText('iletisim', 1200),
+                'hakkimizda' => $pageText('hakkimizda', 1200),
+                'not_konum' => 'Adres ve çalışma saatleri için iletisim_sayfasi_metni içindeki bilgiyi aynen ver; ilçe/şehir yazmıyorsa ekleme.',
+            ],
             'sss' => ['sss_sayfasi' => $pageText('sss', 4500)],
             default => [...$shipping(), ...$payments(), 'iletisim' => $contact()],
         };
