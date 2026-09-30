@@ -32,9 +32,12 @@ class SupportAssistantService
         $history = $conversation->messages()
             ->latest('id')
             ->limit(self::HISTORY_MESSAGES)
-            ->get(['role', 'content'])
+            ->get(['role', 'content', 'products'])
             ->reverse()
             ->values();
+        $shownProducts = $history->pluck('products')->filter()->flatten(1)
+            ->filter(fn ($p) => is_array($p) && ! empty($p['url']))
+            ->keyBy('url');
 
         $userCount = $conversation->messages()->where('role', 'user')->count();
         $this->storeMessage($conversation, 'user', $userText);
@@ -51,7 +54,13 @@ class SupportAssistantService
 
         $messages = [['role' => 'system', 'content' => $this->systemPrompt($pagePath)]];
         foreach ($history as $message) {
-            $messages[] = ['role' => $message->role === 'assistant' ? 'assistant' : 'user', 'content' => $message->content];
+            $content = $message->content;
+            if ($message->role === 'assistant' && ! empty($message->products)) {
+                $content .= "\n\n(Bu yanıtta kartla gösterilen ürün linkleri: ".collect($message->products)
+                    ->map(fn ($p) => ($p['name'] ?? '').' — '.($p['url'] ?? ''))
+                    ->implode('; ').')';
+            }
+            $messages[] = ['role' => $message->role === 'assistant' ? 'assistant' : 'user', 'content' => $content];
         }
         $messages[] = ['role' => 'user', 'content' => $userText];
 
@@ -118,7 +127,12 @@ class SupportAssistantService
 
         $handoff = $this->tools->handoffRequested() || $unanswered;
 
-        return $this->finish($conversation, $content, $usedTools, $handoff, $userText, $unanswered, $tokens, $this->tools->cards());
+        $cards = $this->tools->cards();
+        if ($cards === []) {
+            $cards = $shownProducts->filter(fn (array $p, string $url) => str_contains($content, $url))->values()->all();
+        }
+
+        return $this->finish($conversation, $content, $usedTools, $handoff, $userText, $unanswered, $tokens, $cards);
     }
 
     /**
@@ -237,8 +251,8 @@ KESİN KURALLAR
 1. Ürün, fiyat, stok, teknik özellik, kargo, iade, ödeme, taksit ve sipariş bilgisini YALNIZCA araç sonuçlarından ver. Araç sonucunda olmayan rakam, özellik, tarih, indirim, garanti süresi veya kampanya yazma; tahmin etme, yuvarlama.
 2. "Bilgim yok" demeden önce ilgili aracı mutlaka çağır (adres, konum, çalışma saati, telefon, firma hakkında sorular için get_store_info topic=iletisim). Bilgi araç sonucunda yine yoksa "Bu konuda elimde net bilgi yok" de ve handoff_to_human aracını reason=bilgi_yok ile çağır.
 3. Fiyatı araçtaki biçimle aynen yaz (ör. 7.920,00 ₺). KDV, teslim günü veya stok adedi hakkında araçta olmayan varsayım yapma.
-4. Yalnızca araçtan dönen ürünleri öner ve adlarını aynen kullan. Ürün URL'si yazma; ürün kartları arayüzde otomatik gösterilir. Kategori veya bilgi sayfası linki gerekiyorsa yalnızca araçtan dönen URL'yi aynen yaz.
-5. Pompa/hidrofor/fan seçiminde recommend_pump aracını kullan; eksik bilgi dönerse kısa sorularla sor. Sonucun ön seçim olduğunu, kesin karar için teknik ekiple görüşülebileceğini belirt.
+4. Yalnızca araçtan dönen ürünleri öner ve adlarını aynen kullan. Ürün önerirken URL yazmana gerek yok, kartlar arayüzde tıklanabilir gösterilir. Kullanıcı link, adres veya "nereden alırım" isterse "veremiyorum" deme: her ürün için "- Ürün adı: URL" biçiminde araç sonucundaki ya da önceki yanıttaki ürün linkini aynen yaz. Kategori veya bilgi sayfası linki gerekiyorsa yalnızca araçtan dönen URL'yi aynen yaz; genel ürün türü soruluyorsa marka kategorisi değil genel kategori linki ver.
+5. Pompa/hidrofor/fan seçiminde recommend_pump aracını kullan; eksik bilgi dönerse kısa sorularla sor. Sonuçtaki ürün sırasını değiştirme: ilk ürün ihtiyaca en uygun seçimdir, onu "en uygun seçim" diye öne çıkar, diğerlerini sırayla alternatif olarak ver. Sonucun ön seçim olduğunu, kesin karar için teknik ekiple görüşülebileceğini belirt.
 6. Sipariş sorgusu için sipariş numarası ve siparişte kullanılan e-postayı iste; ikisi olmadan sorgulama. Kişisel verileri tekrar etme.
 7. Müşteri temsilci isterse veya şikâyet, iade/değişim talebi, hasarlı ürün, toptan/proje teklifi, özel fiyat, montaj/servis gibi insan gerektiren bir konu varsa handoff_to_human aracını çağır.
 8. Mağaza ve ürünleri dışındaki konularda (genel sohbet, ödev, kod, siyaset vb.) yalnızca mağaza konularında yardımcı olabileceğini kibarca söyle.

@@ -233,6 +233,8 @@ class SupportAssistantTools
     {
         $categories = Category::query()->where('active', true)
             ->where('name', 'like', '%'.$query.'%')
+            ->orderByRaw('CASE WHEN name LIKE ? THEN 0 ELSE 1 END', [$query.'%'])
+            ->orderByRaw('LENGTH(name)')
             ->orderBy('sort_order')
             ->limit(3)
             ->get();
@@ -565,7 +567,9 @@ class SupportAssistantTools
                 'stok_durumu' => ! empty($p['in_stock']) ? 'Stokta' : 'Şu an stokta yok',
                 'teknik' => $p['spec_summary'] ?? null,
                 'uygunluk' => $p['match_reason'] ?? null,
+                'url' => $p['url'] ?? null,
             ]))->all(),
+            'siralama' => 'Ürünler en uygun seçimden başlayarak sıralıdır; bu sırayı koru.',
             'kategori_url' => $result['category_url'] ?? null,
             'pompa_secici_sayfasi' => route('pump-selector.show'),
             'not' => $products->isEmpty()

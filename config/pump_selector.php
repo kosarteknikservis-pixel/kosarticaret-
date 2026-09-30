@@ -8,6 +8,7 @@ return [
     */
     'applications' => [
         'hydrofor_apartment' => [
+            'primary_category' => 'hidroforlar',
             'category_slugs' => [
                 'ev-tipi-hidroforlar', 'hidrofor-sistemleri', 'hidroforlar', 'hidrofor-grubu',
                 'sumak-hidrofor', 'pedrollo-hidrofor', 'hidromat', 'sicak-su-hidroforu',

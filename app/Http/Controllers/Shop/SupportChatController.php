@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SupportChatConversation;
 use App\Services\SupportAssistant\SupportAssistantService;
 use App\Support\SupportAssistantConfig;
+use App\Support\Utf8Mojibake;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -25,7 +26,7 @@ class SupportChatController extends Controller
             'page' => ['nullable', 'string', 'max:500'],
         ]);
 
-        $text = trim(strip_tags($data['message']));
+        $text = trim((string) Utf8Mojibake::repair(strip_tags($data['message'])));
         if ($text === '') {
             return $this->json(['message' => 'Mesaj boş olamaz.'], 422);
         }

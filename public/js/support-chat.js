@@ -59,7 +59,10 @@
         html = html.replace(/(^|[^"=>])(https?:\/\/[^\s<]+[^\s<.,;:!?)])/g, (match, lead, url) => {
             const parsed = (() => { try { return new URL(url.replace(/&amp;/g, '&')); } catch (e) { return null; } })();
             if (!parsed) return match;
-            const link = sameOriginLink(url, escapeHtml(parsed.pathname === '/' ? parsed.host : decodeURIComponent(parsed.pathname)));
+            const label = parsed.pathname === '/'
+                ? parsed.host
+                : (parsed.pathname.startsWith('/urun/') ? 'Ürün sayfasına git' : decodeURIComponent(parsed.pathname));
+            const link = sameOriginLink(url, escapeHtml(label));
             return link ? lead + link : match;
         });
         return html;

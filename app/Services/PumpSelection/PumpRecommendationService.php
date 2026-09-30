@@ -46,8 +46,9 @@ class PumpRecommendationService
         $scored = $candidates->map(function (Product $product) use ($requiredFlow, $requiredHead, $isFan, $config, $building) {
             $specs = $this->extractor->extract($product);
             $score = $this->scoreProduct($product, $specs, $requiredFlow, $requiredHead, $isFan, $config);
+            $fit = null;
             if ($building !== null && $score['score'] > 0) {
-                $score = $this->applyBuildingCapacity($product, $score, $building['floors'], $building['apartments'], $building['soft']);
+                [$score, $fit] = $this->applyBuildingCapacity($product, $score, $building['floors'], $building['apartments'], $building['soft']);
             }
 
             return [
@@ -55,17 +56,24 @@ class PumpRecommendationService
                 'specs' => $specs,
                 'score' => $score['score'],
                 'match_reason' => $score['reason'],
+                'fit' => $fit,
             ];
         })
             ->filter(fn (array $row) => $row['score'] > 0)
-            ->sortByDesc('score')
+            ->sort(fn (array $a, array $b) => [
+                $a['fit'] ?? PHP_INT_MAX, $a['product']->stock > 0 ? 0 : 1, $b['score'], (float) $a['product']->price,
+            ] <=> [
+                $b['fit'] ?? PHP_INT_MAX, $b['product']->stock > 0 ? 0 : 1, $a['score'], (float) $b['product']->price,
+            ])
             ->take((int) config('pump_selector.limits.max_recommendations', 8))
             ->values();
 
+        $categorySlugs = array_values(array_filter([$config['primary_category'] ?? null, ...($config['category_slugs'] ?? [])]));
         $primaryCategory = Category::query()
-            ->whereIn('slug', $config['category_slugs'] ?? [])
+            ->whereIn('slug', $categorySlugs)
             ->where('active', true)
-            ->orderBy('sort_order')
+            ->get()
+            ->sortBy(fn (Category $category) => array_search($category->slug, $categorySlugs, true))
             ->first();
 
         return [
@@ -223,41 +231,30 @@ class PumpRecommendationService
 
     /**
      * Hidrofor adındaki "N Kat M Daire" etiketi üreticinin kapasite beyanıdır:
-     * istenenin altındaysa ürün elenir, en yakın uygun kapasite öne çıkar.
+     * istenenin altındaysa ürün elenir; sıralama ihtiyaca en yakın kapasiteden başlar.
      * Villada daire sayısı yerine banyo sayısı yalnızca sıralama için kullanılır ($softApartments).
+     * Dönen fit: 1.0 birebir kapasite, büyüdükçe ürün ihtiyaçtan uzaklaşır; null ise adda kapasite yok.
      *
      * @param  array{score: int, reason: string}  $score
-     * @return array{score: int, reason: string}
+     * @return array{0: array{score: int, reason: string}, 1: ?float}
      */
     private function applyBuildingCapacity(Product $product, array $score, int $floors, int $apartments, bool $softApartments = false): array
     {
         $capacity = self::nameCapacity($product->name);
-        if ($capacity['floors'] === null && $capacity['apartments'] === null) {
-            return $score;
-        }
-
         $checks = array_filter([
             'floors' => $floors > 0 && $capacity['floors'] !== null ? [$floors, $capacity['floors']] : null,
             'apartments' => $apartments > 0 && $capacity['apartments'] !== null ? [$apartments, $capacity['apartments']] : null,
         ]);
-
-        foreach ($checks as $dimension => [$required, $rated]) {
-            if ($rated < $required && ! ($softApartments && $dimension === 'apartments')) {
-                return ['score' => 0, 'reason' => $score['reason']];
-            }
+        if ($checks === []) {
+            return [$score, null];
         }
 
-        $points = $score['score'];
-        foreach ($checks as [$required, $rated]) {
-            $ratio = $rated / $required;
-            $points += match (true) {
-                $ratio < 1 => 0,
-                $ratio <= 1.2 => 22,
-                $ratio <= 1.5 => 18,
-                $ratio <= 2.5 => 10,
-                $ratio <= 4 => 2,
-                default => -10,
-            };
+        $fit = 1.0;
+        foreach ($checks as $dimension => [$required, $rated]) {
+            if ($rated < $required && ! ($softApartments && $dimension === 'apartments')) {
+                return [['score' => 0, 'reason' => $score['reason']], null];
+            }
+            $fit = max($fit, $rated >= $required ? $rated / $required : $required / $rated);
         }
 
         $label = implode(' / ', array_filter([
@@ -266,8 +263,8 @@ class PumpRecommendationService
         ]));
 
         return [
-            'score' => max(1, $points),
-            'reason' => 'Üretici kapasitesi: '.$label.' · '.$score['reason'],
+            ['score' => $score['score'], 'reason' => 'Üretici kapasitesi: '.$label.' · '.$score['reason']],
+            round($fit, 2),
         ];
     }
 
@@ -288,7 +285,7 @@ class PumpRecommendationService
     }
 
     /**
-     * @param  array{product: Product, specs: array<string, mixed>, score: int, match_reason: string}  $row
+     * @param  array{product: Product, specs: array<string, mixed>, score: int, match_reason: string, fit: ?float}  $row
      * @return array<string, mixed>
      */
     private function formatProduct(array $row): array
@@ -315,7 +312,9 @@ class PumpRecommendationService
             'in_stock' => $product->stock > 0,
             'brand' => $product->brand?->name,
             'spec_summary' => implode(' · ', $specSummary),
-            'match_score' => $row['score'],
+            'match_score' => $row['fit'] !== null
+                ? max(50, (int) round(100 - ($row['fit'] - 1) * 30))
+                : min(100, $row['score']),
             'match_reason' => $row['match_reason'],
         ];
     }
