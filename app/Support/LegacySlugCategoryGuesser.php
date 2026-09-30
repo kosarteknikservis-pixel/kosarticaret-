@@ -14,7 +14,7 @@ final class LegacySlugCategoryGuesser
         ['needles' => ['drenaj-dalgic', 'drenaj-dalgic-pompa', 'kirli-su-dalgic', 'atik-su'], 'path' => 'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa'],
         ['needles' => ['foseptik', 'bicakli-dalgic', 'bicakli-foseptik'], 'path' => 'su-pompalari/dalgic-pompalar/bicakli-dalgic-pompa'],
         ['needles' => ['keson-kuyu', 'derin-kuyu-dalgic'], 'path' => 'su-pompalari/dalgic-pompalar/derin-kuyu-dalgic-pompa'],
-        ['needles' => ['dalgic', 'dalgic-pompa', 'smac', 'smkt'], 'path' => 'su-pompalari/dalgic-pompalar'],
+        ['needles' => ['dalgic', 'dalgic-pompa', 'smac'], 'path' => 'su-pompalari/dalgic-pompalar'],
         ['needles' => ['kademeli', 'cmi-', 'cok-kademeli'], 'path' => 'su-pompalari/kademeli-pompalar'],
         ['needles' => ['sirkulasyon'], 'path' => 'su-pompalari/sirkulasyon-pompalari'],
         ['needles' => ['havuz-pompa', 'havuz-pompasi'], 'path' => 'su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi'],
