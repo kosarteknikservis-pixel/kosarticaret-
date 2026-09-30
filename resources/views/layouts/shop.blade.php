@@ -142,6 +142,7 @@
             <button type="button" class="shop-ai-launcher" data-support-chat-open
                     data-endpoint="{{ route('support-chat.message') }}"
                     data-reset-endpoint="{{ route('support-chat.reset') }}"
+                    data-cart-add="{{ route('cart.ajax.add', ['product' => '__slug__']) }}"
                     data-whatsapp="{{ \App\Support\SupportAssistantConfig::whatsappUrl('Merhaba, sitenizden yazıyorum.') }}"
                     data-privacy-url="{{ route('pages.show', 'kvkk') }}"
                     data-script="{{ asset('js/support-chat.js') }}?v={{ $supportChatJsVer }}"

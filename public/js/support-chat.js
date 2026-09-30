@@ -23,6 +23,8 @@
         close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
         send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5.5 11.5 6.5-6.5 6.5 6.5"/></svg>',
         chevron: '<svg class="kc-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>',
+        cart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.1a1.5 1.5 0 0 0 1.4-1.1L20 8H6.2"/><circle cx="9.5" cy="19.5" r="1.2"/><circle cx="17" cy="19.5" r="1.2"/><path d="M13 9.5v4M11 11.5h4"/></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
         whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.28-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.43 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41"/></svg>',
     };
 
@@ -146,10 +148,12 @@
             }
             if (url.origin !== window.location.origin) return;
 
-            const card = document.createElement('a');
+            const card = document.createElement('div');
             card.className = 'kc-card';
-            card.href = url.href;
-            card.innerHTML =
+            const link = document.createElement('a');
+            link.className = 'kc-card__link';
+            link.href = url.href;
+            link.innerHTML =
                 '<span class="kc-card__media">' +
                 (product.image ? '<img src="' + escapeHtml(product.image) + '" alt="" width="56" height="56" loading="lazy" decoding="async">' : '') +
                 '</span>' +
@@ -161,18 +165,117 @@
                 (product.compare_price ? '<span class="kc-card__compare">' + escapeHtml(product.compare_price) + '</span>' : '') +
                 '<span class="kc-card__stock' + (product.in_stock ? '' : ' is-out') + '">' + (product.in_stock ? 'Stokta' : 'Stokta yok') + '</span>' +
                 '</span>' +
-                '</span>' +
-                icons.chevron;
-            const image = card.querySelector('img');
+                '</span>';
+            const image = link.querySelector('img');
             if (image) image.addEventListener('error', () => image.remove(), { once: true });
-            card.addEventListener('click', () => {
+            link.addEventListener('click', () => {
                 track('support_chat_product_click');
                 if (isMobile()) setOpenFlag(false);
             });
+            card.appendChild(link);
+
+            const slug = product.slug || (url.pathname.match(/^\/urun\/([^/]+)$/) || [])[1];
+            if (product.in_stock && slug) {
+                const add = document.createElement('button');
+                add.type = 'button';
+                add.className = 'kc-card__add';
+                add.setAttribute('aria-label', 'Sepete ekle: ' + (product.name || ''));
+                add.title = 'Sepete ekle';
+                add.innerHTML = icons.cart;
+                add.addEventListener('click', () => addToCart(product, decodeURIComponent(slug), add));
+                card.appendChild(add);
+            } else {
+                link.insertAdjacentHTML('beforeend', icons.chevron);
+            }
             wrap.appendChild(card);
         });
         return wrap;
     };
+
+    const cartActions = (cart) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'kc-cart-actions';
+        [['Sepete git', cart.cartUrl, 'kc-cart-actions__btn'], ['Ödemeye geç', cart.checkoutUrl, 'kc-cart-actions__btn is-primary']].forEach(([label, href, className]) => {
+            if (!href) return;
+            const link = document.createElement('a');
+            link.className = className;
+            link.href = href;
+            link.textContent = label;
+            link.addEventListener('click', () => {
+                track('support_chat_cart_nav', { target: label === 'Sepete git' ? 'cart' : 'checkout' });
+                setOpenFlag(false);
+            });
+            wrap.appendChild(link);
+        });
+        return wrap;
+    };
+
+    const updateCartBadge = (count) => {
+        document.querySelectorAll('[data-cart-count]').forEach((el) => {
+            el.textContent = String(count);
+            el.classList.toggle('hidden', count < 1);
+            el.classList.toggle('is-empty', count < 1);
+        });
+    };
+
+    async function addToCart(product, slug, button) {
+        if (button.disabled) return;
+        button.disabled = true;
+        button.setAttribute('aria-busy', 'true');
+        const template = config.cartAdd || '/sepet/ajax/ekle/__slug__';
+        let data = {};
+        try {
+            const response = await fetch(template.replace('__slug__', encodeURIComponent(slug)), {
+                method: 'POST',
+                headers: csrfHeaders(),
+                credentials: 'same-origin',
+                body: JSON.stringify({ quantity: 1 }),
+            });
+            data = await response.json().catch(() => ({}));
+            if (!response.ok) data.ok = false;
+        } catch (e) {
+            data = { ok: false };
+        }
+        button.removeAttribute('aria-busy');
+
+        if (typeof data.count === 'number') updateCartBadge(data.count);
+
+        if (!data.ok) {
+            button.disabled = false;
+            addMessage({ role: 'assistant', text: data.message || 'Ürün sepete eklenemedi. Ürün sayfasından tekrar deneyebilirsiniz.', error: true });
+            return;
+        }
+
+        button.classList.add('is-added');
+        button.innerHTML = icons.check;
+        button.setAttribute('aria-label', 'Sepete eklendi: ' + (product.name || ''));
+        window.setTimeout(() => {
+            button.classList.remove('is-added');
+            button.innerHTML = icons.cart;
+            button.setAttribute('aria-label', 'Sepete ekle: ' + (product.name || ''));
+            button.disabled = false;
+        }, 1800);
+
+        const price = Number(product.price_value) || 0;
+        const ecommerce = {
+            currency: 'TRY',
+            value: price,
+            items: [{ item_id: product.item_id || slug, item_name: product.name || '', item_brand: product.brand || undefined, price, quantity: 1 }],
+        };
+        if (typeof window.kosarTrackEcommerce === 'function') {
+            window.kosarTrackEcommerce('add_to_cart', ecommerce);
+        } else {
+            track('add_to_cart', ecommerce);
+        }
+        track('support_chat_add_to_cart');
+
+        addMessage({
+            role: 'assistant',
+            text: '**' + (product.name || 'Ürün') + '** sepete eklendi.' +
+                (typeof data.count === 'number' ? '\nSepetinizde ' + data.count + ' ürün var' + (data.subtotal_formatted ? ', ara toplam ' + data.subtotal_formatted + '.' : '.') : ''),
+            cart: { cartUrl: data.cart_url || '/sepet', checkoutUrl: data.checkout_url || '' },
+        });
+    }
 
     const renderMessage = (message) => {
         const row = document.createElement('div');
@@ -189,6 +292,9 @@
 
         if (Array.isArray(message.products) && message.products.length) {
             row.appendChild(productCards(message.products));
+        }
+        if (message.cart) {
+            row.appendChild(cartActions(message.cart));
         }
         if (message.handoffUrl) {
             row.appendChild(handoffLink(message.handoffUrl));
@@ -384,6 +490,7 @@
             config = {
                 endpoint: launcher.dataset.endpoint,
                 resetEndpoint: launcher.dataset.resetEndpoint,
+                cartAdd: launcher.dataset.cartAdd || '',
                 whatsapp: launcher.dataset.whatsapp || '',
                 privacyUrl: launcher.dataset.privacyUrl || '',
             };

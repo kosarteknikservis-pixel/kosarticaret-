@@ -332,8 +332,11 @@ class SupportAssistantTools
 
         $this->cards[$url] = [
             'name' => $product->name,
+            'slug' => $product->slug,
+            'item_id' => $product->sku ?: 'KOS-'.$product->id,
             'url' => $url,
             'price' => $this->money((float) $product->price),
+            'price_value' => (float) $product->price,
             'compare_price' => $product->hasDiscount() ? $this->money((float) $product->compare_at_price) : null,
             'in_stock' => $product->stock > 0,
             'brand' => $product->brand?->name,
