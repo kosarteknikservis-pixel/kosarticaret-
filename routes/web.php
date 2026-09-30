@@ -63,6 +63,8 @@ use App\Http\Controllers\Shop\PumpSelectorController;
 use App\Http\Controllers\Shop\QuoteRequestController;
 use App\Http\Controllers\Shop\SearchController;
 use App\Http\Controllers\Shop\SearchSuggestController;
+use App\Http\Controllers\Shop\SupportChatController;
+use App\Http\Controllers\Admin\SupportChatController as AdminSupportChatController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/storage/{path}', PublicStorageController::class)
@@ -97,6 +99,8 @@ Route::delete('/karsilastir/{slug}', [ProductCompareController::class, 'remove']
 Route::get('/karsilastir/durum', [ProductCompareController::class, 'status'])->name('compare.status');
 Route::get('/pompa-secici', [PumpSelectorController::class, 'show'])->name('pump-selector.show');
 Route::post('/pompa-secici/oner', [PumpSelectorController::class, 'recommend'])->middleware('throttle:20,1')->name('pump-selector.recommend');
+Route::post('/destek-asistani/mesaj', [SupportChatController::class, 'message'])->middleware('throttle:12,1')->name('support-chat.message');
+Route::post('/destek-asistani/sifirla', [SupportChatController::class, 'reset'])->middleware('throttle:10,1')->name('support-chat.reset');
 Route::get('/urun/{product:slug}/taksit', ProductInstallmentController::class)->name('products.installments');
 Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:3,1')->name('products.review');
 Route::get('/kategoriler', [CategoryController::class, 'index'])->name('categories.index');
@@ -416,6 +420,9 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::get('iletisim-mesajlari', [AdminContactMessageController::class, 'index'])->name('contact-messages.index');
         Route::get('iletisim-mesajlari/{message}', [AdminContactMessageController::class, 'show'])->name('contact-messages.show');
         Route::delete('iletisim-mesajlari/{message}', [AdminContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
+        Route::get('ai-sohbetler', [AdminSupportChatController::class, 'index'])->name('support-chats.index');
+        Route::get('ai-sohbetler/{conversation}', [AdminSupportChatController::class, 'show'])->name('support-chats.show');
+        Route::delete('ai-sohbetler/{conversation}', [AdminSupportChatController::class, 'destroy'])->name('support-chats.destroy');
         Route::post('onizleme', [PreviewController::class, 'start'])->name('preview.start');
         Route::post('onizleme/kapat', [PreviewController::class, 'stop'])->name('preview.stop');
         Route::resource('kampanyalar', AdminPromotionController::class)

@@ -60,6 +60,46 @@ class OpenAiService
     }
 
     /**
+     * @param  list<array<string, mixed>>  $messages
+     * @param  list<array<string, mixed>>  $tools
+     * @return array{message: array<string, mixed>, tokens: int}
+     */
+    public function completeMessages(array $messages, array $tools = [], float $temperature = 0.2, int $maxTokens = 700, int $timeout = 40): array
+    {
+        $key = self::apiKey();
+        if ($key === '') {
+            throw new RuntimeException('OpenAI API anahtarı tanımlı değil.');
+        }
+
+        $payload = [
+            'model' => self::model(),
+            'messages' => $messages,
+            'temperature' => $temperature,
+            'max_tokens' => $maxTokens,
+        ];
+        if ($tools !== []) {
+            $payload['tools'] = $tools;
+            $payload['tool_choice'] = 'auto';
+        }
+
+        try {
+            $response = Http::withToken($key)
+                ->timeout($timeout)
+                ->post('https://api.openai.com/v1/chat/completions', $payload)
+                ->throw()
+                ->json();
+        } catch (RequestException $e) {
+            $message = $e->response?->json('error.message') ?? $e->getMessage();
+            throw new RuntimeException('OpenAI isteği başarısız: '.$message, 0, $e);
+        }
+
+        return [
+            'message' => (array) ($response['choices'][0]['message'] ?? []),
+            'tokens' => (int) ($response['usage']['total_tokens'] ?? 0),
+        ];
+    }
+
+    /**
      * @param  array<string, mixed>  $context
      * @return array{meta_title: string, meta_description: string}
      */

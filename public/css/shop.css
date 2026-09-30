@@ -10707,6 +10707,87 @@ input:focus-visible {
     }
 }
 
+/* Destek asistanı başlatıcı (panel CSS/JS ilk tıklamada yüklenir) */
+.shop-ai-launcher {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: var(--float-wa-size);
+    height: var(--float-wa-size);
+    padding: 0;
+    border-radius: 9999px;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: linear-gradient(135deg, #152a47 0%, #1e3a5f 60%, #2d5080 100%);
+    color: #fff;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.005em;
+    box-shadow:
+        0 10px 28px rgb(15 23 42 / 0.2),
+        0 0 0 1px rgb(255 255 255 / 0.08) inset;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition:
+        transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.24s ease,
+        border-color 0.24s ease;
+}
+.shop-ai-launcher:focus-visible {
+    outline: 2px solid #8fb3d4;
+    outline-offset: 3px;
+}
+.shop-ai-launcher__icon {
+    position: relative;
+    display: inline-flex;
+    width: 1.375rem;
+    height: 1.375rem;
+    flex-shrink: 0;
+}
+.shop-ai-launcher__icon svg {
+    width: 100%;
+    height: 100%;
+}
+.shop-ai-launcher__dot {
+    position: absolute;
+    top: -0.125rem;
+    right: -0.1875rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: #22c55e;
+    box-shadow: 0 0 0 2px #1e3a5f;
+}
+.shop-ai-launcher__label {
+    display: none;
+    white-space: nowrap;
+}
+.shop-ai-launcher[data-loading] .shop-ai-launcher__icon {
+    opacity: 0.6;
+}
+@media (hover: hover) and (pointer: fine) {
+    .shop-ai-launcher:hover {
+        transform: translateY(-2px);
+        border-color: rgb(255 255 255 / 0.28);
+        box-shadow:
+            0 14px 34px rgb(15 23 42 / 0.26),
+            0 0 0 1px rgb(255 255 255 / 0.12) inset;
+    }
+}
+@media (min-width: 1024px) {
+    .shop-ai-launcher {
+        padding: 0 1.125rem 0 1rem;
+    }
+    .shop-ai-launcher__label {
+        display: inline;
+    }
+}
+
 /* Yukarı çık butonu */
 .shop-scroll-top {
     position: relative;

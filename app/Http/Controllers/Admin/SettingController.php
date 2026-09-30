@@ -55,7 +55,7 @@ class SettingController extends Controller
             'shop_maintenance_enabled', 'shop_maintenance_title', 'shop_maintenance_message',
         ],
         'integrations' => [
-            'openai_api_key', 'openai_model',
+            'openai_api_key', 'openai_model', 'ai_assistant_enabled', 'ai_assistant_daily_limit',
             'pagespeed_api_key', 'pagespeed_audit_base_url',
             'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
             'smtp_enabled', 'smtp_host', 'smtp_port', 'smtp_encryption', 'smtp_username', 'smtp_password', 'smtp_from_address', 'smtp_from_name',
@@ -67,7 +67,7 @@ class SettingController extends Controller
     private const BOOLEAN_FIELDS = [
         'floating_whatsapp_enabled', 'scroll_top_enabled', 'pdp_whatsapp_order_enabled', 'shop_show_stock_quantity', 'product_card_free_shipping_badge',
         'newsletter_enabled', 'shop_maintenance_enabled', 'brevo_enabled', 'smtp_enabled', 'parasut_enabled', 'pump_selector_enabled',
-        'indexnow_enabled',
+        'indexnow_enabled', 'ai_assistant_enabled',
     ];
 
     private const SHIPPING_KEYS = [
@@ -99,7 +99,7 @@ class SettingController extends Controller
         'footer_trust_cards', 'footer_trust_compliance', 'footer_etbis_url', 'footer_kvkk_url',
         'social_instagram_url', 'social_facebook_url', 'social_youtube_url',
         'social_linkedin_url', 'social_x_url', 'social_tiktok_url',
-        'openai_api_key', 'openai_model',
+        'openai_api_key', 'openai_model', 'ai_assistant_enabled', 'ai_assistant_daily_limit',
         'pagespeed_api_key', 'pagespeed_audit_base_url',
         'brevo_enabled', 'brevo_api_key', 'brevo_list_id',
         'smtp_enabled', 'smtp_host', 'smtp_port', 'smtp_encryption', 'smtp_username', 'smtp_password',
@@ -140,8 +140,11 @@ class SettingController extends Controller
             if ($key === 'footer_trust_compliance' && $default === '') {
                 $default = implode(',', config('kosar.footer.default_compliance', []));
             }
-            if (in_array($key, ['pdp_whatsapp_order_enabled', 'floating_whatsapp_enabled', 'scroll_top_enabled', 'indexnow_enabled', 'product_card_free_shipping_badge'], true) && $default === '') {
+            if (in_array($key, ['pdp_whatsapp_order_enabled', 'floating_whatsapp_enabled', 'scroll_top_enabled', 'indexnow_enabled', 'product_card_free_shipping_badge', 'ai_assistant_enabled'], true) && $default === '') {
                 $default = '1';
+            }
+            if ($key === 'ai_assistant_daily_limit' && $default === '') {
+                $default = '400';
             }
             $values[$key] = SiteSetting::get($key, $default);
         }
@@ -391,6 +394,8 @@ class SettingController extends Controller
             'social_tiktok_url' => ['nullable', 'string', 'max:500'],
             'openai_api_key' => ['nullable', 'string', 'max:255'],
             'openai_model' => ['nullable', 'string', 'max:64'],
+            'ai_assistant_enabled' => ['sometimes', 'boolean'],
+            'ai_assistant_daily_limit' => ['nullable', 'integer', 'min:10', 'max:10000'],
             'pagespeed_api_key' => ['nullable', 'string', 'max:255'],
             'pagespeed_audit_base_url' => ['nullable', 'string', 'max:255', 'regex:/^$|^https?:\\/\\/.+/i'],
             'brevo_enabled' => ['sometimes', 'boolean'],

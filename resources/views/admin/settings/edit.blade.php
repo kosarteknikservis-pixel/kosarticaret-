@@ -672,6 +672,18 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="mt-5 border-t border-slate-100 pt-4">
+                            <label class="admin-checkbox font-semibold text-slate-800">
+                                <input type="checkbox" name="ai_assistant_enabled" value="1" @checked(($values['ai_assistant_enabled'] ?? '1') === '1')>
+                                Destek asistanını sitede göster
+                            </label>
+                            <p class="text-xs text-slate-500 mt-1">Ürün, fiyat, stok, kargo/iade, taksit ve sipariş durumunu yalnızca site verisinden yanıtlar; bilmediği konuda müşteriyi WhatsApp'a aktarır. Sohbetler: <a href="{{ route('admin.support-chats.index') }}" class="text-teal-700 font-semibold">AI sohbetler</a>.</p>
+                            <div class="mt-3">
+                                <label class="admin-label">Günlük mesaj limiti</label>
+                                <input type="number" name="ai_assistant_daily_limit" min="10" max="10000" value="{{ $values['ai_assistant_daily_limit'] ?? '400' }}" class="admin-input">
+                                <p class="text-xs text-slate-500 mt-1">Limit dolunca asistan müşteriyi doğrudan WhatsApp'a yönlendirir; OpenAI maliyeti kontrol altında kalır.</p>
+                            </div>
+                        </div>
                     </section>
 
                     <section class="admin-settings-service-card">

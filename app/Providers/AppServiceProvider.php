@@ -84,6 +84,11 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'pendingReviews' => ProductReview::query()->where('approved', false)->count(),
                 'unreadContactMessages' => ContactMessage::query()->whereNull('read_at')->count(),
+                'supportChatsNeedingAttention' => rescue(
+                    fn () => \App\Models\SupportChatConversation::query()->needsAttention()->count(),
+                    0,
+                    false,
+                ),
             ]);
         });
 
