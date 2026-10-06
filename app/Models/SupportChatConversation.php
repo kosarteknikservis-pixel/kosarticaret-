@@ -11,17 +11,30 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class SupportChatConversation extends Model
 {
     protected $fillable = [
-        'uuid', 'ip_hash', 'page_url', 'message_count', 'unanswered_count', 'total_tokens',
-        'handed_off_at', 'read_at', 'last_message_at',
+        'uuid', 'ip_hash', 'visitor_token', 'page_url', 'message_count', 'unanswered_count', 'total_tokens',
+        'handed_off_at', 'read_at', 'agent_seen_message_id', 'last_agent_reply_at', 'last_message_at',
     ];
+
+    protected $hidden = ['visitor_token'];
 
     protected function casts(): array
     {
         return [
             'handed_off_at' => 'datetime',
             'read_at' => 'datetime',
+            'last_agent_reply_at' => 'datetime',
             'last_message_at' => 'datetime',
         ];
+    }
+
+    public function pushSubscriptions(): HasMany
+    {
+        return $this->hasMany(SupportChatPushSubscription::class, 'visitor_token', 'visitor_token');
+    }
+
+    public function canReceiveAgentReply(): bool
+    {
+        return filled($this->visitor_token);
     }
 
     public function messages(): HasMany

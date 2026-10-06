@@ -137,10 +137,18 @@
             @php
                 $supportChatJsVer = @filemtime(public_path('js/support-chat.js')) ?: time();
                 $supportChatCssVer = @filemtime(public_path('css/support-chat.css')) ?: time();
+                $supportPushKey = app(\App\Services\SupportAssistant\SupportChatPushService::class)->publicKey();
             @endphp
             <button type="button" class="shop-ai-launcher" data-support-chat-open
                     data-endpoint="{{ route('support-chat.message') }}"
                     data-reset-endpoint="{{ route('support-chat.reset') }}"
+                    data-replies-endpoint="{{ route('support-chat.replies') }}"
+                    data-replies-seen-endpoint="{{ route('support-chat.replies.seen') }}"
+                    @if($supportPushKey)
+                    data-subscribe-endpoint="{{ route('support-chat.subscribe') }}"
+                    data-push-key="{{ $supportPushKey }}"
+                    data-sw="{{ asset('destek-bildirim-sw.js') }}"
+                    @endif
                     data-cart-add="{{ route('cart.ajax.add', ['product' => '__slug__']) }}"
                     data-whatsapp="{{ \App\Support\SupportAssistantConfig::whatsappUrl('Merhaba, sitenizden yazıyorum.') }}"
                     data-privacy-url="{{ route('pages.show', 'kvkk') }}"
@@ -155,6 +163,7 @@
                     <span class="shop-ai-launcher__dot"></span>
                 </span>
                 <span class="shop-ai-launcher__label">Asistana sor</span>
+                <span class="shop-ai-launcher__badge" data-support-chat-badge hidden></span>
             </button>
         @endif
 
@@ -213,12 +222,82 @@
                 });
             });
 
+            const launcher = document.querySelector('[data-support-chat-open]');
+            if (!launcher) {
+                return;
+            }
+            const openChat = () => load(launcher).then(() => window.KosarSupportChat && window.KosarSupportChat.open(launcher)).catch(() => {});
+
+            const badge = launcher.querySelector('[data-support-chat-badge]');
+            window.kcSupportChatBadge = (count) => {
+                if (!badge) {
+                    return;
+                }
+                badge.hidden = !(count > 0);
+                badge.textContent = count > 9 ? '9+' : String(count || '');
+                launcher.setAttribute('aria-label', count > 0 ? 'Destek asistanı: ' + count + ' yeni yanıt' : 'Destek asistanına soru sor');
+            };
+
+            const recentlyActive = () => {
+                try {
+                    const at = Number(localStorage.getItem('kc-chat-active'));
+                    return at > 0 && Date.now() - at < 30 * 864e5;
+                } catch (e) {
+                    return false;
+                }
+            };
+            let checks = 0;
+            const checkReplies = () => {
+                if (document.hidden || !recentlyActive() || !launcher.dataset.repliesEndpoint) {
+                    return;
+                }
+                if (window.KosarSupportChat && window.KosarSupportChat.isOpen()) {
+                    window.KosarSupportChat.refreshReplies();
+                    return;
+                }
+                fetch(launcher.dataset.repliesEndpoint, { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
+                    .then((response) => (response.ok ? response.json() : null))
+                    .then((data) => data && window.kcSupportChatBadge(data.unread || 0))
+                    .catch(() => {});
+            };
+
+            const fromNotification = () => {
+                if (window.location.hash !== '#destek-asistani') {
+                    return false;
+                }
+                history.replaceState(null, '', window.location.pathname + window.location.search);
+                openChat();
+                return true;
+            };
+            window.addEventListener('hashchange', fromNotification);
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.addEventListener('message', (event) => {
+                    const type = event.data && event.data.type;
+                    if (type === 'kc-support-open') {
+                        openChat();
+                    } else if (type === 'kc-support-reply') {
+                        checkReplies();
+                    }
+                });
+            }
+
             try {
-                const button = document.querySelector('[data-support-chat-open]');
-                if (button && sessionStorage.getItem('kc-chat-open') === '1' && window.matchMedia('(min-width: 640px)').matches) {
-                    load(button).then(() => window.KosarSupportChat && window.KosarSupportChat.open(button, { restore: true }));
+                if (!fromNotification() && sessionStorage.getItem('kc-chat-open') === '1' && window.matchMedia('(min-width: 640px)').matches) {
+                    load(launcher).then(() => window.KosarSupportChat && window.KosarSupportChat.open(launcher, { restore: true }));
                 }
             } catch (e) {}
+
+            window.setTimeout(checkReplies, 2500);
+            window.setInterval(() => {
+                if (++checks <= 20) {
+                    checkReplies();
+                }
+            }, 90000);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    checkReplies();
+                }
+            });
         })();
     </script>
     @endif

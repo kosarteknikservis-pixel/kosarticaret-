@@ -229,13 +229,14 @@ class SupportAssistantTools
             : null;
 
         if (! $result['brand_found'] || ($withoutBrand !== null && $withoutBrand['products']->isNotEmpty())) {
-            return [
+            return array_filter([
                 'sorgu' => $query,
                 'marka' => $brand,
                 'bulunamadi' => true,
                 'not' => 'Katalogda "'.$brand.'" markasında bu aramaya uygun ürün yok. Kullanıcıya bunu söyle ve varsa diğer markaları sun.',
                 'diger_markalar' => $withoutBrand['brands'] ?? [],
-            ];
+                'yazim_duzeltmesi' => $this->spellingNote($result['corrections']),
+            ], fn ($v) => $v !== null);
         }
 
         $products = $result['products'];
@@ -248,18 +249,33 @@ class SupportAssistantTools
             }
         }
 
+        $spelling = $this->spellingNote($result['corrections']);
+
         return array_filter([
             'sorgu' => $query,
             'marka_filtresi' => $brand !== '' ? $brand : null,
             'yaklasik_eslesme' => $approximate,
+            'yazim_duzeltmesi' => $spelling,
             'not' => $approximate
-                ? 'Tam eşleşme yok; bunlar kelimelerden bazılarıyla eşleşen ürünler. Kullanıcıya birebir aradığı ürün olmayabileceğini belirt.'
-                : ($products->isEmpty() ? 'Bu ifadeyle katalogda ürün bulunamadı. Daha genel bir ürün türüyle (tekil, ör. "ısıtıcı") bir kez daha ara; yine yoksa bulamadığını söyle, ürün uydurma.' : null),
+                ? 'Tam eşleşme yok; bunlar kelimelerden bazılarıyla eşleşen ürünler. Kullanıcıya birebir aradığı ürün olmayabileceğini belirt.'.($spelling ? ' '.$spelling : '')
+                : ($products->isEmpty() ? 'Bu ifadeyle katalogda ürün bulunamadı. Daha genel bir ürün türüyle (tekil, ör. "ısıtıcı") bir kez daha ara; yine yoksa bulamadığını söyle, ürün uydurma.' : $spelling),
             'urunler' => $products->map(fn (Product $p) => $this->productSummary($p))->all(),
             'markalar' => count($result['brands']) > 1 ? $result['brands'] : null,
             'kategoriler' => $this->catalog->categories($query)
                 ->map(fn (Category $c) => ['ad' => (string) $c->name, 'url' => $c->storefrontUrl()])->all(),
         ], fn ($v) => $v !== null);
+    }
+
+    /** @param  array<string, string>  $corrections */
+    private function spellingNote(array $corrections): ?string
+    {
+        if ($corrections === []) {
+            return null;
+        }
+
+        $pairs = collect($corrections)->map(fn (string $to, string $from) => $from.' → '.$to)->implode(', ');
+
+        return 'Yazım katalogdaki kelimeye göre düzeltildi: '.$pairs.'. Yanıtta doğru yazımı kullan.';
     }
 
     /** @return array<string, mixed> */

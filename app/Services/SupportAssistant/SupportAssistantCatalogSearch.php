@@ -14,6 +14,8 @@ class SupportAssistantCatalogSearch
 
     private const CATEGORY_KEY = 'support_assistant.category_index.v2';
 
+    private const VOCABULARY_KEY = 'support_assistant.catalog_vocabulary.v1';
+
     private const TTL = 600;
 
     private const SUFFIXES = ['lari', 'leri', 'sini', 'sunu', 'lar', 'ler', 'si', 'su', 'yi', 'yu', 'i', 'u'];
@@ -29,23 +31,103 @@ class SupportAssistantCatalogSearch
         return trim($value);
     }
 
+    /** @var array<string, string> */
+    private array $corrections = [];
+
     /** @return list<string> */
     public function terms(string $query): array
     {
         $brands = array_values(array_unique(array_filter(array_column($this->index(), 'brand'))));
         $terms = [];
+        $this->corrections = [];
         foreach (explode(' ', self::fold($query)) as $token) {
             if ($token === '' || (strlen($token) < 2 && ! ctype_digit($token)) || in_array($token, self::STOPWORDS, true)) {
                 continue;
             }
             $isBrand = array_filter($brands, fn (string $b) => str_contains($b, $token)) !== [];
             $stem = $isBrand ? $token : self::stem($token);
-            if (! in_array($stem, self::STOPWORDS, true)) {
-                $terms[] = $stem;
+            if (in_array($stem, self::STOPWORDS, true)) {
+                continue;
             }
+            if (! $isBrand && ($corrected = $this->correct($stem)) !== null) {
+                $this->corrections[$token] = $corrected;
+                $stem = $corrected;
+            }
+            $terms[] = $stem;
         }
 
         return array_slice(array_values(array_unique($terms)), 0, 6);
+    }
+
+    /**
+     * Son terms() çağrısında yazım hatası düzeltilen kelimeler (yazılan => katalogdaki).
+     *
+     * @return array<string, string>
+     */
+    public function corrections(): array
+    {
+        return $this->corrections;
+    }
+
+    /**
+     * Katalogda hiç geçmeyen kelimeyi, ilk harfi aynı ve 1-2 harf farklı en yaygın katalog kelimesine çevirir.
+     */
+    private function correct(string $term): ?string
+    {
+        $length = strlen($term);
+        if ($length < 5 || ctype_digit($term) || preg_match('/\d/', $term)) {
+            return null;
+        }
+
+        $vocabulary = $this->vocabulary();
+        foreach ($vocabulary as $word => $count) {
+            if (str_contains((string) $word, $term)) {
+                return null;
+            }
+        }
+
+        $maxDistance = $length >= 8 ? 2 : 1;
+        $best = null;
+        foreach ($vocabulary as $word => $count) {
+            $word = (string) $word;
+            if ($word[0] !== $term[0] || strlen($word) < $length - $maxDistance) {
+                continue;
+            }
+            $candidates = [$word];
+            if (strlen($word) > $length) {
+                $candidates[] = substr($word, 0, $length);
+            }
+            foreach ($candidates as $candidate) {
+                $distance = levenshtein($term, $candidate);
+                if ($distance === 0 || $distance > $maxDistance) {
+                    continue;
+                }
+                $score = [$distance, -$count, strlen($candidate)];
+                if ($best === null || $score < $best['score']) {
+                    $best = ['word' => $candidate, 'score' => $score];
+                }
+            }
+        }
+
+        return $best['word'] ?? null;
+    }
+
+    /** @return array<string, int> */
+    private function vocabulary(): array
+    {
+        return Cache::remember(self::VOCABULARY_KEY, self::TTL, function () {
+            $counts = [];
+            foreach ($this->index() as $row) {
+                foreach (array_unique(explode(' ', $row['text'])) as $word) {
+                    if (strlen($word) >= 3 && ! preg_match('/\d/', $word)) {
+                        $counts[$word] = ($counts[$word] ?? 0) + 1;
+                    }
+                }
+            }
+            arsort($counts);
+
+            return $counts;
+        });
     }
 
     private static function stem(string $term): string
@@ -76,7 +158,7 @@ class SupportAssistantCatalogSearch
 
     /**
      * @param  array{min_price?: float|null, max_price?: float|null, only_in_stock?: bool, brand?: string|null}  $filters
-     * @return array{products: Collection<int, Product>, approximate: bool, brands: list<array{marka: string, urun_sayisi: int}>, brand_found: bool}
+     * @return array{products: Collection<int, Product>, approximate: bool, brands: list<array{marka: string, urun_sayisi: int}>, brand_found: bool, corrections: array<string, string>}
      */
     public function search(string $query, array $filters = [], int $limit = 6): array
     {
@@ -88,7 +170,7 @@ class SupportAssistantCatalogSearch
         if ($brand !== '') {
             $brandRows = array_filter($index, fn (array $row) => $row['brand'] !== '' && str_contains($row['brand'], $brand));
             if ($brandRows === []) {
-                return ['products' => collect(), 'approximate' => false, 'brands' => [], 'brand_found' => false];
+                return ['products' => collect(), 'approximate' => false, 'brands' => [], 'brand_found' => false, 'corrections' => $this->corrections];
             }
             $index = $brandRows;
         }
@@ -120,7 +202,7 @@ class SupportAssistantCatalogSearch
         $candidates = $strict !== [] ? $strict : ($approximate ? array_filter($scored, fn (array $s) => $s['matched'] > 0) : []);
 
         if ($candidates === []) {
-            return ['products' => collect(), 'approximate' => false, 'brands' => [], 'brand_found' => true];
+            return ['products' => collect(), 'approximate' => false, 'brands' => [], 'brand_found' => true, 'corrections' => $this->corrections];
         }
 
         $rows = CatalogQuery::products()
@@ -153,7 +235,7 @@ class SupportAssistantCatalogSearch
         $models = CatalogQuery::products()->with('brand:id,name')->whereIn('id', $picked)->get()->keyBy('id');
         $products = collect($picked)->map(fn (int $id) => $models->get($id))->filter()->values();
 
-        return ['products' => $products, 'approximate' => $approximate, 'brands' => $brands, 'brand_found' => true];
+        return ['products' => $products, 'approximate' => $approximate, 'brands' => $brands, 'brand_found' => true, 'corrections' => $this->corrections];
     }
 
     /**

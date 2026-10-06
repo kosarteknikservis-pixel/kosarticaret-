@@ -6,6 +6,8 @@
 
     const STORE_KEY = 'kc-chat-v1';
     const OPEN_KEY = 'kc-chat-open';
+    const ACTIVE_KEY = 'kc-chat-active';
+    const NOTIFY_ASKED_KEY = 'kc-chat-notify-asked';
     const MAX_STORED = 40;
     const MAX_LENGTH = 600;
 
@@ -36,6 +38,7 @@
     let config = {};
     let busy = false;
     let messages = [];
+    let loadingReplies = false;
 
     const escapeHtml = (value) => String(value)
         .replace(/&/g, '&amp;')
@@ -294,14 +297,19 @@
 
     const renderMessage = (message) => {
         const row = document.createElement('div');
-        row.className = 'kc-msg kc-msg--' + (message.role === 'user' ? 'user' : 'bot') + (message.error ? ' kc-msg--error' : '');
+        row.className = 'kc-msg kc-msg--' + (message.role === 'user' ? 'user' : 'bot') +
+            (message.role === 'agent' ? ' kc-msg--agent' : '') +
+            (message.error ? ' kc-msg--error' : '');
 
         const bubble = document.createElement('div');
         bubble.className = 'kc-msg__bubble';
         if (message.role === 'user') {
             bubble.textContent = message.text;
         } else {
-            bubble.innerHTML = formatReply(message.text);
+            bubble.innerHTML = (message.role === 'agent'
+                ? '<span class="kc-msg__label">Koşar Ticaret temsilcisi' + (message.at ? ' · ' + escapeHtml(message.at) : '') + '</span>' +
+                    (message.question ? '<span class="kc-msg__quote">Sorunuz: ' + escapeHtml(message.question) + '</span>' : '')
+                : '') + formatReply(message.text);
         }
         row.appendChild(bubble);
 
@@ -381,6 +389,158 @@
         scrollToEnd();
     };
 
+    const markActive = () => {
+        try {
+            localStorage.setItem(ACTIVE_KEY, String(Date.now()));
+        } catch (e) {}
+    };
+
+    const setBadge = (count) => {
+        if (typeof window.kcSupportChatBadge === 'function') window.kcSupportChatBadge(count);
+    };
+
+    async function refreshReplies() {
+        if (!config.repliesEndpoint || loadingReplies) return;
+        loadingReplies = true;
+        try {
+            const response = await fetch(config.repliesEndpoint, { headers: { Accept: 'application/json' }, credentials: 'same-origin' });
+            const data = response.ok ? await response.json().catch(() => ({})) : {};
+            const list = Array.isArray(data.messages) ? data.messages : [];
+            if (!list.length) {
+                setBadge(0);
+                return;
+            }
+            const known = new Set(messages.filter((m) => m.agentId).map((m) => m.agentId));
+            const asked = new Set(messages.filter((m) => m.role === 'user').map((m) => m.text));
+            let lastId = 0;
+            list.forEach((reply) => {
+                lastId = Math.max(lastId, Number(reply.id) || 0);
+                if (!known.has(reply.id) && typeof reply.text === 'string') {
+                    const question = typeof reply.question === 'string' && reply.question && !asked.has(reply.question) ? reply.question : '';
+                    addMessage({ role: 'agent', text: reply.text, at: reply.at || '', question, agentId: reply.id });
+                }
+            });
+            setBadge(0);
+            if (lastId > 0 && config.repliesSeenEndpoint) {
+                await fetch(config.repliesSeenEndpoint, {
+                    method: 'POST',
+                    headers: csrfHeaders(),
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ last_id: lastId }),
+                }).catch(() => {});
+            }
+            track('support_chat_agent_reply_seen');
+        } catch (e) {
+            // Yanıt kontrolü sessizce tekrar denenir.
+        } finally {
+            loadingReplies = false;
+        }
+    }
+
+    const pushSupported = () => Boolean(
+        config.pushKey && config.subscribeEndpoint && config.sw && window.isSecureContext &&
+        'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window
+    );
+
+    const urlBase64ToUint8Array = (value) => {
+        const padded = (value + '='.repeat((4 - (value.length % 4)) % 4)).replace(/-/g, '+').replace(/_/g, '/');
+        const raw = window.atob(padded);
+        return Uint8Array.from(raw, (char) => char.charCodeAt(0));
+    };
+
+    async function subscribePush() {
+        const registration = await navigator.serviceWorker.register(config.sw, { scope: '/' });
+        await navigator.serviceWorker.ready;
+        let subscription = await registration.pushManager.getSubscription();
+        if (!subscription) {
+            subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(config.pushKey),
+            });
+        }
+        const json = subscription.toJSON();
+        const encodings = window.PushManager.supportedContentEncodings || ['aes128gcm'];
+        const response = await fetch(config.subscribeEndpoint, {
+            method: 'POST',
+            headers: csrfHeaders(),
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                endpoint: json.endpoint,
+                keys: json.keys || {},
+                encoding: encodings.includes('aes128gcm') ? 'aes128gcm' : encodings[0],
+            }),
+        });
+        if (!response.ok) throw new Error('subscribe_failed');
+    }
+
+    const LATER_TEXT = 'Ekibimiz yanıt verirse, siteye tekrar girdiğinizde yanıtı bu pencerede görürsünüz.';
+
+    const renderNotifyOffer = () => {
+        let asked = false;
+        try {
+            asked = sessionStorage.getItem(NOTIFY_ASKED_KEY) === '1';
+            sessionStorage.setItem(NOTIFY_ASKED_KEY, '1');
+        } catch (e) {}
+        if (asked) return;
+
+        const row = document.createElement('div');
+        row.className = 'kc-notify';
+        const text = document.createElement('p');
+        text.className = 'kc-notify__text';
+        row.appendChild(text);
+
+        if (!pushSupported() || Notification.permission === 'denied') {
+            text.textContent = LATER_TEXT;
+            body.appendChild(row);
+            scrollToEnd();
+            return;
+        }
+
+        if (Notification.permission === 'granted') {
+            subscribePush().catch(() => {});
+            return;
+        }
+
+        text.textContent = 'Ekibimiz bu sohbete buradan da yanıt verebilir. Yanıt geldiğinde bildirim almak ister misiniz?';
+        const actions = document.createElement('div');
+        actions.className = 'kc-notify__actions';
+        const accept = document.createElement('button');
+        accept.type = 'button';
+        accept.className = 'kc-notify__btn is-primary';
+        accept.textContent = 'Bildirimleri aç';
+        const decline = document.createElement('button');
+        decline.type = 'button';
+        decline.className = 'kc-notify__btn';
+        decline.textContent = 'Şimdi değil';
+        actions.append(accept, decline);
+        row.appendChild(actions);
+
+        const finish = (message) => {
+            actions.remove();
+            text.textContent = message;
+        };
+        decline.addEventListener('click', () => finish(LATER_TEXT));
+        accept.addEventListener('click', async () => {
+            accept.disabled = true;
+            decline.disabled = true;
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission !== 'granted') {
+                    finish('Bildirim izni verilmedi. ' + LATER_TEXT);
+                    return;
+                }
+                await subscribePush();
+                finish('Bildirimler açıldı. Ekibimiz yanıt verdiğinde size haber vereceğiz.');
+                track('support_chat_push_enabled');
+            } catch (e) {
+                finish('Bildirim açılamadı. ' + LATER_TEXT);
+            }
+        });
+
+        body.appendChild(row);
+        scrollToEnd();
+    };
+
     const errorText = (status) => {
         if (status === 429) return 'Çok hızlı mesaj gönderildi. Lütfen birkaç saniye bekleyip tekrar deneyin.';
         if (status === 419) return 'Oturumunuz yenilendi. Sayfayı yenileyip tekrar deneyebilirsiniz.';
@@ -392,6 +552,7 @@
         if (!value || busy) return;
 
         addMessage({ role: 'user', text: value });
+        markActive();
         input.value = '';
         autoGrow();
         setBusy(true);
@@ -423,6 +584,7 @@
                 handoffUrl: data.handoff && data.handoff_url ? data.handoff_url : null,
                 action: action ? { url: action.url, label: action.label } : null,
             });
+            if (data.notify_offer) renderNotifyOffer();
 
             input.setAttribute('inputmode', data.awaiting_code ? 'numeric' : 'text');
             input.setAttribute('autocomplete', data.awaiting_code ? 'one-time-code' : 'off');
@@ -526,9 +688,15 @@
                 cartAdd: launcher.dataset.cartAdd || '',
                 whatsapp: launcher.dataset.whatsapp || '',
                 privacyUrl: launcher.dataset.privacyUrl || '',
+                repliesEndpoint: launcher.dataset.repliesEndpoint || '',
+                repliesSeenEndpoint: launcher.dataset.repliesSeenEndpoint || '',
+                subscribeEndpoint: launcher.dataset.subscribeEndpoint || '',
+                pushKey: launcher.dataset.pushKey || '',
+                sw: launcher.dataset.sw || '',
             };
             build();
         }
+        refreshReplies();
         root.setAttribute('aria-hidden', 'false');
         root.classList.add('is-open');
         document.documentElement.classList.add('kc-chat-lock');
@@ -556,6 +724,8 @@
     window.KosarSupportChat = {
         open,
         close,
+        refreshReplies,
+        isOpen: () => Boolean(root && root.classList.contains('is-open')),
         toggle(button) {
             if (root && root.classList.contains('is-open')) {
                 close();

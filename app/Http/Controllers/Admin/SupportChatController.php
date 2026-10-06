@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SupportChatConversation;
 use App\Models\SupportChatMessage;
+use App\Services\SupportAssistant\SupportChatPushService;
 use App\Support\SupportAssistantConfig;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class SupportChatController extends Controller
@@ -67,12 +69,54 @@ class SupportChatController extends Controller
         ]);
     }
 
-    public function show(SupportChatConversation $conversation): View
+    public function show(SupportChatConversation $conversation, SupportChatPushService $push): View
     {
         $conversation->markRead();
         $conversation->load('messages');
 
-        return view('admin.support-chats.show', ['conversation' => $conversation]);
+        return view('admin.support-chats.show', [
+            'conversation' => $conversation,
+            'pushSubscribed' => $push->hasSubscription($conversation->visitor_token),
+        ]);
+    }
+
+    public function reply(Request $request, SupportChatConversation $conversation, SupportChatPushService $push): RedirectResponse
+    {
+        $data = $request->validate([
+            'reply' => ['required', 'string', 'max:1500'],
+        ], [], ['reply' => 'yanıt']);
+
+        if (! $conversation->canReceiveAgentReply()) {
+            return back()->withInput()->with('error', 'Bu sohbet yanıt özelliğinden önce başlamış; müşteriye ulaştırılamaz.');
+        }
+
+        $text = trim(strip_tags($data['reply']));
+        if ($text === '') {
+            return back()->withInput()->withErrors(['reply' => 'Yanıt boş olamaz.']);
+        }
+
+        $message = SupportChatMessage::query()->create([
+            'conversation_id' => $conversation->id,
+            'role' => 'agent',
+            'author_name' => Str::limit((string) ($request->user()?->name ?: 'Mağaza ekibi'), 110, ''),
+            'content' => $text,
+        ]);
+        $conversation->forceFill([
+            'message_count' => $conversation->message_count + 1,
+            'unanswered_count' => 0,
+            'last_agent_reply_at' => now(),
+            'last_message_at' => now(),
+            'read_at' => now(),
+        ])->save();
+
+        $result = $push->notify($conversation, $message);
+        $status = match (true) {
+            $result['sent'] > 0 => 'Yanıt gönderildi; müşterinin cihazına bildirim gitti.',
+            $result['subscribers'] > 0 => 'Yanıt kaydedildi ancak bildirim iletilemedi. Müşteri siteye döndüğünde yanıtı asistan penceresinde görür.',
+            default => 'Yanıt kaydedildi. Müşteri bildirim izni vermediği için yanıtı siteye döndüğünde asistan penceresinde görür.',
+        };
+
+        return redirect()->route('admin.support-chats.show', $conversation)->with('success', $status);
     }
 
     public function destroy(SupportChatConversation $conversation): RedirectResponse

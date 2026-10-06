@@ -29,6 +29,7 @@ class PublicPageCache
         'siparis',
         'urun',
         'blog',
+        'destek-asistani',
     ];
 
     /**

@@ -93,7 +93,10 @@
                                     @if($conversation->handed_off_at)
                                         <span class="admin-badge admin-badge-success">WhatsApp</span>
                                     @endif
-                                    @if($conversation->unanswered_count === 0 && ! $conversation->handed_off_at)
+                                    @if($conversation->last_agent_reply_at)
+                                        <span class="admin-badge bg-sky-50 text-sky-800">Temsilci yanıtı</span>
+                                    @endif
+                                    @if($conversation->unanswered_count === 0 && ! $conversation->handed_off_at && ! $conversation->last_agent_reply_at)
                                         <span class="admin-badge admin-badge-muted">Yanıtlandı</span>
                                     @endif
                                 </span>

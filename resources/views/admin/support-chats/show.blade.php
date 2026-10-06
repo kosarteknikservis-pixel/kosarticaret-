@@ -10,6 +10,9 @@
             @if($conversation->handed_off_at)
                 <span class="admin-badge admin-badge-success">WhatsApp'a yönlendi · {{ $conversation->handed_off_at->format('H:i') }}</span>
             @endif
+            @if($conversation->last_agent_reply_at)
+                <span class="admin-badge admin-badge-muted">Yanıtlandı · {{ $conversation->last_agent_reply_at->format('d.m H:i') }}</span>
+            @endif
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -20,9 +23,21 @@
 
         <ol class="space-y-4">
             @foreach($conversation->messages as $message)
-                @php $isUser = $message->role === 'user'; @endphp
+                @php
+                    $isUser = $message->role === 'user';
+                    $isAgent = $message->role === 'agent';
+                    $bubble = match (true) {
+                        $isUser => 'bg-slate-800 text-white',
+                        $isAgent => 'bg-sky-50 border border-sky-200 text-slate-800',
+                        (bool) $message->unanswered => 'bg-amber-50 border border-amber-200 text-slate-800',
+                        default => 'bg-slate-50 border border-slate-200 text-slate-800',
+                    };
+                @endphp
                 <li class="flex {{ $isUser ? 'justify-end' : 'justify-start' }}">
-                    <div class="max-w-[85%] rounded-2xl px-4 py-3 {{ $isUser ? 'bg-slate-800 text-white' : ($message->unanswered ? 'bg-amber-50 border border-amber-200 text-slate-800' : 'bg-slate-50 border border-slate-200 text-slate-800') }}">
+                    <div class="max-w-[85%] rounded-2xl px-4 py-3 {{ $bubble }}">
+                        @if($isAgent)
+                            <p class="mb-1 text-[11px] font-semibold uppercase tracking-wide text-sky-800">Temsilci yanıtı · {{ $message->author_name ?: 'Mağaza ekibi' }}</p>
+                        @endif
                         <p class="text-sm whitespace-pre-wrap break-words leading-relaxed">{{ $message->content }}</p>
                         @if(! $isUser && ! empty($message->products))
                             <ul class="mt-2 space-y-1">
@@ -36,6 +51,9 @@
                         @endif
                         <p class="mt-2 text-[11px] {{ $isUser ? 'text-slate-300' : 'text-slate-400' }}">
                             {{ $message->created_at->format('H:i') }}
+                            @if($isAgent)
+                                · {{ $message->id <= $conversation->agent_seen_message_id ? 'müşteri gördü' : 'henüz görülmedi' }}
+                            @endif
                             @if(! $isUser && ! empty($message->tools))
                                 · {{ implode(', ', $message->tools) }}
                             @endif
@@ -47,6 +65,36 @@
                 </li>
             @endforeach
         </ol>
+
+        <section class="mt-8 border-t border-slate-200 pt-6" id="yanit" aria-labelledby="support-reply-title">
+            <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <h2 id="support-reply-title" class="text-sm font-semibold text-slate-800">Müşteriye yanıt yaz</h2>
+                @if($conversation->canReceiveAgentReply())
+                    <span class="admin-badge {{ $pushSubscribed ? 'admin-badge-success' : 'admin-badge-muted' }}">{{ $pushSubscribed ? 'Bildirim açık' : 'Bildirim kapalı' }}</span>
+                @endif
+            </div>
+
+            @if($conversation->canReceiveAgentReply())
+                <form method="post" action="{{ route('admin.support-chats.reply', $conversation) }}">
+                    @csrf
+                    <label for="support-reply" class="sr-only">Yanıt</label>
+                    <textarea id="support-reply" name="reply" rows="4" maxlength="1500" required class="admin-input" placeholder="Merhaba, sorduğunuz ürünle ilgili bilgi…">{{ old('reply') }}</textarea>
+                    @error('reply') <p class="admin-error">{{ $message }}</p> @enderror
+                    <div class="mt-3 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <p class="text-xs leading-relaxed text-slate-500">
+                            @if($pushSubscribed)
+                                Yanıtınız müşterinin telefonuna veya bilgisayarına bildirim olarak gider; siteye girdiğinde asistan penceresinde de görür.
+                            @else
+                                Müşteri bildirim izni vermedi. Yanıtı 30 gün içinde siteye döndüğünde asistan penceresinde görür.
+                            @endif
+                        </p>
+                        <button type="submit" class="admin-btn admin-btn-primary w-full shrink-0 sm:w-auto">Müşteriye gönder</button>
+                    </div>
+                </form>
+            @else
+                <p class="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-600">Bu sohbet yanıt özelliği eklenmeden önce başladığı için müşteriye ulaştırılamaz. Müşteri iletişim bilgisi bıraktıysa WhatsApp veya telefonla dönüş yapabilirsiniz.</p>
+            @endif
+        </section>
 
         <div class="admin-form-actions border-t mt-6 pt-4">
             <a href="{{ route('admin.support-chats.index') }}" class="admin-btn admin-btn-secondary">Listeye dön</a>

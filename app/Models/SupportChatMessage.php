@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SupportChatMessage extends Model
 {
     protected $fillable = [
-        'conversation_id', 'role', 'content', 'tools', 'products', 'unanswered', 'tokens',
+        'conversation_id', 'role', 'author_name', 'content', 'tools', 'products', 'unanswered', 'tokens',
     ];
 
     protected function casts(): array

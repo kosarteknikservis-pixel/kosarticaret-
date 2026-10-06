@@ -212,6 +212,79 @@
     border-color: #f5d9a8;
     background: #fffaf0;
 }
+.kc-msg--agent .kc-msg__bubble {
+    border-color: #c6d6ea;
+    border-left: 3px solid var(--kc-navy);
+    background: #f3f7fc;
+}
+.kc-msg__label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--kc-navy);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+.kc-msg__quote {
+    display: block;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dbe4f0;
+    color: var(--kc-muted);
+    font-size: 0.8125rem;
+}
+
+/* Temsilci yanıtı bildirimi */
+.kc-notify {
+    max-width: 88%;
+    margin-bottom: 0.875rem;
+    padding: 0.75rem 0.875rem;
+    border: 1px dashed #b9cbe0;
+    border-radius: 1rem;
+    background: #fff;
+}
+.kc-notify__text {
+    margin: 0;
+    color: var(--kc-text);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+}
+.kc-notify__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.625rem;
+}
+.kc-notify__btn {
+    min-height: 2.5rem;
+    padding: 0.5rem 0.95rem;
+    border: 1px solid var(--kc-border);
+    border-radius: 9999px;
+    background: #fff;
+    color: var(--kc-navy);
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+.kc-notify__btn:hover {
+    border-color: #a9bdd6;
+    background: #f0f5fb;
+}
+.kc-notify__btn.is-primary {
+    border-color: var(--kc-navy);
+    background: var(--kc-navy);
+    color: #fff;
+}
+.kc-notify__btn.is-primary:hover {
+    background: var(--kc-navy-deep);
+    border-color: var(--kc-navy-deep);
+}
+.kc-notify__btn:disabled {
+    opacity: 0.55;
+    cursor: progress;
+}
 
 /* Öneri çipleri */
 .kc-chips {

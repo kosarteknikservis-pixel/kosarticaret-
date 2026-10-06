@@ -70,7 +70,10 @@ class SupportAssistantService
                     ->map(fn ($p) => ($p['name'] ?? '').' — '.($p['url'] ?? ''))
                     ->implode('; ').')';
             }
-            $messages[] = ['role' => $message->role === 'assistant' ? 'assistant' : 'user', 'content' => $content];
+            if ($message->role === 'agent') {
+                $content = '[Mağaza temsilcisinin yanıtı] '.$content;
+            }
+            $messages[] = ['role' => in_array($message->role, ['assistant', 'agent'], true) ? 'assistant' : 'user', 'content' => $content];
         }
         if ($orderStatus = $this->tools->orderFlow()->status()) {
             $messages[] = ['role' => 'system', 'content' => $orderStatus];
@@ -371,6 +374,7 @@ KESİN KURALLAR
 5. Pompa/hidrofor/fan seçiminde recommend_pump aracını kullan; eksik bilgi dönerse kısa sorularla sor. Sonuçtaki ürün sırasını değiştirme: ilk ürün ihtiyaca en uygun seçimdir, onu "en uygun seçim" diye öne çıkar, diğerlerini sırayla (farklı markalardan) alternatif olarak ver. Sonucun ön seçim olduğunu, kesin karar için teknik ekiple görüşülebileceğini belirt.
 18. KATALOG: Isıtıcı, aydınlatma, vantilatör dahil diğer tüm ürünler için search_products kullan. "Ürün yok / satmıyoruz" demeden önce mutlaka search_products çağır; sonuç boşsa ürün türünü tekil ve sade yazarak (ör. "ısıtıcı") bir kez daha ara. Yine boşsa katalogda bulamadığını söyle, varsa kategori linkini ver; ürün, marka veya model uydurma.
 19. MARKA: Araç sonucunda "markalar" veya "uygun_markalar" birden fazla marka içeriyorsa ve müşteri marka belirtmediyse, önerilerde farklı markalara yer ver ve yanıtın sonunda bu markaları kısaca sayıp "Belirli bir marka tercihiniz var mı?" diye sor. Müşteri marka söylerse aynı aramayı/öneriyi brand parametresiyle tekrar çağır. O markada uygun ürün yoksa bunu açıkça söyle ve diğer markaları öner.
+20. TEMSİLCİ: Geçmişte "[Mağaza temsilcisinin yanıtı]" ile başlayan mesajlar mağaza ekibinin müşteriye yazdığı yanıtlardır. Bu bilgilerle çelişme, aynı konuda farklı bilgi uydurma; müşteri bu yanıta dönüş yapıyorsa konuyu oradan sürdür. Kendi yanıtlarına bu etiketi asla ekleme.
 6. Sipariş sorgusu için sipariş numarası ve siparişte kullanılan e-postayı iste; ikisi olmadan sorgulama. Kişisel verileri tekrar etme.
 7. Müşteri temsilci isterse veya şikâyet, iade/değişim talebi, hasarlı ürün, toptan/proje teklifi, özel fiyat, montaj/servis gibi insan gerektiren bir konu varsa handoff_to_human aracını çağır.
 8. Mağaza ve ürünleri dışındaki konularda (genel sohbet, ödev, kod, siyaset vb.) yalnızca mağaza konularında yardımcı olabileceğini kibarca söyle.

@@ -85,6 +85,26 @@ class SupportAssistantCatalogSearchTest extends TestCase
     }
 
     #[Test]
+    public function a_one_letter_typo_finds_the_catalog_word(): void
+    {
+        $ardonat = Brand::query()->where('slug', 'ardonat')->first();
+        Product::query()->create([
+            'slug' => 'led-armatur-60',
+            'name' => 'Ardonat Led Armatür 60 Led',
+            'price' => 800,
+            'stock' => 4,
+            'is_active' => true,
+            'brand_id' => $ardonat->id,
+        ]);
+        Cache::flush();
+
+        $result = $this->search(['query' => 'armatör']);
+
+        $this->assertSame(['Ardonat Led Armatür 60 Led'], array_column($result['urunler'], 'ad'));
+        $this->assertStringContainsString('armator → armatur', $result['yazim_duzeltmesi']);
+    }
+
+    #[Test]
     public function unknown_product_is_not_invented(): void
     {
         $result = $this->search(['query' => 'buzdolabı']);

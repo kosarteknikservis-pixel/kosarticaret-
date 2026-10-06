@@ -102,6 +102,9 @@ Route::post('/pompa-secici/oner', [PumpSelectorController::class, 'recommend'])-
 Route::post('/destek-asistani/mesaj', [SupportChatController::class, 'message'])->middleware('throttle:12,1')->name('support-chat.message');
 Route::post('/destek-asistani/sifirla', [SupportChatController::class, 'reset'])->middleware('throttle:10,1')->name('support-chat.reset');
 Route::get('/destek-asistani/odemeye-gec', [SupportChatController::class, 'checkout'])->middleware('throttle:20,1')->name('support-chat.checkout');
+Route::get('/destek-asistani/yanitlar', [SupportChatController::class, 'replies'])->middleware('throttle:30,1')->name('support-chat.replies');
+Route::post('/destek-asistani/yanitlar/okundu', [SupportChatController::class, 'markRepliesSeen'])->middleware('throttle:20,1')->name('support-chat.replies.seen');
+Route::post('/destek-asistani/bildirim', [SupportChatController::class, 'subscribe'])->middleware('throttle:10,1')->name('support-chat.subscribe');
 Route::get('/urun/{product:slug}/taksit', ProductInstallmentController::class)->name('products.installments');
 Route::post('/urun/{product:slug}/yorum', [ProductReviewController::class, 'store'])->middleware('throttle:3,1')->name('products.review');
 Route::get('/kategoriler', [CategoryController::class, 'index'])->name('categories.index');
@@ -423,6 +426,7 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::delete('iletisim-mesajlari/{message}', [AdminContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
         Route::get('ai-sohbetler', [AdminSupportChatController::class, 'index'])->name('support-chats.index');
         Route::get('ai-sohbetler/{conversation}', [AdminSupportChatController::class, 'show'])->name('support-chats.show');
+        Route::post('ai-sohbetler/{conversation}/yanit', [AdminSupportChatController::class, 'reply'])->middleware('throttle:30,1')->name('support-chats.reply');
         Route::delete('ai-sohbetler/{conversation}', [AdminSupportChatController::class, 'destroy'])->name('support-chats.destroy');
         Route::post('onizleme', [PreviewController::class, 'start'])->name('preview.start');
         Route::post('onizleme/kapat', [PreviewController::class, 'stop'])->name('preview.stop');
