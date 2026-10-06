@@ -104,7 +104,7 @@ class SupportChatAgentReplyTest extends TestCase
             ->assertSee('data-replies-endpoint', false)
             ->assertSee('data-support-chat-badge', false)
             ->assertSee('data-push-key', false)
-            ->assertSee('destek-bildirim-sw.js', false);
+            ->assertSee('js/destek-bildirim-sw.js', false);
     }
 
     #[Test]

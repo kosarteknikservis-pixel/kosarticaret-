@@ -449,7 +449,7 @@
     };
 
     async function subscribePush() {
-        const registration = await navigator.serviceWorker.register(config.sw, { scope: '/' });
+        const registration = await navigator.serviceWorker.register(config.sw);
         await navigator.serviceWorker.ready;
         let subscription = await registration.pushManager.getSubscription();
         if (!subscription) {

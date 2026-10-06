@@ -147,7 +147,7 @@
                     @if($supportPushKey)
                     data-subscribe-endpoint="{{ route('support-chat.subscribe') }}"
                     data-push-key="{{ $supportPushKey }}"
-                    data-sw="{{ asset('destek-bildirim-sw.js') }}"
+                    data-sw="{{ asset('js/destek-bildirim-sw.js') }}"
                     @endif
                     data-cart-add="{{ route('cart.ajax.add', ['product' => '__slug__']) }}"
                     data-whatsapp="{{ \App\Support\SupportAssistantConfig::whatsappUrl('Merhaba, sitenizden yazıyorum.') }}"
