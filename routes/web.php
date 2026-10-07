@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\AnalyticsController as AdminAnalyticsController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\BrandController as AdminBrandController;
+use App\Http\Controllers\Admin\CollectionController as AdminCollectionController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CompetitorPricingController as AdminCompetitorPricingController;
 use App\Http\Controllers\Admin\CouponController as AdminCouponController;
@@ -45,6 +46,7 @@ use App\Http\Controllers\Shop\BrandController;
 use App\Http\Controllers\Shop\CartApiController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CategoryController;
+use App\Http\Controllers\Shop\CollectionController;
 use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\ContactController;
 use App\Http\Controllers\Shop\CustomerAuthController;
@@ -118,6 +120,9 @@ Route::get('/urun-kategori/{legacyCategory}', function (Illuminate\Http\Request 
 
     return redirect()->to(url($target ?? '/kategoriler'), 301);
 })->where('legacyCategory', '.*');
+Route::get('/koleksiyon/{collection:slug}', [CollectionController::class, 'show'])
+    ->name('collections.show')
+    ->where('collection', '[a-z0-9\-]+');
 Route::get('/kategoriler/{category}', [CategoryController::class, 'show'])
     ->where('category', '.*')
     ->name('categories.show');
@@ -285,6 +290,13 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
             ->except(['show'])
             ->parameters(['markalar' => 'brand'])
             ->names('brands');
+        Route::get('koleksiyonlar', [AdminCollectionController::class, 'index'])->name('collections.index');
+        Route::get('koleksiyonlar/yeni', [AdminCollectionController::class, 'create'])->name('collections.create');
+        Route::post('koleksiyonlar', [AdminCollectionController::class, 'store'])->name('collections.store');
+        Route::get('koleksiyonlar/{collection}/duzenle', [AdminCollectionController::class, 'edit'])->name('collections.edit');
+        Route::put('koleksiyonlar/{collection}', [AdminCollectionController::class, 'update'])->name('collections.update');
+        Route::get('koleksiyonlar/{collection}/onizle', [AdminCollectionController::class, 'preview'])->name('collections.preview');
+        Route::post('koleksiyonlar/{collection}/uyelik', [AdminCollectionController::class, 'membership'])->name('collections.membership');
         Route::resource('kuponlar', AdminCouponController::class)
             ->except(['show'])
             ->parameters(['kuponlar' => 'coupon'])
@@ -426,6 +438,8 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::delete('iletisim-mesajlari/{message}', [AdminContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
         Route::get('ai-sohbetler', [AdminSupportChatController::class, 'index'])->name('support-chats.index');
         Route::get('ai-sohbetler/{conversation}', [AdminSupportChatController::class, 'show'])->name('support-chats.show');
+        Route::get('ai-sohbetler/{conversation}/mesajlar', [AdminSupportChatController::class, 'messages'])->middleware('throttle:40,1')->name('support-chats.messages');
+        Route::post('ai-sohbetler/{conversation}/birak', [AdminSupportChatController::class, 'release'])->middleware('throttle:30,1')->name('support-chats.release');
         Route::post('ai-sohbetler/{conversation}/yanit', [AdminSupportChatController::class, 'reply'])->middleware('throttle:30,1')->name('support-chats.reply');
         Route::delete('ai-sohbetler/{conversation}', [AdminSupportChatController::class, 'destroy'])->name('support-chats.destroy');
         Route::post('onizleme', [PreviewController::class, 'start'])->name('preview.start');

@@ -79,6 +79,7 @@ class ProductController extends Controller
         $data = $this->mergeImage($request, $data);
         $product = Product::query()->create($data);
         $product->categories()->sync($request->input('category_ids', []));
+        app(\App\Services\CollectionMatcher::class)->syncProduct($product->fresh(['categories']));
         $this->storeGalleryImages($request, $product);
 
         return redirect()->route('admin.products.index')->with('success', 'Ürün oluşturuldu.');
@@ -101,6 +102,7 @@ class ProductController extends Controller
         $data = $this->mergeImage($request, $data, $product);
         $product->update($data);
         $product->categories()->sync($request->input('category_ids', []));
+        app(\App\Services\CollectionMatcher::class)->syncProduct($product->fresh(['categories']));
         $this->storeGalleryImages($request, $product);
         $this->syncGalleryAlts($request, $product);
 

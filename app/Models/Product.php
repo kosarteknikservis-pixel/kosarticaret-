@@ -67,6 +67,13 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class, 'collection_products')
+            ->withPivot(['source', 'evidence'])
+            ->wherePivotIn('source', ['rule', 'include']);
+    }
+
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class)->orderBy('sort_order');

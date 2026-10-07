@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Collection;
 use App\Models\Product;
 use App\Services\AnalyticsTracker;
 use App\Services\Catalog\RelatedProductService;
@@ -89,6 +90,11 @@ class ProductController extends Controller
             'ogImage' => Seo::productImages($product)[0] ?? null,
             'productPrice' => number_format((float) $product->price, 2, '.', ''),
             'jsonLd' => $jsonLd,
+            'collectionLinks' => $product->collections()
+                ->where('collections.status', Collection::STATUS_INDEX)
+                ->orderBy('collections.name')
+                ->limit(5)
+                ->get(),
         ]);
     }
 }

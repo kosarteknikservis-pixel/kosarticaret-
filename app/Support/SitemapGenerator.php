@@ -93,6 +93,13 @@ class SitemapGenerator
             ],
         ];
 
+        if (\App\Models\Collection::query()->where('status', \App\Models\Collection::STATUS_INDEX)->exists()) {
+            $entries[] = [
+                'loc' => route('sitemap.chunk', ['chunk' => 'collections']),
+                'lastmod' => self::atom(\App\Models\Collection::query()->where('status', \App\Models\Collection::STATUS_INDEX)->max('updated_at')),
+            ];
+        }
+
         $productPages = (int) ceil(max(1, self::productCount()) / self::CHUNK_SIZE);
         for ($page = 1; $page <= $productPages; $page++) {
             $entries[] = [
@@ -115,6 +122,7 @@ class SitemapGenerator
             ->merge(self::brandUrls())
             ->merge(self::blogUrls())
             ->merge(self::pageUrls())
+            ->merge(self::collectionUrls())
             ->values()
             ->all();
     }
@@ -140,6 +148,10 @@ class SitemapGenerator
 
         if ($chunk === 'pages') {
             return self::pageUrls();
+        }
+
+        if ($chunk === 'collections') {
+            return self::collectionUrls();
         }
 
         if (preg_match('/^products-(\d+)$/', $chunk, $matches) === 1) {
@@ -247,6 +259,25 @@ class SitemapGenerator
                     'loc' => route('pages.show', $page),
                     'lastmod' => $page->updated_at->toAtomString(),
                     'priority' => '0.5',
+                ]);
+            });
+
+        return $urls;
+    }
+
+    /** @return Collection<int, array{loc: string, lastmod?: string, priority?: string}> */
+    private static function collectionUrls(): Collection
+    {
+        $urls = collect();
+
+        \App\Models\Collection::query()
+            ->where('status', \App\Models\Collection::STATUS_INDEX)
+            ->select('slug', 'updated_at')
+            ->each(function (\App\Models\Collection $collection) use ($urls): void {
+                $urls->push([
+                    'loc' => route('collections.show', $collection),
+                    'lastmod' => $collection->updated_at->toAtomString(),
+                    'priority' => '0.6',
                 ]);
             });
 

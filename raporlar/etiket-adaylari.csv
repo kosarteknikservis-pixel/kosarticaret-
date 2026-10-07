@@ -1,0 +1,26 @@
+sira;aday;hedef_kelime;aylik_hacim;zirve_ay;zirve_hacim;serp_tipi;kampa;uygun_urun;karar_verilemeyen;yamyamlik;karar
+1;1 HP hidrofor;1 hp hidrofor;720;2026-07;1000;liste (Trendyol etiket, Akakçe filtre, Güvenlifiyat etiket);1 HP etiketi yok, genel hidrofor kategorisi ilk 10;25;1 ürün yalnız 0,75 kW;düşük, sahip sayfa yok;index adayı
+2;2 HP dalgıç pompa;2 hp dalgıç pompa;590;2026-06;880;liste (Cimri listesi, AI özetinde Kampa etiket sayfası);fiyat sorgusunda etiket sıra 4 (Labs, aylık 390);39;güç alanı boş dalgıç grubunda 7;düşük;index adayı
+3;1 HP dalgıç pompa;1 hp dalgıç pompa;320;2026-07;590;liste (Trendyol etiket 1. sıra, Akakçe filtre);tek ürün sayfası;51;1 ürün yalnız 0,75 kW;düşük;index adayı
+4;3 HP hidrofor;3 hp hidrofor;110;2026-01;210;liste (sanayiavm etiket, organik 4. sıra);ayrı 3 HP etiketi bu listede yok;20;8 ürün yalnız 2,2 kW;düşük;index adayı
+5;Monofaze dalgıç pompa;monofaze dalgıç pompa;110;2026-06;170;liste (Akakçe filtre, Güvenlifiyat etiket);ayrı etiket sırası yok;119;21 üründe faz alanı yok, 28 adında monofaze ama özellikte yalnız 220/230 V;orta, blog bilgi niyetinde;index adayı, blog canonical olmaz
+6;2 HP hidrofor;2 hp hidrofor;390;2026-06;590;organik tek ürün ağırlıklı;ayrı 2 HP etiketi yok;9;8 ürün yalnız kW (1,35–1,6);düşük;taslak, index değil
+7;1,5 HP hidrofor;1.5 hp hidrofor;260;2026-07;390;organik tek ürün; AI özetinde etiket var;ayrı etiket sırası yok;33;2 ürün yalnız 1,1 kW;düşük;taslak, index değil
+8;0,5 HP hidrofor;0.5 hp hidrofor;210;2026-07;320;organik tek ürün;ayrı etiket sırası yok;9;0;düşük;taslak, index değil
+9;Sumak dalgıç pompa;sumak dalgıç pompa;720;2026-04;1000;liste (Trendyol kategori, rakip etiket);ürün görsellerinde, etiket sırası yok;130;0, marka+kategori;yüksek, /marka/sumak;açma
+10;Sessiz hidrofor;sessiz hidrofor;880;2026-06;1300;liste (pazaryeri ve rakip etiket);etiket AI kaynaklarında, organik sıra ölçülmedi;0;ses alanı yok;düşük;açma, özellik yok
+11;12 volt dalgıç pompa;12 volt dalgıç pompa;880;2026-07;1300;liste;etiket trafiği var, bu sorgu sırası ayrı ölçülmedi;0;özellikte 12 V yok, adında 1 ürün;düşük;açma, 6 ürün yok
+12;2 inç dalgıç pompa;2 inç dalgıç pompa;140;2026-06;210;canlı SERP çekilmedi;ayrı sıra yok;ilk geçiş 186, doğrulanmadı;50 mm ayrıca sayılmadı;düşük;açma, sayım güvenilir değil
+13;Bahçe sulama pompası;bahçe sulama pompası;260;2026-06;480;bahçe pompası kategorileri;ayrı sıra yok;0, kullanım alanı yok;özellik yok;yüksek, santrifüj sulama kategorisi;açma
+14;1 HP su pompası;1 hp su pompası;320;2026-06;590;ayrı SERP çekilmedi;ayrı sıra yok;hidrofor+dalgıç karışır;geniş;yüksek, 1 HP hidrofor ve 1 HP dalgıç;açma, ayrı URL yok
+15;2 HP su pompası;2 hp su pompası;210;2026-07;480;ayrı SERP çekilmedi;ayrı sıra yok;geniş;geniş;yüksek, 2 HP etiketleri;açma, ayrı URL yok
+16;Hidrofor 1 HP;hidrofor 1 hp;170;2026-04;210;1 HP hidrofor ile aynı niyet;ayrı sıra yok;25 ile aynı küme;aynı;1 HP hidrofor ile aynı sayfa;ayrı URL yok
+17;Sumak hidrofor;sumak hidrofor;880;2026-07;1000;kategori niyeti;kategori trafiği;kategori;kategori sahibi;sahip: /kategoriler/hidrofor-sistemleri/sumak-hidrofor;etiket değil
+18;Pedrollo hidrofor;pedrollo hidrofor;170;2026-07;320;kategori niyeti;ayrı sıra yok;kategori;kategori sahibi;sahip: pedrollo-hidrofor;etiket değil
+19;Havuz pompası;havuz pompası;1900;2026-07;4400;kategori niyeti;ayrı sıra yok;kategori;kategori;sahip: ön filtreli havuz pompası;etiket değil
+20;Paslanmaz dalgıç pompa;paslanmaz dalgıç pompa;50;2025-10;90;hacim eşiğin altında, SERP çekilmedi;ayrı sıra yok;13 gövde paslanmaz;268 gövde alanı boş, 67 adında paslanmaz;paslanmaz drenaj kategorisi;açma
+21;Paslanmaz hidrofor;paslanmaz hidrofor;90;2026-07;90;hacim eşiğin altında;ayrı sıra yok;ayrı sayılmadı;gövde alanı seyrek;orta;açma
+22;Apartman hidrofor;apartman hidrofor;90;2025-12;140;hacim eşiğin altında;ayrı sıra yok;kullanım alanı yok;özellik yok;blog fiyat yazısı, GSC 213 gösterim;açma
+23;İnverter hidrofor;inverter hidrofor;40;2026-07;90;hacim eşiğin altında;ayrı sıra yok;0, inverter alanı yok;özellik yok;bloglar bu sorguyu tutuyor;açma
+24;Monofaze hidrofor;monofaze hidrofor;40;2026-07;50;hacim eşiğin altında;ayrı sıra yok;42;faz alanı dağınık;düşük;noindex bile gerekmez, açma
+25;Trifaze hidrofor;trifaze hidrofor;20;2026-01;50;hacim eşiğin altında;ayrı sıra yok;162;faz alanı dağınık;düşük;açma, hacim yok

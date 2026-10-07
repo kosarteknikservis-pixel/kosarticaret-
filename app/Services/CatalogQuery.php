@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 
 class CatalogQuery
@@ -14,8 +15,8 @@ class CatalogQuery
         return Product::query()->active();
     }
 
-    /** @param  Builder<Product>  $query */
-    public static function apply(Request $request, Builder $query): Builder
+    /** @param  Builder<Product>|Relation  $query */
+    public static function apply(Request $request, Builder|Relation $query): Builder|Relation
     {
         if ($request->filled('q')) {
             $q = $request->string('q');

@@ -177,6 +177,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_01_210000_replace_renato_r3001_product_images.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_02_150000_differentiate_renato_r3001_content.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_03_120000_add_agent_replies_to_support_chat.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_07_170000_create_collections_tables.php && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \

@@ -2,7 +2,8 @@
     $guide = $hub['guide'] ?? null;
     $siblings = $hub['siblings'] ?? collect();
     $cross = $hub['cross'] ?? collect();
-    $hasLinks = $guide || $siblings->isNotEmpty() || $cross->isNotEmpty() || $product->brand;
+    $collectionLinks = $collectionLinks ?? collect();
+    $hasLinks = $guide || $siblings->isNotEmpty() || $cross->isNotEmpty() || $product->brand || $collectionLinks->isNotEmpty();
 @endphp
 
 @if($hasLinks)
@@ -31,6 +32,11 @@
             @foreach($cross as $relatedCategory)
                 <li>
                     <a href="{{ $relatedCategory->storefrontUrl() }}" class="shop-pdp-hub__link">{{ $relatedCategory->name }}</a>
+                </li>
+            @endforeach
+            @foreach($collectionLinks as $collectionLink)
+                <li>
+                    <a href="{{ route('collections.show', $collectionLink) }}" class="shop-pdp-hub__link">{{ $collectionLink->name }}</a>
                 </li>
             @endforeach
         </ul>

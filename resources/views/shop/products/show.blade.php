@@ -238,7 +238,7 @@
         </div>
     </section>
 
-    @include('shop.partials.pdp-internal-links', ['product' => $product, 'hub' => $hub ?? ['guide' => null, 'siblings' => collect(), 'cross' => collect()]])
+    @include('shop.partials.pdp-internal-links', ['product' => $product, 'hub' => $hub ?? ['guide' => null, 'siblings' => collect(), 'cross' => collect()], 'collectionLinks' => $collectionLinks ?? collect()])
 
     @if($related->isNotEmpty())
         <section class="shop-related-section mt-16 pt-12 border-t border-slate-200 shop-reveal" aria-labelledby="related-heading">
