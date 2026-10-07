@@ -74,7 +74,17 @@ class GoogleProductCategoryTest extends TestCase
 
         $this->assertSame(500100, $this->idFor('WELL4', '4 inç derin kuyu dalgıç', $temiz));
         $this->assertSame(500101, $this->idFor('TOP2', 'Pedrollo TOP 2 Drenaj Dalgıç', $temiz));
-        $this->assertNull($this->idFor('SDF151', 'Sumak SDF 15/1 Temiz Su Dalgıç Pompa', $temiz));
+        $this->assertNull($this->idFor('DIGER', 'Sumak başka temiz su dalgıç', $temiz));
+        foreach ([
+            'SDF123' => 'Sumak SDF12/3 Temiz Su Dalgıç Pompa',
+            'SDF83' => 'Sumak SDF 8/3 Temiz Su Dalgıç Pompa',
+            'SDF52' => 'Sumak SDF 5/2 Temiz Su Dalgıç Pompa',
+            'SDF151' => 'Sumak SDF 15/1 Temiz Su Dalgıç Pompa',
+            'SDF252-M' => 'Sumak SDF 25/2 Temiz Su Dalgıç Pompa Monofaze',
+            'SDT252' => 'Sumak SDT 25/2 Temiz Su Dalgıç Pompa Trifaze',
+        ] as $sku => $name) {
+            $this->assertSame(500102, $this->idFor($sku, $name, $temiz), $sku);
+        }
 
         $this->assertSame(500102, $this->idFor('TOPMULTI1', 'Pedrollo TOP MULTI 1 Drenaj', $keson));
         $this->assertSame(500100, $this->idFor('UP46', 'Pedrollo UP 4/6 Keson Kuyu Pompası', $keson));

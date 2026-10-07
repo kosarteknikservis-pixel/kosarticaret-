@@ -62,6 +62,20 @@ final class GoogleProductCategory
         'panel-isiticilar' => 611,
     ];
 
+    /**
+     * Temiz su kategorisinde duran Sumak SDF/SDT. Kullanım foseptik ve tahliye.
+     *
+     * @var list<string>
+     */
+    private const SUMAK_SEWAGE_SKUS = [
+        'sdf123',
+        'sdf83',
+        'sdf52',
+        'sdf151',
+        'sdf252-m',
+        'sdt252',
+    ];
+
     /** @var list<string> */
     private const KADEMELI_SLUGS = [
         'kademeli-pompalar',
@@ -74,10 +88,11 @@ final class GoogleProductCategory
     public static function forProduct(Product $product): ?int
     {
         $name = self::normalize((string) $product->name);
+        $sku = self::normalize((string) $product->sku);
         $primary = $product->primaryCategory();
         $slug = $primary?->slug;
 
-        $exception = self::productException($name, $slug);
+        $exception = self::productException($name, $slug, $sku);
         if ($exception !== false) {
             return $exception;
         }
@@ -103,8 +118,12 @@ final class GoogleProductCategory
     /**
      * false: kategori haritasına bırak. null: kimliksiz.
      */
-    private static function productException(string $name, ?string $slug): int|false|null
+    private static function productException(string $name, ?string $slug, string $sku): int|false|null
     {
+        if (in_array($sku, self::SUMAK_SEWAGE_SKUS, true)) {
+            return 500102;
+        }
+
         if (self::has($name, 'basınç şalter') || self::has($name, 'basinc salter')) {
             return 499932;
         }
