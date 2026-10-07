@@ -73,7 +73,7 @@ class SupportChatAgentReplyTest extends TestCase
     }
 
     #[Test]
-    public function a_conversation_without_a_visitor_cannot_be_answered(): void
+    public function an_older_conversation_can_still_be_answered_in_the_same_browser_session(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);
         $conversation = SupportChatConversation::query()->create([
@@ -81,14 +81,33 @@ class SupportChatAgentReplyTest extends TestCase
             'message_count' => 1,
             'last_message_at' => now(),
         ]);
+        SupportChatMessage::query()->create([
+            'conversation_id' => $conversation->id,
+            'role' => 'user',
+            'content' => 'Led armatör kaç ledli',
+        ]);
 
         $this->actingAs($admin)
-            ->from(route('admin.support-chats.show', $conversation))
-            ->post(route('admin.support-chats.reply', $conversation), ['reply' => 'Merhaba'])
-            ->assertRedirect(route('admin.support-chats.show', $conversation))
-            ->assertSessionHas('error');
+            ->get(route('admin.support-chats.show', $conversation))
+            ->assertOk()
+            ->assertSee('Müşteriye gönder', false);
 
-        $this->assertSame(0, SupportChatMessage::query()->where('role', 'agent')->count());
+        $this->actingAs($admin)
+            ->post(route('admin.support-chats.reply', $conversation), ['reply' => 'Stokta 60 ledli model var.'])
+            ->assertRedirect(route('admin.support-chats.show', $conversation))
+            ->assertSessionHas('success');
+
+        $this->assertSame(1, SupportChatMessage::query()->where('role', 'agent')->count());
+
+        auth()->logout();
+        $this->flushSession();
+        $this->withSession(['support_chat_uuid' => $conversation->uuid])
+            ->getJson(route('support-chat.replies'))
+            ->assertOk()
+            ->assertJsonPath('unread', 1)
+            ->assertJsonPath('messages.0.text', 'Stokta 60 ledli model var.');
+
+        $this->assertNotNull($conversation->fresh()->visitor_token);
     }
 
     #[Test]

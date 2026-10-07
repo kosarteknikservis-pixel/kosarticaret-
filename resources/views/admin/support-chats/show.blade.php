@@ -74,26 +74,24 @@
                 @endif
             </div>
 
-            @if($conversation->canReceiveAgentReply())
-                <form method="post" action="{{ route('admin.support-chats.reply', $conversation) }}">
-                    @csrf
-                    <label for="support-reply" class="sr-only">Yanıt</label>
-                    <textarea id="support-reply" name="reply" rows="4" maxlength="1500" required class="admin-input" placeholder="Merhaba, sorduğunuz ürünle ilgili bilgi…">{{ old('reply') }}</textarea>
-                    @error('reply') <p class="admin-error">{{ $message }}</p> @enderror
-                    <div class="mt-3 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <p class="text-xs leading-relaxed text-slate-500">
-                            @if($pushSubscribed)
-                                Yanıtınız müşterinin telefonuna veya bilgisayarına bildirim olarak gider; siteye girdiğinde asistan penceresinde de görür.
-                            @else
-                                Müşteri bildirim izni vermedi. Yanıtı 30 gün içinde siteye döndüğünde asistan penceresinde görür.
-                            @endif
-                        </p>
-                        <button type="submit" class="admin-btn admin-btn-primary w-full shrink-0 sm:w-auto">Müşteriye gönder</button>
-                    </div>
-                </form>
-            @else
-                <p class="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-600">Bu sohbet yanıt özelliği eklenmeden önce başladığı için müşteriye ulaştırılamaz. Müşteri iletişim bilgisi bıraktıysa WhatsApp veya telefonla dönüş yapabilirsiniz.</p>
-            @endif
+            <form method="post" action="{{ route('admin.support-chats.reply', $conversation) }}">
+                @csrf
+                <label for="support-reply" class="sr-only">Yanıt</label>
+                <textarea id="support-reply" name="reply" rows="4" maxlength="1500" required class="admin-input" placeholder="Merhaba, sorduğunuz ürünle ilgili bilgi…">{{ old('reply') }}</textarea>
+                @error('reply') <p class="admin-error">{{ $message }}</p> @enderror
+                <div class="mt-3 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <p class="text-xs leading-relaxed text-slate-500">
+                        @if($pushSubscribed)
+                            Yanıtınız müşterinin telefonuna veya bilgisayarına bildirim olarak gider; siteye girdiğinde asistan penceresinde de görür.
+                        @elseif($conversation->canReceiveAgentReply())
+                            Müşteri bildirim izni vermedi. Yanıtı 30 gün içinde siteye döndüğünde asistan penceresinde görür.
+                        @else
+                            Bu sohbet bağlantıdan önce açıldı. Yanıt kaydolur; müşteri aynı tarayıcıdan dönerse pencerede görür. Oturum kapandıysa telefona bildirim gidemez.
+                        @endif
+                    </p>
+                    <button type="submit" class="admin-btn admin-btn-primary w-full shrink-0 sm:w-auto">Müşteriye gönder</button>
+                </div>
+            </form>
         </section>
 
         <div class="admin-form-actions border-t mt-6 pt-4">

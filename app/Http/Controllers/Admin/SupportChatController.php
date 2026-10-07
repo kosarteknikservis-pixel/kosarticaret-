@@ -86,10 +86,6 @@ class SupportChatController extends Controller
             'reply' => ['required', 'string', 'max:1500'],
         ], [], ['reply' => 'yanıt']);
 
-        if (! $conversation->canReceiveAgentReply()) {
-            return back()->withInput()->with('error', 'Bu sohbet yanıt özelliğinden önce başlamış; müşteriye ulaştırılamaz.');
-        }
-
         $text = trim(strip_tags($data['reply']));
         if ($text === '') {
             return back()->withInput()->withErrors(['reply' => 'Yanıt boş olamaz.']);
@@ -113,6 +109,7 @@ class SupportChatController extends Controller
         $status = match (true) {
             $result['sent'] > 0 => 'Yanıt gönderildi; müşterinin cihazına bildirim gitti.',
             $result['subscribers'] > 0 => 'Yanıt kaydedildi ancak bildirim iletilemedi. Müşteri siteye döndüğünde yanıtı asistan penceresinde görür.',
+            ! $conversation->canReceiveAgentReply() => 'Yanıt kaydedildi. Müşteri aynı tarayıcıdan siteye dönerse asistan penceresinde görür. Bu sohbet bağlantıdan önce açıldığı için telefona bildirim gidemez.',
             default => 'Yanıt kaydedildi. Müşteri bildirim izni vermediği için yanıtı siteye döndüğünde asistan penceresinde görür.',
         };
 

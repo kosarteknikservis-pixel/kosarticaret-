@@ -247,8 +247,8 @@
                 }
             };
             let checks = 0;
-            const checkReplies = () => {
-                if (document.hidden || !recentlyActive() || !launcher.dataset.repliesEndpoint) {
+            const checkReplies = (force) => {
+                if (document.hidden || !launcher.dataset.repliesEndpoint || (!force && !recentlyActive())) {
                     return;
                 }
                 if (window.KosarSupportChat && window.KosarSupportChat.isOpen()) {
@@ -257,7 +257,17 @@
                 }
                 fetch(launcher.dataset.repliesEndpoint, { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
                     .then((response) => (response.ok ? response.json() : null))
-                    .then((data) => data && window.kcSupportChatBadge(data.unread || 0))
+                    .then((data) => {
+                        if (!data) {
+                            return;
+                        }
+                        window.kcSupportChatBadge(data.unread || 0);
+                        if ((data.unread || 0) > 0) {
+                            try {
+                                localStorage.setItem('kc-chat-active', String(Date.now()));
+                            } catch (e) {}
+                        }
+                    })
                     .catch(() => {});
             };
 
@@ -287,7 +297,7 @@
                 }
             } catch (e) {}
 
-            window.setTimeout(checkReplies, 2500);
+            window.setTimeout(() => checkReplies(true), 2500);
             window.setInterval(() => {
                 if (++checks <= 20) {
                     checkReplies();

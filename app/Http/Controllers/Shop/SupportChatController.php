@@ -64,12 +64,12 @@ class SupportChatController extends Controller
      */
     public function replies(Request $request): JsonResponse
     {
-        $token = $this->visitorToken($request, false);
-        if ($token === null) {
+        [$token, $uuid] = $this->replyAudience($request);
+        if ($token === null && $uuid === null) {
             return $this->json(['unread' => 0, 'messages' => []]);
         }
 
-        $messages = $this->unseenReplies($token)
+        $messages = $this->unseenReplies($token, $uuid)
             ->map(fn (SupportChatMessage $message) => [
                 'id' => $message->id,
                 'text' => $message->content,
@@ -89,13 +89,13 @@ class SupportChatController extends Controller
     public function markRepliesSeen(Request $request): JsonResponse
     {
         $data = $request->validate(['last_id' => ['required', 'integer', 'min:1']]);
-        $token = $this->visitorToken($request, false);
-        if ($token === null) {
+        [$token, $uuid] = $this->replyAudience($request);
+        if ($token === null && $uuid === null) {
             return $this->json(['ok' => true]);
         }
 
         $latest = null;
-        foreach ($this->unseenReplies($token)->where('id', '<=', (int) $data['last_id'])->groupBy('conversation_id') as $conversationId => $messages) {
+        foreach ($this->unseenReplies($token, $uuid)->where('id', '<=', (int) $data['last_id'])->groupBy('conversation_id') as $conversationId => $messages) {
             $lastId = (int) $messages->max('id');
             SupportChatConversation::query()->whereKey($conversationId)
                 ->where('agent_seen_message_id', '<', $lastId)
@@ -148,14 +148,42 @@ class SupportChatController extends Controller
     }
 
     /**
+     * Oturumdaki sohbeti 30 günlük çereze bağlar. Böylece bağlantıdan önce açılmış sohbet de yanıt alabilir.
+     *
+     * @return array{0: ?string, 1: ?string}
+     */
+    private function replyAudience(Request $request): array
+    {
+        $uuid = $request->session()->get(self::SESSION_KEY);
+        $uuid = is_string($uuid) && $uuid !== '' ? $uuid : null;
+        $token = $this->visitorToken($request, $uuid !== null);
+
+        if ($uuid !== null && $token !== null) {
+            SupportChatConversation::query()
+                ->where('uuid', $uuid)
+                ->whereNull('visitor_token')
+                ->update(['visitor_token' => $token]);
+        }
+
+        return [$token, $uuid];
+    }
+
+    /**
      * @return Collection<int, SupportChatMessage>
      */
-    private function unseenReplies(string $token): Collection
+    private function unseenReplies(?string $token, ?string $uuid): Collection
     {
         return SupportChatMessage::query()
             ->select('support_chat_messages.*')
             ->join('support_chat_conversations as c', 'c.id', '=', 'support_chat_messages.conversation_id')
-            ->where('c.visitor_token', $token)
+            ->where(function ($query) use ($token, $uuid) {
+                if ($token !== null) {
+                    $query->orWhere('c.visitor_token', $token);
+                }
+                if ($uuid !== null) {
+                    $query->orWhere('c.uuid', $uuid);
+                }
+            })
             ->whereNotNull('c.last_agent_reply_at')
             ->where('c.last_agent_reply_at', '>=', now()->subDays(self::REPLY_WINDOW_DAYS))
             ->where('support_chat_messages.role', 'agent')
