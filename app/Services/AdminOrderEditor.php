@@ -207,16 +207,21 @@ class AdminOrderEditor
         $subtotal = max(0, round($lineSubtotal - $discount, 2));
         $shipping = (float) $order->shipping_cost;
         $codFee = (float) ($order->shipping_address['kapida_ucret'] ?? 0);
+        $havaleDiscount = $order->payment_method === 'havale'
+            ? $this->store->havaleDiscountAmount($subtotal)
+            : 0.0;
+        $payableGoods = max(0, round($subtotal - $havaleDiscount, 2));
         $vat = $this->store->shouldAddVat()
-            ? round(($subtotal + $shipping) * $this->store->vatRate(), 2)
+            ? round(($payableGoods + $shipping) * $this->store->vatRate(), 2)
             : (float) ($order->shipping_address['kdv'] ?? 0);
         $address = $order->shipping_address ?? [];
         $address['kdv'] = $vat;
         $address['kapida_ucret'] = $codFee;
+        $address['havale_indirim'] = $havaleDiscount;
 
         $order->subtotal = $subtotal;
         $order->shipping_address = $address;
-        $order->total = round($subtotal + $shipping + $vat + $codFee, 2);
+        $order->total = round($payableGoods + $shipping + $vat + $codFee, 2);
     }
 
     private function syncCancelledStock(Order $order, ?string $oldStatus): void

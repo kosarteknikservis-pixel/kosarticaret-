@@ -48,4 +48,27 @@ class CheckoutCalculatorTest extends TestCase
 
         $this->assertSame(0.0, $calculator->shippingCost(500.0, 'cargo_1', true));
     }
+
+    public function test_havale_discount_reduces_goods_and_leaves_shipping_on_the_full_amount(): void
+    {
+        $store = Mockery::mock(StoreConfig::class);
+        $store->shouldReceive('shippingRates')->andReturn(['cargo_1' => 100.0]);
+        $store->shouldReceive('freeShippingMin')->andReturn(10000.0);
+        $store->shouldReceive('havaleDiscountAmount')->andReturnUsing(
+            fn (float $goods) => round($goods * 3 / 100, 2),
+        );
+        $store->shouldReceive('codFee')->andReturn(0.0);
+        $store->shouldReceive('shouldAddVat')->andReturn(false);
+        $store->shouldReceive('vatRate')->andReturn(0.2);
+
+        $calculator = new CheckoutCalculator($store);
+        $card = $calculator->totals(8271.37, 0, 'cargo_1', 'kredi_karti');
+        $havale = $calculator->totals(8271.37, 0, 'cargo_1', 'havale');
+
+        $this->assertSame(0.0, $card['havale_discount']);
+        $this->assertSame(8371.37, $card['total']);
+        $this->assertSame(248.14, $havale['havale_discount']);
+        $this->assertSame(100.0, $havale['shipping']);
+        $this->assertSame(8123.23, $havale['total']);
+    }
 }

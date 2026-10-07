@@ -71,7 +71,7 @@ class SettingController extends Controller
     ];
 
     private const SHIPPING_KEYS = [
-        'cod_fee', 'vat_rate', 'checkout_add_vat',
+        'cod_fee', 'vat_rate', 'checkout_add_vat', 'havale_discount_percent',
         'shipping_rate_standart', 'shipping_rate_hizli',
         'ship_standart_name', 'ship_standart_desc', 'ship_standart_eta',
         'ship_hizli_name', 'ship_hizli_desc', 'ship_hizli_eta',

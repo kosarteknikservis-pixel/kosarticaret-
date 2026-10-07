@@ -160,7 +160,7 @@ class AdminOrderCreator
     /**
      * @param  array<string, mixed>  $data
      * @param  array<string, mixed>|null  $shippingMethodData
-     * @param  array{subtotal: float, discount: float, shipping: float, cod_fee: float, vat: float, total: float}  $totals
+     * @param  array{subtotal: float, discount: float, havale_discount?: float, shipping: float, cod_fee: float, vat: float, total: float}  $totals
      * @return array<string, mixed>
      */
     private function buildShippingAddress(array $data, string $shippingMethod, ?array $shippingMethodData, array $totals): array
@@ -191,6 +191,7 @@ class AdminOrderCreator
             'kargo_firma' => $shippingMethodData,
             'kdv' => $totals['vat'],
             'kapida_ucret' => $totals['cod_fee'],
+            'havale_indirim' => $totals['havale_discount'] ?? 0,
         ];
     }
 }

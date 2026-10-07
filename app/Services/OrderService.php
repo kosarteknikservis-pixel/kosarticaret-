@@ -76,6 +76,7 @@ class OrderService
                     'kargo_firma' => $shippingMethodData,
                     'kdv' => $totals['vat'],
                     'kapida_ucret' => $totals['cod_fee'],
+                    'havale_indirim' => $totals['havale_discount'],
                     'promotion_label' => $pricing['promotion_label'],
                     'coupon_discount' => $pricing['coupon_discount'],
                     'promotion_discount' => $pricing['promotion_discount'],

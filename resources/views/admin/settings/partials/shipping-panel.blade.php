@@ -10,8 +10,13 @@
     </p>
 </div>
 
-<div class="grid sm:grid-cols-2 gap-4">
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
     <div><label class="admin-label">Kapıda ödeme ücreti (₺)</label><input name="cod_fee" type="number" step="0.01" value="{{ $shippingValues['cod_fee'] }}" class="admin-input"></div>
+    <div>
+        <label class="admin-label" for="havale-discount-percent">Havale indirimi (%)</label>
+        <input id="havale-discount-percent" name="havale_discount_percent" type="number" min="0" max="90" step="0.01" value="{{ $shippingValues['havale_discount_percent'] ?? '0' }}" class="admin-input">
+        <p class="mt-1 text-xs leading-relaxed text-slate-500">0 kapalıdır. Ürün fiyatı üzerinden hesaplanır; kargo ve kapıda ödeme ücretine uygulanmaz.</p>
+    </div>
     <div><label class="admin-label">KDV oranı (0.20 = %20)</label><input name="vat_rate" type="number" step="0.01" min="0" max="1" value="{{ $shippingValues['vat_rate'] }}" class="admin-input"></div>
 </div>
 <label class="admin-checkbox mt-4 rounded-xl border border-slate-200 bg-white p-4">

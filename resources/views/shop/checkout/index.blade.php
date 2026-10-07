@@ -135,7 +135,7 @@
                         </li>
                     @endforeach
                 </ul>
-                <dl class="mt-4 space-y-2 text-sm border-t border-slate-100 pt-4">
+                <dl class="mt-4 space-y-2 text-sm border-t border-slate-100 pt-4" id="checkout-summary" data-payment-quotes='@json($paymentQuotes)'>
                     <div class="flex justify-between"><dt class="text-slate-500">{{ __('shop.subtotal') }}</dt><dd class="font-medium">{{ number_format($pricing['subtotal'], 2, ',', '.') }} ₺</dd></div>
                     @if($pricing['coupon_discount'] > 0)
                         <div class="flex justify-between text-emerald-700"><dt>{{ __('shop.coupon') }} ({{ $coupon?->code }})</dt><dd>-{{ number_format($pricing['coupon_discount'], 2, ',', '.') }} ₺</dd></div>
@@ -151,10 +151,15 @@
                     @if($totals['vat'] > 0)
                         <div class="flex justify-between text-slate-600"><dt>KDV</dt><dd>{{ number_format($totals['vat'], 2, ',', '.') }} ₺</dd></div>
                     @endif
-                    @if($totals['cod_fee'] > 0)
-                        <div class="flex justify-between text-slate-600"><dt>Kapıda ödeme ücreti</dt><dd>{{ number_format($totals['cod_fee'], 2, ',', '.') }} ₺</dd></div>
-                    @endif
-                    <div class="flex justify-between font-bold text-lg pt-3 border-t border-slate-200"><dt>{{ __('shop.total_est') }}</dt><dd class="text-brand-700">{{ number_format($totals['total'], 2, ',', '.') }} ₺</dd></div>
+                    <div class="justify-between text-emerald-700" data-checkout-havale style="display: {{ ($totals['havale_discount'] ?? 0) > 0 ? 'flex' : 'none' }}">
+                        <dt>Havale indirimi{{ $havalePercentLabel !== '' ? ' (%'.$havalePercentLabel.')' : '' }}</dt>
+                        <dd data-checkout-havale-amount>@if(($totals['havale_discount'] ?? 0) > 0)-{{ number_format($totals['havale_discount'], 2, ',', '.') }} ₺@endif</dd>
+                    </div>
+                    <div class="justify-between text-slate-600" data-checkout-cod style="display: {{ $totals['cod_fee'] > 0 ? 'flex' : 'none' }}">
+                        <dt>Kapıda ödeme ücreti</dt>
+                        <dd data-checkout-cod-amount>@if($totals['cod_fee'] > 0){{ number_format($totals['cod_fee'], 2, ',', '.') }} ₺@endif</dd>
+                    </div>
+                    <div class="flex justify-between font-bold text-lg pt-3 border-t border-slate-200"><dt>{{ __('shop.total_est') }}</dt><dd class="text-brand-700" data-checkout-total>{{ number_format($totals['total'], 2, ',', '.') }} ₺</dd></div>
                 </dl>
                 <p class="mt-2 text-xs text-slate-500 leading-relaxed">{{ __('shop.checkout_estimate_note') }}</p>
                 <button type="submit" form="checkout-form" class="mt-6 btn-primary w-full py-3.5">{{ __('shop.place_order') }}</button>
@@ -225,6 +230,48 @@
 
             toggle.addEventListener('change', syncCorporateFields);
             syncCorporateFields();
+        })();
+
+        (function () {
+            const summary = document.getElementById('checkout-summary');
+            const form = document.getElementById('checkout-form');
+            if (!summary || !form) return;
+
+            let quotes = {};
+            try {
+                quotes = JSON.parse(summary.dataset.paymentQuotes || '{}');
+            } catch (e) {
+                return;
+            }
+
+            const havaleRow = summary.querySelector('[data-checkout-havale]');
+            const havaleAmount = summary.querySelector('[data-checkout-havale-amount]');
+            const codRow = summary.querySelector('[data-checkout-cod]');
+            const codAmount = summary.querySelector('[data-checkout-cod-amount]');
+            const total = summary.querySelector('[data-checkout-total]');
+            const money = (value) => new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) + ' ₺';
+
+            function syncPaymentQuote() {
+                const selected = form.querySelector('input[name="odeme_yontemi"]:checked');
+                const quote = selected ? quotes[selected.value] : null;
+                if (!quote) return;
+
+                if (havaleRow && havaleAmount) {
+                    const discount = Number(quote.havale_discount) || 0;
+                    havaleRow.style.display = discount > 0 ? 'flex' : 'none';
+                    havaleAmount.textContent = discount > 0 ? '-' + money(discount) : '';
+                }
+                if (codRow && codAmount) {
+                    const fee = Number(quote.cod_fee) || 0;
+                    codRow.style.display = fee > 0 ? 'flex' : 'none';
+                    codAmount.textContent = fee > 0 ? money(fee) : '';
+                }
+                if (total) total.textContent = money(Number(quote.total) || 0);
+            }
+
+            form.querySelectorAll('input[name="odeme_yontemi"]').forEach(function (input) {
+                input.addEventListener('change', syncPaymentQuote);
+            });
         })();
 
         (function () {

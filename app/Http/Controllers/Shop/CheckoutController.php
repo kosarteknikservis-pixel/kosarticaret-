@@ -231,6 +231,23 @@ class CheckoutController extends Controller
         if (! in_array($defaultPayment, array_column($paymentMethods, 'id'), true)) {
             $defaultPayment = $paymentMethods[0]['id'];
         }
+        $paymentQuotes = [];
+        foreach ($paymentMethods as $method) {
+            $quote = $this->calculator->totals(
+                $breakdown['subtotal'],
+                $breakdown['total_discount'],
+                $defaultShipping,
+                $method['id'],
+                $breakdown['free_shipping'],
+            );
+            $paymentQuotes[$method['id']] = [
+                'total' => $quote['total'],
+                'havale_discount' => $quote['havale_discount'],
+                'cod_fee' => $quote['cod_fee'],
+                'vat' => $quote['vat'],
+                'shipping' => $quote['shipping'],
+            ];
+        }
         $totals = $this->calculator->totals(
             $breakdown['subtotal'],
             $breakdown['total_discount'],
@@ -243,6 +260,8 @@ class CheckoutController extends Controller
             'lines' => $this->cart->lines(),
             'pricing' => $breakdown,
             'totals' => $totals,
+            'paymentQuotes' => $paymentQuotes,
+            'havalePercentLabel' => rtrim(rtrim(number_format($this->store->havaleDiscountPercent(), 2, ',', '.'), '0'), ','),
             'coupon' => $coupon,
             'cities' => array_keys($districtsByCity),
             'districtsByCity' => $districtsByCity,

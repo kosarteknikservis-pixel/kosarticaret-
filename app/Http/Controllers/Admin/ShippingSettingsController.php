@@ -32,6 +32,7 @@ class ShippingSettingsController extends Controller
     {
         $data = $request->validate([
             'cod_fee' => ['nullable', 'numeric', 'min:0'],
+            'havale_discount_percent' => ['nullable', 'numeric', 'min:0', 'max:90'],
             'vat_rate' => ['nullable', 'numeric', 'min:0', 'max:1'],
             'checkout_add_vat' => ['sometimes', 'boolean'],
             'shipping_methods' => ['nullable', 'array'],
@@ -75,6 +76,9 @@ class ShippingSettingsController extends Controller
     {
         if ($key === 'cod_fee') {
             return (string) config('shipping.cod_fee');
+        }
+        if ($key === 'havale_discount_percent') {
+            return '0';
         }
         if ($key === 'vat_rate') {
             return (string) config('shipping.vat_rate');

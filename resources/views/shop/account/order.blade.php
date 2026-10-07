@@ -46,6 +46,12 @@
                                 <dd>-{{ number_format($order->discount, 2, ',', '.') }} ₺</dd>
                             </div>
                         @endif
+                        @if((float) ($order->shipping_address['havale_indirim'] ?? 0) > 0)
+                            <div class="shop-order-summary-stats__row">
+                                <dt>Havale indirimi</dt>
+                                <dd>-{{ number_format($order->shipping_address['havale_indirim'], 2, ',', '.') }} ₺</dd>
+                            </div>
+                        @endif
                     </dl>
                     <p class="shop-order-summary-total">{{ number_format($order->total, 2, ',', '.') }} ₺</p>
                     @if($order->shipping_tracking)

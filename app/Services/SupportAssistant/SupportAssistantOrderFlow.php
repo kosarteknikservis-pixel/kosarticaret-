@@ -442,6 +442,7 @@ class SupportAssistantOrderFlow
                 'ara_toplam' => $this->money($totals['subtotal'] + $totals['discount']),
                 'indirim' => $totals['discount'] > 0 ? '-'.$this->money($totals['discount']) : null,
                 'kargo' => ($shipping['name'] ?? $clean['kargo_yontemi']).(($shipping['eta'] ?? '') !== '' ? ' ('.$shipping['eta'].')' : '').': '.($totals['shipping'] > 0 ? $this->money($totals['shipping']) : 'Ücretsiz'),
+                'havale_indirimi' => ($totals['havale_discount'] ?? 0) > 0 ? '-'.$this->money($totals['havale_discount']) : null,
                 'kapida_odeme_ucreti' => $totals['cod_fee'] > 0 ? $this->money($totals['cod_fee']) : null,
                 'kdv' => $totals['vat'] > 0 ? $this->money($totals['vat']) : null,
                 'toplam' => $this->money($totals['total']),

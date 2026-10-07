@@ -25,6 +25,41 @@ class StoreConfig
         return (float) $this->setting('cod_fee', config('shipping.cod_fee'));
     }
 
+    public function havaleDiscountPercent(): float
+    {
+        $percent = (float) $this->setting('havale_discount_percent', '0');
+
+        return round(min(90, max(0, $percent)), 2);
+    }
+
+    public function havaleDiscountAmount(float $goods): float
+    {
+        $percent = $this->havaleDiscountPercent();
+        if ($percent <= 0 || $goods <= 0) {
+            return 0.0;
+        }
+
+        return round($goods * $percent / 100, 2);
+    }
+
+    public function priceAfterHavale(float $price): ?float
+    {
+        if ($price <= 0 || $this->havaleDiscountPercent() <= 0) {
+            return null;
+        }
+
+        if (! in_array('havale', $this->enabledPaymentIds(), true)) {
+            return null;
+        }
+
+        $discount = $this->havaleDiscountAmount($price);
+        if ($discount <= 0) {
+            return null;
+        }
+
+        return max(0, round($price - $discount, 2));
+    }
+
     public function vatRate(): float
     {
         return (float) $this->setting('vat_rate', config('shipping.vat_rate'));

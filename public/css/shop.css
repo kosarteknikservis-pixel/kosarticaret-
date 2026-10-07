@@ -6612,6 +6612,32 @@ body.theme-motion-reduced *::after {
     text-decoration: line-through;
     line-height: 1.3;
 }
+.shop-pdp-havale {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.7rem;
+    margin-top: 0.85rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgb(203 213 225 / 0.75);
+}
+.shop-pdp-havale__label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #64748b;
+}
+.shop-pdp-havale__price {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--kosar-primary);
+    line-height: 1.2;
+}
+.shop-pdp-havale__note {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #64748b;
+}
 /* Stock status line */
 .pdp-pb__stock {
     display: flex;

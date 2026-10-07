@@ -32,7 +32,7 @@ class CheckoutCalculator
     }
 
     /**
-     * @return array{subtotal: float, discount: float, shipping: float, cod_fee: float, vat: float, total: float}
+     * @return array{subtotal: float, discount: float, havale_discount: float, shipping: float, cod_fee: float, vat: float, total: float}
      */
     public function totals(
         float $cartSubtotal,
@@ -43,8 +43,10 @@ class CheckoutCalculator
     ): array {
         $subtotal = max(0, round($cartSubtotal - $discount, 2));
         $shipping = $this->shippingCost($subtotal, $shippingMethod, $freeShippingPromo);
+        $havaleDiscount = $paymentMethod === 'havale' ? $this->store->havaleDiscountAmount($subtotal) : 0.0;
+        $payableGoods = max(0, round($subtotal - $havaleDiscount, 2));
         $codFee = $paymentMethod === 'kapida_odeme' ? $this->store->codFee() : 0;
-        $vatBase = $subtotal + $shipping;
+        $vatBase = $payableGoods + $shipping;
         $vat = $this->store->shouldAddVat()
             ? round($vatBase * $this->store->vatRate(), 2)
             : 0.0;
@@ -53,6 +55,7 @@ class CheckoutCalculator
         return [
             'subtotal' => $subtotal,
             'discount' => $discount,
+            'havale_discount' => $havaleDiscount,
             'shipping' => $shipping,
             'cod_fee' => $codFee,
             'vat' => $vat,

@@ -154,6 +154,12 @@
                             <span>İndirim</span>
                             <strong>-{{ number_format($order->discount, 2, ',', '.') }} ₺</strong>
                         </div>
+                        @if((float) ($order->shipping_address['havale_indirim'] ?? 0) > 0)
+                            <div class="admin-order-receipt__row">
+                                <span>Havale indirimi</span>
+                                <strong>-{{ number_format($order->shipping_address['havale_indirim'], 2, ',', '.') }} ₺</strong>
+                            </div>
+                        @endif
                         <div class="admin-order-receipt__row admin-order-receipt__row--total">
                             <span>Genel toplam</span>
                             <strong>{{ number_format($order->total, 2, ',', '.') }} ₺</strong>

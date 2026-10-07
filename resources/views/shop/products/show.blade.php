@@ -124,6 +124,13 @@
                     </dl>
                 @endif
 
+                @php
+                    $storeConfig = app(\App\Services\StoreConfig::class);
+                    $havalePrice = $storeConfig->priceAfterHavale((float) $product->price);
+                    $havalePercent = $storeConfig->havaleDiscountPercent();
+                    $havalePercentLabel = rtrim(rtrim(number_format($havalePercent, 2, ',', '.'), '0'), ',');
+                    $havaleNote = '%'.$havalePercentLabel.' indirim'.($storeConfig->shouldAddVat() ? '' : ' · KDV dahil');
+                @endphp
                 <div class="shop-pdp-price-box">
                     <div class="pdp-pb__top">
                         <p class="shop-pdp-price-box__amount">{{ number_format($product->price, 2, ',', '.') }} ₺</p>
@@ -133,6 +140,13 @@
                     </div>
                     @if($product->hasDiscount())
                         <p class="pdp-pb__compare">{{ number_format($product->compare_at_price, 2, ',', '.') }} ₺</p>
+                    @endif
+                    @if($havalePrice !== null)
+                        <p class="shop-pdp-havale">
+                            <span class="shop-pdp-havale__label">Havale ile</span>
+                            <span class="shop-pdp-havale__price">{{ number_format($havalePrice, 2, ',', '.') }} ₺</span>
+                            <span class="shop-pdp-havale__note">{{ $havaleNote }}</span>
+                        </p>
                     @endif
                     @php $stockLabel = \App\Support\ShopStockDisplay::storefrontLabel($product); @endphp
                     @if($stockLabel)
