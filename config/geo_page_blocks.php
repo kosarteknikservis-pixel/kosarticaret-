@@ -394,6 +394,21 @@ return [
     ],
 
     'blog' => [
+        'hidrofor-surekli-calisyor-sebepler-cozum' => [
+            'short_answer' => 'Hidrofor musluklar kapalıyken durmuyorsa önce su sayacına bakın. Sayaç dönüyorsa tesisatta kaçak vardır. Sayaç duruyorsa sırasıyla basınç tankının havası, membran, basınç şalteri ve çekvalf kontrol edilir. Motor ısınıyorsa elektriği kesin.',
+            'selection_table' => [
+                'title' => 'Kapalı muslukta hidrofor durmuyorsa',
+                'headers' => ['Belirti', 'İlk kontrol', 'Anlamı'],
+                'rows' => [
+                    ['Sayaç dönüyor', 'Tesisat kaçağı', 'Pompayı değiştirmek yetmez'],
+                    ['Nipelden su geliyor', 'Membran', 'Tankın havası değil, lastik delinmiştir'],
+                    ['Nipelden hava gelmiyor', 'Tank ön basıncı', 'Açma basıncının yaklaşık 0,2 bar altı'],
+                    ['Basınç yükselmeden motor susmuyor', 'Basınç şalteri', 'Ayar yüksek veya kontak yapışık'],
+                    ['Pompa durunca basınç çabuk düşüyor, sayaç duruyor', 'Çekvalf', 'Su geri kaçıyor'],
+                ],
+            ],
+        ],
+
         'hidrofor-fiyatlari-2026-ev-apartman' => [
             'short_answer' => 'Apartman hidrofor fiyatları 2026’da orta boy paketlerde on binlerce TL’den başlar; çok pompalı gruplarda yüz bin TL bandına çıkabilir. Ev tipi paketler daha düşüktür. Fiyatı kW, tank hacmi, pompa sayısı, frekans invertörü ve marka belirler; güncel tutar ürün sayfasındadır.',
             'price_band' => [

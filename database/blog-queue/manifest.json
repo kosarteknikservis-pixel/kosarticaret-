@@ -48,8 +48,9 @@
             "day": 3,
             "file": "05-hidrofor-surekli-calisyor.json",
             "publish_on": "2026-06-12",
-            "title": "Hidrofor Sürekli Çalışıyor: Sebepler ve Çözüm",
-            "series": "hidrofor"
+            "title": "Hidrofor Sürekli Çalışıyorsa Ne Yapmalıyım?",
+            "series": "hidrofor",
+            "force_update": true
         },
         {
             "day": 4,
