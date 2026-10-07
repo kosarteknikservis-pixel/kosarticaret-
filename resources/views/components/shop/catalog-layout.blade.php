@@ -6,6 +6,7 @@
     'faq' => [],
     'breadcrumbs' => null,
     'products',
+    'groups' => null,
     'brands' => collect(),
     'trustPoints' => [],
     'subcategories' => collect(),
@@ -59,6 +60,28 @@
         @include('shop.partials.catalog-toolbar', ['products' => $products])
 
         <div class="shop-catalog-products shop-reveal-group">
+            @if($groups !== null)
+                @php $cardIndex = 0; @endphp
+                @forelse($groups as $group)
+                    @if($group['name'] !== '')
+                        <h2 class="shop-catalog-group">{{ $group['name'] }}</h2>
+                    @endif
+                    @foreach($group['products'] as $p)
+                        @include('shop.partials.product-card', ['product' => $p, 'priority' => $cardIndex < 2])
+                        @php $cardIndex++; @endphp
+                    @endforeach
+                @empty
+                    <x-shop.empty-state
+                        icon="search"
+                        :title="__('shop.no_products')"
+                        class="shop-catalog-empty col-span-full"
+                    >
+                        <x-slot:action>
+                            <a href="{{ route('products.index') }}" class="btn-primary">{{ __('shop.browse_all') }}</a>
+                        </x-slot:action>
+                    </x-shop.empty-state>
+                @endforelse
+            @else
             @forelse($products as $p)
                 @include('shop.partials.product-card', ['product' => $p, 'priority' => $loop->index < 2])
             @empty
@@ -72,6 +95,7 @@
                     </x-slot:action>
                 </x-shop.empty-state>
             @endforelse
+            @endif
         </div>
 
         @if($products->hasPages())

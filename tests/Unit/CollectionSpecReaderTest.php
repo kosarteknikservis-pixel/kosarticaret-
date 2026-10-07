@@ -63,6 +63,35 @@ class CollectionSpecReaderTest extends TestCase
         $this->assertEquals(3.0, $reading['hp']);
     }
 
+    public function test_explicit_hp_that_disagrees_with_mapped_kw_stays_out(): void
+    {
+        $conflict = $this->reader->motorHp(['Güç' => '3 HP (3 kW)']);
+        $this->assertSame('uncertain', $conflict['status']);
+
+        $paired = $this->reader->motorHp(['Güç' => '3 HP (2.2 kW)']);
+        $this->assertSame('clear', $paired['status']);
+        $this->assertEquals(3.0, $paired['hp']);
+    }
+
+    public function test_multi_pump_signals_and_unverified_sumak_letter(): void
+    {
+        $this->assertSame('multi', $this->reader->multiPump('Sumak SHM6 B Çift Pompalı Hidrofor', ['Güç' => '1 HP'], null)['status']);
+        $this->assertSame('multi', $this->reader->multiPump('Winpo WNP2 VM İki Pompalı Hidrofor', ['Güç' => '3 HP'], null)['status']);
+        $this->assertSame('multi', $this->reader->multiPump('Sumak SMINOX12B Hidrofor', ['Motor Gücü' => '2 × 3 HP (2 × 2.2 kW)'], null)['status']);
+        $this->assertSame('single', $this->reader->multiPump('Sumak SMINOX12A Hidrofor', ['Motor Gücü' => '3 HP (2.2 kW)'], null)['status']);
+        $this->assertSame('multi', $this->reader->multiPump('Sumak SHM6 B Hidrofor', ['Güç' => '1 HP'], 'Bu model çift pompalı sistemdir.')['status']);
+        $this->assertSame('unverified', $this->reader->multiPump('Sumak SHM6 B 100/6 Hidrofor', ['Güç' => '1 HP'], 'Su basıncı sağlar.')['status']);
+    }
+
+    public function test_bare_motor_name_is_not_a_pump_set(): void
+    {
+        $this->assertTrue($this->reader->bareMotor('Sumak 4SM10 4 inch Dalgıç Pompa Motoru'));
+        $this->assertTrue($this->reader->bareMotor('Pedrollo 4 PDm Derin Kuyu Dalgıç Motoru'));
+        $this->assertFalse($this->reader->bareMotor('Pedrollo 4 SR Dalgıç Pompa Motorlu 1 HP'));
+        $this->assertFalse($this->reader->bareMotor('Winpo 4SKM 100 Keson Kuyu Dalgıç Pompa'));
+        $this->assertFalse($this->reader->bareMotor('Pedrollo TRm Parçalayıcı Bıçaklı Foseptik Dalgıç Pompa'));
+    }
+
     public function test_input_power_is_not_motor_power(): void
     {
         $reading = $this->reader->motorHp(['Çekilen Güç' => '0,75 kW']);

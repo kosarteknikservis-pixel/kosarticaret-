@@ -177,6 +177,181 @@ class CollectionTagTest extends TestCase
         );
     }
 
+    public function test_hidrofor_hp_tag_keeps_only_a_single_pump(): void
+    {
+        [$category, $collection] = $this->hpCollection();
+        $single = $this->product($category, ['Motor Gücü' => '1 HP'], 'tek-pompa');
+        $twin = $this->product($category, ['Motor Gücü' => '1 HP'], 'cift');
+        $twin->update(['name' => 'Sumak SHM6 B Çift Pompalı Hidrofor']);
+        $set = $this->product($category, ['Motor Gücü' => '2 × 1 HP'], 'iki-motor');
+        $set->update(['name' => 'Sumak SMINOX12B Hidrofor']);
+        $unverified = $this->product($category, ['Motor Gücü' => '1 HP'], 'harf');
+        $unverified->update(['name' => 'Sumak SHM6 B 100/6 Hidrofor', 'description' => 'Su basıncı sağlar.']);
+        $three = Collection::query()->create([
+            'name' => '3 HP test',
+            'slug' => '3-hp-test-'.substr(md5($category->slug), 0, 8),
+            'status' => Collection::STATUS_DRAFT,
+            'rules' => ['motor_hp' => 3],
+            'category_id' => $category->id,
+        ]);
+        $paired = $this->product($category, ['Güç' => '3 HP (2.2 kW)'], 'uyumlu');
+        $paired->update(['name' => 'Tek pompalı 3 HP hidrofor']);
+        $conflict = $this->product($category, ['Güç' => '3 HP (3 kW)'], 'celiski');
+        $conflict->update(['name' => 'Winpo WNP2 VM 2-7M Hidrofor']);
+
+        $matcher = app(CollectionMatcher::class);
+        foreach ([$single, $twin, $set, $unverified, $paired, $conflict] as $product) {
+            $matcher->syncProduct($product->fresh(['categories']));
+        }
+
+        $this->assertDatabaseHas('collection_products', ['product_id' => $single->id, 'collection_id' => $collection->id, 'source' => 'rule']);
+        $this->assertDatabaseHas('collection_products', ['product_id' => $unverified->id, 'source' => 'rule']);
+        $this->assertDatabaseHas('collection_products', ['product_id' => $paired->id, 'collection_id' => $three->id, 'source' => 'rule']);
+        $this->assertDatabaseMissing('collection_products', ['product_id' => $twin->id]);
+        $this->assertDatabaseMissing('collection_products', ['product_id' => $set->id]);
+        $this->assertDatabaseMissing('collection_products', ['product_id' => $conflict->id]);
+    }
+
+    public function test_dalgic_tags_skip_bare_motors_and_keep_pump_sets(): void
+    {
+        $category = Category::query()->create([
+            'name' => 'Dalgıç test',
+            'slug' => 'dalgic-test-motor',
+            'active' => true,
+            'sort_order' => 0,
+        ]);
+        $collection = Collection::query()->create([
+            'name' => '1 HP dalgıç',
+            'slug' => '1-hp-dalgic-motor-test',
+            'status' => Collection::STATUS_DRAFT,
+            'rules' => ['motor_hp' => 1],
+            'category_id' => $category->id,
+        ]);
+        $mono = Collection::query()->create([
+            'name' => 'Monofaze dalgıç',
+            'slug' => 'monofaze-motor-test',
+            'status' => Collection::STATUS_DRAFT,
+            'rules' => ['phase' => 'monofaze'],
+            'category_id' => $category->id,
+        ]);
+        $motor = $this->product($category, ['Motor Gücü' => '1 HP', 'Voltaj' => '220 V'], 'sm10');
+        $motor->update(['name' => 'Sumak 4SM10 Dalgıç Pompa Motoru']);
+        $pedrollo = $this->product($category, ['Motor Gücü' => '1 HP', 'Voltaj' => '220 V'], 'pdm');
+        $pedrollo->update(['name' => 'Pedrollo 4 PDm Derin Kuyu Dalgıç Motoru']);
+        $withMotor = $this->product($category, ['Motor Gücü' => '1 HP', 'Voltaj' => '220 V'], 'sr');
+        $withMotor->update(['name' => 'Pedrollo 4 SR Dalgıç Pompa Motorlu']);
+        $keson = $this->product($category, ['Motor Gücü' => '1 HP', 'Voltaj' => '220 V'], 'skm');
+        $keson->update(['name' => 'Winpo 4SKM Keson Kuyu Dalgıç Pompa']);
+        $blade = $this->product($category, ['Motor Gücü' => '1 HP', 'Voltaj' => '220 V'], 'trm');
+        $blade->update(['name' => 'Pedrollo TRm Foseptik Dalgıç Pompa']);
+
+        $matcher = app(CollectionMatcher::class);
+        foreach ([$motor, $pedrollo, $withMotor, $keson, $blade] as $product) {
+            $matcher->syncProduct($product->fresh(['categories']));
+        }
+
+        foreach ([$collection, $mono] as $tag) {
+            $this->assertDatabaseMissing('collection_products', [
+                'collection_id' => $tag->id,
+                'product_id' => $motor->id,
+            ]);
+            $this->assertDatabaseMissing('collection_products', [
+                'collection_id' => $tag->id,
+                'product_id' => $pedrollo->id,
+            ]);
+            $this->assertDatabaseHas('collection_products', [
+                'collection_id' => $tag->id,
+                'product_id' => $withMotor->id,
+                'source' => 'rule',
+            ]);
+            $this->assertDatabaseHas('collection_products', [
+                'collection_id' => $tag->id,
+                'product_id' => $keson->id,
+                'source' => 'rule',
+            ]);
+            $this->assertDatabaseHas('collection_products', [
+                'collection_id' => $tag->id,
+                'product_id' => $blade->id,
+                'source' => 'rule',
+            ]);
+        }
+    }
+
+    public function test_monofaze_page_groups_by_real_category_and_page_two_stays_noindex(): void
+    {
+        $parent = Category::query()->create([
+            'name' => 'Dalgıç test',
+            'slug' => 'dalgic-grup-test',
+            'active' => true,
+            'sort_order' => 0,
+        ]);
+        $types = [
+            'derin' => ['Derin Kuyu Dalgıç Pompa', 'derin-kuyu-dalgic-pompa'],
+            'keson' => ['Keson Kuyu Pompa', 'keson-kuyu-pompa'],
+            'foseptik' => ['Foseptik Dalgıç Pompa', 'foseptik-dalgic-pompa'],
+            'bicak' => ['Bıçaklı Dalgıç Pompa', 'bicakli-dalgic-pompa'],
+            'drenaj' => ['Drenaj Dalgıç Pompa', 'drenaj-dalgic-pompa'],
+        ];
+        $categories = [];
+        foreach ($types as $key => [$name, $slug]) {
+            $categories[$key] = Category::query()->create([
+                'name' => $name,
+                'slug' => $slug,
+                'parent_id' => $parent->id,
+                'active' => true,
+                'sort_order' => 0,
+            ]);
+        }
+
+        $collection = Collection::query()->create([
+            'name' => 'Monofaze dalgıç',
+            'slug' => 'monofaze-grup-test',
+            'status' => Collection::STATUS_INDEX,
+            'rules' => ['phase' => 'monofaze'],
+            'category_id' => $parent->id,
+        ]);
+
+        $keson = $this->product($categories['derin'], ['Voltaj' => '220 V'], 'keson');
+        $keson->categories()->attach($categories['keson']->id);
+        $keson->update(['name' => 'Keson pompa']);
+        $well = $this->product($categories['derin'], ['Voltaj' => '230 V'], 'derin');
+        $well->update(['name' => 'Derin pompa']);
+        $blade = $this->product($categories['foseptik'], ['Voltaj' => '220 V'], 'bicak');
+        $blade->categories()->attach($categories['bicak']->id);
+        $blade->update(['name' => 'Bicakli pompa']);
+        for ($i = 1; $i <= 10; $i++) {
+            $row = $this->product($categories['drenaj'], ['Voltaj' => '220 V'], 'drenaj-'.$i);
+            $row->update(['name' => 'Drenaj pompa '.$i]);
+        }
+
+        $matcher = app(CollectionMatcher::class);
+        $matcher->syncAll();
+
+        $page = $this->get('/koleksiyon/monofaze-grup-test');
+        $page->assertOk();
+        $html = $page->getContent();
+        $catalog = substr($html, (int) strpos($html, 'shop-catalog-products'));
+        $derinAt = strpos($catalog, '<h2 class="shop-catalog-group">Derin Kuyu Dalgıç Pompa</h2>');
+        $kesonAt = strpos($catalog, '<h2 class="shop-catalog-group">Keson Kuyu Pompa</h2>');
+        $bladeAt = strpos($catalog, '<h2 class="shop-catalog-group">Bıçaklı Dalgıç Pompa</h2>');
+        $drainAt = strpos($catalog, '<h2 class="shop-catalog-group">Drenaj Dalgıç Pompa</h2>');
+        $this->assertNotFalse($derinAt);
+        $this->assertNotFalse($kesonAt);
+        $this->assertNotFalse($bladeAt);
+        $this->assertTrue($derinAt < $kesonAt && $kesonAt < $bladeAt && $bladeAt < $drainAt);
+        $kesonUrl = strpos($catalog, '/urun/koleksiyon-keson');
+        $this->assertNotFalse($kesonUrl);
+        $this->assertGreaterThan($kesonAt, $kesonUrl);
+        $this->assertLessThan($bladeAt, $kesonUrl);
+        $this->assertSame(0, substr_count($catalog, 'Foseptik Dalgıç Pompa'));
+
+        $next = $this->get('/koleksiyon/monofaze-grup-test?page=2');
+        $next->assertOk();
+        $next->assertSee('noindex, follow', false);
+        $next->assertSee('page=2', false);
+        $next->assertSee('Drenaj Dalgıç Pompa', false);
+    }
+
     /** @param  array<string, string>  $specs */
     private function product(Category $category, array $specs, string $sku): Product
     {

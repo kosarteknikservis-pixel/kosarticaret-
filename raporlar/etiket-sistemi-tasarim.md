@@ -92,6 +92,9 @@ Aşama 2 bu kararla kuruldu. Beş etiket taslak. Sitemap’te yok. Aşama 3 (ind
 - Çekilen güç / P1 ve birimi belirsiz güç dışarıda.
 - Yalnız `220 V` veya `230 V` (50 Hz sayılmaz) monofaze sayılır. `220/380`, `230/400`, `380`, `400` trifaze sayılır.
 - Paslanmaz, sessiz ve 12 V açılmaz.
+- Hidrofor HP etiketi tek motorlu üründür. Çift pompalı, üç pompalı, iki pompalı, 2× ve 3× girmez. Sumak B/C harfi, açıklama veya teknik tablo pompa sayısını doğrulamadan tek başına çıkarmaz.
+- Dalgıç pompa etiketine yalnız motor girmez. Adında «dalgıç motoru» veya «pompa motoru» vardır. «Motorlu pompa» kalır.
+- Standart HP yazısı, tablodaki kW ile çelişirse etiket dışıdır. 3 HP (3 kW) buna girer. 2,2 HP gibi tabloda karşılığı olmayan açık HP yazısı durur.
 
 ## Sizden istenecekler
 

@@ -20,7 +20,7 @@ class CollectionMatcher
     {
         $collections = Collection::query()->get();
         Product::query()
-            ->select(['id', 'name', 'specs', 'is_active', 'brand_id'])
+            ->select(['id', 'name', 'specs', 'short_description', 'description', 'is_active', 'brand_id'])
             ->with('categories:id')
             ->orderBy('id')
             ->chunkById(200, function ($products) use ($collections): void {
@@ -99,6 +99,16 @@ class CollectionMatcher
 
     public function evidence(Product $product, Collection $collection): ?string
     {
+        $spec = $this->matchesSpecs($product, $collection);
+        if ($spec === null || $this->blockReason($product, $collection) !== null) {
+            return null;
+        }
+
+        return $spec;
+    }
+
+    private function matchesSpecs(Product $product, Collection $collection): ?string
+    {
         $rules = $collection->rules ?? [];
         if ($collection->category_id) {
             $allowed = $this->descendants()[$collection->category_id] ?? [$collection->category_id];
@@ -140,8 +150,45 @@ class CollectionMatcher
         return implode(' · ', array_filter($parts));
     }
 
+    public function blockReason(Product $product, Collection $collection): ?string
+    {
+        $rules = $collection->rules ?? [];
+        $kind = $this->collectionKind($collection);
+        $specs = is_array($product->specs) ? $product->specs : null;
+        $description = trim((string) $product->short_description.' '.(string) $product->description);
+
+        if ($kind === 'hidrofor' && isset($rules['motor_hp'])) {
+            $pump = $this->reader->multiPump($product->name, $specs, $description);
+            if ($pump['status'] === 'multi') {
+                return $pump['reason'];
+            }
+        }
+
+        if ($kind === 'dalgic' && (isset($rules['motor_hp']) || isset($rules['phase']))) {
+            if ($this->reader->bareMotor($product->name)) {
+                return 'Yalnız motor, dalgıç pompa değil';
+            }
+        }
+
+        return null;
+    }
+
+    private function collectionKind(Collection $collection): ?string
+    {
+        $collection->loadMissing('category');
+        $slug = (string) ($collection->category?->slug ?? '');
+        if (str_contains($slug, 'hidrofor')) {
+            return 'hidrofor';
+        }
+        if (str_contains($slug, 'dalgic')) {
+            return 'dalgic';
+        }
+
+        return null;
+    }
+
     /**
-     * @return array{matched: list<array<string, mixed>>, undecided: list<array<string, mixed>>, uncertain: list<array<string, mixed>>, name_only: list<array<string, mixed>>}
+     * @return array{matched: list<array<string, mixed>>, undecided: list<array<string, mixed>>, uncertain: list<array<string, mixed>>, name_only: list<array<string, mixed>>, excluded: list<array<string, mixed>>}
      */
     public function preview(Collection $collection, int $chunk = 200): array
     {
@@ -149,6 +196,7 @@ class CollectionMatcher
         $undecided = [];
         $uncertain = [];
         $nameOnly = [];
+        $excluded = [];
         $rules = $collection->rules ?? [];
         $allowed = $collection->category_id
             ? ($this->descendants()[$collection->category_id] ?? [$collection->category_id])
@@ -161,9 +209,9 @@ class CollectionMatcher
 
         Product::query()
             ->active()
-            ->select(['id', 'name', 'specs'])
+            ->select(['id', 'name', 'specs', 'short_description', 'description'])
             ->with('categories:id')
-            ->chunkById($chunk, function ($products) use ($collection, $rules, $allowed, $members, &$matched, &$undecided, &$uncertain, &$nameOnly): void {
+            ->chunkById($chunk, function ($products) use ($collection, $rules, $allowed, $members, &$matched, &$undecided, &$uncertain, &$nameOnly, &$excluded): void {
                 foreach ($products as $product) {
                     if ($allowed !== null) {
                         $owns = $product->categories->pluck('id')->map(fn ($id) => (int) $id)->all();
@@ -176,7 +224,28 @@ class CollectionMatcher
                     if ($row && $row->source === 'exclude') {
                         continue;
                     }
-                    if ($row && in_array($row->source, ['rule', 'include'], true)) {
+                    if ($row && $row->source === 'include') {
+                        $matched[] = [
+                            'id' => $product->id,
+                            'name' => $product->name,
+                            'evidence' => $row->evidence,
+                            'source' => $row->source,
+                        ];
+
+                        continue;
+                    }
+
+                    $blocked = $this->blockReason($product, $collection);
+                    if ($blocked !== null && $this->matchesSpecs($product, $collection) !== null) {
+                        $excluded[] = [
+                            'id' => $product->id,
+                            'name' => $product->name,
+                            'reason' => $blocked,
+                        ];
+
+                        continue;
+                    }
+                    if ($row && $row->source === 'rule') {
                         $matched[] = [
                             'id' => $product->id,
                             'name' => $product->name,
@@ -213,8 +282,9 @@ class CollectionMatcher
         usort($undecided, $byName);
         usort($uncertain, $byName);
         usort($nameOnly, $byName);
+        usort($excluded, $byName);
 
-        return compact('matched', 'undecided', 'uncertain', 'nameOnly');
+        return compact('matched', 'undecided', 'uncertain', 'nameOnly', 'excluded');
     }
 
     /** @param  array<string, mixed>  $rules */

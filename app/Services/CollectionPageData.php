@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Models\Brand;
 use App\Models\Collection;
 use App\Support\CatalogPaginationSeo;
+use App\Support\CollectionTypeGroups;
 use App\Support\Seo;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CollectionPageData
 {
@@ -18,7 +20,21 @@ class CollectionPageData
         $pageUrl = route('collections.show', $collection);
         $query = $collection->visibleProducts()->with('brand', 'categories');
         CatalogQuery::apply($request, $query);
-        $products = $query->paginate(12)->withQueryString();
+        $groups = null;
+        if (CollectionTypeGroups::applies($collection)) {
+            $typed = (new CollectionTypeGroups)->sort($query->get(), $request);
+            $page = max(1, (int) $request->query('page', 1));
+            $products = (new LengthAwarePaginator(
+                $typed->forPage($page, 12)->values(),
+                $typed->count(),
+                12,
+                $page,
+                ['path' => $pageUrl, 'query' => $request->query()]
+            ))->withQueryString();
+            $groups = (new CollectionTypeGroups)->groups($products->items());
+        } else {
+            $products = $query->paginate(12)->withQueryString();
+        }
         $pagination = CatalogPaginationSeo::meta($request, $products, $pageUrl);
         if ($preview || $collection->status !== Collection::STATUS_INDEX) {
             $pagination['robots'] = $preview ? 'noindex, nofollow' : Seo::ROBOTS_NOINDEX;
@@ -34,6 +50,7 @@ class CollectionPageData
         return [
             'collection' => $collection,
             'products' => $products,
+            'groups' => $groups,
             'sentence' => $sentence,
             'preview' => $preview,
             'relatedCategories' => $collection->category ? collect([$collection->category]) : collect(),

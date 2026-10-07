@@ -11,6 +11,7 @@
         :faq="$faq"
         :breadcrumbs="$breadcrumbs"
         :products="$products"
+        :groups="$groups"
         :brands="$brands"
         :related-categories="$relatedCategories"
         related-categories-label="İlgili kategori"

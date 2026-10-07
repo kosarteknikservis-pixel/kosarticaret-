@@ -5312,6 +5312,17 @@ body.theme-motion-reduced *::after {
     grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
 }
+.shop-catalog-group {
+    grid-column: 1 / -1;
+    margin: 0.25rem 0 0;
+    font-size: 1.125rem;
+    line-height: 1.35;
+    font-weight: 600;
+    color: #1e3a5f;
+}
+.shop-catalog-group:not(:first-child) {
+    margin-top: 0.75rem;
+}
 @media (min-width: 390px) {
     .shop-catalog-products {
         grid-template-columns: repeat(2, minmax(0, 1fr));

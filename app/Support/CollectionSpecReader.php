@@ -70,6 +70,7 @@ class CollectionSpecReader
 
         $hpValues = [];
         $kwValues = [];
+        $pairedKw = [];
         $evidence = [];
 
         foreach ($motor as [$key, $value]) {
@@ -90,6 +91,14 @@ class CollectionSpecReader
             }
             foreach ($fromHp as $hp) {
                 $hpValues[] = $hp;
+            }
+            if ($fromHp !== []) {
+                foreach ($fromKw as $kw) {
+                    $mapped = $this->mapKw($kw);
+                    if ($mapped !== null) {
+                        $pairedKw[] = $mapped;
+                    }
+                }
             }
             if ($fromHp === [] && preg_match('/\d\s*[x×]\s*\d/u', $this->fold($value)) === 1) {
                 $uncertain[] = $key.'='.$value.' (birden fazla motor)';
@@ -114,6 +123,25 @@ class CollectionSpecReader
             ];
         }
         if (count($hpValues) === 1) {
+            $standardHp = false;
+            foreach (self::KW_TO_HP as [, $hp]) {
+                if (abs($hp - $hpValues[0]) <= 0.051) {
+                    $standardHp = true;
+                }
+            }
+            if ($standardHp) {
+                foreach ($this->uniqueNumbers($pairedKw) as $mapped) {
+                    if (abs($mapped - $hpValues[0]) > 0.051) {
+                        return [
+                            'status' => 'uncertain',
+                            'hp' => null,
+                            'evidence' => null,
+                            'reason' => 'HP ile kW çelişiyor: '.implode('; ', $evidence),
+                        ];
+                    }
+                }
+            }
+
             return [
                 'status' => 'clear',
                 'hp' => $hpValues[0],
@@ -209,6 +237,45 @@ class CollectionSpecReader
         return null;
     }
 
+    /**
+     * Hidrofor HP etiketi tek motor içindir.
+     *
+     * @param  array<int|string, mixed>|null  $specs
+     * @return array{status: string, reason: ?string}
+     */
+    public function multiPump(string $name, ?array $specs, ?string $description): array
+    {
+        $foldedName = $this->fold($name);
+        $phrase = $this->multiPhrase($foldedName);
+        if ($phrase !== null) {
+            return ['status' => 'multi', 'reason' => 'Adında çok pompa: '.$phrase];
+        }
+
+        $specText = $this->fold($this->specBlob($specs));
+        if (preg_match('/\d\s*[x×]\s*\d/u', $specText) === 1) {
+            return ['status' => 'multi', 'reason' => 'Teknik tabloda birden fazla motor'];
+        }
+
+        $descPhrase = $this->multiPhrase($this->fold(trim(strip_tags((string) $description))));
+        if ($descPhrase !== null) {
+            return ['status' => 'multi', 'reason' => 'Açıklamada çok pompa: '.$descPhrase];
+        }
+
+        $letter = $this->sumakPumpLetter($foldedName);
+        if ($letter === 'b' || $letter === 'c') {
+            return ['status' => 'unverified', 'reason' => 'Sumak '.strtoupper($letter).' harfi var, pompa sayısı doğrulanamadı'];
+        }
+
+        return ['status' => 'single', 'reason' => null];
+    }
+
+    public function bareMotor(string $name): bool
+    {
+        $folded = $this->fold($name);
+
+        return str_contains($folded, 'pompa motoru') || str_contains($folded, 'dalgic motoru');
+    }
+
     public function fold(string $value): string
     {
         $value = str_replace(['İ', 'I'], ['i', 'ı'], $value);
@@ -222,6 +289,58 @@ class CollectionSpecReader
             'ö' => 'o',
             'ç' => 'c',
         ]);
+    }
+
+    private function multiPhrase(string $folded): ?string
+    {
+        if (str_contains($folded, 'cift pompal')) {
+            return 'çift pompalı';
+        }
+        if (str_contains($folded, 'uc pompal')) {
+            return 'üç pompalı';
+        }
+        if (str_contains($folded, 'iki pompal')) {
+            return 'iki pompalı';
+        }
+        if (preg_match('/(?<!\d)[23]\s*[x×]\s*\d/u', $folded) === 1) {
+            return '2× veya 3×';
+        }
+
+        return null;
+    }
+
+    /** @param  array<int|string, mixed>|null  $specs */
+    private function specBlob(?array $specs): string
+    {
+        $parts = [];
+        foreach ($this->pairs($specs) as [$key, $value]) {
+            $parts[] = $key.' '.$value;
+        }
+
+        return implode(' ', $parts);
+    }
+
+    private function sumakPumpLetter(string $foldedName): ?string
+    {
+        if (! str_contains($foldedName, 'sumak')) {
+            return null;
+        }
+        $patterns = [
+            '/sminox\s*12\s*([abc])\b/',
+            '/\bshm\s*\d+\s*([abc])\b/',
+            '/\bshtpd\s*\d+\s*([abc])\b/',
+            '/\bshtp\s*\d+\s*([abc])\b/',
+            '/\bsht\s*\d+\s*([abc])\b/',
+            '/\bsht\d+-([abc])-/',
+            '/\bsht\d+([abc])\b/',
+        ];
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $foldedName, $matches) === 1) {
+                return $matches[1];
+            }
+        }
+
+        return null;
     }
 
     /**

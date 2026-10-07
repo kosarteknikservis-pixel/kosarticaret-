@@ -37,3 +37,10 @@ Dalgıç:
 - Sumak 4SMT15 4 inch Dalgıç Pompa Motoru Trifaze (380V) 1.5HP
 - Sumak 4SM15 4 inch Dalgıç Pompa Motoru Monofaze (220V) 1.5HP
 - Sumak 4SMT10 4 inch Dalgıç Pompa Motoru Trifaze (380V) 1HP
+
+## 7 Ekim 2026 — çelişkili HP ve kW
+
+Kaynak: koleksiyon okuyucusu. 3 HP, standart tabloda 2,2 kW eder. Alanda 3 kW yazıyor. Etiket dışında. Panelden tek motor değeri yazılacak.
+
+- Winpo WNP2 VM 2-7M İki Pompalı Hidrofor 10 Kat 23 Daire 3 Hp 220 Volt — Güç=3 HP (3 kW)
+- Winpo WNP2 VM 2-7T İki Pompalı Hidrofor 10 Kat 23 Daire 3 Hp 380 Volt — Güç=3 HP (3 kW)

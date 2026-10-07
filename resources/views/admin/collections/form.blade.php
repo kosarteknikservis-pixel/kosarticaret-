@@ -92,6 +92,7 @@
                 'Güç veya faz alanı boş' => $preview['undecided'] ?? [],
                 'Belirsiz güç' => $preview['uncertain'] ?? [],
                 'Adında kelime var, kurala uymuyor' => $preview['nameOnly'] ?? [],
+                'Çok pompalı veya yalnız motor' => $preview['excluded'] ?? [],
             ];
         @endphp
         @foreach($groups as $title => $rows)
