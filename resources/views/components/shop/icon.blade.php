@@ -3,7 +3,6 @@
 @php
 $paths = [
     'search' => 'M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z',
-    'cart' => 'M3.75 6.75h16.5l-1.2 7.2a2.25 2.25 0 01-2.22 1.88H8.18a2.25 2.25 0 01-2.21-1.8L4.5 3.75H2.25M8.25 20.25h.008M17.25 20.25h.008M9 6.75V5.625A3 3 0 0112 2.625a3 3 0 013 3V6.75',
     'shopping-bag' => 'M6.75 7.5h10.5l.75 12a1.5 1.5 0 01-1.5 1.5h-9a1.5 1.5 0 01-1.5-1.5l.75-12zM9 7.5V6a3 3 0 116 0v1.5',
     'heart' => 'M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z',
     'user' => 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z',
@@ -26,7 +25,12 @@ $stroke = $attributes->get('stroke', 'currentColor');
 $fill = $attributes->get('fill', 'none');
 @endphp
 
-@if($name === 'pump')
+@if($name === 'cart')
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="{{ $stroke }}" {{ $attributes->merge(['class' => $class]) }} aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 8.25h10.5l-.85 10.35a1.35 1.35 0 0 1-1.34 1.25H8.94a1.35 1.35 0 0 1-1.34-1.25L6.75 8.25z" />
+    <path stroke-linecap="round" stroke-linejoin="round" d="M9.25 8.25v-.85a2.75 2.75 0 0 1 5.5 0v.85" />
+</svg>
+@elseif($name === 'pump')
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ $stroke }}" {{ $attributes->merge(['class' => $class]) }} aria-hidden="true">
     <rect x="3.25" y="10" width="5.25" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round" />
     <circle cx="13.75" cy="13.5" r="4.25" stroke-linecap="round" stroke-linejoin="round" />

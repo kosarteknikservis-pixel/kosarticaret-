@@ -91,7 +91,7 @@
                         <span data-favorite-count class="shop-header-icon__badge {{ ($favoriteCount ?? 0) < 1 ? 'is-empty' : '' }}">{{ $favoriteCount ?? 0 }}</span>
                     </x-shop.header-action>
 
-                    <x-shop.header-action icon="cart" emphasis data-open-cart-drawer aria-label="{{ __('shop.cart_open') }}">
+                    <x-shop.header-action icon="cart" data-open-cart-drawer aria-label="{{ __('shop.cart_open') }}">
                         <span data-cart-count class="shop-header-icon__badge {{ ($cartCount ?? 0) < 1 ? 'is-empty' : '' }}">{{ $cartCount ?? 0 }}</span>
                     </x-shop.header-action>
                 </div>
