@@ -146,4 +146,13 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Ölçüm tarihi:** Merchant Center tanılaması, yayından 2–3 gün sonra.
 - **Sonuç:** canlı akış doğrulandı. Önbellek adımı iş akışında çalıştı.
 
+## 2026-10-07 · hidrofor sürekli çalışıyor, taslak
+
+- **Sayfa:** `/blog/hidrofor-surekli-calisyor-sebepler-cozum`. Slug aynı. Canlı gövde değişmedi.
+- **Ne değişti:** taslak `blog-drafts/hidrofor-surekli-calisyor-sebepler-cozum.md`. Yayın yok.
+- **Veri:** Search Console `https://kosarticaret.com/`, web, 8 Haz 2025 – 5 Eki 2026. Sayfa 3.594 gösterim, 26 tık. Sorgu «hidrofor sürekli çalışıyor ne yapmalıyım» yalnız bu URL: 180 gösterim, 1 tık, ortalama sıra 9,6. DataForSEO SERP aynı gün, Türkiye, Türkçe: AI Overview var; organik ilk onda forum, video ve kategori karışık. kosarticaret bu anlık sonuçta ilk onda görünmedi.
+- **Baz:** yukarıdaki gösterim, tık ve sıra. Aynı sorguya yeni yazı açılmadı.
+- **Ölçüm tarihi:** yayınlanırsa yayından 21 gün sonra.
+- **Sonuç:** boş. Taslak duruyor.
+
 

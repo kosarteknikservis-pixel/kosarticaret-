@@ -33,14 +33,14 @@ Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı
 |---|---|---|
 | 24–30 Eylül sayfa işleri | 15–21 Eki | Pencere açık. Sonuç yok. |
 | sumak pompa sırası | 14–16 Eki, yalnız okuma | 27 Eyl ortalama sıra günlükte 40, kural 12’de 41. Yeni sayı yok. |
-| Merchant tanılaması | Akış yayınından 2–3 gün sonra | Henüz yayın yok. |
+| Merchant tanılaması | Akış yayınından 2–3 gün sonra (9–10 Eki) | Akış `e98a3ea` ile canlı. Tanılama sonucu yok. |
 
 ## Sıradaki 5 iş
 
 1. Akış kategori kimliği — canlıda. Sumak SDF/SDT altı ürün `500102`. Kimliksiz yok.
 2. 14–16 Eki — sumak pompa, yalnız Search Console.
 3. 15–21 Eki — yukarıdaki pencerelerin sonucunu deftere yaz. O sayfalara sonuç yazılmadan yeni cümle yok.
-4. İçerik kuyruğu iki iş, ikisi de beklemede (`raporlar/icerik/KUYRUK.md`). Bu hafta yeni yazı yok.
+4. Çarşamba taslağı: hidrofor sürekli çalışıyor. Yayın yok. Cuma işi derin kuyu seçimi, hâlâ beklemede.
 5. Çakışma birleştirme planı duruyor. Uygulama yok. En büyük küme hidrofor yazıları.
 
 Malzeme bekleyen ürün değerleri: `raporlar/icerik/MALZEME-ISTEK.md`.
