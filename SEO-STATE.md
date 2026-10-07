@@ -24,6 +24,7 @@ GA4 bu kayıtta çekilmedi. kosarticaret mülkü `482446325`. `539006843` kosarg
 | Etiket noindex, sayfalama canonical | 28 Eyl | 19 Eki |
 | Marka sayfaları, kategori metinleri, ürün başlık/açıklama, 1.371 ürünlük düzeltme | 29 Eyl | 20 Eki |
 | İki blog (bağlantı şeması, basınç ayarı), kategori dalga 9–10, 127 ürün teknik tablo | 30 Eyl | 21 Eki |
+| Hidrofor sürekli çalışıyor yazısı | 7 Eki | 28 Eki |
 
 Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı uzatmaz.
 
@@ -40,7 +41,7 @@ Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı
 1. Akış kategori kimliği — canlıda. Sumak SDF/SDT altı ürün `500102`. Kimliksiz yok.
 2. 14–16 Eki — sumak pompa, yalnız Search Console.
 3. 15–21 Eki — yukarıdaki pencerelerin sonucunu deftere yaz. O sayfalara sonuç yazılmadan yeni cümle yok.
-4. Çarşamba taslağı: hidrofor sürekli çalışıyor. Yayın yok. Cuma işi derin kuyu seçimi, hâlâ beklemede.
+4. Hidrofor sürekli çalışıyor yazısı 7 Eki yayında. Ölçüm 28 Eki. Cuma işi derin kuyu seçimi, hâlâ beklemede.
 5. Çakışma birleştirme planı duruyor. Uygulama yok. En büyük küme hidrofor yazıları.
 
 Malzeme bekleyen ürün değerleri: `raporlar/icerik/MALZEME-ISTEK.md`.

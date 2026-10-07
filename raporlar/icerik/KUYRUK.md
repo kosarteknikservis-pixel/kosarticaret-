@@ -4,15 +4,14 @@ Durumlar: hazır · taslak · beklemede · beklemede-malzeme · yayında. Yeni k
 
 ## 2026-W41
 
-### 1. Hidrofor sürekli çalışıyor — taslak
+### 1. Hidrofor sürekli çalışıyor — yayında
 
 - Tür: güncelleme, yeni yazı değil
 - URL: `/blog/hidrofor-surekli-calisyor-sebepler-cozum`
 - Hedef: hidrofor sürekli çalışıyor ne yapmalıyım
-- Veri: Search Console 8 Haz 2025 – 5 Eki 2026, sayfa 3.594 gösterim, 26 tık. Aynı sorguda tek URL bu sayfa: 180 gösterim, 1 tık, ortalama sıra 9,6. DataForSEO SERP 7 Eki 2026, Türkiye, tr: AI Overview var, organik ilk onda rehber az, video ve forum var.
-- Neden şimdi: 16 ayda ≥300 gösterim kapısını geçer. Aynı hedefe yeni yazı açılmaz. 16 Eylül damgası 58 yazılık toplu güncellemenin içinde; günlük bu adresi ayrıca saymıyor. 24–30 Eylül dondurma listesinde yok.
-- Taslak: `blog-drafts/hidrofor-surekli-calisyor-sebepler-cozum.md`. Canlı yazı değişmedi.
-- Ölçüm: yayınlanırsa yayından 21 gün sonra.
+- Veri: Search Console 8 Haz 2025 – 5 Eki 2026, sayfa 3.594 gösterim, 26 tık. Aynı sorguda tek URL bu sayfa: 180 gösterim, 1 tık, ortalama sıra 9,6.
+- Yayın: 7 Eki 2026, `6098caa`. Slug aynı. Canlı kontrol: 200, canonical bu URL, `index, follow`. Görünen beş SSS, BlogPosting `articleBody` içinde. Ayrı FAQ şeması yok.
+- Ölçüm: 28 Eki 2026.
 
 ### 2. Derin kuyu seçimi — beklemede
 

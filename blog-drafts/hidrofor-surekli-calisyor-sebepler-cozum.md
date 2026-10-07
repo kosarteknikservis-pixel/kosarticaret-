@@ -1,4 +1,4 @@
-# Taslak — yayın yok
+# Yayında — 7 Eki 2026
 
 - Slug: `hidrofor-surekli-calisyor-sebepler-cozum` (değişmez)
 - URL: `/blog/hidrofor-surekli-calisyor-sebepler-cozum`
@@ -9,7 +9,7 @@
 - Meta description: Musluklar kapalıyken hidrofor durmuyorsa önce su sayacına bakın. Sayaç dönüyorsa kaçak, dönmüyorsa basınç tankı, şalter veya çekvalf kontrol edilir.
 - GEO bloğu: `yayınla` denince `config/geo_page_blocks.php` içine eklenir. Bu taslakta yalnız metin durur.
 
-## GEO bloğu (yayında değil)
+## GEO bloğu (yayında)
 
 short_answer: Hidrofor musluklar kapalıyken durmuyorsa önce su sayacına bakın. Sayaç dönüyorsa tesisatta kaçak vardır. Sayaç duruyorsa sırasıyla basınç tankının havası, membran, basınç şalteri ve çekvalf kontrol edilir. Motor ısınıyorsa elektriği kesin.
 

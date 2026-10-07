@@ -155,4 +155,13 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Ölçüm tarihi:** yayınlanırsa yayından 21 gün sonra.
 - **Sonuç:** boş. Taslak duruyor.
 
+## 2026-10-07 · hidrofor sürekli çalışıyor yayında
+
+- **Sayfa:** `/blog/hidrofor-surekli-calisyor-sebepler-cozum`. Slug değişmedi.
+- **Ne değişti:** başlık «Hidrofor Sürekli Çalışıyorsa Ne Yapmalıyım?». Gövde kapalı musluk ve sayaç ayrımıyla güncellendi. GEO kısa cevap eklendi. Fiyat yok.
+- **Veri:** Search Console `https://kosarticaret.com/`, web, 8 Haz 2025 – 5 Eki 2026. Sayfa 3.594 gösterim, 26 tık. Hedef sorgu 180 gösterim, 1 tık, ortalama sıra 9,6.
+- **Baz:** bu sayılar.
+- **Ölçüm tarihi:** 28 Eki 2026.
+- **Sonuç:** canlı 200. Canonical `https://kosarticaret.com/blog/hidrofor-surekli-calisyor-sebepler-cozum`. robots `index, follow`. Beş SSS hem sayfada hem BlogPosting gövdesinde. Ayrı FAQ şeması yok. Eski «7 Olası Sebep» başlığı yok.
+
 
