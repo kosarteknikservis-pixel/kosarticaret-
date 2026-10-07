@@ -1,0 +1,31 @@
+---
+description: Core Web Vitals and render performance constraints that protect crawl and ranking
+alwaysApply: true
+---
+
+# 06 — Performance / CWV
+
+SEO ile bağlı performans. Animasyon/spacing için `quality-gate.mdc` geçerlidir; onu kopyalama. Çakışmada `11-master-seo-system.mdc` + quality-gate birlikte durur.
+
+## Metrikler
+
+- **LCP:** PDP/hero ilk görsel `fetchpriority` ve boyutlu olsun; above-the-fold lazy LCP adayı olmasın.
+- **CLS:** img/video/iframe genişlik-yükseklik veya reserved box; font swap layout’u zıplatmasın.
+- **INP:** ağır JS, senkron üçüncü parti, tıklamada uzun main-thread işi ekleme.
+- **TTFB:** SEO için N+1 / sınırsız related query / senkron dış API ekleme.
+
+Lab tahmini ≠ Search Console field CWV. Ölçüm yoksa “risk” yaz; “kötü skor” uydurma.
+
+## İçerik ve render
+
+- Performans için SEO içeriğini, H1’i, fiyatı, breadcrumb’ı veya internal linkleri kaldırma / `display:none` ile gizleme.
+- `robots.txt` ile CSS/JS kesme.
+- `transition-all`, ağır blur, geniş box-shadow, gereksiz animasyon kütüphanesi ekleme (quality-gate ile aynı yasak).
+
+## Görsel ve üçüncü parti
+
+- srcset/sizes kullan; modern format tercih et ama alt/LCP’yi bozma.
+- Analytics, chat, pixel’i LCP/INP’nin önüne koyma; `gtag` mevcut yapıyı şişirme.
+- Font preload mevcut mimariyi kırma; yeni webfont ailesi izinsiz ekleme.
+
+Kısa UI görevinde bile LCP görseli ve CLS boşluğu kontrol et. Derin CWV programı için skill + GSC field gerekir.

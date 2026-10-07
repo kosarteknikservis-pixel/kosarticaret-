@@ -1,0 +1,38 @@
+---
+description: Scalable ecommerce information architecture — catalog, facets, pagination, variants, lifecycle
+alwaysApply: true
+---
+
+# 08 — Ecommerce Architecture
+
+Ölçeklenebilir katalog IA. Politika çakışmasında `11-master-seo-system.mdc` geçerli. Sepet/ödeme/auth logic kuralı değildir.
+
+## Katalog hiyerarşisi
+
+- Ana sayfa → kategori → (alt kategori) → ürün crawlable `<a href>` zinciri bozulmasın.
+- Kategori landing’dir: unique H1/meta, çocuk linkleri, page 1’de keşfedilebilir ürünler, breadcrumb.
+- Ticari kategoriler gereksiz derinlikte kalmasın. Orphan ürün/kategori/marka bırakma.
+- Marka sayfası index değeri yoksa ince içerikle index şişirme.
+- Blog/rehber ticari sayfaya, ticari sayfa ilgili rehbere doğal link versin; sitewide spam yok.
+
+## Ürün, varyant, yaşam döngüsü
+
+- Bir ürün = bir indexlenebilir PDP. Duplicate manufacturer metni / aynı title şablonu ile binlerce sayfa üretme.
+- Varyantlar (renk, voltaj, paket): ayrı indexlenebilir URL yalnızca unique intent varsa. Aksi halde canonical ana ürüne veya noindex query.
+- Geçici stok yok: URL + index korunur; availability schema gerçeği yansıtır.
+- Kalıcı kaldırma: eşdeğer 301 veya 404/410. Home 301 yok.
+
+## Facet, pagination, query
+
+- Filter/sort/price/attribute kombinasyonları crawl space patlatmasın; mevcut noindex politikasını gevşetme.
+- Değerli facet (ör. marka+kategori) ayrı bilinçli landing olabilir; `?marka=` kopyası indexlenmez.
+- Pagination: `rel` prev/next veya eşdeğer keşif, crawlable page linkleri. Infinite scroll tek başına yeterli değil.
+- Search, wishlist, compare, cart, account, tracking URL indexlenmez.
+
+## Schema ölçeği
+
+- PDP: Product + Offer (price, currency, availability, url) görünür veriye eşit.
+- BreadcrumbList her katalog/PDP’de.
+- AggregateRating yalnızca gerçek review kaydı varsa.
+
+Yeni listing/facet/route eklerken 04’teki INDEX kararı + 05 gate zorunlu. Tam graph audit için `elite-ecommerce-seo` skill.

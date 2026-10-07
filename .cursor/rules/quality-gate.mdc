@@ -1,0 +1,42 @@
+---
+description: Work holistically and verify connected behavior before presenting changes
+alwaysApply: true
+---
+
+# Quality Gate
+
+## Calisma Sekli
+
+- Bir isi yaparken yalnizca gorunen parcayi degil, sistemin bagli oldugu alanlari da dusun: ilgili Blade, CSS, JS, route, controller, form, tablo, modal, mobil ve masaustu davranisi birlikte degerlendirilmelidir.
+- Degisiklik yapmadan once mevcut yapiyi oku; varsayim yerine dosya, akis ve bagimliliklari kontrol et.
+- Is kullaniciya sunulmadan once kendi kalite kontrolunden gecmelidir: tasma var mi, hata uretir mi, bagli parcayi bozar mi, mobilde duzgun mu, masaustunde duzenli mi?
+
+## Tasarim Standardi
+
+- Arayuz premium, kurumsal, temiz, modern ve guven veren bir seviyede olmali; generic Tailwind gorunumu, daginik bosluklar ve bicimsiz butonlar kabul edilmez.
+- Her ekranda hizalama, bosluk, font agirligi, radius, shadow, ikon boyutu ve buton yukseklikleri tutarli olmali.
+- Mobil, tablet ve masaustu birlikte dusunulmeli; sadece tek kirilimda guzel duran cozum yeterli degildir.
+- Sayfa genisligi tasmamali; yatay scroll, kesik kart, disari tasan select, input, tablo, modal veya buton birakilmamalidir.
+- Masaustu gorunumde container, grid ve card oranlari dengeli olmali; cok sikisik veya gereksiz genis duran bolumler duzeltilmelidir.
+- Mobil gorunumde dokunma alanlari yeterli olmali, butonlar ve ikonlar ayni hizada durmali, metinler okunabilir kalmali.
+
+## UI Etkilesim Kontrolu
+
+- UI islerinde sadece gorseli degil, etkilesimi de test et: acilir liste, input, buton, hover/focus, klavye acilmasi, tasma, scroll, mobil genislik ve masaustu hizalama.
+- Uzun veri listelerinde native `select` mobilde ekran disina tasabilir; urun listesi gibi cok secenekli alanlarda aramali, kart/genislik icinde kalan ozel secici tercih et ve form degerinin dogru gonderildigini test et.
+- Formlarda hata mesaji, eski deger, zorunlu alan, kaydet/iptal butonlari ve route baglantilari birlikte kontrol edilmelidir.
+- Panel islerinde liste, detay, form kaydetme, aksiyon butonlari, tablo/card davranisi ve yetki/route baglantilari birlikte kontrol edilmelidir.
+- Panel rapor ekranlarinda gercek uzun veriyle dusun: uzun URL, uzun urun adi, bos durum, dolu liste, mobil tek kolon ve masaustu cok kolon hizasi test edilmeden is sunulmamali.
+- Magaza arayuzunde header, footer, urun karti, kategori, urun detay, auth popup, sepet ve CTA alanlari ayni tasarim dilinde kalmalidir.
+
+## Performans ve Animasyon
+
+- Performans riski tasiyan blur, agir shadow, gereksiz animasyon ve genis transition kullanimlarindan kacin; ozellikle mobilde hafif davran.
+- `transition-all` kullanma; sadece gereken ozellikleri gecisli yap.
+- Animasyonlar opacity, transform, hafif scale veya soft movement ile sinirli kalmali; SEO ve kullanici deneyimini bozacak agir efekt eklenmemelidir.
+
+## Kontrol ve Sunum
+
+- Degisiklikten sonra mumkun olan kontrolleri calistir: Blade cache, lint, ilgili diff incelemesi ve gerekiyorsa hedef dosyaya ozel manuel akis kontrolu.
+- UI degisikliginden sonra en az mobil ve masaustu senaryosunu dusunerek bagli parcalari kontrol et; ozellikle daha once sorun cikaran select, tablo, modal, carousel ve header/footer alanlarini atlama.
+- Son yanitta yapilan isi kisa ozetle ve gercekten calistirilan kontrolleri belirt; calistirilamayan test varsa acikca soyle.

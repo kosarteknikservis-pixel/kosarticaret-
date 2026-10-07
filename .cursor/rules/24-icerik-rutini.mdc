@@ -1,0 +1,56 @@
+---
+description: Haftalık içerik rutini. Yeni konu seçmez, dondurma ve 21 gün kuralını bozmaz.
+alwaysApply: true
+---
+
+# 24 — İçerik rutini
+
+Kural 23’ün veri, dondurma ve ölçüm disiplinini tekrar etmez. Kural 11, kural 12 ve `GEO-PLAN.md` Faz G2 ile çelişen iş uygulanmaz.
+
+Mevcut ritim durur. Perşembe içerik günü değildir. `SEO-IS-TAKVIMI.md` içindeki Perşembe ve “haftada 1” satırları geçersizdir.
+
+- Salı: «haftalık plan» (konu seçimi, yazı yok)
+- Çarşamba: «bugünkü içeriği yazalım» (birinci iş)
+- Cuma: «bugünkü içeriği yazalım» (ikinci iş)
+- «yayınla» ve «durum» günü değil, kullanıcının sözüdür
+
+Kullanıcı değiştirir:
+
+- HAFTALIK_ICERIK: 2
+- DATAFORSEO_HAFTALIK_BUTCE_USD: 2
+
+Kayıt: `raporlar/icerik/`. Yeni fikir sohbette uygulanmaz; `FIKIR-HAVUZU.md` tarih ve kaynakla yazılır, yalnız haftalık planda değerlendirilir. Plan dışı iş yalnız kullanıcı «plana ekle» derse.
+
+Yazı uzunluğu sabit 600 veya 1.500 kelime değildir. Arama sonucunun gerektirdiği kadardır. Yeni slug’da yıl yok. Ürün bilgisi yalnız veritabanındandır. Şablon cümle ve kelime tekrarı yok.
+
+## haftalık plan
+
+Pazartesi, Salı, ya da kullanıcı «haftalık plan» deyince. Siteye dokunulmaz.
+
+Veri: Search Console son 28 gün, geçen yılın aynı 28 günü, 16 ay sorgu × sayfa. DataForSEO hacim, aylık trend, SERP, PAA, AI Overview — haftalık bütçenin içinde. `KONU-KAYDI.csv`, `KUYRUK.md`, ölçüm takvimi.
+
+Seçim: yaklaşan sezon, Search Console sıra 4–20, malzeme hazır iş, dondurma ve 21 gün. Tam HAFTALIK_ICERIK kadar iş. Her iş: hedef kelime + veri, tür (yeni / güncelleme), sahip URL, neden şimdi, malzeme, ölçüm tarihi.
+
+Haftalık işin en az biri ayda ≥100 hacimli ya da Search Console 16 ayda ≥300 gösterimli bir hedefe dayanır. Bunun altındaki iş yalnız gerekçeyle seçilir.
+
+Yeni yazı yalnız üçü birden doğruysa: anlamlı hacim, arama sonuçları rehber istiyor, sitede karşılığı yok. Ticari kelime kural 12’deki sahip sayfanındır; ona yeni yazı açılmaz.
+
+Yaz: `raporlar/icerik/haftalik/AAAA-Hxx.md`. Kuyruğa ekle.
+
+İçerik yazılmadan pazartesi geçtiyse kayıt commit’i, ilk «bugünkü içeriği yazalım» ile alınır. Dosya listesi kural 23 Git bölümündedir.
+
+## bugünkü içeriği yazalım
+
+Yeni konu seçilmez. `KUYRUK.md` içinde durumu «hazır» olan ilk iş alınır. Malzeme eksikse «beklemede-malzeme» yapılır, sıradaki hazır işe geçilir, eksik olan söylenir.
+
+O iş için: canlı SERP ilk 10, PAA, AI Overview, Search Console’da bu konunun gerçek sorguları, DataForSEO ilgili sorular. Yazmadan önce tekrar kontrolü kullanıcıya gösterilir: konu kaydı, sitede aynı konu, bu sorguda sıralanan URL. Varsa yeni yazı değil güncelleme.
+
+Gövde `GEO-PLAN.md` Faz G2 ve `BLOG-30GUN-PLAN.md` link kurallarına uyar. Taslak kalır, yayın yok. Kullanıcıya: başlık, URL, hedef kelime, rakiplerden fark, önizleme.
+
+## yayınla
+
+Taslak yayınlanır. Canlı kontrol: 200, canonical, index, görünen SSS ile schema aynı. Konu kaydı, kuyruk, karar defteri, `SEO-STATE.md` ve ölçüm tarihi güncellenir. Slug değişmez.
+
+## durum
+
+Bu hafta yapılan, sıradaki, beklemede ve istenen malzeme, yaklaşan ölçümler. Kısa.

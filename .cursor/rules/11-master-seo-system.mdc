@@ -1,0 +1,53 @@
+---
+description: Master SEO source of truth — URL, index, canonical, schema and content safety for every storefront change
+alwaysApply: true
+---
+
+# 11 — Master SEO System
+
+Bu dosya mağaza SEO’sunun **ana source of truth** dosyasıdır.
+
+`elite-ecommerce-seo` skill’i bu kuralın üstünde derin AUDIT → PLAN → ONAY → IMPLEMENTATION → REGRESSION workflow’udur. Skill açılmasa da bu kural her kısa görevde geçerlidir (ör. “ürün sayfasını geliştir”).
+
+Çakışmada: **11 > 04/05/06/08 > elite-ecommerce-seo > harici claude-seo**. UI rule’ları (H1, ürün URL, mobil) ile çelişme; onları gevşetme.
+
+Harici `claude-seo` (kullanıcı dizinindeki `seo`, `seo-audit`, `seo-ecommerce` vb.) yalnızca canlı URL / GSC / CrUX kanıtı üretir. Kod, URL, index, canonical, robots, sitemap veya H1 değişikliği bu kural + `elite-ecommerce-seo` AUDIT → PLAN → onay ile yapılır. Facet indexleme, homepage 301, toplu slug, keyword stuffing önerilerini uygulama.
+
+Manipülasyon yok: keyword stuffing, doorway, gizli içerik, spam internal link, yapay schema, sahte rating, GSC verisi uydurma.
+
+## URL ve index
+
+- Mevcut, indexlenmiş URL’leri ve slug’ları izinsiz değiştirme. Toplu URL migration için kullanıcı onayı şart.
+- Her sayfanın tek preferred URL’si ve onunla uyumlu canonical’ı olsun.
+- `robots.txt` crawl yönetimi içindir; noindex yerine kullanılmaz.
+- `noindex` düşük değerli sayfalar içindir; canonical farklı intent’li sayfaları birleştirmek için değildir.
+- Sitemap yalnızca canonical + indexlenebilir URL içersin; noindex, 404, redirect sızmasın.
+- Query / filter / sort / tracking parametreleri varsayılan olarak indexlenmez; crawl patlaması oluşturma.
+- Pagination crawlable olsun. Page 2+’yı körü körüne page 1’e canonical yapma.
+- Facet’ler noindex (veya Disallow) politikasına bağlı kalsın. Talep varsa ayrı, bilinçli landing page kullan; her filtre kombinasyonunu indexleme.
+
+## Sayfa tipleri
+
+- **Ürün:** tek H1 (ürün adı), manuel meta varsa öncelikli, spammy şablon title üretme. Canonical PDP’nin kendisi. Product + Offer görünür fiyat/para birimi/stok ile uyumlu olsun. Review schema yalnızca gerçek yorum varsa.
+- **Varyant:** ayrı URL varsa index/canonical politikası bilinçli olsun; `?renk=` gibi query’leri otomatik indexleme. Ana ürünü duplicate etme.
+- **Kategori:** landing page’dir (H1, unique meta, breadcrumb, çocuk/ürün linkleri). Yalnızca grid bırakma; uzun SEO metnini ürünlerin üstüne yığma.
+- **Marka:** ince/boş sayfayı otomatik indexletme.
+- **Stok yok (geçici):** değerli URL’yi koru; noindex etme.
+- **Kalıcı silindi:** eşdeğer varsa 301; yoksa 404/410. Homepage’e toplu 301 yok. Redirect zinciri/loop yok.
+
+## İç mimari
+
+- Kritik sayfalar crawlable `<a href>` ile keşfedilsin; yalnızca sitemap’e güvenme. JS-only ana navigasyon yok.
+- Orphan ürün/kategori/marka/içerik üretme. Ticari kategoriler ana sayfadan sığ crawl depth’te kalsın.
+- Breadcrumb görünür metinle BreadcrumbList uyumlu olsun.
+- Internal link doğal olsun; sitewide exact-match spam yok.
+
+## Meta, içerik, rich result
+
+- Title / description / H1 arama niyetiyle uyumlu ve benzersiz olsun. Heading hiyerarşisini (tek H1) bozma.
+- Open Graph canonical/title/description ile çelişmesin.
+- `hreflang` yalnızca gerçek dil-URL çifti varsa; yoksa ekleme.
+- Image: açıklayıcı alt, boyut, LCP görseli lazy olmasın. Alt’a keyword doldurma.
+- Kod audit ≠ GSC. Indexing, CWV field, rich results verisini tahmin etme.
+
+Detay katmanları: mimari `04`, regression `05`, CWV `06`, e-ticaret ölçeği `08`.

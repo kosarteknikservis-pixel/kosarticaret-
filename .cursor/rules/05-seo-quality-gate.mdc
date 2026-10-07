@@ -1,0 +1,43 @@
+---
+description: SEO quality gate — regression checks before presenting any storefront change
+alwaysApply: true
+---
+
+# 05 — SEO Quality Gate
+
+Storefront (Blade, meta, route, schema, listing, PDP) işi sunulmadan önce regression. Tam SEO audit değildir; `elite-ecommerce-seo` skill’i AUDIT → PLAN → ONAY sonrası implementation için.
+
+Çakışmada `11-master-seo-system.mdc` geçerli. UI quality-gate.mdc’nin görsel kontrollerini tekrarlama.
+
+## Değişiklikten önce
+
+Şunlar değişiyor mu? Değişiyorsa kullanıcı onayı olmadan uygulama:
+
+- URL / slug
+- canonical
+- index / noindex
+- robots.txt
+- sitemap içeriği
+- redirect
+- H1
+- Product / Offer / Breadcrumb schema
+
+## Sunum öncesi
+
+Etkilenen sayfa tipinde doğrula:
+
+- [ ] Preferred URL aynı kaldı (veya onaylı 301 var)
+- [ ] Canonical preferred URL
+- [ ] robots meta bilinçli (index sayfa noindex olmamış)
+- [ ] Tek H1; heading sırası bozulmamış
+- [ ] Title / description boş veya kopya şablon değil
+- [ ] Breadcrumb görünür ve schema ile uyumlu
+- [ ] Kritik internal linkler hâlâ `<a href>`
+- [ ] PDP’de Product/Offer görünür fiyat ve stokla uyumlu
+- [ ] Filtre/sort/pagination noindex politikası duruyor
+- [ ] Mobilde SEO içeriği kaybolmamış; yatay taşma yok
+- [ ] LCP görseli gizlenmemiş / yanlış lazy değil
+
+Kanıt yoksa “SEO bozulmadı” deme. Koddan GSC field verisi uydurma.
+
+Onaysız slug/URL toplu değişimi yok. Homepage’e toplu 301 yok.

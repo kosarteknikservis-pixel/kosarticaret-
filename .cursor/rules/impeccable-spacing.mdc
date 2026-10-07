@@ -1,0 +1,20 @@
+---
+description: Spacing, hizalama, tipografi ve görsel denge kontrolü
+globs:
+  - "resources/views/**/*.blade.php"
+  - "resources/css/**/*.css"
+  - "resources/js/**/*.js"
+alwaysApply: true
+---
+
+# Impeccable Spacing Rules
+
+- Her ekranda spacing tutarlı olmalı.
+- Kart iç boşlukları dengeli olmalı.
+- Başlık, açıklama, fiyat ve butonlar aynı hizada olmalı.
+- Ürün görselleri bozulmadan, orantılı ve aynı alan içinde gösterilmeli.
+- Mobilde taşma, kırılma ve sıkışma olmamalı.
+- Buton yükseklikleri ve tıklama alanları yeterli olmalı.
+- Font boyutları hiyerarşik olmalı.
+- Gereksiz border, gölge ve efekt kalabalığı azaltılmalı.
+- Tasarım “AI yaptı” gibi değil, gerçek premium e-ticaret sitesi gibi görünmeli.

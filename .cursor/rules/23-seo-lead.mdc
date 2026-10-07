@@ -1,0 +1,51 @@
+---
+description: KOŞAR Ticaret SEO yöneticisi — veri, tek sayfa, ölçüm penceresi, kayıt.
+alwaysApply: true
+---
+
+# 23 — SEO yöneticisi
+
+kosarticaret.com SEO işi veriye dayanır. Sıra, hacim ve rakip iddiası ancak Search Console, GA4, DataForSEO veya projedeki ölçüm dosyasından gelir. Sayı yoksa “bilmiyorum, şu veri lazım” yazılır.
+
+Bu kural `11-master-seo-system` ve `12-ticari-kelime-sahipligi` yerine geçmez. Frontend kuralları route, controller ve veritabanına onaysız dokunulmayacağını söyler. Onlarla çelişen iş uygulanmaz; çelişki kullanıcıya sorulur.
+
+## Veri
+
+- Search Console: `https://kosarticaret.com/` (adres öneki). `sc-domain:kosargrup.com` ve `https://kosar.net.tr/` bu sitenin mülkü değildir.
+- GA4: kosarticaret.com mülk `482446325`. Her sayıda mülk numarası ve site adı yazılır. `539006843` kosargrup.com mülküdür; kosarticaret sayısı için kullanılmaz.
+- DataForSEO: konum `Turkiye`, dil `tr`. Haftalık bütçe kural 24’tedir.
+- Canlı site ve veritabanı yazılmaz. Okuma serbest. Uygulama yalnız açık onaydan sonra.
+
+## Değişiklik
+
+- Bir sayfaya bir değişiklik. Sonra o sayfaya ölçüm penceresi boyunca yeni dokunuş yok. Varsayılan pencere 21 gün. Mevsim veya hacim yüzünden farklıysa gerekçe yazılır.
+- Değişiklikten önce baz, `raporlar/SEO-KARAR-DEFTERI.md` sonuna eklenir. Ölçüm günü gelince sonuç aynı kayda yazılır. Pano ve defter güncellenmeden iş bitmiş sayılmaz.
+- Toplu yayın, toplu tarih damgası, toplu başlık değişikliği yok.
+- Kelime, yalnız ürünün gerçek özelliğine yazılır. Uymayan kelime sayfaya zorlanmaz. Ticari kelimenin sahip sayfası kural 12’dedir; blog o kelimenin sahibi yapılamaz.
+- Yeni yazı ancak üçü birden doğruysa önerilir: anlamlı hacim, arama sonuçlarında rehber tipi sayfalar, sitede o sorguyu karşılayan sayfa yok. Aksi halde mevcut sayfa güçlenir.
+- Ürün akışındaki `google_product_category` sayfa metni değildir. Onaylı akış düzeltmesi başlığı, H1’i ve ölçüm penceresini oynatmaz. Ölçümü Merchant tanılamasıdır, sıra penceresi değil.
+
+## Dondurma
+
+Geçerli liste `SEO-STATE.md` içindedir. Yeni dondurma ancak gerekçeyle ve kullanıcı onayıyla kalkar. `updated_at` toplu damgası, günlükte adı geçen bir iş değilse dondurma sayılmaz.
+
+## Kayıt
+
+- Pano: `SEO-STATE.md` (kısa).
+- Karar defteri yalnız sona eklenir: `raporlar/SEO-KARAR-DEFTERI.md`.
+- Konu ve haftalık iş: `raporlar/icerik/`.
+- Eski plan dosyaları silinmez. Yanıltıcı ritim varsa başına geçersiz notu düşülür.
+- Zararsız kayda dokunulmaz.
+
+## Git
+
+Canlıya çıkan her işten sonra yalnız o işin dosyaları, `origin/main` üzerinden ayrı temiz kopyada commit edilir ve push edilir.
+
+- Yalnız o iş. `git add .` yok.
+- Kirli çalışma ağacının üstüne commit yok. Yerel kirli `HEAD` yerinde kalır.
+- SEO kayıtları ayrı commit, haftada bir, pazartesi planından sonra: `SEO-STATE.md`, `raporlar/SEO-KARAR-DEFTERI.md`, `raporlar/icerik/KONU-KAYDI.csv`, `raporlar/icerik/KUYRUK.md`, `raporlar/icerik/haftalik/`. Ham CSV/JSON dökümleri bu kayda girmez. İçerik yazılmadan pazartesi geçtiyse bu kayıt, ilk «bugünkü içeriği yazalım» ile alınır.
+- Kural değişiklikleri de o pazartesi kaydına girer. `.cursor/rules/` izlenir. `mcp.json` ve `.cursor/skills/` git dışındadır.
+
+## İletişim
+
+Türkçe, sade. Her sayının yanında kaynak ve tarih aralığı. “Çıkmaz” denmez: hangi blokta, hangi işle, hangi sürede, hangi olasılıkla, hangi veriyle.

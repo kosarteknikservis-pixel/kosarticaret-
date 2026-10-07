@@ -1,0 +1,28 @@
+---
+description: Cursor tasarım inceleme ve uygulama akışı
+globs:
+  - "resources/views/**/*.blade.php"
+  - "resources/css/**/*.css"
+  - "resources/js/**/*.js"
+alwaysApply: true
+---
+
+# Frontend Design Review Workflow
+
+Her tasarım görevinde şu sırayı izle:
+
+1. Önce ilgili dosyaları incele.
+2. Mevcut tasarım sorunlarını kısa listele.
+3. Kod yazmadan önce uygulanacak planı çıkar.
+4. Kullanıcı onay verirse değişiklik yap.
+5. Mobil ve masaüstü uyumu kontrol et.
+6. Gereksiz dosya değiştirme.
+7. Değişiklik sonunda hangi dosyaların değiştiğini açıkla.
+
+Öncelikler:
+- Mobil uyum
+- Hız
+- Temiz görünüm
+- Satış odaklı CTA
+- SEO yapısını koruma
+- Laravel Blade düzenini bozmama

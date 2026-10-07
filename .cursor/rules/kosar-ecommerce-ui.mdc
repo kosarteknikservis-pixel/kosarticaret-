@@ -1,0 +1,55 @@
+
+---
+description: KOŞAR Laravel e-ticaret paneli için premium UI/UX kuralları
+globs:
+  - "resources/views/**/*.blade.php"
+  - "resources/js/**/*.js"
+  - "resources/css/**/*.css"
+  - "resources/**/*.vue"
+alwaysApply: true
+---
+
+# KOŞAR E-Ticaret UI Skill
+
+Bu proje Laravel ile yazılmış panelli e-ticaret sistemidir.
+
+## Genel Kurallar
+- Mevcut Laravel yapısını bozma.
+- Route, controller, migration ve model yapısını izinsiz değiştirme.
+- Önce analiz yap, sonra değişiklik öner.
+- SEO yapısını, H1-H6 düzenini ve ürün URL mantığını bozma.
+- Mobil öncelikli tasarım yap.
+- Panel ve vitrin tarafını karıştırma.
+
+## Tasarım Kalitesi
+- Premium, modern, güven veren e-ticaret görünümü hedefle.
+- Gereksiz renk, gölge ve animasyon kullanma.
+- Spacing, hizalama, font büyüklükleri ve kart oranları düzenli olsun.
+- Ürün kartları eşit yükseklikte ve temiz görünsün.
+- Butonlar net, satın alma odaklı ve mobilde rahat tıklanabilir olsun.
+
+## Laravel / Blade
+- Blade dosyalarında tekrar eden yapıları component’e çevirmeyi öner.
+- Kod okunabilir, sade ve sürdürülebilir olsun.
+- Mevcut class yapısını tamamen silmeden iyileştir.
+- Gereksiz inline style ekleme.
+
+## Tailwind / CSS
+- Tailwind varsa Tailwind class’larıyla ilerle.
+- CSS varsa mevcut yapıyı bozmadan modernleştir.
+- Responsive breakpoint’leri kontrol et.
+- Mobile: 360px-430px arası düzgün görünmeli.
+- Desktop: 1366px ve 1920px ekranlarda dengeli görünmeli.
+
+## E-Ticaret UX
+- Ürün listeleme sayfaları hızlı ve net olmalı.
+- Sepete ekle, fiyat, stok, kargo, güven unsurları görünür olmalı.
+- Kategori sayfaları SEO + satış odaklı olmalı.
+- Ürün detay sayfasında teknik özellik, açıklama, görsel galeri ve CTA dengeli olmalı.
+
+## Yasaklar
+- Tüm projeyi baştan yazma.
+- Çalışan kodu gereksiz refactor etme.
+- Veritabanı yapısına izinsiz dokunma.
+- Tasarımı bozacak büyük animasyonlar ekleme.
+- Paket kurmadan önce izin iste.

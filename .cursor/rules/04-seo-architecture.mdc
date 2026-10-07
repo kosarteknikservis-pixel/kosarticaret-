@@ -1,0 +1,45 @@
+---
+description: Technical SEO architecture — crawl, indexability, canonical, robots, sitemap, redirects, rendering
+alwaysApply: true
+---
+
+# 04 — SEO Architecture
+
+Teknik SEO iskeleti. Politika çakışmasında `11-master-seo-system.mdc` geçerli.
+
+Yeni storefront URL tipi eklendiğinde bilinçli **INDEX / NOINDEX / DISALLOW / CANONICAL-ONLY** kararı olmadan bırakma.
+
+## Crawl ve render
+
+- Google’ın görmesi gereken başlık, fiyat, açıklama, kategori, internal link HTML’de olsun.
+- Kritik keşif JS-only menü/infinite-scroll’a kilitlenmesin; crawlable fallback zorunlu.
+- `robots.txt` CSS/JS’i engellemesin.
+
+## Canonical, robots, sitemap
+
+| Araç | Kullan | Kullanma |
+|---|---|---|
+| Canonical | Duplicate / preferred URL | Farklı intent’i birleştirmek |
+| `noindex, follow` | Pagination 2+, filter, search, ince tag | Crawl’ı kesmek |
+| `robots.txt` Disallow | Sepet, hesap, parametre patlaması | Index’ten düşürmek |
+| 301 | Kalıcı eşdeğer taşıma | “Bir yere gitsin” diye home |
+| 404/410 | Kalıcı yok | Geçici stok yok |
+
+- Canonical, `rel=canonical` ve sitemap `<loc>` aynı preferred URL’yi göstersin.
+- HTTPS / host / trailing slash / case tek standarda insin.
+- Sitemap index + chunk ölçeklensin; image sitemap ana index’e karışmasın.
+- Staging noindex. SearchAction yalnızca indexlenen arama URL’si varsa.
+
+## Redirect ve parametre
+
+- Nested vs düz kategori path tek canonical path’e 301 olsun.
+- Tracking parametreleri indexlenmesin; canonical temiz URL’ye baksın.
+- Redirect zinciri ve loop üretme.
+
+## Meta ve hreflang
+
+- Layout her indexlenebilir sayfada title, description, canonical, robots üretsin.
+- Open Graph görünür meta ile hizalı olsun.
+- `hreflang` + `x-default` yalnızca gerçek locale URL’leri varsa.
+
+Bu kural UI/spacing kuralı değildir. Derin denetim için `elite-ecommerce-seo` skill’ine geç; kısa görevde 11+04 yeter.
