@@ -1,6 +1,8 @@
 # SEO panosu — 2026-10-07
 
-Kısa durum. Ayrıntı `raporlar/SEO-KARAR-DEFTERI.md` ve `raporlar/icerik/`. Siteye, veritabanına ve canlıya bu kayıtla dokunulmadı.
+Kısa durum. Ayrıntı `raporlar/SEO-KARAR-DEFTERI.md` ve `raporlar/icerik/`.
+
+Ürün etiketleri 7 Eki akşamı taslak olarak canlıda. Yayın `16e031f`. Index yok, sitemap yok, herkese açık `/koleksiyon/...` 404. Bu iş indexli sayfanın sırasını ölçmez ve hidroforlar kategorisinin 18 Kas okumasını uzatmaz.
 
 ## Bugün
 

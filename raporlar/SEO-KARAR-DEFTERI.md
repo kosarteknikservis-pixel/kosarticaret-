@@ -164,4 +164,15 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Ölçüm tarihi:** 28 Eki 2026.
 - **Sonuç:** canlı 200. Canonical `https://kosarticaret.com/blog/hidrofor-surekli-calisyor-sebepler-cozum`. robots `index, follow`. Beş SSS hem sayfada hem BlogPosting gövdesinde. Ayrı FAQ şeması yok. Eski «7 Olası Sebep» başlığı yok.
 
+## 2026-10-07 · ürün etiketleri taslak yayında
+
+- **Sayfa:** beş taslak. Herkese açık adres yok. `/koleksiyon/1-hp-hidrofor`, `/koleksiyon/3-hp-hidrofor`, `/koleksiyon/1-hp-dalgic-pompa`, `/koleksiyon/2-hp-dalgic-pompa`, `/koleksiyon/monofaze-dalgic-pompa`.
+- **Ne değişti:** etiketler taslak kaldı. Sitemap’e girmedi. Ürün sayfasına etiket linki çıkmadı. Ürün özellik değerleri ve teknik tablo yazılmadı. Monofaze listesi, taslak önizlemede gerçek kategori adıyla gruplanır. Sayfa herkese kapalı olduğu için bu grup canlıda görünmez.
+- **Yayın:** `16e031f`. İş akışı [37641284191](https://github.com/kosarteknikservis-pixel/kosarticaret-/actions/runs/37641284191). Migration `2026_10_07_170000_create_collections_tables` 3 sn DONE.
+- **Canlı kontrol, 7 Eki 2026:** beş adres ve monofaze `?page=2` 404. Yayından önce `/yonetim/koleksiyonlar` 404 idi; yayından sonra girişe 302. Önizleme adresi de girişe 302. `https://kosarticaret.com/sitemap.xml` 200, gövdede koleksiyon yok.
+- **Ürün sayfası:** `https://kosarticaret.com/urun/winpo-qdp-400-a-flatorlu-drenaj-dalgic-pompa-7mss-72m3h-monofaze220v`. Başlık, canonical, robots `index, follow`, H1 ve Motor Gücü aynı. `koleksiyon` geçmiyor. İç linkler aynı. Fark oturum jetonu, derlenen dosya sürümü ve liste kapanışındaki boşluk.
+- **Baz:** indexlenen URL değişmedi. Sıra sayısı yok. Bu kayıt sıra penceresi değil.
+- **Ölçüm tarihi:** yok. Index ayrı onay. Hidroforlar kategorisinin 18 Kas okuması duruyor.
+- **Sonuç:** taslak canlıda. Google’a açık değil.
+
 
