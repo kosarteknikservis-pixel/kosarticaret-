@@ -8,7 +8,7 @@ Search Console mülkü `https://kosarticaret.com/` (adres öneki; `sc-domain:kos
 
 Katalog: 1.394 ürün, 242 blog, 56 kategori sitemap’te, 8 marka. Görseli olup stokta olan ve akışa giren ürün: 1.383.
 
-Canlı `/urun-feed.xml` kategori kimliği kodda düzeltildi. Öncesi: `1869` 1.370, `1795` 6, `127` 7. Sonrası yerel sayım defterde. Canlı doğrulama yayınla birlikte.
+Canlı `/urun-feed.xml` kategori kimliği düzeltildi (`5817e08`). Öncesi: `1869` 1.370, `1795` 6, `127` 7. Sonrası canlı sayım defterde. `1869` ve `1795` yok.
 
 GA4 bu kayıtta çekilmedi. kosarticaret mülkü `482446325`. `539006843` kosargrup.com içindir; bu sitenin sayısı değildir.
 
@@ -37,7 +37,7 @@ Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı
 
 ## Sıradaki 5 iş
 
-1. Akış kategori kimliği — kod yazıldı, canlı sayım bu turda.
+1. Akış kategori kimliği — canlıda. Defterde öncesi ve sonrası var.
 2. 14–16 Eki — sumak pompa, yalnız Search Console.
 3. 15–21 Eki — yukarıdaki pencerelerin sonucunu deftere yaz. O sayfalara sonuç yazılmadan yeni cümle yok.
 4. İçerik kuyruğu iki iş, ikisi de beklemede (`raporlar/icerik/KUYRUK.md`). Bu hafta yeni yazı yok.

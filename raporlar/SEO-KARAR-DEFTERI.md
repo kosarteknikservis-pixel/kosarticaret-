@@ -129,3 +129,11 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Ölçüm tarihi:** Merchant Center tanılaması, yayından 2–3 gün sonra. Sıra penceresi yok.
 - **Sonuç:** kod hazır. Canlı akış sayımı bu kaydın altına eklenecek.
 
+## 2026-10-07 · canlı akış sayımı
+
+- **Sayfa:** yok. `https://kosarticaret.com/urun-feed.xml`. Yayın `5817e08`. Önbellek adımı iş akışında çalıştı. Akış başlığı `cache-control: max-age=3600, public`.
+- **Öncesi:** `1869` 1.370, `1795` 6, `127` 7.
+- **Sonrası, canlı, 1.383 ürün:** `500097` 479, `500101` 343, `500102` 204, `500096` 179, `500100` 122, `500098` 27, `499932` 6, `3006` 6, kimliksiz 6, `8090` 4, `2649` 3, `2535` 2, `611` 1, `4485` 1. `1869`, `1795` ve `127` yok.
+- **Yerelden fark:** bir ürün. `wnpv750f` (Winpo WNP V 750 F yağmur suyu tahliye) yerelde `500102`, canlıda `500101`. Aynı kod; canlıda birincil kategori yağmur/drenaj yaprağı değil.
+- **Kimliksiz:** SDF123, SDT252, SDF83, SDF52, SDF252-M, SDF151. Adında 4″/6″ veya küçük tahliye yok.
+
