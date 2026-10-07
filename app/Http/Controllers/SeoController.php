@@ -348,7 +348,10 @@ class SeoController extends Controller
         if ($category !== '') {
             echo '<g:product_type>'.$this->xmlCdata($category).'</g:product_type>';
         }
-        echo '<g:google_product_category>'.$this->xmlText((string) GoogleProductCategory::forProduct($product)).'</g:google_product_category>';
+        $googleCategory = GoogleProductCategory::forProduct($product);
+        if ($googleCategory !== null) {
+            echo '<g:google_product_category>'.$this->xmlText((string) $googleCategory).'</g:google_product_category>';
+        }
         echo '<g:shipping>';
         echo '<g:country>TR</g:country>';
         echo '<g:service>Standart Kargo</g:service>';
