@@ -137,3 +137,13 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Yerelden fark:** bir ürün. `wnpv750f` (Winpo WNP V 750 F yağmur suyu tahliye) yerelde `500102`, canlıda `500101`. Aynı kod; canlıda birincil kategori yağmur/drenaj yaprağı değil.
 - **Kimliksiz:** SDF123, SDT252, SDF83, SDF52, SDF252-M, SDF151. Adında 4″/6″ veya küçük tahliye yok.
 
+## 2026-10-07 · Sumak SDF/SDT foseptik kimliği
+
+- **Sayfa:** yok. Ürün bazlı istisna. Başlık ve gövde aynı.
+- **Ne değişti:** kullanıcı bilgisiyle altı ürün foseptik ve tahliye. Kimlik `500102`. Stok kodları: SDF123 (SDF 12/3), SDF83 (SDF 8/3), SDF52 (SDF 5/2), SDF151 (SDF 15/1), SDF252-M (SDF 25/2 monofaze), SDT252 (SDT 25/2 trifaze).
+- **Öncesi:** bu altı ürün kimliksiz. Canlı `500102`: 204. Kimliksiz: 6.
+- **Sonrası, canlı `/urun-feed.xml`, yayın `e98a3ea`, 1.383 ürün:** altı stok kodu `500102`. Kimliksiz ürün yok. `500102`: 210. Diğer kimlikler aynı: `500097` 479, `500101` 343, `500096` 179, `500100` 122, `500098` 27, `499932` 6, `3006` 6, `8090` 4, `2649` 3, `2535` 2, `611` 1, `4485` 1.
+- **Ölçüm tarihi:** Merchant Center tanılaması, yayından 2–3 gün sonra.
+- **Sonuç:** canlı akış doğrulandı. Önbellek adımı iş akışında çalıştı.
+
+
