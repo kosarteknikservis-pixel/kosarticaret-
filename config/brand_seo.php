@@ -338,6 +338,30 @@ HTML,
             ],
         ],
     ],
+    'troy' => [
+        'h1' => 'Troy Karavan Hidroforu',
+        'meta_title' => 'Troy Karavan Hidroforu',
+        'meta_description' => 'Troy TS 12-8 H, TS 12-12 H ve TS 24-15 H. 12 ve 24 V DC karavan ve tekne hidroforu; debi, akım ve basma yüksekliği etiket değerleriyle.',
+        'description' => <<<'HTML'
+<h2>Troy karavan ve tekne hidroforu</h2>
+<p>Troy sayfasında üç model var. İkisi 12 V DC, biri 24 V DC. Karavan ve tekne temiz su deposunu musluğa basmak için üretilmişlerdir. 220 V ev ve apartman hidroforları bu listenin dışındadır; onlar <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">hidroforlar</a> kategorisindedir.</p>
+<p>Etiket debisi TS 12-8 H için 450 L/h, TS 12-12 H için 700 L/h, TS 24-15 H için 900 L/h. Aynı değerler dakikada 7,5 / 11,7 / 15 litredir. Basma yüksekliği 45 m veya 55 m, azami sıvı sıcaklığı 60 °C. Ayrıntılı tablo ve seçim notu <a href="/kategoriler/hidrofor-sistemleri/karavan-hidroforu">karavan hidroforu</a> sayfasında.</p>
+HTML,
+        'faq' => [
+            [
+                'q' => 'Troy hidrofor 12 V mi, 24 V mu?',
+                'a' => 'TS 12-8 H ve TS 12-12 H 12 V DC. TS 24-15 H 24 V DC. Pompa gerilimi karavanın akü gerilimiyle aynı olmalıdır.',
+            ],
+            [
+                'q' => 'TS 12-8 H ile TS 12-12 H arasındaki fark nedir?',
+                'a' => 'İkisi de 12 V DC ve 2,6 kg. TS 12-8 H etiketinde 72 W, 6 A, 450 L/h ve 45 m yazar. TS 12-12 H etiketinde 90 W, 7,5 A, 700 L/h ve 55 m yazar.',
+            ],
+            [
+                'q' => 'Troy karavan hidroforu ev hidroforunun yerine geçer mi?',
+                'a' => 'Geçmez. Bu modeller akü gerilimiyle karavan ve tekne temiz suyu içindir. Ev ve apartman tesisatı için <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">hidroforlar</a> kategorisine bakın.',
+            ],
+        ],
+    ],
     // Açıklama, meta ve SSS 2026_09_29_130000 migration'ında; seo:seed-brands yalnızca h1 içeren kaydı atlar.
     'renato' => [
         'h1' => 'Renato Isıtıcı Modelleri ve Fiyatları',

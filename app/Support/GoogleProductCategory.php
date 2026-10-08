@@ -32,6 +32,7 @@ final class GoogleProductCategory
         'ev-tipi-hidroforlar' => 500097,
         'pedrollo-hidrofor' => 500097,
         'sumak-hidrofor' => 500097,
+        'karavan-hidroforu' => 500097,
         'sicak-su-hidroforu' => 500097,
         'yangin-pompalari' => 500097,
         'santrifuj-pompalar-sulama' => 500097,
