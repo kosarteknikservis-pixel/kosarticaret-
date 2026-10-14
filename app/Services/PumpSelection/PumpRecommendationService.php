@@ -43,8 +43,22 @@ class PumpRecommendationService
             default => null,
         };
 
+        $usage = (string) ($inputs['usage'] ?? '');
+        $homeSupply = in_array($usage, ['household', 'garden'], true);
+
         $scored = $candidates->map(function (Product $product) use ($requiredFlow, $requiredHead, $isFan, $config, $building) {
             $specs = $this->extractor->extract($product);
+            $duty = $this->dutyPoint($product, $specs, $requiredFlow, $requiredHead);
+            if ($duty['exclude']) {
+                return [
+                    'product' => $product,
+                    'specs' => $specs,
+                    'score' => 0,
+                    'match_reason' => '',
+                    'fit' => null,
+                ];
+            }
+            $specs = $duty['specs'];
             $score = $this->scoreProduct($product, $specs, $requiredFlow, $requiredHead, $isFan, $config);
             $fit = null;
             if ($building !== null && $score['score'] > 0) {
@@ -60,6 +74,9 @@ class PumpRecommendationService
             ];
         })
             ->filter(fn (array $row) => $row['score'] > 0)
+            ->when($homeSupply, fn (Collection $rows) => $rows->reject(
+                fn (array $row) => $this->extractor->supplyPhase($row['product']) === 'trifaze'
+            ))
             ->sort(fn (array $a, array $b) => [
                 $a['fit'] ?? PHP_INT_MAX, $a['product']->stock > 0 ? 0 : 1, $b['score'], (float) $a['product']->price,
             ] <=> [
@@ -132,6 +149,33 @@ class PumpRecommendationService
     }
 
     /**
+     * Eğri varsa kapalı vana basması değil, istenen debideki basma kullanılır.
+     * Eğri o debiyi karşılamıyorsa ürün elenir.
+     *
+     * @param  array{flow_m3h: ?float, head_m: ?float, power_kw: ?float}  $specs
+     * @return array{exclude: bool, specs: array<string, mixed>}
+     */
+    private function dutyPoint(Product $product, array $specs, float $requiredFlow, float $requiredHead): array
+    {
+        $points = $this->extractor->curvePoints($product);
+        if (count($points) < 2 || $requiredFlow <= 0) {
+            return ['exclude' => false, 'specs' => $specs];
+        }
+
+        $head = $this->extractor->headAtFlow($points, $requiredFlow);
+        $headLow = (float) config('pump_selector.limits.head_tolerance_low', 0.90);
+        if ($head === null || ($requiredHead > 0 && $head < $requiredHead * $headLow)) {
+            return ['exclude' => true, 'specs' => $specs];
+        }
+
+        $specs['head_m'] = $head;
+        $specs['head_source'] = 'egri';
+        $specs['duty_flow'] = $requiredFlow;
+
+        return ['exclude' => false, 'specs' => $specs];
+    }
+
+    /**
      * @param  array{flow_m3h: ?float, head_m: ?float, power_kw: ?float}  $specs
      * @param  array<string, mixed>  $config
      * @return array{score: int, reason: string}
@@ -198,7 +242,9 @@ class PumpRecommendationService
         if ($productHead !== null && $requiredHead > 0) {
             if ($productHead >= $requiredHead * $headLow) {
                 $score += 35;
-                $reasons[] = sprintf('Basma %.0f m', $productHead);
+                $reasons[] = ($specs['head_source'] ?? null) === 'egri'
+                    ? sprintf('%.1f m³/h debide basma %.0f m', $requiredFlow, $productHead)
+                    : sprintf('Basma %.0f m', $productHead);
 
                 if ($productHead > $requiredHead * $oversizeRatio) {
                     $score -= 6;
@@ -294,11 +340,18 @@ class PumpRecommendationService
         $product = $row['product'];
         $specs = $row['specs'];
 
-        $specSummary = array_filter([
-            $specs['flow_m3h'] ? sprintf('Debi: %.1f m³/s', $specs['flow_m3h']) : null,
-            $specs['head_m'] ? sprintf('Basma: %.0f m', $specs['head_m']) : null,
-            $specs['power_kw'] ? sprintf('Güç: %.2f kW', $specs['power_kw']) : null,
-        ]);
+        $specSummary = ($specs['head_source'] ?? null) === 'egri'
+            ? array_filter([
+                isset($specs['duty_flow'], $specs['head_m'])
+                    ? sprintf('%.1f m³/h debide basma: %.0f m', $specs['duty_flow'], $specs['head_m'])
+                    : null,
+                $specs['power_kw'] ? sprintf('Güç: %.2f kW', $specs['power_kw']) : null,
+            ])
+            : array_filter([
+                $specs['flow_m3h'] ? sprintf('Debi: %.1f m³/s', $specs['flow_m3h']) : null,
+                $specs['head_m'] ? sprintf('Basma: %.0f m', $specs['head_m']) : null,
+                $specs['power_kw'] ? sprintf('Güç: %.2f kW', $specs['power_kw']) : null,
+            ]);
 
         return [
             'id' => $product->id,
@@ -311,6 +364,8 @@ class PumpRecommendationService
             'price_formatted' => number_format((float) $product->price, 2, ',', '.').' ₺',
             'in_stock' => $product->stock > 0,
             'brand' => $product->brand?->name,
+            'supply' => $this->extractor->supplyPhase($product),
+            'head_source' => $specs['head_source'] ?? null,
             'spec_summary' => implode(' · ', $specSummary),
             'match_score' => $row['fit'] !== null
                 ? max(50, (int) round(100 - ($row['fit'] - 1) * 30))

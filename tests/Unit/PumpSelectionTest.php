@@ -32,4 +32,16 @@ class PumpSelectionTest extends TestCase
 
         $this->assertSame(30.6, $extractor->parseHead('3 bar'));
     }
+
+    public function test_curve_head_at_requested_flow_and_rejects_flow_past_the_curve(): void
+    {
+        $extractor = new PumpSpecExtractor();
+        $points = [
+            ['flow' => 2.0, 'head' => 90.0],
+            ['flow' => 4.0, 'head' => 70.0],
+        ];
+
+        $this->assertSame(75.0, $extractor->headAtFlow($points, 3.5));
+        $this->assertNull($extractor->headAtFlow($points, 4.1));
+    }
 }

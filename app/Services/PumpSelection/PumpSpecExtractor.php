@@ -53,6 +53,96 @@ class PumpSpecExtractor
     }
 
     /**
+     * Debi–basma eğrisi. Anahtar «1 TON», «2.5 TON» biçimindeyse debi m³/saat, değer basma metre kabul edilir.
+     *
+     * @return list<array{flow: float, head: float}>
+     */
+    public function curvePoints(Product $product): array
+    {
+        $points = [];
+
+        foreach ($this->specEntries($product) as $label => $value) {
+            $labelNorm = str_replace(',', '.', mb_strtolower(trim($label), 'UTF-8'));
+            if (! preg_match('/^([\d.]+)\s*ton\b/u', $labelNorm, $m)) {
+                continue;
+            }
+
+            $head = $this->parseHead($value);
+            if ($head === null) {
+                continue;
+            }
+
+            $points[] = ['flow' => (float) $m[1], 'head' => $head];
+        }
+
+        usort($points, fn (array $a, array $b) => $a['flow'] <=> $b['flow']);
+
+        return $points;
+    }
+
+    /**
+     * İstenen debideki basma. Debi eğrinin son noktasını aşıyorsa pompa o debide su basamaz.
+     *
+     * @param  list<array{flow: float, head: float}>  $points
+     */
+    public function headAtFlow(array $points, float $flow): ?float
+    {
+        if (count($points) < 2) {
+            return null;
+        }
+
+        if ($flow <= $points[0]['flow']) {
+            return $points[0]['head'];
+        }
+
+        $last = $points[array_key_last($points)];
+        if ($flow > $last['flow']) {
+            return null;
+        }
+
+        for ($i = 1, $count = count($points); $i < $count; $i++) {
+            $left = $points[$i - 1];
+            $right = $points[$i];
+            if ($flow > $right['flow']) {
+                continue;
+            }
+
+            $span = $right['flow'] - $left['flow'];
+            if ($span <= 0.0) {
+                return $right['head'];
+            }
+
+            $ratio = ($flow - $left['flow']) / $span;
+
+            return round($left['head'] + (($right['head'] - $left['head']) * $ratio), 1);
+        }
+
+        return null;
+    }
+
+    /**
+     * @return 'monofaze'|'trifaze'|'her_ikisi'|null
+     */
+    public function supplyPhase(Product $product): ?string
+    {
+        $text = mb_strtolower($product->name.' '.implode(' ', $this->specEntries($product)), 'UTF-8');
+        $threePhase = preg_match('/trifaze|üç\s*faz|uc\s*faz|\b380\s*v/u', $text) === 1;
+        $singlePhase = preg_match('/monofaze|tek\s*faz|\b220\s*v|\b230\s*v/u', $text) === 1;
+
+        if ($threePhase && $singlePhase) {
+            return 'her_ikisi';
+        }
+        if ($threePhase) {
+            return 'trifaze';
+        }
+        if ($singlePhase) {
+            return 'monofaze';
+        }
+
+        return null;
+    }
+
+    /**
      * @return array<string, string>
      */
     private function specEntries(Product $product): array

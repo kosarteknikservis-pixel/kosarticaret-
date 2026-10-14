@@ -137,6 +137,7 @@ class SupportAssistantTools
                 'space_m2' => ['type' => 'integer', 'description' => 'Fan için mekân alanı m² (10-5000)'],
                 'height_m' => ['type' => 'integer', 'description' => 'Tavan yüksekliği metre (2-15)'],
                 'usage' => ['type' => 'string', 'enum' => ['household', 'garden', 'agriculture', 'livestock']],
+                'samandira' => ['type' => 'boolean', 'description' => 'Müşteri şamandıra veya şamandıralı şartel isterse true. Derinlik ve usage daha önce verildiyse onları da birlikte gönder.'],
                 'method' => ['type' => 'string', 'enum' => ['sprinkler', 'drip']],
                 'lift' => ['type' => 'string', 'enum' => ['low', 'medium', 'high']],
                 'environment' => ['type' => 'string', 'enum' => ['workshop', 'warehouse', 'kitchen']],
@@ -607,7 +608,7 @@ class SupportAssistantTools
         if ($missing !== []) {
             return [
                 'eksik_bilgi' => array_map(fn (string $field) => $ui['fields'][$field]['label'] ?? $field, $missing),
-                'not' => 'Öneri için bu bilgileri kullanıcıya kısa ve anlaşılır şekilde sor.',
+                'not' => 'Yalnızca bu eksik alanları sor. Sohbette daha önce verilen derinlik, kullanım ve diğer girdileri tekrar sorma; sonraki çağrıda eksiklerle birlikte gönder.',
             ];
         }
 
@@ -628,6 +629,7 @@ class SupportAssistantTools
             'method' => ['nullable', 'string', 'in:sprinkler,drip'],
             'lift' => ['nullable', 'string', 'in:low,medium,high'],
             'environment' => ['nullable', 'string', 'in:workshop,warehouse,kitchen'],
+            'samandira' => ['nullable', 'boolean'],
         ]);
 
         if ($validator->fails()) {
@@ -642,6 +644,19 @@ class SupportAssistantTools
         $requirements = $result['requirements'] ?? [];
 
         $all = collect($result['products'] ?? []);
+        $samandira = filter_var($args['samandira'] ?? false, FILTER_VALIDATE_BOOLEAN);
+        if ($samandira) {
+            $all = $all->filter(fn (array $p) => str_contains(SupportAssistantCatalogSearch::fold((string) ($p['name'] ?? '')), 'samandira'))->values();
+            if ($all->isEmpty()) {
+                return [
+                    'ihtiyac_ozeti' => $requirements['summary'] ?? null,
+                    'gereken_debi_m3h' => $requirements['flow_m3h'] ?? null,
+                    'gereken_basma_m' => $requirements['head_m'] ?? null,
+                    'onerilen_urunler' => [],
+                    'not' => 'Katalogda bu debi ve basma için şamandıralı model yok. Şamandırasız ürünleri şamandıralı diye önerme. handoff_to_human reason=bilgi_yok çağır.',
+                ];
+            }
+        }
         $brands = $all->pluck('brand')->filter()->unique()->values()->all();
         $brand = trim((string) ($args['brand'] ?? ''));
 
@@ -681,6 +696,8 @@ class SupportAssistantTools
                 'stok_durumu' => ! empty($p['in_stock']) ? 'Stokta' : 'Şu an stokta yok',
                 'teknik' => $p['spec_summary'] ?? null,
                 'uygunluk' => $p['match_reason'] ?? null,
+                'elektrik' => $p['supply'] ?? null,
+                'basma_kaynagi' => ($p['head_source'] ?? null) === 'egri' ? 'istenilen_debide' : null,
                 'url' => $p['url'] ?? null,
             ]))->all(),
             'siralama' => $brand !== ''
@@ -692,7 +709,9 @@ class SupportAssistantTools
             'pompa_secici_sayfasi' => route('pump-selector.show'),
             'not' => $products->isEmpty()
                 ? 'Katalogda bu ihtiyaca uygun ürün bulunamadı; teknik ekibe aktarmayı öner.'
-                : 'Bu hesap ön seçimdir; boru çapı, mesafe ve montaj koşulları sonucu değiştirebilir. Kesin seçim için teknik ekiple görüşmeyi öner.',
+                : ($samandira
+                    ? 'Listelenen ürünlerin adında şamandıra geçer. Adında yazmayan özelliği ekleme. Bu hesap ön seçimdir.'
+                    : 'Bu hesap ön seçimdir; boru çapı, mesafe ve montaj koşulları sonucu değiştirebilir. Kesin seçim için teknik ekiple görüşmeyi öner. basma_kaynagi=istenilen_debide ise basma, istenen debi noktasındadır; en yüksek basma değildir. elektrik=trifaze ise ev ve bahçe için önerme. elektrik=her_ikisi ise 220 V monofaze seçilebildiğini söyle.'),
         ], fn ($v) => $v !== null && $v !== []);
     }
 
