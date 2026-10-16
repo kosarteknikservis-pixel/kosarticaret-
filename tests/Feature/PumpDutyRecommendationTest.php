@@ -99,10 +99,71 @@ class PumpDutyRecommendationTest extends TestCase
         $this->assertStringContainsString('şamandıralı model yok', $result['not']);
     }
 
+    #[Test]
+    public function drainage_keeps_prior_answers_and_maps_head_meters_to_lift(): void
+    {
+        $drain = Category::query()->create([
+            'slug' => 'drenaj-dalgic-pompa',
+            'name' => 'Drenaj Dalgıç Pompa',
+            'active' => true,
+        ]);
+        $this->pump('drain-12', 'Sumak Drenaj Pompa 12 m', 'Sumak', [
+            'Maksimum Basma Yüksekliği' => '12 metre',
+            'Debi' => '40 m³/h',
+            'Elektrik' => '220 Volt Monofaze',
+        ])->categories()->sync([$drain->id]);
+
+        $tools = app(SupportAssistantTools::class);
+        $first = $tools->execute('recommend_pump', [
+            'application' => 'drainage',
+            'volume_m3' => 80,
+        ]);
+        $this->assertArrayHasKey('eksik_bilgi', $first);
+        $this->assertArrayHasKey('alinan', $first);
+        $this->assertStringContainsString('düşük', implode(' ', $first['eksik_bilgi']));
+
+        $second = $tools->execute('recommend_pump', [
+            'application' => 'drainage',
+            'drain_hours' => 4,
+            'target_head_m' => 12,
+        ]);
+
+        $this->assertArrayNotHasKey('eksik_bilgi', $second);
+        $this->assertNotEmpty($second['onerilen_urunler'] ?? []);
+        $this->assertStringContainsString('Sumak Drenaj Pompa 12 m', $second['onerilen_urunler'][0]['ad']);
+    }
+
+    #[Test]
+    public function large_drainage_job_hands_off_without_catalog_products(): void
+    {
+        $tools = app(SupportAssistantTools::class);
+
+        $byFlow = $tools->execute('recommend_pump', [
+            'application' => 'drainage',
+            'target_flow_m3h' => 120,
+        ]);
+        $this->assertTrue($byFlow['proje'] ?? false);
+        $this->assertSame([], $byFlow['onerilen_urunler']);
+        $this->assertTrue($tools->handoffRequested());
+        $this->assertSame('teklif_toptan', $tools->handoffReason());
+
+        session()->flush();
+        $tools = app(SupportAssistantTools::class);
+        $byVolume = $tools->execute('recommend_pump', [
+            'application' => 'drainage',
+            'volume_m3' => 800,
+            'drain_hours' => 10,
+            'target_head_m' => 150,
+        ]);
+        $this->assertTrue($byVolume['proje'] ?? false);
+        $this->assertSame([], $byVolume['onerilen_urunler']);
+        $this->assertStringContainsString('search_products', $byVolume['not']);
+    }
+
     /**
      * @param  array<string, string>  $specs
      */
-    private function pump(string $slug, string $name, string $brand, array $specs): void
+    private function pump(string $slug, string $name, string $brand, array $specs): Product
     {
         $brandModel = Brand::query()->firstOrCreate(
             ['slug' => strtolower($brand)],
@@ -119,6 +180,8 @@ class PumpDutyRecommendationTest extends TestCase
             'specs' => $specs,
         ]);
         $product->categories()->attach($this->well->id);
+
+        return $product;
     }
 
     /**

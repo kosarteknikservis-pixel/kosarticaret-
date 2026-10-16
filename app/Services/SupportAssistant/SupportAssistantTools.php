@@ -29,6 +29,8 @@ class SupportAssistantTools
 
     private const MAX_CARDS = 4;
 
+    private const PUMP_DRAFT_KEY = 'support_assistant.pump_draft';
+
     /** @var array<string, array<string, mixed>> */
     private array $cards = [];
 
@@ -122,24 +124,26 @@ class SupportAssistantTools
                 'order_number' => ['type' => 'string'],
                 'email' => ['type' => 'string'],
             ], ['order_number', 'email']),
-            $this->fn('recommend_pump', 'Kullanım senaryosuna göre debi/basma ihtiyacını hesaplar ve katalogdan uygun pompa/fan önerir. Eksik bilgi dönerse kullanıcıya sor.', [
-                'application' => ['type' => 'string', 'enum' => $applications, 'description' => 'hydrofor_apartment: apartman hidroforu, hydrofor_villa: müstakil ev/villa, submersible_well: derin kuyu, jet_shallow: sığ kuyu/depo emişli, drainage: drenaj/su tahliyesi, septic: foseptik, irrigation: bahçe/tarla sulama, circulation: kalorifer sirkülasyon, industrial_fan: sanayi fanı'],
+            $this->fn('recommend_pump', 'Kullanım senaryosuna göre debi/basma ihtiyacını hesaplar ve katalogdan uygun pompa/fan önerir. Önceki çağrıdaki alanlar sistemde saklanır; yeni mesajda yalnızca yeni veya değişen alanları gönder. Eksik bilgi dönerse yalnız onları sor. Debi tek başına amaç değildir; sulama varsayma. Büyük işte proje aktarımı döner; search_products ile küçük pompa gösterme.', [
+                'application' => ['type' => 'string', 'enum' => $applications, 'description' => 'hydrofor_apartment: apartman hidroforu, hydrofor_villa: müstakil ev/villa, submersible_well: derin kuyu, jet_shallow: sığ kuyu/depo emişli, drainage: drenaj/su tahliyesi, septic: foseptik, irrigation: bahçe/tarla sulama, circulation: kalorifer sirkülasyon, industrial_fan: sanayi fanı. Amaç belli değilse uydurma.'],
                 'apartments' => ['type' => 'integer', 'description' => 'Daire sayısı (1-500)'],
                 'floors' => ['type' => 'integer', 'description' => 'Kat sayısı (1-40)'],
                 'bathrooms' => ['type' => 'integer', 'description' => 'Banyo sayısı (1-20)'],
                 'depth' => ['type' => 'integer', 'description' => 'Kuyu derinliği / su seviyesi metre (1-200)'],
                 'suction_depth' => ['type' => 'integer', 'description' => 'Emiş derinliği metre (1-8)'],
-                'volume_m3' => ['type' => 'integer', 'description' => 'Boşaltılacak su hacmi m³ (1-500)'],
+                'volume_m3' => ['type' => 'integer', 'description' => 'Boşaltılacak su hacmi m³. 500 üstü proje aktarımına gider.'],
                 'drain_hours' => ['type' => 'integer', 'description' => 'Boşaltma süresi saat (1-24)'],
                 'distance' => ['type' => 'integer', 'description' => 'Basma mesafesi metre (5-100)'],
                 'area_m2' => ['type' => 'integer', 'description' => 'Sulama alanı m² (50-50000)'],
                 'heated_area_m2' => ['type' => 'integer', 'description' => 'Isıtılan alan m² (40-2000)'],
                 'space_m2' => ['type' => 'integer', 'description' => 'Fan için mekân alanı m² (10-5000)'],
-                'height_m' => ['type' => 'integer', 'description' => 'Tavan yüksekliği metre (2-15)'],
+                'height_m' => ['type' => 'integer', 'description' => 'Tavan yüksekliği metre (2-15); drenaj basması değildir'],
                 'usage' => ['type' => 'string', 'enum' => ['household', 'garden', 'agriculture', 'livestock']],
                 'samandira' => ['type' => 'boolean', 'description' => 'Müşteri şamandıra veya şamandıralı şartel isterse true. Derinlik ve usage daha önce verildiyse onları da birlikte gönder.'],
                 'method' => ['type' => 'string', 'enum' => ['sprinkler', 'drip']],
-                'lift' => ['type' => 'string', 'enum' => ['low', 'medium', 'high']],
+                'lift' => ['type' => 'string', 'enum' => ['low', 'medium', 'high'], 'description' => 'Drenaj basması: low ≤8 m, medium ~12 m, high ~18 m. Metre diye sorma; müşteri metre verdiyse target_head_m gönder.'],
+                'target_flow_m3h' => ['type' => 'number', 'description' => 'Müşterinin istediği debi m³/saat veya ton/saat. 50 ve üzeri proje aktarımına gider.'],
+                'target_head_m' => ['type' => 'integer', 'description' => 'Müşterinin metre olarak söylediği basma yüksekliği. Drenajda 30 üstü proje; 30 ve altı lift seviyesine çevrilir.'],
                 'environment' => ['type' => 'string', 'enum' => ['workshop', 'warehouse', 'kitchen']],
                 'brand' => ['type' => 'string', 'description' => 'Yalnızca müşteri bir marka tercih ettiğinde: marka adı (isteğe bağlı)'],
             ], ['application']),
@@ -596,10 +600,23 @@ class SupportAssistantTools
      */
     private function recommendPump(array $args): array
     {
+        $args = $this->mergePumpDraft($args);
         $applications = array_keys(config('pump_selector.applications', []));
         $application = (string) ($args['application'] ?? '');
         if (! in_array($application, $applications, true)) {
-            return ['hata' => 'Kullanım senaryosu belirsiz. Kullanıcıya pompayı nerede kullanacağını sor.'];
+            return [
+                'hata' => 'Kullanım senaryosu belirsiz. Kullanıcıya pompayı nerede kullanacağını sor.',
+                'not' => 'Debi veya ton/saat tek başına amaç değildir. Sulama varsayma. Amaç tahliye/drenaj ise application=drainage.',
+            ];
+        }
+
+        if ($application === 'drainage') {
+            $args = $this->normalizeDrainageLift($args);
+            session()->put(self::PUMP_DRAFT_KEY, $args);
+        }
+
+        if ($reason = $this->pumpProjectScale($args)) {
+            return $this->pumpProjectHandoff($reason, $args);
         }
 
         $ui = PumpSelectorUiConfig::clientConfig();
@@ -607,8 +624,9 @@ class SupportAssistantTools
         $missing = array_values(array_filter($required, fn (string $field) => ! isset($args[$field]) || $args[$field] === ''));
         if ($missing !== []) {
             return [
-                'eksik_bilgi' => array_map(fn (string $field) => $ui['fields'][$field]['label'] ?? $field, $missing),
-                'not' => 'Yalnızca bu eksik alanları sor. Sohbette daha önce verilen derinlik, kullanım ve diğer girdileri tekrar sorma; sonraki çağrıda eksiklerle birlikte gönder.',
+                'eksik_bilgi' => array_map(fn (string $field) => $this->pumpMissingAsk($field, $ui), $missing),
+                'alinan' => $this->pumpKnownSummary($args, $ui),
+                'not' => 'Yalnızca eksik_bilgi maddelerini sor. alinan alanları tekrar sorma. Drenajda basmayı metre diye sorma; düşük/orta/yüksek sor. Debiden sulama uydurma. search_products ile açık sayfadaki küçük pompaları gösterme.',
             ];
         }
 
@@ -633,10 +651,7 @@ class SupportAssistantTools
         ]);
 
         if ($validator->fails()) {
-            return [
-                'hata' => 'Değerler hesaplama aralığının dışında: '.implode(' ', $validator->errors()->all()),
-                'not' => 'Bu büyüklükte proje için teknik ekibe aktarmayı (handoff_to_human, reason=teklif_toptan) öner.',
-            ];
+            return $this->pumpProjectHandoff('hesap aralığı dışı: '.implode(' ', $validator->errors()->all()), $args);
         }
 
         $inputs = collect($validator->validated())->filter(fn ($v) => $v !== null)->all();
@@ -708,11 +723,166 @@ class SupportAssistantTools
             'kategori_url' => $result['category_url'] ?? null,
             'pompa_secici_sayfasi' => route('pump-selector.show'),
             'not' => $products->isEmpty()
-                ? 'Katalogda bu ihtiyaca uygun ürün bulunamadı; teknik ekibe aktarmayı öner.'
+                ? 'Katalogda bu ihtiyaca uygun ürün bulunamadı; teknik ekibe aktarmayı öner. search_products ile uymayan küçük pompa gösterme.'
                 : ($samandira
                     ? 'Listelenen ürünlerin adında şamandıra geçer. Adında yazmayan özelliği ekleme. Bu hesap ön seçimdir.'
                     : 'Bu hesap ön seçimdir; boru çapı, mesafe ve montaj koşulları sonucu değiştirebilir. Kesin seçim için teknik ekiple görüşmeyi öner. basma_kaynagi=istenilen_debide ise basma, istenen debi noktasındadır; en yüksek basma değildir. elektrik=trifaze ise ev ve bahçe için önerme. elektrik=her_ikisi ise 220 V monofaze seçilebildiğini söyle.'),
         ], fn ($v) => $v !== null && $v !== []);
+    }
+
+    /**
+     * @param  array<string, mixed>  $args
+     * @return array<string, mixed>
+     */
+    private function mergePumpDraft(array $args): array
+    {
+        $draft = (array) session(self::PUMP_DRAFT_KEY, []);
+        $incomingApp = trim((string) ($args['application'] ?? ''));
+        $draftApp = trim((string) ($draft['application'] ?? ''));
+
+        if ($incomingApp !== '' && $draftApp !== '' && $incomingApp !== $draftApp) {
+            $draft = [];
+        }
+
+        $merged = $draft;
+        foreach ($args as $key => $value) {
+            if ($value === null || $value === '') {
+                continue;
+            }
+            $merged[$key] = $value;
+        }
+
+        if ($incomingApp !== '') {
+            $merged['application'] = $incomingApp;
+        }
+
+        session()->put(self::PUMP_DRAFT_KEY, $merged);
+
+        return $merged;
+    }
+
+    /**
+     * @param  array<string, mixed>  $args
+     * @return array<string, mixed>
+     */
+    private function normalizeDrainageLift(array $args): array
+    {
+        if (isset($args['lift']) && is_numeric($args['lift'])) {
+            $args['target_head_m'] = (int) $args['lift'];
+            unset($args['lift']);
+        }
+
+        if (! isset($args['target_head_m']) || $args['target_head_m'] === '' || isset($args['lift'])) {
+            return $args;
+        }
+
+        $head = (int) $args['target_head_m'];
+        if ($head <= 0) {
+            return $args;
+        }
+        if ($head > 30) {
+            return $args;
+        }
+
+        $args['lift'] = match (true) {
+            $head <= 8 => 'low',
+            $head <= 15 => 'medium',
+            default => 'high',
+        };
+
+        return $args;
+    }
+
+    /**
+     * @param  array<string, mixed>  $args
+     */
+    private function pumpProjectScale(array $args): ?string
+    {
+        $volume = (int) ($args['volume_m3'] ?? 0);
+        $hours = (int) ($args['drain_hours'] ?? 0);
+        $flow = (float) ($args['target_flow_m3h'] ?? 0);
+        $head = (int) ($args['target_head_m'] ?? 0);
+        $depth = (int) ($args['depth'] ?? 0);
+
+        if ($flow >= 50) {
+            return sprintf('istenilen debi %.0f m³/saat', $flow);
+        }
+        if ($volume > 500) {
+            return sprintf('tahliye hacmi %d m³', $volume);
+        }
+        if ($volume > 0 && $hours > 0 && ($volume / $hours) >= 50) {
+            return sprintf('%d m³ / %d saat ≈ %.0f m³/saat', $volume, $hours, $volume / $hours);
+        }
+        if (($args['application'] ?? '') === 'drainage' && $head > 30) {
+            return sprintf('drenaj basması %d m', $head);
+        }
+        if ($depth > 200) {
+            return sprintf('kuyu derinliği %d m', $depth);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  array<string, mixed>  $args
+     * @return array<string, mixed>
+     */
+    private function pumpProjectHandoff(string $reason, array $args): array
+    {
+        $summary = trim(sprintf(
+            'Pompa proje talebi (%s). Amaç: %s. Hacim: %s. Süre: %s. Debi: %s. Basma: %s.',
+            $reason,
+            (string) ($args['application'] ?? 'belirsiz'),
+            isset($args['volume_m3']) ? $args['volume_m3'].' m³' : 'yok',
+            isset($args['drain_hours']) ? $args['drain_hours'].' saat' : 'yok',
+            isset($args['target_flow_m3h']) ? $args['target_flow_m3h'].' m³/saat' : 'yok',
+            isset($args['target_head_m']) ? $args['target_head_m'].' m' : 'yok',
+        ));
+
+        $handoff = $this->handoff($summary, 'teklif_toptan');
+
+        return [
+            'proje' => true,
+            'neden' => $reason,
+            'onerilen_urunler' => [],
+            'aktarim_hazir' => $handoff['aktarim_hazir'] ?? false,
+            'telefon' => $handoff['telefon'] ?? null,
+            'not' => 'Bu ölçek katalog ön seçiminin dışında. Müşteriye kısa söyle: ihtiyacı teknik ekibin değerlendireceğini belirt. search_products ile kademeli veya küçük pompa gösterme. WhatsApp aktarım butonu arayüzde çıkacak.',
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $ui
+     */
+    private function pumpMissingAsk(string $field, array $ui): string
+    {
+        return match ($field) {
+            'lift' => 'Basma yüksekliği düşük (≤8 m), orta (~12 m) veya yüksek (~18 m) mü? Metre diye sorma; 30 m üstü için proje aktarımı gerekir.',
+            'volume_m3' => 'Boşaltılacak su hacmi kaç m³? (500 m³ üstü proje aktarımı)',
+            'drain_hours' => 'Bu hacmi kaç saatte boşaltmak istiyorsunuz?',
+            'usage' => 'Kullanım: ev, bahçe, tarım veya hayvancılık mı?',
+            default => (string) ($ui['fields'][$field]['label'] ?? $field),
+        };
+    }
+
+    /**
+     * @param  array<string, mixed>  $args
+     * @param  array<string, mixed>  $ui
+     * @return array<string, mixed>
+     */
+    private function pumpKnownSummary(array $args, array $ui): array
+    {
+        $keys = ['application', 'volume_m3', 'drain_hours', 'lift', 'depth', 'usage', 'target_flow_m3h', 'target_head_m', 'samandira', 'area_m2', 'method', 'apartments', 'floors', 'bathrooms', 'distance'];
+        $out = [];
+        foreach ($keys as $key) {
+            if (! array_key_exists($key, $args) || $args[$key] === null || $args[$key] === '') {
+                continue;
+            }
+            $label = $ui['fields'][$key]['label'] ?? $key;
+            $out[$label] = $args[$key];
+        }
+
+        return $out;
     }
 
     /**
