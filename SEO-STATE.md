@@ -1,8 +1,16 @@
-# SEO panosu — 2026-10-07
+# SEO panosu — 2026-10-23
 
-Kısa durum. Ayrıntı `raporlar/SEO-KARAR-DEFTERI.md` ve `raporlar/icerik/`.
+23 Ekim: W43 iki iş yayında. Yayın `6d6391f`, iş akışı [39920169716](https://github.com/kosarteknikservis-pixel/kosarticaret-/actions/runs/39920169716). Sayfalar: `/kategoriler/su-pompalari`, `/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi`. Ölçüm 13 Kas 2026. Plan: `raporlar/icerik/haftalik/2026-W43.md`.
 
-Ürün etiketleri 7 Eki akşamı taslak olarak canlıda. Yayın `16e031f`. Index yok, sitemap yok, herkese açık `/koleksiyon/...` 404. Bu iş indexli sayfanın sırasını ölçmez ve hidroforlar kategorisinin 18 Kas okumasını uzatmaz.
+Baz (GSC TR 25 Eyl–22 Eki): 604 tık, 33.575 gösterim, sıra 9,0. Labs aynı gün: 84 kelime / ilk 10’da 13; kampa 1.770 / 729.
+
+9 Ekim: dış mekân ısıtıcı başlık denemesi onaylandı. Sayfa bugün aynı. Uygulama 20 Ekim 2026, tek dokunuş. Ölçüm 10 Kasım 2026. Ayrıntı `raporlar/SEO-KARAR-DEFTERI.md`.
+
+8 Ekim, canlı: Karavan Hidroforu, Troy markası, üç ürün. Yayın `f9dff60`. Ölçüm 29 Ekim 2026.
+
+## 7 Ekim kaydı
+
+Kısa durum. Ayrıntı `raporlar/SEO-KARAR-DEFTERI.md` ve `raporlar/icerik/`. 7 Ekim kaydıyla siteye ve canlıya dokunulmadı.
 
 ## Bugün
 
@@ -27,6 +35,7 @@ GA4 bu kayıtta çekilmedi. kosarticaret mülkü `482446325`. `539006843` kosarg
 | Marka sayfaları, kategori metinleri, ürün başlık/açıklama, 1.371 ürünlük düzeltme | 29 Eyl | 20 Eki |
 | İki blog (bağlantı şeması, basınç ayarı), kategori dalga 9–10, 127 ürün teknik tablo | 30 Eyl | 21 Eki |
 | Hidrofor sürekli çalışıyor yazısı | 7 Eki | 28 Eki |
+| Su pompaları kategori + kuyu seçim blog (W43) | 23 Eki | 13 Kas |
 
 Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı uzatmaz.
 
@@ -35,15 +44,16 @@ Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı
 | İş | Ölçüm günü | Sonuç |
 |---|---|---|
 | 24–30 Eylül sayfa işleri | 15–21 Eki | Pencere açık. Sonuç yok. |
-| sumak pompa sırası | 14–16 Eki, yalnız okuma | 27 Eyl ortalama sıra günlükte 40, kural 12’de 41. Yeni sayı yok. |
+| sumak pompa sırası | 14 Eki okundu | İlk sayfada yok. Ayrıntı defterde. 18 Eki penceresi duruyor. |
 | Merchant tanılaması | Akış yayınından 2–3 gün sonra (9–10 Eki) | Akış `e98a3ea` ile canlı. Tanılama sonucu yok. |
+| W43 su pompaları + kuyu seçim | 13 Kas 2026 | Boş. Canlı kontrol 23 Eki OK. |
 
 ## Sıradaki 5 iş
 
-1. Akış kategori kimliği — canlıda. Sumak SDF/SDT altı ürün `500102`. Kimliksiz yok.
-2. 14–16 Eki — sumak pompa, yalnız Search Console.
-3. 15–21 Eki — yukarıdaki pencerelerin sonucunu deftere yaz. O sayfalara sonuç yazılmadan yeni cümle yok.
-4. Hidrofor sürekli çalışıyor yazısı 7 Eki yayında. Ölçüm 28 Eki. Cuma işi derin kuyu seçimi, hâlâ beklemede.
-5. Çakışma birleştirme planı duruyor. Uygulama yok. En büyük küme hidrofor yazıları.
+1. 13 Kas — W43 iki sayfanın ölçümünü deftere yaz; o güne kadar dokunuş yok.
+2. 15–21 Eki pencerelerinin sonucunu deftere yaz; sonuç yokken o sayfalara yeni cümle yok.
+3. Hidrofor sürekli çalışıyor — ölçüm 28 Eki.
+4. 28 Eki: hidroforlar kategori + 1 HP dalgıç etiket («aç» şart).
+5. sumak pompa — 23 Eki canlı ilk 10’da yok; marka işi kategori diliminden sonra.
 
 Malzeme bekleyen ürün değerleri: `raporlar/icerik/MALZEME-ISTEK.md`.

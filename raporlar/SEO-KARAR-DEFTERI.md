@@ -164,15 +164,66 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Ölçüm tarihi:** 28 Eki 2026.
 - **Sonuç:** canlı 200. Canonical `https://kosarticaret.com/blog/hidrofor-surekli-calisyor-sebepler-cozum`. robots `index, follow`. Beş SSS hem sayfada hem BlogPosting gövdesinde. Ayrı FAQ şeması yok. Eski «7 Olası Sebep» başlığı yok.
 
-## 2026-10-07 · ürün etiketleri taslak yayında
+## 2026-10-08 · Troy karavan hidroforu, yerel katalog
 
-- **Sayfa:** beş taslak. Herkese açık adres yok. `/koleksiyon/1-hp-hidrofor`, `/koleksiyon/3-hp-hidrofor`, `/koleksiyon/1-hp-dalgic-pompa`, `/koleksiyon/2-hp-dalgic-pompa`, `/koleksiyon/monofaze-dalgic-pompa`.
-- **Ne değişti:** etiketler taslak kaldı. Sitemap’e girmedi. Ürün sayfasına etiket linki çıkmadı. Ürün özellik değerleri ve teknik tablo yazılmadı. Monofaze listesi, taslak önizlemede gerçek kategori adıyla gruplanır. Sayfa herkese kapalı olduğu için bu grup canlıda görünmez.
-- **Yayın:** `16e031f`. İş akışı [37641284191](https://github.com/kosarteknikservis-pixel/kosarticaret-/actions/runs/37641284191). Migration `2026_10_07_170000_create_collections_tables` 3 sn DONE.
-- **Canlı kontrol, 7 Eki 2026:** beş adres ve monofaze `?page=2` 404. Yayından önce `/yonetim/koleksiyonlar` 404 idi; yayından sonra girişe 302. Önizleme adresi de girişe 302. `https://kosarticaret.com/sitemap.xml` 200, gövdede koleksiyon yok.
-- **Ürün sayfası:** `https://kosarticaret.com/urun/winpo-qdp-400-a-flatorlu-drenaj-dalgic-pompa-7mss-72m3h-monofaze220v`. Başlık, canonical, robots `index, follow`, H1 ve Motor Gücü aynı. `koleksiyon` geçmiyor. İç linkler aynı. Fark oturum jetonu, derlenen dosya sürümü ve liste kapanışındaki boşluk.
-- **Baz:** indexlenen URL değişmedi. Sıra sayısı yok. Bu kayıt sıra penceresi değil.
-- **Ölçüm tarihi:** yok. Index ayrı onay. Hidroforlar kategorisinin 18 Kas okuması duruyor.
-- **Sonuç:** taslak canlıda. Google’a açık değil.
+- **Sayfa:** yeni. `/kategoriler/hidrofor-sistemleri/karavan-hidroforu`. Marka `/marka/troy`. Ürünler `/urun/troy-ts-12-8-h-12v-karavan-hidroforu`, `/urun/troy-ts-12-12-h-12v-karavan-hidroforu`, `/urun/troy-ts-24-15-h-24v-karavan-hidroforu`.
+- **Ne değişti:** Hidrofor Sistemleri altında kategori, Troy markası ve üç ürün. Hidroforlar sayfasının metni değişmedi. Menü ve kardeş listede «Karavan Hidroforu» linki çıktı. Ürünler hidroforlar ızgarasına eklenmedi.
+- **Veri:** DataForSEO Labs, Türkiye, `tr`, hacim güncellemesi 12–17 Eylül 2026. `karavan hidroforu` 720, satın alma. `12 volt hidrofor` 720, satın alma. `karavan hidroforu fiyatları` 210, ticari. `24 volt hidrofor` 140. `troy hidrofor` ve `12 ve 24 volt hidrofor` Labs kaydında yok. Search Console `https://kosarticaret.com/`, `karavan` 10 Eylül–5 Ekim 2026 ve `12 volt` 8 Haziran 2025–5 Ekim 2026: satır yok.
+- **Öncesi:** kategoride Troy yok, karavan hidroforu yok. 12 V geçen tek aktif ürün Sumak STNF750G sintine pompası.
+- **Fiyat:** 8 Ekim 2026 Kampa rafı, KDV dahil satış / liste. TS 12-8 H 6.510,40 / 8.680,53 TL. TS 12-12 H 6.844,02 / 9.125,36 TL. TS 24-15 H 7.166,68 / 9.555,58 TL.
+- **Teknik:** debi ve basma, pompa etiketindeki Q max ve H max. 450 L/h ve 45 m, 700 L/h ve 55 m, 900 L/h ve 55 m. Bar ve psi yazılmadı. Stok adedi 1; depo sayımı değil.
+- **Baz:** bu sayfalarda Search Console gösterimi yok. Canlıdan önce satır yoktu.
+- **Ölçüm tarihi:** 29 Ekim 2026.
+- **Sonuç:** 8 Ekim 2026 canlı. Yayın `f9dff60`. Kategori, marka ve TS 12-8 H sayfası 200. Canonical `https://kosarticaret.com/...`. robots `index, follow`. Kategori H1 «Karavan Hidroforu Fiyatları ve Modelleri». Ürün H1 «Troy TS 12-8 H 12 V Karavan Hidroforu». Fiyat 6.510,40 TL, stok şeması InStock. Görsel 200. Marka başlığı «Troy Karavan Hidroforu». Marka H1 önbelleği deploy sırasında kısa süre eski başlığı tuttu; önbelleksiz istek doğru H1’i verdi.
+
+## 2026-10-09 · dış mekân ısıtıcı, başlık denemesi onaylandı
+
+- **Sayfa:** `/kategoriler/isitma-sistemleri/elektrikli-isiticilar/dis-mekan-isiticilar`. Slug, H1 ve canonical aynı kalacak.
+- **Ne değişecek (20 Ekim 2026, tek dokunuş):** meta başlık «Dış Mekân Isıtıcı Modelleri | Elektrikli Infrared». İlk cümle, sayfadaki modellerin elektrikli infrared olduğunu ve tüplü soba satılmadığını söyleyecek. Karşılaştırma tablosundaki «Twin seriler» satırı kalkacak; katalogda Twin yok. Marka sayfası ve Tower Pro 3000W aynı kalacak.
+- **Bugün:** sayfa değişmedi. 29 Eylül kategori metinlerinin penceresi 20 Ekim’de bitiyor.
+- **Öncesi, canlı başlık:** «Dış Mekân Infrared Isıtıcı Modelleri | Kafe & Teras | Kosar Ticaret». H1: «Dış Mekân Isıtıcılar Fiyatları ve Modelleri».
+- **Baz, Search Console `https://kosarticaret.com/`, web, 8 Eylül–5 Ekim 2026:** «dış mekan ısıtıcı» bu URL, 23 gösterim, 0 tık, ortalama sıra 31,6. «dış mekan ısıtıcıları» 22 gösterim, 0 tık, sıra 32,6. «dış ortam ısıtıcı» 17 gösterim, 0 tık, sıra 42,1.
+- **Veri, 8 Ekim 2026:** DataForSEO Labs, Türkiye, `tr`. «dış mekan ısıtıcı» aylık ortalama 3.600, satın alma; Ekim 2025’te 6.600, Aralık 2025’te 14.800. Aynı gün masaüstü SERP: ilk sonuç tüplü soba kategorisi. kosarticaret.com bu çekimin ilk onunda yok. «infrared ısıtıcı» ayrı sonuç; ilk onda Koçtaş, Kumtel, UFO, Akakçe. «ardonat ısıtıcı» ilk onunda yok; marka sayfası Search Console’da 21 gösterim, 5 tık, ortalama sıra 10,7.
+- **Raf:** yerel katalogda 3 aktif Ardonat. Twin ve Inox yok. Ürün eklenmedi.
+- **Ölçüm tarihi:** yayından 21 gün sonra, 10 Kasım 2026. Aralık hacmi bu pencerenin dışında.
+- **Sonuç:** boş. Uygulama 20 Ekim 2026.
+
+## 2026-10-14 · sumak pompa, yalnız okuma
+
+- **Sayfa:** `/marka/sumak`. Dokunulmadı.
+- **Search Console** `https://kosarticaret.com/`, web, sorgu `sumak pompa`:
+  - 16 Eyl–12 Eki 2026: yalnız `/marka/sumak`. 21 gösterim, 2 tık, ortalama sıra 44,8.
+  - 14 Haz 2025–12 Eki 2026: `/marka/sumak` 137 gösterim, 33 tık, ortalama sıra 41,7. Blog `sumak-pompa-marka-rehberi` 2 gösterim, 0 tık, sıra 62.
+- **DataForSEO** canlı SERP, 14 Eki 2026, Türkiye, Türkçe, masaüstü. İlk organik onda kosarticaret.com yok. Sıra: sumakpompa.com, Instagram, kampa.com.tr/marka/sumak, Facebook, Şikayetvar, sumakpompakocaeli.com.
+- **Aylık sıra, aynı sorgu, gösterim ağırlıklı:** Haziran 2026’dan önce gösterim yok. Haziran 44,4 (30 gösterim), Temmuz 45,2 (26), Ağustos 37,9 (40), Eylül 40,9 (34), 1–12 Ekim 46,7 (9 gösterim, ay bitmedi).
+- **DataForSEO backlink, 14 Eki 2026:** `/marka/sumak` ve `kampa.com.tr/marka/sumak` sayfalarında kayıtlı dış link yok. Alan adı: kosarticaret.com sıra puanı 241, yönlendiren alan adı 1.299, ilk görülme 26 Eki 2024, backlink spam skoru 38. kampa.com.tr puan 292, yönlendiren alan adı 173, ilk görülme 20 Şub 2022, spam skoru 5. sumakpompa.com puan 251, yönlendiren alan adı 1.471, ilk görülme 27 Oca 2021, spam skoru 34.
+- **Hedef:** Sumak’ın kendi sitesi değil. 14 Eki canlı sonuçta Kampa’nın `/marka/sumak` sayfası organik 3. sırada. Aynı gün iki sayfa okundu: kosarticaret sayfasında seri tablosu, fiyatlı modeller ve beş SSS var. Kampa sayfasında ürün ızgarası ve genel tanım paragrafları var. Metin kısalığı Kampa lehine bir fark değil.
+- **Spam skoru:** DataForSEO `backlinks_spam_score` 38, sitenin kendi `target_spam_score` değeri 16. En yüksek alan adları 60–75: `dasitechecker.site`, `web20backlinks.store`, `webseochecker.site` ve benzeri. Bir kısmı 6–13 Eki 2026’da ilk kez görülmüş. Bu sayı Search Console’da bir ayar değil. Disavow dosyası DataForSEO sayısını düşürmez. Manuel işlem kaydı bu bakışta yok.
+
+## 2026-10-23 · W43 rutin + iki taslak
+
+- **Ne değişti:** siteye dokunulmadı. Haftalık plan `raporlar/icerik/haftalik/2026-W43.md`. Taslaklar: `raporlar/icerik/taslak/2026-W43-su-pompalari.md`, `blog-drafts/kuyu-dalgic-pompa-secimi-derinlik-rehberi.md`.
+- **Sayfalar (yayınlanınca):** `/kategoriler/su-pompalari` — fiyat bandı + tek/çift fanlı/salyangoz linki; H1/slug aynı. `/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi` — seçim gövdesi güçlendirilir; ticari kelime kategoride kalır.
+- **Baz, Search Console TR 25 Eyl–22 Eki 2026:** site 604 tık, 33.575 gösterim, sıra 9,0. Su pompaları URL 1 gösterim. Blog hedef sorgu «derin kuyu dalgıç pompa seçimi» 118 gösterim, 3 tık, sıra 11,4 (8 Haz 2025–22 Eki).
+- **Labs 23 Eki:** kosarticaret 84 kelime / 13 ilk 10; kampa 1.770 / 729.
+- **Ölçüm tarihi:** her sayfa için «yayınla» sonrası 21 gün. Sonuç boş.
+
+## 2026-10-23 · W43 su pompaları kategori yayında
+
+- **Sayfa:** `/kategoriler/su-pompalari`. Slug ve H1 aynı.
+- **Ne değişti:** gövdede raftan fiyat bandı (~2.770–603.550 TL, aksesuar hariç, 23 Eki) ve tek fanlı / çift fanlı / salyangoz iç linkleri. Migration `2026_10_23_100000_update_su_pompalari_price_band_and_links.php`.
+- **Baz:** Search Console TR 25 Eyl–22 Eki, bu URL 1 gösterim. Labs/SERP: «su pompası» ilk 10’da kampa, biz yok.
+- **Yayın:** `6d6391f`. İş akışı [39920169716](https://github.com/kosarteknikservis-pixel/kosarticaret-/actions/runs/39920169716).
+- **Ölçüm tarihi:** 13 Kas 2026.
+- **Sonuç:** canlı 200. Canonical `https://kosarticaret.com/kategoriler/su-pompalari`. robots `index, follow`. H1 «Su Pompaları Fiyatları ve Modelleri». Fiyat bandı ve fan linkleri görünür. SSS + FAQPage mevcut.
+
+## 2026-10-23 · W43 kuyu seçim blog yayında
+
+- **Sayfa:** `/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi`. Slug değişmedi.
+- **Ne değişti:** seçim gövdesi, GEO kısa cevap, SSS güçlendirildi. Ticari «derin kuyu dalgıç pompa» katalogda kaldı. Blog kuyruğu `11-kuyu-dalgic-pompa-secimi.json` + geçici `force_update` (yayın sonrası kapatıldı).
+- **Baz:** Search Console 8 Haz 2025–22 Eki, «derin kuyu dalgıç pompa seçimi» 118 gösterim, 3 tık, sıra 11,4.
+- **Yayın:** `6d6391f`, blog aktar açık. Aynı iş akışı.
+- **Ölçüm tarihi:** 13 Kas 2026.
+- **Sonuç:** canlı 200. Canonical `https://kosarticaret.com/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi`. robots `index, follow`. H1 seçim rehberi. Görünen SSS ile FAQPage birlikte.
 
 
