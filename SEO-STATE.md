@@ -1,6 +1,6 @@
 # SEO panosu — 2026-10-23
 
-23 Ekim: W43 iki iş yayında. Yayın `6d6391f`, iş akışı [39920169716](https://github.com/kosarteknikservis-pixel/kosarticaret-/actions/runs/39920169716). Sayfalar: `/kategoriler/su-pompalari`, `/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi`. Ölçüm 13 Kas 2026. Plan: `raporlar/icerik/haftalik/2026-W43.md`.
+23 Ekim: hidroforlar kategori yayında. Yayın `955fbe0`, iş akışı [40022304794](https://github.com/kosarteknikservis-pixel/kosarticaret-/actions/runs/40022304794). Sayfa: `/kategoriler/hidrofor-sistemleri/hidroforlar`. Ölçüm 13 Kas 2026. Aynı gün W43: `6d6391f` / [39920169716](https://github.com/kosarteknikservis-pixel/kosarticaret-/actions/runs/39920169716).
 
 Baz (GSC TR 25 Eyl–22 Eki): 604 tık, 33.575 gösterim, sıra 9,0. Labs aynı gün: 84 kelime / ilk 10’da 13; kampa 1.770 / 729.
 

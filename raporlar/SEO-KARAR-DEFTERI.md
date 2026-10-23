@@ -234,6 +234,7 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Rakip kanıt (23 Eki 2026):** DataForSEO SERP Türkiye — 1. sayfa Trendyol/Akakçe/Kampa tipi; Meran kategori ~19. sıra, title «Hidrofor Fiyatları…». Kampa H1 «Hidrofor Fiyatları». Ads hacim «hidrofor fiyatları» ~12.100, HIGH.
 - **Baz, Search Console `https://kosarticaret.com/`, TR:** bu URL + sorgu «hidrofor fiyatları» — 25 Tem–22 Eki: 4 gösterim, 2 tık, sıra 42,5. Daha geniş aralıkta 5 gösterim, 3 tık, sıra 43.
 - **Ölçüm tarihi:** 13 Kasım 2026 (21 gün). Hedef: sahip sayfada gösterim ve sıra; 1. sayfa pazaryeri vaadi yok.
-- **Sonuç:** boş. Deploy sonrası canlı kontrol: H1, meta, CTA, SSS.
+- **Yayın:** `955fbe0`. İş akışı [40022304794](https://github.com/kosarteknikservis-pixel/kosarticaret-/actions/runs/40022304794).
+- **Sonuç:** canlı 200. Canonical `https://kosarticaret.com/kategoriler/hidrofor-sistemleri/hidroforlar`. H1 «Hidrofor Fiyatları». Meta fiyat sinyali. SSS’de tek daire/1 HP sorusu. Depo/jet satırı ve hidrofor grubu CTA görünür.
 
 
