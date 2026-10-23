@@ -90,8 +90,9 @@
             "day": 7,
             "file": "11-kuyu-dalgic-pompa-secimi.json",
             "publish_on": "2026-07-04",
-            "title": "Kuyu Dalgıç Pompa Seçimi: Derinlik Rehberi",
-            "series": "dalgic-pompa"
+            "title": "Kuyu Dalgıç Pompa Seçimi: Derinlik, Debi ve Kuyu Çapı Rehberi",
+            "series": "dalgic-pompa",
+            "force_update": true
         },
         {
             "day": 7,

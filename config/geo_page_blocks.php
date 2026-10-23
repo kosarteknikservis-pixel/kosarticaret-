@@ -409,6 +409,21 @@ return [
             ],
         ],
 
+        'kuyu-dalgic-pompa-secimi-derinlik-rehberi' => [
+            'short_answer' => 'Kuyu dalgıç pompa seçiminde yalnız HP’ye bakılmaz. Dinamik su seviyesi, kuyu çapı (4" / 6"), gereken debi ve toplam basma yüksekliği birlikte netleşir; stok ve fiyat derin kuyu kategorisindedir.',
+            'selection_table' => [
+                'title' => 'Kuyu pompası seçiminde sırayla bakılacaklar',
+                'headers' => ['Veri', 'Neden gerekli', 'Yanlış varsayım'],
+                'rows' => [
+                    ['Dinamik su seviyesi', 'Pompanın su altında kalacağı kot', 'Yalnız toplam kuyu derinliği'],
+                    ['Kuyu iç çapı', '4" veya 6" gövde sığar mı', 'Pompayı ölçüsüz sipariş'],
+                    ['Debi (m³/h)', 'Musluk / sulama ihtiyacı', '«Daha büyük HP daha iyi»'],
+                    ['Toplam basma (mss)', 'Kot + hat kaybı + kullanım basıncı', 'Katalog tepe değerini çalışma noktası sanmak'],
+                    ['220 V / 380 V', 'Şebeke ile motor uyumu', 'Güç yetmez diye fazı yok saymak'],
+                ],
+            ],
+        ],
+
         'hidrofor-fiyatlari-2026-ev-apartman' => [
             'short_answer' => 'Apartman hidrofor fiyatları 2026’da orta boy paketlerde on binlerce TL’den başlar; çok pompalı gruplarda yüz bin TL bandına çıkabilir. Ev tipi paketler daha düşüktür. Fiyatı kW, tank hacmi, pompa sayısı, frekans invertörü ve marka belirler; güncel tutar ürün sayfasındadır.',
             'price_band' => [
