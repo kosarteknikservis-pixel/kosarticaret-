@@ -80,6 +80,7 @@ class CategoryController extends Controller
             'products' => $products,
             'brands' => Brand::query()->where('active', true)->orderBy('name')->get(),
             'breadcrumbs' => $breadcrumbs,
+            'pageH1' => $landing['h1'],
             'heroSubtitle' => $landing['subtitle'],
             'buyingGuide' => $landing['buying_guide'],
             'faq' => $landing['faq'],

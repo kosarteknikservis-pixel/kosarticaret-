@@ -47,7 +47,7 @@ Durumlar: hazır · taslak · beklemede · beklemede-malzeme · yayında. Yeni k
 
 Ana yön: `raporlar/rakip-kampa-2026-10.md`. Haftada en fazla 2 iş. Kategori haftasında ikinci iş ya içerik ya etiket açılışıdır. Aynı hafta aynı kategori gövdesine ikinci dokunuş yok. Kategori metni dondurması 20 Eki’de bitti. «Hidrofor fiyatları» hidroforlar sayfasında kalır. Etiket açılışı da bu 2 işin içindedir.
 
-Kategori sırası onaylı: su pompaları W43 yayında, hidroforlar 28 Eki, santrifüj 4 Kas, derin kuyu 11 Kas, jet 18 Kas.
+Kategori sırası onaylı: su pompaları W43 yayında, hidroforlar 23 Eki (erken onay), santrifüj 4 Kas, derin kuyu 11 Kas, jet 18 Kas.
 
 ### İkinci slot
 
@@ -56,7 +56,7 @@ Hidrofor sürekli çalışıyor 7 Eki yayında. Ölçüm 28 Eki. O haftanın kat
 | Hafta | Kategori | İkinci iş |
 |---|---|---|
 | 23 Eki (W43) | Su pompaları — yayında | Kuyu seçimi — yayında. Ölçüm 13 Kas |
-| 28 Eki | Hidroforlar | 1 HP dalgıç etiket. Hidrofor yazısına ve hidroforlar gövdesine dokunulmaz. Sürekli çalışıyor ölçümü okunur |
+| 28 Eki | Hidroforlar (gövde 23 Eki’de yapıldı) | 1 HP dalgıç etiket. Hidrofor yazısına ve hidroforlar gövdesine dokunulmaz. Sürekli çalışıyor ölçümü okunur |
 | 4 Kas | Santrifüj | Hidrofor basınç/tank, tek sayfa |
 | 11 Kas | Derin kuyu | Hidrofor kurulum, tek sayfa. Kuyu seçim yazısına dokunulmaz |
 | 18 Kas | Jet | Hidrofor genel kümeden tek sayfa. Sürekli çalışıyor bu dilimde yok. Hidroforlar ölçümü deftere yazılır |
@@ -69,15 +69,15 @@ Hidrofor sürekli çalışıyor 7 Eki yayında. Ölçüm 28 Eki. O haftanın kat
 
 Üstte 2026-W43 bölümünde. Bu satır yinelenmez.
 
-### 2. Hidrofor fiyatları — beklemede
+### 2. Hidrofor fiyatları — uygulandı (23 Eki)
 
 - Tür: güncelleme, kategori
 - URL: `/kategoriler/hidrofor-sistemleri/hidroforlar`
 - Hedef: hidrofor fiyatları (hacim 12.100)
-- Veri: Labs’te kampa 4, onların sayfası hidrofor grubu. Bizim Search Console: bu URL 5 gösterim, 3 tık, sıra 43.
-- İş: fiyat bandı ve hidrofor grubuna «bina / daire» linki. Fiyat kelimesi grubu sayfasına yazılmaz.
-- Engel: dondurma 20 Eki.
-- Başlangıç: 28 Eki 2026. Ölçüm: 18 Kas 2026.
+- Veri (uygulama öncesi): Search Console bu URL 5 gösterim, 3 tık, sıra 43. SERP’te Meran ~19; Kampa H1 «Hidrofor Fiyatları».
+- İş: H1 «Hidrofor Fiyatları», meta fiyat sinyali, geo CTA → hidrofor grubu, depo/jet satırı, SSS tek daire/1 HP. Fiyat kelimesi grubu sayfasına yazılmadı.
+- Başlangıç: 23 Eki 2026 (onaylı erken). Ölçüm: 13 Kas 2026.
+- 28 Eki: bu gövdeye ikinci dokunuş yok; ikinci slot 1 HP dalgıç etiket.
 
 ### 3. Santrifüj — beklemede
 

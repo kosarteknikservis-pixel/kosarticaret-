@@ -36,6 +36,7 @@ GA4 bu kayıtta çekilmedi. kosarticaret mülkü `482446325`. `539006843` kosarg
 | İki blog (bağlantı şeması, basınç ayarı), kategori dalga 9–10, 127 ürün teknik tablo | 30 Eyl | 21 Eki |
 | Hidrofor sürekli çalışıyor yazısı | 7 Eki | 28 Eki |
 | Su pompaları kategori + kuyu seçim blog (W43) | 23 Eki | 13 Kas |
+| Hidroforlar kategori (H1/meta/geo/SSS) | 23 Eki | 13 Kas |
 
 Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı uzatmaz.
 
@@ -53,7 +54,7 @@ Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı
 1. 13 Kas — W43 iki sayfanın ölçümünü deftere yaz; o güne kadar dokunuş yok.
 2. 15–21 Eki pencerelerinin sonucunu deftere yaz; sonuç yokken o sayfalara yeni cümle yok.
 3. Hidrofor sürekli çalışıyor — ölçüm 28 Eki.
-4. 28 Eki: hidroforlar kategori + 1 HP dalgıç etiket («aç» şart).
+4. Hidroforlar kategori — 23 Eki uygulandı; ölçüm 13 Kas. 28 Eki ikinci slot: 1 HP dalgıç etiket («aç» şart); hidroforlar gövdesine ikinci dokunuş yok.
 5. sumak pompa — 23 Eki canlı ilk 10’da yok; marka işi kategori diliminden sonra.
 
 Malzeme bekleyen ürün değerleri: `raporlar/icerik/MALZEME-ISTEK.md`.

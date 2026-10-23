@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 final class CategoryLandingPresenter
 {
-    /** @return array{subtitle: ?string, buying_guide: ?string, faq: list<array{q: string, a: string}>, trust: list<array{icon: string, label: string}>, geo: ?array} */
+    /** @return array{h1: ?string, subtitle: ?string, buying_guide: ?string, faq: list<array{q: string, a: string}>, trust: list<array{icon: string, label: string}>, geo: ?array} */
     public static function for(Category $category): array
     {
         $path = $category->nestedSlugPath();
@@ -17,6 +17,8 @@ final class CategoryLandingPresenter
         if ($buyingGuide === null || trim(strip_tags($buyingGuide)) === '') {
             $buyingGuide = RichContent::normalize($landing['buying_guide'] ?? null);
         }
+
+        $h1 = trim((string) ($landing['h1'] ?? ''));
 
         $subtitle = trim((string) ($landing['subtitle'] ?? ''));
         if ($subtitle === '') {
@@ -32,6 +34,7 @@ final class CategoryLandingPresenter
         $trust = $landing['trust'] ?? config('category_buying_guides.default_trust', []);
 
         return [
+            'h1' => $h1 !== '' ? $h1 : null,
             'subtitle' => $subtitle !== '' ? $subtitle : null,
             'buying_guide' => $buyingGuide,
             'faq' => $faq,

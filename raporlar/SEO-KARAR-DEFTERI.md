@@ -226,4 +226,14 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Ölçüm tarihi:** 13 Kas 2026.
 - **Sonuç:** canlı 200. Canonical `https://kosarticaret.com/blog/kuyu-dalgic-pompa-secimi-derinlik-rehberi`. robots `index, follow`. H1 seçim rehberi. Görünen SSS ile FAQPage birlikte.
 
+## 2026-10-23 · hidroforlar kategori, ticari güçlendirme (onaylı)
+
+- **Sayfa:** `/kategoriler/hidrofor-sistemleri/hidroforlar`. Slug ve canonical aynı. Tek dokunuş.
+- **Ne değişti:** H1 «Hidrofor Fiyatları» (landing `h1` override; kategori adı menüde «Hidroforlar» kalır). Meta description fiyat sinyali + marka/model. Geo: kısa cevap ve fiyat notu vitrin ~6.500 TL ile hizalı; CTA «hidrofor grubu»; hızlı seçime «depo/sığ kuyu → jet paket» satırı. SSS’ye «Tek daire veya 1 HP hidrofor ne kadardan başlar?» eklendi. Migration `2026_10_23_220000_strengthen_hidroforlar_category_seo.php`.
+- **Yapılmadı:** URL, blog sahipliği, grup sayfasına fiyat kelimesi, ikinci gövde dokunuşu.
+- **Rakip kanıt (23 Eki 2026):** DataForSEO SERP Türkiye — 1. sayfa Trendyol/Akakçe/Kampa tipi; Meran kategori ~19. sıra, title «Hidrofor Fiyatları…». Kampa H1 «Hidrofor Fiyatları». Ads hacim «hidrofor fiyatları» ~12.100, HIGH.
+- **Baz, Search Console `https://kosarticaret.com/`, TR:** bu URL + sorgu «hidrofor fiyatları» — 25 Tem–22 Eki: 4 gösterim, 2 tık, sıra 42,5. Daha geniş aralıkta 5 gösterim, 3 tık, sıra 43.
+- **Ölçüm tarihi:** 13 Kasım 2026 (21 gün). Hedef: sahip sayfada gösterim ve sıra; 1. sayfa pazaryeri vaadi yok.
+- **Sonuç:** boş. Deploy sonrası canlı kontrol: H1, meta, CTA, SSS.
+
 

@@ -78,6 +78,7 @@ HTML,
         ],
 
         'hidrofor-sistemleri/hidroforlar' => [
+            'h1' => 'Hidrofor Fiyatları',
             'subtitle' => 'Ev tipi ve çok katlı bina hidroforları — hazır paket sistemler, montaja hazır.',
             'buying_guide' => <<<'HTML'
 <h3>Ev Tipi Hidrofor Rehberi</h3>

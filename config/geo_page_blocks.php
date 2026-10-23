@@ -95,16 +95,16 @@ return [
         ],
 
         'hidrofor-sistemleri/hidroforlar' => [
-            'short_answer' => 'Hidrofor, pompa + basınç tankı + otomatik kontrol birleşimidir; şebeke veya depo basıncı yetmediğinde musluklarda sabit basınç sağlar. Ev tipi tek pompalı paketler ile apartman için frekans kontrollü veya çok pompalı gruplar aynı kategoride değerlendirilir; seçim kat/daire ve debiye göre yapılır.',
+            'short_answer' => 'Hidrofor, pompa + basınç tankı + otomatik kontrolden oluşan hazır sistemdir; şebeke veya depo basıncı yetmediğinde musluklarda sabit basınç sağlar. Ev tipi paketler bu katalogda yaklaşık 6.500 TL bandından başlar; orta boy apartman sistemleri on binlerce TL’ye çıkar. Seçim kat, daire ve debiye göredir.',
             'price_band' => [
                 'from' => 2500,
                 'to' => 90000,
                 'currency' => 'TRY',
-                'note' => 'Tek pompalı ev paketinden orta boy apartman sistemlerine; kW ve tank hacmine göre değişir.',
+                'note' => 'Ev tipi vitrin modelleri yaklaşık 6.500 TL’den; güçlü paket ve tek pompalı bina sistemleri üst banda. Çok pompalı / yedek pompalı ihtiyaç ayrı kategoride.',
             ],
             'guide_cta' => [
-                'label' => 'Kaç katlı binaya hangi hidrofor?',
-                'url' => '/blog/kac-katli-binaya-hangi-hidrofor',
+                'label' => 'Çok daire / yedek pompa: hidrofor grubu',
+                'url' => '/kategoriler/hidrofor-sistemleri/hidrofor-grubu',
             ],
             'selection_table' => [
                 'title' => 'Hidrofor tipi hızlı seçim',
@@ -112,6 +112,7 @@ return [
                 'rows' => [
                     ['1–2 kat müstakil', 'Ev tipi paket', '0,5–1,1 kW'],
                     ['3–6 kat apartman', 'Frekans / güçlü paket', '1,5–2,2 kW'],
+                    ['Depo veya sığ kuyu emişi', 'Jet pompalı paket', 'Kendinden emişli'],
                     ['Yoğun eşzamanlı kullanım', 'Hidrofor grubu', 'Çok pompalı'],
                 ],
             ],
