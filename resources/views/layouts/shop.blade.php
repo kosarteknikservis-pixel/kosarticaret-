@@ -14,8 +14,39 @@
         })(window,document,'script','dataLayer',@json($gtmId));</script>
         <!-- End Google Tag Manager -->
     @endif
+    @include('shop.partials.meta-pixel')
     <script>
         window.dataLayer = window.dataLayer || [];
+        window.kosarMetaFromGa4 = function (eventName, payload) {
+            const items = Array.isArray(payload.items) ? payload.items : [];
+            const contentIds = [];
+            const contents = [];
+            items.forEach(function (item) {
+                if (!item || item.item_id === undefined || item.item_id === null || item.item_id === '') {
+                    return;
+                }
+                const id = String(item.item_id);
+                contentIds.push(id);
+                contents.push({
+                    id: id,
+                    quantity: Math.max(1, parseInt(item.quantity, 10) || 1),
+                    item_price: parseFloat(item.price) || 0,
+                });
+            });
+            const data = {
+                content_type: 'product',
+                content_ids: contentIds,
+                contents: contents,
+                currency: payload.currency || 'TRY',
+                value: parseFloat(payload.value) || 0,
+            };
+            if (eventName === 'purchase' && payload.transaction_id) {
+                data.num_items = contents.reduce(function (sum, row) {
+                    return sum + (row.quantity || 0);
+                }, 0);
+            }
+            return data;
+        };
         window.kosarTrackEcommerce = function (eventName, params) {
             if (!eventName) {
                 return;
@@ -32,6 +63,29 @@
                 try {
                     window.gtag('event', eventName, payload);
                 } catch (e) {}
+            }
+            if (typeof window.fbq === 'function') {
+                const metaMap = {
+                    view_item: 'ViewContent',
+                    add_to_cart: 'AddToCart',
+                    begin_checkout: 'InitiateCheckout',
+                    purchase: 'Purchase',
+                };
+                const metaEvent = metaMap[eventName];
+                if (metaEvent) {
+                    try {
+                        const metaPayload = window.kosarMetaFromGa4(eventName, payload);
+                        const options = {};
+                        if (eventName === 'purchase' && payload.transaction_id) {
+                            options.eventID = String(payload.transaction_id);
+                        }
+                        if (Object.keys(options).length) {
+                            window.fbq('track', metaEvent, metaPayload, options);
+                        } else {
+                            window.fbq('track', metaEvent, metaPayload);
+                        }
+                    } catch (e) {}
+                }
             }
         };
     </script>
