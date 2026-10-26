@@ -41,6 +41,11 @@ return [
         'chat_id' => env('TELEGRAM_CHAT_ID'),
     ],
 
+    'meta' => [
+        // Panel (meta_pixel_id) öncelikli; boşsa env / varsayılan. Pixel ID gizli değil (sayfa kaynağında görünür).
+        'pixel_id' => env('META_PIXEL_ID', '1145487104499216'),
+    ],
+
     'dataforseo' => [
         'login' => env('DATAFORSEO_USERNAME'),
         'password' => env('DATAFORSEO_PASSWORD'),

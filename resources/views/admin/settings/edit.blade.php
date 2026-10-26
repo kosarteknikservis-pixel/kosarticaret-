@@ -214,6 +214,11 @@
                     <input name="google_tag_manager_id" value="{{ $values['google_tag_manager_id'] ?? '' }}" class="admin-input font-mono text-sm" placeholder="GTM-XXXXXXX">
                     <p class="mt-1 text-xs text-slate-500">Doluysa GTM kodları siteye eklenir. GA4’ü GTM içinden ekleyin; bu alanda GTM varken doğrudan GA4 çifti yüklenmez.</p>
                 </div>
+                <div class="mt-4">
+                    <label class="admin-label">Meta Pixel kimliği</label>
+                    <input name="meta_pixel_id" value="{{ $values['meta_pixel_id'] ?? '' }}" class="admin-input font-mono text-sm" placeholder="1145487104499216" inputmode="numeric" autocomplete="off">
+                    <p class="mt-1 text-xs text-slate-500">Laravel mağaza için Meta Pixel (WordPress/WooCommerce eklentisi değil). Doluysa PageView, ViewContent, AddToCart, InitiateCheckout ve Purchase olayları gönderilir.</p>
+                </div>
 
                 <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
                     <h4 class="text-sm font-bold text-slate-900">Bing Webmaster Tools</h4>

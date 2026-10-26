@@ -325,5 +325,24 @@
             });
         })();
     </script>
+    @php
+        $checkoutGaItems = collect($lines)->map(fn ($line) => [
+            'item_id' => $line['product']->sku ?: 'KOS-'.$line['product']->id,
+            'item_name' => $line['product']->name,
+            'item_brand' => $line['product']->brand?->name,
+            'price' => (float) $line['product']->price,
+            'quantity' => (int) $line['quantity'],
+        ])->values()->all();
+    @endphp
+    @include('shop.partials.ga4-ecommerce', [
+        'ga4Payload' => [
+            'event' => 'begin_checkout',
+            'params' => [
+                'currency' => 'TRY',
+                'value' => (float) ($totals['total'] ?? 0),
+                'items' => $checkoutGaItems,
+            ],
+        ],
+    ])
     </div>
 @endsection
