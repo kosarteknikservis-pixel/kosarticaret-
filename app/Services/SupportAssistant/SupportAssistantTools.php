@@ -431,7 +431,7 @@ class SupportAssistantTools
         $this->cards[$url] = [
             'name' => $product->name,
             'slug' => $product->slug,
-            'item_id' => $product->sku ?: 'KOS-'.$product->id,
+            'item_id' => (string) $product->id,
             'url' => $url,
             'price' => $this->money((float) $product->price),
             'price_value' => (float) $product->price,

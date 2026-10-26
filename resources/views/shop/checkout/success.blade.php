@@ -57,7 +57,7 @@
 
     @php
         $gaItems = $order->items->map(fn ($item) => [
-            'item_id' => $item->sku ?: 'KOS-'.$item->product_id,
+            'item_id' => (string) $item->product_id,
             'item_name' => $item->product_name,
             'price' => (float) $item->unit_price,
             'quantity' => (int) $item->quantity,
