@@ -175,7 +175,7 @@
                         <button type="button"
                                 data-add-cart="{{ $product->slug }}"
                                 data-qty-from="#pdp-qty"
-                                data-ga-item-id="{{ $product->sku ?: 'KOS-'.$product->id }}"
+                                data-ga-item-id="{{ (string) $product->id }}"
                                 data-ga-item-name="{{ $product->name }}"
                                 data-ga-price="{{ number_format((float) $product->price, 2, '.', '') }}"
                                 data-ga-brand="{{ $product->brand?->name }}"
@@ -277,7 +277,7 @@
                 'currency' => 'TRY',
                 'value' => (float) $product->price,
                 'items' => [[
-                    'item_id' => $product->sku ?: 'KOS-'.$product->id,
+                    'item_id' => (string) $product->id,
                     'item_name' => $product->name,
                     'item_brand' => $product->brand?->name,
                     'item_category' => $product->categories->first()?->name,

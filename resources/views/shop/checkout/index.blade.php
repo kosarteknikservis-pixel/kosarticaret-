@@ -327,7 +327,7 @@
     </script>
     @php
         $checkoutGaItems = collect($lines)->map(fn ($line) => [
-            'item_id' => $line['product']->sku ?: 'KOS-'.$line['product']->id,
+            'item_id' => (string) $line['product']->id,
             'item_name' => $line['product']->name,
             'item_brand' => $line['product']->brand?->name,
             'price' => (float) $line['product']->price,
