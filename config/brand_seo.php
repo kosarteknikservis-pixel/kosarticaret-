@@ -339,18 +339,22 @@ HTML,
         ],
     ],
     'troy' => [
-        'h1' => 'Troy Karavan Hidroforu',
-        'meta_title' => 'Troy Karavan Hidroforu',
-        'meta_description' => 'Troy TS 12-8 H, TS 12-12 H ve TS 24-15 H. 12 ve 24 V DC karavan ve tekne hidroforu; debi, akım ve basma yüksekliği etiket değerleriyle.',
+        'h1' => 'Troy Hidrofor Modelleri',
+        'meta_title' => 'Troy Hidrofor Modelleri',
+        'meta_description' => 'Troy HMJ H 15 ev tipi paket hidrofor ve TS 12-8 H, TS 12-12 H, TS 24-15 H karavan hidroforları. Debi, güç ve tank bilgisi ürün sayfalarında.',
         'description' => <<<'HTML'
-<h2>Troy karavan ve tekne hidroforu</h2>
-<p>Troy sayfasında üç model var. İkisi 12 V DC, biri 24 V DC. Karavan ve tekne temiz su deposunu musluğa basmak için üretilmişlerdir. 220 V ev ve apartman hidroforları bu listenin dışındadır; onlar <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">hidroforlar</a> kategorisindedir.</p>
-<p>Etiket debisi TS 12-8 H için 450 L/h, TS 12-12 H için 700 L/h, TS 24-15 H için 900 L/h. Aynı değerler dakikada 7,5 / 11,7 / 15 litredir. Basma yüksekliği 45 m veya 55 m, azami sıvı sıcaklığı 60 °C. Ayrıntılı tablo ve seçim notu <a href="/kategoriler/hidrofor-sistemleri/karavan-hidroforu">karavan hidroforu</a> sayfasında.</p>
+<h2>Troy hidrofor modelleri</h2>
+<p>Troy kataloğunda iki hat vardır. <strong>HMJ H 15</strong> 220 V monofaze, 24 litre küre tanklı ev tipi paket hidrofordur; 4 kat / 4 daire konut basınçlandırması için <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">hidroforlar</a> kategorisindedir. <strong>TS 12-8 H</strong>, <strong>TS 12-12 H</strong> ve <strong>TS 24-15 H</strong> ise 12 veya 24 V DC karavan ve tekne hidroforudur; bunlar <a href="/kategoriler/hidrofor-sistemleri/karavan-hidroforu">karavan hidroforu</a> sayfasındadır.</p>
+<p>Karavan modellerinde etiket debisi TS 12-8 H için 450 L/h, TS 12-12 H için 700 L/h, TS 24-15 H için 900 L/h; basma 45 m veya 55 m. HMJ H 15 paketinde üretici tablosu 750 W, 3,5 m³/h ve 52 mss yazar. Güncel fiyat ve stok her ürün kartındadır.</p>
 HTML,
         'faq' => [
             [
-                'q' => 'Troy hidrofor 12 V mi, 24 V mu?',
-                'a' => 'TS 12-8 H ve TS 12-12 H 12 V DC. TS 24-15 H 24 V DC. Pompa gerilimi karavanın akü gerilimiyle aynı olmalıdır.',
+                'q' => 'Troy HMJ H 15 ile karavan hidroforu aynı mıdır?',
+                'a' => 'Değildir. <strong>HMJ H 15</strong> 220 V ev tipi paket hidrofordur. TS serisi 12/24 V DC karavan ve tekne pompalarıdır; ev tesisatının yerine geçmez.',
+            ],
+            [
+                'q' => 'Troy hidrofor 12 V mi, 24 V mu, 220 V mü?',
+                'a' => 'TS 12-8 H ve TS 12-12 H 12 V DC, TS 24-15 H 24 V DC. HMJ H 15 paket hidrofor 220 V monofazedir. Gerilim, kullanım yerine göre seçilir.',
             ],
             [
                 'q' => 'TS 12-8 H ile TS 12-12 H arasındaki fark nedir?',
@@ -358,7 +362,7 @@ HTML,
             ],
             [
                 'q' => 'Troy karavan hidroforu ev hidroforunun yerine geçer mi?',
-                'a' => 'Geçmez. Bu modeller akü gerilimiyle karavan ve tekne temiz suyu içindir. Ev ve apartman tesisatı için <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">hidroforlar</a> kategorisine bakın.',
+                'a' => 'Geçmez. Karavan modelleri akü gerilimiyle temiz su basar. Ev ve apartman için <a href="/urun/troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli">Troy HMJ H 15</a> veya <a href="/kategoriler/hidrofor-sistemleri/hidroforlar">hidroforlar</a> kategorisine bakın.',
             ],
         ],
     ],
