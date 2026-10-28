@@ -51,7 +51,12 @@
                 <div>
                     <label class="admin-label">Fiyat modu</label>
                     <select name="settings[price_mode]" class="admin-input">
-                        @foreach(['site' => 'Site fiyatı', 'markup' => 'Site + markup', 'fixed' => 'Manuel (listing)'] as $value => $label)
+                        @foreach([
+                            'site' => 'Site fiyatı',
+                            'markup' => 'Site + markup',
+                            'margin' => 'Maliyet + kâr (komisyon düşülür)',
+                            'fixed' => 'Manuel (listing)',
+                        ] as $value => $label)
                             <option value="{{ $value }}" @selected(old('settings.price_mode', $settings['price_mode'] ?? 'site') === $value)>{{ $label }}</option>
                         @endforeach
                     </select>
@@ -60,6 +65,31 @@
                 <div>
                     <label class="admin-label">Markup (%)</label>
                     <input type="number" step="0.01" min="0" name="settings[price_markup_percent]" value="{{ old('settings.price_markup_percent', $settings['price_markup_percent'] ?? 0) }}" class="admin-input">
+                    <p class="mt-1 text-xs text-slate-500">Yalnızca “Site + markup” modunda.</p>
+                </div>
+
+                <div class="rounded-lg border border-slate-200 bg-slate-50/80 p-3 space-y-3">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Maliyet + kâr (KDV hariç)</p>
+                    <p class="text-xs text-slate-500 -mt-1">Formül: (maliyet + sabit) ÷ (1 − komisyon − diğer − hedef kâr). Maliyet üründe yoksa site fiyatına düşer.</p>
+
+                    <div>
+                        <label class="admin-label">Komisyon (%)</label>
+                        <input type="number" step="0.01" min="0" max="99" name="settings[commission_percent]" value="{{ old('settings.commission_percent', $settings['commission_percent'] ?? 15) }}" class="admin-input">
+                    </div>
+                    <div>
+                        <label class="admin-label">Diğer oran (%)</label>
+                        <input type="number" step="0.01" min="0" max="99" name="settings[other_fee_percent]" value="{{ old('settings.other_fee_percent', $settings['other_fee_percent'] ?? 0) }}" class="admin-input">
+                        <p class="mt-1 text-xs text-slate-500">Hizmet bedeli, stopaj vb. oransal pay.</p>
+                    </div>
+                    <div>
+                        <label class="admin-label">Hedef kâr (%)</label>
+                        <input type="number" step="0.01" min="0" max="99" name="settings[target_margin_percent]" value="{{ old('settings.target_margin_percent', $settings['target_margin_percent'] ?? 10) }}" class="admin-input">
+                    </div>
+                    <div>
+                        <label class="admin-label">Sabit gider (₺)</label>
+                        <input type="number" step="0.01" min="0" name="settings[fixed_fee]" value="{{ old('settings.fixed_fee', $settings['fixed_fee'] ?? 0) }}" class="admin-input">
+                        <p class="mt-1 text-xs text-slate-500">Sabit kargo / paketleme; yoksa 0.</p>
+                    </div>
                 </div>
 
                 <div>

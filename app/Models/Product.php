@@ -20,7 +20,7 @@ class Product extends Model
 
     protected $fillable = [
         'slug', 'sku', 'name', 'short_description', 'description', 'translations',
-        'brand_id', 'price', 'compare_at_price', 'stock',
+        'brand_id', 'price', 'cost_price', 'compare_at_price', 'stock',
         'rating', 'review_count', 'badges', 'specs', 'tags',
         'featured', 'is_active', 'image', 'image_alt', 'meta_title', 'meta_description',
         'barcode', 'weight_kg', 'width_cm', 'height_cm', 'depth_cm', 'units_per_carton', 'vat_rate', 'marketplace_enabled',
@@ -30,6 +30,7 @@ class Product extends Model
     {
         return [
             'price' => 'decimal:2',
+            'cost_price' => 'decimal:2',
             'compare_at_price' => 'decimal:2',
             'rating' => 'decimal:1',
             'badges' => 'array',

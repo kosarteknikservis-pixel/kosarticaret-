@@ -15,6 +15,7 @@ class MarketplaceChannelPricing
 
         return match ($mode) {
             'markup' => round($base * (1 + ((float) $channel->setting('price_markup_percent', 0) / 100)), 2),
+            'margin' => $this->marginSalePrice($product, $channel) ?? $base,
             'fixed' => (float) ($listing?->channel_price ?? $base),
             default => $base,
         };
@@ -42,5 +43,73 @@ class MarketplaceChannelPricing
         $available = max(0, (int) $product->stock);
 
         return (int) floor($available * (1 - ($buffer / 100)));
+    }
+
+    /**
+     * KDV hariç: (maliyet + sabit) / (1 − komisyon% − diğer% − hedef kâr%).
+     */
+    public function marginSalePrice(Product $product, MarketplaceChannel $channel): ?float
+    {
+        $cost = $product->cost_price !== null ? (float) $product->cost_price : null;
+
+        if ($cost === null || $cost <= 0) {
+            return null;
+        }
+
+        $commission = max(0, (float) $channel->setting('commission_percent', 15));
+        $other = max(0, (float) $channel->setting('other_fee_percent', 0));
+        $targetMargin = max(0, (float) $channel->setting('target_margin_percent', 10));
+        $fixedFee = max(0, (float) $channel->setting('fixed_fee', 0));
+
+        $deduction = ($commission + $other + $targetMargin) / 100;
+
+        if ($deduction >= 1) {
+            return null;
+        }
+
+        return round(($cost + $fixedFee) / (1 - $deduction), 2);
+    }
+
+    /**
+     * @return array{
+     *     sale_price: float|null,
+     *     cost: float,
+     *     fixed_fee: float,
+     *     commission_percent: float,
+     *     other_fee_percent: float,
+     *     target_margin_percent: float,
+     *     estimated_commission: float|null,
+     *     estimated_other: float|null,
+     *     estimated_profit: float|null,
+     *     usable: bool,
+     * }
+     */
+    public function marginBreakdown(Product $product, MarketplaceChannel $channel): array
+    {
+        $cost = (float) ($product->cost_price ?? 0);
+        $commission = max(0, (float) $channel->setting('commission_percent', 15));
+        $other = max(0, (float) $channel->setting('other_fee_percent', 0));
+        $targetMargin = max(0, (float) $channel->setting('target_margin_percent', 10));
+        $fixedFee = max(0, (float) $channel->setting('fixed_fee', 0));
+        $sale = $this->marginSalePrice($product, $channel);
+
+        $estimatedCommission = $sale !== null ? round($sale * ($commission / 100), 2) : null;
+        $estimatedOther = $sale !== null ? round($sale * ($other / 100), 2) : null;
+        $estimatedProfit = $sale !== null
+            ? round($sale - $estimatedCommission - $estimatedOther - $fixedFee - $cost, 2)
+            : null;
+
+        return [
+            'sale_price' => $sale,
+            'cost' => $cost,
+            'fixed_fee' => $fixedFee,
+            'commission_percent' => $commission,
+            'other_fee_percent' => $other,
+            'target_margin_percent' => $targetMargin,
+            'estimated_commission' => $estimatedCommission,
+            'estimated_other' => $estimatedOther,
+            'estimated_profit' => $estimatedProfit,
+            'usable' => $sale !== null && $sale > 0,
+        ];
     }
 }

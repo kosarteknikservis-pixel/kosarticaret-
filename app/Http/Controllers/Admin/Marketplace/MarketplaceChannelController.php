@@ -42,12 +42,28 @@ class MarketplaceChannelController extends Controller
             'credentials' => ['nullable', 'array'],
             'credentials.*' => ['nullable', 'string', 'max:500'],
             'settings' => ['nullable', 'array'],
-            'settings.price_mode' => ['nullable', 'in:site,markup,fixed'],
+            'settings.price_mode' => ['nullable', 'in:site,markup,margin,fixed'],
             'settings.price_markup_percent' => ['nullable', 'numeric', 'min:0', 'max:500'],
+            'settings.commission_percent' => ['nullable', 'numeric', 'min:0', 'max:99'],
+            'settings.other_fee_percent' => ['nullable', 'numeric', 'min:0', 'max:99'],
+            'settings.target_margin_percent' => ['nullable', 'numeric', 'min:0', 'max:99'],
+            'settings.fixed_fee' => ['nullable', 'numeric', 'min:0'],
             'settings.stock_buffer_percent' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'settings.auto_sync_stock' => ['sometimes', 'boolean'],
             'settings.auto_sync_price' => ['sometimes', 'boolean'],
         ]);
+
+        $marginParts = [
+            (float) ($validated['settings']['commission_percent'] ?? 0),
+            (float) ($validated['settings']['other_fee_percent'] ?? 0),
+            (float) ($validated['settings']['target_margin_percent'] ?? 0),
+        ];
+
+        if (($validated['settings']['price_mode'] ?? null) === 'margin' && array_sum($marginParts) >= 100) {
+            return back()
+                ->withInput()
+                ->with('error', 'Komisyon + diğer + hedef kâr toplamı %100’ün altında olmalı.');
+        }
 
         $existing = $channel->credentials ?? [];
         $incoming = $validated['credentials'] ?? [];
