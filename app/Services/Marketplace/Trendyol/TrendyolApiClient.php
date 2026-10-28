@@ -75,6 +75,27 @@ class TrendyolApiClient
     }
 
     /**
+     * @return list<array{id?: int|string, name?: string}>
+     */
+    public function searchBrandsByName(string $name): array
+    {
+        $result = $this->get($this->integrationPrefix().'/product/brands/by-name', ['name' => $name]);
+
+        if ($result === []) {
+            return [];
+        }
+
+        if (array_is_list($result)) {
+            /** @var list<array{id?: int|string, name?: string}> $result */
+            return $result;
+        }
+
+        $brands = $result['brands'] ?? [];
+
+        return is_array($brands) ? array_values($brands) : [];
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function fetchOrders(int $page, int $size, ?int $startDate = null, ?int $endDate = null): array
