@@ -2,10 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Models\MarketplaceBrandMapping;
 use App\Models\MarketplaceChannel;
 use App\Models\Product;
 use App\Services\Marketplace\MarketplaceChannelPricing;
 use App\Services\Marketplace\ProductListingService;
+use App\Services\Marketplace\ProductReadinessChecker;
+use App\Services\Marketplace\Trendyol\TrendyolApiClient;
+use App\Services\Marketplace\Trendyol\TrendyolApiException;
 use Illuminate\Console\Command;
 use InvalidArgumentException;
 
@@ -14,12 +18,17 @@ class PublishMarketplaceProductCommand extends Command
     protected $signature = 'marketplace:publish-product
         {slug : Ürün slug}
         {--channel=trendyol : Kanal anahtarı}
-        {--dry-run : API çağrısı yapmadan doğrula ve fiyatı göster}';
+        {--map-brand : Eksik Trendyol marka eşleştirmesini API ile oluştur}
+        {--dry-run : API ürün gönderimi yapmadan doğrula}';
 
     protected $description = 'Ürünü pazaryeri kanalına gönderir (varsayılan Trendyol).';
 
-    public function handle(ProductListingService $listingService, MarketplaceChannelPricing $pricing): int
-    {
+    public function handle(
+        ProductListingService $listingService,
+        MarketplaceChannelPricing $pricing,
+        ProductReadinessChecker $readiness,
+        TrendyolApiClient $apiClient,
+    ): int {
         $slug = (string) $this->argument('slug');
         $channelKey = (string) $this->option('channel');
 
@@ -35,6 +44,16 @@ class PublishMarketplaceProductCommand extends Command
             $this->error('Kanal bulunamadı: '.$channelKey);
 
             return self::FAILURE;
+        }
+
+        if ($this->option('map-brand') && $channelKey === 'trendyol') {
+            try {
+                $this->ensureBrandMapping($product, $channel, $apiClient, $readiness);
+            } catch (\Throwable $e) {
+                $this->error('Marka eşleştirme: '.$e->getMessage());
+
+                return self::FAILURE;
+            }
         }
 
         $sale = $pricing->salePrice($product, $channel);
@@ -58,7 +77,7 @@ class PublishMarketplaceProductCommand extends Command
             ));
         }
 
-        $validation = $listingService->validateForPublish($product, $channel);
+        $validation = $listingService->validateForPublish($product->fresh(['brand', 'categories', 'images']), $channel);
         if (! $validation['ok']) {
             $this->error('Gönderim engellendi:');
             foreach ($validation['reasons'] as $reason) {
@@ -69,7 +88,7 @@ class PublishMarketplaceProductCommand extends Command
         }
 
         if ($this->option('dry-run')) {
-            $this->info('Dry-run: doğrulama geçti, API çağrısı yapılmadı.');
+            $this->info('Dry-run: doğrulama geçti, ürün API çağrısı yapılmadı.');
 
             return self::SUCCESS;
         }
@@ -85,5 +104,68 @@ class PublishMarketplaceProductCommand extends Command
         $this->{$result['success'] ? 'info' : 'error'}($result['message']);
 
         return $result['success'] ? self::SUCCESS : self::FAILURE;
+    }
+
+    private function ensureBrandMapping(
+        Product $product,
+        MarketplaceChannel $channel,
+        TrendyolApiClient $apiClient,
+        ProductReadinessChecker $readiness,
+    ): void {
+        if ($product->brand_id === null || $product->brand === null) {
+            throw new InvalidArgumentException('Ürünün markası yok.');
+        }
+
+        if ($readiness->brandMapped($product, $channel->key)) {
+            $this->line('Marka eşleştirmesi zaten var.');
+
+            return;
+        }
+
+        $client = $apiClient->forChannel($channel);
+        $name = (string) $product->brand->name;
+        $matches = $client->searchBrandsByName($name);
+
+        if ($matches === []) {
+            // Trendyol isim araması büyük/küçük harf duyarlı; yaygın varyantları dene.
+            foreach (array_unique([$name, mb_strtoupper($name), mb_strtolower($name), 'Troy']) as $variant) {
+                $matches = $client->searchBrandsByName($variant);
+                if ($matches !== []) {
+                    break;
+                }
+            }
+        }
+
+        if ($matches === []) {
+            throw new InvalidArgumentException('Trendyol’da “'.$name.'” markası bulunamadı.');
+        }
+
+        $exact = null;
+        foreach ($matches as $row) {
+            if (mb_strtolower(trim((string) ($row['name'] ?? ''))) === mb_strtolower($name)) {
+                $exact = $row;
+                break;
+            }
+        }
+        $chosen = $exact ?? $matches[0];
+        $externalId = (string) ($chosen['id'] ?? '');
+        $externalName = (string) ($chosen['name'] ?? $name);
+
+        if ($externalId === '') {
+            throw new InvalidArgumentException('Trendyol marka yanıtında id yok.');
+        }
+
+        MarketplaceBrandMapping::query()->updateOrCreate(
+            [
+                'channel_key' => $channel->key,
+                'brand_id' => $product->brand_id,
+            ],
+            [
+                'external_brand_id' => $externalId,
+                'external_brand_name' => $externalName,
+            ],
+        );
+
+        $this->info('Marka eşleştirildi: '.$externalName.' (#'.$externalId.')');
     }
 }
