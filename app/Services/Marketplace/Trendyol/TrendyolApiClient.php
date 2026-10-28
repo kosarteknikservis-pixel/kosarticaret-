@@ -98,6 +98,26 @@ class TrendyolApiClient
     /**
      * @return array<string, mixed>
      */
+    public function getBatchRequest(string $batchRequestId): array
+    {
+        return $this->get($this->integrationPrefix().'/product/sellers/'.$this->supplierId.'/products/batch-requests/'.$batchRequestId);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getProductsByBarcode(string $barcode): array
+    {
+        return $this->get($this->productPath(), [
+            'barcode' => $barcode,
+            'page' => 0,
+            'size' => 10,
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
     public function fetchOrders(int $page, int $size, ?int $startDate = null, ?int $endDate = null): array
     {
         $query = [
