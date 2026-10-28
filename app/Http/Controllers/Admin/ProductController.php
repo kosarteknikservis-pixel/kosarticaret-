@@ -128,6 +128,7 @@ class ProductController extends Controller
             'sku' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'exists:brands,id'],
             'price' => ['required', 'numeric', 'min:0'],
+            'cost_price' => ['nullable', 'numeric', 'min:0'],
             'compare_at_price' => ['nullable', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
             'short_description' => ['nullable', 'string'],
