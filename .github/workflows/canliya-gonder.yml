@@ -188,6 +188,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_28_180000_prepare_troy_hmj_h_15_for_trendyol.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_28_181000_switch_troy_hmj_h_15_to_sumak_brand.php && \
             \$PHP_BIN artisan marketplace:publish-product troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli --map-brand || echo 'Trendyol publish uyarisi (eslestirme/API kontrol edin)' && \
+            sleep 8 && \
             \$PHP_BIN artisan marketplace:diagnose-listing troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli || echo 'Trendyol diagnose uyarisi' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \

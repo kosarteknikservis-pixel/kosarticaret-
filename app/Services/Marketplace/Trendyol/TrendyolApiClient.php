@@ -106,6 +106,14 @@ class TrendyolApiClient
     /**
      * @return array<string, mixed>
      */
+    public function getCategoryAttributes(int $categoryId): array
+    {
+        return $this->get($this->integrationPrefix().'/product/product-categories/'.$categoryId.'/attributes');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
     public function getProductsByBarcode(string $barcode): array
     {
         return $this->get($this->productPath(), [
