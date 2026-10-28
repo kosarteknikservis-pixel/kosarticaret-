@@ -103,12 +103,25 @@ class ProductListingService
         try {
             $client = $this->apiClient->forChannel($channel);
 
-            if ($listing->status === 'published' && filled($listing->external_product_id)) {
+            if ($listing->status === 'published' && filled($listing->external_product_id) && ! str_contains((string) $listing->external_product_id, '-')) {
                 $payload = $this->payloadBuilder->buildInventoryPayload($product, $channel, $listing);
                 $response = $client->updatePriceAndInventory($payload);
                 $action = 'listing_inventory_update';
             } else {
+                // Hatalı / batch-id kalmış listing'i yeniden create ile gönder.
+                if (in_array($listing->status, ['error', 'draft', 'pending', 'rejected'], true)) {
+                    $listing->fill([
+                        'status' => 'draft',
+                        'last_error' => null,
+                    ])->save();
+                }
+
                 $payload = $this->payloadBuilder->buildCreatePayload($product, $channel, $listing);
+                $payload = $this->payloadBuilder->enrichRequiredAttributes($payload, $client, [
+                    433 => ['2 Yıl', '2 yıl', '2 sene', '24 Ay', '24 ay'],
+                    1192 => ['Türkiye', 'TR', 'Turkiye'],
+                    34 => ['Hidrofor', 'Paket Hidrofor', 'Su Hidroforu'],
+                ]);
                 $response = $client->createProducts($payload);
                 $action = 'listing_publish';
             }

@@ -73,6 +73,138 @@ class TrendyolListingPayloadBuilder
     }
 
     /**
+     * Trendyol zorunlu kategori özelliklerini (garanti, menşei, tip vb.) API kataloğundan doldurur.
+     *
+     * @param  array{items: list<array<string, mixed>>}  $payload
+     * @param  array<int, list<string>>  $preferredValues  attributeId => aday değerler
+     * @return array{items: list<array<string, mixed>>}
+     */
+    public function enrichRequiredAttributes(array $payload, TrendyolApiClient $client, array $preferredValues = []): array
+    {
+        $item = $payload['items'][0] ?? null;
+        if (! is_array($item)) {
+            return $payload;
+        }
+
+        $categoryId = (int) ($item['categoryId'] ?? 0);
+        if ($categoryId <= 0) {
+            return $payload;
+        }
+
+        $catalog = $client->getCategoryAttributes($categoryId);
+        $categoryAttributes = $catalog['categoryAttributes'] ?? $catalog['attributes'] ?? [];
+        if (! is_array($categoryAttributes) || $categoryAttributes === []) {
+            return $payload;
+        }
+
+        $defaults = $preferredValues + [
+            433 => ['2 Yıl', '2 yıl', '2 sene', '24 Ay', '24 ay', '2'],
+            1192 => ['Türkiye', 'TR', 'Turkiye', 'Turkey'],
+            34 => ['Hidrofor', 'Paket Hidrofor', 'Su Hidroforu', 'Ev Tipi Hidrofor'],
+        ];
+
+        /** @var array<int, array<string, mixed>> $existingById */
+        $existingById = [];
+        foreach ($item['attributes'] ?? [] as $attribute) {
+            if (is_array($attribute) && isset($attribute['attributeId'])) {
+                $existingById[(int) $attribute['attributeId']] = $attribute;
+            }
+        }
+
+        foreach ($categoryAttributes as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+
+            $attribute = $row['attribute'] ?? $row;
+            $attributeId = (int) ($attribute['id'] ?? $row['attributeId'] ?? 0);
+            $attributeName = (string) ($attribute['name'] ?? $row['attributeName'] ?? '');
+            // Zorunlu alan veya bilinen eksik ID'ler (garanti / menşei / tip).
+            $required = (bool) ($row['required'] ?? false)
+                || (bool) ($attribute['required'] ?? false)
+                || isset($defaults[$attributeId]);
+
+            if ($attributeId <= 0 || ! $required || isset($existingById[$attributeId])) {
+                continue;
+            }
+
+            $candidates = $defaults[$attributeId] ?? $this->defaultCandidatesForAttributeName($attributeName);
+            $values = $row['attributeValues'] ?? $attribute['attributeValues'] ?? $row['values'] ?? [];
+            $matched = $this->matchAttributeValue($values, $candidates);
+
+            if ($matched === null) {
+                continue;
+            }
+
+            $existingById[$attributeId] = [
+                'attributeId' => $attributeId,
+                'attributeValueId' => (int) $matched,
+            ];
+        }
+
+        $item['attributes'] = array_values($existingById);
+        $payload['items'][0] = $item;
+
+        return $payload;
+    }
+
+    /** @param  list<string>  $candidates */
+    private function defaultCandidatesForAttributeName(string $name): array
+    {
+        $normalized = mb_strtolower(trim($name));
+
+        return match (true) {
+            str_contains($normalized, 'garanti') => ['2 Yıl', '2 yıl', '24 Ay', '24 ay'],
+            str_contains($normalized, 'menşei') || str_contains($normalized, 'mensei') || str_contains($normalized, 'origin') => ['Türkiye', 'TR'],
+            $normalized === 'tip' || str_contains($normalized, 'ürün tipi') => ['Hidrofor', 'Paket Hidrofor'],
+            default => [],
+        };
+    }
+
+    /**
+     * @param  mixed  $values
+     * @param  list<string>  $candidates
+     */
+    private function matchAttributeValue(mixed $values, array $candidates): ?int
+    {
+        if (! is_array($values) || $values === [] || $candidates === []) {
+            return null;
+        }
+
+        $normalizedCandidates = array_map(fn (string $v) => mb_strtolower(trim($v)), $candidates);
+
+        foreach ($values as $value) {
+            if (! is_array($value)) {
+                continue;
+            }
+            $label = mb_strtolower(trim((string) ($value['name'] ?? $value['value'] ?? '')));
+            $id = (int) ($value['id'] ?? 0);
+            if ($id > 0 && in_array($label, $normalizedCandidates, true)) {
+                return $id;
+            }
+        }
+
+        // Kısmi eşleşme: "2 Yıl" ⊂ "2 Yıl (24 Ay)" gibi
+        foreach ($values as $value) {
+            if (! is_array($value)) {
+                continue;
+            }
+            $label = mb_strtolower(trim((string) ($value['name'] ?? $value['value'] ?? '')));
+            $id = (int) ($value['id'] ?? 0);
+            if ($id <= 0 || $label === '') {
+                continue;
+            }
+            foreach ($normalizedCandidates as $candidate) {
+                if ($candidate !== '' && (str_contains($label, $candidate) || str_contains($candidate, $label))) {
+                    return $id;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return array{items: list<array<string, mixed>>}
      */
     public function buildInventoryPayload(Product $product, MarketplaceChannel $channel, ?MarketplaceListing $listing = null): array
