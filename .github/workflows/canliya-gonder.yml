@@ -251,10 +251,10 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product sumak-sbrm-182p-parcalayici-bicakli-foseptik-dalgic-pompa-monofaze-220v-18-hp --map-brand --price=33399 || echo 'SBRM182P Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_390000_prepare_sumak_sdf102_for_trendyol.php && \
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-102-paslanmaz-govdeli-foseptik-dalgic-pompa-monofaze-220-v-1-hp --map-brand --price=18970 || echo 'SDF102 Trendyol publish uyarisi' && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-smj-220-jet-paket-hidrofor-8-kat-16-daire-50-litre-tankli --channel=hepsiburada --map-brand --price=34199 && \
-            \$PHP_BIN artisan marketplace:publish-product troy-hmj-15-dokum-govdeli-jet-pompa-1-hp-49-mss-4-m3-h --channel=hepsiburada --map-brand --price=8599 && \
             \$PHP_BIN artisan marketplace:publish-product sumak-smjk-100-kendinden-emisli-jet-pompa-monofaze-220v-1hp --channel=hepsiburada --map-brand --price=13599 && \
             \$PHP_BIN artisan marketplace:publish-product sumak-smac-600-wc-3-unite-foseptik-tahliye-cihazi --channel=hepsiburada --map-brand --price=31599 && \
+            \$PHP_BIN artisan marketplace:publish-product pedrollo-bc-1550n-flatorlu-paslanmaz-govdeli-foseptik-dalgic-pompa --channel=hepsiburada --map-brand --price=41799 && \
+            \$PHP_BIN artisan marketplace:publish-product pedrollo-bcm-1050n-flatorlu-paslanmaz-govdeli-foseptik-dalgic-pompa --channel=hepsiburada --map-brand --price=35999 && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
