@@ -56,6 +56,14 @@ return [
         'order_import_statuses' => ['Created', 'Picking', 'Invoiced', 'Shipped'],
     ],
 
+    'hepsiburada' => [
+        'mpop_base_url' => env('HEPSIBURADA_MPOP_BASE_URL', 'https://mpop.hepsiburada.com'),
+        'listing_base_url' => env('HEPSIBURADA_LISTING_BASE_URL', 'https://listing-external.hepsiburada.com'),
+        // Canlı leaf kategori; boşsa marketplace:hb-prepare-mappings API ile bulur.
+        'default_pump_category_id' => env('HEPSIBURADA_PUMP_CATEGORY_ID'),
+        'default_pump_category_name' => env('HEPSIBURADA_PUMP_CATEGORY_NAME', 'Su Motoru'),
+    ],
+
     'sales_channels' => [
         'website' => 'Web sitesi',
         'trendyol' => 'Trendyol',

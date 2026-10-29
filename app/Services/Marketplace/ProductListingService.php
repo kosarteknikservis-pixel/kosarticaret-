@@ -5,6 +5,9 @@ namespace App\Services\Marketplace;
 use App\Models\MarketplaceChannel;
 use App\Models\MarketplaceListing;
 use App\Models\Product;
+use App\Services\Marketplace\Hepsiburada\HepsiburadaApiClient;
+use App\Services\Marketplace\Hepsiburada\HepsiburadaApiException;
+use App\Services\Marketplace\Hepsiburada\HepsiburadaListingPayloadBuilder;
 use App\Services\Marketplace\Trendyol\TrendyolApiClient;
 use App\Services\Marketplace\Trendyol\TrendyolApiException;
 use App\Services\Marketplace\Trendyol\TrendyolListingPayloadBuilder;
@@ -15,8 +18,10 @@ class ProductListingService
 {
     public function __construct(
         private ProductReadinessChecker $readiness,
-        private TrendyolApiClient $apiClient,
-        private TrendyolListingPayloadBuilder $payloadBuilder,
+        private TrendyolApiClient $trendyolApiClient,
+        private TrendyolListingPayloadBuilder $trendyolPayloadBuilder,
+        private HepsiburadaApiClient $hepsiburadaApiClient,
+        private HepsiburadaListingPayloadBuilder $hepsiburadaPayloadBuilder,
         private MarketplaceChannelPricing $pricing,
         private MarketplaceSyncLogger $logger,
     ) {}
@@ -61,51 +66,28 @@ class ProductListingService
      */
     public function publish(int $productId, string $channelKey = 'trendyol', ?float $priceOverride = null): array
     {
-        if ($channelKey !== 'trendyol') {
-            throw new InvalidArgumentException('Faz 3 yalnızca Trendyol kanalını destekler.');
-        }
+        return match ($channelKey) {
+            'trendyol' => $this->publishTrendyol($productId, $priceOverride),
+            'hepsiburada' => $this->publishHepsiburada($productId, $priceOverride),
+            default => throw new InvalidArgumentException('Bu kanal için ürün gönderimi henüz desteklenmiyor: '.$channelKey),
+        };
+    }
 
-        $channel = MarketplaceChannel::query()->where('key', $channelKey)->firstOrFail();
+    /**
+     * @return array{success: bool, listing: MarketplaceListing, message: string}
+     */
+    private function publishTrendyol(int $productId, ?float $priceOverride = null): array
+    {
+        $channel = MarketplaceChannel::query()->where('key', 'trendyol')->firstOrFail();
         $product = Product::query()->with(['brand', 'categories', 'images'])->findOrFail($productId);
-
-        $validation = $this->validateForPublish($product, $channel);
-
-        if (! $validation['ok']) {
-            $message = implode(' ', $validation['reasons']);
-
-            MarketplaceListing::query()->updateOrCreate(
-                ['product_id' => $product->id, 'channel_key' => $channel->key],
-                ['status' => 'error', 'last_error' => $message, 'external_sku' => $product->sku],
-            );
-
-            throw new InvalidArgumentException($message);
-        }
-
-        $listing = MarketplaceListing::query()->firstOrCreate(
-            [
-                'product_id' => $product->id,
-                'channel_key' => $channel->key,
-            ],
-            [
-                'status' => 'draft',
-                'external_sku' => $product->sku,
-            ],
-        );
-
-        $sale = $this->pricing->salePrice($product, $channel, $listing, $priceOverride);
-        $listing->fill([
-            'channel_price' => $sale,
-            'channel_stock_limit' => $this->pricing->stockQuantity($product, $channel, $listing),
-            'last_error' => null,
-        ])->save();
-
+        $listing = $this->prepareListing($product, $channel, $priceOverride);
         $started = microtime(true);
 
         try {
-            $client = $this->apiClient->forChannel($channel);
+            $client = $this->trendyolApiClient->forChannel($channel);
 
             if ($listing->status === 'published' && filled($listing->external_product_id) && ! str_contains((string) $listing->external_product_id, '-')) {
-                $payload = $this->payloadBuilder->buildInventoryPayload($product, $channel, $listing, $priceOverride);
+                $payload = $this->trendyolPayloadBuilder->buildInventoryPayload($product, $channel, $listing, $priceOverride);
                 $response = $client->updatePriceAndInventory($payload);
                 $action = 'listing_inventory_update';
             } else {
@@ -116,8 +98,8 @@ class ProductListingService
                     ])->save();
                 }
 
-                $payload = $this->payloadBuilder->buildCreatePayload($product, $channel, $listing, $priceOverride);
-                $payload = $this->payloadBuilder->enrichRequiredAttributes($payload, $client, [
+                $payload = $this->trendyolPayloadBuilder->buildCreatePayload($product, $channel, $listing, $priceOverride);
+                $payload = $this->trendyolPayloadBuilder->enrichRequiredAttributes($payload, $client, [
                     433 => ['2 Yıl', '2 yıl', '2 sene', '24 Ay', '24 ay'],
                     1192 => ['Türkiye', 'TR', 'Turkiye'],
                     34 => $this->tipCandidatesForProduct($product),
@@ -160,6 +142,120 @@ class ProductListingService
         } catch (\Throwable $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');
         }
+    }
+
+    /**
+     * @return array{success: bool, listing: MarketplaceListing, message: string}
+     */
+    private function publishHepsiburada(int $productId, ?float $priceOverride = null): array
+    {
+        $channel = MarketplaceChannel::query()->where('key', 'hepsiburada')->firstOrFail();
+        $product = Product::query()->with(['brand', 'categories', 'images'])->findOrFail($productId);
+        $listing = $this->prepareListing($product, $channel, $priceOverride);
+        $started = microtime(true);
+
+        try {
+            $client = $this->hepsiburadaApiClient->forChannel($channel);
+
+            if (in_array($listing->status, ['error', 'draft', 'pending', 'rejected'], true)) {
+                $listing->fill([
+                    'status' => 'draft',
+                    'last_error' => null,
+                ])->save();
+            }
+
+            $payload = $this->hepsiburadaPayloadBuilder->buildImportPayload(
+                $product,
+                $channel,
+                $listing,
+                $priceOverride,
+                $client,
+            );
+            $response = $client->importProducts($payload);
+
+            $trackingId = (string) (
+                data_get($response, 'data.trackingId')
+                ?? data_get($response, 'trackingId')
+                ?? data_get($response, 'data.id')
+                ?? ''
+            );
+
+            if ($trackingId === '') {
+                throw new HepsiburadaApiException(
+                    'Hepsiburada trackingId dönmedi.',
+                    0,
+                    is_array($response) ? $response : null,
+                );
+            }
+
+            $listing->update([
+                'status' => 'pending',
+                'external_product_id' => $trackingId,
+                'external_sku' => $product->sku,
+                'payload_snapshot' => $payload,
+                'last_synced_at' => now(),
+                'last_error' => null,
+            ]);
+
+            $this->logger->log(
+                'listing_publish',
+                'success',
+                $channel->key,
+                $product->id,
+                null,
+                'Hepsiburada gönderimi kuyruğa alındı.',
+                ['response' => $response, 'trackingId' => $trackingId],
+                (int) round((microtime(true) - $started) * 1000),
+            );
+
+            $channel->update(['last_sync_at' => now(), 'last_error' => null]);
+
+            return [
+                'success' => true,
+                'listing' => $listing->fresh(),
+                'message' => 'Ürün Hepsiburada\'ya gönderildi. Onay süreci bekleniyor (tracking: '.$trackingId.').',
+            ];
+        } catch (HepsiburadaApiException $e) {
+            return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
+        } catch (\Throwable $e) {
+            return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');
+        }
+    }
+
+    private function prepareListing(Product $product, MarketplaceChannel $channel, ?float $priceOverride): MarketplaceListing
+    {
+        $validation = $this->validateForPublish($product, $channel);
+
+        if (! $validation['ok']) {
+            $message = implode(' ', $validation['reasons']);
+
+            MarketplaceListing::query()->updateOrCreate(
+                ['product_id' => $product->id, 'channel_key' => $channel->key],
+                ['status' => 'error', 'last_error' => $message, 'external_sku' => $product->sku],
+            );
+
+            throw new InvalidArgumentException($message);
+        }
+
+        $listing = MarketplaceListing::query()->firstOrCreate(
+            [
+                'product_id' => $product->id,
+                'channel_key' => $channel->key,
+            ],
+            [
+                'status' => 'draft',
+                'external_sku' => $product->sku,
+            ],
+        );
+
+        $sale = $this->pricing->salePrice($product, $channel, $listing, $priceOverride);
+        $listing->fill([
+            'channel_price' => $sale,
+            'channel_stock_limit' => $this->pricing->stockQuantity($product, $channel, $listing),
+            'last_error' => null,
+        ])->save();
+
+        return $listing->fresh();
     }
 
     /** @return list<string> */
