@@ -191,6 +191,7 @@ jobs:
             sleep 8 && \
             \$PHP_BIN artisan marketplace:diagnose-listing troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli || echo 'Trendyol diagnose uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_100000_prepare_sumak_sdf151_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_103000_fix_sumak_sdf151_trendyol_readiness.php && \
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-151-temiz-su-dalgic-pompa-monofaze-220v-15-hp --map-brand --price=23599 || echo 'SDF151 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
