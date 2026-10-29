@@ -17,11 +17,11 @@ class PublishMarketplaceProductCommand extends Command
     protected $signature = 'marketplace:publish-product
         {slug : Ürün slug}
         {--channel=trendyol : Kanal anahtarı}
-        {--map-brand : Eksik Trendyol marka eşleştirmesini API ile oluştur}
-        {--price= : Trendyol satış fiyatı (site fiyatını değiştirmez)}
+        {--map-brand : Eksik marka eşleştirmesini oluştur (Trendyol: API, Hepsiburada: marka adı)}
+        {--price= : Kanal satış fiyatı (site fiyatını değiştirmez)}
         {--dry-run : API ürün gönderimi yapmadan doğrula}';
 
-    protected $description = 'Ürünü pazaryeri kanalına gönderir (varsayılan Trendyol).';
+    protected $description = 'Ürünü pazaryeri kanalına gönderir (trendyol | hepsiburada).';
 
     public function handle(
         ProductListingService $listingService,
@@ -46,9 +46,13 @@ class PublishMarketplaceProductCommand extends Command
             return self::FAILURE;
         }
 
-        if ($this->option('map-brand') && $channelKey === 'trendyol') {
+        if ($this->option('map-brand')) {
             try {
-                $this->ensureBrandMapping($product, $channel, $apiClient, $readiness);
+                if ($channelKey === 'trendyol') {
+                    $this->ensureTrendyolBrandMapping($product, $channel, $apiClient, $readiness);
+                } elseif ($channelKey === 'hepsiburada') {
+                    $this->ensureHepsiburadaBrandMapping($product, $channel, $readiness);
+                }
             } catch (\Throwable $e) {
                 $this->error('Marka eşleştirme: '.$e->getMessage());
 
@@ -70,6 +74,7 @@ class PublishMarketplaceProductCommand extends Command
             ? $pricing->marginBreakdown($product, $channel)
             : null;
 
+        $this->line('Kanal: '.$channelKey);
         $this->line('Ürün: '.$product->name.' (#'.$product->id.')');
         $this->line('SKU: '.($product->sku ?: '—').' | Barkod: '.($product->barcode ?: '—'));
         $this->line('Maliyet: '.(($product->cost_price !== null) ? number_format((float) $product->cost_price, 2, ',', '.').' ₺' : 'yok'));
@@ -115,7 +120,7 @@ class PublishMarketplaceProductCommand extends Command
         return $result['success'] ? self::SUCCESS : self::FAILURE;
     }
 
-    private function ensureBrandMapping(
+    private function ensureTrendyolBrandMapping(
         Product $product,
         MarketplaceChannel $channel,
         TrendyolApiClient $apiClient,
@@ -175,5 +180,36 @@ class PublishMarketplaceProductCommand extends Command
         );
 
         $this->info('Marka eşleştirildi: '.$externalName.' (#'.$externalId.')');
+    }
+
+    private function ensureHepsiburadaBrandMapping(
+        Product $product,
+        MarketplaceChannel $channel,
+        ProductReadinessChecker $readiness,
+    ): void {
+        if ($product->brand_id === null || $product->brand === null) {
+            throw new InvalidArgumentException('Ürünün markası yok.');
+        }
+
+        if ($readiness->brandMapped($product, $channel->key)) {
+            $this->line('Marka eşleştirmesi zaten var.');
+
+            return;
+        }
+
+        $name = (string) $product->brand->name;
+
+        MarketplaceBrandMapping::query()->updateOrCreate(
+            [
+                'channel_key' => $channel->key,
+                'brand_id' => $product->brand_id,
+            ],
+            [
+                'external_brand_id' => $name,
+                'external_brand_name' => $name,
+            ],
+        );
+
+        $this->info('Hepsiburada marka eşleştirildi: '.$name);
     }
 }

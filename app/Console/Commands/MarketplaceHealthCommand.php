@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Models\MarketplaceListing;
 use App\Services\Marketplace\MarketplaceManager;
 use App\Services\Marketplace\ProductReadinessChecker;
+use App\Services\Marketplace\Hepsiburada\HepsiburadaApiClient;
+use App\Services\Marketplace\Hepsiburada\HepsiburadaApiException;
 use App\Services\Marketplace\Trendyol\TrendyolApiClient;
 use App\Services\Marketplace\Trendyol\TrendyolApiException;
 use Illuminate\Console\Command;
@@ -19,7 +21,8 @@ class MarketplaceHealthCommand extends Command
     public function handle(
         MarketplaceManager $manager,
         ProductReadinessChecker $readiness,
-        TrendyolApiClient $apiClient,
+        TrendyolApiClient $trendyolApiClient,
+        HepsiburadaApiClient $hepsiburadaApiClient,
     ): int {
         if (! Schema::hasTable('marketplace_channels')) {
             $this->error('Pazaryeri tabloları henüz kurulmamış. php artisan migrate çalıştırın.');
@@ -48,10 +51,19 @@ class MarketplaceHealthCommand extends Command
 
             if ($channel->key === 'trendyol' && $channel->is_active && $channel->isConfigured()) {
                 try {
-                    $apiClient->forChannel($channel)->ping();
+                    $trendyolApiClient->forChannel($channel)->ping();
                     $this->info('  Trendyol API: erişilebilir');
                 } catch (TrendyolApiException $e) {
                     $this->warn('  Trendyol API: '.$e->getMessage());
+                }
+            }
+
+            if ($channel->key === 'hepsiburada' && $channel->is_active && $channel->isConfigured()) {
+                try {
+                    $hepsiburadaApiClient->forChannel($channel)->ping();
+                    $this->info('  Hepsiburada API: erişilebilir');
+                } catch (HepsiburadaApiException $e) {
+                    $this->warn('  Hepsiburada API: '.$e->getMessage());
                 }
             }
 

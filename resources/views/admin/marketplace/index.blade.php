@@ -58,10 +58,11 @@
         <section class="admin-card p-5 sm:p-6">
             <h2 class="text-lg font-semibold text-slate-900 mb-2">Modül durumu</h2>
             <p class="text-sm text-slate-600 leading-relaxed mb-4">
-                <strong>Faz 3 (Trendyol pilot)</strong> aktif: ürün gönderimi ve sipariş import. Otomatik stok/fiyat sync <strong>Faz 4</strong> ile gelecek.
+                <strong>Faz 3</strong> aktif: Trendyol ürün + sipariş; Hepsiburada ürün gönderimi (pilot). Otomatik stok/fiyat sync <strong>Faz 4</strong>.
             </p>
             <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
                 <li>Trendyol API bağlantı testi ve ürün gönderimi</li>
+                <li>Hepsiburada katalog gönderimi (kontrollü kuyruk)</li>
                 <li>Listeleme durumu takibi (taslak → onay → yayın)</li>
                 <li>Trendyol sipariş import ve stok düşümü</li>
                 <li>Kategori, marka ve özellik eşleştirme merkezi</li>
