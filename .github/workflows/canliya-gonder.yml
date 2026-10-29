@@ -239,6 +239,8 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-6a-drenaj-dalgic-pompa-paslanmaz-govdeli-monofaze-220-v-05-hp --map-brand --price=15199 || echo 'SDF6A Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_330000_prepare_sumak_sdf6_for_trendyol.php && \
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-6-drenaj-dalgic-pompa-paslanmaz-govdeli-monofaze-220-v-05-hp --map-brand --price=11899 || echo 'SDF6 Trendyol publish uyarisi' && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_340000_prepare_kaysu_hqbm60_for_trendyol.php && \
+            \$PHP_BIN artisan marketplace:publish-product kaysu-hqbm60-preferikal-surtme-fanli-su-pompasi --map-brand --price=3699 || echo 'HQBM60 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
