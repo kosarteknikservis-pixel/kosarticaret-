@@ -250,7 +250,7 @@ jobs:
 
             \$PHP_BIN artisan marketplace:health && \
             \$PHP_BIN artisan marketplace:n11-prepare-mappings && \
-            if [ -n "\${N11_SHIPMENT_TEMPLATE:-}" ]; then \$PHP_BIN artisan marketplace:n11-prepare-mappings --shipment-template="\$N11_SHIPMENT_TEMPLATE"; fi && \
+            \$PHP_BIN artisan marketplace:n11-prepare-mappings --shipment-template="${N11_SHIPMENT_TEMPLATE:-TESLIMAT2}" && \
             \$PHP_BIN artisan marketplace:publish-product sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt --channel=n11 --map-brand --price=3999 && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
