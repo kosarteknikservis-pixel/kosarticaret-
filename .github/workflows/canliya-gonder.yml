@@ -211,6 +211,8 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product sumak-smac-600-wc-3-unite-foseptik-tahliye-cihazi --map-brand --price=31599 || echo 'SMAC600 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_190000_prepare_pedrollo_bc1550n_for_trendyol.php && \
             \$PHP_BIN artisan marketplace:publish-product pedrollo-bc-1550n-flatorlu-paslanmaz-govdeli-foseptik-dalgic-pompa --map-brand --price=41799 || echo 'BC1550N Trendyol publish uyarisi' && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_200000_prepare_pedrollo_bcm1050n_for_trendyol.php && \
+            \$PHP_BIN artisan marketplace:publish-product pedrollo-bcm-1050n-flatorlu-paslanmaz-govdeli-foseptik-dalgic-pompa --map-brand --price=35999 || echo 'BCM1050N Trendyol publish uyarisi' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
