@@ -79,6 +79,17 @@ return [
         ],
     ],
 
+    'n11' => [
+        'base_url' => env('N11_API_BASE_URL', 'https://api.n11.com'),
+        'integrator' => env('N11_INTEGRATOR', 'KosarTicaret'),
+        'preparing_day' => (int) env('N11_PREPARING_DAY', 2),
+        'default_shipment_template' => env('N11_SHIPMENT_TEMPLATE', ''),
+        'default_pump_category_id' => env('N11_PUMP_CATEGORY_ID'),
+        'default_pump_category_name' => env('N11_PUMP_CATEGORY_NAME', 'Su Motoru ve Pompa'),
+        'github_repo' => env('N11_GITHUB_REPO', 'kosarteknikservis-pixel/kosarticaret-'),
+        'github_branch' => env('N11_GITHUB_BRANCH', 'main'),
+    ],
+
     'sales_channels' => [
         'website' => 'Web sitesi',
         'trendyol' => 'Trendyol',

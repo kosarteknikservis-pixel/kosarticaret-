@@ -8,6 +8,9 @@ use App\Models\Product;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaApiClient;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaApiException;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaListingPayloadBuilder;
+use App\Services\Marketplace\N11\N11ApiClient;
+use App\Services\Marketplace\N11\N11ApiException;
+use App\Services\Marketplace\N11\N11ListingPayloadBuilder;
 use App\Services\Marketplace\Trendyol\TrendyolApiClient;
 use App\Services\Marketplace\Trendyol\TrendyolApiException;
 use App\Services\Marketplace\Trendyol\TrendyolListingPayloadBuilder;
@@ -22,6 +25,8 @@ class ProductListingService
         private TrendyolListingPayloadBuilder $trendyolPayloadBuilder,
         private HepsiburadaApiClient $hepsiburadaApiClient,
         private HepsiburadaListingPayloadBuilder $hepsiburadaPayloadBuilder,
+        private N11ApiClient $n11ApiClient,
+        private N11ListingPayloadBuilder $n11PayloadBuilder,
         private MarketplaceChannelPricing $pricing,
         private MarketplaceSyncLogger $logger,
     ) {}
@@ -69,6 +74,7 @@ class ProductListingService
         return match ($channelKey) {
             'trendyol' => $this->publishTrendyol($productId, $priceOverride),
             'hepsiburada' => $this->publishHepsiburada($productId, $priceOverride),
+            'n11' => $this->publishN11($productId, $priceOverride),
             default => throw new InvalidArgumentException('Bu kanal için ürün gönderimi henüz desteklenmiyor: '.$channelKey),
         };
     }
@@ -255,6 +261,83 @@ class ProductListingService
                 'message' => 'Ürün Hepsiburada\'ya gönderildi. Onay süreci bekleniyor (tracking: '.$trackingId.').',
             ];
         } catch (HepsiburadaApiException $e) {
+            return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
+        } catch (\Throwable $e) {
+            return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');
+        }
+    }
+
+    /**
+     * @return array{success: bool, listing: MarketplaceListing, message: string}
+     */
+    private function publishN11(int $productId, ?float $priceOverride = null): array
+    {
+        $channel = MarketplaceChannel::query()->where('key', 'n11')->firstOrFail();
+        $product = Product::query()->with(['brand', 'categories', 'images'])->findOrFail($productId);
+        $listing = $this->prepareListing($product, $channel, $priceOverride);
+        $started = microtime(true);
+
+        try {
+            $client = $this->n11ApiClient->forChannel($channel);
+
+            if (in_array($listing->status, ['error', 'draft', 'pending', 'rejected'], true)) {
+                $listing->fill([
+                    'status' => 'draft',
+                    'last_error' => null,
+                ])->save();
+            }
+
+            $payload = $this->n11PayloadBuilder->buildCreatePayload(
+                $product,
+                $channel,
+                $listing,
+                $priceOverride,
+                $client,
+            );
+
+            $quantity = (int) data_get($payload, 'payload.skus.0.quantity', 0);
+            if ($quantity < 1) {
+                throw new InvalidArgumentException('N11 stok 0 gönderilemez.');
+            }
+
+            $response = $client->createProducts($payload);
+            $taskId = (string) (data_get($response, 'id') ?? '');
+            $status = (string) (data_get($response, 'status') ?? '');
+
+            if ($taskId === '' || strtoupper($status) === 'REJECT') {
+                $reasons = data_get($response, 'reasons');
+                $msg = is_array($reasons) ? implode(' | ', array_map('strval', $reasons)) : 'N11 ürün oluşturma reddedildi.';
+                throw new N11ApiException($msg, 0, is_array($response) ? $response : null);
+            }
+
+            $listing->update([
+                'status' => 'pending',
+                'external_product_id' => $taskId,
+                'external_sku' => $product->sku,
+                'payload_snapshot' => $payload,
+                'last_synced_at' => now(),
+                'last_error' => null,
+            ]);
+
+            $this->logger->log(
+                'listing_publish',
+                'success',
+                $channel->key,
+                $product->id,
+                null,
+                'N11 gönderimi kuyruğa alındı.',
+                ['response' => $response, 'taskId' => $taskId],
+                (int) round((microtime(true) - $started) * 1000),
+            );
+
+            $channel->update(['last_sync_at' => now(), 'last_error' => null]);
+
+            return [
+                'success' => true,
+                'listing' => $listing->fresh(),
+                'message' => 'Ürün N11\'e gönderildi. Onay süreci bekleniyor (taskId: '.$taskId.').',
+            ];
+        } catch (N11ApiException $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
         } catch (\Throwable $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');
