@@ -128,11 +128,21 @@ class TrendyolApiClient
      */
     public function getProductsByBarcode(string $barcode): array
     {
-        return $this->get($this->productPath(), [
-            'barcode' => $barcode,
-            'page' => 0,
-            'size' => 10,
-        ]);
+        // V1 list brownout; V2 tek barkod filtresi.
+        try {
+            return $this->get($this->productByBarcodePathV2($barcode));
+        } catch (TrendyolApiException $e) {
+            // Geriye dönük: onaylanmamış listede ara.
+            try {
+                return $this->get($this->unapprovedProductsPath(), [
+                    'barcode' => $barcode,
+                    'page' => 0,
+                    'size' => 10,
+                ]);
+            } catch (TrendyolApiException) {
+                throw $e;
+            }
+        }
     }
 
     /**
@@ -171,6 +181,16 @@ class TrendyolApiClient
     private function unapprovedBulkUpdatePath(): string
     {
         return $this->integrationPrefix().'/product/sellers/'.$this->supplierId.'/products/unapproved-bulk-update';
+    }
+
+    private function productByBarcodePathV2(string $barcode): string
+    {
+        return $this->integrationPrefix().'/product/sellers/'.$this->supplierId.'/product/'.rawurlencode($barcode);
+    }
+
+    private function unapprovedProductsPath(): string
+    {
+        return $this->integrationPrefix().'/product/sellers/'.$this->supplierId.'/products/unapproved';
     }
 
     private function inventoryPath(): string
