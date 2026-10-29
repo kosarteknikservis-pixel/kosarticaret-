@@ -251,6 +251,10 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product sumak-sbrm-182p-parcalayici-bicakli-foseptik-dalgic-pompa-monofaze-220v-18-hp --map-brand --price=33399 || echo 'SBRM182P Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_390000_prepare_sumak_sdf102_for_trendyol.php && \
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-102-paslanmaz-govdeli-foseptik-dalgic-pompa-monofaze-220-v-1-hp --map-brand --price=18970 || echo 'SDF102 Trendyol publish uyarisi' && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_420000_fix_hd_series_troy_label_images_for_trendyol.php && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt --map-brand --price=3999 && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-hd-1300-2-flatorlu-kirli-su-foseptik-dalgic-pompa-1-hp --map-brand --price=11199 && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-hd-1700-2-flatorlu-kirli-su-foseptik-dalgic-pompa-15-hp --map-brand --price=12599 && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \

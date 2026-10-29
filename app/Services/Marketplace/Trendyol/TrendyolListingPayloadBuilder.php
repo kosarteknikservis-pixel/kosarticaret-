@@ -280,22 +280,90 @@ class TrendyolListingPayloadBuilder
     private function collectImages(Product $product): array
     {
         $urls = [];
+        $candidates = [];
 
-        $primary = $this->absoluteImageUrl($product->imageUrl('product-pdp') ?: $product->imageUrl());
-
-        if ($primary) {
-            $urls[] = $primary;
+        if (filled($product->image)) {
+            $candidates[] = (string) $product->image;
         }
 
         foreach ($product->images as $image) {
-            $url = $this->absoluteImageUrl($image->url('product-pdp'));
+            if (filled($image->path)) {
+                $candidates[] = (string) $image->path;
+            }
+        }
+
+        foreach ($candidates as $path) {
+            if (! $this->isMarketplaceSafeImagePath($path)) {
+                continue;
+            }
+
+            if ($path === (string) $product->image) {
+                $url = $this->absoluteImageUrl($product->imageUrl('product-pdp') ?: $product->imageUrl());
+            } else {
+                $gallery = $product->images->firstWhere('path', $path);
+                $url = $this->absoluteImageUrl($gallery?->url('product-pdp') ?: $gallery?->url());
+            }
 
             if ($url && ! in_array($url, $urls, true)) {
                 $urls[] = $url;
             }
+
+            if (count($urls) >= 8) {
+                break;
+            }
+        }
+
+        // Fallback: previous behavior if local files are missing (remote-only).
+        if ($urls === []) {
+            $primary = $this->absoluteImageUrl($product->imageUrl('product-pdp') ?: $product->imageUrl());
+            if ($primary) {
+                $urls[] = $primary;
+            }
+            foreach ($product->images as $image) {
+                $url = $this->absoluteImageUrl($image->url('product-pdp'));
+                if ($url && ! in_array($url, $urls, true)) {
+                    $urls[] = $url;
+                }
+            }
         }
 
         return array_map(fn (string $url) => ['url' => $url], array_slice($urls, 0, 8));
+    }
+
+    private function isMarketplaceSafeImagePath(string $path): bool
+    {
+        $relative = ltrim(str_replace('\\', '/', $path), '/');
+        if (str_starts_with($relative, 'storage/')) {
+            $relative = substr($relative, strlen('storage/'));
+        }
+
+        if (str_starts_with($relative, 'http://') || str_starts_with($relative, 'https://')) {
+            return true;
+        }
+
+        $full = storage_path('app/public/'.$relative);
+        if (! is_file($full)) {
+            return true;
+        }
+
+        $info = @getimagesize($full);
+        if ($info === false) {
+            return false;
+        }
+
+        $width = (int) ($info[0] ?? 0);
+        $height = (int) ($info[1] ?? 0);
+        if ($width < 400 || $height < 400) {
+            return false;
+        }
+
+        // Performans eğrisi / tablo gibi yatay grafikler marka/görsel red sebebi.
+        $ratio = max($width, $height) / max(1, min($width, $height));
+        if ($ratio > 1.35) {
+            return false;
+        }
+
+        return true;
     }
 
     private function absoluteImageUrl(?string $url): ?string
