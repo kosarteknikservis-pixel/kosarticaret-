@@ -195,6 +195,8 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-151-temiz-su-dalgic-pompa-monofaze-220v-15-hp --map-brand --price=23599 || echo 'SDF151 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_110000_prepare_kaysu_hwd1100s_for_trendyol.php && \
             \$PHP_BIN artisan marketplace:publish-product kaysu-hwd-1100s-paslanmaz-govdeli-kirli-su-dalgic-pompasi-15-hp-220-volt --map-brand --price=14799 || echo 'HWD1100S Trendyol publish uyarisi' && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_120000_add_or_update_sumak_smj150_24l_hidrofor.php && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-smj-150-hidrofor-4-kat-6-daire-24-litre-tankli-hidrofor --map-brand --price=17999 || echo 'SMJ150 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
