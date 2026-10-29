@@ -53,8 +53,14 @@ class MarketplaceChannelPricing
 
         $buffer = max(0, min(100, (int) $channel->setting('stock_buffer_percent', 5)));
         $available = max(0, (int) $product->stock);
+        $qty = (int) floor($available * (1 - ($buffer / 100)));
 
-        return (int) floor($available * (1 - ($buffer / 100)));
+        // Buffer küçük stoku sıfırlamasın (1 adet varken 0 gönderme).
+        if ($available > 0 && $qty < 1) {
+            return 1;
+        }
+
+        return $qty;
     }
 
     /**

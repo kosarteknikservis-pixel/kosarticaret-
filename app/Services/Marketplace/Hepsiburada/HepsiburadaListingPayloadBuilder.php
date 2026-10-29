@@ -56,6 +56,11 @@ class HepsiburadaListingPayloadBuilder
 
         $salePrice = $this->pricing->salePrice($product, $channel, $listing, $priceOverride);
         $stock = $this->pricing->stockQuantity($product, $channel, $listing);
+        if ($stock < 1) {
+            throw new InvalidArgumentException(
+                'Hepsiburada stok 0 gönderilemez (SKU '.(string) ($product->sku ?: $product->id).'). Sitede stok yok veya kanal stok limiti 0.'
+            );
+        }
         $merchantSku = strtoupper((string) ($product->sku ?: 'P'.$product->id));
         $brandName = (string) ($brandMapping->external_brand_name ?: $product->brand?->name ?: 'Diğer');
         $weight = $product->weight_kg !== null && (float) $product->weight_kg > 0
@@ -72,7 +77,7 @@ class HepsiburadaListingPayloadBuilder
             'kg' => $weight,
             'tax_vat_rate' => (string) (int) round($product->vatRateValue()),
             'price' => $this->formatCatalogPrice($salePrice),
-            'stock' => (string) max(0, $stock),
+            'stock' => (string) $stock,
         ];
 
         // HB Barkod zorunlu + EAN-13; SKU metni (4SDF4) kabul edilmez → geçerli EAN üret.

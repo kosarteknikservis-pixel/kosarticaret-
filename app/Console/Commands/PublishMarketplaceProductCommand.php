@@ -123,6 +123,9 @@ class PublishMarketplaceProductCommand extends Command
                 if (filled($attrs['Barcode'] ?? null)) {
                     $this->line('Barcode: '.(string) $attrs['Barcode']);
                 }
+                if (filled($attrs['stock'] ?? null)) {
+                    $this->line('Stock: '.(string) $attrs['stock']);
+                }
                 for ($i = 1; $i <= 10; $i++) {
                     $img = $attrs['Image'.$i] ?? null;
                     if (is_string($img) && $img !== '') {
