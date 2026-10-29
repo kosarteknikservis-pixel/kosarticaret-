@@ -162,7 +162,65 @@ class HepsiburadaApiClient
             throw new InvalidArgumentException('trackingId zorunlu.');
         }
 
-        return $this->get('/product/api/products/status/'.rawurlencode($trackingId));
+        return $this->get('/product/api/products/status/'.rawurlencode($trackingId), [
+            'version' => 1,
+            'page' => 0,
+            'size' => 100,
+        ]);
+    }
+
+    /**
+     * @param  list<string>  $merchantSkus
+     * @return array<string, mixed>
+     */
+    public function checkProductStatus(array $merchantSkus): array
+    {
+        $skus = array_values(array_filter(array_map('strval', $merchantSkus)));
+        if ($skus === []) {
+            throw new InvalidArgumentException('merchantSku listesi boş.');
+        }
+
+        return $this->post('/product/api/products/check-product-status', [
+            'merchantSkuList' => $skus,
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getProductsByStatus(string $productStatus, int $page = 0, int $size = 50): array
+    {
+        return $this->get('/product/api/products/products-by-merchant-and-status', [
+            'merchantId' => $this->merchantId,
+            'productStatus' => $productStatus,
+            'version' => 1,
+            'page' => $page,
+            'size' => $size,
+        ]);
+    }
+
+    /**
+     * Aksiyon bekleyen (onaylanmamış) ürünleri siler.
+     *
+     * @param  list<string>  $merchantSkus
+     * @return array<string, mixed>
+     */
+    public function deletePendingProducts(array $merchantSkus): array
+    {
+        $skus = array_values(array_filter(array_map('strval', $merchantSkus)));
+        if ($skus === []) {
+            throw new InvalidArgumentException('merchantSku listesi boş.');
+        }
+
+        $items = array_map(
+            fn (string $sku) => [
+                'merchant' => $this->merchantId,
+                'merchantSku' => $sku,
+            ],
+            $skus
+        );
+
+        return $this->post('/product/api/products/delete-process', $items);
     }
 
     /**
@@ -171,6 +229,15 @@ class HepsiburadaApiClient
     private function get(string $path, array $query = []): array
     {
         return $this->request('get', $path, query: $query);
+    }
+
+    /**
+     * @param  array<string, mixed>|list<mixed>  $body
+     * @return array<string, mixed>
+     */
+    private function post(string $path, array $body = []): array
+    {
+        return $this->request('post', $path, body: $body);
     }
 
     /**
