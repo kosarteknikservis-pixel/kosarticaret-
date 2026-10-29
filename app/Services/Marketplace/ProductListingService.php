@@ -59,7 +59,7 @@ class ProductListingService
     /**
      * @return array{success: bool, listing: MarketplaceListing, message: string}
      */
-    public function publish(int $productId, string $channelKey = 'trendyol'): array
+    public function publish(int $productId, string $channelKey = 'trendyol', ?float $priceOverride = null): array
     {
         if ($channelKey !== 'trendyol') {
             throw new InvalidArgumentException('Faz 3 yalnızca Trendyol kanalını destekler.');
@@ -92,8 +92,9 @@ class ProductListingService
             ],
         );
 
+        $sale = $this->pricing->salePrice($product, $channel, $listing, $priceOverride);
         $listing->fill([
-            'channel_price' => $this->pricing->salePrice($product, $channel, $listing),
+            'channel_price' => $sale,
             'channel_stock_limit' => $this->pricing->stockQuantity($product, $channel, $listing),
             'last_error' => null,
         ])->save();
@@ -104,11 +105,10 @@ class ProductListingService
             $client = $this->apiClient->forChannel($channel);
 
             if ($listing->status === 'published' && filled($listing->external_product_id) && ! str_contains((string) $listing->external_product_id, '-')) {
-                $payload = $this->payloadBuilder->buildInventoryPayload($product, $channel, $listing);
+                $payload = $this->payloadBuilder->buildInventoryPayload($product, $channel, $listing, $priceOverride);
                 $response = $client->updatePriceAndInventory($payload);
                 $action = 'listing_inventory_update';
             } else {
-                // Hatalı / batch-id kalmış listing'i yeniden create ile gönder.
                 if (in_array($listing->status, ['error', 'draft', 'pending', 'rejected'], true)) {
                     $listing->fill([
                         'status' => 'draft',
@@ -116,11 +116,11 @@ class ProductListingService
                     ])->save();
                 }
 
-                $payload = $this->payloadBuilder->buildCreatePayload($product, $channel, $listing);
+                $payload = $this->payloadBuilder->buildCreatePayload($product, $channel, $listing, $priceOverride);
                 $payload = $this->payloadBuilder->enrichRequiredAttributes($payload, $client, [
                     433 => ['2 Yıl', '2 yıl', '2 sene', '24 Ay', '24 ay'],
                     1192 => ['Türkiye', 'TR', 'Turkiye'],
-                    34 => ['Hidrofor', 'Paket Hidrofor', 'Su Hidroforu'],
+                    34 => $this->tipCandidatesForProduct($product),
                 ]);
                 $response = $client->createProducts($payload);
                 $action = 'listing_publish';
@@ -160,6 +160,24 @@ class ProductListingService
         } catch (\Throwable $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');
         }
+    }
+
+    /** @return list<string> */
+    private function tipCandidatesForProduct(Product $product): array
+    {
+        $haystack = mb_strtolower(
+            $product->name.' '.$product->categories->pluck('slug')->implode(' ').' '.$product->categories->pluck('name')->implode(' ')
+        );
+
+        if (str_contains($haystack, 'dalgic') || str_contains($haystack, 'dalgıç')) {
+            return ['Dalgıç Pompa', 'Temiz Su Dalgıç', 'Dalgıç', 'Su Pompası', 'Drenaj Pompası'];
+        }
+
+        if (str_contains($haystack, 'hidrofor')) {
+            return ['Hidrofor', 'Paket Hidrofor', 'Su Hidroforu', 'Ev Tipi Hidrofor'];
+        }
+
+        return ['Su Pompası', 'Dalgıç Pompa', 'Hidrofor', 'Paket Hidrofor'];
     }
 
     /**

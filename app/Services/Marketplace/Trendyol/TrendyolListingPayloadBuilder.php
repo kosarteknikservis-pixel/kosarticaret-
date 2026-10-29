@@ -20,8 +20,12 @@ class TrendyolListingPayloadBuilder
     /**
      * @return array{items: list<array<string, mixed>>}
      */
-    public function buildCreatePayload(Product $product, MarketplaceChannel $channel, ?MarketplaceListing $listing = null): array
-    {
+    public function buildCreatePayload(
+        Product $product,
+        MarketplaceChannel $channel,
+        ?MarketplaceListing $listing = null,
+        ?float $priceOverride = null,
+    ): array {
         $product->loadMissing(['brand', 'categories', 'images']);
 
         $categoryMapping = $this->resolveCategoryMapping($product, $channel->key);
@@ -41,14 +45,16 @@ class TrendyolListingPayloadBuilder
             throw new InvalidArgumentException('Trendyol için en az bir görsel URL gerekli.');
         }
 
-        $description = trim(strip_tags((string) ($product->description ?: $product->short_description ?: $product->name)));
+        $description = $this->sanitizeDescriptionHtml(
+            (string) ($product->description ?: $product->short_description ?: $product->name)
+        );
 
         if ($description === '') {
             throw new InvalidArgumentException('Ürün açıklaması boş.');
         }
 
-        $salePrice = $this->pricing->salePrice($product, $channel, $listing);
-        $listPrice = $this->pricing->listPrice($product, $channel, $listing);
+        $salePrice = $this->pricing->salePrice($product, $channel, $listing, $priceOverride);
+        $listPrice = $this->pricing->listPrice($product, $channel, $listing, $priceOverride);
         $stock = $this->pricing->stockQuantity($product, $channel, $listing);
 
         $item = [
@@ -73,10 +79,8 @@ class TrendyolListingPayloadBuilder
     }
 
     /**
-     * Trendyol zorunlu kategori özelliklerini (garanti, menşei, tip vb.) API kataloğundan doldurur.
-     *
      * @param  array{items: list<array<string, mixed>>}  $payload
-     * @param  array<int, list<string>>  $preferredValues  attributeId => aday değerler
+     * @param  array<int, list<string>>  $preferredValues
      * @return array{items: list<array<string, mixed>>}
      */
     public function enrichRequiredAttributes(array $payload, TrendyolApiClient $client, array $preferredValues = []): array
@@ -100,7 +104,7 @@ class TrendyolListingPayloadBuilder
         $defaults = $preferredValues + [
             433 => ['2 Yıl', '2 yıl', '2 sene', '24 Ay', '24 ay', '2'],
             1192 => ['Türkiye', 'TR', 'Turkiye', 'Turkey'],
-            34 => ['Hidrofor', 'Paket Hidrofor', 'Su Hidroforu', 'Ev Tipi Hidrofor'],
+            34 => ['Dalgıç Pompa', 'Temiz Su Dalgıç', 'Dalgıç', 'Hidrofor', 'Paket Hidrofor', 'Su Pompası'],
         ];
 
         /** @var array<int, array<string, mixed>> $existingById */
@@ -119,7 +123,6 @@ class TrendyolListingPayloadBuilder
             $attribute = $row['attribute'] ?? $row;
             $attributeId = (int) ($attribute['id'] ?? $row['attributeId'] ?? 0);
             $attributeName = (string) ($attribute['name'] ?? $row['attributeName'] ?? '');
-            // Zorunlu alan veya bilinen eksik ID'ler (garanti / menşei / tip).
             $required = (bool) ($row['required'] ?? false)
                 || (bool) ($attribute['required'] ?? false)
                 || isset($defaults[$attributeId]);
@@ -156,7 +159,7 @@ class TrendyolListingPayloadBuilder
         return match (true) {
             str_contains($normalized, 'garanti') => ['2 Yıl', '2 yıl', '24 Ay', '24 ay'],
             str_contains($normalized, 'menşei') || str_contains($normalized, 'mensei') || str_contains($normalized, 'origin') => ['Türkiye', 'TR'],
-            $normalized === 'tip' || str_contains($normalized, 'ürün tipi') => ['Hidrofor', 'Paket Hidrofor'],
+            $normalized === 'tip' || str_contains($normalized, 'ürün tipi') => ['Dalgıç Pompa', 'Temiz Su Dalgıç', 'Dalgıç', 'Hidrofor', 'Paket Hidrofor', 'Su Pompası'],
             default => [],
         };
     }
@@ -184,7 +187,6 @@ class TrendyolListingPayloadBuilder
             }
         }
 
-        // Kısmi eşleşme: "2 Yıl" ⊂ "2 Yıl (24 Ay)" gibi
         foreach ($values as $value) {
             if (! is_array($value)) {
                 continue;
@@ -207,16 +209,43 @@ class TrendyolListingPayloadBuilder
     /**
      * @return array{items: list<array<string, mixed>>}
      */
-    public function buildInventoryPayload(Product $product, MarketplaceChannel $channel, ?MarketplaceListing $listing = null): array
-    {
+    public function buildInventoryPayload(
+        Product $product,
+        MarketplaceChannel $channel,
+        ?MarketplaceListing $listing = null,
+        ?float $priceOverride = null,
+    ): array {
         return [
             'items' => [[
                 'barcode' => (string) $product->barcode,
                 'quantity' => $this->pricing->stockQuantity($product, $channel, $listing),
-                'salePrice' => $this->pricing->salePrice($product, $channel, $listing),
-                'listPrice' => $this->pricing->listPrice($product, $channel, $listing),
+                'salePrice' => $this->pricing->salePrice($product, $channel, $listing, $priceOverride),
+                'listPrice' => $this->pricing->listPrice($product, $channel, $listing, $priceOverride),
             ]],
         ];
+    }
+
+    private function sanitizeDescriptionHtml(string $html): string
+    {
+        $html = preg_replace('#<(script|style|iframe|object|embed)[^>]*>.*?</\1>#is', '', $html) ?? $html;
+        $html = preg_replace('#</?a\b[^>]*>#i', '', $html) ?? $html;
+        $allowed = '<p><br><ul><ol><li><h2><h3><h4><strong><b><em><table><thead><tbody><tr><th><td>';
+        $html = trim(strip_tags($html, $allowed));
+
+        $blocked = [
+            '/garanti\s*süresi[^.<\n]*/iu',
+            '/üretici\s+garanti\s+şartlar[^.<\n]*/iu',
+            '/iade\s+(koşul|hak|politika)[^.<\n]*/iu',
+            '/www\.[^\s<]+/iu',
+            '/https?:\/\/[^\s<]+/iu',
+            '/\b0\d{3}\s?\d{3}\s?\d{2}\s?\d{2}\b/u',
+            '/\b05\d{9}\b/u',
+        ];
+        foreach ($blocked as $pattern) {
+            $html = preg_replace($pattern, '', $html) ?? $html;
+        }
+
+        return trim(preg_replace("/\n{3,}/", "\n\n", $html) ?? $html);
     }
 
     private function resolveCategoryMapping(Product $product, string $channelKey): ?MarketplaceCategoryMapping

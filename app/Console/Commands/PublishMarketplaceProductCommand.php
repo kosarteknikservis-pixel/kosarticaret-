@@ -9,7 +9,6 @@ use App\Services\Marketplace\MarketplaceChannelPricing;
 use App\Services\Marketplace\ProductListingService;
 use App\Services\Marketplace\ProductReadinessChecker;
 use App\Services\Marketplace\Trendyol\TrendyolApiClient;
-use App\Services\Marketplace\Trendyol\TrendyolApiException;
 use Illuminate\Console\Command;
 use InvalidArgumentException;
 
@@ -19,6 +18,7 @@ class PublishMarketplaceProductCommand extends Command
         {slug : Ürün slug}
         {--channel=trendyol : Kanal anahtarı}
         {--map-brand : Eksik Trendyol marka eşleştirmesini API ile oluştur}
+        {--price= : Trendyol satış fiyatı (site fiyatını değiştirmez)}
         {--dry-run : API ürün gönderimi yapmadan doğrula}';
 
     protected $description = 'Ürünü pazaryeri kanalına gönderir (varsayılan Trendyol).';
@@ -56,15 +56,24 @@ class PublishMarketplaceProductCommand extends Command
             }
         }
 
-        $sale = $pricing->salePrice($product, $channel);
-        $breakdown = $channel->setting('price_mode') === 'margin'
+        $priceOverride = $this->option('price') !== null && $this->option('price') !== ''
+            ? (float) $this->option('price')
+            : null;
+        if ($priceOverride !== null && $priceOverride <= 0) {
+            $this->error('--price pozitif bir tutar olmalı.');
+
+            return self::FAILURE;
+        }
+
+        $sale = $pricing->salePrice($product, $channel, null, $priceOverride);
+        $breakdown = $channel->setting('price_mode') === 'margin' && $priceOverride === null
             ? $pricing->marginBreakdown($product, $channel)
             : null;
 
         $this->line('Ürün: '.$product->name.' (#'.$product->id.')');
         $this->line('SKU: '.($product->sku ?: '—').' | Barkod: '.($product->barcode ?: '—'));
         $this->line('Maliyet: '.(($product->cost_price !== null) ? number_format((float) $product->cost_price, 2, ',', '.').' ₺' : 'yok'));
-        $this->line('Kanal fiyat modu: '.(string) $channel->setting('price_mode', 'site'));
+        $this->line('Kanal fiyat modu: '.(string) $channel->setting('price_mode', 'site').($priceOverride !== null ? ' (override)' : ''));
         $this->line('Gönderilecek satış fiyatı: '.number_format($sale, 2, ',', '.').' ₺');
 
         if (is_array($breakdown)) {
@@ -94,7 +103,7 @@ class PublishMarketplaceProductCommand extends Command
         }
 
         try {
-            $result = $listingService->publish($product->id, $channelKey);
+            $result = $listingService->publish($product->id, $channelKey, $priceOverride);
         } catch (InvalidArgumentException $e) {
             $this->error($e->getMessage());
 
@@ -127,8 +136,7 @@ class PublishMarketplaceProductCommand extends Command
         $matches = $client->searchBrandsByName($name);
 
         if ($matches === []) {
-            // Trendyol isim araması büyük/küçük harf duyarlı; yaygın varyantları dene.
-            foreach (array_unique([$name, mb_strtoupper($name), mb_strtolower($name), 'Troy']) as $variant) {
+            foreach (array_unique([$name, mb_strtoupper($name), mb_strtolower($name)]) as $variant) {
                 $matches = $client->searchBrandsByName($variant);
                 if ($matches !== []) {
                     break;

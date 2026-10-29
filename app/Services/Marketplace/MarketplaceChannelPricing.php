@@ -8,8 +8,16 @@ use App\Models\Product;
 
 class MarketplaceChannelPricing
 {
-    public function salePrice(Product $product, MarketplaceChannel $channel, ?MarketplaceListing $listing = null): float
-    {
+    public function salePrice(
+        Product $product,
+        MarketplaceChannel $channel,
+        ?MarketplaceListing $listing = null,
+        ?float $overridePrice = null,
+    ): float {
+        if ($overridePrice !== null && $overridePrice > 0) {
+            return round($overridePrice, 2);
+        }
+
         $mode = (string) $channel->setting('price_mode', 'site');
         $base = (float) $product->price;
 
@@ -21,9 +29,13 @@ class MarketplaceChannelPricing
         };
     }
 
-    public function listPrice(Product $product, MarketplaceChannel $channel, ?MarketplaceListing $listing = null): float
-    {
-        $sale = $this->salePrice($product, $channel, $listing);
+    public function listPrice(
+        Product $product,
+        MarketplaceChannel $channel,
+        ?MarketplaceListing $listing = null,
+        ?float $overridePrice = null,
+    ): float {
+        $sale = $this->salePrice($product, $channel, $listing, $overridePrice);
         $compare = $product->compare_at_price !== null ? (float) $product->compare_at_price : null;
 
         if ($compare !== null && $compare > $sale) {
