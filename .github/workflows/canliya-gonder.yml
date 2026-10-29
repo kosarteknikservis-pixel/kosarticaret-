@@ -1,8 +1,8 @@
-# Manuel: GitHub → Actions → "Canlıya gönder" → Run workflow
-# Varsayılan: hızlı kod deploy (~2-4 dk). Ağır SEO/blog/görsel işleri ayrı açılır.
-# Varsayılan adımlara panel verisini (ürün, kategori, marka) ezen seed/--force komutu ekleme; bunlar tek seferlik elle çalıştırılır.
+﻿# Manuel: GitHub â†’ Actions â†’ "CanlÄ±ya gÃ¶nder" â†’ Run workflow
+# VarsayÄ±lan: hÄ±zlÄ± kod deploy (~2-4 dk). AÄŸÄ±r SEO/blog/gÃ¶rsel iÅŸleri ayrÄ± aÃ§Ä±lÄ±r.
+# VarsayÄ±lan adÄ±mlara panel verisini (Ã¼rÃ¼n, kategori, marka) ezen seed/--force komutu ekleme; bunlar tek seferlik elle Ã§alÄ±ÅŸtÄ±rÄ±lÄ±r.
 
-name: Canlıya gönder
+name: CanlÄ±ya gÃ¶nder
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -11,21 +11,21 @@ on:
   workflow_dispatch:
     inputs:
       onay:
-        description: 'Onay için "canli" yazın'
+        description: 'Onay iÃ§in "canli" yazÄ±n'
         required: true
         default: ''
       blog_aktar:
-        description: 'Blog kuyruğu / blog-export içe aktar (YAVAS)'
+        description: 'Blog kuyruÄŸu / blog-export iÃ§e aktar (YAVAS)'
         required: true
         type: boolean
         default: false
       blog_kapak:
-        description: 'Blog kapak görsellerini üret (YAVAS)'
+        description: 'Blog kapak gÃ¶rsellerini Ã¼ret (YAVAS)'
         required: true
         type: boolean
         default: false
       gorsel_optimize:
-        description: 'Depolanan görselleri optimize et (YAVAS)'
+        description: 'Depolanan gÃ¶rselleri optimize et (YAVAS)'
         required: true
         type: boolean
         default: false
@@ -35,7 +35,7 @@ on:
         type: boolean
         default: false
       analitik_sifirla:
-        description: 'Müşteri hareketleri analitiğini sıfırla'
+        description: 'MÃ¼ÅŸteri hareketleri analitiÄŸini sÄ±fÄ±rla'
         required: true
         type: boolean
         default: false
@@ -67,7 +67,7 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
-      - name: Production bağımlılıklar
+      - name: Production baÄŸÄ±mlÄ±lÄ±klar
         run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
       - name: Vite asset build
@@ -75,7 +75,7 @@ jobs:
           npm ci --prefer-offline
           npm run build
 
-      - name: SSH anahtarı
+      - name: SSH anahtarÄ±
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
@@ -89,7 +89,7 @@ jobs:
             StrictHostKeyChecking no
           EOF
 
-      - name: kosar/ kodunu sunucuya gönder
+      - name: kosar/ kodunu sunucuya gÃ¶nder
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -101,10 +101,10 @@ jobs:
           for attempt in 1 2 3; do
             echo "Deneme $attempt/3..."
             $RSYNC $EXCLUDE ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/kosar/" && break
-            [ $attempt -lt 3 ] && echo "Bağlantı hatası, ${attempt}0sn bekleniyor..." && sleep $((attempt * 30))
+            [ $attempt -lt 3 ] && echo "BaÄŸlantÄ± hatasÄ±, ${attempt}0sn bekleniyor..." && sleep $((attempt * 30))
           done
 
-      - name: public_html/ (css, js, giriş dosyaları)
+      - name: public_html/ (css, js, giriÅŸ dosyalarÄ±)
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -118,7 +118,7 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "rm -f ${DEPLOY_PATH}/public_html/robots.txt"
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "ln -sfn ../kosar/storage/app/public ${DEPLOY_PATH}/public_html/storage"
 
-      - name: Sunucuda migrate + önbellek
+      - name: Sunucuda migrate + Ã¶nbellek
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -251,7 +251,6 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product sumak-sbrm-182p-parcalayici-bicakli-foseptik-dalgic-pompa-monofaze-220v-18-hp --map-brand --price=33399 || echo 'SBRM182P Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_390000_prepare_sumak_sdf102_for_trendyol.php && \
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-102-paslanmaz-govdeli-foseptik-dalgic-pompa-monofaze-220-v-1-hp --map-brand --price=18970 || echo 'SDF102 Trendyol publish uyarisi' && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt --channel=hepsiburada --map-brand --price=3999 && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
@@ -275,7 +274,7 @@ jobs:
             \$PHP_BIN artisan seo:seed-legal-pages --force && \
             \$PHP_BIN artisan seo:seed-brands --force"
 
-      - name: Zamanlayıcı (hafif)
+      - name: ZamanlayÄ±cÄ± (hafif)
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -338,7 +337,7 @@ jobs:
             ' && \
             \$PHP_BIN artisan config:cache"
 
-      - name: Müşteri hareketleri analitiğini sıfırla
+      - name: MÃ¼ÅŸteri hareketleri analitiÄŸini sÄ±fÄ±rla
         if: github.event.inputs.analitik_sifirla == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -349,21 +348,21 @@ jobs:
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan analytics:reset --force"
 
-      - name: Blog içeriklerini içe aktar (opsiyonel / YAVAS)
+      - name: Blog iÃ§eriklerini iÃ§e aktar (opsiyonel / YAVAS)
         if: github.event.inputs.blog_aktar == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          # Toplu --all / blog-export SQLite kilidine takılıyor.
-          # Yalnızca henüz yok veya gelecek tarihli kuyruk yazılarını aktar.
-          # Belirli dosya: artisan blog:import path --force --from-queue (aralıklı sleep önerilir)
+          # Toplu --all / blog-export SQLite kilidine takÄ±lÄ±yor.
+          # YalnÄ±zca henÃ¼z yok veya gelecek tarihli kuyruk yazÄ±larÄ±nÄ± aktar.
+          # Belirli dosya: artisan blog:import path --force --from-queue (aralÄ±klÄ± sleep Ã¶nerilir)
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan blog:publish-due --force"
 
-      - name: Blog kapak görsellerini üret (opsiyonel / YAVAS)
+      - name: Blog kapak gÃ¶rsellerini Ã¼ret (opsiyonel / YAVAS)
         if: github.event.inputs.blog_kapak == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -374,7 +373,7 @@ jobs:
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan blog:assign-covers --force"
 
-      - name: Mevcut görselleri optimize et (opsiyonel / YAVAS)
+      - name: Mevcut gÃ¶rselleri optimize et (opsiyonel / YAVAS)
         if: github.event.inputs.gorsel_optimize == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
