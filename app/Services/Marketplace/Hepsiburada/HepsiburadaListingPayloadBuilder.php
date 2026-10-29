@@ -363,12 +363,12 @@ class HepsiburadaListingPayloadBuilder
 
         if (in_array($mode, ['auto', 'jsdelivr', 'github'], true)) {
             $jsdelivr = $this->jsdelivrUrlForSource($sourceRelative);
-            if ($jsdelivr !== null) {
+            if ($jsdelivr !== null && $this->isPublicImageReachable($jsdelivr)) {
                 return $jsdelivr;
             }
             if ($mode === 'jsdelivr' || $mode === 'github') {
                 throw new InvalidArgumentException(
-                    'Hepsiburada jsDelivr aynası için seed görseli yok: '.$sourceRelative
+                    'Hepsiburada jsDelivr aynası için erişilebilir seed görseli yok: '.$sourceRelative
                 );
             }
         }
@@ -475,6 +475,29 @@ class HepsiburadaListingPayloadBuilder
     /**
      * @param  array<string, mixed>  $attributes
      */
+    private function isPublicImageReachable(string $url): bool
+    {
+        try {
+            $response = Http::timeout(20)
+                ->withHeaders([
+                    'User-Agent' => 'Mozilla/5.0 (compatible; KosarHbPreflight/1.0)',
+                    'Range' => 'bytes=0-1023',
+                ])
+                ->get($url);
+        } catch (\Throwable) {
+            return false;
+        }
+
+        if (! $response->successful() && $response->status() !== 206) {
+            return false;
+        }
+
+        $contentType = strtolower((string) $response->header('Content-Type'));
+        $body = (string) $response->body();
+
+        return $body !== '' && ($contentType === '' || str_starts_with($contentType, 'image/'));
+    }
+
     private function assertImagesPubliclyReachable(array $attributes): void
     {
         for ($i = 1; $i <= 10; $i++) {
@@ -484,30 +507,9 @@ class HepsiburadaListingPayloadBuilder
             }
 
             $url = $attributes[$key];
-            try {
-                $response = Http::timeout(30)
-                    ->withHeaders([
-                        'User-Agent' => 'Mozilla/5.0 (compatible; KosarHbPreflight/1.0)',
-                        'Range' => 'bytes=0-1023',
-                    ])
-                    ->get($url);
-            } catch (\Throwable $e) {
+            if (! $this->isPublicImageReachable($url)) {
                 throw new InvalidArgumentException(
-                    "Hepsiburada {$key} erişilemedi ({$url}): ".$e->getMessage()
-                );
-            }
-
-            if (! $response->successful() && $response->status() !== 206) {
-                throw new InvalidArgumentException(
-                    "Hepsiburada {$key} HTTP ".$response->status().' döndü: '.$url
-                );
-            }
-
-            $contentType = strtolower((string) $response->header('Content-Type'));
-            $body = (string) $response->body();
-            if (($contentType !== '' && ! str_starts_with($contentType, 'image/')) || $body === '') {
-                throw new InvalidArgumentException(
-                    "Hepsiburada {$key} geçerli görsel değil ({$contentType}): ".$url
+                    "Hepsiburada {$key} erişilemedi veya geçerli görsel değil: ".$url
                 );
             }
         }
