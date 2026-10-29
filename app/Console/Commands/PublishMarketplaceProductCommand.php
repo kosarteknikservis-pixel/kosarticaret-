@@ -46,6 +46,12 @@ class PublishMarketplaceProductCommand extends Command
             return self::FAILURE;
         }
 
+        if ($channelKey === 'hepsiburada' && $this->isKosarBrand($product)) {
+            $this->warn('Koşar markalı ürün Hepsiburada\'ya gönderilmez; atlandı: '.$slug);
+
+            return self::SUCCESS;
+        }
+
         if ($this->option('map-brand')) {
             try {
                 if ($channelKey === 'trendyol') {
@@ -198,6 +204,22 @@ class PublishMarketplaceProductCommand extends Command
         );
 
         $this->info('Marka eşleştirildi: '.$externalName.' (#'.$externalId.')');
+    }
+
+    private function isKosarBrand(Product $product): bool
+    {
+        $brand = $product->brand;
+        if ($brand === null) {
+            return false;
+        }
+
+        $slug = mb_strtolower(trim((string) ($brand->slug ?? '')), 'UTF-8');
+        $name = mb_strtolower(trim((string) ($brand->name ?? '')), 'UTF-8');
+        $ascii = strtr($name, ['ş' => 's', 'Ş' => 's', 'ı' => 'i', 'İ' => 'i', 'ğ' => 'g', 'Ğ' => 'g', 'ü' => 'u', 'Ü' => 'u', 'ö' => 'o', 'Ö' => 'o', 'ç' => 'c', 'Ç' => 'c']);
+
+        return $slug === 'kosar'
+            || str_contains($slug, 'kosar')
+            || str_contains($ascii, 'kosar');
     }
 
     private function ensureHepsiburadaBrandMapping(
