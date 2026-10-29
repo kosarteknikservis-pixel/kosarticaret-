@@ -218,24 +218,105 @@ class HepsiburadaListingPayloadBuilder
     }
 
     /**
+     * HB katalog kuralları: orijinal JPG/PNG (webp değil), grafik/çizim değil,
+     * ürün fotoğrafı yaklaşık kare ve yeterli çözünürlükte olmalı.
+     *
      * @return list<string>
      */
     private function collectImageUrls(Product $product): array
     {
         $urls = [];
-        $primary = $this->absoluteImageUrl($product->imageUrl('product-pdp') ?: $product->imageUrl());
-        if ($primary) {
-            $urls[] = $primary;
+        $candidates = [];
+
+        if (filled($product->image)) {
+            $candidates[] = (string) $product->image;
         }
 
         foreach ($product->images as $image) {
-            $url = $this->absoluteImageUrl($image->url('product-pdp'));
-            if ($url && ! in_array($url, $urls, true)) {
-                $urls[] = $url;
+            if (filled($image->path)) {
+                $candidates[] = (string) $image->path;
             }
         }
 
-        return array_slice($urls, 0, 10);
+        foreach ($candidates as $path) {
+            if (! $this->isMarketplaceSafeImagePath($path)) {
+                continue;
+            }
+
+            $url = $this->absoluteImageUrl($this->publicStorageUrl($path));
+            if ($url && ! in_array($url, $urls, true)) {
+                $urls[] = $url;
+            }
+
+            if (count($urls) >= 10) {
+                break;
+            }
+        }
+
+        // Yerel dosya yoksa (yalnızca uzak URL) en az bir görsel gönder.
+        if ($urls === []) {
+            $fallback = $this->absoluteImageUrl($product->imageUrl() ?: null);
+            if ($fallback) {
+                $urls[] = $fallback;
+            }
+        }
+
+        return $urls;
+    }
+
+    private function isMarketplaceSafeImagePath(string $path): bool
+    {
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return true;
+        }
+
+        $relative = ltrim(str_replace('\\', '/', $path), '/');
+        if (str_starts_with($relative, 'storage/')) {
+            $relative = substr($relative, strlen('storage/'));
+        }
+
+        $full = storage_path('app/public/'.$relative);
+        if (! is_file($full)) {
+            return true;
+        }
+
+        $info = @getimagesize($full);
+        if ($info === false) {
+            return false;
+        }
+
+        $width = (int) ($info[0] ?? 0);
+        $height = (int) ($info[1] ?? 0);
+        if ($width < 400 || $height < 400) {
+            return false;
+        }
+
+        // Performans eğrisi / tablo gibi yatay grafik çizimleri HB'de "Görsel" red alır.
+        $ratio = max($width, $height) / max(1, min($width, $height));
+        if ($ratio > 1.35) {
+            return false;
+        }
+
+        $mime = (string) ($info['mime'] ?? '');
+        if ($mime !== '' && ! in_array($mime, ['image/jpeg', 'image/png', 'image/jpg'], true)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function publicStorageUrl(string $path): string
+    {
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        $relative = ltrim(str_replace('\\', '/', $path), '/');
+        if (str_starts_with($relative, 'storage/')) {
+            return '/'.$relative;
+        }
+
+        return '/storage/'.$relative;
     }
 
     private function absoluteImageUrl(?string $url): ?string
@@ -245,6 +326,18 @@ class HepsiburadaListingPayloadBuilder
         }
 
         if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
+            // HB için webp optimize URL yerine mümkünse orijinal jpg tercih et.
+            if (str_contains($url, '/_optimized/') && str_ends_with(strtolower($url), '.webp')) {
+                $original = preg_replace(
+                    '#^(.*?)/_optimized/([^/]+)-product-[a-z0-9]+\.webp$#i',
+                    '$1/$2.jpg',
+                    $url
+                );
+                if (is_string($original) && $original !== $url) {
+                    return $original;
+                }
+            }
+
             return $url;
         }
 
