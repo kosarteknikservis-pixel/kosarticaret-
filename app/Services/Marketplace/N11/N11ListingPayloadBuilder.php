@@ -122,9 +122,13 @@ class N11ListingPayloadBuilder
             'vatRate' => $vat,
         ];
 
-        $ean = $this->resolveOptionalEan13($product);
+        // Barkod gönderme: N11 kataloğunda eşleşirse başlık/görsel katalogdan gelir
+        // (ör. dahili 200… EAN → Metro Chef boya). Yalnız gerçek üretici EAN (GS1) gönder.
+        $ean = $this->resolveManufacturerEan13($product);
         if ($ean !== null) {
             $sku['barcode'] = $ean;
+        } else {
+            $sku['barcode'] = null;
         }
 
         return [
@@ -433,17 +437,20 @@ class N11ListingPayloadBuilder
         return $response->body() !== '' && ($type === '' || str_starts_with($type, 'image/'));
     }
 
-    private function resolveOptionalEan13(Product $product): ?string
+    private function resolveManufacturerEan13(Product $product): ?string
     {
         $raw = trim((string) ($product->barcode ?: ''));
-        if ($raw !== '' && preg_match('/^\d{13}$/', $raw) && $this->isValidEan13($raw)) {
-            return $raw;
+        if ($raw === '' || ! preg_match('/^\d{13}$/', $raw) || ! $this->isValidEan13($raw)) {
+            return null;
         }
 
-        // Ulusal/dahili EAN üret (katalog eşleşmesi yoksa yine kabul edilir).
-        $body = '200'.str_pad((string) max(0, ((int) $product->id) % 1_000_000_000), 9, '0', STR_PAD_LEFT);
+        // Dahili / firma içi 200–299 prefix katalog çakışmasına açık; N11'e yollama.
+        $prefix = (int) substr($raw, 0, 3);
+        if ($prefix >= 200 && $prefix <= 299) {
+            return null;
+        }
 
-        return $body.$this->ean13CheckDigit($body);
+        return $raw;
     }
 
     private function isValidEan13(string $code): bool

@@ -116,6 +116,31 @@ class N11ApiClient
     }
 
     /**
+     * @param  list<string>  $stockCodes
+     * @return array<string, mixed>
+     */
+    public function deleteProducts(array $stockCodes, string $integrator = 'KosarTicaret'): array
+    {
+        $skus = [];
+        foreach ($stockCodes as $code) {
+            $code = trim((string) $code);
+            if ($code !== '') {
+                $skus[] = ['stockCode' => $code];
+            }
+        }
+        if ($skus === []) {
+            throw new InvalidArgumentException('N11 silme: stockCode listesi boş.');
+        }
+
+        return $this->post('/ms/product/tasks/product-delete', [
+            'payload' => [
+                'integrator' => $integrator,
+                'skus' => $skus,
+            ],
+        ]);
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function taskDetails(int $taskId, int $page = 0, int $size = 100): array
