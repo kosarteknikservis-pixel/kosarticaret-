@@ -38,7 +38,7 @@ Pilot: HD500. Toplu gönderim yok; onayla faz faz.
 | 20 | WNP400AW | winpo-wnp-400-aw-flatorlu-drenaj-dalgic-pompa-6mss-7m3h-monofoze220v | 5599 | beklemede-gorsel | import g?rsel 282px; HB min ~400 |
 | 21 | 4SDF4 | sumak-4sdf4-07-hp-220v-keson-dalgici-1-cikisli | 14199 | g?nderildi | EAN 2000000027586; tracking 45b5a662? | 14199 | g?nderildi | tracking 8fa07f6a? |
 | 22 | WNP400AWGF | winpo-wnp-400-aw-gf-gizli-flatorlu-drenaj-dalgic-pompa-7mss-7m3h-monofaze-220v | 5499 | g?nderildi | EAN 2000000027593; tracking 369cd6ad? |
-| 23 | SDF500GF | sumak-sdf500-gf-sifirdan-emisli-gizli-samandirali-drenaj-pompasi-05-hp | 12399 | g?nderiliyor | stok>=1 zorunlu; seed jsDelivr |
+| 23 | SDF500GF | sumak-sdf500-gf-sifirdan-emisli-gizli-samandirali-drenaj-pompasi-05-hp | 12399 | g?nderildi | tracking 527aa65b; Stock 1; EAN 2000000017884 |
 | 24 | SDF6A | sumak-sdf-6a-drenaj-dalgic-pompa-paslanmaz-govdeli-monofaze-220-v-05-hp | 15199 | bekliyor | |
 | 25 | SDF6 | sumak-sdf-6-drenaj-dalgic-pompa-paslanmaz-govdeli-monofaze-220-v-05-hp | 11899 | bekliyor | |
 | 26 | HQBM60 | kaysu-hqbm60-preferikal-surtme-fanli-su-pompasi | 3699 | bekliyor | |
