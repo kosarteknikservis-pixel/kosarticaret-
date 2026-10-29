@@ -31,7 +31,7 @@ Koşar marka gönderilmez. Stok < 1 gönderilmez.
 | 17 | TS128H | troy-ts-12-8-h-12v-karavan-hidroforu | 7999 | gonderildi | EAN 2000000027487 |
 | 18 | STN2000G | sumak-stn2000g-sintine-dalgic-pompa-6-mss-4500-litre-h-12-volt-manuel | 5999 | gonderildi | EAN 2000000027562 |
 | 19 | HD500 | sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt | 3999 | gonderildi | pilot |
-| 20 | WNP400AW | winpo-wnp-400-aw-flatorlu-drenaj-dalgic-pompa-6mss-7m3h-monofoze220v | 5599 | gonderiliyor | 1200px seed |
+| 20 | WNP400AW | winpo-wnp-400-aw-flatorlu-drenaj-dalgic-pompa-6mss-7m3h-monofoze220v | 5599 | gonderildi | Stock 1; EAN 2000000025247; 1200px seed |
 | 21 | 4SDF4 | sumak-4sdf4-07-hp-220v-keson-dalgici-1-cikisli | 14199 | gonderildi | |
 | 22 | WNP400AWGF | winpo-wnp-400-aw-gf-gizli-flatorlu-drenaj-dalgic-pompa-7mss-7m3h-monofaze-220v | 5499 | gonderildi | |
 | 23 | SDF500GF | sumak-sdf500-gf-sifirdan-emisli-gizli-samandirali-drenaj-pompasi-05-hp | 12399 | gonderildi | |
@@ -45,9 +45,9 @@ Koşar marka gönderilmez. Stok < 1 gönderilmez.
 | 31 | SDF102 | sumak-sdf-102-paslanmaz-govdeli-foseptik-dalgic-pompa-monofaze-220-v-1-hp | 18970 | gonderildi | EAN 2000000024356 |
 
 
-| 32 | HKJMH | kaysu-pompa-hidrofor-050-hp-1-kat-1-daire | 5625 | gonderiliyor | TY gap |
-| 33 | HKJM | kaysu-pompa-hkjmh-10h-jet-hidrofor-4-kat-4-daire-24l-tankli | 10125 | gonderiliyor | TY gap |
-| 34 | SMJH-150-24 | sumak-smj-150-jet-paket-hidrofor-5-kat-10-daire-24-litre-tankli | 25313 | gonderiliyor | TY gap |
+| 32 | HKJMH | kaysu-pompa-hidrofor-050-hp-1-kat-1-daire | 5625 | gonderildi | tracking c2c92b4d |
+| 33 | HKJM | kaysu-pompa-hkjmh-10h-jet-hidrofor-4-kat-4-daire-24l-tankli | 10125 | gonderildi | tracking 20781248 |
+| 34 | SMJH-150-24 | sumak-smj-150-jet-paket-hidrofor-5-kat-10-daire-24-litre-tankli | 25313 | gonderildi | tracking 1c6b640d |
 
 ## Komut şablonu
 
