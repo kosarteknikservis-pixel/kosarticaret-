@@ -16,4 +16,4 @@ Kurallar uygulanan:
 | SKU | Slug | Fiyat | Durum | Not |
 |-----|------|-------|-------|-----|
 | HD500 | sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt | 3999 | gonderildi | barkodsuz yeniden; task 3499267750 Active |
-| WNP400AW | winpo-wnp-400-aw-flatorlu-drenaj-dalgic-pompa-6mss-7m3h-monofoze220v | 5599 | gonderiliyor | sıradaki |
+| WNP400AW | winpo-wnp-400-aw-flatorlu-drenaj-dalgic-pompa-6mss-7m3h-monofoze220v | 5599 | gonderildi | task 3499328042; Stock 1; TESLIMAT2 |
