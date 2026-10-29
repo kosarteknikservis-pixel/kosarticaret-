@@ -223,15 +223,15 @@ class HepsiburadaListingPayloadBuilder
     }
 
     /**
-     * HB katalog kuralları: orijinal JPG/PNG (webp değil), grafik/çizim değil,
-     * ürün fotoğrafı yaklaşık kare ve yeterli çözünürlükte olmalı.
-     * Güncellemede aynı URL kabul edilmez → her gönderimde benzersiz public kopya.
+     * HB katalog kuralları: orijinal JPG/PNG, grafik değil.
+     * Site WAF HB crawler IP'lerini kestigi icin varsayilan mirror: jsDelivr/catbox.
      *
      * @return list<string>
      */
     private function collectImageUrls(Product $product): array
     {
         $urls = [];
+        $seenHashes = [];
         $candidates = [];
 
         if (filled($product->image)) {
@@ -252,10 +252,19 @@ class HepsiburadaListingPayloadBuilder
                 continue;
             }
 
-            $publicPath = $this->publishUniqueMarketplaceCopy($path, (string) ($product->sku ?: $product->id), $stamp, $index);
-            $url = $this->absoluteImageUrl($this->publicStorageUrl($publicPath));
+            $relative = $this->normalizePublicRelativePath($path);
+            $hash = $this->localImageHash($relative);
+            if ($hash !== null && isset($seenHashes[$hash])) {
+                continue;
+            }
+
+            $publicPath = $this->publishUniqueMarketplaceCopy($relative, (string) ($product->sku ?: $product->id), $stamp, $index);
+            $url = $this->resolveMirroredImageUrl($relative, $publicPath);
             if ($url && ! in_array($url, $urls, true)) {
                 $urls[] = $url;
+                if ($hash !== null) {
+                    $seenHashes[$hash] = true;
+                }
                 $index++;
             }
 
@@ -271,6 +280,121 @@ class HepsiburadaListingPayloadBuilder
         }
 
         return $urls;
+    }
+
+    private function normalizePublicRelativePath(string $path): string
+    {
+        $relative = ltrim(str_replace('\\', '/', $path), '/');
+        if (str_starts_with($relative, 'storage/')) {
+            $relative = substr($relative, strlen('storage/'));
+        }
+
+        return $relative;
+    }
+
+    private function localImageHash(string $relative): ?string
+    {
+        if (str_starts_with($relative, 'http://') || str_starts_with($relative, 'https://')) {
+            return null;
+        }
+
+        $full = storage_path('app/public/'.$relative);
+        if (! is_file($full)) {
+            return null;
+        }
+
+        return md5_file($full) ?: null;
+    }
+
+    /**
+     * Site URL yerine HB'nin indirebildigi CDN/ayna.
+     */
+    private function resolveMirroredImageUrl(string $sourceRelative, string $publishedRelative): string
+    {
+        $mode = strtolower((string) config('marketplace.hepsiburada.image_mirror', 'auto'));
+
+        if ($mode === 'site') {
+            return (string) $this->absoluteImageUrl($this->publicStorageUrl($publishedRelative));
+        }
+
+        if (in_array($mode, ['auto', 'jsdelivr', 'github'], true)) {
+            $jsdelivr = $this->jsdelivrUrlForSource($sourceRelative);
+            if ($jsdelivr !== null) {
+                return $jsdelivr;
+            }
+            if ($mode === 'jsdelivr' || $mode === 'github') {
+                throw new InvalidArgumentException(
+                    'Hepsiburada jsDelivr aynası için seed görseli yok: '.$sourceRelative
+                );
+            }
+        }
+
+        if (in_array($mode, ['auto', 'catbox'], true)) {
+            return $this->uploadToCatbox($publishedRelative);
+        }
+
+        return (string) $this->absoluteImageUrl($this->publicStorageUrl($publishedRelative));
+    }
+
+    private function jsdelivrUrlForSource(string $sourceRelative): ?string
+    {
+        $basename = basename($sourceRelative);
+        if ($basename === '' || $basename === '.' || $basename === '..') {
+            return null;
+        }
+
+        $seedRoot = database_path('seed-assets');
+        if (! is_dir($seedRoot)) {
+            return null;
+        }
+
+        $matches = glob($seedRoot.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.$basename) ?: [];
+        if ($matches === []) {
+            $matches = glob($seedRoot.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.$basename) ?: [];
+        }
+
+        $match = $matches[0] ?? null;
+        if (! is_string($match) || ! is_file($match)) {
+            return null;
+        }
+
+        $repoRelative = str_replace('\\', '/', substr($match, strlen(base_path()) + 1));
+        $repo = trim((string) config('marketplace.hepsiburada.github_repo', 'kosarteknikservis-pixel/kosarticaret-'), '/');
+        $branch = trim((string) config('marketplace.hepsiburada.github_branch', 'main'), '/');
+        // Cache-bust: HB aynı URL ile güncellemeyi reddeder.
+        $bust = substr(md5($sourceRelative.now()->format('YmdHis')), 0, 8);
+
+        return sprintf(
+            'https://cdn.jsdelivr.net/gh/%s@%s/%s?v=%s',
+            $repo,
+            $branch,
+            ltrim($repoRelative, '/'),
+            $bust
+        );
+    }
+
+    private function uploadToCatbox(string $publishedRelative): string
+    {
+        $disk = Storage::disk('public');
+        if (! $disk->exists($publishedRelative)) {
+            throw new RuntimeException('Catbox yükleme: dosya yok '.$publishedRelative);
+        }
+
+        $binary = $disk->get($publishedRelative);
+        $filename = basename($publishedRelative) ?: 'image.jpg';
+
+        $response = Http::timeout(60)
+            ->attach('fileToUpload', $binary, $filename)
+            ->post('https://catbox.moe/user/api.php', [
+                'reqtype' => 'fileupload',
+            ]);
+
+        $url = trim((string) $response->body());
+        if (! $response->successful() || ! str_starts_with($url, 'https://')) {
+            throw new RuntimeException('Catbox görsel yükleme başarısız: '.mb_substr($url, 0, 200));
+        }
+
+        return $url;
     }
 
     /**
@@ -317,25 +441,29 @@ class HepsiburadaListingPayloadBuilder
 
             $url = $attributes[$key];
             try {
-                $response = Http::timeout(20)
-                    ->withHeaders(['User-Agent' => 'Mozilla/5.0 (compatible; KosarHbPreflight/1.0)'])
-                    ->head($url);
+                $response = Http::timeout(30)
+                    ->withHeaders([
+                        'User-Agent' => 'Mozilla/5.0 (compatible; KosarHbPreflight/1.0)',
+                        'Range' => 'bytes=0-1023',
+                    ])
+                    ->get($url);
             } catch (\Throwable $e) {
                 throw new InvalidArgumentException(
                     "Hepsiburada {$key} erişilemedi ({$url}): ".$e->getMessage()
                 );
             }
 
-            if (! $response->successful()) {
+            if (! $response->successful() && $response->status() !== 206) {
                 throw new InvalidArgumentException(
                     "Hepsiburada {$key} HTTP ".$response->status().' döndü: '.$url
                 );
             }
 
             $contentType = strtolower((string) $response->header('Content-Type'));
-            if ($contentType !== '' && ! str_starts_with($contentType, 'image/')) {
+            $body = (string) $response->body();
+            if (($contentType !== '' && ! str_starts_with($contentType, 'image/')) || $body === '') {
                 throw new InvalidArgumentException(
-                    "Hepsiburada {$key} image/* değil ({$contentType}): ".$url
+                    "Hepsiburada {$key} geçerli görsel değil ({$contentType}): ".$url
                 );
             }
         }

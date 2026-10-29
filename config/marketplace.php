@@ -62,8 +62,12 @@ return [
         // Canlı leaf kategori; boşsa marketplace:hb-prepare-mappings API ile bulur.
         'default_pump_category_id' => env('HEPSIBURADA_PUMP_CATEGORY_ID'),
         'default_pump_category_name' => env('HEPSIBURADA_PUMP_CATEGORY_NAME', 'Su Motoru'),
-        // HB crawler APP_URL/CLI farkından etkilenmesin; görseller her zaman bu hosttan.
+        // Site host (fallback). HB crawler çoğu hostingtе WAF ile kesiliyor.
         'public_asset_base_url' => env('HEPSIBURADA_PUBLIC_ASSET_BASE_URL', 'https://kosarticaret.com'),
+        // site | jsdelivr | catbox | auto (seed→jsdelivr, yoksa catbox)
+        'image_mirror' => env('HEPSIBURADA_IMAGE_MIRROR', 'auto'),
+        'github_repo' => env('HEPSIBURADA_GITHUB_REPO', 'kosarteknikservis-pixel/kosarticaret-'),
+        'github_branch' => env('HEPSIBURADA_GITHUB_BRANCH', 'main'),
         // HB Ocak 2024: görsel indirme IP'leri — hosting firewall'da allow edilmeli.
         'image_crawler_ips' => [
             '193.28.225.94',
