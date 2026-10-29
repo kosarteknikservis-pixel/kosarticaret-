@@ -201,6 +201,8 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product kaysu-pompa-hmc145-65h-paket-hidrofor-8-kat-18-daire-100-litre-tankli --map-brand --price=21999 || echo 'HMC145 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_140000_prepare_kaysu_2hcp160_for_trendyol.php && \
             \$PHP_BIN artisan marketplace:publish-product kaysu-2hcp-160-cift-kademeli-hidrofor-7-kat-14-daire-50-litre-tankli --map-brand --price=18199 || echo '2HCP160 Trendyol publish uyarisi' && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_150000_prepare_sumak_smj220_for_trendyol.php && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-smj-220-jet-paket-hidrofor-8-kat-16-daire-50-litre-tankli --map-brand --price=34199 || echo 'SMJ220 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
