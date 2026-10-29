@@ -57,7 +57,6 @@ class HepsiburadaListingPayloadBuilder
         $salePrice = $this->pricing->salePrice($product, $channel, $listing, $priceOverride);
         $stock = $this->pricing->stockQuantity($product, $channel, $listing);
         $merchantSku = strtoupper((string) ($product->sku ?: 'P'.$product->id));
-        $barcode = filled($product->barcode) ? (string) $product->barcode : $merchantSku;
         $brandName = (string) ($brandMapping->external_brand_name ?: $product->brand?->name ?: 'Diğer');
         $weight = $product->weight_kg !== null && (float) $product->weight_kg > 0
             ? (string) round((float) $product->weight_kg, 2)
@@ -66,7 +65,6 @@ class HepsiburadaListingPayloadBuilder
         $attributes = [
             'merchantSku' => $merchantSku,
             'VaryantGroupID' => $merchantSku,
-            'Barcode' => $barcode,
             'UrunAdi' => mb_substr((string) $product->name, 0, 200),
             'UrunAciklamasi' => $description,
             'Marka' => $brandName,
@@ -76,6 +74,12 @@ class HepsiburadaListingPayloadBuilder
             'price' => $this->formatCatalogPrice($salePrice),
             'stock' => (string) max(0, $stock),
         ];
+
+        // HB EAN-13 ister; SKU/barkod metni (HD500) listeleme hatasına düşürür.
+        $ean = $this->resolveEan13Barcode($product);
+        if ($ean !== null) {
+            $attributes['Barcode'] = $ean;
+        }
 
         foreach (array_values($images) as $index => $url) {
             if ($index >= 10) {
@@ -172,6 +176,32 @@ class HepsiburadaListingPayloadBuilder
     private function formatCatalogPrice(float $price): string
     {
         return number_format($price, 2, ',', '');
+    }
+
+    private function resolveEan13Barcode(Product $product): ?string
+    {
+        $raw = trim((string) ($product->barcode ?: ''));
+        if ($raw !== '' && $this->isValidEan13($raw)) {
+            return $raw;
+        }
+
+        return null;
+    }
+
+    private function isValidEan13(string $code): bool
+    {
+        if (! preg_match('/^\d{13}$/', $code)) {
+            return false;
+        }
+
+        $sum = 0;
+        for ($i = 0; $i < 12; $i++) {
+            $digit = (int) $code[$i];
+            $sum += ($i % 2 === 0) ? $digit : $digit * 3;
+        }
+        $check = (10 - ($sum % 10)) % 10;
+
+        return $check === (int) $code[12];
     }
 
     private function sanitizeDescriptionHtml(string $html): string
