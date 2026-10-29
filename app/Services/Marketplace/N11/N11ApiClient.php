@@ -130,6 +130,80 @@ class N11ApiClient
     }
 
     /**
+     * SOAP GetShipmentTemplateList — paneldeki kargo şablon adları.
+     *
+     * @return list<string>
+     */
+    public function listShipmentTemplateNames(): array
+    {
+        $envelope = '<?xml version="1.0" encoding="UTF-8"?>'
+            .'<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://www.n11.com/ws/schemas">'
+            .'<soapenv:Header/>'
+            .'<soapenv:Body>'
+            .'<sch:GetShipmentTemplateListRequest>'
+            .'<auth>'
+            .'<appKey>'.htmlspecialchars($this->appKey, ENT_XML1).'</appKey>'
+            .'<appSecret>'.htmlspecialchars($this->appSecret, ENT_XML1).'</appSecret>'
+            .'</auth>'
+            .'</sch:GetShipmentTemplateListRequest>'
+            .'</soapenv:Body>'
+            .'</soapenv:Envelope>';
+
+        $response = Http::timeout(60)
+            ->withHeaders([
+                'Content-Type' => 'text/xml; charset=utf-8',
+                'SOAPAction' => '',
+            ])
+            ->withBody($envelope, 'text/xml')
+            ->post('https://api.n11.com/ws/ShipmentService.wsdl');
+
+        // Bazı ortamlarda .wsdl POST olmaz; endpoint'e dene.
+        if (! $response->successful()) {
+            $response = Http::timeout(60)
+                ->withHeaders([
+                    'Content-Type' => 'text/xml; charset=utf-8',
+                    'SOAPAction' => '',
+                ])
+                ->withBody($envelope, 'text/xml')
+                ->post('https://api.n11.com/ws/ShipmentService');
+        }
+
+        $body = (string) $response->body();
+        if (! $response->successful() && $body === '') {
+            throw new N11ApiException('N11 kargo şablon listesi alınamadı (HTTP '.$response->status().').', $response->status());
+        }
+
+        $names = [];
+        if (preg_match_all('/<(?:\w+:)?templateName>([^<]+)<\/(?:\w+:)?templateName>/u', $body, $m)) {
+            foreach ($m[1] as $name) {
+                $name = html_entity_decode(trim((string) $name), ENT_QUOTES | ENT_XML1, 'UTF-8');
+                if ($name !== '') {
+                    $names[] = $name;
+                }
+            }
+        }
+        if ($names === [] && preg_match_all('/<(?:\w+:)?name>([^<]+)<\/(?:\w+:)?name>/u', $body, $m2)) {
+            foreach ($m2[1] as $name) {
+                $name = html_entity_decode(trim((string) $name), ENT_QUOTES | ENT_XML1, 'UTF-8');
+                if ($name !== '' && ! in_array($name, ['GetShipmentTemplateListRequest', 'auth'], true)) {
+                    $names[] = $name;
+                }
+            }
+        }
+
+        $names = array_values(array_unique($names));
+        if ($names === []) {
+            throw new N11ApiException(
+                'N11 kargo şablonu bulunamadı. SOAP yanıtı: '.mb_substr(trim(strip_tags($body)), 0, 240),
+                $response->status(),
+                ['raw' => mb_substr($body, 0, 2000)]
+            );
+        }
+
+        return $names;
+    }
+
+    /**
      * @param  array<int, array<string, mixed>>  $nodes
      * @param  list<string>  $path
      * @param  callable(array<string, mixed>, list<string>): void  $visitor

@@ -99,9 +99,22 @@ class PrepareN11MappingsCommand extends Command
             $category['path'] ?? ''
         ));
 
-        $template = (string) $channel->fresh()->setting('shipment_template', '');
+        $channel = $channel->fresh();
+        $template = (string) $channel->setting('shipment_template', '');
         if ($template === '') {
-            $this->warn('Uyarı: shipment_template boş. Ürün gönderimi için panelden kargo şablon adını girin veya --shipment-template kullanın.');
+            try {
+                $names = $client->listShipmentTemplateNames();
+                $this->line('N11 kargo şablonları: '.implode(' | ', $names));
+                $picked = $names[0];
+                $settings = $channel->settings ?? [];
+                $settings['shipment_template'] = $picked;
+                $channel->update(['settings' => $settings]);
+                $template = $picked;
+                $this->info('Kargo şablonu otomatik seçildi: '.$picked);
+            } catch (\Throwable $e) {
+                $this->warn('Kargo şablonu alınamadı: '.$e->getMessage());
+                $this->warn('Uyarı: shipment_template boş. Panelden girin veya --shipment-template kullanın.');
+            }
         } else {
             $this->info('Kargo şablonu: '.$template);
         }
