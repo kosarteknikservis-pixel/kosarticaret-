@@ -8,7 +8,8 @@ Pilot: HD500. Toplu gönderim yok; onayla faz faz.
 
 - Credential OK, kanal aktif, API erişilebilir.
 - HD500 ilk gönderim: tracking `c33c6fb3-1650-4b24-96ce-843e9bf883e8` — panel **Eksik Bilgi / Görsel** (Image2 performans grafiği HB kuralına aykırı).
-- Düzeltme: HB payload yalnızca ürün fotoğrafı (orijinal JPG; grafik/çizim ve aşırı yatay görseller elenir) + HD500 yeniden gönderim.
+- Düzeltme: HB payload yalnızca ürün fotoğrafı (orijinal JPG; grafik/çizim ve aşırı yatay görseller elenir).
+- HD500 yeniden gönderildi — tracking `b98c85b7-010e-42e8-abd1-c8874719326a` (yalnızca ürün fotoğrafı).
 - Sonraki ürünler için onay bekleniyor (1 ürün / onay).
 
 | # | SKU | Slug | Fiyat (TL) | Durum | Not |
@@ -31,7 +32,7 @@ Pilot: HD500. Toplu gönderim yok; onayla faz faz.
 | 16 | TS1212H | troy-ts-12-12-h-12v-karavan-hidroforu | 7599 | bekliyor | |
 | 17 | TS128H | troy-ts-12-8-h-12v-karavan-hidroforu | 7999 | bekliyor | |
 | 18 | STN2000G | sumak-stn2000g-sintine-dalgic-pompa-6-mss-4500-litre-h-12-volt-manuel | 5999 | bekliyor | |
-| 19 | HD500 | sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt | 3999 | gönderildi | tracking c33c6fb3… |
+| 19 | HD500 | sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt | 3999 | görsel düzeltildi | tracking b98c85b7… (önceki: c33c6fb3) |
 | 20 | WNP400AW | winpo-wnp-400-aw-flatorlu-drenaj-dalgic-pompa-6mss-7m3h-monofoze220v | 5599 | bekliyor | |
 | 21 | 4SDF4 | sumak-4sdf4-07-hp-220v-keson-dalgici-1-cikisli | 14199 | bekliyor | |
 | 22 | WNP400AWGF | winpo-wnp-400-aw-gf-gizli-flatorlu-drenaj-dalgic-pompa-7mss-7m3h-monofaze-220v | 5499 | bekliyor | |
