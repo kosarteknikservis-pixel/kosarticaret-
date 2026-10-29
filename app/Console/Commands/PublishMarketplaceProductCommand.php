@@ -21,7 +21,7 @@ class PublishMarketplaceProductCommand extends Command
         {--price= : Kanal satış fiyatı (site fiyatını değiştirmez)}
         {--dry-run : API ürün gönderimi yapmadan doğrula}';
 
-    protected $description = 'Ürünü pazaryeri kanalına gönderir (trendyol | hepsiburada).';
+    protected $description = 'Ürünü pazaryeri kanalına gönderir (trendyol | hepsiburada | n11).';
 
     public function handle(
         ProductListingService $listingService,
@@ -46,8 +46,8 @@ class PublishMarketplaceProductCommand extends Command
             return self::FAILURE;
         }
 
-        if ($channelKey === 'hepsiburada' && $this->isKosarBrand($product)) {
-            $this->warn('Koşar markalı ürün Hepsiburada\'ya gönderilmez; atlandı: '.$slug);
+        if (in_array($channelKey, ['hepsiburada', 'n11'], true) && $this->isKosarBrand($product)) {
+            $this->warn('Koşar markalı ürün '.$channelKey.' kanalına gönderilmez; atlandı: '.$slug);
 
             return self::SUCCESS;
         }
@@ -58,6 +58,8 @@ class PublishMarketplaceProductCommand extends Command
                     $this->ensureTrendyolBrandMapping($product, $channel, $apiClient, $readiness);
                 } elseif ($channelKey === 'hepsiburada') {
                     $this->ensureHepsiburadaBrandMapping($product, $channel, $readiness);
+                } elseif ($channelKey === 'n11') {
+                    $this->ensureN11BrandMapping($product, $channel, $readiness);
                 }
             } catch (\Throwable $e) {
                 $this->error('Marka eşleştirme: '.$e->getMessage());
@@ -136,6 +138,24 @@ class PublishMarketplaceProductCommand extends Command
                     $img = $attrs['Image'.$i] ?? null;
                     if (is_string($img) && $img !== '') {
                         $this->line('Image'.$i.': '.$img);
+                    }
+                }
+            }
+        }
+
+        if ($channelKey === 'n11' && is_array($result['listing']?->payload_snapshot ?? null)) {
+            $sku = data_get($result['listing']->payload_snapshot, 'payload.skus.0', []);
+            if (is_array($sku)) {
+                $this->line('StockCode: '.(string) ($sku['stockCode'] ?? ''));
+                $this->line('Stock: '.(string) ($sku['quantity'] ?? ''));
+                $this->line('SalePrice: '.(string) ($sku['salePrice'] ?? ''));
+                $this->line('ShipmentTemplate: '.(string) ($sku['shipmentTemplate'] ?? ''));
+                $images = $sku['images'] ?? [];
+                if (is_array($images)) {
+                    foreach ($images as $i => $img) {
+                        if (is_array($img) && filled($img['url'] ?? null)) {
+                            $this->line('Image'.((int) $i + 1).': '.(string) $img['url']);
+                        }
                     }
                 }
             }
@@ -251,5 +271,36 @@ class PublishMarketplaceProductCommand extends Command
         );
 
         $this->info('Hepsiburada marka eşleştirildi: '.$name);
+    }
+
+    private function ensureN11BrandMapping(
+        Product $product,
+        MarketplaceChannel $channel,
+        ProductReadinessChecker $readiness,
+    ): void {
+        if ($product->brand_id === null || $product->brand === null) {
+            throw new InvalidArgumentException('Ürünün markası yok.');
+        }
+
+        if ($readiness->brandMapped($product, $channel->key)) {
+            $this->line('Marka eşleştirmesi zaten var.');
+
+            return;
+        }
+
+        $name = (string) $product->brand->name;
+
+        MarketplaceBrandMapping::query()->updateOrCreate(
+            [
+                'channel_key' => $channel->key,
+                'brand_id' => $product->brand_id,
+            ],
+            [
+                'external_brand_id' => $name,
+                'external_brand_name' => $name,
+            ],
+        );
+
+        $this->info('N11 marka eşleştirildi: '.$name);
     }
 }

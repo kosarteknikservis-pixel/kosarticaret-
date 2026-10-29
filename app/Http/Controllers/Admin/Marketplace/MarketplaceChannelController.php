@@ -51,6 +51,9 @@ class MarketplaceChannelController extends Controller
             'settings.stock_buffer_percent' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'settings.auto_sync_stock' => ['sometimes', 'boolean'],
             'settings.auto_sync_price' => ['sometimes', 'boolean'],
+            'settings.shipment_template' => ['nullable', 'string', 'max:120'],
+            'settings.integrator' => ['nullable', 'string', 'max:120'],
+            'settings.preparing_day' => ['nullable', 'integer', 'min:1', 'max:30'],
         ]);
 
         $marginParts = [

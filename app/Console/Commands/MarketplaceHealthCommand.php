@@ -7,6 +7,8 @@ use App\Services\Marketplace\MarketplaceManager;
 use App\Services\Marketplace\ProductReadinessChecker;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaApiClient;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaApiException;
+use App\Services\Marketplace\N11\N11ApiClient;
+use App\Services\Marketplace\N11\N11ApiException;
 use App\Services\Marketplace\Trendyol\TrendyolApiClient;
 use App\Services\Marketplace\Trendyol\TrendyolApiException;
 use Illuminate\Console\Command;
@@ -23,6 +25,7 @@ class MarketplaceHealthCommand extends Command
         ProductReadinessChecker $readiness,
         TrendyolApiClient $trendyolApiClient,
         HepsiburadaApiClient $hepsiburadaApiClient,
+        N11ApiClient $n11ApiClient,
     ): int {
         if (! Schema::hasTable('marketplace_channels')) {
             $this->error('Pazaryeri tabloları henüz kurulmamış. php artisan migrate çalıştırın.');
@@ -64,6 +67,19 @@ class MarketplaceHealthCommand extends Command
                     $this->info('  Hepsiburada API: erişilebilir');
                 } catch (HepsiburadaApiException $e) {
                     $this->warn('  Hepsiburada API: '.$e->getMessage());
+                }
+            }
+
+            if ($channel->key === 'n11' && $channel->is_active && $channel->isConfigured()) {
+                try {
+                    $n11ApiClient->forChannel($channel)->ping();
+                    $this->info('  N11 API: erişilebilir');
+                    $template = (string) $channel->setting('shipment_template', '');
+                    $this->line('  N11 kargo şablonu: '.($template !== '' ? $template : 'EKSİK'));
+                } catch (N11ApiException $e) {
+                    $this->warn('  N11 API: '.$e->getMessage());
+                } catch (\Throwable $e) {
+                    $this->warn('  N11 API: '.$e->getMessage());
                 }
             }
 

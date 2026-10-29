@@ -97,6 +97,22 @@
                     <input type="number" step="1" min="0" max="100" name="settings[stock_buffer_percent]" value="{{ old('settings.stock_buffer_percent', $settings['stock_buffer_percent'] ?? 5) }}" class="admin-input">
                 </div>
 
+                @if($channel->key === 'n11')
+                    <div>
+                        <label class="admin-label">N11 kargo şablonu</label>
+                        <input type="text" name="settings[shipment_template]" value="{{ old('settings.shipment_template', $settings['shipment_template'] ?? '') }}" class="admin-input" placeholder="Hesabım > Teslimat Bilgilerim şablon adı">
+                        <p class="mt-1 text-xs text-slate-500">Paneldeki teslimat şablon adıyla birebir aynı olmalı.</p>
+                    </div>
+                    <div>
+                        <label class="admin-label">N11 entegratör adı</label>
+                        <input type="text" name="settings[integrator]" value="{{ old('settings.integrator', $settings['integrator'] ?? 'KosarTicaret') }}" class="admin-input">
+                    </div>
+                    <div>
+                        <label class="admin-label">Hazırlık günü</label>
+                        <input type="number" step="1" min="1" max="30" name="settings[preparing_day]" value="{{ old('settings.preparing_day', $settings['preparing_day'] ?? 2) }}" class="admin-input">
+                    </div>
+                @endif
+
                 <label class="flex items-center gap-3 text-sm font-medium text-slate-700">
                     <input type="checkbox" name="settings[auto_sync_stock]" value="1" @checked(old('settings.auto_sync_stock', $settings['auto_sync_stock'] ?? false)) class="rounded border-slate-300">
                     Otomatik stok sync (Faz 4)
