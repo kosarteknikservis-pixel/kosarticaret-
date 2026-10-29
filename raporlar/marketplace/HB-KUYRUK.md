@@ -7,7 +7,8 @@ Pilot: HD500. Toplu gönderim yok; onayla faz faz.
 ## Pilot sonucu (2026-10-29)
 
 - Credential OK, kanal aktif, API erişilebilir.
-- HD500 gönderildi — tracking: `c33c6fb3-1650-4b24-96ce-843e9bf883e8` — 3.999 ₺
+- HD500 ilk gönderim: tracking `c33c6fb3-1650-4b24-96ce-843e9bf883e8` — panel **Eksik Bilgi / Görsel** (Image2 performans grafiği HB kuralına aykırı).
+- Düzeltme: HB payload yalnızca ürün fotoğrafı (orijinal JPG; grafik/çizim ve aşırı yatay görseller elenir) + HD500 yeniden gönderim.
 - Sonraki ürünler için onay bekleniyor (1 ürün / onay).
 
 | # | SKU | Slug | Fiyat (TL) | Durum | Not |
