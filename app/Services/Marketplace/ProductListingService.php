@@ -130,9 +130,17 @@ class ProductListingService
                 } catch (TrendyolApiException $createEx) {
                     // Tekrarlı create engeli: red/onay bekleyen kaydı unapproved update ile düzelt.
                     $msg = mb_strtolower($createEx->getMessage(), 'UTF-8');
-                    if (! $useUnapprovedUpdate && (str_contains($msg, 'tekrarlı') || str_contains($msg, 'recurring') || str_contains($msg, 'tekrarli'))) {
+                    $isRecurring = str_contains($msg, 'tekrarlı')
+                        || str_contains($msg, 'tekrarli')
+                        || str_contains($msg, 'recurring');
+                    if (! $useUnapprovedUpdate && $isRecurring && str_contains($msg, 'oluşturma')) {
                         $response = $client->updateUnapprovedProducts($payload);
                         $action = 'listing_unapproved_update';
+                    } elseif ($isRecurring && str_contains($msg, 'güncelleme')) {
+                        // Aynı ürün için eşzamanlı update kilidi: kısa bekleme sonrası 1 retry.
+                        usleep(2_500_000);
+                        $response = $client->updateUnapprovedProducts($payload);
+                        $action = 'listing_unapproved_update_retry';
                     } else {
                         throw $createEx;
                     }
