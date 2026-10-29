@@ -104,8 +104,30 @@ class ProductListingService
                     1192 => ['Türkiye', 'TR', 'Turkiye'],
                     34 => $this->tipCandidatesForProduct($product),
                 ]);
-                $response = $client->createProducts($payload);
-                $action = 'listing_publish';
+
+                $barcode = (string) ($product->barcode ?: '');
+                $existing = $barcode !== '' ? $client->getProductsByBarcode($barcode) : [];
+                $existingContent = data_get($existing, 'content.0') ?? data_get($existing, 'products.0');
+                $useUnapprovedUpdate = is_array($existingContent) && $existingContent !== [];
+
+                try {
+                    if ($useUnapprovedUpdate) {
+                        $response = $client->updateUnapprovedProducts($payload);
+                        $action = 'listing_unapproved_update';
+                    } else {
+                        $response = $client->createProducts($payload);
+                        $action = 'listing_publish';
+                    }
+                } catch (TrendyolApiException $createEx) {
+                    // Tekrarlı create engeli: red/onay bekleyen kaydı unapproved update ile düzelt.
+                    $msg = mb_strtolower($createEx->getMessage(), 'UTF-8');
+                    if (! $useUnapprovedUpdate && (str_contains($msg, 'tekrarlı') || str_contains($msg, 'recurring'))) {
+                        $response = $client->updateUnapprovedProducts($payload);
+                        $action = 'listing_unapproved_update';
+                    } else {
+                        throw $createEx;
+                    }
+                }
             }
 
             $batchId = data_get($response, 'batchRequestId') ?? data_get($response, 'batchId');
