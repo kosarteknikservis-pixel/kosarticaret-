@@ -62,7 +62,8 @@ class TrendyolApiClient
      */
     public function createProducts(array $payload): array
     {
-        return $this->post($this->productPath(), $payload);
+        // Product V1 create brownout / 15 Ekim 2026 sonrası geçersiz; V2 create kullan.
+        return $this->post($this->productCreatePathV2(), $payload);
     }
 
     /**
@@ -149,6 +150,11 @@ class TrendyolApiClient
     private function productPath(): string
     {
         return $this->integrationPrefix().'/product/sellers/'.$this->supplierId.'/products';
+    }
+
+    private function productCreatePathV2(): string
+    {
+        return $this->integrationPrefix().'/product/sellers/'.$this->supplierId.'/v2/products';
     }
 
     private function inventoryPath(): string
