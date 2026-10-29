@@ -105,10 +105,19 @@ class ProductListingService
                     34 => $this->tipCandidatesForProduct($product),
                 ]);
 
+                $useUnapprovedUpdate = false;
                 $barcode = (string) ($product->barcode ?: '');
-                $existing = $barcode !== '' ? $client->getProductsByBarcode($barcode) : [];
-                $existingContent = data_get($existing, 'content.0') ?? data_get($existing, 'products.0');
-                $useUnapprovedUpdate = is_array($existingContent) && $existingContent !== [];
+                if ($barcode !== '') {
+                    try {
+                        $existing = $client->getProductsByBarcode($barcode);
+                        $existingContent = data_get($existing, 'content.0')
+                            ?? data_get($existing, 'products.0')
+                            ?? (isset($existing['barcode']) ? $existing : null);
+                        $useUnapprovedUpdate = is_array($existingContent) && $existingContent !== [];
+                    } catch (TrendyolApiException) {
+                        $useUnapprovedUpdate = false;
+                    }
+                }
 
                 try {
                     if ($useUnapprovedUpdate) {
@@ -121,7 +130,7 @@ class ProductListingService
                 } catch (TrendyolApiException $createEx) {
                     // Tekrarlı create engeli: red/onay bekleyen kaydı unapproved update ile düzelt.
                     $msg = mb_strtolower($createEx->getMessage(), 'UTF-8');
-                    if (! $useUnapprovedUpdate && (str_contains($msg, 'tekrarlı') || str_contains($msg, 'recurring'))) {
+                    if (! $useUnapprovedUpdate && (str_contains($msg, 'tekrarlı') || str_contains($msg, 'recurring') || str_contains($msg, 'tekrarli'))) {
                         $response = $client->updateUnapprovedProducts($payload);
                         $action = 'listing_unapproved_update';
                     } else {
