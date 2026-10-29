@@ -105,7 +105,7 @@ class PrepareN11MappingsCommand extends Command
             try {
                 $names = $client->listShipmentTemplateNames();
                 $this->line('N11 kargo şablonları: '.implode(' | ', $names));
-                $picked = $names[0];
+                $picked = $this->pickShipmentTemplate($names);
                 $settings = $channel->settings ?? [];
                 $settings['shipment_template'] = $picked;
                 $channel->update(['settings' => $settings]);
@@ -120,6 +120,30 @@ class PrepareN11MappingsCommand extends Command
         }
 
         return self::SUCCESS;
+    }
+
+    /**
+     * @param  list<string>  $names
+     */
+    private function pickShipmentTemplate(array $names): string
+    {
+        $preferred = ['TESLİMAT2', 'TESLIMAT2', 'teslimat bilgisi', 'Standart', 'STANDART', '1'];
+        foreach ($preferred as $want) {
+            foreach ($names as $name) {
+                if (mb_strtolower(trim($name)) === mb_strtolower($want)) {
+                    return $name;
+                }
+            }
+        }
+
+        foreach ($names as $name) {
+            $lower = mb_strtolower($name);
+            if (! str_contains($lower, 'örnek') && ! str_contains($lower, 'ornek') && ! str_contains($lower, 'yeni')) {
+                return $name;
+            }
+        }
+
+        return $names[0];
     }
 
     private function mapBrands(): int

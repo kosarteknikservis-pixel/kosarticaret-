@@ -9,9 +9,7 @@ use App\Models\MarketplaceListing;
 use App\Models\Product;
 use App\Services\Marketplace\MarketplaceChannelPricing;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
-use RuntimeException;
 
 class N11ListingPayloadBuilder
 {
@@ -332,9 +330,11 @@ class N11ListingPayloadBuilder
             $relative = substr($relative, strlen('storage/'));
         }
 
-        $jsdelivr = $this->jsdelivrForSource($relative);
-        if ($jsdelivr !== null && $this->isReachableImage($jsdelivr)) {
-            return $jsdelivr;
+        foreach ($this->candidateSeedFiles($relative, $sku) as $seedFile) {
+            $cdn = $this->cdnUrlForRepoFile($seedFile, $relative.$sku.$index);
+            if ($cdn !== null && $this->isReachableImage($cdn)) {
+                return $cdn;
+            }
         }
 
         $disk = Storage::disk('public');
@@ -352,40 +352,58 @@ class N11ListingPayloadBuilder
             return null;
         }
 
-        $ext = strtolower(pathinfo($relative, PATHINFO_EXTENSION) ?: 'jpg');
-        if (! in_array($ext, ['jpg', 'jpeg', 'png'], true)) {
-            $ext = 'jpg';
+        // Son çare: site public URL (HTTPS).
+        $public = 'https://kosarticaret.com/storage/'.$relative;
+        if ($this->isReachableImage($public)) {
+            return $public;
         }
-        $safeSku = preg_replace('/[^A-Za-z0-9_-]+/', '-', strtoupper($sku)) ?: 'SKU';
-        $target = sprintf('marketplace/n11/%s/%s-%d.%s', $safeSku, now()->format('YmdHis'), $index + 1, $ext);
-        $disk->put($target, $disk->get($relative));
 
-        return $this->uploadToCatbox($target);
+        return null;
     }
 
-    private function jsdelivrForSource(string $sourceRelative): ?string
+    /**
+     * @return list<string> absolute file paths
+     */
+    private function candidateSeedFiles(string $sourceRelative, string $sku): array
     {
+        $candidates = [];
         $basename = basename($sourceRelative);
-        if ($basename === '' || $basename === '.' || $basename === '..') {
+        $skuKey = strtolower(preg_replace('/[^a-z0-9]+/i', '', $sku) ?: '');
+
+        $patterns = [];
+        if ($basename !== '' && $basename !== '.' && $basename !== '..') {
+            $patterns[] = database_path('seed-assets/*/'.$basename);
+            $patterns[] = database_path('seed-assets/*/*/'.$basename);
+        }
+        if ($skuKey !== '') {
+            $patterns[] = database_path('seed-assets/*/'.$skuKey.'*.jpg');
+            $patterns[] = database_path('seed-assets/*/'.$skuKey.'-*.jpg');
+            // HD500 → hd500-1.jpg
+            $patterns[] = database_path('seed-assets/*/'.strtolower($sku).'*.jpg');
+            $patterns[] = database_path('seed-assets/*/'.strtolower($sku).'-*.jpg');
+        }
+
+        foreach ($patterns as $pattern) {
+            foreach (glob($pattern) ?: [] as $file) {
+                if (is_file($file)) {
+                    $candidates[] = $file;
+                }
+            }
+        }
+
+        return array_values(array_unique($candidates));
+    }
+
+    private function cdnUrlForRepoFile(string $absolutePath, string $bustSeed): ?string
+    {
+        if (! is_file($absolutePath)) {
             return null;
         }
 
-        $matches = glob(database_path('seed-assets/**/'.$basename), GLOB_BRACE) ?: [];
-        if ($matches === []) {
-            $matches = glob(database_path('seed-assets/*/*/'.$basename)) ?: [];
-        }
-        if ($matches === []) {
-            $matches = glob(database_path('seed-assets/*/'.$basename)) ?: [];
-        }
-        $match = $matches[0] ?? null;
-        if (! is_string($match) || ! is_file($match)) {
-            return null;
-        }
-
-        $repoRelative = str_replace('\\', '/', substr($match, strlen(base_path()) + 1));
+        $repoRelative = str_replace('\\', '/', substr($absolutePath, strlen(base_path()) + 1));
         $repo = trim((string) config('marketplace.n11.github_repo', 'kosarteknikservis-pixel/kosarticaret-'), '/');
         $branch = trim((string) config('marketplace.n11.github_branch', 'main'), '/');
-        $bust = substr(md5($sourceRelative.now()->format('YmdHis')), 0, 8);
+        $bust = substr(md5($bustSeed.now()->format('YmdHis')), 0, 8);
 
         return sprintf(
             'https://cdn.jsdelivr.net/gh/%s@%s/%s?v=%s',
@@ -394,25 +412,6 @@ class N11ListingPayloadBuilder
             ltrim($repoRelative, '/'),
             $bust
         );
-    }
-
-    private function uploadToCatbox(string $publishedRelative): string
-    {
-        $disk = Storage::disk('public');
-        if (! $disk->exists($publishedRelative)) {
-            throw new RuntimeException('N11 Catbox: dosya yok '.$publishedRelative);
-        }
-
-        $response = Http::timeout(60)
-            ->attach('fileToUpload', $disk->get($publishedRelative), basename($publishedRelative))
-            ->post('https://catbox.moe/user/api.php', ['reqtype' => 'fileupload']);
-
-        $url = trim((string) $response->body());
-        if (! $response->successful() || ! str_starts_with($url, 'https://')) {
-            throw new RuntimeException('N11 Catbox yükleme başarısız: '.mb_substr($url, 0, 180));
-        }
-
-        return $url;
     }
 
     private function isReachableImage(string $url): bool
