@@ -67,6 +67,17 @@ class TrendyolApiClient
     }
 
     /**
+     * Red / onay bekleyen ürün içerik güncelleme (görsel, başlık, açıklama, marka…).
+     *
+     * @param  array<string, mixed>  $payload
+     * @return array<string, mixed>
+     */
+    public function updateUnapprovedProducts(array $payload): array
+    {
+        return $this->post($this->unapprovedBulkUpdatePath(), $payload);
+    }
+
+    /**
      * @param  array<string, mixed>  $payload
      * @return array<string, mixed>
      */
@@ -155,6 +166,11 @@ class TrendyolApiClient
     private function productCreatePathV2(): string
     {
         return $this->integrationPrefix().'/product/sellers/'.$this->supplierId.'/v2/products';
+    }
+
+    private function unapprovedBulkUpdatePath(): string
+    {
+        return $this->integrationPrefix().'/product/sellers/'.$this->supplierId.'/products/unapproved-bulk-update';
     }
 
     private function inventoryPath(): string
