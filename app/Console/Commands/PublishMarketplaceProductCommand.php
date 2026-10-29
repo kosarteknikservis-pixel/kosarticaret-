@@ -120,6 +120,9 @@ class PublishMarketplaceProductCommand extends Command
         if ($channelKey === 'hepsiburada' && is_array($result['listing']?->payload_snapshot ?? null)) {
             $attrs = data_get($result['listing']->payload_snapshot, '0.attributes', []);
             if (is_array($attrs)) {
+                if (filled($attrs['Barcode'] ?? null)) {
+                    $this->line('Barcode: '.(string) $attrs['Barcode']);
+                }
                 for ($i = 1; $i <= 10; $i++) {
                     $img = $attrs['Image'.$i] ?? null;
                     if (is_string($img) && $img !== '') {

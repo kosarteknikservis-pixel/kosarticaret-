@@ -75,11 +75,8 @@ class HepsiburadaListingPayloadBuilder
             'stock' => (string) max(0, $stock),
         ];
 
-        // HB EAN-13 ister; SKU/barkod metni (HD500) listeleme hatasına düşürür.
-        $ean = $this->resolveEan13Barcode($product);
-        if ($ean !== null) {
-            $attributes['Barcode'] = $ean;
-        }
+        // HB Barkod zorunlu + EAN-13; SKU metni (4SDF4) kabul edilmez → geçerli EAN üret.
+        $attributes['Barcode'] = $this->resolveEan13Barcode($product);
 
         foreach (array_values($images) as $index => $url) {
             if ($index >= 10) {
@@ -178,14 +175,22 @@ class HepsiburadaListingPayloadBuilder
         return number_format($price, 2, ',', '');
     }
 
-    private function resolveEan13Barcode(Product $product): ?string
+    private function resolveEan13Barcode(Product $product): string
     {
         $raw = trim((string) ($product->barcode ?: ''));
         if ($raw !== '' && $this->isValidEan13($raw)) {
             return $raw;
         }
 
-        return null;
+        // Dahili EAN (200…): site barkodunu değiştirmez; HB zorunlu alanını doldurur.
+        return $this->generateInternalEan13((int) $product->id);
+    }
+
+    private function generateInternalEan13(int $productId): string
+    {
+        $body = '200'.str_pad((string) max(0, $productId % 1_000_000_000), 9, '0', STR_PAD_LEFT);
+
+        return $body.$this->ean13CheckDigit($body);
     }
 
     private function isValidEan13(string $code): bool
@@ -194,14 +199,18 @@ class HepsiburadaListingPayloadBuilder
             return false;
         }
 
+        return $this->ean13CheckDigit(substr($code, 0, 12)) === (int) $code[12];
+    }
+
+    private function ean13CheckDigit(string $twelveDigits): int
+    {
         $sum = 0;
         for ($i = 0; $i < 12; $i++) {
-            $digit = (int) $code[$i];
+            $digit = (int) $twelveDigits[$i];
             $sum += ($i % 2 === 0) ? $digit : $digit * 3;
         }
-        $check = (10 - ($sum % 10)) % 10;
 
-        return $check === (int) $code[12];
+        return (10 - ($sum % 10)) % 10;
     }
 
     private function sanitizeDescriptionHtml(string $html): string
