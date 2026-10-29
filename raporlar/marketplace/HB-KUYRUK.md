@@ -4,16 +4,11 @@ Kaynak: Trendyol’a gönderilen ürünler. HB fiyatı = TY fiyatı.
 Durum: `bekliyor` | `gönderildi` | `hata`
 Pilot: HD500. Toplu gönderim yok; onayla faz faz.
 
-## Blok (2026-10-29)
+## Pilot sonucu (2026-10-29)
 
-Canlı `marketplace:health`: Hepsiburada **pasif**, credential **eksik**
-(`API bilgisi yok — kosargrup hesabında da boş`).
-Altyapı main’de. Pilot için panelden Merchant ID + User-Agent username + servis anahtarı kaydedilip kanal aktif edilmeli; sonra:
-
-```bash
-php artisan marketplace:hb-prepare-mappings
-php artisan marketplace:publish-product sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt --channel=hepsiburada --map-brand --price=3999
-```
+- Credential OK, kanal aktif, API erişilebilir.
+- HD500 gönderildi — tracking: `c33c6fb3-1650-4b24-96ce-843e9bf883e8` — 3.999 ₺
+- Sonraki ürünler için onay bekleniyor (1 ürün / onay).
 
 | # | SKU | Slug | Fiyat (TL) | Durum | Not |
 |---|-----|------|------------|-------|-----|
@@ -35,7 +30,7 @@ php artisan marketplace:publish-product sumak-hd-500-drenaj-dalgic-pompa-acik-ca
 | 16 | TS1212H | troy-ts-12-12-h-12v-karavan-hidroforu | 7599 | bekliyor | |
 | 17 | TS128H | troy-ts-12-8-h-12v-karavan-hidroforu | 7999 | bekliyor | |
 | 18 | STN2000G | sumak-stn2000g-sintine-dalgic-pompa-6-mss-4500-litre-h-12-volt-manuel | 5999 | bekliyor | |
-| 19 | HD500 | sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt | 3999 | bekliyor | **pilot** — credential bekliyor |
+| 19 | HD500 | sumak-hd-500-drenaj-dalgic-pompa-acik-carkli-monofaze-220v-370-watt | 3999 | gönderildi | tracking c33c6fb3… |
 | 20 | WNP400AW | winpo-wnp-400-aw-flatorlu-drenaj-dalgic-pompa-6mss-7m3h-monofoze220v | 5599 | bekliyor | |
 | 21 | 4SDF4 | sumak-4sdf4-07-hp-220v-keson-dalgici-1-cikisli | 14199 | bekliyor | |
 | 22 | WNP400AWGF | winpo-wnp-400-aw-gf-gizli-flatorlu-drenaj-dalgic-pompa-7mss-7m3h-monofaze-220v | 5499 | bekliyor | |
