@@ -7,9 +7,11 @@ Pilot: HD500. Toplu gönderim yok; onayla faz faz.
 ## Pilot sonucu (2026-10-29)
 
 - Credential OK, kanal aktif, API erişilebilir.
-- HD500 ilk gönderim: tracking `c33c6fb3-1650-4b24-96ce-843e9bf883e8` — panel **Eksik Bilgi / Görsel** (Image2 performans grafiği HB kuralına aykırı).
-- Düzeltme: HB payload yalnızca ürün fotoğrafı (orijinal JPG; grafik/çizim ve aşırı yatay görseller elenir).
-- HD500 yeniden gönderildi — tracking `b98c85b7-010e-42e8-abd1-c8874719326a` (yalnızca ürün fotoğrafı).
+- HD500: panel **Eksik Bilgi / Görsel** — önce grafik görsel, sonra «erişim problemi nedeniyle indirilememiştir».
+- Kod: yalnızca ürün JPG; her gönderimde benzersiz public URL; host `https://kosarticaret.com`; gönderim öncesi HEAD kontrolü.
+- **Hosting:** HB görsel crawler IP’lerini allow et (CSF / firewall / ModSecurity):
+  `193.28.225.94`, `185.92.214.94`, `34.78.190.48`, `104.155.47.90`, `34.76.71.175`, `35.240.98.85`
+  (HB Ocak 2024 entegrasyon duyurusu)
 - Sonraki ürünler için onay bekleniyor (1 ürün / onay).
 
 | # | SKU | Slug | Fiyat (TL) | Durum | Not |

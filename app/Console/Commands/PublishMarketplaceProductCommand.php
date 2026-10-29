@@ -117,6 +117,18 @@ class PublishMarketplaceProductCommand extends Command
 
         $this->{$result['success'] ? 'info' : 'error'}($result['message']);
 
+        if ($channelKey === 'hepsiburada' && is_array($result['listing']?->payload_snapshot ?? null)) {
+            $attrs = data_get($result['listing']->payload_snapshot, '0.attributes', []);
+            if (is_array($attrs)) {
+                for ($i = 1; $i <= 10; $i++) {
+                    $img = $attrs['Image'.$i] ?? null;
+                    if (is_string($img) && $img !== '') {
+                        $this->line('Image'.$i.': '.$img);
+                    }
+                }
+            }
+        }
+
         return $result['success'] ? self::SUCCESS : self::FAILURE;
     }
 

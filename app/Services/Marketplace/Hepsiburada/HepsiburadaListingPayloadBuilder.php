@@ -8,7 +8,10 @@ use App\Models\MarketplaceChannel;
 use App\Models\MarketplaceListing;
 use App\Models\Product;
 use App\Services\Marketplace\MarketplaceChannelPricing;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
+use RuntimeException;
 
 class HepsiburadaListingPayloadBuilder
 {
@@ -80,6 +83,8 @@ class HepsiburadaListingPayloadBuilder
             }
             $attributes['Image'.($index + 1)] = $url;
         }
+
+        $this->assertImagesPubliclyReachable($attributes);
 
         if ($client !== null) {
             $attributes = $this->enrichRequiredAttributes(
@@ -220,6 +225,7 @@ class HepsiburadaListingPayloadBuilder
     /**
      * HB katalog kuralları: orijinal JPG/PNG (webp değil), grafik/çizim değil,
      * ürün fotoğrafı yaklaşık kare ve yeterli çözünürlükte olmalı.
+     * Güncellemede aynı URL kabul edilmez → her gönderimde benzersiz public kopya.
      *
      * @return list<string>
      */
@@ -238,14 +244,19 @@ class HepsiburadaListingPayloadBuilder
             }
         }
 
+        $stamp = now()->format('YmdHis');
+        $index = 0;
+
         foreach ($candidates as $path) {
             if (! $this->isMarketplaceSafeImagePath($path)) {
                 continue;
             }
 
-            $url = $this->absoluteImageUrl($this->publicStorageUrl($path));
+            $publicPath = $this->publishUniqueMarketplaceCopy($path, (string) ($product->sku ?: $product->id), $stamp, $index);
+            $url = $this->absoluteImageUrl($this->publicStorageUrl($publicPath));
             if ($url && ! in_array($url, $urls, true)) {
                 $urls[] = $url;
+                $index++;
             }
 
             if (count($urls) >= 10) {
@@ -253,15 +264,81 @@ class HepsiburadaListingPayloadBuilder
             }
         }
 
-        // Yerel dosya yoksa (yalnızca uzak URL) en az bir görsel gönder.
         if ($urls === []) {
-            $fallback = $this->absoluteImageUrl($product->imageUrl() ?: null);
-            if ($fallback) {
-                $urls[] = $fallback;
-            }
+            throw new InvalidArgumentException(
+                'Hepsiburada için uygun ürün fotoğrafı yok (grafik/çizim veya düşük çözünürlük elendi).'
+            );
         }
 
         return $urls;
+    }
+
+    /**
+     * HB aynı URL ile görsel güncellemeyi reddeder; her publish için yeni path.
+     */
+    private function publishUniqueMarketplaceCopy(string $sourcePath, string $sku, string $stamp, int $index): string
+    {
+        $relative = ltrim(str_replace('\\', '/', $sourcePath), '/');
+        if (str_starts_with($relative, 'storage/')) {
+            $relative = substr($relative, strlen('storage/'));
+        }
+
+        if (str_starts_with($relative, 'http://') || str_starts_with($relative, 'https://')) {
+            return $relative;
+        }
+
+        $disk = Storage::disk('public');
+        if (! $disk->exists($relative)) {
+            throw new RuntimeException('Hepsiburada görsel dosyası yok: '.$relative);
+        }
+
+        $ext = strtolower(pathinfo($relative, PATHINFO_EXTENSION) ?: 'jpg');
+        if (! in_array($ext, ['jpg', 'jpeg', 'png'], true)) {
+            $ext = 'jpg';
+        }
+
+        $safeSku = preg_replace('/[^A-Za-z0-9_-]+/', '-', strtoupper($sku)) ?: 'SKU';
+        $target = sprintf('marketplace/hepsiburada/%s/%s-%d.%s', $safeSku, $stamp, $index + 1, $ext);
+        $disk->put($target, $disk->get($relative));
+
+        return $target;
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
+    private function assertImagesPubliclyReachable(array $attributes): void
+    {
+        for ($i = 1; $i <= 10; $i++) {
+            $key = 'Image'.$i;
+            if (! isset($attributes[$key]) || ! is_string($attributes[$key]) || $attributes[$key] === '') {
+                continue;
+            }
+
+            $url = $attributes[$key];
+            try {
+                $response = Http::timeout(20)
+                    ->withHeaders(['User-Agent' => 'Mozilla/5.0 (compatible; KosarHbPreflight/1.0)'])
+                    ->head($url);
+            } catch (\Throwable $e) {
+                throw new InvalidArgumentException(
+                    "Hepsiburada {$key} erişilemedi ({$url}): ".$e->getMessage()
+                );
+            }
+
+            if (! $response->successful()) {
+                throw new InvalidArgumentException(
+                    "Hepsiburada {$key} HTTP ".$response->status().' döndü: '.$url
+                );
+            }
+
+            $contentType = strtolower((string) $response->header('Content-Type'));
+            if ($contentType !== '' && ! str_starts_with($contentType, 'image/')) {
+                throw new InvalidArgumentException(
+                    "Hepsiburada {$key} image/* değil ({$contentType}): ".$url
+                );
+            }
+        }
     }
 
     private function isMarketplaceSafeImagePath(string $path): bool
@@ -341,6 +418,20 @@ class HepsiburadaListingPayloadBuilder
             return $url;
         }
 
-        return rtrim((string) config('app.url'), '/').'/'.ltrim($url, '/');
+        $base = rtrim((string) config(
+            'marketplace.hepsiburada.public_asset_base_url',
+            config('app.url')
+        ), '/');
+
+        if ($base === '') {
+            $base = rtrim((string) config('app.url'), '/');
+        }
+
+        // HB crawler HTTP'yi/redirect'i sorun çıkarabiliyor.
+        if (str_starts_with($base, 'http://')) {
+            $base = 'https://'.substr($base, strlen('http://'));
+        }
+
+        return $base.'/'.ltrim($url, '/');
     }
 }
