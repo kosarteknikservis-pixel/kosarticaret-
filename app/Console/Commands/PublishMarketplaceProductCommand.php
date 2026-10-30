@@ -22,7 +22,7 @@ class PublishMarketplaceProductCommand extends Command
         {--price= : Kanal satış fiyatı (site fiyatını değiştirmez)}
         {--dry-run : API ürün gönderimi yapmadan doğrula}';
 
-    protected $description = 'Ürünü pazaryeri kanalına gönderir (trendyol | hepsiburada | n11 | idefix).';
+    protected $description = 'Ürünü pazaryeri kanalına gönderir (trendyol | hepsiburada | n11 | idefix | pttavm).';
 
     public function handle(
         ProductListingService $listingService,
@@ -48,7 +48,7 @@ class PublishMarketplaceProductCommand extends Command
             return self::FAILURE;
         }
 
-        if (in_array($channelKey, ['hepsiburada', 'n11', 'idefix'], true) && $this->isKosarBrand($product)) {
+        if (in_array($channelKey, ['hepsiburada', 'n11', 'idefix', 'pttavm'], true) && $this->isKosarBrand($product)) {
             $this->warn('Koşar markalı ürün '.$channelKey.' kanalına gönderilmez; atlandı: '.$slug);
 
             return self::SUCCESS;
@@ -64,6 +64,8 @@ class PublishMarketplaceProductCommand extends Command
                     $this->ensureN11BrandMapping($product, $channel, $readiness);
                 } elseif ($channelKey === 'idefix') {
                     $this->ensureIdefixBrandMapping($product, $channel, $idefixApiClient, $readiness);
+                } elseif ($channelKey === 'pttavm') {
+                    $this->ensurePttAvmBrandMapping($product, $channel, $readiness);
                 }
             } catch (\Throwable $e) {
                 $this->error('Marka eşleştirme: '.$e->getMessage());
@@ -326,6 +328,49 @@ class PublishMarketplaceProductCommand extends Command
         );
 
         $this->info('N11 marka eşleştirildi: '.$name);
+    }
+
+    private function ensurePttAvmBrandMapping(
+        Product $product,
+        MarketplaceChannel $channel,
+        ProductReadinessChecker $readiness,
+    ): void {
+        if ($product->brand_id === null || $product->brand === null) {
+            throw new InvalidArgumentException('Ürünün markası yok.');
+        }
+
+        $forceSumak = $this->isTroyBrand($product)
+            || str_starts_with(mb_strtolower((string) $product->slug, 'UTF-8'), 'troy-');
+
+        if (! $forceSumak && $readiness->brandMapped($product, $channel->key)) {
+            $this->line('Marka eşleştirmesi zaten var.');
+
+            return;
+        }
+
+        $name = $forceSumak ? 'Sumak' : (string) $product->brand->name;
+        $brandIds = [$product->brand_id];
+        if ($forceSumak) {
+            $sumakId = \App\Models\Brand::query()->where('slug', 'sumak')->value('id');
+            if ($sumakId) {
+                $brandIds[] = (int) $sumakId;
+            }
+        }
+
+        foreach (array_unique($brandIds) as $brandId) {
+            MarketplaceBrandMapping::query()->updateOrCreate(
+                [
+                    'channel_key' => $channel->key,
+                    'brand_id' => $brandId,
+                ],
+                [
+                    'external_brand_id' => $name,
+                    'external_brand_name' => $name,
+                ],
+            );
+        }
+
+        $this->info('PTT AVM marka eşleştirildi: '.$name.($forceSumak ? ' (Troy→Sumak)' : ''));
     }
 
     private function ensureIdefixBrandMapping(
