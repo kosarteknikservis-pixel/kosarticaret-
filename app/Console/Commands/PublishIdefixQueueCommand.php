@@ -24,6 +24,7 @@ class PublishIdefixQueueCommand extends Command
         231078808, // Hidroforlar
         771397498, // Tekne Hidrofor (yalnız karavan)
         530141372, // Santrifüj
+        530138605, // Bahçe Pompası
         530110498, // Su Motorları
     ];
 
@@ -167,11 +168,9 @@ class PublishIdefixQueueCommand extends Command
                 continue;
             }
 
+            // Force: draft yapma — update yolu external_product_id / snapshot ile çalışır.
             if ($force && $listing !== null) {
-                $listing->update([
-                    'status' => 'draft',
-                    'last_error' => null,
-                ]);
+                $listing->update(['last_error' => null]);
             }
 
             $exit = Artisan::call('marketplace:publish-product', [
@@ -250,8 +249,9 @@ class PublishIdefixQueueCommand extends Command
             '771397498' => 1,
             '231078808' => 2,
             '530141372' => 3,
-            '530114652' => 4,
-            '530110498' => 5,
+            '530138605' => 4,
+            '530114652' => 5,
+            '530110498' => 6,
         ];
 
         $picked = \App\Models\MarketplaceCategoryMapping::query()
