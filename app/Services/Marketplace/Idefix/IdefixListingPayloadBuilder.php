@@ -82,11 +82,13 @@ class IdefixListingPayloadBuilder
         }
 
         $brandId = (int) $brandMapping->external_brand_id;
+        $brandId = $this->skuBrandOverride($product, $brandId);
         if ($brandId <= 0) {
             throw new InvalidArgumentException('Idefix marka ID geçersiz. --map-brand ile API’den eşleştirin.');
         }
 
         $categoryId = (int) $categoryMapping->external_category_id;
+        $categoryId = $this->skuCategoryOverride($product, $categoryId);
         if ($categoryId <= 0) {
             throw new InvalidArgumentException('Idefix kategori ID geçersiz.');
         }
@@ -574,6 +576,32 @@ class IdefixListingPayloadBuilder
         return $brandSlug === 'troy'
             || str_starts_with($productSlug, 'troy-')
             || $brandName === 'troy';
+    }
+
+    private function skuBrandOverride(Product $product, int $brandId): int
+    {
+        $sku = mb_strtoupper(trim((string) ($product->sku ?: '')), 'UTF-8');
+        // Bu SKU’larda katalog #20038761 istiyor (#20038760 BRAND_FAILED).
+        if (in_array($sku, ['SMJK100', 'SDF152', 'SDF102'], true)) {
+            return 20038761;
+        }
+
+        return $brandId;
+    }
+
+    private function skuCategoryOverride(Product $product, int $categoryId): int
+    {
+        $sku = mb_strtoupper(trim((string) ($product->sku ?: '')), 'UTF-8');
+        // SBRM bıçaklı foseptik: create CATEGORY_FAILED → Su Motorları
+        if (in_array($sku, ['SBRM18-2-P', 'SBRM182P', 'SBRM18-2P'], true)) {
+            return 530110498;
+        }
+        // Jet SMJK: Santrifüj leaf
+        if ($sku === 'SMJK100') {
+            return 530141372;
+        }
+
+        return $categoryId;
     }
 
     /** @return list<string> */
