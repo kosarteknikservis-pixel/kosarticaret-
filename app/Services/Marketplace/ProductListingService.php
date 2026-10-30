@@ -383,15 +383,8 @@ class ProductListingService
                 throw new InvalidArgumentException('Idefix stok 0 gönderilemez.');
             }
 
-            $useUpdate = in_array($listing->status, ['pending', 'published', 'approved'], true)
-                || filled($listing->external_product_id)
-                || filled(data_get($listing->payload_snapshot, 'products.0.barcode'));
-
-            $mode = $useUpdate ? 'update' : 'create';
-            $response = $useUpdate
-                ? $client->updateProducts($payload)
-                : $client->createProducts($payload);
-
+            // Idefix API ürün alanını güncellemez; yalnızca create + stok/fiyat.
+            $response = $client->createProducts($payload);
             $batchId = (string) (
                 data_get($response, 'batchRequestId')
                 ?? data_get($response, 'batchId')
@@ -400,7 +393,7 @@ class ProductListingService
 
             if ($batchId === '') {
                 throw new IdefixApiException(
-                    'Idefix batchRequestId dönmedi ('.$mode.').',
+                    'Idefix batchRequestId dönmedi.',
                     0,
                     is_array($response) ? $response : null,
                 );
@@ -421,8 +414,8 @@ class ProductListingService
                 $channel->key,
                 $product->id,
                 null,
-                'Idefix '.$mode.' kuyruğa alındı.',
-                ['response' => $response, 'batchRequestId' => $batchId, 'mode' => $mode],
+                'Idefix gönderimi kuyruğa alındı.',
+                ['response' => $response, 'batchRequestId' => $batchId],
                 (int) round((microtime(true) - $started) * 1000),
             );
 
@@ -431,7 +424,7 @@ class ProductListingService
             return [
                 'success' => true,
                 'listing' => $listing->fresh(),
-                'message' => 'Ürün Idefix\'e '.$mode.' ile gönderildi (batchRequestId: '.$batchId.').',
+                'message' => 'Ürün Idefix\'e gönderildi. Onay süreci bekleniyor (batchRequestId: '.$batchId.').',
             ];
         } catch (IdefixApiException $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
