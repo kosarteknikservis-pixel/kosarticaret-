@@ -13,24 +13,23 @@ use Illuminate\Console\Command;
 class PrepareIdefixMappingsCommand extends Command
 {
     protected $signature = 'marketplace:idefix-prepare-mappings
-        {--query= : Tek kategori arama (grup eşlemesini atlar)}
-        {--category-id= : Tek Idefix leaf ID (tüm yerel slug’lara yazar)}
         {--delivery-duration= : Teslimat süresi (gün) kanala yaz}';
 
-    protected $description = 'Idefix pompa kategori (gruplu) + marka eşleştirmelerini hazırlar.';
+    protected $description = 'Idefix pompa kategori (sabit leaf ID) + marka eşleştirmelerini hazırlar.';
 
     /** @var list<string> */
     private array $brandSlugs = ['sumak', 'kaysu', 'pedrollo', 'winpo', 'troy'];
 
     /**
-     * Yerel kategori slug grupları → Idefix arama / sabit ID.
+     * Canlı Idefix leaf’ler (marketplace:idefix-dump-categories 2026-10-30).
+     * NOT: #530173799 “Bahçe Hidrofonları” hidrofor değildir — kullanılmaz.
      *
-     * @var array<string, array{query: string, fallback_id: int, slugs: list<string>}>
+     * @var array<string, array{id: int, name: string, slugs: list<string>}>
      */
     private array $categoryGroups = [
         'dalgic' => [
-            'query' => 'dalgic pompa',
-            'fallback_id' => 530114652,
+            'id' => 530114652,
+            'name' => 'Dalgıç Pompa',
             'slugs' => [
                 'dalgic-pompalar',
                 'drenaj-dalgic-pompa',
@@ -46,23 +45,39 @@ class PrepareIdefixMappingsCommand extends Command
             ],
         ],
         'hidrofor' => [
-            'query' => 'hidrofor',
-            'fallback_id' => 530173799, // Bahçe Hidrofonları (Idefix leaf)
+            // Teknoloji > Isıtma > Hidroforlar (paket hidrofor)
+            'id' => 231078808,
+            'name' => 'Hidroforlar',
             'slugs' => [
                 'hidroforlar',
                 'sumak-hidrofor',
                 'ev-tipi-hidroforlar',
-                'karavan-hidroforu',
                 'hidrofor-sistemleri',
                 'hidrofor-grubu',
             ],
         ],
-        'jet_preferikal' => [
-            'query' => 'su motor',
-            'fallback_id' => 530114652,
+        'karavan' => [
+            // Spor > Tekne Hidrofor (12V karavan)
+            'id' => 771397498,
+            'name' => 'Tekne Hidrofor',
+            'slugs' => [
+                'karavan-hidroforu',
+            ],
+        ],
+        'santrifuj' => [
+            'id' => 530141372,
+            'name' => 'Santrifüj Pompalar',
+            'slugs' => [
+                'preferikal-pompalar-surtme-fanli',
+                'santrifuj-pompalar',
+            ],
+        ],
+        'su_motoru_jet' => [
+            // Yüzey / jet / genel su motoru
+            'id' => 530110498,
+            'name' => 'Su Motorları',
             'slugs' => [
                 'jet-pompalar-derinden-emisli',
-                'preferikal-pompalar-surtme-fanli',
                 'su-pompalari',
             ],
         ],
@@ -78,7 +93,7 @@ class PrepareIdefixMappingsCommand extends Command
         }
 
         if (! $channel->isConfigured()) {
-            $this->error('Idefix API bilgileri eksik (seller_id / api_key / api_secret). Panelden canlı bilgileri kaydedin.');
+            $this->error('Idefix API bilgileri eksik (seller_id / api_key / api_secret).');
 
             return self::FAILURE;
         }
@@ -101,45 +116,31 @@ class PrepareIdefixMappingsCommand extends Command
             $brandCount = $this->mapBrands($client);
             $this->info("Marka eşleştirme: {$brandCount} kayıt.");
 
-            $forcedId = (int) ($this->option('category-id') ?: 0);
-            $queryOpt = trim((string) ($this->option('query') ?: ''));
+            foreach ($this->categoryGroups as $key => $group) {
+                $id = (int) $group['id'];
+                $name = (string) $group['name'];
 
-            if ($forcedId > 0 || $queryOpt !== '') {
-                $category = $this->resolveCategory($client, $queryOpt, $forcedId);
-                if ($category === null) {
-                    $this->error('Uygun Idefix leaf kategori bulunamadı.');
+                // Leaf doğrula (yanlış ID erken patlar)
+                try {
+                    $attrs = $client->getCategoryAttributes($id);
+                    $apiName = (string) ($attrs['name'] ?? $name);
+                    if ($apiName !== '') {
+                        $name = $apiName;
+                    }
+                } catch (\Throwable $e) {
+                    $this->error("Grup {$key}: kategori #{$id} attributes alınamadı — ".$e->getMessage());
 
                     return self::FAILURE;
                 }
-                $allSlugs = [];
-                foreach ($this->categoryGroups as $group) {
-                    $allSlugs = array_merge($allSlugs, $group['slugs']);
-                }
-                $mapped = $this->mapCategorySlugs($allSlugs, (int) $category['id'], (string) $category['name']);
+
+                $mapped = $this->mapCategorySlugs($group['slugs'], $id, $name);
                 $this->info(sprintf(
-                    'Tek kategori: %d yerel → Idefix #%d (%s)',
+                    'Grup %s: %d yerel → Idefix #%d (%s)',
+                    $key,
                     $mapped,
-                    $category['id'],
-                    $category['name']
+                    $id,
+                    $name
                 ));
-            } else {
-                $leaves = $this->loadLeaves($client);
-                foreach ($this->categoryGroups as $key => $group) {
-                    $category = $this->pickLeaf($leaves, $group['query'], (int) $group['fallback_id']);
-                    if ($category === null) {
-                        $this->warn("Grup {$key}: kategori bulunamadı, atlandı.");
-                        continue;
-                    }
-                    $mapped = $this->mapCategorySlugs($group['slugs'], (int) $category['id'], (string) $category['name']);
-                    $this->info(sprintf(
-                        'Grup %s: %d yerel → Idefix #%d (%s) [%s]',
-                        $key,
-                        $mapped,
-                        $category['id'],
-                        $category['name'],
-                        $category['path'] ?? ''
-                    ));
-                }
             }
         } catch (\Throwable $e) {
             $this->error('Hazırlık başarısız: '.$e->getMessage());
@@ -147,13 +148,14 @@ class PrepareIdefixMappingsCommand extends Command
             return self::FAILURE;
         }
 
+        $this->warn('Not: Bahçe Hidrofonları (#530173799) bilinçli olarak kullanılmıyor (hidrofor değil).');
+
         return self::SUCCESS;
     }
 
     private function mapBrands(IdefixApiClient $client): int
     {
         $count = 0;
-        $sumakExternal = null;
 
         foreach ($this->brandSlugs as $slug) {
             $brand = Brand::query()->where('slug', $slug)->first();
@@ -162,7 +164,6 @@ class PrepareIdefixMappingsCommand extends Command
                 continue;
             }
 
-            // Troy Idefix’te Sumak olarak gönderilir → troy brand_id → Sumak external ID.
             $searchName = $slug === 'troy' ? 'Sumak' : (string) $brand->name;
             $match = null;
             foreach (array_unique([$searchName, mb_strtoupper($searchName), mb_strtolower($searchName), ucfirst(mb_strtolower($searchName))]) as $variant) {
@@ -180,12 +181,8 @@ class PrepareIdefixMappingsCommand extends Command
             }
 
             if ($match === null) {
-                $this->warn('Idefix marka bulunamadı: '.$searchName.' (yerel '.$slug.')');
+                $this->warn('Idefix marka bulunamadı: '.$searchName);
                 continue;
-            }
-
-            if ($slug === 'sumak' || $slug === 'troy') {
-                $sumakExternal = $match;
             }
 
             MarketplaceBrandMapping::query()->updateOrCreate(
@@ -203,92 +200,7 @@ class PrepareIdefixMappingsCommand extends Command
             $count++;
         }
 
-        if ($sumakExternal !== null) {
-            $this->line(sprintf('  Sumak referans: #%d (%s)', $sumakExternal['id'], $sumakExternal['title']));
-        }
-
         return $count;
-    }
-
-    /**
-     * @return list<array{id: int, name: string, path: string}>
-     */
-    private function loadLeaves(IdefixApiClient $client): array
-    {
-        $tree = $client->getProductCategories();
-        $items = $tree['items'] ?? $tree;
-        if (! is_array($items)) {
-            return [];
-        }
-
-        return $this->flattenLeaves($items);
-    }
-
-    /**
-     * @param  list<array{id: int, name: string, path: string}>  $leaves
-     * @return array{id: int, name: string, path?: string}|null
-     */
-    private function pickLeaf(array $leaves, string $query, int $fallbackId): ?array
-    {
-        $needle = $this->fold($query);
-        $best = null;
-        $bestScore = -1;
-
-        foreach ($leaves as $leaf) {
-            $hay = $this->fold($leaf['path'].' '.$leaf['name']);
-            $nameFold = $this->fold($leaf['name']);
-            $score = 0;
-            if ($needle !== '' && str_contains($hay, $needle)) {
-                $score += 20;
-            }
-            if ($nameFold === $needle) {
-                $score += 15;
-            }
-            if (str_contains($hay, 'dalgic') && str_contains($needle, 'dalgic')) {
-                $score += 25;
-            }
-            if ((str_contains($hay, 'hidrofor') || str_contains($hay, 'hidrofon')) && str_contains($needle, 'hidrofor')) {
-                $score += 25;
-            }
-            if (str_contains($hay, 'su motor') && str_contains($needle, 'su motor')) {
-                $score += 10;
-            }
-            if ($score > $bestScore) {
-                $bestScore = $score;
-                $best = $leaf;
-            }
-        }
-
-        if ($best !== null && $bestScore >= 15) {
-            return $best;
-        }
-
-        if ($fallbackId > 0) {
-            return [
-                'id' => $fallbackId,
-                'name' => 'Kategori #'.$fallbackId,
-                'path' => 'fallback',
-            ];
-        }
-
-        return $bestScore >= 5 ? $best : null;
-    }
-
-    /**
-     * @return array{id: int, name: string, path?: string}|null
-     */
-    private function resolveCategory(IdefixApiClient $client, string $query, int $forcedId): ?array
-    {
-        if ($forcedId > 0) {
-            $attrs = $client->getCategoryAttributes($forcedId);
-            $name = (string) ($attrs['name'] ?? ('Kategori #'.$forcedId));
-
-            return ['id' => $forcedId, 'name' => $name, 'path' => $name];
-        }
-
-        $leaves = $this->loadLeaves($client);
-
-        return $this->pickLeaf($leaves, $query, 0);
     }
 
     /**
@@ -317,49 +229,5 @@ class PrepareIdefixMappingsCommand extends Command
         }
 
         return $count;
-    }
-
-    /**
-     * @param  list<mixed>|array<string, mixed>  $nodes
-     * @return list<array{id: int, name: string, path: string}>
-     */
-    private function flattenLeaves(array $nodes, string $prefix = ''): array
-    {
-        $out = [];
-        $list = array_is_list($nodes) ? $nodes : (isset($nodes[0]) ? $nodes : [$nodes]);
-
-        foreach ($list as $node) {
-            if (! is_array($node)) {
-                continue;
-            }
-            if (isset($node['items']) && is_array($node['items']) && ! isset($node['id'])) {
-                $out = array_merge($out, $this->flattenLeaves($node['items'], $prefix));
-                continue;
-            }
-
-            $id = (int) ($node['id'] ?? 0);
-            $name = trim((string) ($node['name'] ?? ''));
-            $path = $prefix === '' ? $name : ($prefix.' > '.$name);
-            $subs = $node['subs'] ?? [];
-            if (! is_array($subs) || $subs === []) {
-                if ($id > 0 && $name !== '') {
-                    $out[] = ['id' => $id, 'name' => $name, 'path' => $path];
-                }
-                continue;
-            }
-            $out = array_merge($out, $this->flattenLeaves($subs, $path));
-        }
-
-        return $out;
-    }
-
-    private function fold(string $value): string
-    {
-        $value = mb_strtolower(trim($value), 'UTF-8');
-
-        return strtr($value, [
-            'ş' => 's', 'ı' => 'i', 'ğ' => 'g', 'ü' => 'u', 'ö' => 'o', 'ç' => 'c',
-            'Ş' => 's', 'İ' => 'i', 'I' => 'i', 'Ğ' => 'g', 'Ü' => 'u', 'Ö' => 'o', 'Ç' => 'c',
-        ]);
     }
 }
