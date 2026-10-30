@@ -338,14 +338,17 @@ class PublishMarketplaceProductCommand extends Command
             throw new InvalidArgumentException('Ürünün markası yok.');
         }
 
-        if ($readiness->brandMapped($product, $channel->key)) {
+        $forceSumak = $this->isTroyBrand($product)
+            || str_starts_with(mb_strtolower((string) $product->slug, 'UTF-8'), 'troy-');
+
+        if (! $forceSumak && $readiness->brandMapped($product, $channel->key)) {
             $this->line('Marka eşleştirmesi zaten var.');
 
             return;
         }
 
         $client = $apiClient->forChannel($channel);
-        $name = (string) $product->brand->name;
+        $name = $forceSumak ? 'Sumak' : (string) $product->brand->name;
         $match = null;
         foreach (array_unique([$name, mb_strtoupper($name), mb_strtolower($name), ucfirst(mb_strtolower($name))]) as $variant) {
             try {
@@ -365,17 +368,44 @@ class PublishMarketplaceProductCommand extends Command
             throw new InvalidArgumentException('Idefix’te “'.$name.'” markası bulunamadı.');
         }
 
-        MarketplaceBrandMapping::query()->updateOrCreate(
-            [
-                'channel_key' => $channel->key,
-                'brand_id' => $product->brand_id,
-            ],
-            [
-                'external_brand_id' => (string) $match['id'],
-                'external_brand_name' => $match['title'],
-            ],
-        );
+        // Troy ürün: hem troy hem sumak brand_id eşlemesini Sumak’a yaz.
+        $brandIds = [$product->brand_id];
+        if ($forceSumak) {
+            $sumakId = \App\Models\Brand::query()->where('slug', 'sumak')->value('id');
+            if ($sumakId) {
+                $brandIds[] = (int) $sumakId;
+            }
+        }
 
-        $this->info('Idefix marka eşleştirildi: '.$match['title'].' (#'.$match['id'].')');
+        foreach (array_unique($brandIds) as $brandId) {
+            MarketplaceBrandMapping::query()->updateOrCreate(
+                [
+                    'channel_key' => $channel->key,
+                    'brand_id' => $brandId,
+                ],
+                [
+                    'external_brand_id' => (string) $match['id'],
+                    'external_brand_name' => $match['title'],
+                ],
+            );
+        }
+
+        $this->info(
+            ($forceSumak ? 'Idefix marka (Troy→Sumak): ' : 'Idefix marka eşleştirildi: ')
+            .$match['title'].' (#'.$match['id'].')'
+        );
+    }
+
+    private function isTroyBrand(Product $product): bool
+    {
+        $brand = $product->brand;
+        if ($brand === null) {
+            return false;
+        }
+
+        $slug = mb_strtolower(trim((string) ($brand->slug ?? '')), 'UTF-8');
+        $name = mb_strtolower(trim((string) ($brand->name ?? '')), 'UTF-8');
+
+        return $slug === 'troy' || $name === 'troy';
     }
 }

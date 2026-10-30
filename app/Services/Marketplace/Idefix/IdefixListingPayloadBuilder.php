@@ -56,20 +56,27 @@ class IdefixListingPayloadBuilder
             );
         }
 
+        // Orijinal görseller (jsDelivr seed / site). Troy etiketli HD görsellerde sansür/cover yok.
         $images = $this->collectImages($product);
         if ($images === []) {
             throw new InvalidArgumentException('Idefix için en az bir HTTPS görsel gerekli.');
         }
 
+        $asSumak = $this->isTroyOrigin($product);
         $description = $this->sanitizeDescription(
             (string) ($product->description ?: $product->short_description ?: $product->name)
         );
+        $title = trim((string) $product->name);
+        if ($asSumak) {
+            $title = $this->scrubTroyText($title);
+            $description = $this->scrubTroyText($description);
+        }
         if (mb_strlen(strip_tags($description)) < 40) {
             throw new InvalidArgumentException('Idefix açıklama çok kısa.');
         }
 
         $stockCode = mb_substr(strtoupper(trim((string) ($product->sku ?: 'P'.$product->id))), 0, 64);
-        $title = mb_substr(trim((string) $product->name), 0, 200);
+        $title = mb_substr($title, 0, 200);
         if ($title === '') {
             throw new InvalidArgumentException('Idefix ürün başlığı boş.');
         }
@@ -489,6 +496,31 @@ class IdefixListingPayloadBuilder
 
     private function resolveBrandMapping(Product $product): ?MarketplaceBrandMapping
     {
+        // Troy kökenli ürünler Idefix’te Sumak marka ID ile gider.
+        if ($this->isTroyOrigin($product)) {
+            $sumak = MarketplaceBrandMapping::query()
+                ->where('channel_key', 'idefix')
+                ->where('external_brand_name', 'like', 'Sumak')
+                ->whereRaw('CAST(external_brand_id AS UNSIGNED) > 0')
+                ->first();
+
+            if ($sumak !== null) {
+                return $sumak;
+            }
+
+            // Sumak yerel marka_id eşlemesi
+            $sumakBrandId = \App\Models\Brand::query()->where('slug', 'sumak')->value('id');
+            if ($sumakBrandId) {
+                $mapped = MarketplaceBrandMapping::query()
+                    ->where('channel_key', 'idefix')
+                    ->where('brand_id', $sumakBrandId)
+                    ->first();
+                if ($mapped !== null) {
+                    return $mapped;
+                }
+            }
+        }
+
         if (! $product->brand_id) {
             return null;
         }
@@ -497,5 +529,27 @@ class IdefixListingPayloadBuilder
             ->where('channel_key', 'idefix')
             ->where('brand_id', $product->brand_id)
             ->first();
+    }
+
+    private function isTroyOrigin(Product $product): bool
+    {
+        $brandSlug = mb_strtolower(trim((string) ($product->brand?->slug ?? '')), 'UTF-8');
+        $productSlug = mb_strtolower(trim((string) ($product->slug ?? '')), 'UTF-8');
+        $brandName = mb_strtolower(trim((string) ($product->brand?->name ?? '')), 'UTF-8');
+
+        return $brandSlug === 'troy'
+            || str_starts_with($productSlug, 'troy-')
+            || $brandName === 'troy';
+    }
+
+    private function scrubTroyText(string $text): string
+    {
+        $text = preg_replace('/\b[Tt]roy\b/u', 'Sumak', $text) ?? $text;
+        $text = preg_replace('/\bTROY\b/u', 'Sumak', $text) ?? $text;
+        $text = preg_replace('/\b[Yy]akar\b/u', '', $text) ?? $text;
+        $text = str_ireplace('/marka/troy', '/marka/sumak', $text);
+        $text = preg_replace('/\s{2,}/u', ' ', $text) ?? $text;
+
+        return trim($text);
     }
 }
