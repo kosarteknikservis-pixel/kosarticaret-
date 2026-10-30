@@ -13,35 +13,59 @@ use Illuminate\Console\Command;
 class PrepareIdefixMappingsCommand extends Command
 {
     protected $signature = 'marketplace:idefix-prepare-mappings
-        {--query= : Kategori arama metni}
-        {--category-id= : Idefix leaf kategori ID}
+        {--query= : Tek kategori arama (grup eşlemesini atlar)}
+        {--category-id= : Tek Idefix leaf ID (tüm yerel slug’lara yazar)}
         {--delivery-duration= : Teslimat süresi (gün) kanala yaz}';
 
-    protected $description = 'Idefix pompa kategori + marka eşleştirmelerini hazırlar.';
+    protected $description = 'Idefix pompa kategori (gruplu) + marka eşleştirmelerini hazırlar.';
 
     /** @var list<string> */
     private array $brandSlugs = ['sumak', 'kaysu', 'pedrollo', 'winpo', 'troy'];
 
-    /** @var list<string> */
-    private array $categorySlugs = [
-        'dalgic-pompalar',
-        'drenaj-dalgic-pompa',
-        'kirli-su-dalgic-pompa',
-        'foseptik-dalgic-pompa',
-        'bicakli-dalgic-pompa',
-        'temiz-su-dalgic-pompasi',
-        'paslanmaz-drenaj-dalgic-pompa',
-        'derin-kuyu-dalgic-pompa',
-        'sintine-pompasi',
-        'keson-kuyu-pompa',
-        'hidroforlar',
-        'sumak-hidrofor',
-        'ev-tipi-hidroforlar',
-        'karavan-hidroforu',
-        'jet-pompalar-derinden-emisli',
-        'preferikal-pompalar-surtme-fanli',
-        'su-pompalari',
-        'foseptik-tahliye-cihazi',
+    /**
+     * Yerel kategori slug grupları → Idefix arama / sabit ID.
+     *
+     * @var array<string, array{query: string, fallback_id: int, slugs: list<string>}>
+     */
+    private array $categoryGroups = [
+        'dalgic' => [
+            'query' => 'dalgic pompa',
+            'fallback_id' => 530114652,
+            'slugs' => [
+                'dalgic-pompalar',
+                'drenaj-dalgic-pompa',
+                'kirli-su-dalgic-pompa',
+                'foseptik-dalgic-pompa',
+                'bicakli-dalgic-pompa',
+                'temiz-su-dalgic-pompasi',
+                'paslanmaz-drenaj-dalgic-pompa',
+                'derin-kuyu-dalgic-pompa',
+                'sintine-pompasi',
+                'keson-kuyu-pompa',
+                'foseptik-tahliye-cihazi',
+            ],
+        ],
+        'hidrofor' => [
+            'query' => 'hidrofor',
+            'fallback_id' => 530173799, // Bahçe Hidrofonları (Idefix leaf)
+            'slugs' => [
+                'hidroforlar',
+                'sumak-hidrofor',
+                'ev-tipi-hidroforlar',
+                'karavan-hidroforu',
+                'hidrofor-sistemleri',
+                'hidrofor-grubu',
+            ],
+        ],
+        'jet_preferikal' => [
+            'query' => 'su motor',
+            'fallback_id' => 530114652,
+            'slugs' => [
+                'jet-pompalar-derinden-emisli',
+                'preferikal-pompalar-surtme-fanli',
+                'su-pompalari',
+            ],
+        ],
     ];
 
     public function handle(IdefixApiClient $apiClient): int
@@ -77,27 +101,51 @@ class PrepareIdefixMappingsCommand extends Command
             $brandCount = $this->mapBrands($client);
             $this->info("Marka eşleştirme: {$brandCount} kayıt.");
 
-            $category = $this->resolveCategory($client);
+            $forcedId = (int) ($this->option('category-id') ?: 0);
+            $queryOpt = trim((string) ($this->option('query') ?: ''));
+
+            if ($forcedId > 0 || $queryOpt !== '') {
+                $category = $this->resolveCategory($client, $queryOpt, $forcedId);
+                if ($category === null) {
+                    $this->error('Uygun Idefix leaf kategori bulunamadı.');
+
+                    return self::FAILURE;
+                }
+                $allSlugs = [];
+                foreach ($this->categoryGroups as $group) {
+                    $allSlugs = array_merge($allSlugs, $group['slugs']);
+                }
+                $mapped = $this->mapCategorySlugs($allSlugs, (int) $category['id'], (string) $category['name']);
+                $this->info(sprintf(
+                    'Tek kategori: %d yerel → Idefix #%d (%s)',
+                    $mapped,
+                    $category['id'],
+                    $category['name']
+                ));
+            } else {
+                $leaves = $this->loadLeaves($client);
+                foreach ($this->categoryGroups as $key => $group) {
+                    $category = $this->pickLeaf($leaves, $group['query'], (int) $group['fallback_id']);
+                    if ($category === null) {
+                        $this->warn("Grup {$key}: kategori bulunamadı, atlandı.");
+                        continue;
+                    }
+                    $mapped = $this->mapCategorySlugs($group['slugs'], (int) $category['id'], (string) $category['name']);
+                    $this->info(sprintf(
+                        'Grup %s: %d yerel → Idefix #%d (%s) [%s]',
+                        $key,
+                        $mapped,
+                        $category['id'],
+                        $category['name'],
+                        $category['path'] ?? ''
+                    ));
+                }
+            }
         } catch (\Throwable $e) {
             $this->error('Hazırlık başarısız: '.$e->getMessage());
 
             return self::FAILURE;
         }
-
-        if ($category === null) {
-            $this->error('Uygun Idefix leaf kategori bulunamadı. --category-id verin.');
-
-            return self::FAILURE;
-        }
-
-        $mapped = $this->mapCategories((int) $category['id'], (string) $category['name']);
-        $this->info(sprintf(
-            'Kategori eşleştirme: %d yerel kategori → Idefix #%d (%s) [%s]',
-            $mapped,
-            $category['id'],
-            $category['name'],
-            $category['path'] ?? ''
-        ));
 
         return self::SUCCESS;
     }
@@ -105,6 +153,8 @@ class PrepareIdefixMappingsCommand extends Command
     private function mapBrands(IdefixApiClient $client): int
     {
         $count = 0;
+        $sumakExternal = null;
+
         foreach ($this->brandSlugs as $slug) {
             $brand = Brand::query()->where('slug', $slug)->first();
             if ($brand === null) {
@@ -112,9 +162,10 @@ class PrepareIdefixMappingsCommand extends Command
                 continue;
             }
 
-            $name = (string) $brand->name;
+            // Troy Idefix’te Sumak olarak gönderilir → troy brand_id → Sumak external ID.
+            $searchName = $slug === 'troy' ? 'Sumak' : (string) $brand->name;
             $match = null;
-            foreach (array_unique([$name, mb_strtoupper($name), mb_strtolower($name), ucfirst(mb_strtolower($name))]) as $variant) {
+            foreach (array_unique([$searchName, mb_strtoupper($searchName), mb_strtolower($searchName), ucfirst(mb_strtolower($searchName))]) as $variant) {
                 try {
                     $row = $client->searchBrandByName($variant);
                 } catch (\Throwable) {
@@ -123,14 +174,18 @@ class PrepareIdefixMappingsCommand extends Command
                 $id = (int) ($row['id'] ?? 0);
                 $title = (string) ($row['title'] ?? '');
                 if ($id > 0) {
-                    $match = ['id' => $id, 'title' => $title !== '' ? $title : $name];
+                    $match = ['id' => $id, 'title' => $title !== '' ? $title : $searchName];
                     break;
                 }
             }
 
             if ($match === null) {
-                $this->warn('Idefix marka bulunamadı: '.$name);
+                $this->warn('Idefix marka bulunamadı: '.$searchName.' (yerel '.$slug.')');
                 continue;
+            }
+
+            if ($slug === 'sumak' || $slug === 'troy') {
+                $sumakExternal = $match;
             }
 
             MarketplaceBrandMapping::query()->updateOrCreate(
@@ -143,69 +198,60 @@ class PrepareIdefixMappingsCommand extends Command
                     'external_brand_name' => $match['title'],
                 ],
             );
-            $this->line(sprintf('  %s → #%d (%s)', $name, $match['id'], $match['title']));
+            $label = $slug === 'troy' ? 'Troy→Sumak' : (string) $brand->name;
+            $this->line(sprintf('  %s → #%d (%s)', $label, $match['id'], $match['title']));
             $count++;
+        }
+
+        if ($sumakExternal !== null) {
+            $this->line(sprintf('  Sumak referans: #%d (%s)', $sumakExternal['id'], $sumakExternal['title']));
         }
 
         return $count;
     }
 
     /**
-     * @return array{id: int, name: string, path?: string}|null
+     * @return list<array{id: int, name: string, path: string}>
      */
-    private function resolveCategory(IdefixApiClient $client): ?array
+    private function loadLeaves(IdefixApiClient $client): array
     {
-        $forcedId = (int) ($this->option('category-id') ?: 0);
-        if ($forcedId > 0) {
-            $attrs = $client->getCategoryAttributes($forcedId);
-            $name = (string) ($attrs['name'] ?? ('Kategori #'.$forcedId));
-
-            return ['id' => $forcedId, 'name' => $name, 'path' => $name];
-        }
-
         $tree = $client->getProductCategories();
         $items = $tree['items'] ?? $tree;
         if (! is_array($items)) {
-            return null;
+            return [];
         }
 
-        $leaves = $this->flattenLeaves($items);
-        $query = $this->fold((string) ($this->option('query') ?: ''));
-        $needles = $query !== ''
-            ? [$query, str_replace(' ', '', $query)]
-            : [
-                'dalgic pompa',
-                'su motoru',
-                'su pompasi',
-                'hidrofor',
-            ];
+        return $this->flattenLeaves($items);
+    }
 
+    /**
+     * @param  list<array{id: int, name: string, path: string}>  $leaves
+     * @return array{id: int, name: string, path?: string}|null
+     */
+    private function pickLeaf(array $leaves, string $query, int $fallbackId): ?array
+    {
+        $needle = $this->fold($query);
         $best = null;
         $bestScore = -1;
+
         foreach ($leaves as $leaf) {
             $hay = $this->fold($leaf['path'].' '.$leaf['name']);
             $nameFold = $this->fold($leaf['name']);
             $score = 0;
-            foreach ($needles as $needle) {
-                $needle = $this->fold($needle);
-                if ($needle !== '' && str_contains($hay, $needle)) {
-                    $score += 10;
-                    if ($nameFold === $needle) {
-                        $score += 8;
-                    }
-                }
+            if ($needle !== '' && str_contains($hay, $needle)) {
+                $score += 20;
             }
-            if (str_contains($hay, 'dalgic pompa') || ($nameFold === 'dalgic pompa') || ($nameFold === 'dalgic')) {
-                $score += 30;
+            if ($nameFold === $needle) {
+                $score += 15;
             }
-            if (str_contains($hay, 'hidrofon') || str_contains($hay, 'hidrofor')) {
-                $score -= 15;
+            if (str_contains($hay, 'dalgic') && str_contains($needle, 'dalgic')) {
+                $score += 25;
             }
-            if (preg_match('/su motor/u', $hay) && ! preg_match('/dalgic|hidrofo|jet|santrif/u', $hay)) {
-                $score += 8;
+            if ((str_contains($hay, 'hidrofor') || str_contains($hay, 'hidrofon')) && str_contains($needle, 'hidrofor')) {
+                $score += 25;
             }
-            if (str_contains($hay, 'pompa')) {
-                $score += 2;
+            if (str_contains($hay, 'su motor') && str_contains($needle, 'su motor')) {
+                $score += 10;
             }
             if ($score > $bestScore) {
                 $bestScore = $score;
@@ -213,16 +259,64 @@ class PrepareIdefixMappingsCommand extends Command
             }
         }
 
-        if ($best === null || $bestScore < 5) {
-            $this->warn('Otomatik kategori skoru düşük. --query veya --category-id kullanın.');
-            if ($best !== null) {
-                $this->line('Aday: #'.$best['id'].' '.$best['path']);
-            }
-
-            return $bestScore >= 5 ? $best : null;
+        if ($best !== null && $bestScore >= 15) {
+            return $best;
         }
 
-        return $best;
+        if ($fallbackId > 0) {
+            return [
+                'id' => $fallbackId,
+                'name' => 'Kategori #'.$fallbackId,
+                'path' => 'fallback',
+            ];
+        }
+
+        return $bestScore >= 5 ? $best : null;
+    }
+
+    /**
+     * @return array{id: int, name: string, path?: string}|null
+     */
+    private function resolveCategory(IdefixApiClient $client, string $query, int $forcedId): ?array
+    {
+        if ($forcedId > 0) {
+            $attrs = $client->getCategoryAttributes($forcedId);
+            $name = (string) ($attrs['name'] ?? ('Kategori #'.$forcedId));
+
+            return ['id' => $forcedId, 'name' => $name, 'path' => $name];
+        }
+
+        $leaves = $this->loadLeaves($client);
+
+        return $this->pickLeaf($leaves, $query, 0);
+    }
+
+    /**
+     * @param  list<string>  $slugs
+     */
+    private function mapCategorySlugs(array $slugs, int $externalId, string $externalName): int
+    {
+        $count = 0;
+        foreach ($slugs as $slug) {
+            $category = Category::query()->where('slug', $slug)->first();
+            if ($category === null) {
+                continue;
+            }
+
+            MarketplaceCategoryMapping::query()->updateOrCreate(
+                [
+                    'channel_key' => 'idefix',
+                    'category_id' => $category->id,
+                ],
+                [
+                    'external_category_id' => (string) $externalId,
+                    'external_category_name' => $externalName,
+                ],
+            );
+            $count++;
+        }
+
+        return $count;
     }
 
     /**
@@ -238,7 +332,6 @@ class PrepareIdefixMappingsCommand extends Command
             if (! is_array($node)) {
                 continue;
             }
-            // Bazı yanıtlar tek kök object + items sarmalı olabilir.
             if (isset($node['items']) && is_array($node['items']) && ! isset($node['id'])) {
                 $out = array_merge($out, $this->flattenLeaves($node['items'], $prefix));
                 continue;
@@ -268,30 +361,5 @@ class PrepareIdefixMappingsCommand extends Command
             'ş' => 's', 'ı' => 'i', 'ğ' => 'g', 'ü' => 'u', 'ö' => 'o', 'ç' => 'c',
             'Ş' => 's', 'İ' => 'i', 'I' => 'i', 'Ğ' => 'g', 'Ü' => 'u', 'Ö' => 'o', 'Ç' => 'c',
         ]);
-    }
-
-    private function mapCategories(int $externalId, string $externalName): int
-    {
-        $count = 0;
-        foreach ($this->categorySlugs as $slug) {
-            $category = Category::query()->where('slug', $slug)->first();
-            if ($category === null) {
-                continue;
-            }
-
-            MarketplaceCategoryMapping::query()->updateOrCreate(
-                [
-                    'channel_key' => 'idefix',
-                    'category_id' => $category->id,
-                ],
-                [
-                    'external_category_id' => (string) $externalId,
-                    'external_category_name' => $externalName,
-                ],
-            );
-            $count++;
-        }
-
-        return $count;
     }
 }
