@@ -288,8 +288,13 @@ class IdefixListingPayloadBuilder
             }
         }
 
-        // Idefix barkod zorunlu; üretici EAN yoksa SKU ile benzersiz barkod.
-        return $stockCode;
+        // Idefix barkod zorunlu ve min 6 karakter; üretici EAN yoksa SKU (gerekirse pad).
+        $barcode = preg_replace('/\s+/', '', $stockCode) ?: ('P'.$product->id);
+        if (mb_strlen($barcode) < 6) {
+            $barcode = str_pad($barcode, 6, '0', STR_PAD_RIGHT);
+        }
+
+        return mb_substr($barcode, 0, 40);
     }
 
     private function isValidEan13(string $code): bool
