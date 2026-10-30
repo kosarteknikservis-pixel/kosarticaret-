@@ -343,7 +343,7 @@ class PublishMarketplaceProductCommand extends Command
         $isSumakBrand = mb_strtolower((string) ($product->brand->slug ?? ''), 'UTF-8') === 'sumak'
             || mb_strtolower((string) ($product->brand->name ?? ''), 'UTF-8') === 'sumak';
 
-        // Katalog Sumak ID: 20038761 (20038760 BRAND_FAILED_TO_MATCH)
+        // Canlı katalog Sumak: #20038760
         if ($forceSumak || $isSumakBrand) {
             $sumakIds = array_values(array_filter([
                 $product->brand_id,
@@ -352,10 +352,10 @@ class PublishMarketplaceProductCommand extends Command
             foreach (array_unique($sumakIds) as $brandId) {
                 MarketplaceBrandMapping::query()->updateOrCreate(
                     ['channel_key' => $channel->key, 'brand_id' => $brandId],
-                    ['external_brand_id' => '20038761', 'external_brand_name' => 'Sumak'],
+                    ['external_brand_id' => '20038760', 'external_brand_name' => 'Sumak'],
                 );
             }
-            $this->info('Idefix marka Sumak #20038761'.($forceSumak ? ' (Troy→Sumak)' : ''));
+            $this->info('Idefix marka Sumak #20038760'.($forceSumak ? ' (Troy→Sumak)' : ''));
 
             return;
         }

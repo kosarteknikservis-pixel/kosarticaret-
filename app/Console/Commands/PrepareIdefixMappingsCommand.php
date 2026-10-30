@@ -80,11 +80,17 @@ class PrepareIdefixMappingsCommand extends Command
             ],
         ],
         'su_motoru_jet' => [
-            // Yüzey / jet / genel su motoru
+            // Jet: Idefix create CATEGORY_FAILED → Santrifüj leaf’ine oturuyor
+            'id' => 530141372,
+            'name' => 'Santrifüj Pompalar',
+            'slugs' => [
+                'jet-pompalar-derinden-emisli',
+            ],
+        ],
+        'su_motoru_genel' => [
             'id' => 530110498,
             'name' => 'Su Motorları',
             'slugs' => [
-                'jet-pompalar-derinden-emisli',
                 'su-pompalari',
             ],
         ],
@@ -173,9 +179,9 @@ class PrepareIdefixMappingsCommand extends Command
 
             $searchName = $slug === 'troy' ? 'Sumak' : (string) $brand->name;
             $match = null;
-            // Idefix katalog Sumak için 20038761 bekliyor (20038760 BRAND_FAILED_TO_MATCH veriyor).
+            // Canlı katalogda Sumak çoğunlukla #20038760; #20038761 bazı SKU’da BRAND_FAILED veriyor.
             if (in_array($slug, ['sumak', 'troy'], true)) {
-                $match = ['id' => 20038761, 'title' => 'Sumak'];
+                $match = ['id' => 20038760, 'title' => 'Sumak'];
             }
             foreach (array_unique([$searchName, mb_strtoupper($searchName), mb_strtolower($searchName), ucfirst(mb_strtolower($searchName))]) as $variant) {
                 if ($match !== null && in_array($slug, ['sumak', 'troy'], true)) {
