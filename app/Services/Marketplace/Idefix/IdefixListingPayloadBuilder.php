@@ -89,6 +89,7 @@ class IdefixListingPayloadBuilder
             config('marketplace.idefix.delivery_duration', 2)
         ));
 
+        // Idefix doküman örnekleri 0/1/8/18; 20 çoğu kategori için de geçerli, aksi halde 18'e düş.
         $vat = (int) round($product->vatRateValue());
         if (! in_array($vat, [0, 1, 8, 10, 18, 20], true)) {
             $vat = 20;

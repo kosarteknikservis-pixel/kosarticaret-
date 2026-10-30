@@ -170,41 +170,42 @@ class PrepareIdefixMappingsCommand extends Command
         }
 
         $leaves = $this->flattenLeaves($items);
-        $query = mb_strtolower(trim((string) ($this->option('query') ?: '')), 'UTF-8');
+        $query = $this->fold((string) ($this->option('query') ?: ''));
         $needles = $query !== ''
-            ? [$query]
+            ? [$query, str_replace(' ', '', $query)]
             : [
-                'su motorları ve pompalar',
+                'dalgic pompa',
                 'su motoru',
                 'su pompasi',
-                'su pompası',
-                'dalgıç pompa',
-                'dalgic pompa',
                 'hidrofor',
             ];
 
         $best = null;
         $bestScore = -1;
         foreach ($leaves as $leaf) {
-            $hay = mb_strtolower($leaf['path'].' '.$leaf['name'], 'UTF-8');
+            $hay = $this->fold($leaf['path'].' '.$leaf['name']);
+            $nameFold = $this->fold($leaf['name']);
             $score = 0;
             foreach ($needles as $needle) {
+                $needle = $this->fold($needle);
                 if ($needle !== '' && str_contains($hay, $needle)) {
                     $score += 10;
-                    if (mb_strtolower($leaf['name'], 'UTF-8') === $needle) {
+                    if ($nameFold === $needle) {
                         $score += 8;
                     }
                 }
             }
-            // Genel su motoru leaf'i dalgıç/hidrofor altından daha iyi (çok tip ürün).
-            if (preg_match('/su motor/u', $hay) && ! preg_match('/dalg[ıi]ç|hidrofor|jet|santrif/u', $hay)) {
-                $score += 25;
+            if (str_contains($hay, 'dalgic pompa') || ($nameFold === 'dalgic pompa') || ($nameFold === 'dalgic')) {
+                $score += 30;
             }
-            if (str_contains($hay, 'dalgıç pompa') || str_contains($hay, 'dalgic pompa')) {
-                $score += 12;
+            if (str_contains($hay, 'hidrofon') || str_contains($hay, 'hidrofor')) {
+                $score -= 15;
+            }
+            if (preg_match('/su motor/u', $hay) && ! preg_match('/dalgic|hidrofo|jet|santrif/u', $hay)) {
+                $score += 8;
             }
             if (str_contains($hay, 'pompa')) {
-                $score += 3;
+                $score += 2;
             }
             if ($score > $bestScore) {
                 $bestScore = $score;
@@ -257,6 +258,16 @@ class PrepareIdefixMappingsCommand extends Command
         }
 
         return $out;
+    }
+
+    private function fold(string $value): string
+    {
+        $value = mb_strtolower(trim($value), 'UTF-8');
+
+        return strtr($value, [
+            'ş' => 's', 'ı' => 'i', 'ğ' => 'g', 'ü' => 'u', 'ö' => 'o', 'ç' => 'c',
+            'Ş' => 's', 'İ' => 'i', 'I' => 'i', 'Ğ' => 'g', 'Ü' => 'u', 'Ö' => 'o', 'Ç' => 'c',
+        ]);
     }
 
     private function mapCategories(int $externalId, string $externalName): int
