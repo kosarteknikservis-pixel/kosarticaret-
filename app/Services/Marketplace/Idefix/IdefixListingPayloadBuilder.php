@@ -488,10 +488,30 @@ class IdefixListingPayloadBuilder
             return null;
         }
 
-        return MarketplaceCategoryMapping::query()
+        $mappings = MarketplaceCategoryMapping::query()
             ->where('channel_key', 'idefix')
             ->whereIn('category_id', $categoryIds)
-            ->first();
+            ->get();
+
+        if ($mappings->isEmpty()) {
+            return null;
+        }
+
+        // Ürün birden fazla kategorideyse en spesifik leaf kazanır.
+        // su-pompalari → Su Motorları (#530110498) en genel; Bahçe Hidrofonları kullanılmaz.
+        $priority = [
+            '771397498' => 1, // Tekne Hidrofor (karavan)
+            '231078808' => 2, // Hidroforlar
+            '530141372' => 3, // Santrifüj Pompalar
+            '530114652' => 4, // Dalgıç Pompa
+            '530110498' => 5, // Su Motorları / jet
+        ];
+
+        return $mappings->sortBy(function (MarketplaceCategoryMapping $m) use ($priority) {
+            $id = (string) $m->external_category_id;
+
+            return $priority[$id] ?? 99;
+        })->first();
     }
 
     private function resolveBrandMapping(Product $product): ?MarketplaceBrandMapping
