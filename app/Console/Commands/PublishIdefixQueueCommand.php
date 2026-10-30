@@ -12,9 +12,20 @@ class PublishIdefixQueueCommand extends Command
     protected $signature = 'marketplace:idefix-publish-queue
         {--limit=0 : Maksimum yeni gönderim (0 = kalanın hepsi)}
         {--sleep=15 : Ürünler arası bekleme (saniye)}
+        {--force : Listing olsa da yeniden gönder (yanlış kategori düzeltmesi)}
+        {--fix-wrong-cat : Yalnızca yanlış categoryId snapshot’ı olanları --force ile gönder}
         {--dry-run : API çağrısı yapmadan listele}';
 
     protected $description = 'Idefix kuyruğunu yavaş ve hatada durarak gönderir (Koşar yok, Troy→Sumak, stok≥1).';
+
+    /** Doğru Idefix leaf ID’leri (Bahçe Hidrofonları yok). */
+    private const GOOD_CATEGORY_IDS = [
+        530114652, // Dalgıç Pompa
+        231078808, // Hidroforlar
+        771397498, // Tekne Hidrofor (yalnız karavan)
+        530141372, // Santrifüj
+        530110498, // Su Motorları
+    ];
 
     /**
      * TY/HB/N11 ile aynı ürün seti. SDF6 zaten pilot; listing varsa atlanır.
@@ -63,6 +74,11 @@ class PublishIdefixQueueCommand extends Command
         $limit = max(0, (int) $this->option('limit'));
         $sleep = max(0, (int) $this->option('sleep'));
         $dryRun = (bool) $this->option('dry-run');
+        $force = (bool) $this->option('force');
+        $fixWrong = (bool) $this->option('fix-wrong-cat');
+        if ($fixWrong) {
+            $force = true;
+        }
 
         $sent = 0;
         $skipped = 0;
@@ -75,11 +91,11 @@ class PublishIdefixQueueCommand extends Command
                 break;
             }
 
-            $product = Product::query()->with('brand')->where('slug', $item['slug'])->first();
+            $product = Product::query()->with(['brand', 'categories'])->where('slug', $item['slug'])->first();
             if ($product === null) {
                 // SDF152 slug varyantı
                 if ($item['sku'] === 'SDF152') {
-                    $product = Product::query()->with('brand')
+                    $product = Product::query()->with(['brand', 'categories'])
                         ->where('slug', 'like', 'sumak-sdf15%paslanmaz-foseptik%')
                         ->orWhere('sku', 'SDF152')
                         ->first();
@@ -92,7 +108,29 @@ class PublishIdefixQueueCommand extends Command
                 return self::FAILURE;
             }
 
-            if ($this->alreadyOnIdefix($product->id)) {
+            $listing = MarketplaceListing::query()
+                ->where('channel_key', 'idefix')
+                ->where('product_id', $product->id)
+                ->first();
+
+            $expected = $this->expectedCategory($product);
+            $sentCat = (int) data_get($listing?->payload_snapshot, 'products.0.categoryId', 0);
+            $wrong = $this->isWrongCategory($product, $sentCat, $expected);
+
+            if ($fixWrong && ! $wrong && $this->alreadyOnIdefix($product->id)) {
+                $this->line(sprintf(
+                    '[%d/%d] ATLA %s (kategori OK #%d)',
+                    $index + 1,
+                    count($this->queue),
+                    $item['sku'],
+                    $sentCat > 0 ? $sentCat : (int) ($expected['id'] ?? 0)
+                ));
+                $skipped++;
+
+                continue;
+            }
+
+            if (! $force && $this->alreadyOnIdefix($product->id)) {
                 $this->line(sprintf('[%d/%d] ATLA %s (Idefix listing var)', $index + 1, count($this->queue), $item['sku']));
                 $skipped++;
 
@@ -105,21 +143,12 @@ class PublishIdefixQueueCommand extends Command
                 $brandNote = ' | Troy→Sumak + orijinal görsel';
             }
 
-            $catMap = \App\Models\MarketplaceCategoryMapping::query()
-                ->where('channel_key', 'idefix')
-                ->whereIn('category_id', $product->categories()->pluck('categories.id'))
-                ->get();
-            $priority = [
-                '771397498' => 1,
-                '231078808' => 2,
-                '530141372' => 3,
-                '530114652' => 4,
-                '530110498' => 5,
-            ];
-            $picked = $catMap->sortBy(fn ($m) => $priority[(string) $m->external_category_id] ?? 99)->first();
-            $catNote = $picked
-                ? sprintf(' | cat #%s %s', $picked->external_category_id, $picked->external_category_name)
+            $catNote = $expected
+                ? sprintf(' | cat #%s %s', $expected['id'], $expected['name'])
                 : ' | cat YOK';
+            if ($sentCat > 0 && $wrong) {
+                $catNote .= sprintf(' | ESKİ YANLIŞ #%d', $sentCat);
+            }
 
             $this->info(sprintf(
                 '[%d/%d] GÖNDER %s | %s | %d TL%s%s',
@@ -136,6 +165,13 @@ class PublishIdefixQueueCommand extends Command
                 $sent++;
 
                 continue;
+            }
+
+            if ($force && $listing !== null) {
+                $listing->update([
+                    'status' => 'draft',
+                    'last_error' => null,
+                ]);
             }
 
             $exit = Artisan::call('marketplace:publish-product', [
@@ -159,8 +195,27 @@ class PublishIdefixQueueCommand extends Command
             if ($sleep > 0) {
                 $hasMore = false;
                 for ($j = $index + 1; $j < count($this->queue); $j++) {
-                    $next = Product::query()->where('slug', $this->queue[$j]['slug'])->first();
-                    if ($next !== null && ! $this->alreadyOnIdefix($next->id)) {
+                    $next = Product::query()->with('categories')->where('slug', $this->queue[$j]['slug'])->first();
+                    if ($next === null) {
+                        continue;
+                    }
+                    if ($force) {
+                        if ($fixWrong) {
+                            $nextListing = MarketplaceListing::query()
+                                ->where('channel_key', 'idefix')
+                                ->where('product_id', $next->id)
+                                ->first();
+                            $nextSent = (int) data_get($nextListing?->payload_snapshot, 'products.0.categoryId', 0);
+                            $nextExpected = $this->expectedCategory($next);
+                            if ($this->isWrongCategory($next, $nextSent, $nextExpected)) {
+                                $hasMore = true;
+                                break;
+                            }
+                        } else {
+                            $hasMore = true;
+                            break;
+                        }
+                    } elseif (! $this->alreadyOnIdefix($next->id)) {
                         $hasMore = true;
                         break;
                     }
@@ -184,5 +239,67 @@ class PublishIdefixQueueCommand extends Command
             ->where('product_id', $productId)
             ->whereIn('status', ['pending', 'published', 'approved'])
             ->exists();
+    }
+
+    /**
+     * @return array{id: int, name: string}|null
+     */
+    private function expectedCategory(Product $product): ?array
+    {
+        $priority = [
+            '771397498' => 1,
+            '231078808' => 2,
+            '530141372' => 3,
+            '530114652' => 4,
+            '530110498' => 5,
+        ];
+
+        $picked = \App\Models\MarketplaceCategoryMapping::query()
+            ->where('channel_key', 'idefix')
+            ->whereIn('category_id', $product->categories->pluck('id'))
+            ->get()
+            ->sortBy(fn ($m) => $priority[(string) $m->external_category_id] ?? 99)
+            ->first();
+
+        if ($picked === null) {
+            return null;
+        }
+
+        return [
+            'id' => (int) $picked->external_category_id,
+            'name' => (string) $picked->external_category_name,
+        ];
+    }
+
+    /**
+     * @param  array{id: int, name: string}|null  $expected
+     */
+    private function isWrongCategory(Product $product, int $sentCat, ?array $expected): bool
+    {
+        // Bahçe Hidrofonları her zaman yanlış
+        if ($sentCat === 530173799) {
+            return true;
+        }
+
+        $isKaravan = $product->categories->contains(fn ($c) => $c->slug === 'karavan-hidroforu');
+
+        // Paket hidrofor Tekne Hidrofor’a gitmişse yanlış
+        if ($sentCat === 771397498 && ! $isKaravan) {
+            return true;
+        }
+
+        if ($sentCat <= 0) {
+            return true;
+        }
+
+        if ($expected !== null && $sentCat !== $expected['id']) {
+            return true;
+        }
+
+        if (! in_array($sentCat, self::GOOD_CATEGORY_IDS, true)) {
+            return true;
+        }
+
+        return false;
     }
 }
