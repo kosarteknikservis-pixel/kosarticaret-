@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\MarketplaceBrandMapping;
 use App\Models\MarketplaceChannel;
 use App\Models\Product;
+use App\Services\Marketplace\Idefix\IdefixApiClient;
 use App\Services\Marketplace\MarketplaceChannelPricing;
 use App\Services\Marketplace\ProductListingService;
 use App\Services\Marketplace\ProductReadinessChecker;
@@ -17,17 +18,18 @@ class PublishMarketplaceProductCommand extends Command
     protected $signature = 'marketplace:publish-product
         {slug : Ürün slug}
         {--channel=trendyol : Kanal anahtarı}
-        {--map-brand : Eksik marka eşleştirmesini oluştur (Trendyol: API, Hepsiburada: marka adı)}
+        {--map-brand : Eksik marka eşleştirmesini oluştur (Trendyol/Idefix: API, Hepsiburada/N11: marka adı)}
         {--price= : Kanal satış fiyatı (site fiyatını değiştirmez)}
         {--dry-run : API ürün gönderimi yapmadan doğrula}';
 
-    protected $description = 'Ürünü pazaryeri kanalına gönderir (trendyol | hepsiburada | n11).';
+    protected $description = 'Ürünü pazaryeri kanalına gönderir (trendyol | hepsiburada | n11 | idefix).';
 
     public function handle(
         ProductListingService $listingService,
         MarketplaceChannelPricing $pricing,
         ProductReadinessChecker $readiness,
         TrendyolApiClient $apiClient,
+        IdefixApiClient $idefixApiClient,
     ): int {
         $slug = (string) $this->argument('slug');
         $channelKey = (string) $this->option('channel');
@@ -46,7 +48,7 @@ class PublishMarketplaceProductCommand extends Command
             return self::FAILURE;
         }
 
-        if (in_array($channelKey, ['hepsiburada', 'n11'], true) && $this->isKosarBrand($product)) {
+        if (in_array($channelKey, ['hepsiburada', 'n11', 'idefix'], true) && $this->isKosarBrand($product)) {
             $this->warn('Koşar markalı ürün '.$channelKey.' kanalına gönderilmez; atlandı: '.$slug);
 
             return self::SUCCESS;
@@ -60,6 +62,8 @@ class PublishMarketplaceProductCommand extends Command
                     $this->ensureHepsiburadaBrandMapping($product, $channel, $readiness);
                 } elseif ($channelKey === 'n11') {
                     $this->ensureN11BrandMapping($product, $channel, $readiness);
+                } elseif ($channelKey === 'idefix') {
+                    $this->ensureIdefixBrandMapping($product, $channel, $idefixApiClient, $readiness);
                 }
             } catch (\Throwable $e) {
                 $this->error('Marka eşleştirme: '.$e->getMessage());
@@ -151,6 +155,26 @@ class PublishMarketplaceProductCommand extends Command
                 $this->line('SalePrice: '.(string) ($sku['salePrice'] ?? ''));
                 $this->line('ShipmentTemplate: '.(string) ($sku['shipmentTemplate'] ?? ''));
                 $images = $sku['images'] ?? [];
+                if (is_array($images)) {
+                    foreach ($images as $i => $img) {
+                        if (is_array($img) && filled($img['url'] ?? null)) {
+                            $this->line('Image'.((int) $i + 1).': '.(string) $img['url']);
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($channelKey === 'idefix' && is_array($result['listing']?->payload_snapshot ?? null)) {
+            $row = data_get($result['listing']->payload_snapshot, 'products.0', []);
+            if (is_array($row)) {
+                $this->line('Barcode: '.(string) ($row['barcode'] ?? ''));
+                $this->line('VendorStockCode: '.(string) ($row['vendorStockCode'] ?? ''));
+                $this->line('Stock: '.(string) ($row['inventoryQuantity'] ?? ''));
+                $this->line('Price: '.(string) ($row['price'] ?? ''));
+                $this->line('CategoryId: '.(string) ($row['categoryId'] ?? ''));
+                $this->line('BrandId: '.(string) ($row['brandId'] ?? ''));
+                $images = $row['images'] ?? [];
                 if (is_array($images)) {
                     foreach ($images as $i => $img) {
                         if (is_array($img) && filled($img['url'] ?? null)) {
@@ -302,5 +326,56 @@ class PublishMarketplaceProductCommand extends Command
         );
 
         $this->info('N11 marka eşleştirildi: '.$name);
+    }
+
+    private function ensureIdefixBrandMapping(
+        Product $product,
+        MarketplaceChannel $channel,
+        IdefixApiClient $apiClient,
+        ProductReadinessChecker $readiness,
+    ): void {
+        if ($product->brand_id === null || $product->brand === null) {
+            throw new InvalidArgumentException('Ürünün markası yok.');
+        }
+
+        if ($readiness->brandMapped($product, $channel->key)) {
+            $this->line('Marka eşleştirmesi zaten var.');
+
+            return;
+        }
+
+        $client = $apiClient->forChannel($channel);
+        $name = (string) $product->brand->name;
+        $match = null;
+        foreach (array_unique([$name, mb_strtoupper($name), mb_strtolower($name), ucfirst(mb_strtolower($name))]) as $variant) {
+            try {
+                $row = $client->searchBrandByName($variant);
+            } catch (\Throwable) {
+                continue;
+            }
+            $id = (int) ($row['id'] ?? 0);
+            $title = (string) ($row['title'] ?? '');
+            if ($id > 0) {
+                $match = ['id' => $id, 'title' => $title !== '' ? $title : $name];
+                break;
+            }
+        }
+
+        if ($match === null) {
+            throw new InvalidArgumentException('Idefix’te “'.$name.'” markası bulunamadı.');
+        }
+
+        MarketplaceBrandMapping::query()->updateOrCreate(
+            [
+                'channel_key' => $channel->key,
+                'brand_id' => $product->brand_id,
+            ],
+            [
+                'external_brand_id' => (string) $match['id'],
+                'external_brand_name' => $match['title'],
+            ],
+        );
+
+        $this->info('Idefix marka eşleştirildi: '.$match['title'].' (#'.$match['id'].')');
     }
 }
