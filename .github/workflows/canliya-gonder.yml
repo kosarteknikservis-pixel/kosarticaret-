@@ -249,7 +249,6 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-102-paslanmaz-govdeli-foseptik-dalgic-pompa-monofaze-220-v-1-hp --map-brand --price=18970 || echo 'SDF102 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_440000_unlock_smj220_trendyol_buybox_barcode.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_441000_unlock_sdf500gf_trendyol_buybox_barcode.php && \
-            \$PHP_BIN artisan marketplace:compare-ty-n11 --inspect-pending && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
