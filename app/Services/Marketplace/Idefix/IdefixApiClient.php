@@ -200,8 +200,16 @@ class IdefixApiClient
             data_get($data, 'message')
             ?? data_get($data, 'errorMessage')
             ?? data_get($data, 'error')
-            ?? ('Idefix API hatası HTTP '.$response->status().' @ '.$path)
+            ?? data_get($data, 'title')
+            ?? ''
         );
+        if ($message === '') {
+            $message = 'Idefix API hatası HTTP '.$response->status().' @ '.$path;
+        }
+        $snippet = json_encode($data, JSON_UNESCAPED_UNICODE);
+        if (is_string($snippet) && $snippet !== '' && $snippet !== '[]' && $snippet !== '{}') {
+            $message .= ' | '.mb_substr($snippet, 0, 500);
+        }
 
         throw new IdefixApiException($message, $response->status(), $data);
     }
