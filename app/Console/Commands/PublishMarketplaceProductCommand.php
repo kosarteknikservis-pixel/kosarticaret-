@@ -340,15 +340,34 @@ class PublishMarketplaceProductCommand extends Command
 
         $forceSumak = $this->isTroyBrand($product)
             || str_starts_with(mb_strtolower((string) $product->slug, 'UTF-8'), 'troy-');
+        $isSumakBrand = mb_strtolower((string) ($product->brand->slug ?? ''), 'UTF-8') === 'sumak'
+            || mb_strtolower((string) ($product->brand->name ?? ''), 'UTF-8') === 'sumak';
 
-        if (! $forceSumak && $readiness->brandMapped($product, $channel->key)) {
+        // Katalog Sumak ID: 20038761 (20038760 BRAND_FAILED_TO_MATCH)
+        if ($forceSumak || $isSumakBrand) {
+            $sumakIds = array_values(array_filter([
+                $product->brand_id,
+                (int) (\App\Models\Brand::query()->where('slug', 'sumak')->value('id') ?: 0),
+            ]));
+            foreach (array_unique($sumakIds) as $brandId) {
+                MarketplaceBrandMapping::query()->updateOrCreate(
+                    ['channel_key' => $channel->key, 'brand_id' => $brandId],
+                    ['external_brand_id' => '20038761', 'external_brand_name' => 'Sumak'],
+                );
+            }
+            $this->info('Idefix marka Sumak #20038761'.($forceSumak ? ' (Troy→Sumak)' : ''));
+
+            return;
+        }
+
+        if ($readiness->brandMapped($product, $channel->key)) {
             $this->line('Marka eşleştirmesi zaten var.');
 
             return;
         }
 
         $client = $apiClient->forChannel($channel);
-        $name = $forceSumak ? 'Sumak' : (string) $product->brand->name;
+        $name = (string) $product->brand->name;
         $match = null;
         foreach (array_unique([$name, mb_strtoupper($name), mb_strtolower($name), ucfirst(mb_strtolower($name))]) as $variant) {
             try {

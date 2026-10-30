@@ -160,7 +160,13 @@ class AuditIdefixQueueCommand extends Command
                             }
                         }
                     }
-                    if ($fail !== '') {
+                    $failLower = mb_strtolower($fail);
+                    $alreadyExists = str_contains($failLower, 'listenizde mevcut')
+                        || str_contains($failLower, 'mevcuttur');
+                    if ($alreadyExists) {
+                        $this->info('  batch '.$status.' MEVCUT (katalogda var)');
+                        $ok++;
+                    } elseif ($fail !== '') {
                         $this->warn('  batch '.$status.' FAIL: '.$fail);
                         $batchFail[] = $item['sku'].' ('.$fail.')';
                     } else {

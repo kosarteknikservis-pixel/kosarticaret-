@@ -118,6 +118,29 @@ class IdefixApiClient
     }
 
     /**
+     * Mevcut barkodlu ürünü günceller (kategori/marka/fiyat düzeltmesi).
+     *
+     * @param  array{products: list<array<string, mixed>>}  $body
+     * @return array<string, mixed>
+     */
+    public function updateProducts(array $body): array
+    {
+        $last = null;
+        foreach (['/pim/pool/'.$this->vendorId.'/update', '/pim/pool/'.$this->vendorId.'/products/update'] as $path) {
+            try {
+                return $this->post($path, $body);
+            } catch (IdefixApiException $e) {
+                $last = $e;
+                if ($e->status !== 404) {
+                    throw $e;
+                }
+            }
+        }
+
+        throw $last ?? new IdefixApiException('Idefix update endpoint bulunamadı.');
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function batchResult(string $batchRequestId): array

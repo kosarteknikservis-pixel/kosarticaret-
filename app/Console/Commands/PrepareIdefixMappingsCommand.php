@@ -41,6 +41,13 @@ class PrepareIdefixMappingsCommand extends Command
                 'derin-kuyu-dalgic-pompa',
                 'sintine-pompasi',
                 'keson-kuyu-pompa',
+            ],
+        ],
+        // SMAC600 vb. Idefix katalog Bahçe Pompası leaf’ine oturuyor
+        'bahce_pompa' => [
+            'id' => 530138605,
+            'name' => 'Bahçe Pompası',
+            'slugs' => [
                 'foseptik-tahliye-cihazi',
             ],
         ],
@@ -166,7 +173,14 @@ class PrepareIdefixMappingsCommand extends Command
 
             $searchName = $slug === 'troy' ? 'Sumak' : (string) $brand->name;
             $match = null;
+            // Idefix katalog Sumak için 20038761 bekliyor (20038760 BRAND_FAILED_TO_MATCH veriyor).
+            if (in_array($slug, ['sumak', 'troy'], true)) {
+                $match = ['id' => 20038761, 'title' => 'Sumak'];
+            }
             foreach (array_unique([$searchName, mb_strtoupper($searchName), mb_strtolower($searchName), ucfirst(mb_strtolower($searchName))]) as $variant) {
+                if ($match !== null && in_array($slug, ['sumak', 'troy'], true)) {
+                    break;
+                }
                 try {
                     $row = $client->searchBrandByName($variant);
                 } catch (\Throwable) {

@@ -220,6 +220,19 @@ class IdefixListingPayloadBuilder
                 continue;
             }
 
+            if (str_contains($title, 'tip') || str_contains($title, 'ürün tipi') || str_contains($title, 'urun tipi')) {
+                $tipCandidates = $this->tipCandidatesForIdefix($product);
+                $matched = $this->matchAttributeValue($values, $tipCandidates);
+                if ($matched !== null) {
+                    $attributes[] = ['attributeId' => $attrId, 'attributeValueId' => $matched];
+                } elseif ($allowCustom) {
+                    $attributes[] = ['attributeId' => $attrId, 'customAttributeValue' => $tipCandidates[0] ?? 'Su Pompası'];
+                } elseif ($values !== []) {
+                    $attributes[] = ['attributeId' => $attrId, 'attributeValueId' => (int) ($values[0]['id'] ?? 0)];
+                }
+                continue;
+            }
+
             if (! $allowCustom && $values !== []) {
                 $firstId = (int) ($values[0]['id'] ?? 0);
                 if ($firstId > 0) {
@@ -503,8 +516,9 @@ class IdefixListingPayloadBuilder
             '771397498' => 1, // Tekne Hidrofor (karavan)
             '231078808' => 2, // Hidroforlar
             '530141372' => 3, // Santrifüj Pompalar
-            '530114652' => 4, // Dalgıç Pompa
-            '530110498' => 5, // Su Motorları / jet
+            '530138605' => 4, // Bahçe Pompası (tahliye)
+            '530114652' => 5, // Dalgıç Pompa
+            '530110498' => 6, // Su Motorları / jet
         ];
 
         return $mappings->sortBy(function (MarketplaceCategoryMapping $m) use ($priority) {
@@ -560,6 +574,30 @@ class IdefixListingPayloadBuilder
         return $brandSlug === 'troy'
             || str_starts_with($productSlug, 'troy-')
             || $brandName === 'troy';
+    }
+
+    /** @return list<string> */
+    private function tipCandidatesForIdefix(Product $product): array
+    {
+        $hay = mb_strtolower(
+            $product->name.' '.$product->categories->pluck('slug')->implode(' '),
+            'UTF-8'
+        );
+
+        if (str_contains($hay, 'hidrofor') || str_contains($hay, 'karavan')) {
+            return ['Hidrofor', 'Paket Hidrofor', 'Su Pompası', 'Dalgıç Pompa'];
+        }
+        if (str_contains($hay, 'jet')) {
+            return ['Jet Pompa', 'Su Pompası', 'Su Motoru', 'Dalgıç Pompa'];
+        }
+        if (str_contains($hay, 'preferikal') || str_contains($hay, 'santrif')) {
+            return ['Santrifüj Pompa', 'Su Pompası', 'Preferikal', 'Su Motoru'];
+        }
+        if (str_contains($hay, 'dalgic') || str_contains($hay, 'dalgıç') || str_contains($hay, 'drenaj') || str_contains($hay, 'foseptik')) {
+            return ['Dalgıç Pompa', 'Temiz Su Dalgıç', 'Dalgıç', 'Su Pompası', 'Drenaj Pompası'];
+        }
+
+        return ['Su Pompası', 'Dalgıç Pompa', 'Hidrofor', 'Su Motoru'];
     }
 
     private function scrubTroyText(string $text): string
