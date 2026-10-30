@@ -174,13 +174,13 @@ class PrepareIdefixMappingsCommand extends Command
         $needles = $query !== ''
             ? [$query]
             : [
+                'su motorları ve pompalar',
                 'su motoru',
-                'su pompası',
                 'su pompasi',
-                'dalgıç',
-                'dalgic',
+                'su pompası',
+                'dalgıç pompa',
+                'dalgic pompa',
                 'hidrofor',
-                'pompa',
             ];
 
         $best = null;
@@ -191,16 +191,20 @@ class PrepareIdefixMappingsCommand extends Command
             foreach ($needles as $needle) {
                 if ($needle !== '' && str_contains($hay, $needle)) {
                     $score += 10;
-                    if ($hay === $needle) {
-                        $score += 5;
+                    if (mb_strtolower($leaf['name'], 'UTF-8') === $needle) {
+                        $score += 8;
                     }
                 }
             }
-            if (str_contains($hay, 'su motor')) {
-                $score += 20;
+            // Genel su motoru leaf'i dalgıç/hidrofor altından daha iyi (çok tip ürün).
+            if (preg_match('/su motor/u', $hay) && ! preg_match('/dalg[ıi]ç|hidrofor|jet|santrif/u', $hay)) {
+                $score += 25;
+            }
+            if (str_contains($hay, 'dalgıç pompa') || str_contains($hay, 'dalgic pompa')) {
+                $score += 12;
             }
             if (str_contains($hay, 'pompa')) {
-                $score += 5;
+                $score += 3;
             }
             if ($score > $bestScore) {
                 $bestScore = $score;

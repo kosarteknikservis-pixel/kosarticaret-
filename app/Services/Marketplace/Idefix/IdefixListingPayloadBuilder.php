@@ -132,16 +132,26 @@ class IdefixListingPayloadBuilder
         }
 
         $catalog = $client->getCategoryAttributes($categoryId);
-        $rows = $catalog['categoryAttributes'] ?? [];
-        if (! is_array($rows) || $rows === []) {
-            throw new InvalidArgumentException('Idefix kategori özellikleri boş (leaf kategori mi?).');
+        $rows = $catalog['categoryAttributes']
+            ?? data_get($catalog, 'items.0.categoryAttributes')
+            ?? data_get($catalog, 'data.categoryAttributes')
+            ?? [];
+        if (! is_array($rows)) {
+            $rows = [];
+        }
+        if ($rows === [] && ! isset($catalog['id']) && ! isset($catalog['name'])) {
+            throw new InvalidArgumentException('Idefix kategori özellikleri alınamadı (leaf kategori mi?).');
         }
 
         $brandName = (string) ($brandMapping->external_brand_name ?: $product->brand?->name ?: 'Diğer');
         $attributes = [];
 
         foreach ($rows as $row) {
-            if (! is_array($row) || ! ($row['required'] ?? false)) {
+            if (! is_array($row)) {
+                continue;
+            }
+            $isRequired = (bool) ($row['required'] ?? $row['isMandatory'] ?? false);
+            if (! $isRequired) {
                 continue;
             }
 
@@ -223,10 +233,7 @@ class IdefixListingPayloadBuilder
             );
         }
 
-        if ($attributes === []) {
-            throw new InvalidArgumentException('Idefix için gönderilecek zorunlu özellik bulunamadı.');
-        }
-
+        // Bazı leaf kategorilerde required=true yok; boş attributes ile create kabul edilebiliyor.
         return $attributes;
     }
 
