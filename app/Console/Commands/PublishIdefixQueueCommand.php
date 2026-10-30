@@ -105,14 +105,31 @@ class PublishIdefixQueueCommand extends Command
                 $brandNote = ' | Troy→Sumak + orijinal görsel';
             }
 
+            $catMap = \App\Models\MarketplaceCategoryMapping::query()
+                ->where('channel_key', 'idefix')
+                ->whereIn('category_id', $product->categories()->pluck('categories.id'))
+                ->get();
+            $priority = [
+                '771397498' => 1,
+                '231078808' => 2,
+                '530141372' => 3,
+                '530114652' => 4,
+                '530110498' => 5,
+            ];
+            $picked = $catMap->sortBy(fn ($m) => $priority[(string) $m->external_category_id] ?? 99)->first();
+            $catNote = $picked
+                ? sprintf(' | cat #%s %s', $picked->external_category_id, $picked->external_category_name)
+                : ' | cat YOK';
+
             $this->info(sprintf(
-                '[%d/%d] GÖNDER %s | %s | %d TL%s',
+                '[%d/%d] GÖNDER %s | %s | %d TL%s%s',
                 $index + 1,
                 count($this->queue),
                 $item['sku'],
                 $product->slug,
                 $item['price'],
-                $brandNote
+                $brandNote,
+                $catNote
             ));
 
             if ($dryRun) {
