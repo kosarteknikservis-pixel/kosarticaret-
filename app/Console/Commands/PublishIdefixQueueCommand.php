@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\MarketplaceChannel;
 use App\Models\MarketplaceListing;
 use App\Models\Product;
+use App\Services\Marketplace\Idefix\IdefixApiClient;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
@@ -70,7 +72,7 @@ class PublishIdefixQueueCommand extends Command
         ['sku' => 'SMJH-150-24', 'slug' => 'sumak-smj-150-jet-paket-hidrofor-5-kat-10-daire-24-litre-tankli', 'price' => 25313],
     ];
 
-    public function handle(): int
+    public function handle(IdefixApiClient $apiClient): int
     {
         $limit = max(0, (int) $this->option('limit'));
         $sleep = max(0, (int) $this->option('sleep'));
@@ -80,6 +82,11 @@ class PublishIdefixQueueCommand extends Command
         if ($fixWrong) {
             $force = true;
         }
+
+        $channel = MarketplaceChannel::query()->where('key', 'idefix')->first();
+        $client = ($channel !== null && $channel->isConfigured())
+            ? $apiClient->forChannel($channel)
+            : null;
 
         $sent = 0;
         $skipped = 0;
@@ -117,22 +124,50 @@ class PublishIdefixQueueCommand extends Command
             $expected = $this->expectedCategory($product);
             $sentCat = (int) data_get($listing?->payload_snapshot, 'products.0.categoryId', 0);
             $wrong = $this->isWrongCategory($product, $sentCat, $expected);
+            $barcode = (string) data_get($listing?->payload_snapshot, 'products.0.barcode', $product->barcode ?: $product->sku);
 
-            if ($fixWrong && ! $wrong && $this->alreadyOnIdefix($product->id)) {
+            // Kaynak: canlı katalog. API ürün güncellemez; barkod varsa create tekrarlanmaz.
+            $onCatalog = false;
+            if ($client !== null && $barcode !== '') {
+                $onCatalog = $this->existsOnIdefixCatalog($client, $barcode);
+            }
+
+            if ($onCatalog) {
+                if ($listing !== null) {
+                    $listing->update([
+                        'status' => 'published',
+                        'last_error' => null,
+                        'last_synced_at' => now(),
+                    ]);
+                }
                 $this->line(sprintf(
-                    '[%d/%d] ATLA %s (kategori OK #%d)',
+                    '[%d/%d] ATLA %s (Idefix katalogda mevcut: %s)',
                     $index + 1,
                     count($this->queue),
                     $item['sku'],
-                    $sentCat > 0 ? $sentCat : (int) ($expected['id'] ?? 0)
+                    $barcode
                 ));
                 $skipped++;
 
                 continue;
             }
 
-            if (! $force && $this->alreadyOnIdefix($product->id)) {
+            // Katalogda yoksa yerel listing olsa da yeniden create (önceki batch fail olabilir).
+            if (! $force && ! $fixWrong && $this->alreadyOnIdefix($product->id) && $client === null) {
                 $this->line(sprintf('[%d/%d] ATLA %s (Idefix listing var)', $index + 1, count($this->queue), $item['sku']));
+                $skipped++;
+
+                continue;
+            }
+
+            if ($fixWrong && ! $wrong && $this->alreadyOnIdefix($product->id)) {
+                $this->line(sprintf(
+                    '[%d/%d] ATLA %s (kategori OK #%d — katalogda yok, yine de atlandı fix-wrong)',
+                    $index + 1,
+                    count($this->queue),
+                    $item['sku'],
+                    $sentCat > 0 ? $sentCat : (int) ($expected['id'] ?? 0)
+                ));
                 $skipped++;
 
                 continue;
@@ -168,9 +203,13 @@ class PublishIdefixQueueCommand extends Command
                 continue;
             }
 
-            // Force: draft yapma — update yolu external_product_id / snapshot ile çalışır.
-            if ($force && $listing !== null) {
-                $listing->update(['last_error' => null]);
+            // Katalogda yok: eski pending kaydı create’i engellemesin.
+            if ($listing !== null) {
+                $listing->update([
+                    'status' => 'draft',
+                    'last_error' => null,
+                    'external_product_id' => null,
+                ]);
             }
 
             $exit = Artisan::call('marketplace:publish-product', [
@@ -191,38 +230,9 @@ class PublishIdefixQueueCommand extends Command
 
             $sent++;
 
-            if ($sleep > 0) {
-                $hasMore = false;
-                for ($j = $index + 1; $j < count($this->queue); $j++) {
-                    $next = Product::query()->with('categories')->where('slug', $this->queue[$j]['slug'])->first();
-                    if ($next === null) {
-                        continue;
-                    }
-                    if ($force) {
-                        if ($fixWrong) {
-                            $nextListing = MarketplaceListing::query()
-                                ->where('channel_key', 'idefix')
-                                ->where('product_id', $next->id)
-                                ->first();
-                            $nextSent = (int) data_get($nextListing?->payload_snapshot, 'products.0.categoryId', 0);
-                            $nextExpected = $this->expectedCategory($next);
-                            if ($this->isWrongCategory($next, $nextSent, $nextExpected)) {
-                                $hasMore = true;
-                                break;
-                            }
-                        } else {
-                            $hasMore = true;
-                            break;
-                        }
-                    } elseif (! $this->alreadyOnIdefix($next->id)) {
-                        $hasMore = true;
-                        break;
-                    }
-                }
-                if ($hasMore && ($limit === 0 || $sent < $limit)) {
-                    $this->line('Bekleniyor '.$sleep.' sn…');
-                    sleep($sleep);
-                }
+            if ($sleep > 0 && ($limit === 0 || $sent < $limit) && $index < count($this->queue) - 1) {
+                $this->line('Bekleniyor '.$sleep.' sn…');
+                sleep($sleep);
             }
         }
 
@@ -238,6 +248,39 @@ class PublishIdefixQueueCommand extends Command
             ->where('product_id', $productId)
             ->whereIn('status', ['pending', 'published', 'approved'])
             ->exists();
+    }
+
+    private function existsOnIdefixCatalog(IdefixApiClient $client, string $barcode): bool
+    {
+        $barcode = trim($barcode);
+        if ($barcode === '') {
+            return false;
+        }
+
+        try {
+            $listed = $client->listProducts(1, 20, $barcode);
+        } catch (\Throwable) {
+            return false;
+        }
+
+        $rows = data_get($listed, 'products')
+            ?? data_get($listed, 'items')
+            ?? (array_is_list($listed) ? $listed : []);
+        if (! is_array($rows)) {
+            return false;
+        }
+
+        foreach ($rows as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+            $b = trim((string) ($row['barcode'] ?? ''));
+            if ($b !== '' && mb_strtolower($b) === mb_strtolower($barcode)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
