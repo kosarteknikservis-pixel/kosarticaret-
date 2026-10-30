@@ -127,9 +127,39 @@ class IdefixApiClient
             throw new InvalidArgumentException('batchRequestId zorunlu.');
         }
 
-        return $this->get('/pim/pool/'.$this->vendorId.'/batch-result', [
-            'batchRequestId' => $batchRequestId,
-        ]);
+        $last = null;
+        $attempts = [
+            ['/pim/pool/'.$this->vendorId.'/batch-result/'.$batchRequestId, []],
+            ['/pim/pool/'.$this->vendorId.'/batch-result', ['batchRequestId' => $batchRequestId]],
+        ];
+        foreach ($attempts as [$path, $query]) {
+            try {
+                return $this->get($path, $query);
+            } catch (IdefixApiException $e) {
+                $last = $e;
+                if ($e->status !== 404) {
+                    throw $e;
+                }
+            }
+        }
+
+        throw $last ?? new IdefixApiException('Idefix batch-result alınamadı.');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function listProducts(int $page = 1, int $limit = 20, ?string $barcode = null): array
+    {
+        $query = [
+            'page' => max(1, $page),
+            'limit' => max(1, min(100, $limit)),
+        ];
+        if ($barcode !== null && trim($barcode) !== '') {
+            $query['barcode'] = trim($barcode);
+        }
+
+        return $this->get('/pim/pool/'.$this->vendorId.'/list', $query);
     }
 
     /**
