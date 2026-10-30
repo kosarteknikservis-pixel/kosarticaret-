@@ -28,6 +28,11 @@ return [
             'type' => 'marketplace',
             'provider' => \App\Services\Marketplace\Providers\IdefixProvider::class,
         ],
+        'pttavm' => [
+            'label' => 'PTT AVM',
+            'type' => 'marketplace',
+            'provider' => \App\Services\Marketplace\Providers\PttAvmProvider::class,
+        ],
         'pazarama' => [
             'label' => 'Pazarama',
             'type' => 'marketplace',
@@ -99,12 +104,22 @@ return [
         'github_branch' => env('IDEFIX_GITHUB_BRANCH', 'main'),
     ],
 
+    'pttavm' => [
+        'base_url' => env('PTTAVM_API_BASE_URL', 'https://integration-api.pttavm.com'),
+        'estimated_courier_delivery' => (int) env('PTTAVM_DELIVERY_DAYS', 2),
+        'default_pump_category_id' => env('PTTAVM_PUMP_CATEGORY_ID'),
+        'default_pump_category_name' => env('PTTAVM_PUMP_CATEGORY_NAME', 'Su Motoru'),
+        'github_repo' => env('PTTAVM_GITHUB_REPO', 'kosarteknikservis-pixel/kosarticaret-'),
+        'github_branch' => env('PTTAVM_GITHUB_BRANCH', 'main'),
+    ],
+
     'sales_channels' => [
         'website' => 'Web sitesi',
         'trendyol' => 'Trendyol',
         'hepsiburada' => 'Hepsiburada',
         'n11' => 'N11',
         'idefix' => 'Idefix',
+        'pttavm' => 'PTT AVM',
         'pazarama' => 'Pazarama',
     ],
 ];

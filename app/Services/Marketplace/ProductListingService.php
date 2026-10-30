@@ -14,6 +14,9 @@ use App\Services\Marketplace\Idefix\IdefixListingPayloadBuilder;
 use App\Services\Marketplace\N11\N11ApiClient;
 use App\Services\Marketplace\N11\N11ApiException;
 use App\Services\Marketplace\N11\N11ListingPayloadBuilder;
+use App\Services\Marketplace\PttAvm\PttAvmApiClient;
+use App\Services\Marketplace\PttAvm\PttAvmApiException;
+use App\Services\Marketplace\PttAvm\PttAvmListingPayloadBuilder;
 use App\Services\Marketplace\Trendyol\TrendyolApiClient;
 use App\Services\Marketplace\Trendyol\TrendyolApiException;
 use App\Services\Marketplace\Trendyol\TrendyolListingPayloadBuilder;
@@ -32,6 +35,8 @@ class ProductListingService
         private N11ListingPayloadBuilder $n11PayloadBuilder,
         private IdefixApiClient $idefixApiClient,
         private IdefixListingPayloadBuilder $idefixPayloadBuilder,
+        private PttAvmApiClient $pttAvmApiClient,
+        private PttAvmListingPayloadBuilder $pttAvmPayloadBuilder,
         private MarketplaceChannelPricing $pricing,
         private MarketplaceSyncLogger $logger,
     ) {}
@@ -81,6 +86,7 @@ class ProductListingService
             'hepsiburada' => $this->publishHepsiburada($productId, $priceOverride),
             'n11' => $this->publishN11($productId, $priceOverride),
             'idefix' => $this->publishIdefix($productId, $priceOverride),
+            'pttavm' => $this->publishPttAvm($productId, $priceOverride),
             default => throw new InvalidArgumentException('Bu kanal için ürün gönderimi henüz desteklenmiyor: '.$channelKey),
         };
     }
@@ -427,6 +433,89 @@ class ProductListingService
                 'message' => 'Ürün Idefix\'e gönderildi. Onay süreci bekleniyor (batchRequestId: '.$batchId.').',
             ];
         } catch (IdefixApiException $e) {
+            return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
+        } catch (\Throwable $e) {
+            return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');
+        }
+    }
+
+    /**
+     * @return array{success: bool, listing: MarketplaceListing, message: string}
+     */
+    private function publishPttAvm(int $productId, ?float $priceOverride = null): array
+    {
+        $channel = MarketplaceChannel::query()->where('key', 'pttavm')->firstOrFail();
+        $product = Product::query()->with(['brand', 'categories', 'images'])->findOrFail($productId);
+        $listing = $this->prepareListing($product, $channel, $priceOverride);
+        $started = microtime(true);
+
+        try {
+            $client = $this->pttAvmApiClient->forChannel($channel);
+
+            if (in_array($listing->status, ['error', 'draft', 'pending', 'rejected'], true)) {
+                $listing->fill([
+                    'status' => 'draft',
+                    'last_error' => null,
+                ])->save();
+            }
+
+            $payload = $this->pttAvmPayloadBuilder->buildUpsertPayload(
+                $product,
+                $channel,
+                $listing,
+                $priceOverride,
+            );
+
+            $quantity = (int) data_get($payload, 'items.0.quantity', 0);
+            if ($quantity < 1) {
+                throw new InvalidArgumentException('PTT AVM stok 0 gönderilemez.');
+            }
+
+            $response = $client->upsertProducts($payload);
+            $ok = (bool) data_get($response, 'success', false);
+            $trackingId = (string) (
+                data_get($response, 'trackingId')
+                ?? data_get($response, 'trackingid')
+                ?? data_get($response, 'TrackingId')
+                ?? ''
+            );
+
+            if (! $ok && $trackingId === '') {
+                throw new PttAvmApiException(
+                    (string) (data_get($response, 'message') ?: 'PTT AVM ürün gönderimi başarısız.'),
+                    0,
+                    is_array($response) ? $response : null,
+                );
+            }
+
+            $listing->update([
+                'status' => 'pending',
+                'external_product_id' => $trackingId !== '' ? $trackingId : (string) data_get($payload, 'items.0.barcode', $product->sku),
+                'external_sku' => $product->sku,
+                'payload_snapshot' => $payload,
+                'last_synced_at' => now(),
+                'last_error' => null,
+            ]);
+
+            $this->logger->log(
+                'listing_publish',
+                'success',
+                $channel->key,
+                $product->id,
+                null,
+                'PTT AVM gönderimi kuyruğa alındı.',
+                ['response' => $response, 'trackingId' => $trackingId],
+                (int) round((microtime(true) - $started) * 1000),
+            );
+
+            $channel->update(['last_sync_at' => now(), 'last_error' => null]);
+
+            return [
+                'success' => true,
+                'listing' => $listing->fresh(),
+                'message' => 'Ürün PTT AVM\'e gönderildi.'.($trackingId !== '' ? ' trackingId: '.$trackingId : ''),
+            ];
+        } catch (PttAvmApiException $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
         } catch (\Throwable $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');
