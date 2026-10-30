@@ -249,6 +249,19 @@ jobs:
             \$PHP_BIN artisan marketplace:publish-product sumak-sdf-102-paslanmaz-govdeli-foseptik-dalgic-pompa-monofaze-220-v-1-hp --map-brand --price=18970 || echo 'SDF102 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_440000_unlock_smj220_trendyol_buybox_barcode.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_441000_unlock_sdf500gf_trendyol_buybox_barcode.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_30_100000_n11_banned_words_switch_to_sumak.php && \
+            \$PHP_BIN artisan marketplace:n11-prepare-mappings --shipment-template="${N11_SHIPMENT_TEMPLATE:-TESLIMAT2}" && \
+            \$PHP_BIN artisan marketplace:publish-product troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli --channel=n11 --map-brand --price=10990 && \
+            sleep 12 && \
+            \$PHP_BIN artisan marketplace:publish-product troy-hmj-15-dokum-govdeli-jet-pompa-1-hp-49-mss-4-m3-h --channel=n11 --map-brand --price=8599 && \
+            sleep 12 && \
+            \$PHP_BIN artisan marketplace:publish-product troy-ts-12-12-h-12v-karavan-hidroforu --channel=n11 --map-brand --price=7599 && \
+            sleep 12 && \
+            \$PHP_BIN artisan marketplace:publish-product troy-ts-12-8-h-12v-karavan-hidroforu --channel=n11 --map-brand --price=7999 && \
+            sleep 12 && \
+            \$PHP_BIN artisan marketplace:publish-product kaysu-pompa-hidrofor-050-hp-1-kat-1-daire --channel=n11 --map-brand --price=5625 && \
+            sleep 12 && \
+            \$PHP_BIN artisan marketplace:publish-product kaysu-pompa-hkjmh-10h-jet-hidrofor-4-kat-4-daire-24l-tankli --channel=n11 --map-brand --price=10125 && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
