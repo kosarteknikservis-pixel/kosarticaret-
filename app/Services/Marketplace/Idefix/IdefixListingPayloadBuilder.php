@@ -596,8 +596,8 @@ class IdefixListingPayloadBuilder
         if (in_array($sku, ['SBRM18-2-P', 'SBRM182P', 'SBRM18-2P'], true)) {
             return 530110498;
         }
-        // Jet SMJK: Santrifüj leaf
-        if ($sku === 'SMJK100') {
+        // Jet SMJK + SDF152: Idefix create CATEGORY_FAILED → Santrifüj leaf
+        if (in_array($sku, ['SMJK100', 'SDF152'], true)) {
             return 530141372;
         }
 
