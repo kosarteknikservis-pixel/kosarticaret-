@@ -132,6 +132,39 @@ class AuditIdefixQueueCommand extends Command
                 $this->line($line);
             }
 
+            // Önce canlı katalog (batch eski fail olsa bile ürün vardır).
+            $barcode = (string) data_get($listing->payload_snapshot, 'products.0.barcode', $product->barcode ?: $product->sku);
+            if ($client !== null && $barcode !== '') {
+                try {
+                    $listed = $client->listProducts(1, 5, $barcode);
+                    $rows = data_get($listed, 'products') ?? data_get($listed, 'items') ?? [];
+                    $found = false;
+                    if (is_array($rows)) {
+                        foreach ($rows as $row) {
+                            if (! is_array($row)) {
+                                continue;
+                            }
+                            if (mb_strtolower(trim((string) ($row['barcode'] ?? ''))) === mb_strtolower($barcode)) {
+                                $found = true;
+                                $this->info('  katalogda VAR | status='.(string) ($row['status'] ?? '—').' | cat='.(string) ($row['categoryId'] ?? '—'));
+                                $ok++;
+                                break;
+                            }
+                        }
+                    }
+                    if ($found) {
+                        if ($sleep > 0) {
+                            sleep($sleep);
+                        }
+
+                        continue;
+                    }
+                    $this->warn('  katalogda YOK (barcode='.$barcode.')');
+                } catch (\Throwable $e) {
+                    $this->warn('  list hata: '.$e->getMessage());
+                }
+            }
+
             if ($client !== null && $listing->external_product_id) {
                 try {
                     $result = $client->batchResult((string) $listing->external_product_id);
