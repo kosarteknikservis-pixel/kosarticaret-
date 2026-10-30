@@ -186,73 +186,41 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_28_175000_rewrite_troy_hmj_h_15_description.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_28_180000_prepare_troy_hmj_h_15_for_trendyol.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_28_181000_switch_troy_hmj_h_15_to_sumak_brand.php && \
-            \$PHP_BIN artisan marketplace:publish-product troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli --map-brand || echo 'Trendyol publish uyarisi (eslestirme/API kontrol edin)' && \
-            sleep 8 && \
-            \$PHP_BIN artisan marketplace:diagnose-listing troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli || echo 'Trendyol diagnose uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_100000_prepare_sumak_sdf151_for_trendyol.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_103000_fix_sumak_sdf151_trendyol_readiness.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sdf-151-temiz-su-dalgic-pompa-monofaze-220v-15-hp --map-brand --price=23599 || echo 'SDF151 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_110000_prepare_kaysu_hwd1100s_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product kaysu-hwd-1100s-paslanmaz-govdeli-kirli-su-dalgic-pompasi-15-hp-220-volt --map-brand --price=14799 || echo 'HWD1100S Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_120000_add_or_update_sumak_smj150_24l_hidrofor.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-smj-150-hidrofor-4-kat-6-daire-24-litre-tankli-hidrofor --map-brand --price=17999 || echo 'SMJ150 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_130000_prepare_kaysu_hmc145_65h_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product kaysu-pompa-hmc145-65h-paket-hidrofor-8-kat-18-daire-100-litre-tankli --map-brand --price=21999 || echo 'HMC145 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_140000_prepare_kaysu_2hcp160_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product kaysu-2hcp-160-cift-kademeli-hidrofor-7-kat-14-daire-50-litre-tankli --map-brand --price=18199 || echo '2HCP160 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_150000_prepare_sumak_smj220_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-smj-220-jet-paket-hidrofor-8-kat-16-daire-50-litre-tankli --map-brand --price=34199 || echo 'SMJ220 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_160000_add_troy_hmj15_jet_pump_for_site_and_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product troy-hmj-15-dokum-govdeli-jet-pompa-1-hp-49-mss-4-m3-h --map-brand --price=8599 || echo 'HMJ15JET Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_170000_prepare_sumak_smjk100_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-smjk-100-kendinden-emisli-jet-pompa-monofaze-220v-1hp --map-brand --price=13599 || echo 'SMJK100 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_180000_add_sumak_smac600_for_site_and_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-smac-600-wc-3-unite-foseptik-tahliye-cihazi --map-brand --price=31599 || echo 'SMAC600 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_190000_prepare_pedrollo_bc1550n_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product pedrollo-bc-1550n-flatorlu-paslanmaz-govdeli-foseptik-dalgic-pompa --map-brand --price=41799 || echo 'BC1550N Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_200000_prepare_pedrollo_bcm1050n_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product pedrollo-bcm-1050n-flatorlu-paslanmaz-govdeli-foseptik-dalgic-pompa --map-brand --price=35999 || echo 'BCM1050N Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_210000_add_pedrollo_top_multi_ad_for_site_and_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product pedrollo-top-multi-ad-drenaj-dalgic-pompa-mazot-pompasi-27-mss-4-2-m3h --map-brand --price=23199 || echo 'TOPMULTIAD Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_220000_prepare_kaysu_sp100050_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product kaysu-sp100050-kapali-fanli-plastik-drenaj-dalgic-su-pompasi --map-brand --price=6999 || echo 'SP100050 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_230000_add_sumak_sdf152_for_site_and_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sdf15-2-komple-paslanmaz-foseptik-dalgic-drenaj-pompa-220-volt-1-5-hp --map-brand --price=26999 || echo 'SDF152 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_240000_prepare_troy_ts1212h_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product troy-ts-12-12-h-12v-karavan-hidroforu --map-brand --price=7599 || echo 'TS1212H Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_250000_prepare_troy_ts128h_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product troy-ts-12-8-h-12v-karavan-hidroforu --map-brand --price=7999 || echo 'TS128H Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_260000_add_sumak_stn2000g_for_site_and_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-stn2000g-sintine-dalgic-pompa-6-mss-4500-litre-h-12-volt-manuel --map-brand --price=5999 || echo 'STN2000G Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_270000_add_sumak_hd500_for_site_and_trendyol.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_280000_prepare_winpo_wnp400aw_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product winpo-wnp-400-aw-flatorlu-drenaj-dalgic-pompa-6mss-7m3h-monofoze220v --map-brand --price=5599 || echo 'WNP400AW Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_290000_add_sumak_4sdf4_for_site_and_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-4sdf4-07-hp-220v-keson-dalgici-1-cikisli --map-brand --price=14199 || echo '4SDF4 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_300000_add_winpo_wnp400awgf_for_site_and_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product winpo-wnp-400-aw-gf-gizli-flatorlu-drenaj-dalgic-pompa-7mss-7m3h-monofaze-220v --map-brand --price=5499 || echo 'WNP400AWGF Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_310000_prepare_sumak_sdf500gf_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sdf500-gf-sifirdan-emisli-gizli-samandirali-drenaj-pompasi-05-hp --map-brand --price=12399 || echo 'SDF500GF Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_320000_prepare_sumak_sdf6a_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sdf-6a-drenaj-dalgic-pompa-paslanmaz-govdeli-monofaze-220-v-05-hp --map-brand --price=15199 || echo 'SDF6A Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_330000_prepare_sumak_sdf6_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sdf-6-drenaj-dalgic-pompa-paslanmaz-govdeli-monofaze-220-v-05-hp --map-brand --price=11899 || echo 'SDF6 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_340000_prepare_kaysu_hqbm60_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product kaysu-hqbm60-preferikal-surtme-fanli-su-pompasi --map-brand --price=3699 || echo 'HQBM60 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_350000_prepare_sumak_sm10_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sm-10-preferikal-pompa-monofaze-220v-1hp --map-brand --price=13922 || echo 'SM10 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_360000_add_sumak_hd1300_2_for_site_and_trendyol.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_370000_add_sumak_hd1700_2_for_site_and_trendyol.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_380000_prepare_sumak_sbrm182p_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sbrm-182p-parcalayici-bicakli-foseptik-dalgic-pompa-monofaze-220v-18-hp --map-brand --price=33399 || echo 'SBRM182P Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_390000_prepare_sumak_sdf102_for_trendyol.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sdf-102-paslanmaz-govdeli-foseptik-dalgic-pompa-monofaze-220-v-1-hp --map-brand --price=18970 || echo 'SDF102 Trendyol publish uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_440000_unlock_smj220_trendyol_buybox_barcode.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_441000_unlock_sdf500gf_trendyol_buybox_barcode.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_30_100000_n11_banned_words_switch_to_sumak.php && \
-            \$PHP_BIN artisan marketplace:health && \
-            \$PHP_BIN artisan marketplace:idefix-prepare-mappings --delivery-duration=2 --category-id=530114652 && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sdf-6-drenaj-dalgic-pompa-paslanmaz-govdeli-monofaze-220-v-05-hp --channel=idefix --map-brand --price=11899 && \
+            \$PHP_BIN artisan marketplace:idefix-batch 13021b-6ae43d82d38e7 && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
