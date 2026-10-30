@@ -90,6 +90,15 @@ return [
         'github_branch' => env('N11_GITHUB_BRANCH', 'main'),
     ],
 
+    'idefix' => [
+        'base_url' => env('IDEFIX_API_BASE_URL', 'https://merchantapi.idefix.com'),
+        'delivery_duration' => (int) env('IDEFIX_DELIVERY_DURATION', 2),
+        'default_pump_category_id' => env('IDEFIX_PUMP_CATEGORY_ID'),
+        'default_pump_category_name' => env('IDEFIX_PUMP_CATEGORY_NAME', 'Su Motoru'),
+        'github_repo' => env('IDEFIX_GITHUB_REPO', 'kosarteknikservis-pixel/kosarticaret-'),
+        'github_branch' => env('IDEFIX_GITHUB_BRANCH', 'main'),
+    ],
+
     'sales_channels' => [
         'website' => 'Web sitesi',
         'trendyol' => 'Trendyol',

@@ -8,6 +8,9 @@ use App\Models\Product;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaApiClient;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaApiException;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaListingPayloadBuilder;
+use App\Services\Marketplace\Idefix\IdefixApiClient;
+use App\Services\Marketplace\Idefix\IdefixApiException;
+use App\Services\Marketplace\Idefix\IdefixListingPayloadBuilder;
 use App\Services\Marketplace\N11\N11ApiClient;
 use App\Services\Marketplace\N11\N11ApiException;
 use App\Services\Marketplace\N11\N11ListingPayloadBuilder;
@@ -27,6 +30,8 @@ class ProductListingService
         private HepsiburadaListingPayloadBuilder $hepsiburadaPayloadBuilder,
         private N11ApiClient $n11ApiClient,
         private N11ListingPayloadBuilder $n11PayloadBuilder,
+        private IdefixApiClient $idefixApiClient,
+        private IdefixListingPayloadBuilder $idefixPayloadBuilder,
         private MarketplaceChannelPricing $pricing,
         private MarketplaceSyncLogger $logger,
     ) {}
@@ -75,6 +80,7 @@ class ProductListingService
             'trendyol' => $this->publishTrendyol($productId, $priceOverride),
             'hepsiburada' => $this->publishHepsiburada($productId, $priceOverride),
             'n11' => $this->publishN11($productId, $priceOverride),
+            'idefix' => $this->publishIdefix($productId, $priceOverride),
             default => throw new InvalidArgumentException('Bu kanal için ürün gönderimi henüz desteklenmiyor: '.$channelKey),
         };
     }
@@ -338,6 +344,88 @@ class ProductListingService
                 'message' => 'Ürün N11\'e gönderildi. Onay süreci bekleniyor (taskId: '.$taskId.').',
             ];
         } catch (N11ApiException $e) {
+            return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
+        } catch (\Throwable $e) {
+            return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');
+        }
+    }
+
+    /**
+     * @return array{success: bool, listing: MarketplaceListing, message: string}
+     */
+    private function publishIdefix(int $productId, ?float $priceOverride = null): array
+    {
+        $channel = MarketplaceChannel::query()->where('key', 'idefix')->firstOrFail();
+        $product = Product::query()->with(['brand', 'categories', 'images'])->findOrFail($productId);
+        $listing = $this->prepareListing($product, $channel, $priceOverride);
+        $started = microtime(true);
+
+        try {
+            $client = $this->idefixApiClient->forChannel($channel);
+
+            if (in_array($listing->status, ['error', 'draft', 'pending', 'rejected'], true)) {
+                $listing->fill([
+                    'status' => 'draft',
+                    'last_error' => null,
+                ])->save();
+            }
+
+            $payload = $this->idefixPayloadBuilder->buildCreatePayload(
+                $product,
+                $channel,
+                $listing,
+                $priceOverride,
+                $client,
+            );
+
+            $quantity = (int) data_get($payload, 'products.0.inventoryQuantity', 0);
+            if ($quantity < 1) {
+                throw new InvalidArgumentException('Idefix stok 0 gönderilemez.');
+            }
+
+            $response = $client->createProducts($payload);
+            $batchId = (string) (
+                data_get($response, 'batchRequestId')
+                ?? data_get($response, 'batchId')
+                ?? ''
+            );
+
+            if ($batchId === '') {
+                throw new IdefixApiException(
+                    'Idefix batchRequestId dönmedi.',
+                    0,
+                    is_array($response) ? $response : null,
+                );
+            }
+
+            $listing->update([
+                'status' => 'pending',
+                'external_product_id' => $batchId,
+                'external_sku' => $product->sku,
+                'payload_snapshot' => $payload,
+                'last_synced_at' => now(),
+                'last_error' => null,
+            ]);
+
+            $this->logger->log(
+                'listing_publish',
+                'success',
+                $channel->key,
+                $product->id,
+                null,
+                'Idefix gönderimi kuyruğa alındı.',
+                ['response' => $response, 'batchRequestId' => $batchId],
+                (int) round((microtime(true) - $started) * 1000),
+            );
+
+            $channel->update(['last_sync_at' => now(), 'last_error' => null]);
+
+            return [
+                'success' => true,
+                'listing' => $listing->fresh(),
+                'message' => 'Ürün Idefix\'e gönderildi. Onay süreci bekleniyor (batchRequestId: '.$batchId.').',
+            ];
+        } catch (IdefixApiException $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
         } catch (\Throwable $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), null, $started, 'listing_publish');

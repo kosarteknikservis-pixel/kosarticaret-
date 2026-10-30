@@ -7,6 +7,8 @@ use App\Services\Marketplace\MarketplaceManager;
 use App\Services\Marketplace\ProductReadinessChecker;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaApiClient;
 use App\Services\Marketplace\Hepsiburada\HepsiburadaApiException;
+use App\Services\Marketplace\Idefix\IdefixApiClient;
+use App\Services\Marketplace\Idefix\IdefixApiException;
 use App\Services\Marketplace\N11\N11ApiClient;
 use App\Services\Marketplace\N11\N11ApiException;
 use App\Services\Marketplace\Trendyol\TrendyolApiClient;
@@ -26,6 +28,7 @@ class MarketplaceHealthCommand extends Command
         TrendyolApiClient $trendyolApiClient,
         HepsiburadaApiClient $hepsiburadaApiClient,
         N11ApiClient $n11ApiClient,
+        IdefixApiClient $idefixApiClient,
     ): int {
         if (! Schema::hasTable('marketplace_channels')) {
             $this->error('Pazaryeri tabloları henüz kurulmamış. php artisan migrate çalıştırın.');
@@ -80,6 +83,20 @@ class MarketplaceHealthCommand extends Command
                     $this->warn('  N11 API: '.$e->getMessage());
                 } catch (\Throwable $e) {
                     $this->warn('  N11 API: '.$e->getMessage());
+                }
+            }
+
+            if ($channel->key === 'idefix' && $channel->is_active && $channel->isConfigured()) {
+                try {
+                    $ping = $idefixApiClient->forChannel($channel)->ping();
+                    $label = data_get($ping, 'title')
+                        ? 'marka '.(string) data_get($ping, 'title').' #'.(string) data_get($ping, 'id')
+                        : 'kategori kök '.(string) ($ping['roots'] ?? 0);
+                    $this->info('  Idefix API: erişilebilir ('.$label.')');
+                } catch (IdefixApiException $e) {
+                    $this->warn('  Idefix API: '.$e->getMessage());
+                } catch (\Throwable $e) {
+                    $this->warn('  Idefix API: '.$e->getMessage());
                 }
             }
 
