@@ -44,6 +44,11 @@ on:
         required: true
         type: boolean
         default: false
+      trendyol_brand_audit:
+        description: 'Trendyol canlı brandId / eşleme denetimi'
+        required: true
+        type: boolean
+        default: false
 
 concurrency:
   group: canliya-gonder
@@ -262,6 +267,17 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan marketplace:trendyol-force-brand 'Koşar' --sleep-ms=1500"
+
+      - name: Trendyol marka denetimi (opsiyonel)
+        if: github.event.inputs.trendyol_brand_audit == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-brand-audit --limit=20"
 
       - name: Zamanlayıcı (hafif)
         env:
