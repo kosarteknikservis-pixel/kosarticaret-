@@ -21,6 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
             ->hourly()
             ->withoutOverlapping();
 
+        $schedule->command('carts:send-abandoned-reminders --hours=6')
+            ->hourly()
+            ->withoutOverlapping();
+
         $schedule->command('shipments:sync-status')
             ->everyFifteenMinutes()
             ->withoutOverlapping();

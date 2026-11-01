@@ -16,13 +16,20 @@
             </x-slot:actions>
         </x-shop.page-hero>
 
-        <div class="grid gap-3 sm:gap-4 sm:grid-cols-3 min-w-0">
+        <div class="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4 min-w-0">
             <a href="{{ route('account.index') }}" class="shop-account-card is-active">
                 <span class="shop-account-card__icon-wrap">
                     <x-shop.icon name="cart" class="w-6 h-6" />
                 </span>
                 <p class="mt-3 font-bold text-slate-900">{{ __('shop.my_orders') }}</p>
                 <p class="text-sm text-slate-500">{{ $orders->total() }} {{ __('shop.orders_count') }}</p>
+            </a>
+            <a href="{{ route('account.profile') }}" class="shop-account-card">
+                <span class="shop-account-card__icon-wrap">
+                    <x-shop.icon name="user" class="w-6 h-6" />
+                </span>
+                <p class="mt-3 font-bold text-slate-900">Profilim</p>
+                <p class="text-sm text-slate-500">Adres ve şifre</p>
             </a>
             <a href="{{ route('favorites.index') }}" class="shop-account-card">
                 <span class="shop-account-card__icon-wrap">

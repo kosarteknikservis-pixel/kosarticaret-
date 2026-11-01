@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Services\AdminOrderCreator;
 use App\Services\AdminOrderEditor;
 use App\Services\OrderMailService;
+use App\Services\OrderService;
 use App\Services\StoreConfig;
 use App\Support\Code128Barcode;
 use App\Support\OrderPaymentReminder;
@@ -217,6 +218,17 @@ class OrderController extends Controller
         OrderPaymentReminder::logSuccess($order, 'manual', auth()->id());
 
         return back()->with('success', 'Ödeme hatırlatma e-postası gönderildi: '.$order->email);
+    }
+
+    public function refund(Order $order, OrderService $orders): RedirectResponse
+    {
+        $result = $orders->refundPayment($order);
+
+        if (! $result['ok']) {
+            return back()->withErrors(['order' => $result['message']]);
+        }
+
+        return back()->with('success', $result['message']);
     }
 
     private function shouldIncludePendingPaymentOrders(Request $request): bool

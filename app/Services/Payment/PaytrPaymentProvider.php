@@ -91,6 +91,61 @@ class PaytrPaymentProvider implements PaymentProvider
         ];
     }
 
+    public function iade(Order $order, ?float $amount = null): array
+    {
+        $merchantId = PaymentGatewayConfig::paytrMerchantId();
+        $merchantKey = PaymentGatewayConfig::paytrMerchantKey();
+        $merchantSalt = PaymentGatewayConfig::paytrMerchantSalt();
+
+        if (! $merchantId || ! $merchantKey || ! $merchantSalt) {
+            return (new MockPaymentProvider)->iade($order, $amount);
+        }
+
+        $returnAmount = (int) round(($amount ?? (float) $order->total) * 100);
+        if ($returnAmount <= 0) {
+            return [
+                'basarili' => false,
+                'demo' => false,
+                'mesaj' => 'İade tutarı geçersiz.',
+                'referans' => null,
+            ];
+        }
+
+        $merchantOid = $this->merchantOid($order);
+        $paytrToken = base64_encode(hash_hmac(
+            'sha256',
+            $merchantId.$merchantOid.$returnAmount.$merchantSalt,
+            $merchantKey,
+            true,
+        ));
+
+        $response = Http::asForm()->post('https://www.paytr.com/odeme/iade', [
+            'merchant_id' => $merchantId,
+            'merchant_oid' => $merchantOid,
+            'return_amount' => $returnAmount,
+            'paytr_token' => $paytrToken,
+        ]);
+
+        $data = $response->json() ?? [];
+        if (($data['status'] ?? '') !== 'success') {
+            Log::warning('paytr refund failed', ['order' => $order->order_number, 'response' => $data]);
+
+            return [
+                'basarili' => false,
+                'demo' => false,
+                'mesaj' => $data['err_msg'] ?? ($data['msg'] ?? 'PayTR iade başarısız'),
+                'referans' => null,
+            ];
+        }
+
+        return [
+            'basarili' => true,
+            'demo' => false,
+            'mesaj' => null,
+            'referans' => (string) ($data['reference_no'] ?? $data['merchant_oid'] ?? $merchantOid),
+        ];
+    }
+
     public static function merchantOid(Order $order): string
     {
         return preg_replace('/[^A-Za-z0-9]/', '', $order->order_number) ?: (string) $order->id;

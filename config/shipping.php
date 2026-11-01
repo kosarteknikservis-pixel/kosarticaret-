@@ -4,6 +4,8 @@ return [
     'free_shipping_min' => (float) env('KOSAR_FREE_SHIPPING', 1000),
     'cod_fee' => 29.90,
     'vat_rate' => 0.20,
+    // 0 = kapalı (yalnızca yöntem sabit ücreti). >0 ise ücret += ceil(desi) × oran.
+    'desi_rate' => (float) env('KOSAR_DESI_RATE', 0),
     'shipping_rates' => [
         'standart' => 0,
         'hizli' => 149.90,

@@ -14,7 +14,7 @@ use Illuminate\View\View;
 class ShippingSettingsController extends Controller
 {
     private const KEYS = [
-        'cod_fee', 'vat_rate',
+        'cod_fee', 'vat_rate', 'desi_rate',
         'shipping_rate_standart', 'shipping_rate_hizli',
         'ship_standart_name', 'ship_standart_desc', 'ship_standart_eta',
         'ship_hizli_name', 'ship_hizli_desc', 'ship_hizli_eta',
@@ -32,6 +32,7 @@ class ShippingSettingsController extends Controller
     {
         $data = $request->validate([
             'cod_fee' => ['nullable', 'numeric', 'min:0'],
+            'desi_rate' => ['nullable', 'numeric', 'min:0'],
             'havale_discount_percent' => ['nullable', 'numeric', 'min:0', 'max:90'],
             'vat_rate' => ['nullable', 'numeric', 'min:0', 'max:1'],
             'checkout_add_vat' => ['sometimes', 'boolean'],
@@ -76,6 +77,9 @@ class ShippingSettingsController extends Controller
     {
         if ($key === 'cod_fee') {
             return (string) config('shipping.cod_fee');
+        }
+        if ($key === 'desi_rate') {
+            return (string) config('shipping.desi_rate', 0);
         }
         if ($key === 'havale_discount_percent') {
             return '0';

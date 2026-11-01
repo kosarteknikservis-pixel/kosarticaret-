@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Coupon;
+use App\Models\Order;
 
 class CouponService
 {
@@ -63,6 +64,18 @@ class CouponService
 
         if ($coupon->expires_at && $coupon->expires_at->isPast()) {
             return null;
+        }
+
+        if ($coupon->usage_limit !== null) {
+            $used = Order::query()
+                ->where('coupon_code', $coupon->code)
+                ->where('payment_status', '!=', 'basarisiz')
+                ->where('status', '!=', 'iptal')
+                ->count();
+
+            if ($used >= (int) $coupon->usage_limit) {
+                return null;
+            }
         }
 
         return $coupon;

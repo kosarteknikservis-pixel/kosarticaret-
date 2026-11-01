@@ -52,6 +52,11 @@ class Order extends Model
         return $this->hasMany(OrderLog::class)->latest();
     }
 
+    public function returnRequests(): HasMany
+    {
+        return $this->hasMany(OrderReturnRequest::class)->latest();
+    }
+
     public function shipments(): HasMany
     {
         return $this->hasMany(OrderShipment::class)->orderBy('package_number');

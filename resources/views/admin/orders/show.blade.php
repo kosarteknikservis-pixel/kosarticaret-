@@ -266,6 +266,24 @@
                         <p class="text-xs text-slate-500 leading-relaxed">Durum veya takip no değişirse müşteriye otomatik e-posta gönderilir.</p>
                     </div>
 
+                    @if($order->payment_method === 'kredi_karti' && $order->payment_status === 'basarili')
+                        <div class="admin-card p-5 sm:p-6 space-y-4 border-rose-200 bg-rose-50/40">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-wide text-rose-700">Kart iadesi</p>
+                                <h2 class="font-bold text-slate-900 mt-1">Ödeme sağlayıcıdan iade</h2>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Aktif gateway (PayTR / iyzico) üzerinden tam tutar iade edilir; sipariş iptal olur ve stok geri yazılır.
+                            </p>
+                            <form method="post" action="{{ route('admin.orders.refund', $order) }}" onsubmit="return confirm('Kart ödemesi iade edilsin mi?\n\n{{ number_format($order->total, 2, ',', '.') }} ₺');">
+                                @csrf
+                                <button type="submit" class="admin-btn admin-btn-secondary w-full py-2.5 min-h-[44px] text-rose-700 border-rose-200">
+                                    İade et
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+
                     @if($order->isPendingPayment())
                         @php($reminderStatus = \App\Support\OrderPaymentReminder::status($order))
                         <div class="admin-card p-5 sm:p-6 space-y-4 border-amber-200 bg-amber-50/50">

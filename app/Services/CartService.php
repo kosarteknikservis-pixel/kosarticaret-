@@ -57,6 +57,16 @@ class CartService
         return round(collect($this->lines())->sum('line_total'), 2);
     }
 
+    /** Sepet toplam desi (ürün desi × adet). Desi'si olmayan ürünler 0 sayılır. */
+    public function totalDesi(): float
+    {
+        return round(collect($this->lines())->sum(function (array $line): float {
+            $desi = $line['product']->desi();
+
+            return $desi !== null ? ((float) $desi * (int) $line['quantity']) : 0.0;
+        }), 2);
+    }
+
     public function clear(): void
     {
         session()->forget('cart');

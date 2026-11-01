@@ -14,10 +14,15 @@ class CheckoutCalculator
         return $prefix.'-'.strtoupper(base_convert((string) now()->timestamp, 10, 36));
     }
 
-    public function shippingCost(float $subtotal, string $method, bool $forceFree = false): float
+    public function shippingCost(float $subtotal, string $method, bool $forceFree = false, float $cartDesi = 0.0): float
     {
         $rates = $this->store->shippingRates();
         $fee = (float) ($rates[$method] ?? 0);
+        $desiRate = $this->store->desiRate();
+
+        if ($desiRate > 0 && $cartDesi > 0) {
+            $fee += (float) (ceil($cartDesi) * $desiRate);
+        }
 
         if ($forceFree) {
             return 0.0;
@@ -28,7 +33,7 @@ class CheckoutCalculator
             return 0.0;
         }
 
-        return $fee;
+        return round($fee, 2);
     }
 
     /**
@@ -40,9 +45,10 @@ class CheckoutCalculator
         string $shippingMethod,
         string $paymentMethod,
         bool $freeShippingPromo = false,
+        float $cartDesi = 0.0,
     ): array {
         $subtotal = max(0, round($cartSubtotal - $discount, 2));
-        $shipping = $this->shippingCost($subtotal, $shippingMethod, $freeShippingPromo);
+        $shipping = $this->shippingCost($subtotal, $shippingMethod, $freeShippingPromo, $cartDesi);
         $havaleDiscount = $paymentMethod === 'havale' ? $this->store->havaleDiscountAmount($subtotal) : 0.0;
         $payableGoods = max(0, round($subtotal - $havaleDiscount, 2));
         $codFee = $paymentMethod === 'kapida_odeme' ? $this->store->codFee() : 0;

@@ -46,7 +46,14 @@ class IyzicoCallbackController extends Controller
         $paid = $retrieve['ok'] && in_array($retrieve['paymentStatus'] ?? '', ['SUCCESS', 'success'], true);
 
         if ($paid) {
-            $orders->confirmPayment($order);
+            if (! empty($retrieve['paymentId'])) {
+                $order->update([
+                    'shipping_address' => array_merge($order->shipping_address ?? [], [
+                        'iyzico_payment_id' => $retrieve['paymentId'],
+                    ]),
+                ]);
+            }
+            $orders->confirmPayment($order->fresh());
 
             return redirect()->route('checkout.success', ['order' => $order->order_number]);
         }

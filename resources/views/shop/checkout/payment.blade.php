@@ -34,6 +34,10 @@
 
 
 
+        @if(!empty($stockError))
+            <p class="shop-alert shop-alert--error mb-4">{{ $stockError }}</p>
+        @endif
+
         @if(session('error'))
 
             <p class="shop-alert shop-alert--error mb-4">{{ session('error') }}</p>
