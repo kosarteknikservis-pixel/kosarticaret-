@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Brand;
 use App\Models\MarketplaceBrandMapping;
 use App\Models\MarketplaceChannel;
 use App\Models\MarketplaceListing;
