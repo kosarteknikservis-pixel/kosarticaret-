@@ -78,9 +78,19 @@ class AuditTrendyolBrandsCommand extends Command
                     ?? data_get($raw, 'products.0')
                     ?? (isset($raw['barcode']) ? $raw : null);
 
-                $brandId = data_get($row, 'brandId') ?? data_get($row, 'brand.id');
-                $brandName = data_get($row, 'brandName') ?? data_get($row, 'brand.name') ?? data_get($row, 'brand');
-                $approved = data_get($row, 'approved') ?? data_get($row, 'onSale') ?? data_get($row, 'productContentId');
+                $brandId = data_get($row, 'brandId')
+                    ?? data_get($row, 'brand.id')
+                    ?? data_get($raw, 'brandId')
+                    ?? data_get($raw, 'brand.id');
+                $brandName = data_get($row, 'brandName')
+                    ?? data_get($row, 'brand.name')
+                    ?? data_get($row, 'brand')
+                    ?? data_get($raw, 'brandName')
+                    ?? data_get($raw, 'brand.name');
+                $approved = data_get($row, 'approved')
+                    ?? data_get($row, 'onSale')
+                    ?? data_get($row, 'productContentId')
+                    ?? data_get($raw, 'approved');
 
                 $this->line(sprintf(
                     '- %s | site=%s | TY brandId=%s name=%s | listing=%s | approved/onSale~=%s',
@@ -91,6 +101,28 @@ class AuditTrendyolBrandsCommand extends Command
                     $listing->status,
                     is_scalar($approved) ? (string) $approved : json_encode($approved, JSON_UNESCAPED_UNICODE)
                 ));
+
+                // İlk 2 üründe ham yanıtın marka ile ilgili alanlarını göster.
+                static $dumps = 0;
+                if ($dumps < 2) {
+                    $dumps++;
+                    $keys = is_array($row) ? array_keys($row) : (is_array($raw) ? array_keys($raw) : []);
+                    $this->line('  raw_keys='.implode(',', $keys));
+                    $subset = [];
+                    foreach (['brandId', 'brandName', 'brand', 'title', 'productMainId', 'barcode', 'approved', 'archived', 'onSale', 'hasActiveCampaign', 'locked'] as $k) {
+                        if (is_array($row) && array_key_exists($k, $row)) {
+                            $subset[$k] = $row[$k];
+                        } elseif (is_array($raw) && array_key_exists($k, $raw)) {
+                            $subset[$k] = $raw[$k];
+                        }
+                    }
+                    $this->line('  brand_subset='.json_encode($subset, JSON_UNESCAPED_UNICODE));
+                    if (is_array($listing->payload_snapshot)) {
+                        $sentBrand = data_get($listing->payload_snapshot, 'items.0.brandId')
+                            ?? data_get($listing->payload_snapshot, '0.brandId');
+                        $this->line('  last_sent_brandId='.json_encode($sentBrand, JSON_UNESCAPED_UNICODE));
+                    }
+                }
 
                 if ($listing->external_product_id && ! str_contains((string) $listing->external_product_id, '-')) {
                     // batch id genelde UUID; kısa id değilse batch dene
