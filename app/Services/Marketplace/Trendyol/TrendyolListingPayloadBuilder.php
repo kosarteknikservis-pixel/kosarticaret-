@@ -268,10 +268,27 @@ class TrendyolListingPayloadBuilder
             return null;
         }
 
-        return MarketplaceBrandMapping::query()
+        $mapping = MarketplaceBrandMapping::query()
             ->where('channel_key', $channelKey)
             ->where('brand_id', $product->brand_id)
             ->first();
+
+        if ($channelKey !== 'trendyol' || $mapping === null) {
+            return $mapping;
+        }
+
+        // Kanal ayarı: tüm Trendyol gönderimlerinde markayı zorla (örn. Koşar).
+        $channel = MarketplaceChannel::query()->where('key', 'trendyol')->first();
+        $forceId = trim((string) data_get($channel?->settings, 'force_brand_external_id', ''));
+        $forceName = trim((string) data_get($channel?->settings, 'force_brand_external_name', ''));
+        if ($forceId !== '') {
+            $mapping->external_brand_id = $forceId;
+            if ($forceName !== '') {
+                $mapping->external_brand_name = $forceName;
+            }
+        }
+
+        return $mapping;
     }
 
     /**
