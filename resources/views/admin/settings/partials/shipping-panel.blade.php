@@ -13,6 +13,11 @@
 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
     <div><label class="admin-label">Kapıda ödeme ücreti (₺)</label><input name="cod_fee" type="number" step="0.01" value="{{ $shippingValues['cod_fee'] }}" class="admin-input"></div>
     <div>
+        <label class="admin-label" for="desi-rate">Desi ücreti (₺ / desi)</label>
+        <input id="desi-rate" name="desi_rate" type="number" min="0" step="0.01" value="{{ $shippingValues['desi_rate'] ?? '0' }}" class="admin-input">
+        <p class="mt-1 text-xs leading-relaxed text-slate-500">0 kapalıdır. Açıkken kargo = yöntem ücreti + ceil(sepet desi) × bu oran. Ürün ölçü/kg alanından desi hesaplanır.</p>
+    </div>
+    <div>
         <label class="admin-label" for="havale-discount-percent">Havale indirimi (%)</label>
         <input id="havale-discount-percent" name="havale_discount_percent" type="number" min="0" max="90" step="0.01" value="{{ $shippingValues['havale_discount_percent'] ?? '0' }}" class="admin-input">
         <p class="mt-1 text-xs leading-relaxed text-slate-500">0 kapalıdır. Ürün fiyatı üzerinden hesaplanır; kargo ve kapıda ödeme ücretine uygulanmaz.</p>

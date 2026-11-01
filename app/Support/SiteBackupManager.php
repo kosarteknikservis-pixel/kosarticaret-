@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Process;
 use RuntimeException;
 
 final class SiteBackupManager
@@ -13,6 +14,8 @@ final class SiteBackupManager
     private const MANIFEST = 'manifest.json';
 
     private const DATABASE_ENTRY = 'database/database.sqlite';
+
+    private const DATABASE_SQL_ENTRY = 'database/database.sql';
 
     private const STORAGE_PREFIX = 'storage/public/';
 
@@ -46,9 +49,22 @@ final class SiteBackupManager
     {
         $this->ensureBackupDirectory();
 
-        $databasePath = $this->databasePath();
-        if (! is_file($databasePath)) {
-            throw new RuntimeException('SQLite veritabanı dosyası bulunamadı.');
+        $connection = (string) config('database.default');
+        $driver = (string) config("database.connections.{$connection}.driver", 'sqlite');
+        $tmpSql = null;
+
+        if ($driver === 'sqlite') {
+            $databasePath = $this->databasePath();
+            if (! is_file($databasePath)) {
+                throw new RuntimeException('SQLite veritabanı dosyası bulunamadı.');
+            }
+            $dbEntry = self::DATABASE_ENTRY;
+        } elseif (in_array($driver, ['mysql', 'mariadb'], true)) {
+            $tmpSql = $this->exportMysqlDump();
+            $databasePath = $tmpSql;
+            $dbEntry = self::DATABASE_SQL_ENTRY;
+        } else {
+            throw new RuntimeException('Yedek yalnızca sqlite veya mysql/mariadb bağlantıları için desteklenir.');
         }
 
         $baseName = $this->backupFileName($name, $reason);
@@ -59,13 +75,14 @@ final class SiteBackupManager
         $storageFiles = $this->publicStorageFiles();
         $manifest = [
             'type' => 'kosar_site_backup',
-            'version' => 1,
+            'version' => 2,
             'created_at' => now()->toDateTimeString(),
             'app_name' => config('app.name'),
             'app_url' => config('app.url'),
             'database' => [
-                'connection' => config('database.default'),
-                'entry' => self::DATABASE_ENTRY,
+                'connection' => $connection,
+                'driver' => $driver,
+                'entry' => $dbEntry,
             ],
             'storage' => [
                 'prefix' => self::STORAGE_PREFIX,
@@ -74,9 +91,13 @@ final class SiteBackupManager
             'reason' => $reason,
         ];
         $zip->addString(self::MANIFEST, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-        $zip->addFile($databasePath, self::DATABASE_ENTRY);
+        $zip->addFile($databasePath, $dbEntry);
         $this->addPublicStorage($zip, $storageFiles);
         $zip->close();
+
+        if ($tmpSql && is_file($tmpSql)) {
+            @unlink($tmpSql);
+        }
 
         return $zipPath;
     }
@@ -105,20 +126,52 @@ final class SiteBackupManager
 
         SimpleZipFile::extractTo($zipPath, $tmp);
 
-        $restoredDatabase = $tmp.DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, self::DATABASE_ENTRY);
-        if (! is_file($restoredDatabase)) {
-            File::deleteDirectory($tmp);
-            throw new RuntimeException('Yedek içinde veritabanı bulunamadı.');
-        }
+        $sqliteDump = $tmp.DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, self::DATABASE_ENTRY);
+        $sqlDump = $tmp.DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, self::DATABASE_SQL_ENTRY);
+        $connection = (string) config('database.default');
+        $driver = (string) config("database.connections.{$connection}.driver", 'sqlite');
 
         DB::disconnect();
-        File::ensureDirectoryExists(dirname($this->databasePath()));
-        File::copy($restoredDatabase, $this->databasePath());
+
+        if (is_file($sqlDump) && in_array($driver, ['mysql', 'mariadb'], true)) {
+            $this->importMysqlDump($sqlDump);
+        } elseif (is_file($sqliteDump) && $driver === 'sqlite') {
+            File::ensureDirectoryExists(dirname($this->databasePath()));
+            File::copy($sqliteDump, $this->databasePath());
+        } else {
+            File::deleteDirectory($tmp);
+            throw new RuntimeException('Yedek içindeki veritabanı, aktif bağlantı sürücüsüyle uyuşmuyor.');
+        }
 
         $this->replacePublicStorage($tmp.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'public');
 
         Cache::flush();
         File::deleteDirectory($tmp);
+    }
+
+    private function importMysqlDump(string $sqlPath): void
+    {
+        $connection = (string) config('database.default');
+        $cfg = config("database.connections.{$connection}");
+        $host = (string) ($cfg['host'] ?? '127.0.0.1');
+        $port = (string) ($cfg['port'] ?? '3306');
+        $database = (string) ($cfg['database'] ?? '');
+        $username = (string) ($cfg['username'] ?? '');
+        $password = (string) ($cfg['password'] ?? '');
+
+        $result = Process::env([
+            'MYSQL_PWD' => $password,
+        ])->timeout(300)->input(File::get($sqlPath))->run([
+            'mysql',
+            '--host='.$host,
+            '--port='.$port,
+            '--user='.$username,
+            $database,
+        ]);
+
+        if (! $result->successful()) {
+            throw new RuntimeException('MySQL geri yükleme başarısız: '.trim($result->errorOutput() ?: $result->output()));
+        }
     }
 
     public function delete(string $fileName): bool
@@ -164,7 +217,9 @@ final class SiteBackupManager
         foreach (SimpleZipFile::entries($zipPath) as $entry) {
             $this->assertSafeEntry($entry);
             $hasManifest = $hasManifest || $entry === self::MANIFEST;
-            $hasDatabase = $hasDatabase || $entry === self::DATABASE_ENTRY;
+            $hasDatabase = $hasDatabase
+                || $entry === self::DATABASE_ENTRY
+                || $entry === self::DATABASE_SQL_ENTRY;
         }
 
         $manifest = SimpleZipFile::get($zipPath, self::MANIFEST);
@@ -173,6 +228,49 @@ final class SiteBackupManager
         if (! $hasManifest || ! $hasDatabase || ! is_array($decoded) || ($decoded['type'] ?? null) !== 'kosar_site_backup') {
             throw new RuntimeException('Bu dosya geçerli bir KOŞAR site yedeği değil.');
         }
+    }
+
+    private function exportMysqlDump(): string
+    {
+        $connection = (string) config('database.default');
+        $cfg = config("database.connections.{$connection}");
+        $host = (string) ($cfg['host'] ?? '127.0.0.1');
+        $port = (string) ($cfg['port'] ?? '3306');
+        $database = (string) ($cfg['database'] ?? '');
+        $username = (string) ($cfg['username'] ?? '');
+        $password = (string) ($cfg['password'] ?? '');
+
+        if ($database === '') {
+            throw new RuntimeException('MySQL veritabanı adı boş.');
+        }
+
+        $tmp = storage_path('app/private/site-backup-mysql-'.uniqid('', true).'.sql');
+        File::ensureDirectoryExists(dirname($tmp));
+
+        $args = [
+            'mysqldump',
+            '--host='.$host,
+            '--port='.$port,
+            '--user='.$username,
+            '--single-transaction',
+            '--routines',
+            '--triggers',
+            '--default-character-set=utf8mb4',
+            $database,
+        ];
+
+        $result = Process::env([
+            'MYSQL_PWD' => $password,
+        ])->timeout(300)->run($args);
+
+        if (! $result->successful()) {
+            @unlink($tmp);
+            throw new RuntimeException('mysqldump çalışmadı: '.trim($result->errorOutput() ?: $result->output()));
+        }
+
+        File::put($tmp, $result->output());
+
+        return $tmp;
     }
 
     private function assertSafeEntry(string $entry): void

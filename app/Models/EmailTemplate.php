@@ -69,6 +69,17 @@ class EmailTemplate extends Model
                 'footer_note' => 'Bu e-postayı KOŞAR Ticaret bültenine abone olduğunuz için aldınız.',
                 'settings' => ['show_items' => false, 'show_tracking' => false],
             ],
+            'abandoned_cart' => [
+                'name' => 'Terk edilmiş sepet hatırlatması',
+                'subject' => 'Sepetiniz sizi bekliyor — {{cart_total}}',
+                'preheader' => 'Alışverişinize kaldığınız yerden devam edebilirsiniz.',
+                'title' => 'Sepetinizde ürünler kaldı',
+                'body' => "Merhaba {{customer_name}},\n\nSepetinizi tamamlamadan ayrıldınız. Sepet tutarı: {{cart_total}}.\n\n{{cart_items}}\n\nAşağıdaki butonla sepetinize dönebilirsiniz.",
+                'button_label' => 'Sepete dön',
+                'button_url' => '{{cart_url}}',
+                'footer_note' => 'Stoklar sınırlı olabilir; siparişinizi erken tamamlamanızı öneririz.',
+                'settings' => ['show_items' => false, 'show_tracking' => false],
+            ],
         ];
     }
 

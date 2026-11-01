@@ -177,9 +177,23 @@ class CheckoutController extends Controller
         $isDemo = ! PaymentGatewayConfig::isLive();
         $retryUrl = null;
         if ($model->payment_method === 'kredi_karti' && ! $isDemo) {
-            $odeme = $payments->baslat($model);
-            if ($odeme['basarili'] && ! empty($odeme['odeme_url'])) {
-                $retryUrl = $odeme['odeme_url'];
+            try {
+                $orders->reserveStockForPaymentRetry($model);
+                $odeme = $payments->baslat($model);
+                if ($odeme['basarili'] && ! empty($odeme['odeme_url'])) {
+                    $retryUrl = $odeme['odeme_url'];
+                }
+            } catch (\RuntimeException $e) {
+                return view('shop.checkout.payment', [
+                    'menuCategories' => Category::menu()->get(),
+                    'order' => $model->fresh(),
+                    'isDemo' => $isDemo,
+                    'gatewayLabel' => PaymentGatewayConfig::label(),
+                    'retryUrl' => null,
+                    'stockError' => $e->getMessage(),
+                    'metaTitle' => 'Ödeme',
+                    ...Seo::noIndexMeta(),
+                ]);
             }
         }
 
@@ -239,6 +253,7 @@ class CheckoutController extends Controller
                 $defaultShipping,
                 $method['id'],
                 $breakdown['free_shipping'],
+                $this->cart->totalDesi(),
             );
             $paymentQuotes[$method['id']] = [
                 'total' => $quote['total'],
@@ -254,6 +269,7 @@ class CheckoutController extends Controller
             $defaultShipping,
             $defaultPayment,
             $breakdown['free_shipping'],
+            $this->cart->totalDesi(),
         );
 
         return view('shop.checkout.index', [

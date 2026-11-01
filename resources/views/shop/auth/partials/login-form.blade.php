@@ -24,10 +24,13 @@
         @enderror
     </div>
 
-    <label class="flex gap-2 text-sm text-slate-600">
-        <input type="checkbox" name="remember" value="1" class="rounded text-brand-700 focus:ring-brand-500/30" @checked(old('remember'))>
-        {{ __('shop.remember_me') }}
-    </label>
+    <div class="flex items-center justify-between gap-3">
+        <label class="flex gap-2 text-sm text-slate-600">
+            <input type="checkbox" name="remember" value="1" class="rounded text-brand-700 focus:ring-brand-500/30" @checked(old('remember'))>
+            {{ __('shop.remember_me') }}
+        </label>
+        <a href="{{ route('password.request') }}" class="text-sm font-semibold text-brand-700 hover:text-brand-800">Şifremi unuttum</a>
+    </div>
 
     <button type="submit" class="btn-primary w-full py-3">{{ __('shop.login') }}</button>
 </form>

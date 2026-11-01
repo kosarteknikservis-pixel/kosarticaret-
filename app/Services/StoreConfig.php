@@ -25,6 +25,12 @@ class StoreConfig
         return (float) $this->setting('cod_fee', config('shipping.cod_fee'));
     }
 
+    /** Desi başına TL. 0 ise checkout yalnızca yöntem sabit ücretini kullanır. */
+    public function desiRate(): float
+    {
+        return max(0, (float) $this->setting('desi_rate', config('shipping.desi_rate', 0)));
+    }
+
     public function havaleDiscountPercent(): float
     {
         $percent = (float) $this->setting('havale_discount_percent', '0');

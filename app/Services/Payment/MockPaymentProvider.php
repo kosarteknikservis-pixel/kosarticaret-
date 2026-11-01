@@ -16,4 +16,14 @@ class MockPaymentProvider implements PaymentProvider
             'mesaj' => 'Demo ödeme — gerçek tahsilat yapılmaz',
         ];
     }
+
+    public function iade(Order $order, ?float $amount = null): array
+    {
+        return [
+            'basarili' => true,
+            'demo' => true,
+            'mesaj' => 'Demo iade — gerçek ödeme sağlayıcıya istek gitmedi',
+            'referans' => 'DEMO-REFUND-'.$order->order_number,
+        ];
+    }
 }

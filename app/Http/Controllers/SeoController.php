@@ -258,6 +258,24 @@ class SeoController extends Controller
         ]);
     }
 
+    /**
+     * Meta (Facebook) Commerce Manager ürün kataloğu — Google namespace RSS.
+     * Commerce Manager'da "Google" veri kaynağı olarak bağlanır.
+     */
+    public function metaCatalogFeed(): StreamedResponse
+    {
+        $storeName = config('kosar.name', 'Koşar');
+        $storeUrl = Seo::siteUrl();
+
+        return response()->stream(function () use ($storeName, $storeUrl): void {
+            $this->streamMerchantFeedXml($storeName, $storeUrl);
+        }, 200, [
+            'Content-Type' => 'application/xml; charset=UTF-8',
+            'Cache-Control' => 'public, max-age=3600',
+            'X-Robots-Tag' => 'noindex, nofollow',
+        ]);
+    }
+
     private function streamMerchantFeedXml(string $storeName, string $storeUrl): void
     {
         echo '<?xml version="1.0" encoding="UTF-8"?>';

@@ -61,6 +61,40 @@
                         </div>
                     @endif
                 </div>
+                @if(session('success'))
+                    <p class="shop-alert shop-alert--success mt-4">{{ session('success') }}</p>
+                @endif
+                @error('return')
+                    <p class="shop-alert shop-alert--error mt-4">{{ $message }}</p>
+                @enderror
+
+                @if($openReturn)
+                    <div class="shop-panel mt-4">
+                        <h2 class="shop-panel__title">İade talebi</h2>
+                        <p class="text-sm text-slate-600">Talebiniz incelemede. Sebep: <strong>{{ $returnReasons[$openReturn->reason] ?? $openReturn->reason }}</strong></p>
+                    </div>
+                @elseif(in_array($order->status, ['teslim_edildi', 'kargoda'], true))
+                    <div class="shop-panel mt-4">
+                        <h2 class="shop-panel__title">İade talebi oluştur</h2>
+                        <form method="post" action="{{ route('account.order.return', $order->order_number) }}" class="space-y-3">
+                            @csrf
+                            <div>
+                                <label for="return-reason" class="shop-label">Sebep</label>
+                                <select id="return-reason" name="reason" required class="shop-input mt-1">
+                                    @foreach($returnReasons as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('reason') === $value)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <label for="return-note" class="shop-label">Açıklama (opsiyonel)</label>
+                                <textarea id="return-note" name="note" rows="3" class="shop-input mt-1">{{ old('note') }}</textarea>
+                            </div>
+                            <button type="submit" class="btn-outline w-full py-2.5">Talep gönder</button>
+                        </form>
+                    </div>
+                @endif
+
                 <a href="{{ route('account.index') }}" class="shop-account-back-link">← {{ __('shop.back_to_orders') }}</a>
             </aside>
         </div>

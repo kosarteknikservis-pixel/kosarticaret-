@@ -42,6 +42,7 @@ class OrderService
             $shippingMethod,
             $paymentMethod,
             $pricing['free_shipping'],
+            $this->cart->totalDesi(),
         );
         $couponCode = $pricing['coupon_code'];
 
@@ -171,5 +172,146 @@ class OrderService
                 'reason' => $reason,
             ]),
         ]);
+
+        $this->releaseReservedStock($order);
+    }
+
+    /**
+     * Başarısız ödeme sonrası stoku serbest bırakır (yalnızca bir kez).
+     * Yeniden ödeme denemesinden önce {@see reserveStockForPaymentRetry} çağrılmalıdır.
+     */
+    public function releaseReservedStock(Order $order): void
+    {
+        $order->loadMissing('items.product');
+
+        $alreadyReleased = $order->logs()
+            ->where('type', 'stock_released_after_payment_failed')
+            ->exists();
+
+        if ($alreadyReleased) {
+            return;
+        }
+
+        foreach ($order->items as $item) {
+            if ($item->product) {
+                $item->product->increment('stock', max(0, (int) $item->quantity));
+            }
+        }
+
+        $order->logs()->create([
+            'type' => 'stock_released_after_payment_failed',
+            'message' => 'Başarısız ödeme sonrası stok iade edildi.',
+        ]);
+    }
+
+    /**
+     * Ödeme yeniden denemeden önce stoku tekrar rezerve eder.
+     *
+     * @throws \RuntimeException stok yetersizse
+     */
+    public function reserveStockForPaymentRetry(Order $order): void
+    {
+        if ($order->payment_status === 'basarili') {
+            return;
+        }
+
+        $order->loadMissing('items.product');
+
+        $latestStockLog = $order->logs()
+            ->whereIn('type', [
+                'stock_released_after_payment_failed',
+                'stock_reserved_for_payment_retry',
+            ])
+            ->latest('id')
+            ->first();
+
+        if (! $latestStockLog || $latestStockLog->type !== 'stock_released_after_payment_failed') {
+            return;
+        }
+
+        foreach ($order->items as $item) {
+            $product = $item->product;
+            if (! $product) {
+                continue;
+            }
+            $qty = max(0, (int) $item->quantity);
+            if ($product->stock < $qty) {
+                throw new \RuntimeException($product->name.' için yeterli stok kalmadı.');
+            }
+            $product->decrement('stock', $qty);
+        }
+
+        $order->logs()->create([
+            'type' => 'stock_reserved_for_payment_retry',
+            'message' => 'Ödeme yeniden denemesi için stok tekrar rezerve edildi.',
+        ]);
+    }
+
+    /**
+     * Gateway üzerinden iade + sipariş/ödeme durumunu günceller.
+     *
+     * @return array{ok: bool, message: string}
+     */
+    public function refundPayment(Order $order, ?float $amount = null): array
+    {
+        if ($order->payment_method !== 'kredi_karti') {
+            return ['ok' => false, 'message' => 'Kart dışı ödemelerde gateway iadesi yok; manuel işlem gerekir.'];
+        }
+
+        if ($order->payment_status === 'iade') {
+            return ['ok' => false, 'message' => 'Bu sipariş zaten iade edilmiş.'];
+        }
+
+        if ($order->payment_status !== 'basarili') {
+            return ['ok' => false, 'message' => 'Yalnızca başarılı kart ödemeleri iade edilebilir.'];
+        }
+
+        $result = $this->payments->iade($order, $amount);
+        if (! ($result['basarili'] ?? false)) {
+            $order->logs()->create([
+                'type' => 'payment_refund_failed',
+                'message' => $result['mesaj'] ?? 'İade başarısız',
+                'new_values' => array_filter([
+                    'demo' => $result['demo'] ?? null,
+                ]),
+            ]);
+
+            return ['ok' => false, 'message' => $result['mesaj'] ?? 'İade başarısız'];
+        }
+
+        $order->loadMissing('items.product');
+        $address = $order->shipping_address ?? [];
+        $alreadyRestored = (bool) ($address['stock_restored'] ?? false);
+
+        if (! $alreadyRestored) {
+            foreach ($order->items as $item) {
+                if ($item->product) {
+                    $item->product->increment('stock', max(0, (int) $item->quantity));
+                }
+            }
+            $address['stock_restored'] = true;
+        }
+
+        $order->update([
+            'payment_status' => 'iade',
+            'status' => 'iptal',
+            'shipping_address' => $address,
+        ]);
+
+        $order->logs()->create([
+            'type' => 'payment_refunded',
+            'message' => ($result['demo'] ?? false)
+                ? 'Demo iade kaydedildi.'
+                : 'Ödeme iade edildi.',
+            'new_values' => array_filter([
+                'referans' => $result['referans'] ?? null,
+                'amount' => $amount ?? (float) $order->total,
+                'demo' => $result['demo'] ?? false,
+            ]),
+        ]);
+
+        return ['ok' => true, 'message' => $result['demo'] ?? false
+            ? 'Demo iade tamamlandı; sipariş iptal ve stok güncellendi.'
+            : 'İade tamamlandı; sipariş iptal ve stok güncellendi.'];
     }
 }

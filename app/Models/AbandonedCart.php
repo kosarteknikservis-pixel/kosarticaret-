@@ -20,6 +20,7 @@ class AbandonedCart extends Model
         'status',
         'started_checkout_at',
         'last_activity_at',
+        'reminded_at',
     ];
 
     protected function casts(): array
@@ -29,6 +30,7 @@ class AbandonedCart extends Model
             'items' => 'array',
             'started_checkout_at' => 'datetime',
             'last_activity_at' => 'datetime',
+            'reminded_at' => 'datetime',
         ];
     }
 

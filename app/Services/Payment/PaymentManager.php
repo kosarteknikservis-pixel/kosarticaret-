@@ -27,4 +27,9 @@ class PaymentManager
     {
         return $this->provider()->baslat($order);
     }
+
+    public function iade(Order $order, ?float $amount = null): array
+    {
+        return $this->provider()->iade($order, $amount);
+    }
 }

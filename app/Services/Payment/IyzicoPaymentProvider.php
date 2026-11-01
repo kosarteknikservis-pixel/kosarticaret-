@@ -100,8 +100,57 @@ class IyzicoPaymentProvider implements PaymentProvider
         ];
     }
 
+    public function iade(Order $order, ?float $amount = null): array
+    {
+        $apiKey = PaymentGatewayConfig::iyzicoApiKey();
+        $secret = PaymentGatewayConfig::iyzicoSecretKey();
+
+        if (! $apiKey || ! $secret) {
+            return (new MockPaymentProvider)->iade($order, $amount);
+        }
+
+        $paymentId = data_get($order->shipping_address, 'iyzico_payment_id');
+        if (! $paymentId) {
+            return [
+                'basarili' => false,
+                'demo' => false,
+                'mesaj' => 'iyzico paymentId kayıtlı değil; iade yapılamaz.',
+                'referans' => null,
+            ];
+        }
+
+        $refundAmount = number_format($amount ?? (float) $order->total, 2, '.', '');
+        $body = [
+            'locale' => 'tr',
+            'conversationId' => $order->order_number,
+            'paymentId' => (string) $paymentId,
+            'price' => $refundAmount,
+            'currency' => 'TRY',
+            'ip' => request()->ip() ?? '127.0.0.1',
+        ];
+
+        $data = $this->request($apiKey, $secret, '/payment/refund', $body);
+        if (($data['status'] ?? '') !== 'success') {
+            Log::warning('iyzico refund failed', ['order' => $order->order_number, 'response' => $data]);
+
+            return [
+                'basarili' => false,
+                'demo' => false,
+                'mesaj' => $data['errorMessage'] ?? 'iyzico iade başarısız',
+                'referans' => null,
+            ];
+        }
+
+        return [
+            'basarili' => true,
+            'demo' => false,
+            'mesaj' => null,
+            'referans' => (string) ($data['paymentId'] ?? $paymentId),
+        ];
+    }
+
     /**
-     * @return array{ok: bool, status?: string, paymentStatus?: string}
+     * @return array{ok: bool, status?: string, paymentStatus?: string, paymentId?: ?string}
      */
     public function retrieveCheckout(string $token): array
     {
@@ -119,6 +168,7 @@ class IyzicoPaymentProvider implements PaymentProvider
             'ok' => ($data['status'] ?? '') === 'success',
             'status' => $data['status'] ?? null,
             'paymentStatus' => $data['paymentStatus'] ?? null,
+            'paymentId' => isset($data['paymentId']) ? (string) $data['paymentId'] : null,
         ];
     }
 

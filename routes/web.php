@@ -84,6 +84,7 @@ Route::get('/llms.txt', [SeoController::class, 'llmsTxt'])->name('llms');
 Route::get('/feed.xml', [SeoController::class, 'rss'])->name('feed');
 Route::get('/site-haritasi', [SeoController::class, 'htmlSitemap'])->name('sitemap.html');
 Route::get('/urun-feed.xml', [SeoController::class, 'merchantFeed'])->name('merchant.feed');
+Route::get('/meta-katalog.xml', [SeoController::class, 'metaCatalogFeed'])->name('meta.catalog.feed');
 Route::get('/BingSiteAuth.xml', [SeoController::class, 'bingSiteAuth'])->name('bing.verification');
 Route::get('/{file}', [SeoController::class, 'verificationFile'])
     ->where('file', 'google[a-zA-Z0-9_-]+\.html|[a-f0-9]{32}\.txt')
@@ -216,13 +217,20 @@ Route::middleware('guest')->group(function () {
     Route::post('/giris', [CustomerAuthController::class, 'login'])->middleware('throttle:5,1');
     Route::get('/kayit', [CustomerAuthController::class, 'showRegister'])->name('register');
     Route::post('/kayit', [CustomerAuthController::class, 'register'])->middleware('throttle:3,1');
+    Route::get('/sifremi-unuttum', [CustomerAuthController::class, 'showForgotPassword'])->name('password.request');
+    Route::post('/sifremi-unuttum', [CustomerAuthController::class, 'sendResetLink'])->middleware('throttle:3,1')->name('password.email');
+    Route::get('/sifre-sifirla/{token}', [CustomerAuthController::class, 'showResetPassword'])->name('password.reset');
+    Route::post('/sifre-sifirla', [CustomerAuthController::class, 'resetPassword'])->middleware('throttle:5,1')->name('password.update');
 });
 
 Route::post('/cikis', [CustomerAuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::middleware(['auth', 'shop.customer'])->prefix('hesabim')->name('account.')->group(function () {
     Route::get('/', [AccountController::class, 'index'])->name('index');
+    Route::get('/profil', [AccountController::class, 'profile'])->name('profile');
+    Route::put('/profil', [AccountController::class, 'updateProfile'])->name('profile.update');
     Route::get('/siparis/{order}', [AccountController::class, 'order'])->name('order');
+    Route::post('/siparis/{order}/iade-talebi', [AccountController::class, 'storeReturn'])->middleware('throttle:5,1')->name('order.return');
 });
 
 $legalSlugs = [
@@ -462,7 +470,10 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::get('siparisler/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
         Route::patch('siparisler/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
         Route::post('siparisler/{order}/odeme-hatirlat', [AdminOrderController::class, 'sendPaymentReminder'])->name('orders.payment-reminder');
+        Route::post('siparisler/{order}/iade', [AdminOrderController::class, 'refund'])->name('orders.refund');
         Route::delete('siparisler/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
+        Route::get('iade-talepleri', [\App\Http\Controllers\Admin\OrderReturnRequestController::class, 'index'])->name('order-returns.index');
+        Route::patch('iade-talepleri/{returnRequest}', [\App\Http\Controllers\Admin\OrderReturnRequestController::class, 'update'])->name('order-returns.update');
         Route::post('siparisler/{order}/parasut', [AdminParasutIntegrationController::class, 'syncOrder'])->name('orders.parasut.sync');
     });
 });
