@@ -59,6 +59,11 @@ on:
         required: true
         type: boolean
         default: false
+      trendyol_new_barcode_reupload:
+        description: 'Arşiv Trendyol ürünlerini YENİ barkod + Koşar ile create (YAVAS)'
+        required: true
+        type: boolean
+        default: false
 
 concurrency:
   group: canliya-gonder
@@ -68,7 +73,7 @@ jobs:
   deploy:
     if: github.event.inputs.onay == 'canli'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     steps:
       - name: Kodu al
@@ -244,6 +249,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_01_150000_add_phone_and_default_address_to_users_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_01_151000_add_reminded_at_to_abandoned_carts_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_01_152000_create_order_return_requests_table.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_02_100000_add_external_barcode_to_marketplace_listings.php && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
@@ -310,6 +316,17 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan marketplace:trendyol-status"
+
+      - name: Trendyol yeni barkod + Koşar create (opsiyonel)
+        if: github.event.inputs.trendyol_new_barcode_reupload == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-reupload-new-barcodes --brand='Koşar' --sleep-ms=2200 --batch-wait-ms=2500 --batch-tries=10"
 
       - name: Zamanlayıcı (hafif)
         env:

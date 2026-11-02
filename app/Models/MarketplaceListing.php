@@ -12,6 +12,7 @@ class MarketplaceListing extends Model
         'channel_key',
         'external_product_id',
         'external_sku',
+        'external_barcode',
         'status',
         'channel_price',
         'channel_stock_limit',
@@ -19,6 +20,17 @@ class MarketplaceListing extends Model
         'last_error',
         'payload_snapshot',
     ];
+
+    /** Trendyol vb. kanal barkodu; yoksa ürün barkodu. */
+    public function resolveBarcode(): string
+    {
+        $external = trim((string) ($this->external_barcode ?? ''));
+        if ($external !== '') {
+            return $external;
+        }
+
+        return trim((string) ($this->product?->barcode ?? ''));
+    }
 
     protected function casts(): array
     {

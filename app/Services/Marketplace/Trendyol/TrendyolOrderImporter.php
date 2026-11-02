@@ -3,6 +3,7 @@
 namespace App\Services\Marketplace\Trendyol;
 
 use App\Models\MarketplaceChannel;
+use App\Models\MarketplaceListing;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -208,6 +209,15 @@ class TrendyolOrderImporter
         $barcode = trim((string) ($line['barcode'] ?? ''));
 
         if ($barcode !== '') {
+            $byListing = MarketplaceListing::query()
+                ->where('channel_key', 'trendyol')
+                ->where('external_barcode', $barcode)
+                ->with('product')
+                ->first();
+            if ($byListing?->product) {
+                return $byListing->product;
+            }
+
             $byBarcode = Product::query()->where('barcode', $barcode)->first();
 
             if ($byBarcode) {
