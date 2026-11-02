@@ -45,9 +45,29 @@ class TrendyolListingPayloadBuilder
             throw new InvalidArgumentException('Trendyol için en az bir görsel URL gerekli.');
         }
 
+        $forceBrandName = trim((string) data_get($channel->settings, 'force_brand_external_name', ''));
+        $stripForeignBrands = $forceBrandName !== ''
+            || filled(data_get($channel->settings, 'force_brand_external_id'));
+
+        $rawTitle = (string) $product->name;
+        $title = $stripForeignBrands
+            ? $this->stripForeignBrandNames($rawTitle, $forceBrandName ?: 'Koşar')
+            : $rawTitle;
+        $title = trim(preg_replace('/\s+/u', ' ', $title) ?? $title);
+        if ($title === '') {
+            $title = trim((string) ($product->sku ?: 'Ürün'));
+        }
+        // Trendyol başlık üst sınırı.
+        if (mb_strlen($title, 'UTF-8') > 100) {
+            $title = rtrim(mb_substr($title, 0, 100, 'UTF-8'));
+        }
+
         $description = $this->sanitizeDescriptionHtml(
             (string) ($product->description ?: $product->short_description ?: $product->name)
         );
+        if ($stripForeignBrands) {
+            $description = $this->stripForeignBrandNames($description, $forceBrandName ?: 'Koşar');
+        }
 
         if ($description === '') {
             throw new InvalidArgumentException('Ürün açıklaması boş.');
@@ -59,7 +79,7 @@ class TrendyolListingPayloadBuilder
 
         $item = [
             'barcode' => $this->resolveBarcode($product, $listing),
-            'title' => (string) $product->name,
+            'title' => $title,
             'productMainId' => (string) ($product->sku ?: $product->id),
             'brandId' => (int) $brandMapping->external_brand_id,
             'categoryId' => (int) $categoryMapping->external_category_id,
@@ -233,6 +253,42 @@ class TrendyolListingPayloadBuilder
         }
 
         return trim((string) ($product->barcode ?? ''));
+    }
+
+    /**
+     * Trendyol “Hatalı Marka Bilgisi” için başlık/açıklamadaki üretici markalarını temizler.
+     * Site ürün adı değişmez; yalnız gönderim metni.
+     */
+    public function stripForeignBrandNames(string $text, string $keepBrand = 'Koşar'): string
+    {
+        $brands = [
+            'Kaysu Pompa',
+            'Kaysu',
+            'Pedrollo',
+            'Sumak',
+            'Winpo',
+            'Troy',
+            'Renato',
+            'Ardonat',
+            'Horoz Electrıc',
+            'Horoz Electric',
+            'Horoz',
+        ];
+
+        $keep = mb_strtolower(trim($keepBrand), 'UTF-8');
+        foreach ($brands as $brand) {
+            if (mb_strtolower($brand, 'UTF-8') === $keep) {
+                continue;
+            }
+            // Kelime sınırına yakın: başta/sonda/boşluk/HTML etrafı
+            $quoted = preg_quote($brand, '/');
+            $text = preg_replace('/(?<![A-Za-z0-9ÇĞİÖŞÜçğıöşü])'.$quoted.'(?![A-Za-z0-9ÇĞİÖŞÜçğıöşü])/iu', '', $text) ?? $text;
+        }
+
+        $text = preg_replace('/\s{2,}/u', ' ', $text) ?? $text;
+        $text = preg_replace('/>\s+</u', '><', $text) ?? $text;
+
+        return trim($text);
     }
 
     private function sanitizeDescriptionHtml(string $html): string
