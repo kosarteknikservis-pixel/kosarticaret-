@@ -64,6 +64,11 @@ on:
         required: true
         type: boolean
         default: false
+      trendyol_fix_brand_mismatch:
+        description: 'Trendyol Hatalı Marka: başlık/açıklama temizle + revize güncelle (YAVAS)'
+        required: true
+        type: boolean
+        default: false
 
 concurrency:
   group: canliya-gonder
@@ -327,6 +332,17 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan marketplace:trendyol-reupload-new-barcodes --brand='Koşar' --sleep-ms=2200 --batch-wait-ms=2500 --batch-tries=10"
+
+      - name: Trendyol hatalı marka / revize düzelt (opsiyonel)
+        if: github.event.inputs.trendyol_fix_brand_mismatch == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-fix-brand-mismatch --sleep-ms=2000 --batch-wait-ms=2500 --batch-tries=8"
 
       - name: Zamanlayıcı (hafif)
         env:
