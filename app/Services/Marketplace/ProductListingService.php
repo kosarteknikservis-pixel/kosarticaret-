@@ -124,7 +124,7 @@ class ProductListingService
                 ]);
 
                 $useUnapprovedUpdate = false;
-                $barcode = (string) ($product->barcode ?: '');
+                $barcode = $this->trendyolPayloadBuilder->resolveBarcode($product, $listing);
                 if ($barcode !== '') {
                     try {
                         $existing = $client->getProductsByBarcode($barcode);

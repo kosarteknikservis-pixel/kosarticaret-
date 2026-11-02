@@ -58,7 +58,7 @@ class TrendyolListingPayloadBuilder
         $stock = $this->pricing->stockQuantity($product, $channel, $listing);
 
         $item = [
-            'barcode' => (string) $product->barcode,
+            'barcode' => $this->resolveBarcode($product, $listing),
             'title' => (string) $product->name,
             'productMainId' => (string) ($product->sku ?: $product->id),
             'brandId' => (int) $brandMapping->external_brand_id,
@@ -217,12 +217,22 @@ class TrendyolListingPayloadBuilder
     ): array {
         return [
             'items' => [[
-                'barcode' => (string) $product->barcode,
+                'barcode' => $this->resolveBarcode($product, $listing),
                 'quantity' => $this->pricing->stockQuantity($product, $channel, $listing),
                 'salePrice' => $this->pricing->salePrice($product, $channel, $listing, $priceOverride),
                 'listPrice' => $this->pricing->listPrice($product, $channel, $listing, $priceOverride),
             ]],
         ];
+    }
+
+    public function resolveBarcode(Product $product, ?MarketplaceListing $listing = null): string
+    {
+        $external = trim((string) ($listing?->external_barcode ?? ''));
+        if ($external !== '') {
+            return $external;
+        }
+
+        return trim((string) ($product->barcode ?? ''));
     }
 
     private function sanitizeDescriptionHtml(string $html): string
