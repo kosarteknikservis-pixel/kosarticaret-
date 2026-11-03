@@ -104,7 +104,14 @@ class ProductListingService
         try {
             $client = $this->trendyolApiClient->forChannel($channel);
 
-            if ($listing->status === 'published' && filled($listing->external_product_id) && ! str_contains((string) $listing->external_product_id, '-')) {
+            $barcode = $this->trendyolPayloadBuilder->resolveBarcode($product, $listing);
+            $publishedInventory = $listing->status === 'published'
+                && filled($listing->external_product_id)
+                && ! str_contains((string) $listing->external_product_id, '-');
+            // Panelde zaten yayında olan üründe yalnız fiyat: barkodla inventory API (kategori şart değil).
+            $priceOnlyInventory = $priceOverride !== null && $priceOverride > 0 && $barcode !== '';
+
+            if ($publishedInventory || $priceOnlyInventory) {
                 $payload = $this->trendyolPayloadBuilder->buildInventoryPayload($product, $channel, $listing, $priceOverride);
                 $response = $client->updatePriceAndInventory($payload);
                 $action = 'listing_inventory_update';
@@ -124,7 +131,6 @@ class ProductListingService
                 ]);
 
                 $useUnapprovedUpdate = false;
-                $barcode = $this->trendyolPayloadBuilder->resolveBarcode($product, $listing);
                 if ($barcode !== '') {
                     try {
                         $existing = $client->getProductsByBarcode($barcode);
@@ -524,19 +530,6 @@ class ProductListingService
 
     private function prepareListing(Product $product, MarketplaceChannel $channel, ?float $priceOverride): MarketplaceListing
     {
-        $validation = $this->validateForPublish($product, $channel);
-
-        if (! $validation['ok']) {
-            $message = implode(' ', $validation['reasons']);
-
-            MarketplaceListing::query()->updateOrCreate(
-                ['product_id' => $product->id, 'channel_key' => $channel->key],
-                ['status' => 'error', 'last_error' => $message, 'external_sku' => $product->sku],
-            );
-
-            throw new InvalidArgumentException($message);
-        }
-
         $listing = MarketplaceListing::query()->firstOrCreate(
             [
                 'product_id' => $product->id,
@@ -547,6 +540,31 @@ class ProductListingService
                 'external_sku' => $product->sku,
             ],
         );
+
+        $barcode = trim((string) ($listing->external_barcode ?: $product->barcode ?: ''));
+        $priceOnly = $channel->key === 'trendyol'
+            && $priceOverride !== null
+            && $priceOverride > 0
+            && $barcode !== '';
+
+        if (! $priceOnly) {
+            $validation = $this->validateForPublish($product, $channel);
+
+            if (! $validation['ok']) {
+                $message = implode(' ', $validation['reasons']);
+
+                // Yayındaki listing’i error’a çekme; yalnız henüz gönderilmemişleri işaretle.
+                if (! in_array($listing->status, ['published', 'pending'], true)) {
+                    $listing->fill([
+                        'status' => 'error',
+                        'last_error' => $message,
+                        'external_sku' => $product->sku,
+                    ])->save();
+                }
+
+                throw new InvalidArgumentException($message);
+            }
+        }
 
         $sale = $this->pricing->salePrice($product, $channel, $listing, $priceOverride);
         $listing->fill([

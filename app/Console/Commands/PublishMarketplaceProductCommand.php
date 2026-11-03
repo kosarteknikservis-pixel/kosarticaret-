@@ -105,14 +105,24 @@ class PublishMarketplaceProductCommand extends Command
             ));
         }
 
-        $validation = $listingService->validateForPublish($product->fresh(['brand', 'categories', 'images']), $channel);
-        if (! $validation['ok']) {
-            $this->error('Gönderim engellendi:');
-            foreach ($validation['reasons'] as $reason) {
-                $this->line(' - '.$reason);
-            }
+        $barcode = trim((string) ($product->barcode ?? ''));
+        $priceOnlySkip = $channelKey === 'trendyol'
+            && $priceOverride !== null
+            && $priceOverride > 0
+            && $barcode !== '';
 
-            return self::FAILURE;
+        if (! $priceOnlySkip) {
+            $validation = $listingService->validateForPublish($product->fresh(['brand', 'categories', 'images']), $channel);
+            if (! $validation['ok']) {
+                $this->error('Gönderim engellendi:');
+                foreach ($validation['reasons'] as $reason) {
+                    $this->line(' - '.$reason);
+                }
+
+                return self::FAILURE;
+            }
+        } else {
+            $this->line('Fiyat-only Trendyol güncellemesi: kategori/marka doğrulaması atlandı.');
         }
 
         if ($this->option('dry-run')) {
