@@ -172,10 +172,14 @@ class ProductListingService
             }
 
             $batchId = data_get($response, 'batchRequestId') ?? data_get($response, 'batchId');
+            $isInventoryOnly = $action === 'listing_inventory_update';
 
+            // Fiyat/stok güncellemesinde listing'i pending yapma ve external id'yi batch UUID ile ezme.
             $listing->update([
-                'status' => 'pending',
-                'external_product_id' => (string) ($batchId ?: $listing->external_product_id ?: $product->barcode),
+                'status' => $isInventoryOnly ? 'published' : 'pending',
+                'external_product_id' => $isInventoryOnly
+                    ? (string) ($listing->external_product_id ?: $product->barcode)
+                    : (string) ($batchId ?: $listing->external_product_id ?: $product->barcode),
                 'external_sku' => $product->sku,
                 'payload_snapshot' => $payload,
                 'last_synced_at' => now(),
@@ -188,8 +192,10 @@ class ProductListingService
                 $channel->key,
                 $product->id,
                 null,
-                'Trendyol gönderimi kuyruğa alındı.',
-                ['response' => $response],
+                $isInventoryOnly
+                    ? 'Trendyol fiyat/stok güncellemesi gönderildi.'
+                    : 'Trendyol gönderimi kuyruğa alındı.',
+                ['response' => $response, 'batchRequestId' => $batchId],
                 (int) round((microtime(true) - $started) * 1000),
             );
 
@@ -198,7 +204,9 @@ class ProductListingService
             return [
                 'success' => true,
                 'listing' => $listing->fresh(),
-                'message' => 'Ürün Trendyol\'a gönderildi. Onay süreci bekleniyor.',
+                'message' => $isInventoryOnly
+                    ? 'Trendyol fiyat/stok güncellendi.'.($batchId ? ' batchRequestId: '.$batchId : '')
+                    : 'Ürün Trendyol\'a gönderildi. Onay süreci bekleniyor.',
             ];
         } catch (TrendyolApiException $e) {
             return $this->markListingError($listing, $channel, $product, $e->getMessage(), $e->response, $started, 'listing_publish');
