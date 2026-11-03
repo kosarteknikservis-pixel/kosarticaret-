@@ -103,7 +103,7 @@ class PttAvmListingPayloadBuilder
             'vatRate' => $vat,
             'quantity' => $stock,
             'discount' => 0,
-            'desi' => max(1, (int) round((float) ($product->desi ?? 1))),
+            'desi' => max(1, (int) round((float) ($product->desi() ?? 1))),
             'shortDescription' => mb_substr($short, 0, 500),
             'longDescription' => $long,
             'images' => $images,
