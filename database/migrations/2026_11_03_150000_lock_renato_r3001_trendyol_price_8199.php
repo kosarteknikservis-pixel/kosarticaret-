@@ -27,17 +27,24 @@ return new class extends Migration
             throw new \RuntimeException('R-3001 ürünü yok.');
         }
 
-        MarketplaceListing::query()->updateOrCreate(
-            [
-                'product_id' => $product->id,
-                'channel_key' => 'trendyol',
-            ],
-            [
-                'channel_price' => self::TRENDYOL_PRICE,
-                'external_sku' => $product->sku ?: 'R-3001',
-                'last_error' => null,
-            ],
-        );
+        $listing = MarketplaceListing::query()->firstOrNew([
+            'product_id' => $product->id,
+            'channel_key' => 'trendyol',
+        ]);
+
+        // Önceki başarısız publish listing’i error’a düşürmüş olabilir; panelde yayında.
+        if (in_array((string) $listing->status, ['error', 'draft', ''], true) || $listing->status === null) {
+            $listing->status = 'published';
+        }
+
+        $listing->fill([
+            'channel_price' => self::TRENDYOL_PRICE,
+            'external_sku' => $product->sku ?: 'R-3001',
+            'external_barcode' => filled($listing->external_barcode)
+                ? $listing->external_barcode
+                : ($product->barcode ?: null),
+            'last_error' => null,
+        ])->save();
     }
 
     public function down(): void
