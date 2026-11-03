@@ -18,13 +18,20 @@ class MarketplaceChannelPricing
             return round($overridePrice, 2);
         }
 
+        // Listing’de bilinçli kanal fiyatı varsa site/margin hesabı üzerine yazmasın
+        // (Trendyol panelindeki elle fiyatın entegrasyonla 8999’a dönmesini engeller).
+        $locked = $listing?->channel_price !== null ? (float) $listing->channel_price : 0.0;
+        if ($locked > 0) {
+            return round($locked, 2);
+        }
+
         $mode = (string) $channel->setting('price_mode', 'site');
         $base = (float) $product->price;
 
         return match ($mode) {
             'markup' => round($base * (1 + ((float) $channel->setting('price_markup_percent', 0) / 100)), 2),
             'margin' => $this->marginSalePrice($product, $channel) ?? $base,
-            'fixed' => (float) ($listing?->channel_price ?? $base),
+            'fixed' => $base,
             default => $base,
         };
     }
