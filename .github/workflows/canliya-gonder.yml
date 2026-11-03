@@ -259,6 +259,14 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_130000_prepare_sumak_skld12g_for_trendyol.php && \
             \$PHP_BIN artisan marketplace:trendyol-force-brand \"Koşar\" --skip-publish || echo 'Trendyol Koşar force-brand uyarisi' && \
             \$PHP_BIN artisan marketplace:publish-product sumak-skld12g-kalem-dalgic-pompasi-3-mss-720-litre-h-12-volt-manuel --price=2455 || echo 'SKLD12G Trendyol publish uyarisi' && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_140000_prepare_sumak_skld12g_other_marketplaces.php && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-skld12g-kalem-dalgic-pompasi-3-mss-720-litre-h-12-volt-manuel --channel=hepsiburada --map-brand --price=2455 || echo 'SKLD12G Hepsiburada publish uyarisi' && \
+            sleep 4 && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-skld12g-kalem-dalgic-pompasi-3-mss-720-litre-h-12-volt-manuel --channel=n11 --map-brand --price=2455 || echo 'SKLD12G N11 publish uyarisi' && \
+            sleep 4 && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-skld12g-kalem-dalgic-pompasi-3-mss-720-litre-h-12-volt-manuel --channel=idefix --map-brand --price=2455 || echo 'SKLD12G Idefix publish uyarisi' && \
+            sleep 4 && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-skld12g-kalem-dalgic-pompasi-3-mss-720-litre-h-12-volt-manuel --channel=pttavm --map-brand --price=2455 || echo 'SKLD12G PttAVM publish uyarisi' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
