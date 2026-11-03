@@ -256,6 +256,9 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_01_152000_create_order_return_requests_table.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_02_100000_add_external_barcode_to_marketplace_listings.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_120000_add_sumak_skld12g_for_site.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_130000_prepare_sumak_skld12g_for_trendyol.php && \
+            \$PHP_BIN artisan marketplace:trendyol-force-brand \"Koşar\" --skip-publish || echo 'Trendyol Koşar force-brand uyarisi' && \
+            \$PHP_BIN artisan marketplace:publish-product sumak-skld12g-kalem-dalgic-pompasi-3-mss-720-litre-h-12-volt-manuel --price=2455 || echo 'SKLD12G Trendyol publish uyarisi' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
