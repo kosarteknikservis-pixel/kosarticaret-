@@ -260,8 +260,9 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_140000_prepare_sumak_skld12g_other_marketplaces.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_150000_lock_renato_r3001_trendyol_price_8199.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_151000_fix_renato_r3001_trendyol_listing_for_price.php && \
+            \$PHP_BIN artisan marketplace:publish-product renato-r-3001-2500w-kumandali-dikey-karbon-isitici-6-kademe-termostatli --price=8199 || echo 'R-3001 verify fiyat uyarisi' && \
+            sleep 5 && \
             \$PHP_BIN artisan marketplace:diagnose-listing renato-r-3001-2500w-kumandali-dikey-karbon-isitici-6-kademe-termostatli || echo 'R-3001 diagnose uyarisi' && \
-            \$PHP_BIN -r 'require \"vendor/autoload.php\"; \$app=require \"bootstrap/app.php\"; \$app->make(Illuminate\\Contracts\\Console\\Kernel::class)->bootstrap(); \$c=App\\Models\\MarketplaceChannel::query()->where(\"key\",\"trendyol\")->first(); \$cred=is_array(\$c?->credentials)?\$c->credentials:[]; \$k=(string)(\$cred[\"api_key\"]??\"\"); \$s=(string)(\$cred[\"api_secret\"]??\"\"); echo \"INTEGRATOR_MATCH supplier=\".(\$cred[\"supplier_id\"]??\"\").PHP_EOL; echo \"INTEGRATOR_MATCH api_key_fp=\".(strlen(\$k)>=8?substr(\$k,0,4).\"...\".substr(\$k,-4):\"(short)\").\" len=\".strlen(\$k).PHP_EOL; echo \"INTEGRATOR_MATCH api_secret_fp=\".(strlen(\$s)>=8?substr(\$s,0,4).\"...\".substr(\$s,-4):\"(short)\").\" len=\".strlen(\$s).PHP_EOL;' && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
