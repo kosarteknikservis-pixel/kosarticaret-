@@ -80,9 +80,14 @@
 
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
                 <div><label class="admin-label">Fiyat (₺)</label><input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}" required class="admin-input"></div>
+
+                <div>
+                    <label class="admin-label">Maliyet KDV hariç (₺)</label>
+                    <input type="number" step="0.01" min="0" name="cost_price" value="{{ old('cost_price', $product->cost_price) }}" class="admin-input" placeholder="Pazaryeri kâr hesabı">
+                </div>
 
                 <div><label class="admin-label">İndirimli (₺)</label><input type="number" step="0.01" name="compare_at_price" value="{{ old('compare_at_price', $product->compare_at_price) }}" class="admin-input"></div>
 
@@ -164,13 +169,21 @@
 
                         @foreach($product->images as $img)
 
-                            <div class="admin-card p-3 space-y-2">
+                            <div class="admin-card p-3 space-y-2 w-[11.5rem]">
 
                                 <img src="{{ $img->url() }}" alt="{{ $img->alt ?: $product->name }}" class="h-16 w-16 object-contain rounded-lg bg-slate-50">
 
                                 <label class="block text-xs font-medium text-slate-600">Alt metin</label>
 
                                 <input type="text" name="gallery_alt[{{ $img->id }}]" value="{{ old('gallery_alt.'.$img->id, $img->alt) }}" maxlength="255" class="admin-input text-sm" placeholder="{{ $product->name }}">
+
+                                {{-- Ana ürün formu içinde iç içe <form> olamaz; HTML form= ile dış DELETE formuna bağlanır --}}
+                                <button
+                                    type="submit"
+                                    form="gallery-delete-{{ $img->id }}"
+                                    class="text-xs font-semibold text-red-600 hover:underline"
+                                    onclick="return confirm('Galeri görseli silinsin mi?')"
+                                >Görseli sil</button>
 
                             </div>
 
@@ -180,25 +193,23 @@
 
                     @push('admin-form-delete')
 
-                        <div class="flex flex-wrap gap-3 max-w-2xl mt-2">
+                        @foreach($product->images as $img)
 
-                            @foreach($product->images as $img)
+                            <form
+                                id="gallery-delete-{{ $img->id }}"
+                                method="post"
+                                action="{{ route('admin.products.gallery.destroy', [$product, $img]) }}"
+                                class="hidden"
+                                aria-hidden="true"
+                            >
 
-                                <form method="post" action="{{ route('admin.products.gallery.destroy', [$product, $img]) }}" class="admin-card p-2 inline-flex flex-col items-start gap-2" onsubmit="return confirm('Galeri görseli silinsin mi?')">
+                                @csrf
 
-                                    @csrf
+                                @method('DELETE')
 
-                                    @method('DELETE')
+                            </form>
 
-                                    <span class="text-xs text-slate-500">Galeri #{{ $loop->iteration }}</span>
-
-                                    <button type="submit" class="text-xs font-semibold text-red-600 hover:underline">Görseli sil</button>
-
-                                </form>
-
-                            @endforeach
-
-                        </div>
+                        @endforeach
 
                     @endpush
 
