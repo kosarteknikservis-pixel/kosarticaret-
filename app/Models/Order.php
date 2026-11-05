@@ -11,6 +11,7 @@ class Order extends Model
     protected $fillable = [
         'user_id', 'order_number', 'email', 'status', 'payment_status', 'payment_method',
         'payment_failed_at', 'payment_reminder_sent_at', 'telegram_notified_at',
+        'panel_synced_at', 'panel_order_id',
         'customer_name', 'phone', 'shipping_address', 'shipping_tracking', 'shipping_carrier',
         'shipment_sms_sent_at',
         'admin_note', 'subtotal', 'shipping_cost', 'discount', 'total', 'coupon_code',
@@ -33,6 +34,7 @@ class Order extends Model
             'payment_failed_at' => 'datetime',
             'payment_reminder_sent_at' => 'datetime',
             'telegram_notified_at' => 'datetime',
+            'panel_synced_at' => 'datetime',
             'shipment_sms_sent_at' => 'datetime',
         ];
     }

@@ -41,6 +41,13 @@ return [
         'chat_id' => env('TELEGRAM_CHAT_ID'),
     ],
 
+    'ortak_panel' => [
+        'enabled' => filter_var(env('ORTAK_PANEL_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+        'base_url' => rtrim((string) env('ORTAK_PANEL_URL', 'https://panel.kosarvantilator.com'), '/'),
+        'api_key' => (string) env('ORTAK_PANEL_API_KEY', '123456'),
+        'site_origin' => (string) env('ORTAK_PANEL_SITE_ORIGIN', 'kosarticaret.com'),
+    ],
+
     'meta' => [
         // Panel (meta_pixel_id) öncelikli; boşsa env / varsayılan. Pixel ID gizli değil (sayfa kaynağında görünür).
         'pixel_id' => env('META_PIXEL_ID', '1145487104499216'),

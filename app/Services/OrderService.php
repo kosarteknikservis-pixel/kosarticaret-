@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\OrtakPanel\OrtakPanelOrderSyncService;
 use App\Services\Payment\PaymentManager;
 use App\Services\Telegram\OrderTelegramNotifier;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ class OrderService
         private PaymentManager $payments,
         private OrderMailService $mail,
         private OrderTelegramNotifier $telegram,
+        private OrtakPanelOrderSyncService $ortakPanel,
         private StoreConfig $store,
     ) {}
 
@@ -116,6 +118,7 @@ class OrderService
             } else {
                 $this->mail->sendOrderConfirmation($order);
                 $this->telegram->queue($order);
+                $this->ortakPanel->queue($order);
             }
 
             $this->cart->clear();
@@ -139,6 +142,7 @@ class OrderService
         $order = $order->fresh('items');
         $this->mail->sendOrderConfirmation($order);
         $this->telegram->queue($order);
+        $this->ortakPanel->queue($order);
     }
 
     public function markPaymentFailed(Order $order, string $source = 'paytr_callback', ?string $reason = null): void

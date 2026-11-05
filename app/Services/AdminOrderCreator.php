@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\OrtakPanel\OrtakPanelOrderSyncService;
 use App\Services\Telegram\OrderTelegramNotifier;
 use Illuminate\Support\Facades\DB;
 
@@ -14,6 +15,7 @@ class AdminOrderCreator
         private CheckoutCalculator $calculator,
         private OrderMailService $mail,
         private OrderTelegramNotifier $telegram,
+        private OrtakPanelOrderSyncService $ortakPanel,
         private StoreConfig $store,
     ) {}
 
@@ -140,6 +142,10 @@ class AdminOrderCreator
 
             if ($sendTelegram && ! $order->isPendingPayment()) {
                 $this->telegram->queue($order);
+            }
+
+            if (! $order->isPendingPayment()) {
+                $this->ortakPanel->queue($order);
             }
 
             return $order;
