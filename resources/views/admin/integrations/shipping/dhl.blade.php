@@ -73,6 +73,7 @@
                     <select name="sms_provider" class="admin-input">
                         <option value="log" @selected(($values['sms_provider'] ?? 'log') === 'log')>Log (geliştirme)</option>
                         <option value="netgsm" @selected(($values['sms_provider'] ?? '') === 'netgsm')>Netgsm</option>
+                        <option value="mutlucell" @selected(($values['sms_provider'] ?? '') === 'mutlucell')>Mutlucell</option>
                     </select>
                 </div>
                 <div><label class="admin-label">Gönderici başlığı</label><input name="sms_sender" value="{{ old('sms_sender', $values['sms_sender'] ?? config('carriers.sms.sender')) }}" class="admin-input"></div>
@@ -83,7 +84,7 @@
                 <div><label class="admin-label">Netgsm şifre</label><input type="password" name="netgsm_password" value="" class="admin-input font-mono text-sm" placeholder="{{ !empty($values['netgsm_password']) ? 'Kayıtlı' : '' }}"></div>
                 <div><label class="admin-label">Netgsm header</label><input name="netgsm_header" value="{{ old('netgsm_header', $values['netgsm_header'] ?? '') }}" class="admin-input font-mono text-sm"></div>
             </div>
-            <p class="text-xs text-slate-500">Değişkenler: <code>{customer}</code>, <code>{order_number}</code>, <code>{tracking}</code>, <code>{site}</code></p>
+            <p class="text-xs text-slate-500">Değişkenler: <code>{customer}</code>, <code>{order_number}</code>, <code>{tracking}</code>, <code>{site}</code>. Mutlucell kullanıcı adı, API anahtarı ve başlık Kargo ve ödeme ayarlarındaki kapıda ödeme SMS alanındadır.</p>
         </section>
 
         <div class="lg:col-span-2">

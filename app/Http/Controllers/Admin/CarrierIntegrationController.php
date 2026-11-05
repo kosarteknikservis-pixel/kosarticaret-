@@ -40,7 +40,7 @@ class CarrierIntegrationController extends Controller
             'dhl_sender_district' => ['nullable', 'string', 'max:80'],
             'dhl_sender_postal_code' => ['nullable', 'string', 'max:12'],
             'sms_enabled' => ['sometimes', 'boolean'],
-            'sms_provider' => ['nullable', 'in:log,netgsm'],
+            'sms_provider' => ['nullable', 'in:log,netgsm,mutlucell'],
             'sms_sender' => ['nullable', 'string', 'max:20'],
             'sms_tracking_template' => ['nullable', 'string', 'max:320'],
             'netgsm_usercode' => ['nullable', 'string', 'max:64'],

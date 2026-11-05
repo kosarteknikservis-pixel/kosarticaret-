@@ -52,6 +52,10 @@ class ShippingSettingsController extends Controller
             'payment_checkout_enabled.*' => ['string', 'max:32'],
             'payment_footer_enabled' => ['nullable', 'array'],
             'payment_footer_enabled.*' => ['string', 'max:32'],
+            'cod_sms_verify_enabled' => ['sometimes', 'boolean'],
+            'mutlucell_username' => ['nullable', 'string', 'max:80'],
+            'mutlucell_password' => ['nullable', 'string', 'max:120'],
+            'mutlucell_header' => ['nullable', 'string', 'max:20'],
         ]);
 
         PaymentMethodSettings::saveEnabled(
@@ -60,8 +64,23 @@ class ShippingSettingsController extends Controller
         );
         SiteSetting::set('shipping_methods_json', json_encode($this->cleanShippingMethods($request->input('shipping_methods', [])), JSON_UNESCAPED_UNICODE));
         SiteSetting::set('checkout_add_vat', $request->boolean('checkout_add_vat') ? '1' : '0');
+        SiteSetting::set('cod_sms_verify_enabled', $request->boolean('cod_sms_verify_enabled') ? '1' : '0');
+        SiteSetting::set('mutlucell_username', trim((string) $request->input('mutlucell_username', '')));
+        SiteSetting::set('mutlucell_header', trim((string) $request->input('mutlucell_header', '')));
+        if ($request->filled('mutlucell_password')) {
+            SiteSetting::set('mutlucell_password', trim((string) $request->input('mutlucell_password')));
+        }
 
-        unset($data['payment_checkout_enabled'], $data['payment_footer_enabled'], $data['shipping_methods'], $data['checkout_add_vat']);
+        unset(
+            $data['payment_checkout_enabled'],
+            $data['payment_footer_enabled'],
+            $data['shipping_methods'],
+            $data['checkout_add_vat'],
+            $data['cod_sms_verify_enabled'],
+            $data['mutlucell_username'],
+            $data['mutlucell_password'],
+            $data['mutlucell_header'],
+        );
 
         foreach ($data as $key => $value) {
             SiteSetting::set($key, $value !== null ? (string) $value : null);

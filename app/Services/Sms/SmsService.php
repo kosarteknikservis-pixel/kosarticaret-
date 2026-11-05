@@ -8,6 +8,7 @@ class SmsService
 {
     public function __construct(
         private NetgsmSmsProvider $netgsm,
+        private MutlucellSmsProvider $mutlucell,
         private LogSmsProvider $logProvider,
     ) {}
 
@@ -27,6 +28,7 @@ class SmsService
 
         return match ($provider) {
             'netgsm' => $this->netgsm->send($phone, $message),
+            'mutlucell' => $this->mutlucell->send($phone, $message),
             default => $this->logProvider->send($phone, $message),
         };
     }

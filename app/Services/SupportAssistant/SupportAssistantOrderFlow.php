@@ -3,22 +3,20 @@
 namespace App\Services\SupportAssistant;
 
 use App\Models\Order;
-use App\Models\SiteSetting;
 use App\Services\AnalyticsTracker;
 use App\Services\CartPricingService;
 use App\Services\CartService;
 use App\Services\CheckoutCalculator;
+use App\Services\Checkout\CodSmsVerification;
 use App\Services\OrderService;
-use App\Services\Sms\SmsService;
 use App\Services\StoreConfig;
-use App\Support\SiteName;
 use Illuminate\Support\Str;
 use Throwable;
 
 /**
  * Asistan sohbetinden sipariş: bilgiler oturumda birikir, özet müşteriye onaylatılır,
- * sipariş normal ödeme akışıyla (OrderService) oluşturulur. Kapıda ödeme ve havalede
- * Netgsm açıksa telefona doğrulama kodu gönderilir.
+ * sipariş normal ödeme akışıyla (OrderService) oluşturulur. Panelde SMS doğrulama
+ * açıksa yalnızca kapıda ödemede, siparişten önce Mutlucell kodu istenir.
  */
 class SupportAssistantOrderFlow
 {
@@ -182,6 +180,10 @@ class SupportAssistantOrderFlow
         }
 
         if ($this->needsCode($clean['odeme_yontemi'])) {
+            if (! app(CodSmsVerification::class)->gatewayReady()) {
+                return ['hata' => 'sms_ayar_eksik', 'not' => 'Kapıda ödeme SMS doğrulaması açık ama Mutlucell ayarları eksik. Müşteriye kredi kartı veya havale önerebilir ya da handoff_to_human ile ekibe aktarabilirsin.'];
+            }
+
             return $this->sendCode($clean, $summary['hash'], false);
         }
 
@@ -523,9 +525,7 @@ class SupportAssistantOrderFlow
 
     private function needsCode(string $paymentMethod): bool
     {
-        return in_array($paymentMethod, ['kapida_odeme', 'havale'], true)
-            && app(SmsService::class)->isEnabled()
-            && SiteSetting::get('sms_provider', config('carriers.sms.provider', 'log')) === 'netgsm';
+        return app(CodSmsVerification::class)->requiredFor($paymentMethod);
     }
 
     /**
@@ -541,10 +541,7 @@ class SupportAssistantOrderFlow
         }
 
         $code = (string) random_int(100000, 999999);
-        $sent = app(SmsService::class)->send(
-            $clean['telefon'],
-            SiteName::get().' siparis dogrulama kodunuz: '.$code.'. Kod 5 dakika gecerlidir.',
-        );
+        $sent = app(CodSmsVerification::class)->deliver($clean['telefon'], $code);
         if (! $sent['ok']) {
             return ['hata' => 'sms_gonderilemedi', 'not' => 'Doğrulama SMS\'i gönderilemedi. Müşteriye kredi kartıyla ödemeyi önerebilir ya da handoff_to_human ile ekibe aktarabilirsin.'];
         }

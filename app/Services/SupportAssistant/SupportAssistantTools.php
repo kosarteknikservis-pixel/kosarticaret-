@@ -168,7 +168,7 @@ class SupportAssistantTools
                 'vergi_dairesi' => ['type' => 'string', 'description' => 'Kurumsal fatura: vergi dairesi'],
                 'fatura_adresi' => ['type' => 'string', 'description' => 'Kurumsal fatura: fatura adresi'],
             ], []),
-            $this->fn('create_order', 'Müşteri sipariş özetini açıkça onayladıktan sonra siparişi oluşturur. Kredi kartında güvenli ödeme sayfasına yönlendirir; kapıda ödeme/havalede gerekirse telefona doğrulama kodu gönderir.', [
+            $this->fn('create_order', 'Müşteri sipariş özetini açıkça onayladıktan sonra siparişi oluşturur. Kredi kartında güvenli ödeme sayfasına yönlendirir. Panelde SMS doğrulama açıksa yalnızca kapıda ödemede, siparişten önce telefona kod gönderir.', [
                 'customer_confirmed' => ['type' => 'boolean', 'description' => 'Müşteri özeti açıkça onayladıysa true'],
             ], ['customer_confirmed']),
             $this->fn('verify_order_code', 'Müşterinin telefonuna gelen 6 haneli doğrulama kodunu kontrol eder ve siparişi kesinleştirir.', [
