@@ -99,6 +99,9 @@
                         <span>
                             <span class="font-semibold text-slate-900 block">{{ $o['name'] }}</span>
                             <span class="text-sm text-slate-500 mt-0.5 block">{{ $o['desc'] }}</span>
+                            @if($o['id'] === 'kapida_odeme' && ($codSmsEnabled ?? false))
+                                <span class="text-sm text-slate-500 mt-0.5 block">Sipariş, telefona gelen SMS kodu doğrulandıktan sonra tamamlanır.</span>
+                            @endif
                         </span>
                     </label>
                 @empty
@@ -106,8 +109,26 @@
                 @endforelse
             </section>
 
+            @if($codOtp ?? null)
+                <section id="cod-sms-verify" class="shop-panel space-y-4">
+                    <h2 class="shop-checkout-section__head !mb-0">
+                        <span class="shop-checkout-section__num">4</span>
+                        Telefon doğrulama
+                    </h2>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        {{ $codOtp['masked'] }} numarasına 6 haneli kod gönderildi. Kod 5 dakika geçerlidir. Yalnızca kapıda ödemede istenir.
+                    </p>
+                    <div class="max-w-xs">
+                        <label class="shop-label" for="otp-code">SMS kodu</label>
+                        <input id="otp-code" name="otp_code" value="{{ old('otp_code') }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" class="shop-input mt-1 tracking-[0.3em] text-center text-lg" aria-describedby="otp-hint">
+                        <p id="otp-hint" class="mt-1 text-xs text-slate-500">6 haneli kodu yazıp siparişi tamamlayın.</p>
+                    </div>
+                    <button type="submit" name="otp_action" value="resend" formnovalidate class="text-sm font-semibold text-brand-700 hover:text-brand-800">Kodu tekrar gönder</button>
+                </section>
+            @endif
+
             <label class="shop-checkout-contract">
-                <input type="checkbox" name="sozlesme" value="1" required class="mt-0.5 shrink-0 rounded text-brand-700 focus:ring-brand-500/30">
+                <input type="checkbox" name="sozlesme" value="1" required @checked(old('sozlesme')) class="mt-0.5 shrink-0 rounded text-brand-700 focus:ring-brand-500/30">
                 <span class="text-slate-700 leading-relaxed">
                     <a href="{{ route('pages.show', 'on-bilgilendirme') }}" target="_blank" rel="noopener" class="text-brand-700 font-medium underline">{{ __('shop.contract_pre') }}</a>,
                     <a href="{{ route('pages.show', 'mesafeli-satis-sozlesmesi') }}" target="_blank" rel="noopener" class="text-brand-700 font-medium underline">{{ __('shop.contract_distance') }}</a>,
@@ -162,7 +183,7 @@
                     <div class="flex justify-between font-bold text-lg pt-3 border-t border-slate-200"><dt>{{ __('shop.total_est') }}</dt><dd class="text-brand-700" data-checkout-total>{{ number_format($totals['total'], 2, ',', '.') }} ₺</dd></div>
                 </dl>
                 <p class="mt-2 text-xs text-slate-500 leading-relaxed">{{ __('shop.checkout_estimate_note') }}</p>
-                <button type="submit" form="checkout-form" class="mt-6 btn-primary w-full py-3.5">{{ __('shop.place_order') }}</button>
+                <button type="submit" form="checkout-form" class="mt-6 btn-primary w-full py-3.5">{{ ($codOtp ?? null) ? 'Kodu doğrula ve siparişi tamamla' : __('shop.place_order') }}</button>
             </div>
 
             <div class="shop-panel">
@@ -323,6 +344,13 @@
                 field.addEventListener('change', saveContact);
                 field.addEventListener('blur', saveContact);
             });
+        })();
+
+        (function () {
+            const otp = document.getElementById('cod-sms-verify');
+            if (otp) {
+                otp.scrollIntoView({ block: 'center' });
+            }
         })();
     </script>
     @php

@@ -84,6 +84,16 @@ return [
 
         ],
 
+        'mutlucell' => [
+
+            'username' => env('MUTLUCELL_USERNAME'),
+
+            'password' => env('MUTLUCELL_PASSWORD'),
+
+            'header' => env('MUTLUCELL_HEADER', env('SMS_SENDER', 'KOSAR')),
+
+        ],
+
         'tracking_template' => 'Sayin {customer}, {order_number} siparisiniz kargoya verildi. Takip no: {tracking}. {site}',
 
     ],

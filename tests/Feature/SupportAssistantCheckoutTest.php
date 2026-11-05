@@ -231,13 +231,18 @@ class SupportAssistantCheckoutTest extends TestCase
     #[Test]
     public function cash_on_delivery_order_is_created_after_sms_code(): void
     {
-        foreach (['sms_enabled' => '1', 'sms_provider' => 'netgsm', 'netgsm_usercode' => 'u', 'netgsm_password' => 'p', 'netgsm_header' => 'KOSAR'] as $key => $value) {
+        foreach ([
+            'cod_sms_verify_enabled' => '1',
+            'mutlucell_username' => 'kosar',
+            'mutlucell_password' => 'api-key',
+            'mutlucell_header' => 'KOSAR',
+        ] as $key => $value) {
             SiteSetting::query()->updateOrCreate(['key' => $key], ['value' => $value]);
         }
         Cache::flush();
 
         Http::fake([
-            'api.netgsm.com.tr/*' => Http::response('00 123456789'),
+            'smsgw.mutlucell.com/*' => Http::response('1234567', 200),
             'api.openai.com/*' => Http::sequence()
                 ->push($this->toolCall('add_to_cart', ['product' => 'test-hidrofor']))
                 ->push($this->toolCall('update_order_details', [...self::DETAILS, 'odeme_yontemi' => 'kapida_odeme']))
@@ -252,10 +257,10 @@ class SupportAssistantCheckoutTest extends TestCase
         $this->chat('Evet')->assertJsonPath('awaiting_code', true);
         $this->assertSame(0, Order::query()->count());
 
-        $sms = collect(Http::recorded())->first(fn (array $pair) => str_contains($pair[0]->url(), 'netgsm'))[0];
-        parse_str((string) parse_url($sms->url(), PHP_URL_QUERY), $query);
-        $this->assertSame('905321112233', $query['gsmno']);
-        preg_match('/\b(\d{6})\b/', $query['message'], $match);
+        $sms = collect(Http::recorded())->first(fn (array $pair) => str_contains($pair[0]->url(), 'mutlucell'))[0];
+        $body = (string) $sms->body();
+        $this->assertStringContainsString('905321112233', $body);
+        preg_match('/kodunuz: (\d{6})/', $body, $match);
         $code = $match[1];
         $openAiCalls = collect(Http::recorded())->filter(fn (array $pair) => str_contains($pair[0]->url(), 'openai'))->count();
 

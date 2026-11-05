@@ -24,6 +24,29 @@
     </div>
     <div><label class="admin-label">KDV oranı (0.20 = %20)</label><input name="vat_rate" type="number" step="0.01" min="0" max="1" value="{{ $shippingValues['vat_rate'] }}" class="admin-input"></div>
 </div>
+<div class="mt-4 rounded-xl border border-slate-200 bg-white p-4 space-y-4">
+    <label class="admin-checkbox">
+        <input type="checkbox" name="cod_sms_verify_enabled" value="1" @checked(old('cod_sms_verify_enabled', \App\Models\SiteSetting::get('cod_sms_verify_enabled', '0')) === '1')>
+        <span>
+            <span class="font-semibold text-slate-900">Kapıda ödemede SMS doğrulama</span>
+            <span class="block text-xs text-slate-500 mt-1">Açıkken müşteri kapıda ödemeyi ancak telefona gelen 6 haneli kodu girdikten sonra tamamlar. Kredi kartı ve havale bu adıma girmez. Kapalıyken kapıda ödeme doğrudan sipariş olur.</span>
+        </span>
+    </label>
+    <div class="grid gap-3 sm:grid-cols-3">
+        <div>
+            <label class="admin-label">Mutlucell kullanıcı adı</label>
+            <input name="mutlucell_username" value="{{ old('mutlucell_username', \App\Models\SiteSetting::get('mutlucell_username', '')) }}" class="admin-input font-mono text-sm" autocomplete="off">
+        </div>
+        <div>
+            <label class="admin-label">Mutlucell API anahtarı</label>
+            <input type="password" name="mutlucell_password" value="" class="admin-input font-mono text-sm" autocomplete="new-password" placeholder="{{ \App\Models\SiteSetting::get('mutlucell_password') ? 'Kayıtlı — değiştirmek için yazın' : 'API key' }}">
+        </div>
+        <div>
+            <label class="admin-label">Mutlucell başlık</label>
+            <input name="mutlucell_header" value="{{ old('mutlucell_header', \App\Models\SiteSetting::get('mutlucell_header', '')) }}" class="admin-input font-mono text-sm" autocomplete="off">
+        </div>
+    </div>
+</div>
 <label class="admin-checkbox mt-4 rounded-xl border border-slate-200 bg-white p-4">
     <input type="checkbox" name="checkout_add_vat" value="1" @checked(($shippingValues['checkout_add_vat'] ?? '0') === '1')>
     <span>

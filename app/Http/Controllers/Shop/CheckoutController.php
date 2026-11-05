@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Services\AnalyticsTracker;
 use App\Services\CartService;
 use App\Services\CartPricingService;
+use App\Services\Checkout\CodSmsVerification;
 use App\Services\Payment\PaymentManager;
 use App\Services\StoreConfig;
 use App\Support\PaymentGatewayConfig;
@@ -30,6 +31,7 @@ class CheckoutController extends Controller
         private CheckoutCalculator $calculator,
         private OrderService $orders,
         private StoreConfig $store,
+        private CodSmsVerification $codSms,
     ) {}
 
     public function show(Request $request): View|RedirectResponse
@@ -127,6 +129,10 @@ class CheckoutController extends Controller
         }
 
         app(AnalyticsTracker::class)->updateCheckoutContact($request, $this->cart, $data);
+
+        if ($redirect = $this->gateCodSms($request, $data)) {
+            return $redirect;
+        }
 
         try {
             $result = $this->orders->create(
@@ -285,8 +291,62 @@ class CheckoutController extends Controller
             'paymentMethods' => $paymentMethods,
             'defaultPayment' => $defaultPayment,
             'defaultShipping' => $defaultShipping,
+            'codSmsEnabled' => $this->codSms->enabled(),
+            'codOtp' => $this->codSms->pendingForView(),
             'metaTitle' => 'Ödeme',
             ...Seo::noIndexMeta(),
         ]);
+    }
+
+    /**
+     * Kapıda ödemede SMS açıksa sipariş, kod doğrulanmadan yazılmaz.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    private function gateCodSms(Request $request, array $data): ?RedirectResponse
+    {
+        if (! $this->codSms->requiredFor((string) $data['odeme_yontemi'])) {
+            session()->forget(CodSmsVerification::SESSION_KEY);
+
+            return null;
+        }
+
+        $phone = $this->codSms->normalizePhone((string) $data['telefon']);
+        if ($phone === '') {
+            return back()->withInput()->withErrors([
+                'telefon' => 'Kapıda ödeme için 05 ile başlayan 11 haneli cep telefonu girin.',
+            ]);
+        }
+
+        $payloadHash = $this->codSms->payloadHash($data, $this->cart);
+
+        if ($request->input('otp_action') === 'resend') {
+            $result = $this->codSms->resend($phone, $payloadHash);
+
+            return back()->withInput()->with($result['ok'] ? 'success' : 'error', $result['message']);
+        }
+
+        $code = preg_replace('/\D+/', '', (string) $request->input('otp_code', '')) ?? '';
+        if (strlen($code) !== 6) {
+            $result = $this->codSms->begin($phone, $payloadHash);
+
+            return back()->withInput()->with($result['ok'] ? 'success' : 'error', $result['message']);
+        }
+
+        $check = $this->codSms->verify($code, $phone, $payloadHash);
+        if ($check['ok']) {
+            return null;
+        }
+
+        if (str_contains($check['message'], 'Bilgiler değişti')) {
+            $result = $this->codSms->begin($phone, $payloadHash);
+
+            return back()->withInput()->with(
+                $result['ok'] ? 'success' : 'error',
+                $result['ok'] ? 'Bilgiler değiştiği için yeni kod gönderildi.' : $result['message'],
+            );
+        }
+
+        return back()->withInput()->withErrors(['otp_code' => $check['message']]);
     }
 }
