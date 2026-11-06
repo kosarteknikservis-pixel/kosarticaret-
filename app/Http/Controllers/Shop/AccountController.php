@@ -18,7 +18,7 @@ class AccountController extends Controller
     public function index(Request $request): View
     {
         $orders = Order::query()
-            ->where('email', $request->user()->email)
+            ->where('user_id', $request->user()->id)
             ->excludePendingPayment()
             ->latest()
             ->paginate(10);
@@ -48,6 +48,8 @@ class AccountController extends Controller
     {
         $user = $request->user();
 
+        $emailChanging = strcasecmp(trim((string) $request->input('email')), (string) $user->email) !== 0;
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:190', Rule::unique('users', 'email')->ignore($user->id)],
@@ -57,7 +59,7 @@ class AccountController extends Controller
             'ilce' => ['nullable', 'string', 'max:80'],
             'posta_kodu' => ['nullable', 'string', 'max:16'],
             'password' => ['nullable', 'confirmed', Password::defaults()],
-            'current_password' => ['required_with:password', 'current_password'],
+            'current_password' => [Rule::requiredIf(fn () => $request->filled('password') || $emailChanging), 'nullable', 'current_password'],
         ]);
 
         $user->name = $data['name'];
@@ -74,6 +76,10 @@ class AccountController extends Controller
             $user->password = Hash::make($data['password']);
         }
 
+        if ($emailChanging) {
+            $user->email_verified_at = null;
+        }
+
         $user->save();
 
         return back()->with('success', 'Profil bilgileriniz güncellendi.');
@@ -83,7 +89,7 @@ class AccountController extends Controller
     {
         $order = Order::query()
             ->where('order_number', $orderNumber)
-            ->where('email', $request->user()->email)
+            ->where('user_id', $request->user()->id)
             ->with(['items', 'returnRequests'])
             ->firstOrFail();
 
@@ -100,7 +106,7 @@ class AccountController extends Controller
     {
         $order = Order::query()
             ->where('order_number', $orderNumber)
-            ->where('email', $request->user()->email)
+            ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
         if (! in_array($order->status, ['teslim_edildi', 'kargoda'], true)) {

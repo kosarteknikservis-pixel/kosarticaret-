@@ -63,7 +63,7 @@
                 <h2 class="text-base font-bold text-slate-900">Şifre değiştir</h2>
                 <p class="text-sm text-slate-500">Boş bırakırsanız şifre değişmez.</p>
                 <div>
-                    <label for="current_password" class="shop-label">Mevcut şifre</label>
+                    <label for="current_password" class="shop-label">Mevcut şifre (e-posta veya şifre değişikliğinde zorunlu)</label>
                     <input id="current_password" name="current_password" type="password" class="shop-input mt-1" autocomplete="current-password">
                     @error('current_password')<p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>@enderror
                 </div>
