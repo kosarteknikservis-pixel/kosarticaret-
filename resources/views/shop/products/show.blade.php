@@ -183,9 +183,11 @@
                         </p>
                     @endif
                     @php
-                        $stockProxy = $product->replicate();
-                        $stockProxy->stock = $displayStock;
-                        $stockLabel = \App\Support\ShopStockDisplay::storefrontLabel($stockProxy);
+                        $stockLabel = $displayInStock
+                            ? (\App\Support\ShopStockDisplay::showQuantity()
+                                ? __('shop.in_stock_with_qty', ['qty' => $displayStock, 'units' => __('shop.units')])
+                                : __('shop.in_stock'))
+                            : __('shop.out_of_stock');
                     @endphp
                     @if($stockLabel)
                         <p class="pdp-pb__stock {{ $displayInStock ? 'pdp-pb__stock--in' : 'pdp-pb__stock--out' }}" data-pdp-stock>

@@ -29,50 +29,56 @@ class ProductPurchaseOptions
      */
     public static function for(Product $product, ?string $selectedKey = null): array
     {
-        $group = self::groupKey($product);
-        if ($group === null) {
+        try {
+            $group = self::groupKey($product);
+            if ($group === null) {
+                return [];
+            }
+
+            $members = self::members($group);
+            if ($members->count() < 2) {
+                return [];
+            }
+
+            $storeConfig = app(StoreConfig::class);
+            $availableKeys = $members->map(fn (Product $member) => self::optionKey($member))->filter()->values();
+            if (! is_string($selectedKey) || $selectedKey === '' || ! $availableKeys->contains($selectedKey)) {
+                $selectedKey = self::optionKey($product) ?? $availableKeys->first();
+            }
+
+            return $members->map(function (Product $member) use ($storeConfig, $selectedKey): array {
+                $price = (float) $member->price;
+                $compare = $member->compare_at_price !== null ? (float) $member->compare_at_price : null;
+                $havale = $storeConfig->priceAfterHavale($price);
+                $key = self::optionKey($member) ?? ('id-'.$member->id);
+
+                return [
+                    'key' => $key,
+                    'label' => self::optionLabel($member),
+                    'slug' => $member->slug,
+                    'sku' => (string) ($member->sku ?? ''),
+                    'product_id' => (int) $member->id,
+                    'price' => $price,
+                    'price_formatted' => number_format($price, 2, ',', '.').' ₺',
+                    'compare_at_price' => $compare,
+                    'compare_at_formatted' => $compare !== null
+                        ? number_format($compare, 2, ',', '.').' ₺'
+                        : null,
+                    'havale_price' => $havale,
+                    'havale_formatted' => $havale !== null
+                        ? number_format($havale, 2, ',', '.').' ₺'
+                        : null,
+                    'in_stock' => $member->inStock(),
+                    'stock' => (int) $member->stock,
+                    'selected' => $selectedKey !== null && $selectedKey === $key,
+                    'is_hub' => self::isHub($member),
+                ];
+            })->values()->all();
+        } catch (\Throwable $e) {
+            report($e);
+
             return [];
         }
-
-        $members = self::members($group);
-        if ($members->count() < 2) {
-            return [];
-        }
-
-        $storeConfig = app(StoreConfig::class);
-        $availableKeys = $members->map(fn (Product $member) => self::optionKey($member))->filter()->values();
-        if (! is_string($selectedKey) || $selectedKey === '' || ! $availableKeys->contains($selectedKey)) {
-            $selectedKey = self::optionKey($product) ?? $availableKeys->first();
-        }
-
-        return $members->map(function (Product $member) use ($storeConfig, $selectedKey): array {
-            $price = (float) $member->price;
-            $compare = $member->compare_at_price !== null ? (float) $member->compare_at_price : null;
-            $havale = $storeConfig->priceAfterHavale($price);
-            $key = self::optionKey($member) ?? ('id-'.$member->id);
-
-            return [
-                'key' => $key,
-                'label' => self::optionLabel($member),
-                'slug' => $member->slug,
-                'sku' => (string) ($member->sku ?? ''),
-                'product_id' => (int) $member->id,
-                'price' => $price,
-                'price_formatted' => number_format($price, 2, ',', '.').' ₺',
-                'compare_at_price' => $compare,
-                'compare_at_formatted' => $compare !== null
-                    ? number_format($compare, 2, ',', '.').' ₺'
-                    : null,
-                'havale_price' => $havale,
-                'havale_formatted' => $havale !== null
-                    ? number_format($havale, 2, ',', '.').' ₺'
-                    : null,
-                'in_stock' => $member->inStock(),
-                'stock' => (int) $member->stock,
-                'selected' => $selectedKey !== null && $selectedKey === $key,
-                'is_hub' => self::isHub($member),
-            ];
-        })->values()->all();
     }
 
     public static function groupKey(Product $product): ?string
@@ -122,9 +128,14 @@ class ProductPurchaseOptions
         return Product::query()
             ->active()
             ->where('specs->purchase_group', $group)
-            ->orderBy('specs->purchase_option_sort')
             ->orderBy('id')
-            ->get();
+            ->get()
+            ->sortBy(fn (Product $product) => sprintf(
+                '%05d-%010d',
+                (int) data_get($product->specs, 'purchase_option_sort', 999),
+                (int) $product->id
+            ))
+            ->values();
     }
 
     /**
