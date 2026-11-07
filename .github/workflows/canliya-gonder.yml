@@ -1,8 +1,8 @@
-# Manuel: GitHub → Actions → "Canlıya gönder" → Run workflow
-# Varsayılan: hızlı kod deploy (~2-4 dk). Ağır SEO/blog/görsel işleri ayrı açılır.
-# Varsayılan adımlara panel verisini (ürün, kategori, marka) ezen seed/--force komutu ekleme; bunlar tek seferlik elle çalıştırılır.
+# Manuel: GitHub â†’ Actions â†’ "CanlÄ±ya gÃ¶nder" â†’ Run workflow
+# VarsayÄ±lan: hÄ±zlÄ± kod deploy (~2-4 dk). AÄŸÄ±r SEO/blog/gÃ¶rsel iÅŸleri ayrÄ± aÃ§Ä±lÄ±r.
+# VarsayÄ±lan adÄ±mlara panel verisini (Ã¼rÃ¼n, kategori, marka) ezen seed/--force komutu ekleme; bunlar tek seferlik elle Ã§alÄ±ÅŸtÄ±rÄ±lÄ±r.
 
-name: Canlıya gönder
+name: CanlÄ±ya gÃ¶nder
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -11,21 +11,21 @@ on:
   workflow_dispatch:
     inputs:
       onay:
-        description: 'Onay için "canli" yazın'
+        description: 'Onay iÃ§in "canli" yazÄ±n'
         required: true
         default: ''
       blog_aktar:
-        description: 'Blog kuyruğu / blog-export içe aktar (YAVAS)'
+        description: 'Blog kuyruÄŸu / blog-export iÃ§e aktar (YAVAS)'
         required: true
         type: boolean
         default: false
       blog_kapak:
-        description: 'Blog kapak görsellerini üret (YAVAS)'
+        description: 'Blog kapak gÃ¶rsellerini Ã¼ret (YAVAS)'
         required: true
         type: boolean
         default: false
       gorsel_optimize:
-        description: 'Depolanan görselleri optimize et (YAVAS)'
+        description: 'Depolanan gÃ¶rselleri optimize et (YAVAS)'
         required: true
         type: boolean
         default: false
@@ -35,37 +35,37 @@ on:
         type: boolean
         default: false
       analitik_sifirla:
-        description: 'Müşteri hareketleri analitiğini sıfırla'
+        description: 'MÃ¼ÅŸteri hareketleri analitiÄŸini sÄ±fÄ±rla'
         required: true
         type: boolean
         default: false
       trendyol_kosar_marka:
-        description: 'Trendyol tüm listing markalarını Koşar yap + yeniden gönder (YAVAS)'
+        description: 'Trendyol tÃ¼m listing markalarÄ±nÄ± KoÅŸar yap + yeniden gÃ¶nder (YAVAS)'
         required: true
         type: boolean
         default: false
       trendyol_brand_audit:
-        description: 'Trendyol canlı brandId / eşleme denetimi'
+        description: 'Trendyol canlÄ± brandId / eÅŸleme denetimi'
         required: true
         type: boolean
         default: false
       trendyol_reupload:
-        description: 'Trendyol listing’leri Koşar ile yeniden yükle + batch doğrula (YAVAS)'
+        description: 'Trendyol listingâ€™leri KoÅŸar ile yeniden yÃ¼kle + batch doÄŸrula (YAVAS)'
         required: true
         type: boolean
         default: false
       trendyol_status:
-        description: 'Trendyol listing canlı durum özeti (arşiv/onay/aktif)'
+        description: 'Trendyol listing canlÄ± durum Ã¶zeti (arÅŸiv/onay/aktif)'
         required: true
         type: boolean
         default: false
       trendyol_new_barcode_reupload:
-        description: 'Arşiv Trendyol ürünlerini YENİ barkod + Koşar ile create (YAVAS)'
+        description: 'ArÅŸiv Trendyol Ã¼rÃ¼nlerini YENÄ° barkod + KoÅŸar ile create (YAVAS)'
         required: true
         type: boolean
         default: false
       trendyol_fix_brand_mismatch:
-        description: 'Trendyol Hatalı Marka: başlık/açıklama temizle + revize güncelle (YAVAS)'
+        description: 'Trendyol HatalÄ± Marka: baÅŸlÄ±k/aÃ§Ä±klama temizle + revize gÃ¼ncelle (YAVAS)'
         required: true
         type: boolean
         default: false
@@ -97,7 +97,7 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
-      - name: Production bağımlılıklar
+      - name: Production baÄŸÄ±mlÄ±lÄ±klar
         run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
       - name: Vite asset build
@@ -105,7 +105,7 @@ jobs:
           npm ci --prefer-offline
           npm run build
 
-      - name: SSH anahtarı
+      - name: SSH anahtarÄ±
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
@@ -119,7 +119,7 @@ jobs:
             StrictHostKeyChecking no
           EOF
 
-      - name: kosar/ kodunu sunucuya gönder
+      - name: kosar/ kodunu sunucuya gÃ¶nder
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -131,10 +131,10 @@ jobs:
           for attempt in 1 2 3; do
             echo "Deneme $attempt/3..."
             $RSYNC $EXCLUDE ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/kosar/" && break
-            [ $attempt -lt 3 ] && echo "Bağlantı hatası, ${attempt}0sn bekleniyor..." && sleep $((attempt * 30))
+            [ $attempt -lt 3 ] && echo "BaÄŸlantÄ± hatasÄ±, ${attempt}0sn bekleniyor..." && sleep $((attempt * 30))
           done
 
-      - name: public_html/ (css, js, giriş dosyaları)
+      - name: public_html/ (css, js, giriÅŸ dosyalarÄ±)
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -148,7 +148,7 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "rm -f ${DEPLOY_PATH}/public_html/robots.txt"
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "ln -sfn ../kosar/storage/app/public ${DEPLOY_PATH}/public_html/storage"
 
-      - name: Sunucuda migrate + önbellek
+      - name: Sunucuda migrate + Ã¶nbellek
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -262,6 +262,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_151000_fix_renato_r3001_trendyol_listing_for_price.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_170000_add_sumak_sht50c_purchase_options.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_173500_add_sumak_sht65b_purchase_options.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_174500_add_sumak_sht65a_purchase_options.php && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
@@ -285,7 +286,7 @@ jobs:
             \$PHP_BIN artisan seo:seed-legal-pages --force && \
             \$PHP_BIN artisan seo:seed-brands --force"
 
-      - name: Trendyol markalarını Koşar yap (opsiyonel)
+      - name: Trendyol markalarÄ±nÄ± KoÅŸar yap (opsiyonel)
         if: github.event.inputs.trendyol_kosar_marka == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -294,7 +295,7 @@ jobs:
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan marketplace:trendyol-force-brand 'Koşar' --sleep-ms=1500"
+            \$PHP_BIN artisan marketplace:trendyol-force-brand 'KoÅŸar' --sleep-ms=1500"
 
       - name: Trendyol marka denetimi (opsiyonel)
         if: github.event.inputs.trendyol_brand_audit == 'true'
@@ -307,7 +308,7 @@ jobs:
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan marketplace:trendyol-brand-audit --limit=20"
 
-      - name: Trendyol Koşar yeniden yükleme (opsiyonel)
+      - name: Trendyol KoÅŸar yeniden yÃ¼kleme (opsiyonel)
         if: github.event.inputs.trendyol_reupload == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -316,9 +317,9 @@ jobs:
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan marketplace:trendyol-reupload --brand='Koşar' --sleep-ms=2000 --batch-wait-ms=2500 --batch-tries=8"
+            \$PHP_BIN artisan marketplace:trendyol-reupload --brand='KoÅŸar' --sleep-ms=2000 --batch-wait-ms=2500 --batch-tries=8"
 
-      - name: Trendyol durum özeti (opsiyonel)
+      - name: Trendyol durum Ã¶zeti (opsiyonel)
         if: github.event.inputs.trendyol_status == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -329,7 +330,7 @@ jobs:
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan marketplace:trendyol-status"
 
-      - name: Trendyol yeni barkod + Koşar create (opsiyonel)
+      - name: Trendyol yeni barkod + KoÅŸar create (opsiyonel)
         if: github.event.inputs.trendyol_new_barcode_reupload == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -338,9 +339,9 @@ jobs:
         run: |
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
-            \$PHP_BIN artisan marketplace:trendyol-reupload-new-barcodes --brand='Koşar' --sleep-ms=2200 --batch-wait-ms=2500 --batch-tries=10"
+            \$PHP_BIN artisan marketplace:trendyol-reupload-new-barcodes --brand='KoÅŸar' --sleep-ms=2200 --batch-wait-ms=2500 --batch-tries=10"
 
-      - name: Trendyol hatalı marka / revize düzelt (opsiyonel)
+      - name: Trendyol hatalÄ± marka / revize dÃ¼zelt (opsiyonel)
         if: github.event.inputs.trendyol_fix_brand_mismatch == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -351,7 +352,7 @@ jobs:
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan marketplace:trendyol-fix-brand-mismatch --sleep-ms=2000 --batch-wait-ms=2500 --batch-tries=8"
 
-      - name: Zamanlayıcı (hafif)
+      - name: ZamanlayÄ±cÄ± (hafif)
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
@@ -414,7 +415,7 @@ jobs:
             ' && \
             \$PHP_BIN artisan config:cache"
 
-      - name: Müşteri hareketleri analitiğini sıfırla
+      - name: MÃ¼ÅŸteri hareketleri analitiÄŸini sÄ±fÄ±rla
         if: github.event.inputs.analitik_sifirla == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -425,21 +426,21 @@ jobs:
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan analytics:reset --force"
 
-      - name: Blog içeriklerini içe aktar (opsiyonel / YAVAS)
+      - name: Blog iÃ§eriklerini iÃ§e aktar (opsiyonel / YAVAS)
         if: github.event.inputs.blog_aktar == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          # Toplu --all / blog-export SQLite kilidine takılıyor.
-          # Yalnızca henüz yok veya gelecek tarihli kuyruk yazılarını aktar.
-          # Belirli dosya: artisan blog:import path --force --from-queue (aralıklı sleep önerilir)
+          # Toplu --all / blog-export SQLite kilidine takÄ±lÄ±yor.
+          # YalnÄ±zca henÃ¼z yok veya gelecek tarihli kuyruk yazÄ±larÄ±nÄ± aktar.
+          # Belirli dosya: artisan blog:import path --force --from-queue (aralÄ±klÄ± sleep Ã¶nerilir)
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan blog:publish-due --force"
 
-      - name: Blog kapak görsellerini üret (opsiyonel / YAVAS)
+      - name: Blog kapak gÃ¶rsellerini Ã¼ret (opsiyonel / YAVAS)
         if: github.event.inputs.blog_kapak == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -450,7 +451,7 @@ jobs:
             PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
             \$PHP_BIN artisan blog:assign-covers --force"
 
-      - name: Mevcut görselleri optimize et (opsiyonel / YAVAS)
+      - name: Mevcut gÃ¶rselleri optimize et (opsiyonel / YAVAS)
         if: github.event.inputs.gorsel_optimize == 'true'
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
