@@ -147,7 +147,6 @@
                     $havalePercent = $storeConfig->havaleDiscountPercent();
                     $havalePercentLabel = rtrim(rtrim(number_format($havalePercent, 2, ',', '.'), '0'), ',');
                     $havaleNote = '%'.$havalePercentLabel.' indirim'.($storeConfig->shouldAddVat() ? '' : ' · KDV dahil');
-                    $codBadge = $storeConfig->codStorefrontBadge();
                     $discountPercent = ($displayCompare !== null && $displayCompare > $displayPrice)
                         ? (int) round((($displayCompare - $displayPrice) / $displayCompare) * 100)
                         : null;
@@ -176,12 +175,6 @@
                         </span>
                         <span class="shop-pdp-havale__note">{{ $havaleNote }}</span>
                     </p>
-                    @if($codBadge)
-                        <p class="shop-pdp-cod">
-                            <x-shop.icon name="truck" class="shop-pdp-cod__icon" />
-                            <span>{{ $codBadge }}</span>
-                        </p>
-                    @endif
                     @php
                         $stockLabel = $displayInStock
                             ? (\App\Support\ShopStockDisplay::showQuantity()
