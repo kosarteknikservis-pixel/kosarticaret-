@@ -12,7 +12,7 @@ class CatalogQuery
     /** @return Builder<Product> */
     public static function products(): Builder
     {
-        return Product::query()->active();
+        return Product::query()->active()->catalogListed();
     }
 
     /** @param  Builder<Product>|Relation  $query */

@@ -6719,6 +6719,65 @@ body.theme-motion-reduced *::after {
     font-size: 0.875rem;
     font-weight: 700;
 }
+.shop-pdp-options {
+    margin-top: 1.25rem;
+    max-width: 36rem;
+}
+.shop-pdp-options__label {
+    margin: 0 0 0.55rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #475569;
+    text-transform: uppercase;
+}
+.shop-pdp-options__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.shop-pdp-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.75rem;
+    background: #fff;
+    color: #0f172a;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+.shop-pdp-option:hover {
+    border-color: #64748b;
+}
+.shop-pdp-option.is-selected {
+    border-color: #1e3a5f;
+    background: #1e3a5f;
+    color: #fff;
+    box-shadow: 0 8px 18px rgb(30 58 95 / 0.18);
+}
+.shop-pdp-option:focus-visible {
+    outline: 2px solid #1e3a5f;
+    outline-offset: 2px;
+}
+@media (max-width: 640px) {
+    .shop-pdp-options__list {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 0.25rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+    .shop-pdp-option {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+}
 .shop-pdp-actions {
     display: flex;
     flex-wrap: wrap;

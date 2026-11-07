@@ -126,35 +126,73 @@
 
                 @php
                     $storeConfig = app(\App\Services\StoreConfig::class);
-                    $havalePrice = $storeConfig->priceAfterHavale((float) $product->price);
+                    $purchaseOptions = $purchaseOptions ?? [];
+                    $selectedPurchaseOption = $selectedPurchaseOption ?? collect($purchaseOptions)->firstWhere('selected', true);
+                    $displayPrice = (float) data_get($selectedPurchaseOption, 'price', $product->price);
+                    $displayCompare = data_get($selectedPurchaseOption, 'compare_at_price');
+                    if ($displayCompare === null && $product->hasDiscount()) {
+                        $displayCompare = (float) $product->compare_at_price;
+                    }
+                    $displaySlug = (string) data_get($selectedPurchaseOption, 'slug', $product->slug);
+                    $displayProductId = (int) data_get($selectedPurchaseOption, 'product_id', $product->id);
+                    $displayStock = (int) data_get($selectedPurchaseOption, 'stock', $product->stock);
+                    $displayInStock = data_get($selectedPurchaseOption, 'in_stock');
+                    if ($displayInStock === null) {
+                        $displayInStock = $product->inStock();
+                    }
+                    $havalePrice = data_get($selectedPurchaseOption, 'havale_price');
+                    if ($havalePrice === null) {
+                        $havalePrice = $storeConfig->priceAfterHavale($displayPrice);
+                    }
                     $havalePercent = $storeConfig->havaleDiscountPercent();
                     $havalePercentLabel = rtrim(rtrim(number_format($havalePercent, 2, ',', '.'), '0'), ',');
                     $havaleNote = '%'.$havalePercentLabel.' indirim'.($storeConfig->shouldAddVat() ? '' : ' · KDV dahil');
+                    $codBadge = $storeConfig->codStorefrontBadge();
+                    $discountPercent = ($displayCompare !== null && $displayCompare > $displayPrice)
+                        ? (int) round((($displayCompare - $displayPrice) / $displayCompare) * 100)
+                        : null;
                 @endphp
-                <div class="shop-pdp-price-box">
+
+                @include('shop.partials.pdp-purchase-options', [
+                    'purchaseOptions' => $purchaseOptions,
+                    'havalePercent' => $havalePercent,
+                    'havaleNote' => $havaleNote,
+                ])
+
+                <div class="shop-pdp-price-box" data-pdp-price-box>
                     <div class="pdp-pb__top">
-                        <p class="shop-pdp-price-box__amount">{{ number_format($product->price, 2, ',', '.') }} ₺</p>
-                        @if($product->hasDiscount())
-                            <span class="shop-pdp-price-box__badge">-%{{ $product->discountPercent() }}</span>
-                        @endif
+                        <p class="shop-pdp-price-box__amount" data-pdp-price>{{ number_format($displayPrice, 2, ',', '.') }} ₺</p>
+                        <span class="shop-pdp-price-box__badge" data-pdp-discount-badge @if($discountPercent === null) hidden @endif>
+                            @if($discountPercent !== null)-%{{ $discountPercent }}@endif
+                        </span>
                     </div>
-                    @if($product->hasDiscount())
-                        <p class="pdp-pb__compare">{{ number_format($product->compare_at_price, 2, ',', '.') }} ₺</p>
-                    @endif
-                    @if($havalePrice !== null)
-                        <p class="shop-pdp-havale">
-                            <span class="shop-pdp-havale__label">Havale ile</span>
-                            <span class="shop-pdp-havale__price">{{ number_format($havalePrice, 2, ',', '.') }} ₺</span>
-                            <span class="shop-pdp-havale__note">{{ $havaleNote }}</span>
+                    <p class="pdp-pb__compare" data-pdp-compare @if($displayCompare === null) hidden @endif>
+                        @if($displayCompare !== null){{ number_format($displayCompare, 2, ',', '.') }} ₺@endif
+                    </p>
+                    <p class="shop-pdp-havale" data-pdp-havale @if($havalePrice === null) hidden @endif>
+                        <span class="shop-pdp-havale__label">Havale ile</span>
+                        <span class="shop-pdp-havale__price" data-pdp-havale-price>
+                            @if($havalePrice !== null){{ number_format($havalePrice, 2, ',', '.') }} ₺@endif
+                        </span>
+                        <span class="shop-pdp-havale__note">{{ $havaleNote }}</span>
+                    </p>
+                    @if($codBadge)
+                        <p class="shop-pdp-cod">
+                            <x-shop.icon name="truck" class="shop-pdp-cod__icon" />
+                            <span>{{ $codBadge }}</span>
                         </p>
                     @endif
-                    @php $stockLabel = \App\Support\ShopStockDisplay::storefrontLabel($product); @endphp
+                    @php
+                        $stockProxy = $product->replicate();
+                        $stockProxy->stock = $displayStock;
+                        $stockLabel = \App\Support\ShopStockDisplay::storefrontLabel($stockProxy);
+                    @endphp
                     @if($stockLabel)
-                        <p class="pdp-pb__stock {{ $product->inStock() ? 'pdp-pb__stock--in' : 'pdp-pb__stock--out' }}">
-                            @if($product->inStock())
+                        <p class="pdp-pb__stock {{ $displayInStock ? 'pdp-pb__stock--in' : 'pdp-pb__stock--out' }}" data-pdp-stock>
+                            @if($displayInStock)
                                 <span class="pdp-pb__dot"></span>
                             @endif
-                            {{ $stockLabel }}
+                            <span data-pdp-stock-label>{{ $stockLabel }}</span>
                         </p>
                     @endif
                     @if($showFreeShipping)
@@ -165,32 +203,32 @@
                     @endif
                 </div>
 
-                @if($product->inStock())
-                    <div class="shop-pdp-actions">
-                        <div class="shop-pdp-qty" role="group" aria-label="{{ __('shop.quantity') }}">
-                            <button type="button" data-qty-minus aria-label="-">−</button>
-                            <input type="number" id="pdp-qty" value="1" min="1" max="{{ $product->stock }}" aria-label="{{ __('shop.quantity') }}">
-                            <button type="button" data-qty-plus aria-label="+">+</button>
-                        </div>
-                        <button type="button"
-                                data-add-cart="{{ $product->slug }}"
-                                data-qty-from="#pdp-qty"
-                                data-ga-item-id="{{ (string) $product->id }}"
-                                data-ga-item-name="{{ $product->name }}"
-                                data-ga-price="{{ number_format((float) $product->price, 2, '.', '') }}"
-                                data-ga-brand="{{ $product->brand?->name }}"
-                                class="shop-cart-btn btn-primary shop-btn-premium flex-1 min-w-[200px] py-3.5 text-base">
-                            <x-shop.icon name="cart" class="w-5 h-5" />
-                            {{ __('shop.add_to_cart') }}
-                        </button>
-                        <button type="button" data-toggle-favorite="{{ $product->slug }}" class="shop-pdp-fav" aria-label="{{ __('shop.add_favorite') }}">
-                            <x-shop.icon name="heart" class="w-6 h-6" />
-                        </button>
+                <div class="shop-pdp-actions" data-pdp-actions @if(! $displayInStock) hidden @endif>
+                    <div class="shop-pdp-qty" role="group" aria-label="{{ __('shop.quantity') }}">
+                        <button type="button" data-qty-minus aria-label="-">−</button>
+                        <input type="number" id="pdp-qty" value="1" min="1" max="{{ max(1, $displayStock) }}" aria-label="{{ __('shop.quantity') }}">
+                        <button type="button" data-qty-plus aria-label="+">+</button>
                     </div>
+                    <button type="button"
+                            data-add-cart="{{ $displaySlug }}"
+                            data-qty-from="#pdp-qty"
+                            data-ga-item-id="{{ (string) $displayProductId }}"
+                            data-ga-item-name="{{ $product->name }}"
+                            data-ga-price="{{ number_format($displayPrice, 2, '.', '') }}"
+                            data-ga-brand="{{ $product->brand?->name }}"
+                            class="shop-cart-btn btn-primary shop-btn-premium flex-1 min-w-[200px] py-3.5 text-base">
+                        <x-shop.icon name="cart" class="w-5 h-5" />
+                        {{ __('shop.add_to_cart') }}
+                    </button>
+                    <button type="button" data-toggle-favorite="{{ $product->slug }}" class="shop-pdp-fav" aria-label="{{ __('shop.add_favorite') }}">
+                        <x-shop.icon name="heart" class="w-6 h-6" />
+                    </button>
+                </div>
 
-                    @if(\App\Support\WhatsAppOrder::isEnabledForPdp())
+                @if(\App\Support\WhatsAppOrder::isEnabledForPdp())
+                    <div data-pdp-whatsapp-wrap @if(! $displayInStock) hidden @endif>
                         @include('shop.partials.pdp-whatsapp-order', ['product' => $product])
-                    @endif
+                    </div>
                 @endif
 
                 @include('shop.partials.pdp-trust')

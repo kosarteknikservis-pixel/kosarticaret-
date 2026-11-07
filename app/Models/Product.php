@@ -53,6 +53,17 @@ class Product extends Model
         return $query->where('is_active', true);
     }
 
+    /**
+     * Vitrin/katalog/sitemap: satın alma seçeneği kardeşlerini hariç tut (hub kalır).
+     */
+    public function scopeCatalogListed($query)
+    {
+        return $query->where(function ($builder) {
+            $builder->whereNull('specs->purchase_option_role')
+                ->orWhere('specs->purchase_option_role', '!=', 'child');
+        });
+    }
+
     public function imageAltText(): string
     {
         return filled($this->image_alt) ? (string) $this->image_alt : $this->name;

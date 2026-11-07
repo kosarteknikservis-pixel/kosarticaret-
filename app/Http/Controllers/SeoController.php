@@ -189,7 +189,7 @@ class SeoController extends Controller
             'brands' => Brand::query()->where('active', true)->orderBy('sort_order')->orderBy('name')->get(['slug', 'name']),
             'pages' => Page::query()->where('published', true)->orderBy('sort_order')->get(['slug', 'title']),
             'blogPosts' => BlogPost::published()->limit(40)->get(['slug', 'title']),
-            'recentProducts' => Product::query()->active()->latest('updated_at')->limit(80)->get(['slug', 'name']),
+            'recentProducts' => Product::query()->active()->catalogListed()->latest('updated_at')->limit(80)->get(['slug', 'name']),
             'metaTitle' => __('shop.html_sitemap_title'),
             'metaDescription' => Seo::description([__('shop.html_sitemap_lead')]),
             'canonical' => route('sitemap.html'),

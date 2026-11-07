@@ -568,7 +568,7 @@ function kosarApplyCsrfToken(token) {
         }
     }
 
-    /* PDP taksit tablosu — adet değişince güncelle */
+    /* PDP taksit tablosu — adet / model değişince güncelle */
     const installmentsRoot = document.querySelector('[data-installments]');
     if (installmentsRoot) {
         const mode = installmentsRoot.dataset.installmentsMode || 'api';
@@ -576,7 +576,7 @@ function kosarApplyCsrfToken(token) {
         const qtySel = installmentsRoot.dataset.installmentsQty;
         const bodyEl = installmentsRoot.querySelector('[data-installments-body]');
         const amountLabel = installmentsRoot.querySelector('[data-installments-amount-label]');
-        const unitPrice = parseFloat(installmentsRoot.dataset.installmentsAmount || '0');
+        let unitPrice = parseFloat(installmentsRoot.dataset.installmentsAmount || '0');
         let installmentTimer;
 
         function currentInstallmentQty() {
@@ -625,11 +625,14 @@ function kosarApplyCsrfToken(token) {
             const qty = currentInstallmentQty();
             installmentsRoot.classList.add('is-loading');
 
-            fetch(`${url}?qty=${qty}`, { headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+            fetch(`${url}?qty=${qty}&amount=${encodeURIComponent(unitPrice.toFixed(2))}`, {
+                headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            })
                 .then((r) => r.json())
                 .then((data) => {
                     if (data.html) bodyEl.innerHTML = data.html;
                     if (amountLabel && data.formatted_amount) amountLabel.textContent = data.formatted_amount;
+                    else if (amountLabel) amountLabel.textContent = formatTry(unitPrice * qty);
                 })
                 .catch(() => {})
                 .finally(() => installmentsRoot.classList.remove('is-loading'));
@@ -650,9 +653,140 @@ function kosarApplyCsrfToken(token) {
             });
         });
 
+        document.addEventListener('pdp:option-change', (event) => {
+            const nextPrice = parseFloat(event.detail?.price || '0');
+            if (!Number.isFinite(nextPrice) || nextPrice <= 0) return;
+            unitPrice = nextPrice;
+            installmentsRoot.dataset.installmentsAmount = nextPrice.toFixed(2);
+            clearTimeout(installmentTimer);
+            installmentTimer = setTimeout(refreshInstallments, 200);
+        });
+
         if (mode === 'paytr-table') {
             loadPaytrTable();
         }
+    }
+
+    /* PDP model seçenekleri */
+    const pdpOptionsRoot = document.querySelector('[data-pdp-options]');
+    if (pdpOptionsRoot) {
+        const optionButtons = [...pdpOptionsRoot.querySelectorAll('[data-pdp-option]')];
+        const priceEl = document.querySelector('[data-pdp-price]');
+        const compareEl = document.querySelector('[data-pdp-compare]');
+        const discountBadge = document.querySelector('[data-pdp-discount-badge]');
+        const havaleWrap = document.querySelector('[data-pdp-havale]');
+        const havalePriceEl = document.querySelector('[data-pdp-havale-price]');
+        const stockEl = document.querySelector('[data-pdp-stock]');
+        const stockLabelEl = document.querySelector('[data-pdp-stock-label]');
+        const actionsEl = document.querySelector('[data-pdp-actions]');
+        const whatsappWrap = document.querySelector('[data-pdp-whatsapp-wrap]');
+        const stickyPriceEl = document.querySelector('[data-pdp-sticky-price]');
+        const qtyInput = document.querySelector('#pdp-qty');
+
+        function formatTry(amount) {
+            return new Intl.NumberFormat('tr-TR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }).format(amount) + ' ₺';
+        }
+
+        function selectOption(btn) {
+            if (!btn) return;
+            const price = parseFloat(btn.dataset.optionPrice || '0');
+            const compare = parseFloat(btn.dataset.optionCompare || '');
+            const inStock = btn.dataset.optionInStock === '1';
+            const stock = Math.max(0, parseInt(btn.dataset.optionStock || '0', 10));
+            const slug = btn.dataset.optionSlug || '';
+            const productId = btn.dataset.optionId || '';
+            const priceFormatted = btn.dataset.optionPriceFormatted || formatTry(price);
+            const compareFormatted = btn.dataset.optionCompareFormatted || '';
+            const havaleFormatted = btn.dataset.optionHavaleFormatted || '';
+
+            optionButtons.forEach((item) => {
+                const selected = item === btn;
+                item.classList.toggle('is-selected', selected);
+                item.setAttribute('aria-pressed', selected ? 'true' : 'false');
+            });
+
+            if (priceEl) priceEl.textContent = priceFormatted;
+
+            if (compareEl) {
+                if (compareFormatted && Number.isFinite(compare) && compare > price) {
+                    compareEl.hidden = false;
+                    compareEl.textContent = compareFormatted;
+                } else {
+                    compareEl.hidden = true;
+                    compareEl.textContent = '';
+                }
+            }
+
+            if (discountBadge) {
+                if (Number.isFinite(compare) && compare > price) {
+                    const pct = Math.round(((compare - price) / compare) * 100);
+                    discountBadge.hidden = false;
+                    discountBadge.textContent = `-%${pct}`;
+                } else {
+                    discountBadge.hidden = true;
+                    discountBadge.textContent = '';
+                }
+            }
+
+            if (havaleWrap && havalePriceEl) {
+                if (havaleFormatted) {
+                    havaleWrap.hidden = false;
+                    havalePriceEl.textContent = havaleFormatted;
+                } else {
+                    havaleWrap.hidden = true;
+                    havalePriceEl.textContent = '';
+                }
+            }
+
+            if (stockEl && stockLabelEl) {
+                stockEl.classList.toggle('pdp-pb__stock--in', inStock);
+                stockEl.classList.toggle('pdp-pb__stock--out', !inStock);
+                stockLabelEl.textContent = inStock ? 'Stokta' : 'Stokta yok';
+                const dot = stockEl.querySelector('.pdp-pb__dot');
+                if (inStock && !dot) {
+                    const span = document.createElement('span');
+                    span.className = 'pdp-pb__dot';
+                    stockEl.prepend(span);
+                } else if (!inStock && dot) {
+                    dot.remove();
+                }
+            }
+
+            if (actionsEl) actionsEl.hidden = !inStock;
+            if (whatsappWrap) whatsappWrap.hidden = !inStock;
+            if (stickyPriceEl) stickyPriceEl.textContent = priceFormatted;
+
+            if (qtyInput) {
+                qtyInput.max = String(Math.max(1, stock || 1));
+                if (parseInt(qtyInput.value || '1', 10) > stock && stock > 0) {
+                    qtyInput.value = String(stock);
+                }
+            }
+
+            document.querySelectorAll('[data-add-cart]').forEach((cartBtn) => {
+                if (!slug) return;
+                cartBtn.dataset.addCart = slug;
+                cartBtn.dataset.gaItemId = productId;
+                cartBtn.dataset.gaPrice = price.toFixed(2);
+            });
+
+            const url = new URL(window.location.href);
+            const key = btn.dataset.optionKey || '';
+            if (key) url.searchParams.set('model', key);
+            else url.searchParams.delete('model');
+            window.history.replaceState({}, '', url);
+
+            document.dispatchEvent(new CustomEvent('pdp:option-change', {
+                detail: { price, slug, productId, inStock, stock },
+            }));
+        }
+
+        optionButtons.forEach((btn) => {
+            btn.addEventListener('click', () => selectOption(btn));
+        });
     }
 
     /* PDP yıldız puanı */
