@@ -262,6 +262,7 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_151000_fix_renato_r3001_trendyol_listing_for_price.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_170000_add_sumak_sht50c_purchase_options.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_173500_add_sumak_sht65b_purchase_options.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_174500_add_sumak_sht65a_purchase_options.php && \
             \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
