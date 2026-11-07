@@ -20,7 +20,7 @@ final class HomeProductList
 
         $limit = max(1, min(24, (int) ($banner->product_limit ?: 4)));
         $source = $banner->product_source ?: 'latest';
-        $query = Product::query()->active()->with('brand');
+        $query = Product::query()->active()->catalogListed()->with('brand');
 
         $products = match ($source) {
             'category' => self::fromCategory($query, $banner->category_id, $limit),

@@ -14,12 +14,11 @@ class ProductInstallmentController extends Controller
     {
         abort_unless($product->is_active, 404);
 
-        $amount = (float) $request->query('amount', $product->price);
+        $unitPrice = $request->filled('amount')
+            ? (float) $request->query('amount')
+            : (float) $product->price;
         $qty = max(1, (int) $request->query('qty', 1));
-
-        if ($request->has('qty')) {
-            $amount = round((float) $product->price * $qty, 2);
-        }
+        $amount = round($unitPrice * ($request->has('qty') ? $qty : 1), 2);
 
         $table = $installments->forAmount($amount);
 

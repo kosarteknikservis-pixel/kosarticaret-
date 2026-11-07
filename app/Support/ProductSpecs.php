@@ -29,7 +29,7 @@ class ProductSpecs
             $label = self::squish(is_scalar($label) ? (string) $label : '');
             $text = self::squish(is_scalar($text) ? (string) $text : '');
 
-            if ($label === '' || $text === '' || self::isHeaderRow($label, $text)) {
+            if ($label === '' || $text === '' || self::isHeaderRow($label, $text) || self::isInternalKey($label)) {
                 continue;
             }
 
@@ -58,6 +58,11 @@ class ProductSpecs
     public static function displayLabel(string $label): string
     {
         return self::aliases()[self::normalize($label)] ?? $label;
+    }
+
+    public static function isInternalKey(string $label): bool
+    {
+        return str_starts_with(self::normalize($label), 'purchase_');
     }
 
     public static function isHeaderRow(string $label, string $value): bool

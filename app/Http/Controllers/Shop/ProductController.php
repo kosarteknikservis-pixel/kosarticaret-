@@ -13,6 +13,7 @@ use App\Services\Payment\InstallmentOptionsService;
 use App\Support\CatalogPaginationSeo;
 use App\Support\CategoryBreadcrumbs;
 use App\Support\InternalLinking;
+use App\Support\ProductPurchaseOptions;
 use App\Support\Seo;
 use App\Support\SiteName;
 use Illuminate\Http\RedirectResponse;
@@ -49,14 +50,31 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show(Request $request, Product $product, RelatedProductService $relatedProducts): View
+    public function show(Request $request, Product $product, RelatedProductService $relatedProducts): View|RedirectResponse
     {
         abort_unless($product->is_active, 404);
+
+        if (ProductPurchaseOptions::isChild($product)) {
+            $hubSlug = ProductPurchaseOptions::hubSlug($product) ?? $product->slug;
+            $model = ProductPurchaseOptions::optionKey($product);
+
+            return redirect()->route('products.show', array_filter([
+                'product' => $hubSlug,
+                'model' => $model,
+            ]), 301);
+        }
+
         app(AnalyticsTracker::class)->trackProductView($request, $product);
 
         $product->load(['brand', 'categories.parent', 'images', 'approvedReviews']);
         $related = $relatedProducts->for($product);
         $hub = InternalLinking::productHub($product);
+        $purchaseOptions = ProductPurchaseOptions::for(
+            $product,
+            $request->filled('model') ? $request->string('model')->toString() : null
+        );
+        $selectedOption = collect($purchaseOptions)->firstWhere('selected', true);
+        $displayPrice = (float) ($selectedOption['price'] ?? $product->price);
 
         $primaryCategory = $product->primaryCategory();
         $breadcrumbs = $primaryCategory
@@ -73,10 +91,14 @@ class ProductController extends Controller
         ];
 
         $installmentTable = app(InstallmentOptionsService::class)
-            ->forAmount((float) $product->price);
+            ->forAmount($displayPrice);
+
+        $hubUrl = route('products.show', $product);
 
         return view('shop.products.show', [
             'product' => $product,
+            'purchaseOptions' => $purchaseOptions,
+            'selectedPurchaseOption' => $selectedOption,
             'installmentTable' => $installmentTable,
             'related' => $related,
             'hub' => $hub,
@@ -84,11 +106,11 @@ class ProductController extends Controller
             'metaTitle' => $product->meta_title ?: $product->name,
             'metaDescription' => Seo::productMetaDescription($product),
             'metaKeywords' => Seo::keywords([$product->tags, $product->name, $product->brand?->name, $product->categories->pluck('name')->all()]),
-            'canonical' => route('products.show', $product),
+            'canonical' => $hubUrl,
             'ogType' => 'product',
             'ogImageMeta' => Seo::productOpenGraphImage($product),
             'ogImage' => Seo::productImages($product)[0] ?? null,
-            'productPrice' => number_format((float) $product->price, 2, '.', ''),
+            'productPrice' => number_format($displayPrice, 2, '.', ''),
             'jsonLd' => $jsonLd,
             'collectionLinks' => $product->collections()
                 ->where('collections.status', Collection::STATUS_INDEX)

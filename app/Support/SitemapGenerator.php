@@ -49,7 +49,7 @@ class SitemapGenerator
 
     public static function productCount(): int
     {
-        return Product::query()->active()->count();
+        return Product::query()->active()->catalogListed()->count();
     }
 
     public static function usesIndex(): bool
@@ -169,6 +169,7 @@ class SitemapGenerator
 
         Product::query()
             ->active()
+            ->catalogListed()
             ->select('slug', 'updated_at')
             ->orderBy('id')
             ->skip($offset)

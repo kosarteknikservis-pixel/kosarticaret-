@@ -694,35 +694,7 @@ class Seo
 
             'itemCondition' => 'https://schema.org/NewCondition',
 
-            'offers' => [
-
-                '@type' => 'Offer',
-
-                'url' => $url,
-
-                'priceCurrency' => 'TRY',
-
-                'price' => number_format((float) $product->price, 2, '.', ''),
-
-                'availability' => $product->inStock()
-
-                    ? 'https://schema.org/InStock'
-
-                    : 'https://schema.org/OutOfStock',
-
-                'itemCondition' => 'https://schema.org/NewCondition',
-
-                'priceValidUntil' => now()->addMonths(6)->format('Y-m-d'),
-
-                'seller' => [
-
-                    '@type' => 'Organization',
-
-                    'name' => SiteSetting::get('legal_name', config('kosar.legal_name')),
-
-                ],
-
-            ],
+            'offers' => self::productOffers($product, $url),
 
         ];
 
@@ -823,7 +795,45 @@ class Seo
 
     }
 
+    /** @return array<string, mixed> */
+    public static function productOffers(Product $product, ?string $url = null): array
+    {
+        $url ??= route('products.show', $product);
+        $availability = $product->inStock()
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock';
+        $seller = [
+            '@type' => 'Organization',
+            'name' => SiteSetting::get('legal_name', config('kosar.legal_name')),
+        ];
 
+        $range = ProductPurchaseOptions::priceRange($product);
+        if ($range !== null && $range['low'] !== $range['high']) {
+            return [
+                '@type' => 'AggregateOffer',
+                'url' => $url,
+                'priceCurrency' => 'TRY',
+                'lowPrice' => number_format($range['low'], 2, '.', ''),
+                'highPrice' => number_format($range['high'], 2, '.', ''),
+                'offerCount' => (string) count(ProductPurchaseOptions::for($product)),
+                'availability' => $availability,
+                'itemCondition' => 'https://schema.org/NewCondition',
+                'priceValidUntil' => now()->addMonths(6)->format('Y-m-d'),
+                'seller' => $seller,
+            ];
+        }
+
+        return [
+            '@type' => 'Offer',
+            'url' => $url,
+            'priceCurrency' => 'TRY',
+            'price' => number_format((float) $product->price, 2, '.', ''),
+            'availability' => $availability,
+            'itemCondition' => 'https://schema.org/NewCondition',
+            'priceValidUntil' => now()->addMonths(6)->format('Y-m-d'),
+            'seller' => $seller,
+        ];
+    }
 
     /** @return list<array<string, mixed>> */
     public static function productReviewNodes(Product $product): array
