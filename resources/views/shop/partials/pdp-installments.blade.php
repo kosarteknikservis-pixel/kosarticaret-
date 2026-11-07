@@ -1,6 +1,6 @@
 @php
     $installmentUrl = route('products.installments', $product);
-    $initialAmount = (float) ($selectedPurchaseOption['price'] ?? $product->price);
+    $initialAmount = (float) data_get($selectedPurchaseOption ?? null, 'price', $product->price);
     $paytrTableToken = \App\Support\PaymentGatewayConfig::paytrInstallmentTableToken();
     $paytrMerchantId = \App\Support\PaymentGatewayConfig::paytrMerchantId();
     $usesPaytrTable = \App\Support\PaymentGatewayConfig::activeProvider() === 'paytr'

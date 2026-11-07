@@ -1,11 +1,12 @@
 @php
     $stickyOption = $selectedPurchaseOption ?? null;
-    $stickyPrice = (float) ($stickyOption['price'] ?? $product->price);
-    $stickySlug = $stickyOption['slug'] ?? $product->slug;
-    $stickyId = $stickyOption['product_id'] ?? $product->id;
-    $stickyInStock = array_key_exists('in_stock', $stickyOption ?? [])
-        ? (bool) $stickyOption['in_stock']
-        : $product->inStock();
+    $stickyPrice = (float) data_get($stickyOption, 'price', $product->price);
+    $stickySlug = (string) data_get($stickyOption, 'slug', $product->slug);
+    $stickyId = (int) data_get($stickyOption, 'product_id', $product->id);
+    $stickyInStock = data_get($stickyOption, 'in_stock');
+    if ($stickyInStock === null) {
+        $stickyInStock = $product->inStock();
+    }
 @endphp
 @if($stickyInStock)
 <div class="shop-pdp-sticky" data-pdp-sticky aria-hidden="true">
