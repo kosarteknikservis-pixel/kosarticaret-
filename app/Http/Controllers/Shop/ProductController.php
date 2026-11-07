@@ -74,7 +74,7 @@ class ProductController extends Controller
             $request->filled('model') ? $request->string('model')->toString() : null
         );
         $selectedOption = collect($purchaseOptions)->firstWhere('selected', true);
-        $displayPrice = (float) ($selectedOption['price'] ?? $product->price);
+        $displayPrice = (float) data_get($selectedOption, 'price', $product->price);
 
         $primaryCategory = $product->primaryCategory();
         $breadcrumbs = $primaryCategory

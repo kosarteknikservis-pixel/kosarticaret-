@@ -127,9 +127,14 @@ class ProductPurchaseOptions
     {
         return Product::query()
             ->active()
-            ->where('specs->purchase_group', $group)
+            ->where(function ($query) use ($group) {
+                $query->where('specs->purchase_group', $group)
+                    ->orWhere('specs', 'like', '%"purchase_group":"'.$group.'"%')
+                    ->orWhere('specs', 'like', '%"purchase_group": "'.$group.'"%');
+            })
             ->orderBy('id')
             ->get()
+            ->filter(fn (Product $product) => self::groupKey($product) === $group)
             ->sortBy(fn (Product $product) => sprintf(
                 '%05d-%010d',
                 (int) data_get($product->specs, 'purchase_option_sort', 999),
