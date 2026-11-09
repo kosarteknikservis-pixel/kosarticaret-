@@ -111,14 +111,9 @@ final class LegacyRedirectResolver
         }
 
         if (preg_match('#^/urun/([^/]+)$#', $path, $matches) && ! self::hasLegacyProductQuery($request)) {
-            $matchedTarget = LegacyProductSlugMatcher::targetForLegacySlug($matches[1]);
+            $matchedTarget = LegacyProductSlugMatcher::runtimeTargetForSlug($matches[1]);
             if ($matchedTarget !== null && $matchedTarget !== self::normalizeTarget('/urun/'.$matches[1])) {
                 return self::normalizeTarget($matchedTarget);
-            }
-
-            $removedProductTarget = LegacyRemovedProductRedirect::targetForSlug($matches[1]);
-            if ($removedProductTarget !== null) {
-                return self::normalizeTarget($removedProductTarget);
             }
         }
 

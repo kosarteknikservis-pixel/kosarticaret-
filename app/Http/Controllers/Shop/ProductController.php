@@ -52,7 +52,14 @@ class ProductController extends Controller
 
     public function show(Request $request, Product $product, RelatedProductService $relatedProducts): View|RedirectResponse
     {
-        abort_unless($product->is_active, 404);
+        if (! $product->is_active) {
+            $target = trim((string) $product->redirect_to);
+            if ($target !== '') {
+                return redirect()->to(str_starts_with($target, 'http') ? $target : url('/'.ltrim($target, '/')), 301);
+            }
+
+            abort(410);
+        }
 
         if (ProductPurchaseOptions::isChild($product)) {
             $hubSlug = ProductPurchaseOptions::hubSlug($product) ?? $product->slug;

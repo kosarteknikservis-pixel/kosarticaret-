@@ -277,6 +277,7 @@ class SeoController extends Controller
             ->select([
                 'id', 'sku', 'slug', 'name', 'short_description', 'description', 'barcode',
                 'price', 'compare_at_price', 'stock', 'image', 'brand_id',
+                'width_cm', 'height_cm', 'depth_cm', 'weight_kg',
             ])
             ->orderBy('id')
             ->cursor()
@@ -356,7 +357,7 @@ class SeoController extends Controller
         echo '<g:shipping>';
         echo '<g:country>TR</g:country>';
         echo '<g:service>Standart Kargo</g:service>';
-        echo '<g:price>0 TRY</g:price>';
+        echo '<g:price>'.$this->xmlText(Seo::offerShippingDetails($product)['shippingRate']['value'].' TRY').'</g:price>';
         echo '</g:shipping>';
         echo '</item>';
     }

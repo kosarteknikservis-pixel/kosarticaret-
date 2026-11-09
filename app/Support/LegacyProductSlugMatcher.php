@@ -59,6 +59,40 @@ final class LegacyProductSlugMatcher
         return LegacyRemovedProductRedirect::targetForSlug($slug);
     }
 
+    /**
+     * Runtime istekleri için güvenli eşleşme: aktif slug, config exact ve
+     * legacy_redirects.exact. Tahmini benzerlik / kategori yedeği yok.
+     */
+    public static function runtimeTargetForSlug(string $rawSlug): ?string
+    {
+        $decoded = urldecode(trim($rawSlug, '/'));
+        if ($decoded !== '' && self::activeSlugs()->has($decoded)) {
+            return '/urun/'.$decoded;
+        }
+
+        $slug = self::normalizeSlug($rawSlug);
+        if ($slug === '') {
+            return null;
+        }
+
+        if (self::activeSlugs()->has($slug)) {
+            return '/urun/'.$slug;
+        }
+
+        $exactTarget = self::exactTarget($rawSlug, $slug);
+        if ($exactTarget !== null) {
+            return $exactTarget;
+        }
+
+        $legacyExact = config('legacy_redirects.exact', []);
+        $legacyKey = '/urun/'.$slug;
+        if (is_array($legacyExact) && isset($legacyExact[$legacyKey])) {
+            return (string) $legacyExact[$legacyKey];
+        }
+
+        return null;
+    }
+
     public static function normalizeSlug(string $slug): string
     {
         $slug = urldecode(trim($slug, '/'));

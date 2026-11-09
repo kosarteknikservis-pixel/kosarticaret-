@@ -79,6 +79,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with(Seo::noIndexMeta());
         });
 
+        View::composer('errors::410', function ($view): void {
+            $view->with(Seo::noIndexMeta());
+        });
+
         View::composer('layouts.shop', function ($view) {
             $view->with([
                 'menuCategories' => Category::forStorefrontMenu()->get(),

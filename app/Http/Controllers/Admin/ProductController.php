@@ -139,6 +139,7 @@ class ProductController extends Controller
             'gallery_files.*' => ['image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
             'featured' => ['sometimes', 'boolean'],
             'is_active' => ['sometimes', 'boolean'],
+            'redirect_to' => ['nullable', 'string', 'max:500'],
             'marketplace_enabled' => ['sometimes', 'boolean'],
             'barcode' => ['nullable', 'string', 'max:32'],
             'weight_kg' => ['nullable', 'numeric', 'min:0'],
@@ -157,6 +158,13 @@ class ProductController extends Controller
         $data['featured'] = $request->boolean('featured');
         $data['is_active'] = $request->boolean('is_active', true);
         $data['marketplace_enabled'] = $request->boolean('marketplace_enabled', true);
+        $redirectTo = $request->filled('redirect_to') ? trim((string) $request->input('redirect_to')) : null;
+        if ($redirectTo !== null && $redirectTo !== ''
+            && ! str_starts_with($redirectTo, '/')
+            && ! preg_match('#^https?://#i', $redirectTo)) {
+            $redirectTo = null;
+        }
+        $data['redirect_to'] = ($redirectTo !== null && $redirectTo !== '') ? $redirectTo : null;
         $data['tags'] = $request->filled('tags')
             ? array_values(array_filter(array_map('trim', explode(',', (string) $request->input('tags')))))
             : [];

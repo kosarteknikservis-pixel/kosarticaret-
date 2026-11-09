@@ -22,7 +22,7 @@ class Product extends Model
         'slug', 'sku', 'name', 'short_description', 'description', 'translations',
         'brand_id', 'price', 'cost_price', 'compare_at_price', 'stock',
         'rating', 'review_count', 'badges', 'specs', 'tags',
-        'featured', 'is_active', 'image', 'image_alt', 'meta_title', 'meta_description',
+        'featured', 'is_active', 'redirect_to', 'image', 'image_alt', 'meta_title', 'meta_description',
         'barcode', 'weight_kg', 'width_cm', 'height_cm', 'depth_cm', 'units_per_carton', 'vat_rate', 'marketplace_enabled',
     ];
 

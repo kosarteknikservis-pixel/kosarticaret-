@@ -97,7 +97,7 @@ class LegacyRedirectTest extends TestCase
     public function test_removed_product_slug_redirects_to_category_or_products(): void
     {
         $this->get('/urun/pedrollo-kaldirilmis-eski-urun-slug')
-            ->assertRedirect('/kategoriler/su-pompalari');
+            ->assertNotFound();
 
         $this->get('/marka/sumak-bicakli-foseptik-dalgic-pompa')
             ->assertRedirect('/marka/sumak');

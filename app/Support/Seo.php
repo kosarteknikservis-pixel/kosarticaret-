@@ -698,7 +698,7 @@ class Seo
 
         ];
 
-        $schema['offers']['shippingDetails'] = self::offerShippingDetails();
+        $schema['offers']['shippingDetails'] = self::offerShippingDetails($product);
         $schema['offers']['hasMerchantReturnPolicy'] = self::merchantReturnPolicy();
 
 
@@ -1186,9 +1186,23 @@ class Seo
     }
 
     /** @return array<string, mixed> */
-    public static function offerShippingDetails(): array
+    public static function offerShippingDetails(?Product $product = null): array
     {
-        $rate = (float) (config('shipping.shipping_rates.standart') ?? 0);
+        $store = app(\App\Services\StoreConfig::class);
+        $methods = $store->shippingMethods();
+        $method = collect($methods)->firstWhere('id', 'standart') ?? ($methods[0] ?? null);
+        $rate = 0.0;
+
+        if ($method !== null && $product !== null) {
+            $rate = app(\App\Services\CheckoutCalculator::class)
+                ->shippingCost((float) $product->price, (string) $method['id'], false, (float) ($product->desi() ?? 0));
+
+            if ($store->shouldAddVat()) {
+                $rate = round($rate * (1 + $store->vatRate()), 2);
+            }
+        } elseif ($method !== null) {
+            $rate = (float) $method['fee'];
+        }
 
         return [
             '@type' => 'OfferShippingDetails',

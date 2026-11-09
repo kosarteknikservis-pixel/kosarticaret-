@@ -285,6 +285,12 @@
 
                 <label class="admin-checkbox block mt-2"><input type="checkbox" name="is_active" value="1" @checked(old('is_active', $product->is_active ?? true))> Yayında (sitede ve Google’da görünür)</label>
 
+                <div class="mt-3">
+                    <label class="admin-label" for="redirect_to">Ürün yayından kaldırılırsa yönlendirilecek adres (boş bırakılırsa 410 döner). Örn: /kategoriler/su-pompalari/dalgic-pompalar</label>
+                    <input id="redirect_to" name="redirect_to" value="{{ old('redirect_to', $product->redirect_to ?? '') }}" class="admin-input" placeholder="/kategoriler/... veya https://...">
+                    <p class="text-xs text-slate-500 mt-1">Yalnızca site içi yol (/ ile) veya http(s) adresi kabul edilir. Geçersiz değer kaydedilmez.</p>
+                </div>
+
             </x-admin.seo-fields>
 
 
