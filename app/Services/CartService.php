@@ -28,7 +28,36 @@ class CartService
     {
         $ids = array_keys($this->items());
 
-        return Product::query()->whereIn('id', $ids)->get()->keyBy('id');
+        return Product::query()
+            ->whereIn('id', $ids)
+            ->active()
+            ->where('price', '>', 0)
+            ->get()
+            ->keyBy('id');
+    }
+
+    /** Satışta olmayan ürünleri oturum sepetinden siler; silinen satır sayısını döner. */
+    public function pruneUnavailable(): int
+    {
+        $cart = $this->items();
+        if ($cart === []) {
+            return 0;
+        }
+
+        $available = $this->products();
+        $removed = 0;
+        foreach (array_keys($cart) as $id) {
+            if (! $available->has($id)) {
+                unset($cart[$id]);
+                $removed++;
+            }
+        }
+
+        if ($removed > 0) {
+            session(['cart' => $cart]);
+        }
+
+        return $removed;
     }
 
     /**
@@ -80,6 +109,21 @@ class CartService
      */
     public function addProduct(Product $product, int $qty = 1): array
     {
+        if (! $product->is_active || (float) $product->price <= 0) {
+            $cart = $this->items();
+            if (isset($cart[$product->id])) {
+                unset($cart[$product->id]);
+                session(['cart' => $cart]);
+            }
+
+            return [
+                'ok' => false,
+                'added' => 0,
+                'quantity' => 0,
+                'message' => 'Bu ürün şu an satışta değil.',
+            ];
+        }
+
         $qty = max(1, $qty);
         $stock = max(0, (int) $product->stock);
         $cart = $this->items();

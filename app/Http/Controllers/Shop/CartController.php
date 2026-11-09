@@ -18,6 +18,8 @@ class CartController extends Controller
 
     public function index(): View
     {
+        $this->cart->pruneUnavailable();
+
         return view('shop.cart', [
             'menuCategories' => Category::menu()->get(),
             'lines' => $this->cart->lines(),
@@ -47,7 +49,9 @@ class CartController extends Controller
     {
         $qty = max(0, (int) $request->input('quantity', 1));
         $cart = session('cart', []);
-        if ($qty === 0) {
+        if (! $product->is_active || (float) $product->price <= 0) {
+            unset($cart[$product->id]);
+        } elseif ($qty === 0) {
             unset($cart[$product->id]);
         } else {
             $cart[$product->id] = min($qty, $product->stock);

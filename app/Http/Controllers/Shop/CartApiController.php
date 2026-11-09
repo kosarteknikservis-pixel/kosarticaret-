@@ -15,11 +15,15 @@ class CartApiController extends Controller
 
     public function summary(): JsonResponse
     {
+        $this->cart->pruneUnavailable();
+
         return response()->json($this->payload());
     }
 
     public function detail(): JsonResponse
     {
+        $this->cart->pruneUnavailable();
+
         $lines = collect($this->cart->lines())->map(fn ($line) => [
             'slug' => $line['product']->slug,
             'name' => $line['product']->name,
@@ -55,7 +59,9 @@ class CartApiController extends Controller
     {
         $qty = max(0, (int) $request->input('quantity', 1));
         $cart = session('cart', []);
-        if ($qty === 0) {
+        if (! $product->is_active || (float) $product->price <= 0) {
+            unset($cart[$product->id]);
+        } elseif ($qty === 0) {
             unset($cart[$product->id]);
         } else {
             $cart[$product->id] = min($qty, $product->stock);

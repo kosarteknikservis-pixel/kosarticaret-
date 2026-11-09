@@ -32,6 +32,11 @@ class OrderService
         string $shippingMethod,
         string $paymentMethod,
     ): array {
+        $this->cart->pruneUnavailable();
+        if ($this->cart->lines() === []) {
+            throw new \RuntimeException('Sepetinizdeki ürünler artık satışta değil.');
+        }
+
         $stockErrors = $this->cart->stockErrors();
         if ($stockErrors) {
             throw new \RuntimeException($stockErrors[0]);
