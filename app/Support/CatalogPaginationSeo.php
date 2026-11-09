@@ -45,12 +45,21 @@ class CatalogPaginationSeo
      */
     public static function meta(Request $request, LengthAwarePaginator $paginator, string $baseUrl): array
     {
+        $prev = $paginator->previousPageUrl();
+
         return [
             'robots' => self::robots($request, $paginator->currentPage()),
             'canonical' => self::canonical($baseUrl, $paginator->currentPage()),
-            'paginationPrev' => $paginator->previousPageUrl(),
+            'paginationPrev' => $prev !== null ? self::stripPageOne($prev) : null,
             'paginationNext' => $paginator->nextPageUrl(),
         ];
+    }
+
+    private static function stripPageOne(string $url): string
+    {
+        $cleaned = preg_replace(['/([?&])page=1(&|$)/', '/[?&]$/'], ['$1', ''], $url) ?? $url;
+
+        return $cleaned === '' ? $url : $cleaned;
     }
 
     /**
