@@ -49,15 +49,19 @@ class CartController extends Controller
     {
         $qty = max(0, (int) $request->input('quantity', 1));
         $cart = session('cart', []);
+        $newQty = 0;
         if (! $product->is_active || (float) $product->price <= 0) {
             unset($cart[$product->id]);
-        } elseif ($qty === 0) {
-            unset($cart[$product->id]);
         } else {
-            $cart[$product->id] = min($qty, $product->stock);
+            $newQty = max(0, min($qty, (int) $product->stock));
+            if ($newQty === 0) {
+                unset($cart[$product->id]);
+            } else {
+                $cart[$product->id] = $newQty;
+            }
         }
         session(['cart' => $cart]);
-        app(AnalyticsTracker::class)->trackCartAction($request, $qty === 0 ? 'cart_remove' : 'cart_update', $product, $qty);
+        app(AnalyticsTracker::class)->trackCartAction($request, $newQty === 0 ? 'cart_remove' : 'cart_update', $product, $newQty);
         app(AnalyticsTracker::class)->syncCart($request, $this->cart);
 
         return redirect()->route('cart.index');
