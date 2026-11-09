@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Services\OrtakPanel\OrtakPanelOrderSyncService;
 use App\Services\Payment\PaymentManager;
 use App\Services\Telegram\OrderTelegramNotifier;
 use Illuminate\Support\Facades\DB;
+use RuntimeException;
 
 class OrderService
 {
@@ -97,18 +99,28 @@ class OrderService
             ]);
 
             foreach ($this->cart->lines() as $line) {
+                /** @var Product $p */
                 $p = $line['product'];
+                $qty = (int) $line['quantity'];
+
+                $affected = Product::query()
+                    ->whereKey($p->id)
+                    ->where('stock', '>=', $qty)
+                    ->decrement('stock', $qty);
+
+                if ($affected === 0) {
+                    throw new RuntimeException($p->name.': stokta yeterli adet kalmadı.');
+                }
+
                 OrderItem::query()->create([
                     'order_id' => $order->id,
                     'product_id' => $p->id,
                     'product_name' => $p->name,
                     'sku' => $p->sku,
-                    'quantity' => $line['quantity'],
+                    'quantity' => $qty,
                     'unit_price' => $p->price,
                     'line_total' => $line['line_total'],
                 ]);
-
-                $p->decrement('stock', $line['quantity']);
             }
 
             $order = $order->fresh('items');
