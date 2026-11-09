@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 
 #[Fillable(['name', 'email', 'phone', 'password', 'is_admin', 'default_address'])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -32,6 +33,16 @@ class User extends Authenticatable
             'is_admin' => 'boolean',
             'default_address' => 'array',
         ];
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        try {
+            \App\Support\MailSettings::apply();
+            $this->notify(new \Illuminate\Auth\Notifications\VerifyEmail);
+        } catch (\Throwable $e) {
+            Log::error('Doğrulama e-postası gönderilemedi', ['user' => $this->id, 'error' => $e->getMessage()]);
+        }
     }
 
     public function isAdmin(): bool

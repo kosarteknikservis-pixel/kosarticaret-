@@ -17,7 +17,7 @@ return [
     ],
     // Organization schema (E-E-A-T). Örn: 1990 veya 1990-01-01
     'founding_date' => env('KOSAR_FOUNDING_DATE'),
-    'admin_password' => env('ADMIN_PASSWORD', 'kosar-dev'),
+    'admin_password' => env('ADMIN_PASSWORD'),
 
     // Rapor ve analitik ekranlarında kullanılan saat dilimi.
     // Veritabanı UTC saklar; bu değer yalnızca dönem (gün/hafta/ay) sınırlarını

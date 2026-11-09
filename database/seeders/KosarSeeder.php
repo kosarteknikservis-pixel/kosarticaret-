@@ -9,19 +9,40 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use RuntimeException;
 
 class KosarSeeder extends Seeder
 {
     public function run(): void
     {
-        User::query()->updateOrCreate(
-            ['email' => 'admin@kosar.com.tr'],
-            [
+        $password = (string) config('kosar.admin_password', '');
+        $admin = User::query()->where('email', 'admin@kosar.com.tr')->first();
+
+        if ($password !== '') {
+            User::query()->updateOrCreate(
+                ['email' => 'admin@kosar.com.tr'],
+                [
+                    'name' => 'Kosar Admin',
+                    'password' => Hash::make($password),
+                    'is_admin' => true,
+                ],
+            );
+        } elseif ($admin) {
+            if (! $admin->is_admin) {
+                $admin->forceFill(['is_admin' => true])->save();
+            }
+        } elseif (app()->environment(['local', 'testing'])) {
+            User::query()->create([
+                'email' => 'admin@kosar.com.tr',
                 'name' => 'Kosar Admin',
-                'password' => Hash::make(config('kosar.admin_password', 'kosar-dev')),
+                'password' => Hash::make(Str::random(32)),
                 'is_admin' => true,
-            ],
-        );
+            ]);
+            $this->command?->warn('ADMIN_PASSWORD tanımlı değil; admin rastgele şifreyle oluşturuldu.');
+        } else {
+            throw new RuntimeException('ADMIN_PASSWORD .env içinde tanımlı değil.');
+        }
 
         $categories = [
             ['key' => 'pompalar', 'slug' => 'pompalar', 'name' => 'Pompalar', 'description' => 'Santrifüj, jet, dalgıç ve endüstriyel pompa çözümleri', 'featured' => true, 'sort' => 1],

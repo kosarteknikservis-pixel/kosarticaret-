@@ -71,6 +71,8 @@ class CustomerAuthController extends Controller
             'is_admin' => false,
         ]);
 
+        event(new \Illuminate\Auth\Events\Registered($user));
+
         Auth::login($user);
         $request->session()->regenerate();
 

@@ -8,6 +8,7 @@ use App\Models\OrderLog;
 use App\Models\OrderShipment;
 use App\Services\Sms\SmsService;
 use App\Support\MailSettings;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class ShipmentNotificationService
@@ -59,14 +60,18 @@ class ShipmentNotificationService
 
     private function sendStatusEmailIfNeeded(Order $order): void
     {
-        if (! MailSettings::canSend() || blank($order->email)) {
+        if (! MailSettings::isConfigured() || blank($order->email)) {
             return;
         }
 
         try {
+            MailSettings::apply();
             Mail::to($order->email)->send(new OrderStatusUpdatedMail($order->fresh('items')));
-        } catch (\Throwable) {
-            // E-posta hatası kargo akışını durdurmasın.
+        } catch (\Throwable $e) {
+            Log::warning('Kargo durum e-postası gönderilemedi', [
+                'order' => $order->order_number,
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }

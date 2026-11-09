@@ -16,6 +16,14 @@
             </x-slot:actions>
         </x-shop.page-hero>
 
+        @if(! $user->hasVerifiedEmail())
+            <p class="shop-alert mb-4">
+                E-posta adresinizi henüz doğrulamadınız.
+                <a href="{{ route('verification.notice') }}" class="font-semibold text-brand-700 hover:text-brand-800">Doğrulama sayfasına gidin</a>
+                — doğruladıktan sonra bu adresle verdiğiniz önceki siparişler hesabınızda görünür.
+            </p>
+        @endif
+
         <div class="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4 min-w-0">
             <a href="{{ route('account.index') }}" class="shop-account-card is-active">
                 <span class="shop-account-card__icon-wrap">

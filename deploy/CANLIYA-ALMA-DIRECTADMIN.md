@@ -83,7 +83,7 @@ cd /home/admin/domains/kosarticaret.com/kosar
 
 **Panel girişi:**
 - E-posta: `admin@kosar.com.tr`
-- Şifre: yerel geliştirmede kullandığınız şifre (`kosar-dev` veya `.env` içindeki `ADMIN_PASSWORD`)
+- Şifre: .env içindeki ADMIN_PASSWORD; kurulumdan sonra panelden değiştirin.
 
 ---
 

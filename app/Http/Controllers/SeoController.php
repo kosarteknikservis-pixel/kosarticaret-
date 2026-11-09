@@ -107,6 +107,7 @@ class SeoController extends Controller
                 'Disallow: /ara',
                 'Disallow: /favoriler',
                 'Disallow: /hesabim',
+                'Disallow: /eposta-dogrula',
                 'Disallow: /giris',
                 'Disallow: /kayit',
                 'Disallow: /siparis-takip',

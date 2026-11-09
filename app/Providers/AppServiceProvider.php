@@ -18,8 +18,10 @@ use App\Models\NavigationItem;
 use App\Models\ProductReview;
 use App\Services\CartService;
 use App\Services\FavoriteService;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -35,6 +37,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            return (new MailMessage)
+                ->subject('E-posta adresinizi doğrulayın')
+                ->line('Hesabınızı doğrulamak ve bu adresle verdiğiniz önceki siparişleri görmek için aşağıdaki düğmeye tıklayın.')
+                ->action('E-postamı doğrula', $url);
+        });
+
         RateLimiter::for('admin-login', function (Request $request) {
             $maxAttempts = app()->environment('local') ? 30 : 5;
 

@@ -233,6 +233,27 @@ Route::middleware(['auth', 'shop.customer'])->prefix('hesabim')->name('account.'
     Route::post('/siparis/{order}/iade-talebi', [AccountController::class, 'storeReturn'])->middleware('throttle:5,1')->name('order.return');
 });
 
+Route::middleware(['auth', 'shop.customer'])->group(function () {
+    Route::get('/eposta-dogrula', function () {
+        return view('shop.auth.verify-email', [
+            'metaTitle' => 'E-posta doğrulama',
+            ...\App\Support\Seo::noIndexMeta(),
+        ]);
+    })->name('verification.notice');
+
+    Route::get('/eposta-dogrula/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return redirect()->route('account.index')->with('success', 'E-posta adresiniz doğrulandı.');
+    })->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
+
+    Route::post('/eposta-dogrula/tekrar', function (\Illuminate\Http\Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Doğrulama bağlantısı tekrar gönderildi.');
+    })->middleware('throttle:3,1')->name('verification.send');
+});
+
 $legalSlugs = [
     'hakkimizda', 'gizlilik-politikasi', 'kvkk',
     'kargo-ve-iade', 'mesafeli-satis-sozlesmesi', 'on-bilgilendirme', 'sss',
