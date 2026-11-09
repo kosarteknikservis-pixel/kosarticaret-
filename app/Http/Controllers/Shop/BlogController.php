@@ -25,6 +25,9 @@ class BlogController extends Controller
         }
 
         $posts = BlogPost::published()->paginate(12)->withQueryString();
+        if ($posts->currentPage() > 1 && $posts->isEmpty() && $posts->total() > 0) {
+            abort(404);
+        }
         $paginationSeo = CatalogPaginationSeo::meta($request, $posts, route('blog.index'));
 
         return view('shop.blog.index', [
@@ -61,6 +64,9 @@ class BlogController extends Controller
             $page,
             ['path' => route('blog.tag', $tag), 'query' => $request->query()]
         );
+        if ($posts->currentPage() > 1 && $posts->isEmpty() && $posts->total() > 0) {
+            abort(404);
+        }
 
         $title = __('shop.blog_tag_heading', ['tag' => $label]);
         $description = Seo::description([

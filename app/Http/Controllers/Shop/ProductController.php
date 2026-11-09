@@ -32,6 +32,9 @@ class ProductController extends Controller
         CatalogQuery::apply($request, $query);
 
         $products = $query->paginate(12)->withQueryString();
+        if ($products->currentPage() > 1 && $products->isEmpty() && $products->total() > 0) {
+            abort(404);
+        }
         $paginationSeo = CatalogPaginationSeo::meta($request, $products, route('products.index'));
 
         return view('shop.products.index', [

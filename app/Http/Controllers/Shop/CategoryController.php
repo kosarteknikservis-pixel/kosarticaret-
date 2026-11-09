@@ -69,6 +69,9 @@ class CategoryController extends Controller
             ->values();
 
         $products = $query->paginate(12)->withQueryString();
+        if ($products->currentPage() > 1 && $products->isEmpty() && $products->total() > 0) {
+            abort(404);
+        }
         $pageUrl = $category->storefrontUrl();
         $paginationSeo = CatalogPaginationSeo::meta($request, $products, $pageUrl);
         if ($category->activeChildren->isEmpty() && $products->total() === 0) {

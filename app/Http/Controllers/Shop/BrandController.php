@@ -48,6 +48,9 @@ class BrandController extends Controller
         ];
 
         $products = $query->paginate(12)->withQueryString();
+        if ($products->currentPage() > 1 && $products->isEmpty() && $products->total() > 0) {
+            abort(404);
+        }
         $pageUrl = route('brands.show', $brand);
         $paginationSeo = CatalogPaginationSeo::meta($request, $products, $pageUrl);
         if ($products->total() === 0 && ! CatalogPaginationSeo::hasActiveFilters($request)) {

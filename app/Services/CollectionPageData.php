@@ -35,6 +35,9 @@ class CollectionPageData
         } else {
             $products = $query->paginate(12)->withQueryString();
         }
+        if ($products->currentPage() > 1 && $products->isEmpty() && $products->total() > 0) {
+            abort(404);
+        }
         $pagination = CatalogPaginationSeo::meta($request, $products, $pageUrl);
         if ($preview || $collection->status !== Collection::STATUS_INDEX) {
             $pagination['robots'] = $preview ? 'noindex, nofollow' : Seo::ROBOTS_NOINDEX;
