@@ -29,12 +29,16 @@ class BlogController extends Controller
             abort(404);
         }
         $paginationSeo = CatalogPaginationSeo::meta($request, $posts, route('blog.index'));
+        $metaTitle = 'Blog';
+        if ($posts->currentPage() > 1) {
+            $metaTitle .= ' – Sayfa '.$posts->currentPage();
+        }
 
         return view('shop.blog.index', [
             'posts' => $posts,
             'heading' => __('shop.blog'),
             'subtitle' => __('shop.blog_subtitle'),
-            'metaTitle' => 'Blog',
+            'metaTitle' => $metaTitle,
             'metaDescription' => Seo::description([
                 SiteName::get().' blog — pompa, hidrofor ve sulama rehberleri.',
             ]),
@@ -69,13 +73,16 @@ class BlogController extends Controller
         }
 
         $title = __('shop.blog_tag_heading', ['tag' => $label]);
+        if ($posts->currentPage() > 1) {
+            $title .= ' – Sayfa '.$posts->currentPage();
+        }
         $description = Seo::description([
             SiteName::get().' — '.$label.' rehberleri ve teknik yazılar.',
         ]);
 
         return view('shop.blog.index', [
             'posts' => $posts,
-            'heading' => $title,
+            'heading' => __('shop.blog_tag_heading', ['tag' => $label]),
             'subtitle' => __('shop.blog_tag_subtitle'),
             'metaTitle' => $title,
             'metaDescription' => $description,

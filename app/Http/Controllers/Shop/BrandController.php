@@ -80,7 +80,7 @@ class BrandController extends Controller
             'relatedGuides' => InternalLinking::blogGuidesForBrand($brand->slug),
             'geo' => GeoPageBlocks::forBrand($brand->slug),
             'breadcrumbs' => $breadcrumbs,
-            'metaTitle' => $brand->meta_title ?: $brand->name.' '.config('seo.brand_page_title_suffix', 'Ürünleri ve Fiyatları'),
+            'metaTitle' => ($brand->meta_title ?: $brand->name.' '.config('seo.brand_page_title_suffix', 'Ürünleri ve Fiyatları')).($products->currentPage() > 1 ? ' – Sayfa '.$products->currentPage() : ''),
             'metaDescription' => Seo::description([
                 $brand->meta_description,
                 $brand->description,

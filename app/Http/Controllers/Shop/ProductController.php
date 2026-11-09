@@ -36,12 +36,16 @@ class ProductController extends Controller
             abort(404);
         }
         $paginationSeo = CatalogPaginationSeo::meta($request, $products, route('products.index'));
+        $metaTitle = 'Pompa, Hidrofor ve Vantilatör Ürünleri';
+        if ($products->currentPage() > 1) {
+            $metaTitle .= ' – Sayfa '.$products->currentPage();
+        }
 
         return view('shop.products.index', [
             'products' => $products,
             'brands' => Brand::query()->where('active', true)->orderBy('name')->get(),
             'search' => $request->string('q'),
-            'metaTitle' => 'Pompa, Hidrofor ve Vantilatör Ürünleri',
+            'metaTitle' => $metaTitle,
             'metaDescription' => Seo::description([
                 SiteName::get().' ürün kataloğu: dalgıç pompa, hidrofor, santrifüj pompa, sanayi vantilatörü ve teknik ekipman. Güncel stok ve fiyatlarla inceleyin.',
             ], 160),

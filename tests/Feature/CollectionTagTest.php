@@ -102,7 +102,7 @@ class CollectionTagTest extends TestCase
         $this->assertSame([], SitemapGenerator::chunkUrls('collections')->all());
     }
 
-    public function test_index_requires_six_products_and_page_two_is_noindex(): void
+    public function test_index_requires_six_products_and_page_two_is_indexable(): void
     {
         [$category, $collection] = $this->hpCollection();
         $matcher = app(CollectionMatcher::class);
@@ -126,7 +126,7 @@ class CollectionTagTest extends TestCase
 
         $page = $this->get('/koleksiyon/'.$collection->slug.'?page=2');
         $page->assertOk();
-        $page->assertSee('noindex, follow', false);
+        $page->assertSee('index, follow', false);
         $page->assertSee('page=2', false);
 
         $urls = SitemapGenerator::chunkUrls('collections')->all();
@@ -347,7 +347,7 @@ class CollectionTagTest extends TestCase
 
         $next = $this->get('/koleksiyon/monofaze-grup-test?page=2');
         $next->assertOk();
-        $next->assertSee('noindex, follow', false);
+        $next->assertSee('index, follow', false);
         $next->assertSee('page=2', false);
         $next->assertSee('Drenaj Dalgıç Pompa', false);
     }

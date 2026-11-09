@@ -60,7 +60,7 @@ class CollectionPageData
             'brands' => Brand::query()->whereIn('id', $brandIds)->where('active', true)->orderBy('name')->get(),
             'breadcrumbs' => $breadcrumbs,
             'faq' => $collection->faq ?? [],
-            'metaTitle' => $collection->name,
+            'metaTitle' => $collection->name.($products->currentPage() > 1 ? ' – Sayfa '.$products->currentPage() : ''),
             'metaDescription' => Seo::description([$sentence]),
             'canonical' => $preview ? url()->current() : $pagination['canonical'],
             'jsonLd' => array_filter([

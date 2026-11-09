@@ -22,11 +22,11 @@ class CatalogPaginationSeoTest extends TestCase
         $this->assertSame('index, follow', CatalogPaginationSeo::robots($request));
     }
 
-    public function test_second_page_is_noindex(): void
+    public function test_second_page_is_indexable(): void
     {
         $request = Request::create('/urunler', 'GET');
 
-        $this->assertSame('noindex, follow', CatalogPaginationSeo::robots($request, 2));
+        $this->assertSame('index, follow', CatalogPaginationSeo::robots($request, 2));
     }
 
     public function test_paginated_pages_are_self_canonical_without_filters(): void

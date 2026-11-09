@@ -76,7 +76,7 @@ class CatalogPaginationSeo
 
     public static function robots(Request $request, int $currentPage = 1): string
     {
-        if (self::hasActiveFilters($request) || $currentPage > 1) {
+        if (self::hasActiveFilters($request)) {
             return Seo::ROBOTS_NOINDEX;
         }
 

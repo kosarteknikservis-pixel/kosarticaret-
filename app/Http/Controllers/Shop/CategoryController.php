@@ -93,7 +93,7 @@ class CategoryController extends Controller
             'hubCategories' => $hubCategories,
             'relatedGuides' => InternalLinking::blogGuidesForCategory($category),
             'geo' => $landing['geo'],
-            'metaTitle' => $category->meta_title ?: $category->name,
+            'metaTitle' => ($category->meta_title ?: $category->name).($products->currentPage() > 1 ? ' – Sayfa '.$products->currentPage() : ''),
             'metaDescription' => Seo::description([
                 $category->meta_description,
                 $category->description,
