@@ -11,7 +11,7 @@
     <div class="shop-page shop-page--pdp">
     @include('shop.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 
-    <div class="grid lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] shop-pdp shop-reveal-group">
+    <div class="grid lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] shop-pdp">
         @php
             $thumbs = collect();
             $pdpDims = \App\Support\ImageVariant::variantDimensions('product-pdp') ?? ['w' => 1200, 'h' => 1200];

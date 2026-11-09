@@ -103,6 +103,7 @@
     @vite(['resources/css/app.css'])
     @php $shopCssVer = @filemtime(public_path('css/shop.css')) ?: time(); @endphp
     <link rel="stylesheet" href="{{ asset('css/shop.css') }}?v={{ $shopCssVer }}">
+    <noscript><style>.shop-reveal,.shop-reveal-group>*{opacity:1!important;transform:none!important}</style></noscript>
     @if($themeCustomCss !== '')
         <style id="theme-custom-css">{!! $themeCustomCss !!}</style>
     @endif

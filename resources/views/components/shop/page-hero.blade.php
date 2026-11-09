@@ -3,7 +3,7 @@
     'subtitle' => null,
 ])
 
-<header {{ $attributes->class(['shop-page-hero', 'shop-reveal']) }}>
+<header {{ $attributes->class(['shop-page-hero']) }}>
     <div class="shop-page-hero__inner">
         <div class="shop-page-hero__content">
             @isset($eyebrow)
