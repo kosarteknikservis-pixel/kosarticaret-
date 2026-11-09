@@ -78,12 +78,13 @@ class AdvancedIndexingSeoTest extends TestCase
             ->assertDontSee('Disallow: /urun-kategori', false)
             ->assertDontSee('Disallow: /magaza', false)
             ->assertDontSee('Disallow: /shop', false)
-            ->assertSee('Disallow: /urun-etiket', false)
-            ->assertSee('Disallow: /tag/', false)
-            ->assertSee('Disallow: /*?filtering*', false)
-            ->assertSee('Disallow: /*?filter_*', false)
-            ->assertSee('Disallow: /*?filter_product_brand*', false)
-            ->assertSee('Disallow: /*?lang=', false);
+            ->assertSee('Disallow: /sepet', false)
+            ->assertSee('Disallow: /odeme', false)
+            ->assertSee('Disallow: /ara', false)
+            ->assertSee('Disallow: /hesabim', false)
+            ->assertDontSee('Disallow: /urun-etiket', false)
+            ->assertDontSee('Disallow: /*?filter_*', false)
+            ->assertDontSee('Disallow: /urun-feed.xml', false);
     }
 
     public function test_ai_crawler_group_inherits_cart_search_and_filter_disallows(): void
@@ -95,9 +96,10 @@ class AdvancedIndexingSeoTest extends TestCase
         $this->assertStringContainsString('User-agent: GPTBot', $aiGroup);
         $this->assertStringContainsString('User-agent: ClaudeBot', $aiGroup);
         $this->assertStringContainsString('Allow: /', $aiGroup);
-        foreach (['Disallow: /sepet', 'Disallow: /odeme', 'Disallow: /ara', 'Disallow: /*?marka='] as $rule) {
+        foreach (['Disallow: /sepet', 'Disallow: /odeme', 'Disallow: /ara', 'Disallow: /hesabim'] as $rule) {
             $this->assertStringContainsString($rule, $aiGroup);
         }
+        $this->assertStringNotContainsString('Disallow: /*?marka=', $aiGroup);
     }
 
     public function test_bing_site_auth_xml_is_served_when_configured(): void

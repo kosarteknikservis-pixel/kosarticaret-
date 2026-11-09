@@ -113,24 +113,6 @@ class SeoController extends Controller
                 'Disallow: /siparis-takip',
                 'Disallow: /siparis-onay',
                 'Disallow: /karsilastir',
-                'Disallow: /urun-etiket',
-                'Disallow: /tag/',
-                'Disallow: /page/',
-                'Disallow: /*?add-to-cart*',
-                // Eski WooCommerce facet / filtre query'leri (GSC yönlendirme şişmesi).
-                'Disallow: /*?filtering*',
-                'Disallow: /*?filter_*',
-                'Disallow: /*?filter_product_brand*',
-                'Disallow: /*?filter_cat*',
-                'Disallow: /*?marka=',
-                'Disallow: /*?siralama=',
-                'Disallow: /*?min=',
-                'Disallow: /*?max=',
-                'Disallow: /*?stokta=',
-                'Disallow: /*?grid=',
-                'Disallow: /*?per_page=',
-                'Disallow: /*?lang=',
-                'Disallow: /urun-feed.xml',
             ];
 
             $lines = [

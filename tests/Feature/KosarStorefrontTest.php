@@ -60,7 +60,7 @@ class KosarStorefrontTest extends TestCase
         $this->get('/robots.txt')->assertOk()
             ->assertSee('Sitemap:')
             ->assertSee('Disallow: /ara')
-            ->assertSee('Disallow: /urun-feed.xml');
+            ->assertDontSee('Disallow: /urun-feed.xml');
         $this->get('/urun-feed.xml')->assertOk()->assertHeader('X-Robots-Tag', 'noindex, nofollow');
         $this->get('/')->assertOk()
             ->assertSee('application/ld+json', false)
