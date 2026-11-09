@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Order;
 use App\Services\StoreConfig;
+use Illuminate\Support\Str;
+use RuntimeException;
 
 class CheckoutCalculator
 {
@@ -11,7 +14,16 @@ class CheckoutCalculator
     {
         $prefix = config('kosar.order_prefix', 'KOS');
 
-        return $prefix.'-'.strtoupper(base_convert((string) now()->timestamp, 10, 36));
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $sonek = strtoupper(Str::random(4));
+            $number = $prefix.'-'.strtoupper(base_convert((string) now()->timestamp, 10, 36)).$sonek;
+
+            if (! Order::query()->where('order_number', $number)->exists()) {
+                return $number;
+            }
+        }
+
+        throw new RuntimeException('Sipariş numarası üretilemedi.');
     }
 
     public function shippingCost(float $subtotal, string $method, bool $forceFree = false, float $cartDesi = 0.0): float
