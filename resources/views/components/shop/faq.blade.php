@@ -48,7 +48,7 @@
                 </h3>
                 <div class="shop-faq__a">
                     <div class="shop-faq__a-inner">
-                        {!! $item['a'] ?? '' !!}
+                        {!! \App\Support\RichContent::render($item['a'] ?? '') !!}
                     </div>
                 </div>
             </article>
