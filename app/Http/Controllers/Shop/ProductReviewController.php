@@ -21,6 +21,10 @@ class ProductReviewController extends Controller
             return $this->spamResponse($product, $spam);
         }
 
+        $request->merge(collect($request->only(['author_name', 'title', 'body']))
+            ->map(fn ($value) => is_string($value) ? trim(strip_tags($value)) : $value)
+            ->all());
+
         $data = $request->validate([
             'author_name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'max:190'],
