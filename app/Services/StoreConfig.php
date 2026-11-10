@@ -133,6 +133,47 @@ class StoreConfig
         return PaymentMethodSettings::enabledIds($context);
     }
 
+
+    public function paymentEnabled(string $id, string $context = PaymentMethodSettings::CONTEXT_CHECKOUT): bool
+    {
+        return in_array($id, $this->enabledPaymentIds($context), true);
+    }
+
+    /** Ürün / sepet rozeti: Kapýda ödeme (+ücret). Kapalýysa null. */
+    public function codStorefrontBadge(): ?string
+    {
+        if (! $this->paymentEnabled('kapida_odeme')) {
+            return null;
+        }
+
+        $fee = $this->codFee();
+        if ($fee > 0) {
+            return 'Kapýda ödeme · +'.number_format($fee, 2, ',', '.').' TL';
+        }
+
+        return 'Kapýda ödeme';
+    }
+
+    /**
+     * Üst promo þeridinde dönen mesajlar.
+     *
+     * @return list<string>
+     */
+    public function promoTickerMessages(): array
+    {
+        $messages = [];
+
+        $freeMin = $this->freeShippingMin();
+        if ($freeMin > 0) {
+            $messages[] = number_format($freeMin, 0, ',', '.').' TL üzeri kargo bedava';
+        }
+
+        if ($this->paymentEnabled('kapida_odeme')) {
+            $messages[] = 'Kapýda ödeme seçeneði';
+        }
+
+        return $messages;
+    }
     /** @return array<int, array<string, string>> */
     public function paymentMethods(string $context = PaymentMethodSettings::CONTEXT_CHECKOUT): array
     {
