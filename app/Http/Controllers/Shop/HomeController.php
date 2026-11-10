@@ -39,7 +39,7 @@ class HomeController extends Controller
             ]),
             'homeH1' => config('seo.homepage.h1', \App\Support\SiteName::get()),
             'canonical' => route('home'),
-            'jsonLd' => [Seo::organization(), Seo::webSite(), Seo::onlineStore()],
+            'jsonLd' => [Seo::organization(), Seo::webSite()],
         ]);
     }
 

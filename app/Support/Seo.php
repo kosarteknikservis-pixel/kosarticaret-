@@ -475,7 +475,7 @@ class Seo
 
             '@context' => 'https://schema.org',
 
-            '@type' => 'Organization',
+            '@type' => ['Organization', 'OnlineStore'],
 
             '@id' => self::siteUrl().'/#organization',
 
@@ -488,6 +488,12 @@ class Seo
             'logo' => SiteLogo::url() ?? self::absolute('/storage/logo.png'),
 
             'description' => SiteSetting::get('site_description', config('kosar.description')),
+
+            'priceRange' => '₺₺',
+
+            'currenciesAccepted' => 'TRY',
+
+            'paymentAccepted' => 'Credit Card, Bank Transfer, Cash',
 
             'contactPoint' => [
 
