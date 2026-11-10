@@ -27,6 +27,7 @@ class PublicPageCache
         'analitik',
         'favoriler',
         'siparis',
+        'siparis-onay',
         'urun',
         'blog',
         'destek-asistani',

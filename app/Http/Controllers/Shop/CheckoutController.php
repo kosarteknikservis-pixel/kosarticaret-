@@ -159,9 +159,18 @@ class CheckoutController extends Controller
     {
         $model = Order::query()->where('order_number', $order)->with('items')->firstOrFail();
 
+        $key = 'purchase_tracked';
+        $tracked = (array) session($key, []);
+        $alreadyTracked = in_array($model->order_number, $tracked, true);
+        if (! $alreadyTracked) {
+            $tracked[] = $model->order_number;
+            session([$key => array_slice($tracked, -20)]);
+        }
+
         return view('shop.checkout.success', [
             'menuCategories' => Category::menu()->get(),
             'order' => $model,
+            'trackPurchase' => ! $alreadyTracked,
             'metaTitle' => 'Sipariş onayı',
             ...Seo::noIndexMeta(),
         ]);
