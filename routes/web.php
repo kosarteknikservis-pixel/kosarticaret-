@@ -23,7 +23,6 @@ use App\Http\Controllers\Admin\NavigationController as AdminNavigationController
 use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use App\Http\Controllers\Admin\ParasutIntegrationController as AdminParasutIntegrationController;
 use App\Http\Controllers\Admin\BulkProductUpdateController;
-use App\Http\Controllers\Admin\QuickPriceController;
 use App\Http\Controllers\Admin\CarrierIntegrationController;
 use App\Http\Controllers\Admin\TelegramIntegrationController;
 use App\Http\Controllers\Admin\OrderShipmentController;
@@ -285,17 +284,15 @@ Route::prefix('yonetim')->name('admin.')->group(function () {
         Route::get('profil', [AdminProfileController::class, 'edit'])->name('profile.edit');
         Route::put('profil', [AdminProfileController::class, 'update'])->name('profile.update');
         Route::get('urunler/disa-aktar', [AdminProductController::class, 'export'])->name('products.export');
-        Route::get('urunler/hizli-fiyat', [QuickPriceController::class, 'index'])->name('products.quick-price');
-        Route::patch('urunler/hizli-fiyat/{product}', [QuickPriceController::class, 'update'])->name('products.quick-price.update');
-        Route::get('urunler/toplu-guncelle', [BulkProductUpdateController::class, 'index'])->name('products.bulk-update');
-        Route::post('urunler/toplu-guncelle/onizle', [BulkProductUpdateController::class, 'preview'])->name('products.bulk-update.preview');
-        Route::post('urunler/toplu-guncelle', [BulkProductUpdateController::class, 'apply'])->name('products.bulk-update.apply');
-        Route::post('urunler/toplu-guncelle/csv', [BulkProductUpdateController::class, 'applyCsv'])->name('products.bulk-update.csv');
         Route::resource('urunler', AdminProductController::class)
             ->except(['show'])
             ->parameters(['urunler' => 'product'])
             ->names('products');
         Route::delete('urunler/{product}/galeri/{image}', [AdminProductController::class, 'destroyImage'])->name('products.gallery.destroy');
+        Route::get('urunler/toplu-guncelle', [BulkProductUpdateController::class, 'index'])->name('products.bulk-update');
+        Route::post('urunler/toplu-guncelle/onizle', [BulkProductUpdateController::class, 'preview'])->name('products.bulk-update.preview');
+        Route::post('urunler/toplu-guncelle', [BulkProductUpdateController::class, 'apply'])->name('products.bulk-update.apply');
+        Route::post('urunler/toplu-guncelle/csv', [BulkProductUpdateController::class, 'applyCsv'])->name('products.bulk-update.csv');
         Route::resource('menu', AdminNavigationController::class)->except(['show'])->parameters(['menu' => 'navigation']);
         Route::get('yorumlar', [AdminReviewController::class, 'index'])->name('reviews.index');
         Route::patch('yorumlar/{review}/onayla', [AdminReviewController::class, 'approve'])->name('reviews.approve');
