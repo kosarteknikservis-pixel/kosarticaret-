@@ -59,6 +59,7 @@
         @include('shop.partials.catalog-active-filters', ['brands' => $brands])
         @include('shop.partials.catalog-toolbar', ['products' => $products])
 
+        <h2 class="sr-only">Ürünler</h2>
         <div class="shop-catalog-products shop-reveal-group">
             @if($groups !== null)
                 @php $cardIndex = 0; @endphp

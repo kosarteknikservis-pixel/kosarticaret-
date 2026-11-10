@@ -32,7 +32,7 @@
                         'url' => $url,
                         'thumb' => $img->url('product-thumb'),
                         'srcset' => $img->srcset(),
-                        'alt' => $img->alt ?? $product->name,
+                        'alt' => filled($img->alt) ? $img->alt : $product->imageAltText().' – görsel '.($thumbs->count() + 1),
                         'width' => $pdpDims['w'],
                         'height' => $pdpDims['h'],
                     ]);
