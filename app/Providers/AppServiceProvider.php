@@ -97,9 +97,9 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('layouts.shop', function ($view) {
             $view->with([
-                'menuCategories' => Cache::remember('layout.menu_categories', 3600, fn () => Category::forStorefrontMenu()->get()),
-                'headerNavItems' => Cache::remember('layout.nav.header', 3600, fn () => NavigationItem::active('header')->get()),
-                'footerNavItems' => Cache::remember('layout.nav.footer', 3600, fn () => NavigationItem::active('footer')->get()),
+                'menuCategories' => Category::forStorefrontMenu()->get(),
+                'headerNavItems' => NavigationItem::active('header')->get(),
+                'footerNavItems' => NavigationItem::active('footer')->get(),
                 'cartCount' => app(CartService::class)->count(),
                 'favoriteCount' => app(FavoriteService::class)->count(),
             ]);
