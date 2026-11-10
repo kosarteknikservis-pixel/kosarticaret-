@@ -16,9 +16,11 @@ class SiteSetting extends Model
             return (string) $preview[$key];
         }
 
-        return Cache::remember("setting.{$key}", 300, function () use ($key, $default) {
-            return static::query()->where('key', $key)->value('value') ?? $default;
+        $value = Cache::remember("setting.{$key}", 300, function () use ($key) {
+            return static::query()->where('key', $key)->value('value');
         });
+
+        return $value ?? $default;
     }
 
     public static function set(string $key, ?string $value): void
