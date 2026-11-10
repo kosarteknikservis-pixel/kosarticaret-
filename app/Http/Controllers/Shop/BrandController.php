@@ -34,6 +34,10 @@ class BrandController extends Controller
 
     public function show(Request $request, Brand $brand): View|RedirectResponse
     {
+        if (! $brand->active) {
+            return redirect()->route('brands.index', [], 301);
+        }
+
         if ($redirect = CatalogPaginationSeo::redirectLegacyPageParam($request)) {
             return $redirect;
         }

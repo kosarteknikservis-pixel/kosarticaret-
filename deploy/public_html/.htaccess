@@ -46,6 +46,9 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+    RewriteCond %{THE_REQUEST} \s/+index\.php[/?\s] [NC]
+    RewriteRule ^index\.php(?:/(.*))?$ /$1 [R=301,L]
+
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
