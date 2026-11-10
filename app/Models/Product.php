@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\ClearsPublicPageCache;
 use App\Concerns\HasTranslations;
+use App\Concerns\RecordsSlugRedirects;
 use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
-    use ClearsPublicPageCache, HasTranslations;
+    use ClearsPublicPageCache, HasTranslations, RecordsSlugRedirects;
 
     protected array $translatable = [
         'name', 'short_description', 'description', 'meta_title', 'meta_description',
@@ -137,6 +138,11 @@ class Product extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function storefrontPathForSlug(string $slug): string
+    {
+        return '/urun/'.$slug;
     }
 
     public function inStock(): bool

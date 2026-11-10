@@ -77,4 +77,28 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
+
+        $exceptions->render(function (
+            \Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e,
+            Request $request
+        ) {
+            if (! in_array($request->method(), ['GET', 'HEAD'], true)) {
+                return null;
+            }
+
+            $path = '/'.trim($request->path(), '/');
+            $to = rescue(
+                fn () => \App\Models\SlugRedirect::query()->where('from_path', $path)->value('to_path'),
+                null,
+                false,
+            );
+
+            if (! $to) {
+                return null;
+            }
+
+            $query = $request->getQueryString();
+
+            return redirect()->to(url($to).($query ? '?'.$query : ''), 301);
+        });
     })->create();

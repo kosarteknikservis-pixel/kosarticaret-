@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\ClearsPublicPageCache;
 use App\Concerns\HasTranslations;
+use App\Concerns\RecordsSlugRedirects;
 use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    use ClearsPublicPageCache, HasTranslations;
+    use ClearsPublicPageCache, HasTranslations, RecordsSlugRedirects;
 
     protected array $translatable = ['name', 'description', 'meta_title', 'meta_description'];
 
@@ -87,6 +88,23 @@ class Category extends Model
     public function storefrontUrl(): string
     {
         return route('categories.show', ['category' => $this->nestedSlugPath()]);
+    }
+
+    public function storefrontPathForSlug(string $slug): string
+    {
+        if ($this->parent_id === null) {
+            return '/kategoriler/'.$slug;
+        }
+
+        $parent = $this->relationLoaded('parent') && $this->parent
+            ? $this->parent
+            : static::query()->find($this->parent_id);
+
+        if ($parent === null) {
+            return '/kategoriler/'.$slug;
+        }
+
+        return '/kategoriler/'.$parent->nestedSlugPath().'/'.$slug;
     }
 
     /**

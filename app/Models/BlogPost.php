@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\ClearsPublicPageCache;
 use App\Concerns\HasTranslations;
+use App\Concerns\RecordsSlugRedirects;
 use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,7 @@ class BlogPost extends Model
 {
     use ClearsPublicPageCache;
     use HasTranslations;
+    use RecordsSlugRedirects;
 
     protected array $translatable = ['title', 'excerpt', 'content', 'meta_title', 'meta_description'];
 
@@ -33,6 +35,11 @@ class BlogPost extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function storefrontPathForSlug(string $slug): string
+    {
+        return '/blog/'.$slug;
     }
 
     public function scopePublished($query)

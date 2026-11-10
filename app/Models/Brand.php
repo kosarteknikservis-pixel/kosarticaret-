@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Concerns\HasTranslations;
+use App\Concerns\RecordsSlugRedirects;
 use App\Support\PublicAssetUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Brand extends Model
 {
-    use HasTranslations;
+    use HasTranslations, RecordsSlugRedirects;
 
     protected array $translatable = ['name', 'description', 'meta_title', 'meta_description'];
 
@@ -37,6 +38,11 @@ class Brand extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function storefrontPathForSlug(string $slug): string
+    {
+        return '/marka/'.$slug;
     }
 
     public function logoUrl(?string $variant = null): ?string
