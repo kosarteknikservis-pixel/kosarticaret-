@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Support\Seo;
 use App\Services\AnalyticsTracker;
+use App\Support\MailSettings;
+use App\Support\Seo;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -102,17 +104,16 @@ class CustomerAuthController extends Controller
         $request->validate(['email' => ['required', 'email']]);
 
         $user = User::query()->where('email', $request->input('email'))->first();
-        if (! $user || $user->isAdmin()) {
-            return back()->withErrors(['email' => 'Bu e-posta ile kayıtlı müşteri hesabı bulunamadı.'])->onlyInput('email');
+        if ($user && ! $user->isAdmin()) {
+            try {
+                MailSettings::apply();
+                Password::broker()->sendResetLink($request->only('email'));
+            } catch (\Throwable $e) {
+                Log::error('Şifre sıfırlama e-postası gönderilemedi', ['error' => $e->getMessage()]);
+            }
         }
 
-        $status = Password::broker()->sendResetLink(
-            $request->only('email')
-        );
-
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('success', 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.')
-            : back()->withErrors(['email' => 'Şifre sıfırlama bağlantısı gönderilemedi. SMTP ayarlarını kontrol edin.'])->onlyInput('email');
+        return back()->with('success', 'Bu e-posta kayıtlıysa şifre sıfırlama bağlantısı gönderildi.');
     }
 
     public function showResetPassword(Request $request, string $token): View
