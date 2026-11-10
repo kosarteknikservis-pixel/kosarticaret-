@@ -15,9 +15,12 @@ class ProductReviewService
             ->selectRaw('AVG(rating) as avg_rating, COUNT(*) as total')
             ->first();
 
+        $count = (int) ($stats->total ?? 0);
+        $rating = $count > 0 ? round((float) ($stats->avg_rating ?? 0), 1) : 0;
+
         $product->update([
-            'rating' => round((float) ($stats->avg_rating ?? 0), 1) ?: 4,
-            'review_count' => (int) ($stats->total ?? 0),
+            'rating' => $rating,
+            'review_count' => $count,
         ]);
     }
 }
