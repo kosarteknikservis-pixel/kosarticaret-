@@ -1167,7 +1167,7 @@ class Seo
 
     public static function merchantReturnDays(): int
     {
-        return 14;
+        return max(14, (int) (SiteSetting::get('return_days') ?: 14));
     }
 
     /** @return array<string, mixed> */
@@ -1220,13 +1220,13 @@ class Seo
                 'handlingTime' => [
                     '@type' => 'QuantitativeValue',
                     'minValue' => 1,
-                    'maxValue' => 2,
+                    'maxValue' => (int) (SiteSetting::get('shipping_handling_max_days') ?: 2),
                     'unitCode' => 'DAY',
                 ],
                 'transitTime' => [
                     '@type' => 'QuantitativeValue',
                     'minValue' => 1,
-                    'maxValue' => 3,
+                    'maxValue' => (int) (SiteSetting::get('shipping_transit_max_days') ?: 3),
                     'unitCode' => 'DAY',
                 ],
             ],

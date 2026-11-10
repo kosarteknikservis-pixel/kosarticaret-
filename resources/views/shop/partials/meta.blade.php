@@ -65,7 +65,7 @@
 
 <meta property="og:type" content="{{ $ogType }}">
 
-<meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale() === 'tr' ? 'tr_TR' : app()->getLocale()) }}">
+<meta property="og:locale" content="{{ app()->getLocale() === 'tr' ? 'tr_TR' : str_replace('-', '_', app()->getLocale()) }}">
 
 <meta property="og:site_name" content="{{ \App\Support\SiteName::get() }}">
 
