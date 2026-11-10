@@ -152,10 +152,10 @@ function kosarApplyCsrfToken(token) {
                 return;
             }
             drawerBody.innerHTML = data.lines.map((line) => `
-                <div class="flex gap-3 py-4 border-b border-slate-100 last:border-0" data-drawer-line data-slug="${line.slug}">
-                    ${line.image ? `<img src="${line.image}" alt="${escapeHtml(line.image_alt || line.name)}" class="w-14 h-14 object-cover rounded-lg shrink-0">` : '<div class="w-14 h-14 bg-slate-100 rounded-lg shrink-0"></div>'}
+                <div class="flex gap-3 py-4 border-b border-slate-100 last:border-0" data-drawer-line data-slug="${escapeHtml(line.slug)}">
+                    ${line.image ? `<img src="${escapeHtml(line.image)}" alt="${escapeHtml(line.image_alt || line.name)}" class="w-14 h-14 object-cover rounded-lg shrink-0">` : '<div class="w-14 h-14 bg-slate-100 rounded-lg shrink-0"></div>'}
                     <div class="flex-1 min-w-0">
-                        <a href="${line.url}" class="font-semibold text-sm text-slate-900 line-clamp-2 hover:text-brand-700">${line.name}</a>
+                        <a href="${escapeHtml(line.url)}" class="font-semibold text-sm text-slate-900 line-clamp-2 hover:text-brand-700">${escapeHtml(line.name)}</a>
                         <p class="text-xs text-brand-700 font-medium mt-0.5">${Number(line.price).toLocaleString('tr-TR')} ₺</p>
                         <div class="mt-2 flex items-center gap-2">
                             <button type="button" data-drawer-qty-minus class="w-7 h-7 rounded-lg border text-sm font-bold hover:bg-slate-50">−</button>
