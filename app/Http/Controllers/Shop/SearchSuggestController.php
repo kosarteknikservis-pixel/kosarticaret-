@@ -19,11 +19,14 @@ class SearchSuggestController extends Controller
             return response()->json(['ok' => true, 'results' => []]);
         }
 
+        $escaped = str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $q);
+        $like = '%'.$escaped.'%';
+
         $products = \App\Services\CatalogQuery::products()
             ->where('stock', '>', 0)
-            ->where(function ($b) use ($q) {
-                $b->where('name', 'like', "%{$q}%")
-                    ->orWhere('sku', 'like', "%{$q}%");
+            ->where(function ($b) use ($like) {
+                $b->whereRaw("name LIKE ? ESCAPE '!'", [$like])
+                    ->orWhereRaw("sku LIKE ? ESCAPE '!'", [$like]);
             })
             ->with('brand')
             ->orderByDesc('featured')
@@ -41,7 +44,7 @@ class SearchSuggestController extends Controller
 
         $categories = Category::query()
             ->where('active', true)
-            ->where('name', 'like', "%{$q}%")
+            ->whereRaw("name LIKE ? ESCAPE '!'", [$like])
             ->orderBy('sort_order')
             ->limit(3)
             ->get()
@@ -54,7 +57,7 @@ class SearchSuggestController extends Controller
 
         $brands = Brand::query()
             ->where('active', true)
-            ->where('name', 'like', "%{$q}%")
+            ->whereRaw("name LIKE ? ESCAPE '!'", [$like])
             ->limit(2)
             ->get()
             ->map(fn (Brand $b) => [
