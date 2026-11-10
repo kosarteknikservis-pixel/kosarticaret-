@@ -133,13 +133,12 @@ class StoreConfig
         return PaymentMethodSettings::enabledIds($context);
     }
 
-
     public function paymentEnabled(string $id, string $context = PaymentMethodSettings::CONTEXT_CHECKOUT): bool
     {
         return in_array($id, $this->enabledPaymentIds($context), true);
     }
 
-    /** Ürün / sepet rozeti: Kapıda ödeme (+ücret). Kapalıysa null. */
+    /** ÃœrÃ¼n / sepet rozeti: KapÄ±da Ã¶deme (+Ã¼cret). KapalÄ±ysa null. */
     public function codStorefrontBadge(): ?string
     {
         if (! $this->paymentEnabled('kapida_odeme')) {
@@ -148,14 +147,14 @@ class StoreConfig
 
         $fee = $this->codFee();
         if ($fee > 0) {
-            return 'Kapıda ödeme · +'.number_format($fee, 2, ',', '.').' TL';
+            return 'KapÄ±da Ã¶deme Â· +'.number_format($fee, 2, ',', '.').' TL';
         }
 
-        return 'Kapıda ödeme';
+        return 'KapÄ±da Ã¶deme';
     }
 
     /**
-     * Üst promo şeridinde dönen mesajlar.
+     * Ãœst promo ÅŸeridinde dÃ¶nen mesajlar.
      *
      * @return list<string>
      */
@@ -165,15 +164,16 @@ class StoreConfig
 
         $freeMin = $this->freeShippingMin();
         if ($freeMin > 0) {
-            $messages[] = number_format($freeMin, 0, ',', '.').' TL üzeri kargo bedava';
+            $messages[] = number_format($freeMin, 0, ',', '.').' TL Ã¼zeri kargo bedava';
         }
 
         if ($this->paymentEnabled('kapida_odeme')) {
-            $messages[] = 'Kapıda ödeme seçeneği';
+            $messages[] = 'KapÄ±da Ã¶deme seÃ§eneÄŸi';
         }
 
         return $messages;
     }
+
     /** @return array<int, array<string, string>> */
     public function paymentMethods(string $context = PaymentMethodSettings::CONTEXT_CHECKOUT): array
     {
