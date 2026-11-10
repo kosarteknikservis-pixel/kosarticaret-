@@ -715,17 +715,13 @@ final class ThemeSettings
         $css = trim((string) $css);
         $css = mb_substr($css, 0, self::CUSTOM_CSS_MAX_LENGTH);
 
-        $blocked = [
-            '#</?\s*style[^>]*>#i',
-            '#</?\s*script[^>]*>#i',
-            '#@import\b[^;]*;?#i',
-            '#expression\s*\([^)]*\)#i',
-            '#javascript\s*:#i',
-            '#behavior\s*:#i',
-            '#-moz-binding\s*:#i',
-        ];
+        foreach (['<', '@import', 'expression(', 'javascript:', 'vbscript:', 'behavior:', '-moz-binding'] as $needle) {
+            if (mb_stripos($css, $needle) !== false) {
+                return '';
+            }
+        }
 
-        return trim(preg_replace($blocked, '', $css) ?? '');
+        return $css;
     }
 
     /** @return array<string, string> */
