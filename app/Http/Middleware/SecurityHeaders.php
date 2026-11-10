@@ -21,6 +21,14 @@ class SecurityHeaders
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         }
 
+        $contentType = (string) $response->headers->get('Content-Type', '');
+        if ($contentType === '' || str_contains($contentType, 'text/html')) {
+            $response->headers->set(
+                'Content-Security-Policy-Report-Only',
+                "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.paytr.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.paytr.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://www.google-analytics.com https://connect.facebook.net; frame-src https://www.googletagmanager.com https://www.paytr.com; base-uri 'self'; form-action 'self' https://www.paytr.com; object-src 'none'"
+            );
+        }
+
         return $response;
     }
 }
