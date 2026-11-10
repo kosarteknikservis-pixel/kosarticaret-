@@ -819,9 +819,36 @@ function kosarApplyCsrfToken(token) {
         setRating(input.value || 5);
     });
 
+    function submitCleanGet(form) {
+        const params = new URLSearchParams();
+        for (const [key, value] of new FormData(form)) {
+            if (typeof value === 'string' && value.trim() !== '') {
+                params.append(key, value);
+            }
+        }
+        const base = form.getAttribute('action') || window.location.pathname;
+        const qs = params.toString();
+        window.location.assign(qs ? base + '?' + qs : base);
+    }
+
+    document.querySelectorAll('form[data-clean-get]').forEach((form) => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            submitCleanGet(form);
+        });
+    });
+
     /* Catalog sort auto-submit */
     document.querySelectorAll('[data-auto-submit]').forEach((el) => {
-        el.addEventListener('change', () => el.closest('form')?.submit());
+        el.addEventListener('change', () => {
+            const form = el.closest('form');
+            if (!form) return;
+            if (form.hasAttribute('data-clean-get')) {
+                submitCleanGet(form);
+            } else {
+                form.submit();
+            }
+        });
     });
 
     /* Filter drawer (mobile) */

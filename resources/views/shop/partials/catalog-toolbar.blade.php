@@ -23,7 +23,7 @@
             <x-shop.icon name="grid" class="w-4 h-4" />
             {{ __('shop.filters') }}
         </button>
-        <form method="get" id="catalog-sort-form" class="shop-catalog-sort">
+        <form method="get" id="catalog-sort-form" class="shop-catalog-sort" data-clean-get>
             @foreach(request()->except(['siralama', 'page']) as $key => $value)
                 @if(is_array($value))
                     @foreach($value as $v)

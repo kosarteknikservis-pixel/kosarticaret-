@@ -6,7 +6,7 @@
         || request()->filled('siralama');
 @endphp
 
-<form method="get" action="{{ request()->url() }}" class="shop-filter-panel">
+<form method="get" action="{{ request()->url() }}" class="shop-filter-panel" data-clean-get>
     @foreach(request()->except(['marka', 'min', 'max', 'stokta', 'siralama', 'page']) as $key => $value)
         @if(is_array($value))
             @foreach($value as $v)
