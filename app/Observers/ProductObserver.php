@@ -11,6 +11,8 @@ class ProductObserver
 {
     private static ?bool $collectionsReady = null;
 
+    private static ?bool $contentUpdatedAtReady = null;
+
     /** @var list<string> */
     private const INDEX_FIELDS = [
         'slug',
@@ -36,6 +38,14 @@ class ProductObserver
             || $product->wasChanged(self::INDEX_FIELDS);
 
         if ($requiresSitemapRefresh) {
+            // wasRecentlyCreated aynı instance'ta sonraki update'lerde de true kalır;
+            // content_updated_at yalnız gerçek INDEX_FIELDS değişiminde veya ilk kayıtta yazılır.
+            if (self::contentUpdatedAtReady()
+                && ($product->wasChanged(self::INDEX_FIELDS) || $product->content_updated_at === null)
+            ) {
+                $product->content_updated_at = now();
+                $product->saveQuietly();
+            }
             $this->indexing->clearSitemapCache();
         }
 
@@ -50,6 +60,16 @@ class ProductObserver
         $this->indexing->submit([
             route('products.show', $product, absolute: true),
         ]);
+    }
+
+    private static function contentUpdatedAtReady(): bool
+    {
+        if (self::$contentUpdatedAtReady === true) {
+            return true;
+        }
+
+        // false cache'lenmez: migrate sırasında kolon sonradan eklenebilir
+        return self::$contentUpdatedAtReady = Schema::hasColumn('products', 'content_updated_at');
     }
 
     private function syncCollections(Product $product): void

@@ -23,14 +23,14 @@ class SitemapGenerator
     public static function staticUrls(): array
     {
         $homeLastmod = self::latestAtom([
-            Product::query()->active()->max('updated_at'),
+            Product::query()->active()->selectRaw('MAX(COALESCE(content_updated_at, updated_at)) as m')->value('m'),
             BlogPost::published()->max('updated_at'),
             Category::query()->where('active', true)->max('updated_at'),
         ]);
 
         $urls = [
             ['loc' => route('home'), 'priority' => '1.0', 'lastmod' => $homeLastmod],
-            ['loc' => route('products.index'), 'priority' => '0.9', 'lastmod' => self::atom(Product::query()->active()->max('updated_at'))],
+            ['loc' => route('products.index'), 'priority' => '0.9', 'lastmod' => self::atom(Product::query()->active()->selectRaw('MAX(COALESCE(content_updated_at, updated_at)) as m')->value('m'))],
             ['loc' => route('categories.index'), 'priority' => '0.8', 'lastmod' => self::atom(Category::query()->where('active', true)->max('updated_at'))],
             ['loc' => route('brands.index'), 'priority' => '0.8', 'lastmod' => self::atom(Brand::query()->where('active', true)->max('updated_at'))],
             ['loc' => route('blog.index'), 'priority' => '0.7', 'lastmod' => self::atom(BlogPost::published()->max('updated_at'))],
@@ -60,13 +60,13 @@ class SitemapGenerator
     /** @return list<array{loc: string, lastmod?: string}> */
     public static function indexEntries(): array
     {
-        $productLastmod = self::atom(Product::query()->active()->max('updated_at'));
+        $productLastmod = self::atom(Product::query()->active()->selectRaw('MAX(COALESCE(content_updated_at, updated_at)) as m')->value('m'));
 
         $entries = [
             [
                 'loc' => route('sitemap.chunk', ['chunk' => 'static']),
                 'lastmod' => self::latestAtom([
-                    Product::query()->active()->max('updated_at'),
+                    Product::query()->active()->selectRaw('MAX(COALESCE(content_updated_at, updated_at)) as m')->value('m'),
                     BlogPost::published()->max('updated_at'),
                     Page::query()->where('published', true)->max('updated_at'),
                 ]),
@@ -170,14 +170,14 @@ class SitemapGenerator
         Product::query()
             ->active()
             ->catalogListed()
-            ->select('slug', 'updated_at')
+            ->select('slug', 'updated_at', 'content_updated_at')
             ->orderBy('id')
             ->skip($offset)
             ->take(self::CHUNK_SIZE)
             ->each(function (Product $product) use ($urls): void {
                 $urls->push([
                     'loc' => route('products.show', $product),
-                    'lastmod' => $product->updated_at->toAtomString(),
+                    'lastmod' => ($product->content_updated_at ?? $product->updated_at)->toAtomString(),
                     'priority' => '0.8',
                 ]);
             });

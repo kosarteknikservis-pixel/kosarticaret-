@@ -46,6 +46,7 @@ class Product extends Model
             'depth_cm' => 'decimal:2',
             'vat_rate' => 'decimal:2',
             'translations' => 'array',
+            'content_updated_at' => 'datetime',
         ];
     }
 
