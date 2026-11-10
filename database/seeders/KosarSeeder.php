@@ -20,25 +20,25 @@ class KosarSeeder extends Seeder
         $admin = User::query()->where('email', 'admin@kosar.com.tr')->first();
 
         if ($password !== '') {
-            User::query()->updateOrCreate(
+            $admin = User::query()->updateOrCreate(
                 ['email' => 'admin@kosar.com.tr'],
                 [
                     'name' => 'Kosar Admin',
                     'password' => Hash::make($password),
-                    'is_admin' => true,
                 ],
             );
+            $admin->forceFill(['is_admin' => true])->save();
         } elseif ($admin) {
             if (! $admin->is_admin) {
                 $admin->forceFill(['is_admin' => true])->save();
             }
         } elseif (app()->environment(['local', 'testing'])) {
-            User::query()->create([
+            $admin = User::query()->create([
                 'email' => 'admin@kosar.com.tr',
                 'name' => 'Kosar Admin',
                 'password' => Hash::make(Str::random(32)),
-                'is_admin' => true,
             ]);
+            $admin->forceFill(['is_admin' => true])->save();
             $this->command?->warn('ADMIN_PASSWORD tanımlı değil; admin rastgele şifreyle oluşturuldu.');
         } else {
             throw new RuntimeException('ADMIN_PASSWORD .env içinde tanımlı değil.');

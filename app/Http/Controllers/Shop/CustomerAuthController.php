@@ -68,7 +68,6 @@ class CustomerAuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'is_admin' => false,
         ]);
 
         event(new \Illuminate\Auth\Events\Registered($user));
