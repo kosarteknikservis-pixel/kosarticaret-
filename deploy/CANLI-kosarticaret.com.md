@@ -41,6 +41,8 @@ Hangisi **“OK”** yazarsa, canlı site kökü odur; `index.php` ve `.htaccess
 `domains/kosarticaret.com/kosar/public`  
 → `kosar/public/index.php` (standart Laravel) + `.env` yeterli.
 
+Teşhis bittikten sonra test-kurulum.php'yi sunucudan hemen silin; dosya sunucu dizin yolunu herkese gösterir.
+
 ### LiteSpeed 404 (“Proudly powered by LiteSpeed”) — hâlâ aynıysa
 
 Sunucu **`public_html`** okuyor; Laravel çalışmıyor. **B planı** (5 dk):

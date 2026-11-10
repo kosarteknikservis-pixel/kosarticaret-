@@ -86,6 +86,8 @@ DB_CONNECTION=mysql
 2. `https://kosarticaret.com`  
 3. `https://kosarticaret.com/yonetim/giris`
 
+Teşhis bittikten sonra test-kurulum.php'yi sunucudan hemen silin; dosya sunucu dizin yolunu herkese gösterir.
+
 ---
 
 ## kosarservis index.php muhtemelen böyle

@@ -29,6 +29,11 @@ class SecurityHeaders
             );
         }
 
+        $liveHost = in_array(strtolower($request->getHost()), ['kosarticaret.com', 'www.kosarticaret.com'], true);
+        if (! app()->environment('production') && ! $liveHost && ! $response->headers->has('X-Robots-Tag')) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         return $response;
     }
 }
