@@ -101,8 +101,16 @@
     <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/plus-jakarta-sans-latin-ext-wght.woff2') }}" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/plus-jakarta-sans-latin-wght.woff2') }}" crossorigin>
     @vite(['resources/css/app.css'])
-    @php $shopCssVer = @filemtime(public_path('css/shop.css')) ?: time(); @endphp
-    <link rel="stylesheet" href="{{ asset('css/shop.css') }}?v={{ $shopCssVer }}">
+    @php
+        $shopCssFull = public_path('css/shop.css');
+        $shopCssMin = public_path('css/shop.min.css');
+        $shopCssPath = 'css/shop.css';
+        if (file_exists($shopCssMin) && file_exists($shopCssFull) && filemtime($shopCssMin) >= filemtime($shopCssFull)) {
+            $shopCssPath = 'css/shop.min.css';
+        }
+        $shopCssVer = @filemtime(public_path($shopCssPath)) ?: time();
+    @endphp
+    <link rel="stylesheet" href="{{ asset($shopCssPath) }}?v={{ $shopCssVer }}">
     <noscript><style>.shop-reveal,.shop-reveal-group>*{opacity:1!important;transform:none!important}</style></noscript>
     @if($themeCustomCss !== '')
         <style id="theme-custom-css">{!! $themeCustomCss !!}</style>
@@ -128,13 +136,12 @@
         height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
     @endif
-    @php $promo = \App\Models\SiteSetting::get('promo_text', config('kosar.defaults.promo_text')); @endphp
     @if(session('preview_settings'))
         <div class="bg-amber-500 text-amber-950 text-center text-xs py-2 px-4 font-medium">{{ __('shop.preview_banner') }}
             <form method="post" action="{{ route('admin.preview.stop') }}" class="inline ml-2">@csrf<button type="submit" class="underline">Kapat</button></form>
         </div>
-    @elseif($promo)
-        <div class="shop-promo-bar" role="region" aria-label="Kampanya">{{ $promo }}</div>
+    @else
+        @include('shop.partials.promo-ticker')
     @endif
 
     @include('shop.partials.header')
