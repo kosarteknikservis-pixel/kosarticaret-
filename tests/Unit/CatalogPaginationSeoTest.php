@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Support\CatalogPaginationSeo;
+use App\Support\Seo;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 
@@ -19,14 +20,14 @@ class CatalogPaginationSeoTest extends TestCase
     {
         $request = Request::create('/urunler', 'GET');
 
-        $this->assertSame('index, follow', CatalogPaginationSeo::robots($request));
+        $this->assertSame(Seo::ROBOTS_INDEX, CatalogPaginationSeo::robots($request));
     }
 
     public function test_second_page_is_indexable(): void
     {
         $request = Request::create('/urunler', 'GET');
 
-        $this->assertSame('index, follow', CatalogPaginationSeo::robots($request, 2));
+        $this->assertSame(Seo::ROBOTS_INDEX, CatalogPaginationSeo::robots($request, 2));
     }
 
     public function test_paginated_pages_are_self_canonical_without_filters(): void

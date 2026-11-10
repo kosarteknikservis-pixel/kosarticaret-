@@ -26,7 +26,7 @@ class Seo
 
 {
 
-    public const ROBOTS_INDEX = 'index, follow';
+    public const ROBOTS_INDEX = 'index, follow, max-image-preview:large, max-snippet:-1';
 
     public const ROBOTS_NOINDEX = 'noindex, follow';
 
