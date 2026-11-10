@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BlogPost;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Collection;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\SiteSetting;
@@ -170,6 +171,7 @@ class SeoController extends Controller
         return view('shop.seo.html-sitemap', [
             'categoryTree' => $categoryTree,
             'brands' => Brand::query()->where('active', true)->orderBy('sort_order')->orderBy('name')->get(['slug', 'name']),
+            'collections' => Collection::query()->where('status', Collection::STATUS_INDEX)->orderBy('name')->get(['slug', 'name']),
             'pages' => Page::query()->where('published', true)->orderBy('sort_order')->get(['slug', 'title']),
             'blogPosts' => BlogPost::published()->limit(40)->get(['slug', 'title']),
             'recentProducts' => Product::query()->active()->catalogListed()->latest('updated_at')->limit(80)->get(['slug', 'name']),

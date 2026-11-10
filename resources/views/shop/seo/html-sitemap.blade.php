@@ -36,6 +36,17 @@
                 </p>
             </section>
 
+            @if($collections->isNotEmpty())
+                <section>
+                    <h2 class="text-base font-semibold text-slate-900 mb-3">Koleksiyonlar</h2>
+                    <ul class="space-y-1.5 text-sm">
+                        @foreach($collections as $collection)
+                            <li><a href="{{ route('collections.show', $collection->slug) }}" class="text-slate-700 hover:underline">{{ $collection->name }}</a></li>
+                        @endforeach
+                    </ul>
+                </section>
+            @endif
+
             <section>
                 <h2 class="text-base font-semibold text-slate-900 mb-3">{{ __('shop.html_sitemap_pages') }}</h2>
                 <ul class="space-y-1.5 text-sm">
