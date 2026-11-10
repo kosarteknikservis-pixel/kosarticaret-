@@ -50,6 +50,16 @@ class PublicPageCache
             return false;
         }
 
+        $session = $request->hasSession() ? $request->session() : null;
+        if ($session && (
+            (array) $session->get('_flash.old', []) !== []
+            || (array) $session->get('_flash.new', []) !== []
+            || $session->has('errors')
+            || $session->has('_old_input')
+        )) {
+            return false;
+        }
+
         $cart = session('cart', []);
         if (is_array($cart) && array_sum($cart) > 0) {
             return false;
