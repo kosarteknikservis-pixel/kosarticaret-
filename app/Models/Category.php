@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Category extends Model
 {
@@ -65,10 +66,57 @@ class Category extends Model
     }
 
     /**
+     * @return array<int, string>
+     */
+    public static function slugPathMap(): array
+    {
+        return Cache::remember('category.slug_path_map', 3600, function (): array {
+            $byId = static::query()->select('id', 'slug', 'parent_id')->get()->keyBy('id');
+            $paths = [];
+            $resolve = function (int $id, array $stack) use (&$resolve, $byId, &$paths): string {
+                if (isset($paths[$id])) {
+                    return $paths[$id];
+                }
+
+                $node = $byId->get($id);
+                if ($node === null || isset($stack[$id]) || count($stack) > 20) {
+                    return '';
+                }
+
+                $stack[$id] = true;
+
+                if ($node->parent_id === null) {
+                    return $paths[$id] = (string) $node->slug;
+                }
+
+                $parent = $resolve((int) $node->parent_id, $stack);
+                if ($parent === '') {
+                    return '';
+                }
+
+                return $paths[$id] = $parent.'/'.$node->slug;
+            };
+
+            foreach ($byId->keys() as $id) {
+                $resolve((int) $id, []);
+            }
+
+            return $paths;
+        });
+    }
+
+    /**
      * Mağaza URL yolu: ust/alt (orn. su-pompalari/jet-pompa).
      */
     public function nestedSlugPath(): string
     {
+        if ($this->exists && ! $this->isDirty(['slug', 'parent_id'])) {
+            $map = static::slugPathMap();
+            if (isset($map[$this->id]) && $map[$this->id] !== '') {
+                return $map[$this->id];
+            }
+        }
+
         $segments = [];
         $node = $this;
 
