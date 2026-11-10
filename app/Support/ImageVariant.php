@@ -17,6 +17,7 @@ final class ImageVariant
         'site-logo' => ['w' => 420, 'h' => 120, 'mode' => 'contain-transparent', 'quality' => 82],
         'banner' => ['w' => 1440, 'h' => 520, 'mode' => 'max', 'quality' => 84],
         'blog-card' => ['w' => 960, 'h' => 540, 'mode' => 'cover', 'quality' => 82],
+        'blog-og' => ['w' => 1200, 'h' => 675, 'mode' => 'cover', 'quality' => 82],
     ];
 
     /** @var array<string, array{w:int,h:int,quality:int}> */
@@ -51,7 +52,7 @@ final class ImageVariant
             'brand' => ['brand-logo'],
             'site-logo' => ['site-logo'],
             'banner' => ['banner'],
-            'blog' => ['blog-card'],
+            'blog' => ['blog-card', 'blog-og'],
             default => [],
         };
     }

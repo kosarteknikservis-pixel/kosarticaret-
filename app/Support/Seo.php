@@ -1076,7 +1076,7 @@ class Seo
 
             'inLanguage' => 'tr-TR',
 
-            'image' => self::absoluteAssetUrl($post->imageUrl('blog-card') ?? $post->imageUrl()),
+            'image' => self::absoluteAssetUrl($post->imageUrl('blog-og') ?? $post->imageUrl('blog-card') ?? $post->imageUrl()),
 
             'articleBody' => RichContent::plainText($post->content),
 
