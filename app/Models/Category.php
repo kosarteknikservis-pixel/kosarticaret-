@@ -110,7 +110,7 @@ class Category extends Model
         return $chain;
     }
 
-    public static function resolveFromStorefrontPath(string $path): ?self
+    public static function resolveFromStorefrontPath(string $path, bool $activeOnly = true): ?self
     {
         $path = trim($path, '/');
         if ($path === '') {
@@ -122,8 +122,11 @@ class Category extends Model
 
         foreach (explode('/', $path) as $slug) {
             $query = static::query()
-                ->where('slug', $slug)
-                ->where('active', true);
+                ->where('slug', $slug);
+
+            if ($activeOnly) {
+                $query->where('active', true);
+            }
 
             if ($parentId === null) {
                 $query->whereNull('parent_id');

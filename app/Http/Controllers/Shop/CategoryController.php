@@ -36,6 +36,18 @@ class CategoryController extends Controller
 
     public function show(Request $request, Category $category): View|RedirectResponse
     {
+        if (! $category->active) {
+            $ancestor = collect($category->ancestorsAndSelf())->reverse()
+                ->skip(1)
+                ->first(fn (Category $c) => (bool) $c->active);
+
+            if ($ancestor === null) {
+                abort(404);
+            }
+
+            return redirect()->to($ancestor->storefrontUrl(), 301);
+        }
+
         $requestedPath = $this->requestedCategoryPath($request);
         $canonicalPath = $category->nestedSlugPath();
         if ($requestedPath !== '' && $requestedPath !== $canonicalPath) {

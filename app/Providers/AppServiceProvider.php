@@ -69,6 +69,16 @@ class AppServiceProvider extends ServiceProvider
             }
 
             if ($category === null) {
+                $category = Category::resolveFromStorefrontPath($value, activeOnly: false);
+            }
+
+            if ($category === null && ! str_contains($value, '/')) {
+                $category = Category::query()
+                    ->where('slug', $value)
+                    ->first();
+            }
+
+            if ($category === null) {
                 abort(404);
             }
 
