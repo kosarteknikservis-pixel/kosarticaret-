@@ -7,6 +7,15 @@ use Illuminate\Support\Collection;
 
 class CartService
 {
+    private ?Collection $productsCache = null;
+
+    private ?string $productsCacheSignature = null;
+
+    /** @var list<array{product: Product, quantity: int, line_total: float}>|null */
+    private ?array $linesCache = null;
+
+    private ?string $linesCacheSignature = null;
+
     /** @return array<int, int> */
     public function items(): array
     {
@@ -26,14 +35,22 @@ class CartService
     /** @return Collection<int, Product> */
     public function products(): Collection
     {
+        $signature = md5(json_encode($this->items()));
+        if ($this->productsCache !== null && $this->productsCacheSignature === $signature) {
+            return $this->productsCache;
+        }
+
         $ids = array_keys($this->items());
 
-        return Product::query()
+        $this->productsCache = Product::query()
             ->whereIn('id', $ids)
             ->active()
             ->where('price', '>', 0)
             ->get()
             ->keyBy('id');
+        $this->productsCacheSignature = $signature;
+
+        return $this->productsCache;
     }
 
     /** Satışta olmayan ürünleri oturum sepetinden siler; silinen satır sayısını döner. */
@@ -65,9 +82,15 @@ class CartService
      */
     public function lines(): array
     {
+        $signature = md5(json_encode($this->items()));
+        if ($this->linesCache !== null && $this->linesCacheSignature === $signature) {
+            return $this->linesCache;
+        }
+
         $lines = [];
+        $products = $this->products();
         foreach ($this->items() as $id => $qty) {
-            $product = $this->products()->get($id);
+            $product = $products->get($id);
             if (! $product) {
                 continue;
             }
@@ -78,7 +101,10 @@ class CartService
             ];
         }
 
-        return $lines;
+        $this->linesCache = $lines;
+        $this->linesCacheSignature = $signature;
+
+        return $this->linesCache;
     }
 
     public function subtotal(): float
@@ -100,6 +126,10 @@ class CartService
     {
         session()->forget('cart');
         session()->forget('coupon_code');
+        $this->productsCache = null;
+        $this->productsCacheSignature = null;
+        $this->linesCache = null;
+        $this->linesCacheSignature = null;
     }
 
     /**
