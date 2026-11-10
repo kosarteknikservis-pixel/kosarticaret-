@@ -688,18 +688,21 @@ class Seo
 
             'sku' => $product->sku ?: (string) $product->id,
 
-            'mpn' => $product->sku ?: (string) $product->id,
-
             'url' => $url,
 
             'itemCondition' => 'https://schema.org/NewCondition',
 
-            'offers' => self::productOffers($product, $url),
-
         ];
 
-        $schema['offers']['shippingDetails'] = self::offerShippingDetails($product);
-        $schema['offers']['hasMerchantReturnPolicy'] = self::merchantReturnPolicy();
+        if (filled($product->sku)) {
+            $schema['mpn'] = (string) $product->sku;
+        }
+
+        if ((float) $product->price > 0) {
+            $schema['offers'] = self::productOffers($product, $url);
+            $schema['offers']['shippingDetails'] = self::offerShippingDetails($product);
+            $schema['offers']['hasMerchantReturnPolicy'] = self::merchantReturnPolicy();
+        }
 
 
 
@@ -782,7 +785,7 @@ class Seo
             $schema['additionalProperty'] = $properties;
         }
 
-        if ($product->hasDiscount()) {
+        if ($product->hasDiscount() && isset($schema['offers'])) {
             $schema['offers']['priceSpecification'] = [
                 '@type' => 'UnitPriceSpecification',
                 'price' => number_format((float) $product->compare_at_price, 2, '.', ''),

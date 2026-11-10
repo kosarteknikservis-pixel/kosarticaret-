@@ -277,6 +277,7 @@ class SeoController extends Controller
 
         Product::query()
             ->active()
+            ->where('price', '>', 0)
             ->where('stock', '>', 0)
             ->whereNotNull('image')
             ->where('image', '!=', '')
