@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Storage;
 
 final class ImageVariant
 {
+    /** @var array<string, bool> */
+    private static array $existsCache = [];
+
     /** @var array<string, array{w:int,h:int,mode:string,quality:int}> */
     private const SPECS = [
         'product-card-sm' => ['w' => 320, 'h' => 320, 'mode' => 'contain', 'quality' => 80],
@@ -69,7 +72,7 @@ final class ImageVariant
 
         if ($variant !== null) {
             $variantPath = self::path($path, $variant);
-            if ($variantPath !== null && Storage::disk('public')->exists($variantPath)) {
+            if ($variantPath !== null && self::variantExists($variantPath)) {
                 return asset('storage/'.$variantPath);
             }
         }
@@ -86,7 +89,7 @@ final class ImageVariant
         $items = [];
         foreach ($variants as $variant => $width) {
             $variantPath = self::path($path, (string) $variant);
-            if ($variantPath !== null && Storage::disk('public')->exists($variantPath)) {
+            if ($variantPath !== null && self::variantExists($variantPath)) {
                 $items[] = asset('storage/'.$variantPath).' '.(int) $width.'w';
             }
         }
@@ -103,6 +106,13 @@ final class ImageVariant
         foreach ($variants as $variant) {
             self::generateOne((string) $path, (string) $variant);
         }
+
+        self::$existsCache = [];
+    }
+
+    private static function variantExists(string $path): bool
+    {
+        return self::$existsCache[$path] ??= Storage::disk('public')->exists($path);
     }
 
     public static function optimizeOriginal(?string $path, string $type): bool
