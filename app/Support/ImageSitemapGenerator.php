@@ -78,6 +78,10 @@ class ImageSitemapGenerator
 
         Category::query()
             ->where('active', true)
+            ->where(function ($query) {
+                $query->whereHas('activeChildren')
+                    ->orWhereHas('products', fn ($products) => $products->where('products.is_active', true));
+            })
             ->whereNotNull('image')
             ->where('image', '!=', '')
             ->select(['id', 'slug', 'name', 'image', 'parent_id', 'updated_at'])
@@ -124,6 +128,7 @@ class ImageSitemapGenerator
 
         Brand::query()
             ->where('active', true)
+            ->whereHas('products', fn ($q) => $q->where('is_active', true))
             ->whereNotNull('logo')
             ->where('logo', '!=', '')
             ->select(['id', 'slug', 'name', 'logo', 'updated_at'])

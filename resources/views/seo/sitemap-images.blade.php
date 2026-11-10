@@ -9,12 +9,6 @@
         @foreach($entry['images'] as $image)
         <image:image>
             <image:loc>{{ $image['loc'] }}</image:loc>
-            @if(!empty($image['title']))
-            <image:title>{{ $image['title'] }}</image:title>
-            @endif
-            @if(!empty($image['caption']))
-            <image:caption>{{ $image['caption'] }}</image:caption>
-            @endif
         </image:image>
         @endforeach
     </url>
