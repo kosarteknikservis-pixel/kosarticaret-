@@ -10,6 +10,7 @@ use App\Models\Page;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Observers\BlogPostObserver;
+use App\Observers\NavigationItemObserver;
 use App\Observers\ProductImageObserver;
 use App\Observers\ProductObserver;
 use App\Observers\SitemapCacheObserver;
@@ -22,6 +23,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -95,9 +97,9 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('layouts.shop', function ($view) {
             $view->with([
-                'menuCategories' => Category::forStorefrontMenu()->get(),
-                'headerNavItems' => NavigationItem::active('header')->get(),
-                'footerNavItems' => NavigationItem::active('footer')->get(),
+                'menuCategories' => Cache::remember('layout.menu_categories', 3600, fn () => Category::forStorefrontMenu()->get()),
+                'headerNavItems' => Cache::remember('layout.nav.header', 3600, fn () => NavigationItem::active('header')->get()),
+                'footerNavItems' => Cache::remember('layout.nav.footer', 3600, fn () => NavigationItem::active('footer')->get()),
                 'cartCount' => app(CartService::class)->count(),
                 'favoriteCount' => app(FavoriteService::class)->count(),
             ]);
@@ -118,6 +120,7 @@ class AppServiceProvider extends ServiceProvider
         BlogPost::observe(BlogPostObserver::class);
         Brand::observe(SitemapCacheObserver::class);
         Category::observe(SitemapCacheObserver::class);
+        NavigationItem::observe(NavigationItemObserver::class);
         Page::observe(SitemapCacheObserver::class);
         Product::observe(ProductObserver::class);
         ProductImage::observe(ProductImageObserver::class);

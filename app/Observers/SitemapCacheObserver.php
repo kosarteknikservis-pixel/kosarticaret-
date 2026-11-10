@@ -17,6 +17,7 @@ class SitemapCacheObserver
 
         if ($model instanceof Category) {
             Cache::forget('category.slug_path_map');
+            Cache::forget('layout.menu_categories');
         }
     }
 
@@ -26,6 +27,7 @@ class SitemapCacheObserver
 
         if ($model instanceof Category) {
             Cache::forget('category.slug_path_map');
+            Cache::forget('layout.menu_categories');
         }
     }
 }
