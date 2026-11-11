@@ -183,7 +183,7 @@
                     <div class="flex justify-between font-bold text-lg pt-3 border-t border-slate-200"><dt>{{ __('shop.total_est') }}</dt><dd class="text-brand-700" data-checkout-total>{{ number_format($totals['total'], 2, ',', '.') }} ₺</dd></div>
                 </dl>
                 <p class="mt-2 text-xs text-slate-500 leading-relaxed">{{ __('shop.checkout_estimate_note') }}</p>
-                <button type="submit" form="checkout-form" class="mt-6 btn-primary w-full py-3.5">{{ ($codOtp ?? null) ? 'Kodu doğrula ve siparişi tamamla' : __('shop.place_order') }}</button>
+                <button type="submit" form="checkout-form" class="mt-6 btn-primary btn--lg btn--block">{{ ($codOtp ?? null) ? 'Kodu doğrula ve siparişi tamamla' : __('shop.place_order') }}</button>
             </div>
 
             <div class="shop-panel">
@@ -197,7 +197,7 @@
                     <form method="post" action="{{ route('checkout.coupon') }}" class="mt-3 flex gap-2">
                         @csrf
                         <input name="coupon_code" placeholder="KOSAR10" class="shop-input flex-1 uppercase" autocomplete="off" spellcheck="false">
-                        <button type="submit" class="btn-primary shrink-0 px-4 py-2">{{ __('shop.apply') }}</button>
+                        <button type="submit" class="btn-primary btn--sm shrink-0">{{ __('shop.apply') }}</button>
                     </form>
                 @endif
             </div>

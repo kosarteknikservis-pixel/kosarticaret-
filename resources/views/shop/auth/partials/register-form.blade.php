@@ -37,7 +37,7 @@
         <input id="{{ $prefix }}-password-confirmation" type="password" name="password_confirmation" required class="shop-input mt-1" autocomplete="new-password">
     </div>
 
-    <button type="submit" class="btn-primary w-full py-3">{{ __('shop.register') }}</button>
+    <x-shop.button variant="primary" :block="true">{{ __('shop.register') }}</x-shop.button>
 </form>
 
 @if($showLoginLink)

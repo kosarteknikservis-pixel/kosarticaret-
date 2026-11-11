@@ -10,7 +10,7 @@
         ]])
         <div class="shop-auth-card">
             <div class="text-center mb-6">
-                <h1 class="text-2xl font-bold text-slate-900">E-posta doğrulama</h1>
+                <h1 class="shop-heading-page">E-posta doğrulama</h1>
                 <p class="text-sm text-slate-500 mt-1">E-posta adresinize gönderilen bağlantıyla hesabınızı doğrulayın. Doğruladıktan sonra bu adresle verdiğiniz önceki siparişler hesabınızda görünür.</p>
             </div>
 
@@ -20,7 +20,7 @@
 
             <form method="post" action="{{ route('verification.send') }}" class="space-y-4">
                 @csrf
-                <button type="submit" class="btn-primary w-full py-3">Doğrulama bağlantısını tekrar gönder</button>
+                <x-shop.button variant="primary" :block="true">Doğrulama bağlantısını tekrar gönder</x-shop.button>
             </form>
 
             <p class="mt-6 text-center text-sm text-slate-500">

@@ -10,7 +10,7 @@
         ]])
         <div class="shop-auth-card">
             <div class="text-center mb-6">
-                <h1 class="text-2xl font-bold text-slate-900">Şifremi unuttum</h1>
+                <h1 class="shop-heading-page">Şifremi unuttum</h1>
                 <p class="text-sm text-slate-500 mt-1">Kayıtlı e-posta adresinize sıfırlama bağlantısı gönderilir.</p>
             </div>
 
@@ -27,7 +27,7 @@
                         <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
-                <button type="submit" class="btn-primary w-full py-3">Bağlantı gönder</button>
+                <x-shop.button variant="primary" :block="true">Bağlantı gönder</x-shop.button>
             </form>
 
             <p class="mt-6 text-center text-sm text-slate-500">

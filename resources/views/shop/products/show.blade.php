@@ -211,7 +211,7 @@
                             data-ga-item-name="{{ $product->name }}"
                             data-ga-price="{{ number_format($displayPrice, 2, '.', '') }}"
                             data-ga-brand="{{ $product->brand?->name }}"
-                            class="shop-cart-btn btn-primary shop-btn-premium flex-1 min-w-[200px] py-3.5 text-base">
+                            class="shop-cart-btn btn-primary btn--lg shop-btn-premium flex-1 min-w-[200px]">
                         <x-shop.icon name="cart" class="w-5 h-5" />
                         {{ __('shop.add_to_cart') }}
                     </button>
