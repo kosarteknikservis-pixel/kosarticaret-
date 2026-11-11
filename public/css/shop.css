@@ -6677,47 +6677,6 @@ body.theme-motion-reduced *::after {
     font-weight: 500;
     color: #64748b;
 }
-.shop-pdp-cod {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
-    padding: 0.38rem 0.75rem;
-    border-radius: 9999px;
-    background: rgb(30 58 95 / 0.05);
-    border: 1px solid rgb(30 58 95 / 0.12);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #1e3a5f;
-    line-height: 1.3;
-}
-.shop-pdp-cod__icon {
-    width: 0.95rem;
-    height: 0.95rem;
-    flex-shrink: 0;
-    color: var(--kosar-primary, #1e3a5f);
-}
-.shop-cart-payment-note {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.35rem 0.55rem;
-    margin-top: 0.85rem;
-    padding: 0.65rem 0.75rem;
-    border-radius: 0.75rem;
-    border: 1px solid rgb(226 232 240 / 0.95);
-    background: #f8fafc;
-    font-size: 0.8125rem;
-    line-height: 1.4;
-}
-.shop-cart-payment-note__label {
-    font-weight: 700;
-    color: #64748b;
-}
-.shop-cart-payment-note__value {
-    font-weight: 600;
-    color: #1e3a5f;
-}
 /* Stock status line */
 .pdp-pb__stock {
     display: flex;
@@ -8140,53 +8099,6 @@ body.theme-motion-reduced *::after {
     border-color: var(--kosar-primary);
     background: #f4f7fb;
 }
-.shop-checkout-cod-tender {
-    margin-top: 0.85rem;
-    padding-top: 0.85rem;
-    border-top: 1px solid #e2e8f0;
-}
-.shop-checkout-cod-tender.hidden {
-    display: none;
-}
-.shop-checkout-cod-tender__title {
-    margin: 0 0 0.55rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #334155;
-}
-.shop-checkout-cod-tender__options {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-}
-.shop-checkout-cod-tender__option {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    min-width: 0;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.75rem;
-    background: #fff;
-    padding: 0.65rem 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #0f172a;
-    cursor: pointer;
-}
-.shop-checkout-cod-tender__option:has(:checked) {
-    border-color: var(--kosar-primary);
-    background: #eef4fb;
-}
-.shop-checkout-cod-tender__error {
-    margin: 0.5rem 0 0;
-    font-size: 0.8125rem;
-    color: #b91c1c;
-}
-@media (max-width: 420px) {
-    .shop-checkout-cod-tender__options {
-        grid-template-columns: 1fr;
-    }
-}
 .shop-corporate-invoice {
     margin-top: 1rem;
     border-radius: var(--kosar-radius-lg);
@@ -9022,62 +8934,6 @@ body.theme-motion-reduced *::after {
         .shop-auth-modal .shop-input:focus {
             scroll-margin-bottom: 8rem;
         }
-    }
-}
-/* Kapıda ödeme SMS popup — shop-auth-modal iskeleti + küçük ekler */
-body.shop-cod-otp-open {
-    overflow: hidden;
-}
-#cod-sms-modal.shop-auth-modal {
-    z-index: 220;
-}
-.shop-cod-otp-input {
-    min-height: 3.15rem;
-    font-size: 1.35rem;
-    font-weight: 700;
-    letter-spacing: 0.4em;
-    text-align: center;
-}
-.shop-cod-otp-input::placeholder {
-    color: #cbd5e1;
-    letter-spacing: 0.35em;
-    font-weight: 500;
-}
-.shop-cod-otp-notice {
-    margin: 0 0 1rem;
-    border-radius: 0.75rem;
-    padding: 0.7rem 0.85rem;
-    font-size: 0.875rem;
-    line-height: 1.45;
-}
-.shop-cod-otp-notice.is-ok {
-    background: #ecfdf5;
-    color: #047857;
-}
-.shop-cod-otp-notice.is-error {
-    background: #fef2f2;
-    color: #b91c1c;
-}
-.shop-cod-otp-actions {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 0.65rem;
-}
-.shop-cod-otp-actions__btn {
-    width: 100%;
-    min-height: 2.85rem;
-    justify-content: center;
-    text-align: center;
-    white-space: normal;
-    line-height: 1.25;
-    padding-inline: 0.75rem;
-}
-@media (max-width: 479px) {
-    .shop-cod-otp-actions {
-        grid-template-columns: 1fr;
-    }
-    .shop-cod-otp-actions__btn.btn-primary {
-        order: -1;
     }
 }
 /* Blog */

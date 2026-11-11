@@ -93,42 +93,14 @@
                     <span class="shop-checkout-section__num">3</span>
                     {{ __('shop.payment_method') }}
                 </h2>
-                @php
-                    $selectedPayment = old('odeme_yontemi', $defaultPayment ?? ($paymentMethods[0]['id'] ?? null));
-                    $selectedCodTender = old('kapida_odeme_sekli', 'nakit');
-                @endphp
                 @forelse($paymentMethods as $o)
                     <label class="shop-checkout-option">
-                        <input type="radio" name="odeme_yontemi" value="{{ $o['id'] }}" @checked($selectedPayment==$o['id']) required class="mt-1 text-brand-700 focus:ring-brand-500/30" data-checkout-payment>
+                        <input type="radio" name="odeme_yontemi" value="{{ $o['id'] }}" @checked(old('odeme_yontemi', $defaultPayment ?? $o['id'])==$o['id']) required class="mt-1 text-brand-700 focus:ring-brand-500/30">
                         <span>
                             <span class="font-semibold text-slate-900 block">{{ $o['name'] }}</span>
                             <span class="text-sm text-slate-500 mt-0.5 block">{{ $o['desc'] }}</span>
                             @if($o['id'] === 'kapida_odeme' && ($codSmsEnabled ?? false))
                                 <span class="text-sm text-slate-500 mt-0.5 block">Sipariş, telefona gelen SMS kodu doğrulandıktan sonra tamamlanır.</span>
-                            @endif
-                            @if($o['id'] === 'kapida_odeme')
-                                <div class="shop-checkout-cod-tender{{ $selectedPayment === 'kapida_odeme' ? '' : ' hidden' }}"
-                                     data-cod-tender
-                                     @unless($selectedPayment === 'kapida_odeme') hidden @endunless>
-                                    <p class="shop-checkout-cod-tender__title">Teslimatta nasıl ödeyeceksiniz?</p>
-                                    <div class="shop-checkout-cod-tender__options">
-                                        @foreach(\App\Support\PaymentMethod::codTenderLabels() as $tenderId => $tenderLabel)
-                                            <label class="shop-checkout-cod-tender__option">
-                                                <input type="radio"
-                                                       name="kapida_odeme_sekli"
-                                                       value="{{ $tenderId }}"
-                                                       @checked($selectedCodTender === $tenderId)
-                                                       @if($selectedPayment === 'kapida_odeme') required @endif
-                                                       class="mt-0.5 text-brand-700 focus:ring-brand-500/30"
-                                                       data-cod-tender-input>
-                                                <span>{{ $tenderLabel }}</span>
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    @error('kapida_odeme_sekli')
-                                        <p class="shop-checkout-cod-tender__error">{{ $message }}</p>
-                                    @enderror
-                                </div>
                             @endif
                         </span>
                     </label>
@@ -136,6 +108,24 @@
                     <p class="text-sm text-slate-500">Aktif ödeme yöntemi bulunmuyor.</p>
                 @endforelse
             </section>
+
+            @if($codOtp ?? null)
+                <section id="cod-sms-verify" class="shop-panel space-y-4">
+                    <h2 class="shop-checkout-section__head !mb-0">
+                        <span class="shop-checkout-section__num">4</span>
+                        Telefon doğrulama
+                    </h2>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        {{ $codOtp['masked'] }} numarasına 6 haneli kod gönderildi. Kod 5 dakika geçerlidir. Yalnızca kapıda ödemede istenir.
+                    </p>
+                    <div class="max-w-xs">
+                        <label class="shop-label" for="otp-code">SMS kodu</label>
+                        <input id="otp-code" name="otp_code" value="{{ old('otp_code') }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" class="shop-input mt-1 tracking-[0.3em] text-center text-lg" aria-describedby="otp-hint">
+                        <p id="otp-hint" class="mt-1 text-xs text-slate-500">6 haneli kodu yazıp siparişi tamamlayın.</p>
+                    </div>
+                    <button type="submit" name="otp_action" value="resend" formnovalidate class="text-sm font-semibold text-brand-700 hover:text-brand-800">Kodu tekrar gönder</button>
+                </section>
+            @endif
 
             <label class="shop-checkout-contract">
                 <input type="checkbox" name="sozlesme" value="1" required @checked(old('sozlesme')) class="mt-0.5 shrink-0 rounded text-brand-700 focus:ring-brand-500/30">
@@ -193,7 +183,7 @@
                     <div class="flex justify-between font-bold text-lg pt-3 border-t border-slate-200"><dt>{{ __('shop.total_est') }}</dt><dd class="text-brand-700" data-checkout-total>{{ number_format($totals['total'], 2, ',', '.') }} ₺</dd></div>
                 </dl>
                 <p class="mt-2 text-xs text-slate-500 leading-relaxed">{{ __('shop.checkout_estimate_note') }}</p>
-                <button type="submit" form="checkout-form" class="mt-6 btn-primary w-full py-3.5">{{ __('shop.place_order') }}</button>
+                <button type="submit" form="checkout-form" class="mt-6 btn-primary w-full py-3.5">{{ ($codOtp ?? null) ? 'Kodu doğrula ve siparişi tamamla' : __('shop.place_order') }}</button>
             </div>
 
             <div class="shop-panel">
@@ -309,40 +299,6 @@
             const form = document.getElementById('checkout-form');
             if (!form) return;
 
-            const tenderWrap = form.querySelector('[data-cod-tender]');
-            if (!tenderWrap) return;
-
-            const tenderInputs = Array.from(form.querySelectorAll('[data-cod-tender-input]'));
-
-            function syncCodTender() {
-                const selected = form.querySelector('input[name="odeme_yontemi"]:checked');
-                const isCod = !!(selected && selected.value === 'kapida_odeme');
-                tenderWrap.classList.toggle('hidden', !isCod);
-                if (isCod) {
-                    tenderWrap.removeAttribute('hidden');
-                } else {
-                    tenderWrap.setAttribute('hidden', 'hidden');
-                }
-                tenderInputs.forEach(function (input) {
-                    input.required = isCod;
-                    if (!isCod) input.checked = false;
-                });
-                if (isCod && !tenderInputs.some(function (input) { return input.checked; })) {
-                    const first = tenderInputs[0];
-                    if (first) first.checked = true;
-                }
-            }
-
-            form.querySelectorAll('[data-checkout-payment]').forEach(function (input) {
-                input.addEventListener('change', syncCodTender);
-            });
-            syncCodTender();
-        })();
-
-        (function () {
-            const form = document.getElementById('checkout-form');
-            if (!form) return;
-
             const fields = ['ad', 'soyad', 'eposta', 'telefon']
                 .map(function (name) { return form.elements.namedItem(name); })
                 .filter(Boolean);
@@ -390,6 +346,12 @@
             });
         })();
 
+        (function () {
+            const otp = document.getElementById('cod-sms-verify');
+            if (otp) {
+                otp.scrollIntoView({ block: 'center' });
+            }
+        })();
     </script>
     @php
         $checkoutGaItems = collect($lines)->map(fn ($line) => [
@@ -412,110 +374,3 @@
     ])
     </div>
 @endsection
-
-@push('scripts')
-    @php
-        $codOtpNotice = session('cod_otp_notice');
-        $showCodOtpModal = ($codOtp ?? null) || $errors->has('otp_code') || is_array($codOtpNotice);
-        $codMaskedPhone = $codOtp['masked'] ?? null;
-    @endphp
-    {{-- Üyelik popup’ı ile aynı shop-auth-modal iskeleti --}}
-    <div id="cod-sms-modal"
-         class="shop-auth-modal{{ $showCodOtpModal ? '' : ' hidden' }}"
-         aria-hidden="{{ $showCodOtpModal ? 'false' : 'true' }}">
-        <div class="shop-auth-modal__backdrop" data-cod-otp-close></div>
-        <section class="shop-auth-modal__dialog"
-                 role="dialog"
-                 aria-modal="true"
-                 aria-labelledby="cod-sms-modal-title"
-                 tabindex="-1">
-            <button type="button" class="shop-auth-modal__close" data-cod-otp-close aria-label="Kapat">
-                <x-shop.icon name="x" class="w-5 h-5" />
-            </button>
-
-            <div class="text-center mb-6">
-                <p id="cod-sms-modal-title" class="shop-auth-modal__title">SMS doğrulama</p>
-                <p class="shop-auth-modal__subtitle">
-                    @if($codMaskedPhone)
-                        Kapıda ödeme için <strong class="text-slate-900">{{ $codMaskedPhone }}</strong> numarasına 6 haneli kod gönderildi. Kod doğruysa siparişiniz hemen onaylanır.
-                    @else
-                        Kapıda ödeme için telefonunuza gelen 6 haneli SMS kodunu girin. Kod doğruysa siparişiniz hemen onaylanır.
-                    @endif
-                </p>
-            </div>
-
-            @if(is_array($codOtpNotice) && ! empty($codOtpNotice['message']) && ! ($codOtpNotice['ok'] ?? false))
-                <p class="shop-cod-otp-notice is-error" role="status">{{ $codOtpNotice['message'] }}</p>
-            @elseif(is_array($codOtpNotice) && ! empty($codOtpNotice['message']) && ($codOtpNotice['resend'] ?? false))
-                <p class="shop-cod-otp-notice is-ok" role="status">{{ $codOtpNotice['message'] }}</p>
-            @endif
-            @error('otp_code')
-                <p class="shop-cod-otp-notice is-error" role="alert">{{ $message }}</p>
-            @enderror
-
-            <div class="mb-5">
-                <label class="shop-label" for="otp-code">Doğrulama kodu</label>
-                <input id="otp-code"
-                       form="checkout-form"
-                       name="otp_code"
-                       value="{{ old('otp_code') }}"
-                       inputmode="numeric"
-                       autocomplete="one-time-code"
-                       maxlength="6"
-                       pattern="[0-9]*"
-                       placeholder="· · · · · ·"
-                       class="shop-input shop-cod-otp-input mt-1"
-                       @if($showCodOtpModal) autofocus @endif>
-            </div>
-
-            <div class="shop-cod-otp-actions">
-                <button type="submit"
-                        form="checkout-form"
-                        name="otp_action"
-                        value="resend"
-                        formnovalidate
-                        class="btn-outline shop-cod-otp-actions__btn">
-                    Kodu yeniden gönder
-                </button>
-                <button type="submit"
-                        form="checkout-form"
-                        class="btn-primary shop-cod-otp-actions__btn">
-                    Doğrula ve siparişi onayla
-                </button>
-            </div>
-        </section>
-    </div>
-    <script>
-        (function () {
-            const modal = document.getElementById('cod-sms-modal');
-            if (!modal) return;
-            if (modal.parentElement !== document.body) {
-                document.body.appendChild(modal);
-            }
-            const input = document.getElementById('otp-code');
-            const shouldOpen = !modal.classList.contains('hidden');
-
-            function setOpen(isOpen) {
-                modal.classList.toggle('hidden', !isOpen);
-                modal.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-                document.documentElement.classList.toggle('overflow-hidden', isOpen);
-                document.body.classList.toggle('shop-cod-otp-open', isOpen);
-                if (isOpen && input) {
-                    window.setTimeout(function () { input.focus(); }, 40);
-                }
-            }
-
-            modal.querySelectorAll('[data-cod-otp-close]').forEach(function (el) {
-                el.addEventListener('click', function () { setOpen(false); });
-            });
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
-                    setOpen(false);
-                }
-            });
-            if (shouldOpen) {
-                setOpen(true);
-            }
-        })();
-    </script>
-@endpush
