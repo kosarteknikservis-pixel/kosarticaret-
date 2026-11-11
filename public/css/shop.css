@@ -2924,13 +2924,9 @@ body.theme-motion-reduced *::after {
 .shop-hero__tile-shade {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 45%, rgb(15 35 60 / 0.55) 100%);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    pointer-events: none;
-}
-.shop-hero__tile--1 .shop-hero__tile-shade {
+    background: linear-gradient(180deg, transparent 40%, rgb(15 35 60 / 0.72) 100%);
     opacity: 1;
+    pointer-events: none;
 }
 .shop-hero__tile-label {
     position: absolute;
@@ -2938,10 +2934,11 @@ body.theme-motion-reduced *::after {
     right: 0.75rem;
     bottom: 0.75rem;
     z-index: 1;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     line-height: 1.35;
     color: #fff;
+    text-shadow: 0 1px 2px rgb(15 23 42 / 0.35);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -5875,10 +5872,10 @@ body.theme-motion-reduced *::after {
     border-radius: 9999px;
     background: var(--kosar-primary);
     color: #fff;
-    font-size: 0.58rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    padding: 0.2rem 0.45rem;
-    letter-spacing: 0.02em;
+    padding: 0.28rem 0.55rem;
+    letter-spacing: 0.01em;
     line-height: 1.2;
     white-space: nowrap;
 }
@@ -5927,10 +5924,10 @@ body.theme-motion-reduced *::after {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    min-height: 0.95rem;
-    font-size: 0.65rem;
+    min-height: 1rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #7f8ea3;
 }
@@ -5963,8 +5960,8 @@ body.theme-motion-reduced *::after {
     line-height: 1.15;
 }
 .shop-product-card__compare {
-    font-size: 0.72rem;
-    color: #94a3b8;
+    font-size: 0.75rem;
+    color: #64748b;
     text-decoration: line-through;
 }
 .shop-product-card__shipping {
@@ -5972,25 +5969,25 @@ body.theme-motion-reduced *::after {
     align-items: center;
     gap: 0.3rem;
     margin-top: 0.45rem;
-    padding: 0.22rem 0.55rem;
+    padding: 0.28rem 0.6rem;
     border-radius: 9999px;
     background: var(--kosar-surface);
     border: 1px solid rgb(30 58 95 / 0.1);
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--kosar-primary);
     line-height: 1.25;
     max-width: 100%;
 }
 .shop-product-card__shipping-icon {
-    width: 0.78rem;
-    height: 0.78rem;
+    width: 0.85rem;
+    height: 0.85rem;
     flex-shrink: 0;
     opacity: 0.88;
 }
 .shop-product-card__stock {
     margin-top: 0.55rem;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 650;
     line-height: 1.35;
 }
@@ -6235,7 +6232,7 @@ body.theme-motion-reduced *::after {
 .shop-pagination__dots {
     border: 1px solid #e2e8f0;
     background: #f8fafc;
-    color: #94a3b8;
+    color: #475569;
 }
 
 /* PDP — üst bölüm */
@@ -7709,7 +7706,7 @@ body.theme-motion-reduced *::after {
 }
 .shop-checkout-steps__dot.is-pending {
     background: #e2e8f0;
-    color: #64748b;
+    color: #334155;
 }
 .shop-checkout-steps__dot.is-current {
     background: var(--kosar-primary);
@@ -7729,7 +7726,7 @@ body.theme-motion-reduced *::after {
     color: #0f172a;
 }
 .shop-checkout-steps__label.is-pending {
-    color: #94a3b8;
+    color: #475569;
 }
 .shop-checkout-steps__label.is-done {
     color: var(--kosar-primary);
