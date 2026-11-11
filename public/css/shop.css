@@ -11574,9 +11574,9 @@ input:focus-visible {
 .shop-faq__badge {
     display: inline-block;
     padding: 0.25rem 0.85rem;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--kosar-primary);
     background: rgb(30 58 95 / 0.07);
@@ -11638,7 +11638,7 @@ input:focus-visible {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 700;
     background: #f1f5f9;
     color: var(--kosar-primary);
@@ -11688,7 +11688,7 @@ input:focus-visible {
     .shop-faq__q-num {
         width: 1.75rem;
         height: 1.75rem;
-        font-size: 0.65rem;
+        font-size: 0.75rem;
     }
     .shop-faq__q-text {
         font-size: 0.9rem;
@@ -12315,9 +12315,9 @@ input:focus-visible {
     background: linear-gradient(180deg, rgb(239 246 255 / 0.95) 0%, #fff 100%);
 }
 .shop-geo-block__label {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: rgb(29 78 216);
     margin-bottom: 0.375rem;
@@ -12533,9 +12533,9 @@ input:focus-visible {
     gap: 0.5rem;
 }
 .shop-home-references__sector {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--kosar-accent);
 }
