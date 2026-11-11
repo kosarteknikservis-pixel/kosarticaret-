@@ -19,17 +19,17 @@
     <div class="admin-dashboard-grid admin-dashboard-grid--secondary">
         <section class="admin-card p-5">
             <p class="admin-dashboard-eyebrow">Güvenlik</p>
-            <h2 class="mt-1 text-lg font-black text-slate-900">Geri dönüş var</h2>
+            <h2 class="mt-1 text-lg font-bold text-slate-900">Geri dönüş var</h2>
             <p class="mt-2 text-sm leading-6 text-slate-500">Tema yedekleri ayarlar ve özel CSS dahil komple görünüm snapshot'ı alır. Geri yükleme öncesi mevcut tema otomatik yedeklenir.</p>
         </section>
         <section class="admin-card p-5">
             <p class="admin-dashboard-eyebrow">Mevcut yapı</p>
-            <h2 class="mt-1 text-lg font-black text-slate-900">Header/Footer korunur</h2>
+            <h2 class="mt-1 text-lg font-bold text-slate-900">Header/Footer korunur</h2>
             <p class="mt-2 text-sm leading-6 text-slate-500">Logo, promo yazısı, footer güven kartları ve iletişim içerikleri Site ayarları içinde kalır.</p>
         </section>
         <section class="admin-card p-5">
             <p class="admin-dashboard-eyebrow">Yayın akışı</p>
-            <h2 class="mt-1 text-lg font-black text-slate-900">Önizle, sonra yayınla</h2>
+            <h2 class="mt-1 text-lg font-bold text-slate-900">Önizle, sonra yayınla</h2>
             <p class="mt-2 text-sm leading-6 text-slate-500">Önizleme butonu ayarları canlıya almadan vitrinde geçici gösterir. Yayınla butonu kalıcı kaydeder.</p>
         </section>
     </div>
@@ -82,7 +82,7 @@
         <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <p class="admin-dashboard-eyebrow">Tema presetleri</p>
-                <h3 class="mt-1 text-xl font-black text-slate-900">Hazır Tema Seç</h3>
+                <h3 class="mt-1 text-xl font-bold text-slate-900">Hazır Tema Seç</h3>
                 <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-500">Bir preset seçtiğinizde renk, header, ürün kartı, kategori grid, ürün detay ve footer ayarları topluca uygulanır. Önce önizleme yapıp sonra yayınlayabilirsiniz.</p>
             </div>
         </div>
@@ -121,7 +121,7 @@
     <section class="admin-card mt-5 p-5 sm:p-7">
         <div>
             <p class="admin-dashboard-eyebrow">Bölüm şablonları</p>
-            <h3 class="mt-1 text-xl font-black text-slate-900">Sadece Bir Bölümü Değiştir</h3>
+            <h3 class="mt-1 text-xl font-bold text-slate-900">Sadece Bir Bölümü Değiştir</h3>
             <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-500">Tüm temayı değiştirmeden yalnızca seçtiğiniz bölümün tasarım tipini uygulayın. Ana sayfa, Header, ürün kartı, ürün detay ve Footer ayrı ayrı yönetilebilir.</p>
         </div>
 

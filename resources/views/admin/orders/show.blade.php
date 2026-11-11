@@ -28,7 +28,10 @@
         </div>
         <div class="admin-card p-4">
             <p class="text-xs font-bold uppercase tracking-wide text-slate-400">Ödeme</p>
-            <p class="mt-1 font-extrabold text-slate-900">{{ \App\Support\PaymentStatus::label($order->payment_status) }}</p>
+            <p class="mt-1 font-extrabold text-slate-900">{{ \App\Support\PaymentMethod::displayLabel($order) }}</p>
+            <p class="mt-1">
+                <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\PaymentStatus::badgeClasses($order->payment_status) }}">{{ \App\Support\PaymentStatus::label($order->payment_status) }}</span>
+            </p>
             @if($order->payment_failed_at)
                 <p class="mt-1 text-xs text-red-700">Son başarısız deneme: {{ $order->payment_failed_at->format('d.m.Y H:i') }}</p>
             @endif
@@ -260,6 +263,16 @@
                                 @endforeach
                             </select>
                         </div>
+                        @if($order->payment_method === 'kapida_odeme')
+                            <div>
+                                <label class="admin-label">Kapıda ödeme şekli</label>
+                                <select name="kapida_odeme_sekli" class="admin-input">
+                                    @foreach(\App\Support\PaymentMethod::codTenderLabels() as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('kapida_odeme_sekli', \App\Support\PaymentMethod::codTenderFromOrder($order) ?? 'nakit') === $value)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
                         <div><label class="admin-label">Kargo takip no</label><input name="shipping_tracking" value="{{ old('shipping_tracking', $order->shipping_tracking) }}" class="admin-input font-mono"></div>
                         <div><label class="admin-label">Admin notu</label><textarea name="admin_note" rows="4" class="admin-input">{{ old('admin_note', $order->admin_note) }}</textarea></div>
                         <button type="submit" class="admin-btn admin-btn-primary w-full py-2.5">Siparişi güncelle</button>
@@ -311,7 +324,7 @@
                                 Durum ve hatalar soldaki <strong>İşlem geçmişi</strong> bölümünde kayıtlıdır.
                             </p>
                             <div class="rounded-xl border border-amber-200/80 bg-white/80 px-3 py-2.5 min-w-0">
-                                <p class="text-[11px] font-semibold uppercase tracking-wide text-amber-800">Alıcı</p>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-amber-800">Alıcı</p>
                                 <p class="text-sm font-medium text-slate-900 break-all">{{ $order->email }}</p>
                             </div>
                             <button

@@ -16,12 +16,20 @@
         </x-slot:actions>
     </x-admin.page-header>
 
-    <div class="max-w-3xl admin-card p-5 sm:p-8">
+    <div class="max-w-3xl admin-card p-5 sm:p-8"
+         id="support-live"
+         data-messages="{{ route('admin.support-chats.messages', $conversation) }}"
+         data-release="{{ route('admin.support-chats.release', $conversation) }}"
+         data-after="{{ $conversation->messages->max('id') ?? 0 }}">
+        <div class="mb-5 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-relaxed text-sky-950" role="status">
+            <p class="font-semibold">Bu sohbet sizde açık</p>
+            <p class="mt-1">Bu sayfa açıkken yapay zekâ yalnızca bu müşteriye cevap yazmaz. Yeni mesajlar burada görünür. Sayfadan çıkınca asistan bu sohbette yeniden yanıtlar. Diğer sohbetler etkilenmez.</p>
+        </div>
         @if($conversation->page_url)
             <p class="text-xs text-slate-500 mb-5 break-all">Başladığı sayfa: {{ $conversation->page_url }}</p>
         @endif
 
-        <ol class="space-y-4">
+        <ol class="space-y-4" id="support-thread" aria-live="polite">
             @foreach($conversation->messages as $message)
                 @php
                     $isUser = $message->role === 'user';
@@ -36,7 +44,7 @@
                 <li class="flex {{ $isUser ? 'justify-end' : 'justify-start' }}">
                     <div class="max-w-[85%] rounded-2xl px-4 py-3 {{ $bubble }}">
                         @if($isAgent)
-                            <p class="mb-1 text-[11px] font-semibold uppercase tracking-wide text-sky-800">Temsilci yanıtı · {{ $message->author_name ?: 'Mağaza ekibi' }}</p>
+                            <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-sky-800">Temsilci yanıtı · {{ $message->author_name ?: 'Mağaza ekibi' }}</p>
                         @endif
                         <p class="text-sm whitespace-pre-wrap break-words leading-relaxed">{{ $message->content }}</p>
                         @if(! $isUser && ! empty($message->products))
@@ -49,7 +57,7 @@
                                 @endforeach
                             </ul>
                         @endif
-                        <p class="mt-2 text-[11px] {{ $isUser ? 'text-slate-300' : 'text-slate-400' }}">
+                        <p class="mt-2 text-xs {{ $isUser ? 'text-slate-300' : 'text-slate-400' }}">
                             {{ $message->created_at->format('H:i') }}
                             @if($isAgent)
                                 · {{ $message->id <= $conversation->agent_seen_message_id ? 'müşteri gördü' : 'henüz görülmedi' }}
@@ -103,3 +111,120 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        (function () {
+            const root = document.getElementById('support-live');
+            const list = document.getElementById('support-thread');
+            if (!root || !list || !root.dataset.messages) return;
+
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const tabKey = 'kc-admin-chat-tab';
+            let tab = '';
+            try {
+                tab = sessionStorage.getItem(tabKey) || '';
+                if (!/^[A-Za-z0-9]{12,40}$/.test(tab)) {
+                    const bytes = new Uint8Array(12);
+                    crypto.getRandomValues(bytes);
+                    tab = Array.from(bytes, (b) => (b % 36).toString(36)).join('').padEnd(12, 'a');
+                    sessionStorage.setItem(tabKey, tab);
+                }
+            } catch (e) {
+                tab = ('panel' + Date.now().toString(36) + 'abcdef123456').replace(/[^A-Za-z0-9]/g, '').slice(0, 20);
+            }
+
+            let after = Number(root.dataset.after) || 0;
+            let stopped = false;
+
+            const append = (message) => {
+                const isUser = message.role === 'user';
+                const isAgent = message.role === 'agent';
+                const li = document.createElement('li');
+                li.className = 'flex ' + (isUser ? 'justify-end' : 'justify-start');
+                const bubble = document.createElement('div');
+                bubble.className = 'max-w-[85%] rounded-2xl px-4 py-3 ' + (
+                    isUser ? 'bg-slate-800 text-white'
+                        : isAgent ? 'bg-sky-50 border border-sky-200 text-slate-800'
+                            : message.unanswered ? 'bg-amber-50 border border-amber-200 text-slate-800'
+                                : 'bg-slate-50 border border-slate-200 text-slate-800'
+                );
+                if (isAgent) {
+                    const label = document.createElement('p');
+                    label.className = 'mb-1 text-xs font-semibold uppercase tracking-wide text-sky-800';
+                    label.textContent = 'Temsilci yanıtı · ' + (message.author || 'Mağaza ekibi');
+                    bubble.appendChild(label);
+                }
+                const text = document.createElement('p');
+                text.className = 'text-sm whitespace-pre-wrap break-words leading-relaxed';
+                text.textContent = message.content || '';
+                bubble.appendChild(text);
+                if (Array.isArray(message.products) && message.products.length) {
+                    const products = document.createElement('ul');
+                    products.className = 'mt-2 space-y-1';
+                    message.products.forEach((product) => {
+                        const item = document.createElement('li');
+                        item.className = 'text-xs';
+                        const link = document.createElement('a');
+                        link.href = product.url || '#';
+                        link.target = '_blank';
+                        link.rel = 'noopener';
+                        link.className = 'font-semibold text-teal-700 hover:text-teal-900';
+                        link.textContent = product.name || 'Ürün';
+                        item.appendChild(link);
+                        if (product.price) {
+                            const price = document.createElement('span');
+                            price.className = 'text-slate-500';
+                            price.textContent = ' · ' + product.price;
+                            item.appendChild(price);
+                        }
+                        products.appendChild(item);
+                    });
+                    bubble.appendChild(products);
+                }
+                const meta = document.createElement('p');
+                meta.className = 'mt-2 text-xs ' + (isUser ? 'text-slate-300' : 'text-slate-400');
+                meta.textContent = (message.at || '') + (isAgent ? (message.seen ? ' · müşteri gördü' : ' · henüz görülmedi') : '');
+                bubble.appendChild(meta);
+                li.appendChild(bubble);
+                list.appendChild(li);
+            };
+
+            const poll = async () => {
+                if (stopped) return;
+                try {
+                    const url = new URL(root.dataset.messages, window.location.origin);
+                    url.searchParams.set('after', String(after));
+                    url.searchParams.set('tab', tab);
+                    const response = await fetch(url, {
+                        headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                        credentials: 'same-origin',
+                    });
+                    if (!response.ok) return;
+                    const data = await response.json();
+                    (data.messages || []).forEach((message) => {
+                        if (Number(message.id) > after) {
+                            append(message);
+                            after = Number(message.id);
+                        }
+                    });
+                } catch (e) {}
+            };
+
+            poll();
+            const timer = window.setInterval(poll, 4000);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) poll();
+            });
+            window.addEventListener('pagehide', () => {
+                stopped = true;
+                window.clearInterval(timer);
+                if (!root.dataset.release || !csrf) return;
+                const body = new FormData();
+                body.append('_token', csrf);
+                body.append('tab', tab);
+                navigator.sendBeacon(root.dataset.release, body);
+            });
+        })();
+    </script>
+@endpush

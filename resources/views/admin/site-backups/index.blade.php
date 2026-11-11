@@ -18,17 +18,17 @@
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <section class="admin-card p-5">
             <p class="admin-dashboard-eyebrow">Kapsam</p>
-            <h3 class="mt-1 text-lg font-black text-slate-900">DB + medya</h3>
+            <h3 class="mt-1 text-lg font-bold text-slate-900">DB + medya</h3>
             <p class="mt-2 text-sm leading-6 text-slate-500">Ürünler, siparişler, ayarlar, tema, banner kayıtları ve `storage/app/public` içindeki görseller yedeğe girer.</p>
         </section>
         <section class="admin-card p-5">
             <p class="admin-dashboard-eyebrow">Güvenlik</p>
-            <h3 class="mt-1 text-lg font-black text-slate-900">Restore öncesi yedek</h3>
+            <h3 class="mt-1 text-lg font-bold text-slate-900">Restore öncesi yedek</h3>
             <p class="mt-2 text-sm leading-6 text-slate-500">Geri yükleme başlatıldığında mevcut site otomatik olarak ayrıca zip yedeğe alınır.</p>
         </section>
         <section class="admin-card p-5">
             <p class="admin-dashboard-eyebrow">Hariç</p>
-            <h3 class="mt-1 text-lg font-black text-slate-900">Kod ve gizli anahtar yok</h3>
+            <h3 class="mt-1 text-lg font-bold text-slate-900">Kod ve gizli anahtar yok</h3>
             <p class="mt-2 text-sm leading-6 text-slate-500">`.env`, vendor, node_modules ve uygulama kodu bu pakete dahil edilmez.</p>
         </section>
     </div>
@@ -38,7 +38,7 @@
             <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div>
                     <p class="admin-dashboard-eyebrow">Yeni yedek</p>
-                    <h3 class="mt-1 text-xl font-black text-slate-900">Komple Site Yedeği Al</h3>
+                    <h3 class="mt-1 text-xl font-bold text-slate-900">Komple Site Yedeği Al</h3>
                     <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Oluşturulan zip dosyası özel storage alanında saklanır ve listeden indirilebilir.</p>
                 </div>
                 <form method="post" action="{{ route('admin.site-backups.store') }}" class="flex w-full flex-col gap-2 sm:max-w-md sm:flex-row">
@@ -52,7 +52,7 @@
 
         <section class="admin-card p-5 sm:p-7">
             <p class="admin-dashboard-eyebrow">Dışarıdan yedek</p>
-            <h3 class="mt-1 text-xl font-black text-slate-900">Zip Yükle</h3>
+            <h3 class="mt-1 text-xl font-bold text-slate-900">Zip Yükle</h3>
             <p class="mt-2 text-sm leading-6 text-slate-500">Sadece bu panelin oluşturduğu `kosar_site_backup` manifestli zip dosyaları kabul edilir.</p>
             <form method="post" action="{{ route('admin.site-backups.upload') }}" enctype="multipart/form-data" class="mt-4 space-y-3">
                 @csrf
@@ -66,7 +66,7 @@
         <div class="flex flex-col gap-2 border-b border-slate-100 pb-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <p class="admin-dashboard-eyebrow">Kayıtlı yedekler</p>
-                <h3 class="mt-1 text-xl font-black text-slate-900">Yedek Listesi</h3>
+                <h3 class="mt-1 text-xl font-bold text-slate-900">Yedek Listesi</h3>
             </div>
             <p class="text-xs text-slate-500 break-all">Klasör: {{ $backupDirectory }}</p>
         </div>
@@ -81,7 +81,7 @@
                 <article class="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_1px_2px_rgb(15_23_42/0.04)]">
                     <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div class="min-w-0">
-                            <h4 class="truncate text-sm font-black text-slate-900">{{ $backup['name'] }}</h4>
+                            <h4 class="truncate text-sm font-bold text-slate-900">{{ $backup['name'] }}</h4>
                             <div class="mt-2 flex flex-wrap gap-2 text-xs text-slate-500">
                                 <span class="rounded-full bg-slate-100 px-2.5 py-1">{{ $backup['created_at'] }}</span>
                                 <span class="rounded-full bg-slate-100 px-2.5 py-1">{{ $sizeMb }} MB</span>

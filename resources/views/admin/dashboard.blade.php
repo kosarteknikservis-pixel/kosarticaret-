@@ -11,8 +11,8 @@
     <section class="admin-dashboard-hero">
         <div class="admin-dashboard-hero__copy">
             <p class="admin-dashboard-eyebrow">Kontrol merkezi</p>
-            <h2>Hoş geldiniz, {{ auth()->user()?->name ?? 'Koşar Admin' }}</h2>
-            <p>Satış, sipariş, stok ve müşteri aksiyonlarını tek ekrandan takip edin.</p>
+            <h2>Panel özeti</h2>
+            <p>{{ auth()->user()?->name ?? 'Koşar Admin' }} · satış, sipariş, stok ve müşteri aksiyonları</p>
             <div class="admin-dashboard-hero__meta">
                 <span>{{ now()->timezone(config('kosar.report_timezone', 'Europe/Istanbul'))->translatedFormat('d F Y, l') }}</span>
                 <span>{{ $ordersToday }} sipariş bugün</span>

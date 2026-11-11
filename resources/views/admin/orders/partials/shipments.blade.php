@@ -82,7 +82,7 @@
                         @if($shipment->events->isNotEmpty())
                             <tr>
                                 <td colspan="6" class="bg-slate-50/80 px-4 py-3">
-                                    <p class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-2">Hareketler</p>
+                                    <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">Hareketler</p>
                                     <ul class="space-y-1 text-xs text-slate-600">
                                         @foreach($shipment->events->take(5) as $event)
                                             <li>
