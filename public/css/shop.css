@@ -6579,6 +6579,9 @@ body.theme-motion-reduced *::after {
     line-height: 1.2;
     color: #0f172a;
 }
+.shop-pdp-info__panel > p {
+    max-width: 65ch;
+}
 @media (min-width: 768px) {
     .shop-pdp-info__title {
         font-size: clamp(2rem, 2.4vw, 2.65rem);
@@ -7030,7 +7033,7 @@ body.theme-motion-reduced *::after {
     .shop-pdp-badge {
         min-height: 1.8rem;
         padding: 0.28rem 0.65rem;
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         box-shadow: none;
     }
     .shop-pdp-info__panel > p {
@@ -7830,11 +7833,13 @@ body.theme-motion-reduced *::after {
 }
 .shop-rich-content p {
     margin: 0 0 1rem;
+    max-width: 65ch;
 }
 .shop-rich-content ul,
 .shop-rich-content ol {
     margin: 0 0 1rem 1.25rem;
     padding: 0;
+    max-width: 65ch;
 }
 .shop-rich-content li {
     margin-bottom: 0.35rem;
@@ -12288,9 +12293,11 @@ input:focus-visible {
         padding: 1.35rem 1.25rem;
     }
 }
-.shop-catalog-intro p {
+.shop-catalog-intro p,
+.shop-catalog-intro li {
     color: #334155;
     line-height: 1.8;
+    max-width: 65ch;
 }
 .shop-catalog-intro h2,
 .shop-catalog-intro h3 {
@@ -12329,6 +12336,7 @@ input:focus-visible {
     line-height: 1.65;
     color: rgb(15 23 42);
     margin: 0;
+    max-width: 65ch;
 }
 .shop-geo-block__answer {
     margin-bottom: 1rem;
