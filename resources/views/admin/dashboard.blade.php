@@ -20,8 +20,8 @@
             </div>
         </div>
         <div class="admin-dashboard-hero__actions">
-            <a href="{{ route('admin.orders.index') }}" class="admin-btn admin-btn-primary">Siparişleri yönet</a>
-            <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Mağazayı aç</a>
+            <x-admin.button variant="primary" :href="route('admin.orders.index')">Siparişleri yönet</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('home')" target="_blank" rel="noopener">Mağazayı aç</x-admin.button>
         </div>
     </section>
 

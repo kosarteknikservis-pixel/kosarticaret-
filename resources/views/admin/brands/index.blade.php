@@ -8,7 +8,9 @@
 
     <x-admin.page-header title="Markalar" subtitle="Ana sayfa şeridi ve marka sayfaları">
 
-        <x-slot:actions><a href="{{ route('admin.brands.create') }}" class="admin-btn admin-btn-primary">+ Marka ekle</a></x-slot:actions>
+        <x-slot:actions>
+            <x-admin.button variant="primary" :href="route('admin.brands.create')">+ Marka ekle</x-admin.button>
+        </x-slot:actions>
 
     </x-admin.page-header>
 
@@ -94,11 +96,11 @@
 
                             @if($b->active)
 
-                                <a href="{{ route('brands.show', $b) }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary text-xs py-1.5">Mağaza</a>
+                                <x-admin.button variant="secondary" size="sm" :href="route('brands.show', $b)" target="_blank" rel="noopener">Mağaza</x-admin.button>
 
                             @endif
 
-                            <a href="{{ route('admin.brands.edit', $b) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Düzenle</a>
+                            <x-admin.button variant="secondary" size="sm" :href="route('admin.brands.edit', $b)">Düzenle</x-admin.button>
 
                         </td>
 

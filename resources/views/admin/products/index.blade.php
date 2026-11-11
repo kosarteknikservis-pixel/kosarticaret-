@@ -4,8 +4,8 @@
 @section('content')
     <x-admin.page-header title="Ürünler" subtitle="Katalogdaki tüm ürünler">
         <x-slot:actions>
-            <a href="{{ route('admin.products.bulk-update') }}" class="admin-btn admin-btn-secondary">Toplu güncelleme</a>
-            <a href="{{ route('admin.products.create') }}" class="admin-btn admin-btn-primary">+ Yeni ürün</a>
+            <x-admin.button variant="secondary" :href="route('admin.products.bulk-update')">Toplu güncelleme</x-admin.button>
+            <x-admin.button variant="primary" :href="route('admin.products.create')">+ Yeni ürün</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -91,8 +91,8 @@
         </details>
 
         <div class="mt-4 flex flex-wrap gap-2 items-center">
-            <button type="submit" class="admin-btn admin-btn-primary px-5 py-2.5">Filtrele</button>
-            <a href="{{ route('admin.products.index') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Temizle</a>
+            <x-admin.button variant="primary" type="submit">Filtrele</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.products.index')">Temizle</x-admin.button>
             @if($products->total() > 0)
                 <span class="text-sm text-slate-500 ml-auto">{{ number_format($products->total(), 0, ',', '.') }} ürün eşleşti</span>
             @endif
@@ -109,12 +109,12 @@
                     {{ $products->firstItem() }}–{{ $products->lastItem() }} arası gösteriliyor
                 </p>
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('admin.products.export', request()->query()) }}" class="admin-btn admin-btn-secondary text-sm px-4 py-2">
+                    <x-admin.button variant="secondary" size="sm" :href="route('admin.products.export', request()->query())">
                         Filtrelenmiş listeyi indir
-                    </a>
-                    <button type="button" id="export-selected-products" data-export-base="{{ route('admin.products.export', request()->except('ids')) }}" class="admin-btn admin-btn-secondary text-sm px-4 py-2">
+                    </x-admin.button>
+                    <x-admin.button variant="secondary" size="sm" type="button" id="export-selected-products" data-export-base="{{ route('admin.products.export', request()->except('ids')) }}">
                         Seçilenleri indir
-                    </button>
+                    </x-admin.button>
                 </div>
             </div>
 
@@ -158,19 +158,19 @@
                             <td data-label="Durum">
                                 <div class="flex flex-wrap gap-1">
                                     @if($p->is_active)
-                                        <span class="rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-0.5 text-xs font-semibold">Aktif</span>
+                                        <x-admin.badge tone="success">Aktif</x-admin.badge>
                                     @else
-                                        <span class="rounded-full bg-slate-100 text-slate-600 px-2.5 py-0.5 text-xs font-semibold">Pasif</span>
+                                        <x-admin.badge tone="muted">Pasif</x-admin.badge>
                                     @endif
                                     @if($p->featured)
-                                        <span class="rounded-full bg-blue-50 text-blue-700 px-2.5 py-0.5 text-xs font-semibold">Vitrin</span>
+                                        <x-admin.badge tone="info">Vitrin</x-admin.badge>
                                     @endif
                                 </div>
                             </td>
                             <td data-label="İşlemler" class="text-right">
                                 <div class="admin-row-actions">
-                                    <a href="{{ route('admin.products.export', array_merge(request()->query(), ['ids' => [$p->id]])) }}" class="admin-btn admin-btn-secondary text-xs py-1.5" title="CSV indir">CSV</a>
-                                    <a href="{{ route('admin.products.edit', $p) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Düzenle</a>
+                                    <x-admin.button variant="secondary" size="sm" :href="route('admin.products.export', array_merge(request()->query(), ['ids' => [$p->id]]))" title="CSV indir">CSV</x-admin.button>
+                                    <x-admin.button variant="secondary" size="sm" :href="route('admin.products.edit', $p)">Düzenle</x-admin.button>
                                 </div>
                             </td>
                         </tr>

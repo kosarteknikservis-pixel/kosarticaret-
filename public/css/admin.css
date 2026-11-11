@@ -2496,23 +2496,42 @@ body.admin-body {
 .admin-btn.admin-btn--sm,
 .admin-btn.py-1\.5,
 .admin-btn.px-2\.5,
+.admin-btn.px-3,
 .admin-btn.text-xs,
+.admin-btn.text-sm,
 .admin-btn--compact {
     min-height: 2rem;
     padding: 0.375rem 0.75rem;
     font-size: 0.75rem;
 }
 
+.admin-btn.px-4,
 .admin-btn.px-5,
+.admin-btn.px-6,
 .admin-btn.px-8,
+.admin-btn.py-2,
 .admin-btn.py-2\.5 {
     min-height: 2.5rem;
     padding: 0.5625rem 1.125rem;
     font-size: 0.875rem;
 }
 
-.admin-btn--block {
+/* sm wins when both size utilities appear */
+.admin-btn.text-xs.py-1\.5,
+.admin-btn.text-xs.px-3,
+.admin-btn.py-1\.5.text-xs {
+    min-height: 2rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+}
+
+.admin-btn--block,
+.admin-btn.w-full {
     width: 100%;
+}
+
+.admin-btn.justify-center {
+    justify-content: center;
 }
 
 .admin-input {

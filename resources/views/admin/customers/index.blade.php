@@ -12,9 +12,9 @@
             <label class="admin-label">Ara</label>
             <input type="search" name="q" value="{{ $search }}" placeholder="Ad veya e-posta" class="admin-input">
         </div>
-        <button type="submit" class="admin-btn admin-btn-secondary">Filtrele</button>
+        <x-admin.button variant="secondary" type="submit">Filtrele</x-admin.button>
         @if($search !== '')
-            <a href="{{ route('admin.customers.index') }}" class="admin-btn admin-btn-secondary">Temizle</a>
+            <x-admin.button variant="secondary" :href="route('admin.customers.index')">Temizle</x-admin.button>
         @endif
     </form>
 
@@ -37,13 +37,13 @@
                         <td class="text-slate-500 text-xs whitespace-nowrap">{{ $customer->created_at->format('d.m.Y H:i') }}</td>
                         <td>
                             @if($customer->orders_count > 0)
-                                <span class="rounded-full bg-teal-50 text-teal-800 px-2.5 py-0.5 text-xs font-bold">{{ $customer->orders_count }}</span>
+                                <x-admin.badge tone="success">{{ $customer->orders_count }}</x-admin.badge>
                             @else
                                 <span class="text-slate-400 text-xs">—</span>
                             @endif
                         </td>
                         <td class="text-right">
-                            <a href="{{ route('admin.customers.show', $customer) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Detay</a>
+                            <x-admin.button variant="secondary" size="sm" :href="route('admin.customers.show', $customer)">Detay</x-admin.button>
                         </td>
                     </tr>
                 @empty

@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="Siparişler" subtitle="Onaylı ve gerçekleşen siparişler. PayTR ödemesi tamamlanmayanlar ayrı listede.">
         <x-slot:actions>
-            <a href="{{ route('admin.orders.create') }}" class="admin-btn admin-btn-primary px-4 py-2.5">+ Yeni sipariş</a>
+            <x-admin.button variant="primary" :href="route('admin.orders.create')">+ Yeni sipariş</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -14,10 +14,13 @@
                 <p class="font-bold text-amber-900">{{ $pendingPaymentCount }} sipariş ödeme bekliyor</p>
                 <p class="text-sm text-amber-800 mt-1">Otomatik hatırlatma e-postası siparişten {{ config('kosar.payment_reminder.delay_hours', 2) }} saat sonra bir kez gider. Gönderim durumu sipariş detayı → İşlem geçmişi.</p>
             </div>
-            <a href="{{ route('admin.orders.index', ['pending_payment' => '1']) }}"
-               class="admin-btn admin-btn-secondary px-4 py-2.5 {{ ($filters['pending_payment'] ?? '') === '1' ? 'ring-2 ring-amber-300' : '' }}">
+            <x-admin.button
+                variant="secondary"
+                :href="route('admin.orders.index', ['pending_payment' => '1'])"
+                class="{{ ($filters['pending_payment'] ?? '') === '1' ? 'ring-2 ring-amber-300' : '' }}"
+            >
                 Ödeme bekleyenleri göster
-            </a>
+            </x-admin.button>
         </div>
     @endif
 
@@ -84,10 +87,10 @@
                     <option value="yok" @selected(($filters['tracking'] ?? '') === 'yok')>Yok</option>
                 </select>
             </div>
-            <button class="admin-btn admin-btn-primary px-5 py-2.5">Filtrele</button>
-            <a href="{{ route('admin.orders.index') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Temizle</a>
+            <x-admin.button variant="primary" type="submit">Filtrele</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.orders.index')">Temizle</x-admin.button>
             @if(($filters['pending_payment'] ?? '') !== '1')
-                <a href="{{ route('admin.orders.index', ['pending_payment' => '1']) }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Ödeme bekleyenler</a>
+                <x-admin.button variant="secondary" :href="route('admin.orders.index', ['pending_payment' => '1'])">Ödeme bekleyenler</x-admin.button>
             @endif
         </div>
     </form>
@@ -98,7 +101,7 @@
         @else
             <div class="admin-table-toolbar px-4 py-3 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50">
                 <p class="text-sm text-slate-600">Seçili siparişleri toplu silebilirsiniz. Paraşüt’e aktarılmış taslak faturalar Paraşüt tarafında ayrıca kalır.</p>
-                <button type="submit" form="bulk-order-delete-form" class="admin-btn admin-btn-danger text-sm px-4 py-2" onclick="return confirm('Seçili siparişler silinsin mi? Bu işlem geri alınamaz. Paraşüt taslak faturaları silinmez.');">Seçili siparişleri sil</button>
+                <x-admin.button variant="danger" size="sm" type="submit" form="bulk-order-delete-form" onclick="return confirm('Seçili siparişler silinsin mi? Bu işlem geri alınamaz. Paraşüt taslak faturaları silinmez.');">Seçili siparişleri sil</x-admin.button>
             </div>
             <form id="bulk-order-delete-form" method="post" action="{{ route('admin.orders.bulk-destroy') }}">
                 @csrf @method('DELETE')
@@ -155,11 +158,11 @@
                             <td data-label="Kargo" class="text-xs text-slate-500">{{ $o->shipping_tracking ? 'Takip var' : 'Takip yok' }}</td>
                             <td data-label="Paraşüt">
                                 @if($o->parasut_sales_invoice_id)
-                                    <span class="rounded-full bg-blue-50 text-blue-700 px-2.5 py-0.5 text-xs font-semibold">Aktarıldı</span>
+                                    <x-admin.badge tone="info">Aktarıldı</x-admin.badge>
                                 @elseif($o->parasut_status === 'failed')
-                                    <span class="rounded-full bg-red-50 text-red-700 px-2.5 py-0.5 text-xs font-semibold">Hata</span>
+                                    <x-admin.badge tone="danger">Hata</x-admin.badge>
                                 @else
-                                    <span class="rounded-full bg-slate-100 text-slate-600 px-2.5 py-0.5 text-xs font-semibold">Bekliyor</span>
+                                    <x-admin.badge tone="muted">Bekliyor</x-admin.badge>
                                 @endif
                             </td>
                             <td data-label="İşlemler" class="text-right">
@@ -167,14 +170,14 @@
                                     @if(!$o->parasut_sales_invoice_id)
                                         <form method="post" action="{{ route('admin.orders.parasut.sync', $o) }}" onsubmit="return confirm('Bu sipariş Paraşüt’e taslak satış faturası olarak aktarılsın mı?');">
                                             @csrf
-                                            <button class="admin-btn admin-btn-secondary text-xs py-1.5">Paraşüt’e gönder</button>
+                                            <x-admin.button variant="secondary" size="sm" type="submit">Paraşüt’e gönder</x-admin.button>
                                         </form>
                                     @endif
-                                    <a href="{{ route('admin.orders.shipping-label', ['order' => $o, 'yazdir' => 1]) }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary text-xs py-1.5">Etiket</a>
-                                    <a href="{{ route('admin.orders.show', $o) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Detay</a>
+                                    <x-admin.button variant="secondary" size="sm" :href="route('admin.orders.shipping-label', ['order' => $o, 'yazdir' => 1])" target="_blank" rel="noopener">Etiket</x-admin.button>
+                                    <x-admin.button variant="secondary" size="sm" :href="route('admin.orders.show', $o)">Detay</x-admin.button>
                                     <form method="post" action="{{ route('admin.orders.destroy', $o) }}" onsubmit="return confirm('{{ $o->order_number }} numaralı sipariş silinsin mi? Bu işlem geri alınamaz. Paraşüt taslak faturası varsa silinmez.');">
                                         @csrf @method('DELETE')
-                                        <button class="admin-btn admin-btn-danger text-xs py-1.5">Sil</button>
+                                        <x-admin.button variant="danger" size="sm" type="submit">Sil</x-admin.button>
                                     </form>
                                 </div>
                             </td>
