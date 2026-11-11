@@ -56,7 +56,7 @@
                     <p class="shop-order-summary-total">{{ number_format($order->total, 2, ',', '.') }} ₺</p>
                     @if($order->shipping_tracking)
                         <div class="mt-4 pt-4 border-t border-slate-100">
-                            <p class="text-xs text-slate-500 uppercase font-semibold tracking-wide">{{ __('shop.tracking_number') }}</p>
+                            <p class="text-xs font-semibold text-slate-500">{{ __('shop.tracking_number') }}</p>
                             <p class="mt-1 font-mono font-bold text-slate-900 break-all">{{ $order->shipping_tracking }}</p>
                         </div>
                     @endif
