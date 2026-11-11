@@ -29,7 +29,7 @@
                 <div><label class="shop-label">Konu</label><input name="konu" value="{{ old('konu') }}" required class="shop-input mt-1"></div>
                 <div><label class="shop-label">Mesaj</label><textarea name="mesaj" rows="5" required class="shop-input mt-1">{{ old('mesaj') }}</textarea></div>
                 <x-shop.spam-recaptcha context="contact" />
-                <button type="submit" class="btn-primary px-8 py-3">{{ __('shop.send_message') }}</button>
+                <button type="submit" class="btn-primary">{{ __('shop.send_message') }}</button>
             </form>
 
             <aside class="space-y-4">

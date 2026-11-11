@@ -71,13 +71,13 @@
         <div class="shop-mobile-nav__foot space-y-2">
             @auth
                 @if(auth()->user()->is_admin)
-                    <a href="{{ route('admin.dashboard') }}" class="btn-primary w-full text-center">{{ __('shop.admin_panel') }}</a>
+                    <a href="{{ route('admin.dashboard') }}" class="btn-primary btn--block">{{ __('shop.admin_panel') }}</a>
                 @else
-                    <a href="{{ route('account.index') }}" class="btn-outline w-full text-center">{{ __('shop.account') }}</a>
+                    <a href="{{ route('account.index') }}" class="btn-outline btn--block">{{ __('shop.account') }}</a>
                 @endif
             @else
-                <a href="{{ route('login') }}" class="btn-outline w-full text-center" data-open-auth-modal data-auth-mode="login">{{ __('shop.login_cta') }}</a>
-                <a href="{{ route('register') }}" class="btn-primary w-full text-center" data-open-auth-modal data-auth-mode="register">{{ __('shop.register') }}</a>
+                <a href="{{ route('login') }}" class="btn-outline btn--block" data-open-auth-modal data-auth-mode="login">{{ __('shop.login_cta') }}</a>
+                <a href="{{ route('register') }}" class="btn-primary btn--block" data-open-auth-modal data-auth-mode="register">{{ __('shop.register') }}</a>
             @endauth
         </div>
     </div>

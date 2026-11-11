@@ -7,7 +7,7 @@
 
         <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
             <section>
-                <h2 class="text-base font-semibold text-slate-900 mb-3">{{ __('shop.categories') }}</h2>
+                <h2 class="shop-heading-card mb-3">{{ __('shop.categories') }}</h2>
                 <ul class="space-y-3 text-sm">
                     @foreach($categoryTree as $root)
                         <li>
@@ -25,7 +25,7 @@
             </section>
 
             <section>
-                <h2 class="text-base font-semibold text-slate-900 mb-3">{{ __('shop.brands') }}</h2>
+                <h2 class="shop-heading-card mb-3">{{ __('shop.brands') }}</h2>
                 <ul class="space-y-1.5 text-sm">
                     @foreach($brands as $brand)
                         <li><a href="{{ route('brands.show', $brand) }}" class="text-slate-700 hover:underline">{{ $brand->name }}</a></li>
@@ -38,7 +38,7 @@
 
             @if($collections->isNotEmpty())
                 <section>
-                    <h2 class="text-base font-semibold text-slate-900 mb-3">Koleksiyonlar</h2>
+                    <h2 class="shop-heading-card mb-3">Koleksiyonlar</h2>
                     <ul class="space-y-1.5 text-sm">
                         @foreach($collections as $collection)
                             <li><a href="{{ route('collections.show', $collection->slug) }}" class="text-slate-700 hover:underline">{{ $collection->name }}</a></li>
@@ -48,7 +48,7 @@
             @endif
 
             <section>
-                <h2 class="text-base font-semibold text-slate-900 mb-3">{{ __('shop.html_sitemap_pages') }}</h2>
+                <h2 class="shop-heading-card mb-3">{{ __('shop.html_sitemap_pages') }}</h2>
                 <ul class="space-y-1.5 text-sm">
                     <li><a href="{{ route('home') }}" class="hover:underline">{{ __('shop.home') }}</a></li>
                     <li><a href="{{ route('products.index') }}" class="hover:underline">{{ __('shop.all_products') }}</a></li>
@@ -66,7 +66,7 @@
 
         @if($blogPosts->isNotEmpty())
             <section class="mt-12">
-                <h2 class="text-base font-semibold text-slate-900 mb-3">{{ __('shop.html_sitemap_blog') }}</h2>
+                <h2 class="shop-heading-card mb-3">{{ __('shop.html_sitemap_blog') }}</h2>
                 <ul class="grid gap-2 sm:grid-cols-2 text-sm">
                     @foreach($blogPosts as $post)
                         <li><a href="{{ route('blog.show', $post) }}" class="text-slate-700 hover:underline">{{ $post->title }}</a></li>
@@ -80,7 +80,7 @@
 
         @if($recentProducts->isNotEmpty())
             <section class="mt-12">
-                <h2 class="text-base font-semibold text-slate-900 mb-3">{{ __('shop.html_sitemap_recent_products') }}</h2>
+                <h2 class="shop-heading-card mb-3">{{ __('shop.html_sitemap_recent_products') }}</h2>
                 <ul class="grid gap-2 sm:grid-cols-2 text-sm">
                     @foreach($recentProducts as $product)
                         <li><a href="{{ route('products.show', $product) }}" class="text-slate-700 hover:underline">{{ $product->name }}</a></li>

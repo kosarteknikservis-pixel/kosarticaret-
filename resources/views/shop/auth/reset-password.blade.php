@@ -9,7 +9,7 @@
         ]])
         <div class="shop-auth-card">
             <div class="text-center mb-6">
-                <h1 class="text-2xl font-bold text-slate-900">Yeni şifre belirle</h1>
+                <h1 class="shop-heading-page">Yeni şifre belirle</h1>
                 <p class="text-sm text-slate-500 mt-1">En az 8 karakterli yeni şifrenizi girin.</p>
             </div>
 
@@ -34,7 +34,7 @@
                     <label for="reset-password-confirm" class="shop-label">Yeni şifre (tekrar)</label>
                     <input id="reset-password-confirm" type="password" name="password_confirmation" required class="shop-input mt-1" autocomplete="new-password">
                 </div>
-                <button type="submit" class="btn-primary w-full py-3">Şifreyi güncelle</button>
+                <x-shop.button variant="primary" :block="true">Şifreyi güncelle</x-shop.button>
             </form>
         </div>
     </div>

@@ -90,7 +90,7 @@
                                 <label for="return-note" class="shop-label">Açıklama (opsiyonel)</label>
                                 <textarea id="return-note" name="note" rows="3" class="shop-input mt-1">{{ old('note') }}</textarea>
                             </div>
-                            <button type="submit" class="btn-outline w-full py-2.5">Talep gönder</button>
+                            <button type="submit" class="btn-outline btn--sm btn--block">Talep gönder</button>
                         </form>
                     </div>
                 @endif

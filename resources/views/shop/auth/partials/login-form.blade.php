@@ -32,7 +32,7 @@
         <a href="{{ route('password.request') }}" class="text-sm font-semibold text-brand-700 hover:text-brand-800">Şifremi unuttum</a>
     </div>
 
-    <button type="submit" class="btn-primary w-full py-3">{{ __('shop.login') }}</button>
+    <x-shop.button variant="primary" :block="true">{{ __('shop.login') }}</x-shop.button>
 </form>
 
 @if($showRegisterLink)

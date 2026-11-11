@@ -66,7 +66,7 @@
 
             @if($retryUrl)
 
-                <a href="{{ $retryUrl }}" class="btn-primary shop-btn-premium w-full py-3.5 mt-8 inline-block text-center">
+                <a href="{{ $retryUrl }}" class="btn-primary btn--lg btn--block shop-btn-premium mt-8">
 
                     {{ __('shop.retry_payment', ['gateway' => $gatewayLabel]) }}
 
@@ -80,7 +80,7 @@
 
                     <input type="hidden" name="demo" value="1">
 
-                    <button type="submit" class="btn-primary shop-btn-premium w-full py-3.5">{{ __('shop.complete_demo_payment') }}</button>
+                    <button type="submit" class="btn-primary btn--lg btn--block shop-btn-premium">{{ __('shop.complete_demo_payment') }}</button>
 
                 </form>
 

@@ -11,7 +11,7 @@
         <x-shop.page-hero :title="__('shop.hello', ['name' => $user->name])" :subtitle="$user->email">
             <x-slot:actions>
                 <form method="post" action="{{ route('logout') }}">@csrf
-                    <button type="submit" class="btn-outline text-sm py-2.5 px-4">{{ __('shop.logout') }}</button>
+                    <button type="submit" class="btn-outline btn--sm">{{ __('shop.logout') }}</button>
                 </form>
             </x-slot:actions>
         </x-shop.page-hero>

@@ -42,7 +42,7 @@
                             >
                         </div>
                     </div>
-                    <button type="submit" class="btn-primary w-full py-3.5 mt-6">
+                    <button type="submit" class="btn-primary btn--lg btn--block mt-6">
                         <x-shop.icon name="search" class="w-5 h-5 inline-block mr-1 -mt-0.5" />
                         {{ __('shop.track_order') }}
                     </button>

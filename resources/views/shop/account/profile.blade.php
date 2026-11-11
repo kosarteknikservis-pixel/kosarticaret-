@@ -38,7 +38,7 @@
             </div>
 
             <div class="border-t border-slate-100 pt-5 space-y-4">
-                <h2 class="text-base font-bold text-slate-900">Varsayılan teslimat adresi</h2>
+                <h2 class="shop-heading-card">Varsayılan teslimat adresi</h2>
                 <div>
                     <label for="adres" class="shop-label">Adres</label>
                     <textarea id="adres" name="adres" rows="3" class="shop-input mt-1">{{ old('adres', $address['adres'] ?? '') }}</textarea>
@@ -60,7 +60,7 @@
             </div>
 
             <div class="border-t border-slate-100 pt-5 space-y-4">
-                <h2 class="text-base font-bold text-slate-900">Şifre değiştir</h2>
+                <h2 class="shop-heading-card">Şifre değiştir</h2>
                 <p class="text-sm text-slate-500">Boş bırakırsanız şifre değişmez.</p>
                 <div>
                     <label for="current_password" class="shop-label">Mevcut şifre (e-posta veya şifre değişikliğinde zorunlu)</label>
@@ -81,8 +81,8 @@
             </div>
 
             <div class="flex flex-wrap gap-3 pt-2">
-                <button type="submit" class="btn-primary py-3 px-6">Kaydet</button>
-                <a href="{{ route('account.index') }}" class="btn-outline py-3 px-6">Siparişlerime dön</a>
+                <x-shop.button variant="primary">Kaydet</x-shop.button>
+                <x-shop.button variant="outline" :href="route('account.index')">Siparişlerime dön</x-shop.button>
             </div>
         </form>
     </div>

@@ -44,13 +44,13 @@
             </div>
 
             <div class="mt-8 flex flex-wrap justify-center gap-3">
-                <a href="{{ route('tracking.show') }}" class="btn-outline px-6 py-3">{{ __('shop.tracking') }}</a>
+                <a href="{{ route('tracking.show') }}" class="btn-outline">{{ __('shop.tracking') }}</a>
                 @auth
                     @if(!auth()->user()->is_admin)
-                        <a href="{{ route('account.index') }}" class="btn-primary px-6 py-3">{{ __('shop.account') }}</a>
+                        <a href="{{ route('account.index') }}" class="btn-primary">{{ __('shop.account') }}</a>
                     @endif
                 @endauth
-                <a href="{{ route('home') }}" class="btn-outline px-6 py-3">{{ __('shop.home') }}</a>
+                <a href="{{ route('home') }}" class="btn-outline">{{ __('shop.home') }}</a>
             </div>
         </div>
     </div>

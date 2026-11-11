@@ -79,7 +79,7 @@
                             @foreach($products as $product)
                                 <td>
                                     @if($product->stock > 0)
-                                        <button type="button" data-add-cart="{{ $product->slug }}" class="btn-primary text-sm py-2 px-4">{{ __('shop.add_to_cart') }}</button>
+                                        <button type="button" data-add-cart="{{ $product->slug }}" class="btn-primary btn--sm">{{ __('shop.add_to_cart') }}</button>
                                     @else
                                         <a href="{{ route('products.show', $product) }}" class="shop-link-inline">{{ __('shop.view_product') }}</a>
                                     @endif

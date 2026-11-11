@@ -112,7 +112,7 @@
             </div>
 
             <x-shop.spam-recaptcha context="review" />
-            <button type="submit" class="btn-primary w-full py-3 shop-btn-premium">{{ __('shop.submit_review') }}</button>
+            <button type="submit" class="btn-primary btn--block shop-btn-premium">{{ __('shop.submit_review') }}</button>
         </form>
     </div>
 </div>

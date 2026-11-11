@@ -33,6 +33,6 @@
             <textarea id="quote-note" name="note" rows="3" maxlength="5000" class="shop-input resize-y min-h-[5rem]">{{ old('note') }}</textarea>
         </div>
         <x-shop.spam-recaptcha context="quote" />
-        <button type="submit" class="btn-outline w-full py-3 text-center">{{ __('shop.quote_submit') }}</button>
+        <button type="submit" class="btn-outline btn--block">{{ __('shop.quote_submit') }}</button>
     </form>
 </div>

@@ -21,7 +21,7 @@
             <a href="{{ route('cart.index') }}" class="shop-cart-drawer__secondary">
                 {{ __('shop.cart_view_full') }}
             </a>
-            <a href="{{ route('checkout.show') }}" id="cart-drawer-checkout" class="btn-primary w-full py-3">
+            <a href="{{ route('checkout.show') }}" id="cart-drawer-checkout" class="btn-primary btn--block">
                 {{ __('shop.checkout_cta') }}
             </a>
         </div>

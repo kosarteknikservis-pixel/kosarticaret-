@@ -24,7 +24,7 @@
 
         @if(!empty($author['expertise']))
             <section class="mt-8 shop-reveal" aria-labelledby="author-expertise-heading">
-                <h2 id="author-expertise-heading" class="text-lg font-semibold text-slate-900 mb-3">{{ __('shop.blog_author_expertise') }}</h2>
+                <h2 id="author-expertise-heading" class="shop-heading-section mb-3">{{ __('shop.blog_author_expertise') }}</h2>
                 <ul class="grid gap-2 sm:grid-cols-2">
                     @foreach($author['expertise'] as $item)
                         <li class="flex items-start gap-2 text-sm text-slate-700">
@@ -38,7 +38,7 @@
 
         @if($posts->isNotEmpty())
             <section class="mt-12 pt-8 border-t border-slate-200 shop-reveal" aria-labelledby="author-posts-heading">
-                <h2 id="author-posts-heading" class="text-lg font-semibold text-slate-900 mb-6">{{ __('shop.blog_author_recent_posts') }}</h2>
+                <h2 id="author-posts-heading" class="shop-heading-section mb-6">{{ __('shop.blog_author_recent_posts') }}</h2>
                 <div class="shop-blog-grid shop-blog-grid--related">
                     @foreach($posts as $post)
                         <article class="shop-blog-card">
