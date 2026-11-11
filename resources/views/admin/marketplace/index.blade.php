@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="Pazaryerleri" subtitle="Trendyol, Hepsiburada, N11, Idefix, Pazarama ve Akakçe entegrasyon merkezi">
         <x-slot:actions>
-            <a href="{{ route('admin.integrations.marketplace.channels.index') }}" class="admin-btn admin-btn-primary">Kanal ayarları</a>
+            <x-admin.button variant="primary" :href="route('admin.integrations.marketplace.channels.index')">Kanal ayarları</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -58,11 +58,10 @@
         <section class="admin-card p-5 sm:p-6">
             <h2 class="text-lg font-semibold text-slate-900 mb-2">Modül durumu</h2>
             <p class="text-sm text-slate-600 leading-relaxed mb-4">
-                <strong>Faz 3</strong> aktif: Trendyol ürün + sipariş; Hepsiburada ürün gönderimi (pilot). Otomatik stok/fiyat sync <strong>Faz 4</strong>.
+                <strong>Faz 3 (Trendyol pilot)</strong> aktif: ürün gönderimi ve sipariş import. Otomatik stok/fiyat sync <strong>Faz 4</strong> ile gelecek.
             </p>
             <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
                 <li>Trendyol API bağlantı testi ve ürün gönderimi</li>
-                <li>Hepsiburada katalog gönderimi (kontrollü kuyruk)</li>
                 <li>Listeleme durumu takibi (taslak → onay → yayın)</li>
                 <li>Trendyol sipariş import ve stok düşümü</li>
                 <li>Kategori, marka ve özellik eşleştirme merkezi</li>

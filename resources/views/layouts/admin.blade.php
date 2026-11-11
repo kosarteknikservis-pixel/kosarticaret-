@@ -67,7 +67,7 @@
                     <a href="{{ route('admin.profile.edit') }}" class="hidden md:inline text-sm font-semibold text-slate-500 hover:text-teal-700 transition-colors">
                         {{ auth()->user()?->email }}
                     </a>
-                    <a href="{{ route('home') }}" target="_blank" class="admin-btn admin-btn-secondary text-xs py-2">Mağaza</a>
+                    <x-admin.button variant="secondary" size="sm" :href="route('home')" target="_blank">Mağaza</x-admin.button>
                 </div>
             </header>
 

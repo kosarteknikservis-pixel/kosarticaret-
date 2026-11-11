@@ -18,9 +18,9 @@
     @enderror
 
     <div class="mb-4 flex flex-wrap gap-2">
-        <a href="{{ route('admin.order-returns.index') }}" class="admin-btn {{ ! $statusFilter ? 'admin-btn-primary' : 'admin-btn-secondary' }} py-2 px-3 text-sm">Tümü</a>
+        <x-admin.button :variant="! $statusFilter ? 'primary' : 'secondary'" size="sm" :href="route('admin.order-returns.index')">Tümü</x-admin.button>
         @foreach(['beklemede', 'onaylandi', 'reddedildi'] as $st)
-            <a href="{{ route('admin.order-returns.index', ['status' => $st]) }}" class="admin-btn {{ $statusFilter === $st ? 'admin-btn-primary' : 'admin-btn-secondary' }} py-2 px-3 text-sm">{{ ucfirst($st) }}</a>
+            <x-admin.button :variant="$statusFilter === $st ? 'primary' : 'secondary'" size="sm" :href="route('admin.order-returns.index', ['status' => $st])">{{ ucfirst($st) }}</x-admin.button>
         @endforeach
     </div>
 
@@ -67,8 +67,8 @@
                                         Onayda kart iadesi de yap
                                     </label>
                                     <div class="flex flex-wrap gap-2">
-                                        <button name="status" value="onaylandi" class="admin-btn admin-btn-primary py-1.5 px-3 text-xs">Onayla</button>
-                                        <button name="status" value="reddedildi" class="admin-btn admin-btn-secondary py-1.5 px-3 text-xs">Reddet</button>
+                                        <x-admin.button variant="primary" size="sm" type="submit" name="status" value="onaylandi">Onayla</x-admin.button>
+                                        <x-admin.button variant="secondary" size="sm" type="submit" name="status" value="reddedildi">Reddet</x-admin.button>
                                     </div>
                                 </form>
                             @else

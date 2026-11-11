@@ -6,8 +6,11 @@
         <x-slot:actions>
             <div class="flex gap-2">
                 @foreach(['7d' => '7 gün', '30d' => '30 gün', '90d' => '90 gün'] as $key => $label)
-                    <a href="{{ route('admin.search-analytics.index', ['period' => $key]) }}"
-                       class="admin-btn {{ $period === $key ? 'admin-btn-primary' : 'admin-btn-secondary' }} text-xs py-1.5">{{ $label }}</a>
+                    <x-admin.button
+                        :variant="$period === $key ? 'primary' : 'secondary'"
+                        size="sm"
+                        :href="route('admin.search-analytics.index', ['period' => $key])"
+                    >{{ $label }}</x-admin.button>
                 @endforeach
             </div>
         </x-slot:actions>

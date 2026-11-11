@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="Yeni sipariş" subtitle="Telefon, WhatsApp veya yüz yüze satışlar için manuel sipariş oluşturun.">
         <x-slot:actions>
-            <a href="{{ route('admin.orders.index') }}" class="admin-btn admin-btn-secondary px-4 py-2.5">Siparişlere dön</a>
+            <x-admin.button variant="secondary" :href="route('admin.orders.index')">Siparişlere dön</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -147,6 +147,14 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div id="admin-cod-tender-wrap" class="{{ old('payment_method', 'havale') === 'kapida_odeme' ? '' : 'hidden' }}">
+                            <label class="admin-label">Kapıda ödeme şekli</label>
+                            <select name="kapida_odeme_sekli" id="admin-cod-tender" class="admin-input">
+                                @foreach(\App\Support\PaymentMethod::codTenderLabels() as $value => $label)
+                                    <option value="{{ $value }}" @selected(old('kapida_odeme_sekli', 'nakit') === $value)>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div>
                             <label class="admin-label">Kargo yöntemi</label>
                             <select name="kargo_yontemi" id="admin-shipping-method" class="admin-input">
@@ -185,7 +193,7 @@
                             <input type="checkbox" name="send_telegram" value="1" @checked(old('send_telegram', true))>
                             Telegram bildirimi gönder
                         </label>
-                        <button type="submit" class="admin-btn admin-btn-primary w-full py-2.5">Siparişi oluştur</button>
+                        <x-admin.button variant="primary" type="submit" block>Siparişi oluştur</x-admin.button>
                         <p class="text-xs text-slate-500 leading-relaxed">Stok düşülür ve sipariş detay sayfasına yönlendirilirsiniz. Kredi kartı seçilirse ödeme bekleyen sipariş oluşturulur; PayTR otomatik başlatılmaz.</p>
                     </div>
 
@@ -343,9 +351,13 @@
                     const method = this.value;
                     const status = document.getElementById('admin-order-status');
                     const paymentStatus = document.getElementById('admin-payment-status');
+                    const codWrap = document.getElementById('admin-cod-tender-wrap');
                     if (method === 'kredi_karti' && status && paymentStatus) {
                         status.value = 'odeme_bekliyor';
                         paymentStatus.value = 'bekliyor';
+                    }
+                    if (codWrap) {
+                        codWrap.classList.toggle('hidden', method !== 'kapida_odeme');
                     }
                     calcTotals();
                 });

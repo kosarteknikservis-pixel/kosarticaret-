@@ -70,7 +70,7 @@
                         <label class="admin-label">Değer map (JSON, opsiyonel)</label>
                         <textarea name="value_map" rows="3" class="admin-input font-mono text-xs" placeholder='{"220V":"220 Volt"}'></textarea>
                     </div>
-                    <button class="admin-btn admin-btn-primary px-5 py-2.5">Kaydet</button>
+                    <x-admin.button variant="primary" type="submit">Kaydet</x-admin.button>
                 </form>
             </section>
 

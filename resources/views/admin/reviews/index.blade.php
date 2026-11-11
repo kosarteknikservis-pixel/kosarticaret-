@@ -18,16 +18,16 @@
                             <p class="text-xs text-slate-400 mt-2">{{ $review->created_at->format('d.m.Y H:i') }}</p>
                         </td>
                         <td class="align-top">
-                            <span class="admin-badge {{ $review->approved ? 'admin-badge-success' : 'admin-badge-warning' }}">{{ $review->approved ? 'Yayında' : 'Bekliyor' }}</span>
+                            <x-admin.badge :tone="$review->approved ? 'success' : 'warning'">{{ $review->approved ? 'Yayında' : 'Bekliyor' }}</x-admin.badge>
                         </td>
                         <td class="align-top space-y-2">
                             @if(!$review->approved)
                                 <form method="post" action="{{ route('admin.reviews.approve', $review) }}">@csrf @method('PATCH')
-                                    <button type="submit" class="admin-btn admin-btn-primary text-xs py-1.5 w-full">Onayla</button>
+                                    <x-admin.button variant="primary" size="sm" type="submit" class="w-full">Onayla</x-admin.button>
                                 </form>
                             @endif
                             <form method="post" action="{{ route('admin.reviews.destroy', $review) }}" onsubmit="return confirm('Silinsin mi?')">@csrf @method('DELETE')
-                                <button type="submit" class="admin-btn admin-btn-danger text-xs py-1.5 w-full">Sil</button>
+                                <x-admin.button variant="danger" size="sm" type="submit" class="w-full">Sil</x-admin.button>
                             </form>
                         </td>
                     </tr>

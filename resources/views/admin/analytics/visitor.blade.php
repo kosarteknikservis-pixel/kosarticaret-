@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="Yarım sepet detayı" subtitle="Müşteri bilgisi, sepet içeriği, kaynak ve varsa bağlı sipariş bilgilerini sade şekilde inceleyin.">
         <x-slot:actions>
-            <a href="{{ route('admin.analytics.index') }}" class="admin-btn admin-btn-secondary">Müşteri hareketleri</a>
+            <x-admin.button variant="secondary" :href="route('admin.analytics.index')">Müşteri hareketleri</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -35,7 +35,7 @@
                                 <form method="post" action="{{ route('admin.analytics.abandoned-carts.destroy', $cart) }}" onsubmit="return confirm('Bu yarım kalan sepet kaydı silinsin mi? Bu işlem geri alınamaz.');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="admin-btn admin-btn-danger text-xs py-1.5">Sil</button>
+                                    <x-admin.button variant="danger" size="sm" type="submit">Sil</x-admin.button>
                                 </form>
                             </div>
                         </div>

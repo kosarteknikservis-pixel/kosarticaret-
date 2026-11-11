@@ -3,7 +3,9 @@
 
 @section('content')
     <x-admin.page-header title="Otomatik kampanyalar" subtitle="Kupon kodundan bağımsız; sepette otomatik uygulanır">
-        <x-slot:actions><a href="{{ route('admin.promotions.create') }}" class="admin-btn admin-btn-primary">+ Yeni</a></x-slot:actions>
+        <x-slot:actions>
+            <x-admin.button variant="primary" :href="route('admin.promotions.create')">+ Yeni</x-admin.button>
+        </x-slot:actions>
     </x-admin.page-header>
     <div class="admin-card overflow-hidden">
         <table class="admin-table">
@@ -14,8 +16,12 @@
                         <td class="font-semibold">{{ $p->name }}</td>
                         <td class="text-slate-600">{{ $p->type }}</td>
                         <td>{{ $p->auto_apply ? 'Otomatik' : 'Manuel' }}</td>
-                        <td><span class="admin-badge {{ $p->active ? 'admin-badge-success' : 'admin-badge-muted' }}">{{ $p->active ? 'Aktif' : 'Pasif' }}</span></td>
-                        <td class="text-right"><a href="{{ route('admin.promotions.edit', $p) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Düzenle</a></td>
+                        <td>
+                            <x-admin.badge :tone="$p->active ? 'success' : 'muted'">{{ $p->active ? 'Aktif' : 'Pasif' }}</x-admin.badge>
+                        </td>
+                        <td class="text-right">
+                            <x-admin.button variant="secondary" size="sm" :href="route('admin.promotions.edit', $p)">Düzenle</x-admin.button>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

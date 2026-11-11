@@ -97,16 +97,16 @@
                             Bu sohbet bağlantıdan önce açıldı. Yanıt kaydolur; müşteri aynı tarayıcıdan dönerse pencerede görür. Oturum kapandıysa telefona bildirim gidemez.
                         @endif
                     </p>
-                    <button type="submit" class="admin-btn admin-btn-primary w-full shrink-0 sm:w-auto">Müşteriye gönder</button>
+                    <x-admin.button variant="primary" type="submit" class="w-full shrink-0 sm:w-auto">Müşteriye gönder</x-admin.button>
                 </div>
             </form>
         </section>
 
         <div class="admin-form-actions border-t mt-6 pt-4">
-            <a href="{{ route('admin.support-chats.index') }}" class="admin-btn admin-btn-secondary">Listeye dön</a>
+            <x-admin.button variant="secondary" :href="route('admin.support-chats.index')">Listeye dön</x-admin.button>
             <form method="post" action="{{ route('admin.support-chats.destroy', $conversation) }}" onsubmit="return confirm('Sohbet silinsin mi?')">
                 @csrf @method('DELETE')
-                <button type="submit" class="admin-btn text-rose-700 border-rose-200 hover:bg-rose-50">Sil</button>
+                <x-admin.button variant="secondary" type="submit" class="text-rose-700 border-rose-200 hover:bg-rose-50">Sil</x-admin.button>
             </form>
         </div>
     </div>

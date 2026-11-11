@@ -48,8 +48,8 @@
             <p class="text-xs text-slate-500">Kampanya şablonlarında genelde bu iki alan kapalı kalır. Sipariş şablonlarında ürün/takip alanları işe yarar.</p>
         </div>
         <div class="admin-form-actions">
-            <button class="admin-btn admin-btn-primary px-8 py-2.5">Şablon oluştur</button>
-            <a href="{{ route('admin.email-templates.index') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Listeye dön</a>
+            <x-admin.button variant="primary" type="submit">Şablon oluştur</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.email-templates.index')">Listeye dön</x-admin.button>
         </div>
     </form>
 @endsection

@@ -20,7 +20,7 @@
                 <input type="file" name="csv_file" accept=".csv,text/csv" required class="admin-input">
                 @error('csv_file')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
             </div>
-            <button class="admin-btn admin-btn-primary px-5 py-2.5">İçe aktar</button>
+            <x-admin.button variant="primary" type="submit">İçe aktar</x-admin.button>
         </form>
 
         <div class="rounded-xl bg-slate-50 border border-slate-100 p-4 text-xs font-mono text-slate-600 overflow-x-auto">

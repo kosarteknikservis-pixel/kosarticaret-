@@ -3,7 +3,7 @@
 
 @section('content')
     <x-admin.page-header title="Referans / proje vitrini" subtitle="Ana sayfada öne çıkan projeler">
-        <x-slot:actions><a href="{{ route('admin.project-references.create') }}" class="admin-btn admin-btn-primary">+ Yeni referans</a></x-slot:actions>
+        <x-slot:actions><x-admin.button variant="primary" :href="route('admin.project-references.create')">+ Yeni referans</x-admin.button></x-slot:actions>
     </x-admin.page-header>
     <div class="admin-card overflow-hidden">
         <table class="admin-table">
@@ -36,7 +36,7 @@
                         </td>
                         <td class="text-slate-500">{{ $ref->sort_order }}</td>
                         <td class="text-right">
-                            <a href="{{ route('admin.project-references.edit', $ref) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Düzenle</a>
+                            <x-admin.button variant="secondary" size="sm" :href="route('admin.project-references.edit', $ref)">Düzenle</x-admin.button>
                         </td>
                     </tr>
                 @empty

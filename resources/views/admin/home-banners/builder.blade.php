@@ -19,8 +19,8 @@
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <span id="hp-save-status" class="text-xs text-slate-500"></span>
-                <a href="{{ route('admin.home-banners.index') }}" class="admin-btn admin-btn-secondary text-xs">Liste</a>
-                <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-btn admin-btn-primary text-xs">Mağazayı aç</a>
+                <x-admin.button variant="secondary" size="sm" :href="route('admin.home-banners.index')">Liste</x-admin.button>
+                <x-admin.button variant="primary" size="sm" :href="route('home')" target="_blank" rel="noopener">Mağazayı aç</x-admin.button>
             </div>
         </header>
 
@@ -70,7 +70,7 @@
                         <input type="hidden" name="from_builder" value="1">
                         <input type="number" name="home_banner_width" value="{{ $spec['width'] }}" class="admin-input w-full text-sm" min="400" max="3840">
                         <input type="number" name="home_banner_height" value="{{ $spec['height'] }}" class="admin-input w-full text-sm" min="200" max="2160">
-                        <button type="submit" class="admin-btn admin-btn-secondary w-full text-xs py-1.5">Kaydet</button>
+                        <x-admin.button variant="secondary" size="sm" type="submit" block>Kaydet</x-admin.button>
                     </form>
                 </details>
             </aside>

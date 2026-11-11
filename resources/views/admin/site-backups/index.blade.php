@@ -10,8 +10,8 @@
             <p>SQLite veritabanı ve yüklenen medya dosyalarını tek zip içinde yedekleyin. Yedekleri indirebilir, daha sonra yükleyip geri dönebilirsiniz.</p>
         </div>
         <div class="admin-dashboard-hero__actions">
-            <a href="{{ \Illuminate\Support\Facades\Route::has('admin.theme.edit') ? route('admin.theme.edit') : route('admin.settings.edit') }}" class="admin-btn admin-btn-secondary">Tema yedekleri</a>
-            <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-btn admin-btn-primary">Mağazayı aç</a>
+            <x-admin.button variant="secondary" :href="\Illuminate\Support\Facades\Route::has('admin.theme.edit') ? route('admin.theme.edit') : route('admin.settings.edit')">Tema yedekleri</x-admin.button>
+            <x-admin.button variant="primary" :href="route('home')" target="_blank" rel="noopener">Mağazayı aç</x-admin.button>
         </div>
     </section>
 
@@ -45,7 +45,7 @@
                     @csrf
                     <label class="sr-only" for="backup_name">Yedek adı</label>
                     <input id="backup_name" name="backup_name" type="text" maxlength="80" placeholder="Yedek adı" class="admin-input">
-                    <button type="submit" class="admin-btn admin-btn-primary shrink-0">Yedek Al</button>
+                    <x-admin.button variant="primary" type="submit" class="shrink-0">Yedek Al</x-admin.button>
                 </form>
             </div>
         </section>
@@ -57,7 +57,7 @@
             <form method="post" action="{{ route('admin.site-backups.upload') }}" enctype="multipart/form-data" class="mt-4 space-y-3">
                 @csrf
                 <input type="file" name="backup_file" accept="application/zip,.zip" class="admin-input">
-                <button type="submit" class="admin-btn admin-btn-secondary w-full">Yedeği Yükle</button>
+                <x-admin.button variant="secondary" type="submit" block>Yedeği Yükle</x-admin.button>
             </form>
         </section>
     </div>
@@ -97,19 +97,19 @@
                         <div class="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:min-w-[28rem]">
                             <form method="get" action="{{ route('admin.site-backups.download') }}">
                                 <input type="hidden" name="file" value="{{ $backup['name'] }}">
-                                <button type="submit" class="admin-btn admin-btn-secondary w-full justify-center text-xs">İndir</button>
+                                <x-admin.button variant="secondary" size="sm" type="submit" block>İndir</x-admin.button>
                             </form>
                             <form method="post" action="{{ route('admin.site-backups.restore') }}" onsubmit="return confirm('Bu yedek geri yüklenecek. Mevcut site önce otomatik yedeklenecek. Devam edilsin mi?')">
                                 @csrf
                                 <input type="hidden" name="file" value="{{ $backup['name'] }}">
                                 <input type="hidden" name="confirm_restore" value="1">
-                                <button type="submit" class="admin-btn admin-btn-primary w-full justify-center text-xs">Geri Yükle</button>
+                                <x-admin.button variant="primary" size="sm" type="submit" block>Geri Yükle</x-admin.button>
                             </form>
                             <form method="post" action="{{ route('admin.site-backups.destroy') }}" onsubmit="return confirm('Bu yedek silinsin mi?')">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="file" value="{{ $backup['name'] }}">
-                                <button type="submit" class="admin-btn admin-btn-secondary w-full justify-center text-xs">Sil</button>
+                                <x-admin.button variant="secondary" size="sm" type="submit" block>Sil</x-admin.button>
                             </form>
                         </div>
                     </div>

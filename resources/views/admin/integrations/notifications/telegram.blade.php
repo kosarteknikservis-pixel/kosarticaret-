@@ -6,7 +6,7 @@
         <x-slot:actions>
             <form method="post" action="{{ route('admin.integrations.notifications.telegram.test') }}">
                 @csrf
-                <button type="submit" class="admin-btn admin-btn-secondary px-4 py-2.5">Test bildirimi gönder</button>
+                <x-admin.button variant="secondary" type="submit">Test bildirimi gönder</x-admin.button>
             </form>
         </x-slot:actions>
     </x-admin.page-header>
@@ -57,6 +57,6 @@
             <p class="mt-3">Mesaj başlığı: <strong>Yeni Sipariş ✅</strong> — panel linki ve site adresi eklenir.</p>
         </div>
 
-        <button type="submit" class="admin-btn admin-btn-primary px-6 py-2.5">Kaydet</button>
+        <x-admin.button variant="primary" type="submit">Kaydet</x-admin.button>
     </form>
 @endsection

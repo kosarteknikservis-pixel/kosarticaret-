@@ -36,7 +36,7 @@
                     <input type="checkbox" name="confirm" value="1" required>
                     CSV’deki SKU’lara ait ürünleri güncellemek istiyorum
                 </label>
-                <button type="submit" class="admin-btn admin-btn-primary">CSV’yi uygula</button>
+                <x-admin.button variant="primary" type="submit">CSV’yi uygula</x-admin.button>
             </form>
         </div>
     @else
@@ -259,7 +259,7 @@
                         <input type="checkbox" name="confirm" value="1" required>
                         Eşleşen tüm ürünlere yukarıdaki değişiklikleri uygulamak istiyorum
                     </label>
-                    <button type="submit" class="admin-btn admin-btn-primary px-8">Toplu güncelle</button>
+                    <x-admin.button variant="primary" type="submit">Toplu güncelle</x-admin.button>
                 </div>
             </div>
         </form>

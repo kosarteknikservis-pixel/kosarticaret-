@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="Rakip fiyat kuralları" subtitle="Öneri hesaplama ayarları — otomatik uygulama kapalı tutulur">
         <x-slot:actions>
-            <a href="{{ route('admin.competitor-pricing.index') }}" class="admin-btn admin-btn-secondary">Teklif listesi</a>
+            <x-admin.button variant="secondary" :href="route('admin.competitor-pricing.index')">Teklif listesi</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 

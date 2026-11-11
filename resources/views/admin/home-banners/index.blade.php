@@ -4,8 +4,8 @@
 @section('content')
     <x-admin.page-header title="Ana sayfa vitrin (liste)" subtitle="Klasik liste görünümü">
         <x-slot:actions>
-            <a href="{{ route('admin.home-banners.builder') }}" class="admin-btn admin-btn-primary">Görsel düzenleyici</a>
-            <a href="{{ route('admin.home-banners.create') }}" class="admin-btn admin-btn-secondary">+ Yeni öğe</a>
+            <x-admin.button variant="primary" :href="route('admin.home-banners.builder')">Görsel düzenleyici</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.home-banners.create')">+ Yeni öğe</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -28,7 +28,7 @@
                 <label class="admin-label">Yükseklik (px)</label>
                 <input type="number" name="home_banner_height" value="{{ old('home_banner_height', $spec['height']) }}" min="200" max="2160" required class="admin-input w-32">
             </div>
-            <button type="submit" class="admin-btn admin-btn-primary py-2">Ölçüyü kaydet</button>
+            <x-admin.button variant="primary" type="submit">Ölçüyü kaydet</x-admin.button>
         </div>
         <x-admin.image-spec key="home_banner_slider" class="!mt-2" />
         <p class="text-xs text-slate-600">Bu ölçü slider ve geniş banner blokları içindir. Kutu alanı ölçüsü düzenleyicide kolon başlığında gösterilir.</p>
@@ -37,7 +37,7 @@
     @if($banners->isEmpty())
         <div class="admin-card p-10 text-center text-slate-500">
             <p>Henüz banner yok.</p>
-            <a href="{{ route('admin.home-banners.create') }}" class="admin-btn admin-btn-primary mt-4 inline-flex">İlk bannerı ekle</a>
+            <x-admin.button variant="primary" :href="route('admin.home-banners.create')" class="mt-4">İlk bannerı ekle</x-admin.button>
         </div>
     @else
         <p class="text-sm text-slate-500 mb-3">Satırları tutup sürükleyerek sırayı değiştirin. Sıra otomatik kaydedilir.</p>
@@ -69,7 +69,7 @@
                         @else
                             <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-1 rounded">Kapalı</span>
                         @endif
-                        <a href="{{ route('admin.home-banners.edit', $banner) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Düzenle</a>
+                        <x-admin.button variant="secondary" size="sm" :href="route('admin.home-banners.edit', $banner)">Düzenle</x-admin.button>
                     </div>
                 </li>
             @endforeach

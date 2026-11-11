@@ -6,7 +6,7 @@
         <x-slot:actions>
             <form method="post" action="{{ route('admin.integrations.shipping.dhl.test') }}">
                 @csrf
-                <button type="submit" class="admin-btn admin-btn-secondary px-4 py-2.5">Bağlantıyı test et</button>
+                <x-admin.button variant="secondary" type="submit">Bağlantıyı test et</x-admin.button>
             </form>
         </x-slot:actions>
     </x-admin.page-header>
@@ -88,7 +88,7 @@
         </section>
 
         <div class="lg:col-span-2">
-            <button type="submit" class="admin-btn admin-btn-primary px-6 py-2.5">Kaydet</button>
+            <x-admin.button variant="primary" type="submit">Kaydet</x-admin.button>
         </div>
     </form>
 @endsection

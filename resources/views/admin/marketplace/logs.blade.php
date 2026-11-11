@@ -22,7 +22,7 @@
                 </select>
             </div>
             <div class="md:col-span-2 flex items-end">
-                <button class="admin-btn admin-btn-primary px-5 py-2.5">Filtrele</button>
+                <x-admin.button variant="primary" type="submit">Filtrele</x-admin.button>
             </div>
         </div>
     </form>

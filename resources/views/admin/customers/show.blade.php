@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header :title="$customer->name" :subtitle="$customer->email">
         <x-slot:actions>
-            <a href="{{ route('admin.customers.index') }}" class="admin-btn admin-btn-secondary">← Liste</a>
+            <x-admin.button variant="secondary" :href="route('admin.customers.index')">← Liste</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -50,7 +50,7 @@
                                 <td class="text-slate-500 text-xs">{{ $order->created_at->format('d.m.Y H:i') }}</td>
                                 <td class="font-semibold">{{ number_format($order->total, 2, ',', '.') }} ₺</td>
                                 <td class="text-right">
-                                    <a href="{{ route('admin.orders.show', $order) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Sipariş</a>
+                                    <x-admin.button variant="secondary" size="sm" :href="route('admin.orders.show', $order)">Sipariş</x-admin.button>
                                 </td>
                             </tr>
                         @endforeach

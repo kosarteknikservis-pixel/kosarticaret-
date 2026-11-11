@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="E-posta şablonları" subtitle="Sipariş ve kampanya maillerinin metinlerini panelden yönetin">
         <x-slot:actions>
-            <a href="{{ route('admin.email-templates.create') }}" class="admin-btn admin-btn-primary px-5 py-2.5">Yeni şablon</a>
+            <x-admin.button variant="primary" :href="route('admin.email-templates.create')">Yeni şablon</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -25,7 +25,7 @@
                             </span>
                         </td>
                         <td><span class="rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-0.5 text-xs font-semibold">{{ $template->active ? 'Aktif' : 'Pasif' }}</span></td>
-                        <td class="text-right"><a href="{{ route('admin.email-templates.edit', $template) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Düzenle</a></td>
+                        <td class="text-right"><x-admin.button variant="secondary" size="sm" :href="route('admin.email-templates.edit', $template)">Düzenle</x-admin.button></td>
                     </tr>
                 @endforeach
             </tbody>

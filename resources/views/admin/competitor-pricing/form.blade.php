@@ -7,7 +7,7 @@
         subtitle="Doğru ürün eşleşmesini kaydedin; fiyat önerisi yalnızca onaylı tekliflerden hesaplanır"
     >
         <x-slot:actions>
-            <a href="{{ route('admin.competitor-pricing.index') }}" class="admin-btn admin-btn-secondary">Listeye dön</a>
+            <x-admin.button variant="secondary" :href="route('admin.competitor-pricing.index')">Listeye dön</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -109,18 +109,18 @@
         <div class="flex flex-wrap gap-2 mt-4 max-w-2xl">
             <form method="post" action="{{ route('admin.competitor-pricing.fetch', $offer) }}">
                 @csrf
-                <button type="submit" class="admin-btn admin-btn-secondary">Fiyatı şimdi çek</button>
+                <x-admin.button variant="secondary" type="submit">Fiyatı şimdi çek</x-admin.button>
             </form>
             @if($offer->match_status !== 'approved')
                 <form method="post" action="{{ route('admin.competitor-pricing.approve', $offer) }}">
                     @csrf
-                    <button type="submit" class="admin-btn admin-btn-secondary">Eşleşmeyi onayla</button>
+                    <x-admin.button variant="secondary" type="submit">Eşleşmeyi onayla</x-admin.button>
                 </form>
             @endif
             @if(isset($suggestion) && ($suggestion['can_apply'] ?? false))
                 <form method="post" action="{{ route('admin.competitor-pricing.apply', $offer) }}" onsubmit="return confirm('Önerilen fiyat ürüne uygulansın mı?')">
                     @csrf
-                    <button type="submit" class="admin-btn admin-btn-primary">Önerilen fiyatı uygula</button>
+                    <x-admin.button variant="primary" type="submit">Önerilen fiyatı uygula</x-admin.button>
                 </form>
             @endif
         </div>

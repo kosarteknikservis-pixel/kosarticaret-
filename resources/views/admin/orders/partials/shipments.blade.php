@@ -12,12 +12,12 @@
         <div class="flex flex-wrap gap-2">
             <form method="post" action="{{ route('admin.orders.shipments.plan', $order) }}">
                 @csrf
-                <button type="submit" class="admin-btn admin-btn-secondary text-xs py-1.5" @disabled($hasSubmitted)>Otomatik plan</button>
+                <x-admin.button variant="secondary" size="sm" type="submit" @disabled($hasSubmitted)>Otomatik plan</x-admin.button>
             </form>
             @if($shipments->where('status', 'draft')->isNotEmpty())
                 <form method="post" action="{{ route('admin.orders.shipments.submit-all', $order) }}" onsubmit="return confirm('Tüm taslak koliler DHL\'e bildirilsin mi?');">
                     @csrf
-                    <button type="submit" class="admin-btn admin-btn-primary text-xs py-1.5">Tümünü DHL'e gönder</button>
+                    <x-admin.button variant="primary" size="sm" type="submit">Tümünü DHL'e gönder</x-admin.button>
                 </form>
             @endif
         </div>
@@ -64,16 +64,16 @@
                                     @if($shipment->canSubmit())
                                         <form method="post" action="{{ route('admin.orders.shipments.submit', [$order, $shipment]) }}">
                                             @csrf
-                                            <button class="admin-btn admin-btn-primary text-xs py-1.5">DHL'e gönder</button>
+                                            <x-admin.button variant="primary" size="sm" type="submit">DHL'e gönder</x-admin.button>
                                         </form>
                                     @endif
                                     @if($shipment->label_path)
-                                        <a href="{{ route('admin.orders.shipments.label', [$order, $shipment]) }}" target="_blank" class="admin-btn admin-btn-secondary text-xs py-1.5">Etiket</a>
+                                        <x-admin.button variant="secondary" size="sm" :href="route('admin.orders.shipments.label', [$order, $shipment])" target="_blank">Etiket</x-admin.button>
                                     @endif
                                     @if($shipment->tracking_number)
                                         <form method="post" action="{{ route('admin.orders.shipments.sync', [$order, $shipment]) }}">
                                             @csrf
-                                            <button class="admin-btn admin-btn-secondary text-xs py-1.5">Durum sync</button>
+                                            <x-admin.button variant="secondary" size="sm" type="submit">Durum sync</x-admin.button>
                                         </form>
                                     @endif
                                 </div>

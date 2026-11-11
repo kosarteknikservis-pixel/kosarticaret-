@@ -4,13 +4,15 @@
 @section('content')
     <x-admin.page-header :title="'Sipariş '.$order->order_number" :subtitle="$order->email.' · '.$order->created_at->format('d.m.Y H:i')">
         <x-slot:actions>
-            <a href="{{ route('admin.orders.shipping-label', ['order' => $order, 'yazdir' => 1]) }}"
-               target="_blank"
-               rel="noopener"
-               class="admin-btn admin-btn-secondary px-4 py-2.5">
+            <x-admin.button
+                variant="secondary"
+                :href="route('admin.orders.shipping-label', ['order' => $order, 'yazdir' => 1])"
+                target="_blank"
+                rel="noopener"
+            >
                 Kargo etiketi
-            </a>
-            <a href="{{ route('admin.orders.index') }}" class="admin-btn admin-btn-secondary px-4 py-2.5">Siparişlere dön</a>
+            </x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.orders.index')">Siparişlere dön</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -275,7 +277,7 @@
                         @endif
                         <div><label class="admin-label">Kargo takip no</label><input name="shipping_tracking" value="{{ old('shipping_tracking', $order->shipping_tracking) }}" class="admin-input font-mono"></div>
                         <div><label class="admin-label">Admin notu</label><textarea name="admin_note" rows="4" class="admin-input">{{ old('admin_note', $order->admin_note) }}</textarea></div>
-                        <button type="submit" class="admin-btn admin-btn-primary w-full py-2.5">Siparişi güncelle</button>
+                        <x-admin.button variant="primary" type="submit" block>Siparişi güncelle</x-admin.button>
                         <p class="text-xs text-slate-500 leading-relaxed">Durum veya takip no değişirse müşteriye otomatik e-posta gönderilir.</p>
                     </div>
 
@@ -290,9 +292,9 @@
                             </p>
                             <form method="post" action="{{ route('admin.orders.refund', $order) }}" onsubmit="return confirm('Kart ödemesi iade edilsin mi?\n\n{{ number_format($order->total, 2, ',', '.') }} ₺');">
                                 @csrf
-                                <button type="submit" class="admin-btn admin-btn-secondary w-full py-2.5 min-h-[44px] text-rose-700 border-rose-200">
+                                <x-admin.button variant="secondary" type="submit" block class="min-h-[44px] text-rose-700 border-rose-200">
                                     İade et
-                                </button>
+                                </x-admin.button>
                             </form>
                         </div>
                     @endif
@@ -327,14 +329,16 @@
                                 <p class="text-xs font-semibold uppercase tracking-wide text-amber-800">Alıcı</p>
                                 <p class="text-sm font-medium text-slate-900 break-all">{{ $order->email }}</p>
                             </div>
-                            <button
+                            <x-admin.button
+                                variant="secondary"
                                 type="submit"
                                 form="payment-reminder-form"
-                                class="admin-btn admin-btn-secondary w-full py-2.5 min-h-[44px]"
+                                block
+                                class="min-h-[44px]"
                                 onclick="return confirm('Ödeme hatırlatması bu adrese gönderilsin mi?\n\n{{ $order->email }}');"
                             >
                                 Hatırlatmayı şimdi gönder
-                            </button>
+                            </x-admin.button>
                         </div>
                     @endif
 
@@ -351,7 +355,7 @@
                             </dl>
                         @else
                             <p class="text-sm text-slate-600">Bu sipariş Paraşüt’e henüz aktarılmadı.</p>
-                            <button type="submit" form="parasut-sync-form" class="admin-btn admin-btn-secondary w-full py-2.5" onclick="return confirm('Bu sipariş Paraşüt’e taslak satış faturası olarak aktarılsın mı?');">Paraşüt’e aktar</button>
+                            <x-admin.button variant="secondary" type="submit" form="parasut-sync-form" block onclick="return confirm('Bu sipariş Paraşüt’e taslak satış faturası olarak aktarılsın mı?');">Paraşüt’e aktar</x-admin.button>
                         @endif
                         @if($order->parasut_error)
                             <p class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{{ $order->parasut_error }}</p>

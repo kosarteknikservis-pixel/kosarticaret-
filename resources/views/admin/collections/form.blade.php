@@ -6,7 +6,7 @@
     <x-admin.page-header :title="$collection->exists ? $collection->name : 'Yeni etiket'" subtitle="Eşleşme ürünün kayıtlı özelliğinden okunur. Teknik tablo değişmez.">
         @if($collection->exists)
             <x-slot:actions>
-                <a href="{{ route('admin.collections.preview', $collection) }}" class="admin-btn admin-btn-secondary">Önizle</a>
+                <x-admin.button variant="secondary" :href="route('admin.collections.preview', $collection)">Önizle</x-admin.button>
             </x-slot:actions>
         @endif
     </x-admin.page-header>
@@ -67,7 +67,7 @@
         @error('motor_hp')
             <p class="text-sm text-amber-800">{{ $message }}</p>
         @enderror
-        <button type="submit" class="admin-btn admin-btn-primary">Kaydet</button>
+        <x-admin.button variant="primary" type="submit">Kaydet</x-admin.button>
     </form>
 
     @if($collection->exists)
@@ -77,9 +77,9 @@
             <p class="text-sm text-slate-600">Stok kodu veya ürün numarası. Hariç, kuralın önüne geçer.</p>
             <div class="flex flex-col sm:flex-row gap-2">
                 <input name="product_ref" value="{{ old('product_ref') }}" class="admin-input" placeholder="SKU veya ürün no">
-                <button name="action" value="include" class="admin-btn admin-btn-secondary">Dahil et</button>
-                <button name="action" value="exclude" class="admin-btn admin-btn-secondary">Hariç tut</button>
-                <button name="action" value="clear" class="admin-btn admin-btn-secondary">Kurala bırak</button>
+                <x-admin.button variant="secondary" type="submit" name="action" value="include">Dahil et</x-admin.button>
+                <x-admin.button variant="secondary" type="submit" name="action" value="exclude">Hariç tut</x-admin.button>
+                <x-admin.button variant="secondary" type="submit" name="action" value="clear">Kurala bırak</x-admin.button>
             </div>
             @error('product_ref')
                 <p class="text-sm text-amber-800">{{ $message }}</p>
