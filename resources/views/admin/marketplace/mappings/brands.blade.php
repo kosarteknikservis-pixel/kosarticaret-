@@ -13,7 +13,7 @@
         <form method="post" action="{{ route('admin.integrations.marketplace.mappings.brands.suggest') }}">
             @csrf
             <input type="hidden" name="channel_key" value="{{ $channelKey }}">
-            <button class="admin-btn admin-btn-secondary">Otomatik marka eşleştir</button>
+            <x-admin.button variant="secondary" type="submit">Otomatik marka eşleştir</x-admin.button>
         </form>
     </div>
 
@@ -46,7 +46,7 @@
                                             <input type="hidden" name="brand_id" value="{{ $brand->id }}">
                                             <input type="text" name="external_brand_id" required placeholder="Platform marka ID" class="admin-input text-sm flex-1 min-w-0">
                                             <input type="text" name="external_brand_name" placeholder="Görünen ad (opsiyonel)" class="admin-input text-sm flex-1 min-w-0">
-                                            <button class="admin-btn admin-btn-primary px-3 py-2 text-sm shrink-0">Kaydet</button>
+                                            <x-admin.button variant="primary" size="sm" type="submit" class="shrink-0">Kaydet</x-admin.button>
                                         </form>
                                     @endif
                                 </td>

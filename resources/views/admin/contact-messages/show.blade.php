@@ -55,10 +55,10 @@
             <p class="text-slate-700 whitespace-pre-wrap leading-relaxed">{{ $message->body }}</p>
         </div>
         <div class="admin-form-actions border-t pt-4">
-            <a href="{{ route('admin.contact-messages.index') }}" class="admin-btn admin-btn-secondary">Listeye dön</a>
+            <x-admin.button variant="secondary" :href="route('admin.contact-messages.index')">Listeye dön</x-admin.button>
             <form method="post" action="{{ route('admin.contact-messages.destroy', $message) }}" onsubmit="return confirm('Mesaj silinsin mi?')">
                 @csrf @method('DELETE')
-                <button type="submit" class="admin-btn text-rose-700 border-rose-200 hover:bg-rose-50">Sil</button>
+                <x-admin.button variant="secondary" type="submit" class="text-rose-700 border-rose-200 hover:bg-rose-50">Sil</x-admin.button>
             </form>
         </div>
     </div>

@@ -20,7 +20,7 @@
                     <div class="flex justify-between gap-3"><dt>Ortam</dt><dd>{{ $channel->environment === 'sandbox' ? 'Test' : 'Canlı' }}</dd></div>
                     <div class="flex justify-between gap-3"><dt>API</dt><dd>{{ $channel->isConfigured() ? 'Kayıtlı' : 'Eksik' }}</dd></div>
                 </dl>
-                <a href="{{ route('admin.integrations.marketplace.channels.edit', $channel) }}" class="admin-btn admin-btn-secondary mt-auto">Ayarları aç</a>
+                <x-admin.button variant="secondary" :href="route('admin.integrations.marketplace.channels.edit', $channel)" class="mt-auto">Ayarları aç</x-admin.button>
             </article>
         @endforeach
     </div>

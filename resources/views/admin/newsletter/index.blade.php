@@ -41,7 +41,7 @@
                 <div><label class="admin-label">Buton metni</label><input name="button_label" class="admin-input" placeholder="Ürünleri incele" data-campaign-field="button_label"></div>
                 <div><label class="admin-label">Buton linki</label><input name="button_url" class="admin-input" placeholder="https://kosarticaret.com/..." data-campaign-field="button_url"></div>
             </div>
-            <button class="admin-btn admin-btn-primary px-6 py-2.5">Taslak oluştur</button>
+            <x-admin.button variant="primary" type="submit">Taslak oluştur</x-admin.button>
         </form>
 
         <div class="admin-card p-6 sm:p-8">
@@ -52,7 +52,7 @@
                 <li>Gönderim sonuçları kampanya satırında saklanır.</li>
                 <li>Sipariş mailleri ayrı şablonlardan otomatik gider.</li>
             </ul>
-            <a href="{{ route('admin.email-templates.index') }}" class="admin-btn admin-btn-secondary mt-5 text-sm">E-posta şablonları</a>
+            <x-admin.button variant="secondary" :href="route('admin.email-templates.index')" class="mt-5" size="sm">E-posta şablonları</x-admin.button>
         </div>
     </div>
 
@@ -70,8 +70,8 @@
                             <p class="text-xs text-slate-500">{{ $campaign->subject }}</p>
                         </td>
                         <td>
-                            <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold">{{ $campaign->status === 'sent' ? 'Gönderildi' : 'Taslak' }}</span>
-                            @if($campaign->body_is_html)<span class="ml-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-700">HTML</span>@endif
+                            <x-admin.badge :tone="$campaign->status === 'sent' ? 'success' : 'warning'">{{ $campaign->status === 'sent' ? 'Gönderildi' : 'Taslak' }}</x-admin.badge>
+                            @if($campaign->body_is_html)<x-admin.badge tone="info" class="ml-1">HTML</x-admin.badge>@endif
                         </td>
                         <td>{{ $campaign->recipients_count ?: '—' }}</td>
                         <td class="text-emerald-700 font-semibold">{{ $campaign->sent_count }}</td>
@@ -80,25 +80,25 @@
                             <form method="post" action="{{ route('admin.newsletter.campaigns.test', $campaign) }}" class="flex gap-2">
                                 @csrf
                                 <input type="email" name="test_email" value="{{ auth()->user()?->email }}" class="admin-input text-xs min-w-[180px]" required>
-                                <button class="admin-btn admin-btn-secondary text-xs py-1.5">Test</button>
+                                <x-admin.button variant="secondary" size="sm" type="submit">Test</x-admin.button>
                             </form>
                         </td>
                         <td class="text-right">
                             <div class="flex flex-wrap justify-end gap-2">
                             @if($campaign->status !== 'sent')
-                                <a href="{{ route('admin.newsletter.campaigns.edit', $campaign) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Düzenle</a>
-                                <a href="{{ route('admin.newsletter.campaigns.preview', $campaign) }}" target="_blank" class="admin-btn admin-btn-secondary text-xs py-1.5">Önizle</a>
+                                <x-admin.button variant="secondary" size="sm" :href="route('admin.newsletter.campaigns.edit', $campaign)">Düzenle</x-admin.button>
+                                <x-admin.button variant="secondary" size="sm" :href="route('admin.newsletter.campaigns.preview', $campaign)" target="_blank">Önizle</x-admin.button>
                                 <form method="post" action="{{ route('admin.newsletter.campaigns.send', $campaign) }}" onsubmit="return confirm('Bu kampanya tüm aktif bülten abonelerine gönderilsin mi?');">
                                     @csrf
-                                    <button class="admin-btn admin-btn-primary text-xs py-1.5">Gönder</button>
+                                    <x-admin.button variant="primary" size="sm" type="submit">Gönder</x-admin.button>
                                 </form>
                             @else
-                                <a href="{{ route('admin.newsletter.campaigns.preview', $campaign) }}" target="_blank" class="admin-btn admin-btn-secondary text-xs py-1.5">Önizle</a>
+                                <x-admin.button variant="secondary" size="sm" :href="route('admin.newsletter.campaigns.preview', $campaign)" target="_blank">Önizle</x-admin.button>
                                 <span class="text-xs text-slate-400">{{ $campaign->sent_at?->format('d.m.Y H:i') }}</span>
                             @endif
                                 <form method="post" action="{{ route('admin.newsletter.campaigns.destroy', $campaign) }}" onsubmit="return confirm('Bu kampanya silinsin mi? Bu işlem geri alınamaz.');">
                                     @csrf @method('DELETE')
-                                    <button class="admin-btn admin-btn-danger text-xs py-1.5">Sil</button>
+                                    <x-admin.button variant="danger" size="sm" type="submit">Sil</x-admin.button>
                                 </form>
                             </div>
                         </td>

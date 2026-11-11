@@ -24,12 +24,12 @@
                     <input type="checkbox" name="replace" value="1" class="rounded border-slate-300">
                     Mevcut harici kategorileri sil ve yeniden yükle
                 </label>
-                <button class="admin-btn admin-btn-secondary w-full justify-center">Import et</button>
+                <x-admin.button variant="secondary" type="submit" block>Import et</x-admin.button>
             </form>
             <form method="post" action="{{ route('admin.integrations.marketplace.mappings.categories.suggest') }}" class="mt-4 pt-4 border-t border-slate-100">
                 @csrf
                 <input type="hidden" name="channel_key" value="{{ $channelKey }}">
-                <button class="admin-btn admin-btn-primary w-full justify-center" @disabled($externalCategories->isEmpty())>Otomatik öneri uygula</button>
+                <x-admin.button variant="primary" type="submit" block @disabled($externalCategories->isEmpty())>Otomatik öneri uygula</x-admin.button>
                 @if($externalCategories->isEmpty())
                     <p class="text-xs text-slate-500 mt-2 text-center">Önce harici kategori import edin.</p>
                 @endif
@@ -81,7 +81,7 @@
                                                         <option value="{{ $ext->external_id }}">{{ $ext->path ?: $ext->name }}</option>
                                                     @endforeach
                                                 </select>
-                                                <button class="admin-btn admin-btn-primary px-3 py-2 text-sm shrink-0" @disabled($externalCategories->isEmpty())>Kaydet</button>
+                                                <x-admin.button variant="primary" size="sm" type="submit" class="shrink-0" @disabled($externalCategories->isEmpty())>Kaydet</x-admin.button>
                                             </form>
                                         @endif
                                     </td>

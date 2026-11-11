@@ -4,8 +4,8 @@
 @section('content')
     <x-admin.page-header :title="'Kampanya düzenle: '.$campaign->title" subtitle="Taslak kampanyayı test etmeden veya göndermeden önce düzenleyin">
         <x-slot:actions>
-            <a href="{{ route('admin.newsletter.index') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Bültene dön</a>
-            <a href="{{ route('admin.newsletter.campaigns.preview', $campaign) }}" target="_blank" class="admin-btn admin-btn-secondary px-5 py-2.5">Önizle</a>
+            <x-admin.button variant="secondary" :href="route('admin.newsletter.index')">Bültene dön</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.newsletter.campaigns.preview', $campaign)" target="_blank">Önizle</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -48,9 +48,9 @@
         </div>
         <div class="admin-form-actions">
             @if($campaign->status !== 'sent')
-                <button class="admin-btn admin-btn-primary px-8 py-2.5">Kaydet</button>
+                <x-admin.button variant="primary" type="submit">Kaydet</x-admin.button>
             @endif
-            <a href="{{ route('admin.newsletter.index') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Listeye dön</a>
+            <x-admin.button variant="secondary" :href="route('admin.newsletter.index')">Listeye dön</x-admin.button>
         </div>
     </form>
 @endsection

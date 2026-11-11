@@ -3,7 +3,9 @@
 
 @section('content')
     <x-admin.page-header title="Blog yazıları" subtitle="Mağaza blog / rehber içerikleri">
-        <x-slot:actions><a href="{{ route('admin.blog.create') }}" class="admin-btn admin-btn-primary">+ Yeni yazı</a></x-slot:actions>
+        <x-slot:actions>
+            <x-admin.button variant="primary" :href="route('admin.blog.create')">+ Yeni yazı</x-admin.button>
+        </x-slot:actions>
     </x-admin.page-header>
     <div class="admin-card overflow-hidden">
         <table class="admin-table">
@@ -13,10 +15,12 @@
                     <tr>
                         <td class="font-semibold">{{ $p->title }}</td>
                         <td class="font-mono text-xs text-slate-500">/blog/{{ $p->slug }}</td>
-                        <td><span class="admin-badge {{ $p->published ? 'admin-badge-success' : 'admin-badge-warning' }}">{{ $p->published ? 'Yayında' : 'Taslak' }}</span></td>
+                        <td>
+                            <x-admin.badge :tone="$p->published ? 'success' : 'warning'">{{ $p->published ? 'Yayında' : 'Taslak' }}</x-admin.badge>
+                        </td>
                         <td class="text-right space-x-2">
-                            <a href="{{ route('blog.show', $p) }}" target="_blank" class="admin-btn admin-btn-secondary text-xs py-1.5">Gör</a>
-                            <a href="{{ route('admin.blog.edit', $p) }}" class="admin-btn admin-btn-secondary text-xs py-1.5">Düzenle</a>
+                            <x-admin.button variant="secondary" size="sm" :href="route('blog.show', $p)" target="_blank">Gör</x-admin.button>
+                            <x-admin.button variant="secondary" size="sm" :href="route('admin.blog.edit', $p)">Düzenle</x-admin.button>
                         </td>
                     </tr>
                 @empty

@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header :title="$channel->name" subtitle="API kimlik bilgileri ve senkron kuralları">
         <x-slot:actions>
-            <a href="{{ route('admin.integrations.marketplace.channels.index') }}" class="admin-btn admin-btn-secondary">Kanallar</a>
+            <x-admin.button variant="secondary" :href="route('admin.integrations.marketplace.channels.index')">Kanallar</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -40,7 +40,7 @@
             @endforeach
 
             <div class="flex flex-wrap gap-2 pt-2">
-                <button type="submit" class="admin-btn admin-btn-primary px-5 py-2.5">Kaydet</button>
+                <x-admin.button variant="primary" type="submit">Kaydet</x-admin.button>
             </div>
         </div>
 
@@ -97,22 +97,6 @@
                     <input type="number" step="1" min="0" max="100" name="settings[stock_buffer_percent]" value="{{ old('settings.stock_buffer_percent', $settings['stock_buffer_percent'] ?? 5) }}" class="admin-input">
                 </div>
 
-                @if($channel->key === 'n11')
-                    <div>
-                        <label class="admin-label">N11 kargo şablonu</label>
-                        <input type="text" name="settings[shipment_template]" value="{{ old('settings.shipment_template', $settings['shipment_template'] ?? '') }}" class="admin-input" placeholder="Hesabım > Teslimat Bilgilerim şablon adı">
-                        <p class="mt-1 text-xs text-slate-500">Paneldeki teslimat şablon adıyla birebir aynı olmalı.</p>
-                    </div>
-                    <div>
-                        <label class="admin-label">N11 entegratör adı</label>
-                        <input type="text" name="settings[integrator]" value="{{ old('settings.integrator', $settings['integrator'] ?? 'KosarTicaret') }}" class="admin-input">
-                    </div>
-                    <div>
-                        <label class="admin-label">Hazırlık günü</label>
-                        <input type="number" step="1" min="1" max="30" name="settings[preparing_day]" value="{{ old('settings.preparing_day', $settings['preparing_day'] ?? 2) }}" class="admin-input">
-                    </div>
-                @endif
-
                 <label class="flex items-center gap-3 text-sm font-medium text-slate-700">
                     <input type="checkbox" name="settings[auto_sync_stock]" value="1" @checked(old('settings.auto_sync_stock', $settings['auto_sync_stock'] ?? false)) class="rounded border-slate-300">
                     Otomatik stok sync (Faz 4)
@@ -126,7 +110,7 @@
             <div class="admin-card p-6">
                 <h3 class="admin-section-title" style="margin-top:0">Bağlantı testi</h3>
                 <p class="text-sm text-slate-600 mb-4">Credential kaydı ve temel erişim kontrolü.</p>
-                <button type="submit" formaction="{{ route('admin.integrations.marketplace.channels.test', $channel) }}" formmethod="post" class="admin-btn admin-btn-secondary w-full">Bağlantıyı test et</button>
+                <x-admin.button variant="secondary" type="submit" class="w-full" formaction="{{ route('admin.integrations.marketplace.channels.test', $channel) }}" formmethod="post">Bağlantıyı test et</x-admin.button>
                 @if($channel->last_error)
                     <p class="text-sm text-red-600 mt-3">{{ $channel->last_error }}</p>
                 @endif

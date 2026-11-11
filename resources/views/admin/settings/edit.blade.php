@@ -292,9 +292,9 @@
                                 class="admin-input font-mono text-xs bg-white sm:flex-1"
                                 onclick="this.select()"
                             >
-                            <button type="button" class="admin-btn admin-btn-secondary shrink-0" data-copy-merchant-feed>
+                            <x-admin.button variant="secondary" type="button" class="shrink-0" data-copy-merchant-feed>
                                 Kopyala
-                            </button>
+                            </x-admin.button>
                         </div>
                         <p class="mt-2 text-xs text-slate-500">
                             Şu an feed’e uygun ürün: <strong>{{ number_format($merchantFeedProductCount, 0, ',', '.') }}</strong>
@@ -303,12 +303,12 @@
                     </div>
 
                     <div class="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-                        <a href="{{ $merchantFeedUrl }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">
+                        <x-admin.button variant="secondary" :href="$merchantFeedUrl" target="_blank" rel="noopener">
                             Feed’i test et
-                        </a>
-                        <a href="https://merchants.google.com/mc/products/sources" target="_blank" rel="noopener" class="admin-btn admin-btn-primary">
+                        </x-admin.button>
+                        <x-admin.button variant="primary" href="https://merchants.google.com/mc/products/sources" target="_blank" rel="noopener">
                             Google Merchant Center’a ekle
-                        </a>
+                        </x-admin.button>
                     </div>
 
                     <ol class="mt-4 list-decimal list-inside space-y-1 text-xs text-slate-600">
@@ -540,7 +540,7 @@
 
                         <div><label class="admin-label">Görsel (PNG)</label><input type="file" name="footer_extra_card_image" accept="image/png,image/webp,image/jpeg" class="admin-input file:mr-3 file:rounded-lg file:border-0 file:bg-teal-50 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-teal-800"></div>
 
-                        <button type="submit" class="admin-btn admin-btn-secondary text-sm">Kart ekle</button>
+                        <x-admin.button variant="secondary" type="submit" size="sm">Kart ekle</x-admin.button>
 
                     </div>
 
@@ -833,14 +833,16 @@
                             </div>
                         </div>
                         <div class="mt-4 flex flex-wrap gap-2">
-                            <a href="{{ route('admin.integrations.parasut.connect') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Paraşüt bağlantısını test et</a>
+                            <x-admin.button variant="secondary" :href="route('admin.integrations.parasut.connect')">Paraşüt bağlantısını test et</x-admin.button>
                             @if(!empty($values['parasut_access_token']))
-                                <button type="submit"
-                                        form="parasut-disconnect-form"
-                                        class="admin-btn admin-btn-danger px-5 py-2.5"
-                                        onclick="return confirm('Paraşüt bağlantısı kaldırılsın mı?');">
+                                <x-admin.button
+                                    variant="danger"
+                                    type="submit"
+                                    form="parasut-disconnect-form"
+                                    onclick="return confirm('Paraşüt bağlantısı kaldırılsın mı?');"
+                                >
                                     Bağlantıyı kaldır
-                                </button>
+                                </x-admin.button>
                             @endif
                         </div>
                         <p class="text-xs text-slate-500 mt-3">Client ID/Secret için Paraşüt destekten API bilgileri alınır. Kullanıcı adı ve şifre Paraşüt paneline giriş bilgileridir. İlk sürümde otomatik fatura kesmez; manuel taslak satış faturası oluşturur.</p>
@@ -968,9 +970,9 @@
 
             <div class="admin-form-actions">
 
-                <button type="submit" form="settings-form" class="admin-btn admin-btn-primary px-8 py-2.5">Kaydet</button>
+                <x-admin.button variant="primary" type="submit" form="settings-form">Kaydet</x-admin.button>
 
-                <button type="submit" form="settings-form" formaction="{{ route('admin.preview.start') }}" class="admin-btn admin-btn-secondary border-amber-300 text-amber-800">Önizle (kaydetmeden)</button>
+                <x-admin.button variant="secondary" type="submit" form="settings-form" formaction="{{ route('admin.preview.start') }}" class="border-amber-300 text-amber-800">Önizle (kaydetmeden)</x-admin.button>
 
             </div>
 
@@ -995,7 +997,7 @@
             </div>
             <div class="mt-4 flex flex-col gap-3 sm:flex-row">
                 <input type="email" name="smtp_test_email" value="{{ auth()->user()?->email }}" required class="admin-input sm:max-w-md" placeholder="test@domain.com">
-                <button type="submit" class="admin-btn admin-btn-secondary px-5 py-2.5">Test e-postası gönder</button>
+                <x-admin.button variant="secondary" type="submit">Test e-postası gönder</x-admin.button>
             </div>
         </form>
 

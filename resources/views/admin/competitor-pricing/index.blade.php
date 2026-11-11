@@ -4,9 +4,9 @@
 @section('content')
     <x-admin.page-header title="Manuel rakip teklifleri" subtitle="İsteğe bağlı URL eşleştirmesi — asıl akış Google piyasa taramasıdır">
         <x-slot:actions>
-            <a href="{{ route('admin.competitor-pricing.market') }}" class="admin-btn admin-btn-primary">Google piyasa</a>
-            <a href="{{ route('admin.competitor-pricing.settings') }}" class="admin-btn admin-btn-secondary">Kurallar</a>
-            <a href="{{ route('admin.competitor-pricing.create') }}" class="admin-btn admin-btn-secondary">+ URL teklif</a>
+            <x-admin.button variant="primary" :href="route('admin.competitor-pricing.market')">Google piyasa</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.competitor-pricing.settings')">Kurallar</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.competitor-pricing.create')">+ URL teklif</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -34,7 +34,7 @@
         </p>
         <form method="get" action="{{ route('admin.competitor-pricing.index') }}" class="flex gap-2 w-full sm:w-auto">
             <input type="search" name="q" value="{{ $q }}" placeholder="Ürün, SKU veya rakip…" class="admin-input text-sm min-w-0 flex-1 sm:w-64">
-            <button type="submit" class="admin-btn admin-btn-secondary shrink-0">Ara</button>
+            <x-admin.button variant="secondary" type="submit" class="shrink-0">Ara</x-admin.button>
         </form>
     </div>
 
@@ -115,27 +115,27 @@
                                 <div class="inline-flex flex-wrap justify-end gap-1.5 max-w-[220px]">
                                     <form method="post" action="{{ route('admin.competitor-pricing.fetch', $offer) }}">
                                         @csrf
-                                        <button type="submit" class="admin-btn admin-btn-secondary text-xs py-1.5 px-2.5">Çek</button>
+                                        <x-admin.button variant="secondary" size="sm" type="submit">Çek</x-admin.button>
                                     </form>
                                     @if($offer->match_status !== 'approved')
                                         <form method="post" action="{{ route('admin.competitor-pricing.approve', $offer) }}">
                                             @csrf
-                                            <button type="submit" class="admin-btn admin-btn-secondary text-xs py-1.5 px-2.5">Onayla</button>
+                                            <x-admin.button variant="secondary" size="sm" type="submit">Onayla</x-admin.button>
                                         </form>
                                     @endif
                                     @if($offer->match_status !== 'rejected')
                                         <form method="post" action="{{ route('admin.competitor-pricing.reject', $offer) }}">
                                             @csrf
-                                            <button type="submit" class="admin-btn admin-btn-secondary text-xs py-1.5 px-2.5">Reddet</button>
+                                            <x-admin.button variant="secondary" size="sm" type="submit">Reddet</x-admin.button>
                                         </form>
                                     @endif
                                     @if($suggestion && ($suggestion['can_apply'] ?? false))
                                         <form method="post" action="{{ route('admin.competitor-pricing.apply', $offer) }}" onsubmit="return confirm('Önerilen fiyat ürüne uygulansın mı?')">
                                             @csrf
-                                            <button type="submit" class="admin-btn admin-btn-primary text-xs py-1.5 px-2.5">Uygula</button>
+                                            <x-admin.button variant="primary" size="sm" type="submit">Uygula</x-admin.button>
                                         </form>
                                     @endif
-                                    <a href="{{ route('admin.competitor-pricing.edit', $offer) }}" class="admin-btn admin-btn-secondary text-xs py-1.5 px-2.5">Düzenle</a>
+                                    <x-admin.button variant="secondary" size="sm" :href="route('admin.competitor-pricing.edit', $offer)">Düzenle</x-admin.button>
                                 </div>
                             </td>
                         </tr>

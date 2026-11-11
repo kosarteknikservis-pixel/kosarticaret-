@@ -10,7 +10,7 @@
                 <h2>Görsel optimizasyonu</h2>
                 <p>Ürün, banner, kategori, marka, blog ve logo görsellerini panelden küçültüp optimize varyantlarını oluşturun.</p>
             </div>
-            <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">Mağazayı aç</a>
+            <x-admin.button variant="secondary" :href="route('home')" target="_blank" rel="noopener">Mağazayı aç</x-admin.button>
         </section>
 
         <div class="admin-image-optimizer__stats">
@@ -47,9 +47,9 @@
                 <form method="post" action="{{ route('admin.performance.images.optimize') }}">
                     @csrf
                     <input type="hidden" name="mode" value="variants">
-                    <button type="submit" class="admin-btn admin-btn-primary" @disabled(! $webpSupported)>
+                    <x-admin.button variant="primary" type="submit" @disabled(! $webpSupported)>
                         Varyantları oluştur
-                    </button>
+                    </x-admin.button>
                 </form>
             </section>
 
@@ -66,9 +66,9 @@
                       onsubmit="return confirm('Büyük orijinal görseller güvenli turlar halinde küçültülecek ve varyantlar yeniden oluşturulacak. Devam edilsin mi?')">
                     @csrf
                     <input type="hidden" name="mode" value="shrink">
-                    <button type="submit" class="admin-btn admin-btn-secondary" @disabled(! $webpSupported)>
+                    <x-admin.button variant="secondary" type="submit" @disabled(! $webpSupported)>
                         Orijinalleri küçült ve optimize et
-                    </button>
+                    </x-admin.button>
                 </form>
             </section>
         </div>

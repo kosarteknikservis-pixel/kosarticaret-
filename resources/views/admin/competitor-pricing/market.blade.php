@@ -4,8 +4,8 @@
 @section('content')
     <x-admin.page-header title="Google piyasa fiyatları" subtitle="Ürünleriniz Google Shopping’da aranır — yanlış eşleşmeyi onaylamadan fiyat değişmez">
         <x-slot:actions>
-            <a href="{{ route('admin.competitor-pricing.index') }}" class="admin-btn admin-btn-secondary">Manuel teklifler</a>
-            <a href="{{ route('admin.competitor-pricing.settings') }}" class="admin-btn admin-btn-secondary">Kurallar</a>
+            <x-admin.button variant="secondary" :href="route('admin.competitor-pricing.index')">Manuel teklifler</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.competitor-pricing.settings')">Kurallar</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -46,14 +46,15 @@
                     </div>
                 </div>
             </div>
-            <button
+            <x-admin.button
+                variant="primary"
                 type="submit"
-                class="admin-btn admin-btn-primary shrink-0 h-[42px] px-5"
+                class="shrink-0 h-[42px]"
                 @if(! $dataforseoReady) disabled @endif
                 onclick="return confirm('Seçilen ürünler Google Shopping kuyruğuna alınsın mı? API ücreti oluşur; fiyat otomatik değişmez.')"
             >
                 Kuyruğa al
-            </button>
+            </x-admin.button>
         </div>
         @if(($stats['queued'] ?? 0) > 0)
             <p class="text-sm text-teal-800 mt-3 font-medium">Kuyrukta bekleyen: {{ number_format($stats['queued'], 0, ',', '.') }} — dakikada birkaç ürün işlenir, sayfayı yenileyin.</p>
@@ -109,7 +110,7 @@
         <form method="get" class="flex gap-2 w-full lg:w-auto">
             <input type="hidden" name="filter" value="{{ $filter }}">
             <input type="search" name="q" value="{{ $q }}" placeholder="Ürün / SKU / barkod…" class="admin-input text-sm min-w-0 flex-1 lg:w-64">
-            <button class="admin-btn admin-btn-secondary shrink-0">Ara</button>
+            <x-admin.button variant="secondary" type="submit" class="shrink-0">Ara</x-admin.button>
         </form>
     </div>
 
@@ -222,24 +223,24 @@
                                 <div class="inline-flex flex-wrap justify-end gap-1.5 max-w-[240px]">
                                     <form method="post" action="{{ route('admin.competitor-pricing.market.scan', $product) }}">
                                         @csrf
-                                        <button type="submit" class="admin-btn admin-btn-secondary text-xs py-1.5 px-2.5" @if(! $dataforseoReady) disabled @endif>Tara</button>
+                                        <x-admin.button variant="secondary" size="sm" type="submit" @if(! $dataforseoReady) disabled @endif>Tara</x-admin.button>
                                     </form>
                                     @if($scan && in_array($scan->status, ['pending_review', 'rejected', 'no_results'], true) && $scan->google_min_price)
                                         <form method="post" action="{{ route('admin.competitor-pricing.market.approve', $scan) }}">
                                             @csrf
-                                            <button type="submit" class="admin-btn admin-btn-secondary text-xs py-1.5 px-2.5">Onayla</button>
+                                            <x-admin.button variant="secondary" size="sm" type="submit">Onayla</x-admin.button>
                                         </form>
                                     @endif
                                     @if($scan && $scan->status !== 'rejected')
                                         <form method="post" action="{{ route('admin.competitor-pricing.market.reject', $scan) }}">
                                             @csrf
-                                            <button type="submit" class="admin-btn admin-btn-secondary text-xs py-1.5 px-2.5">Reddet</button>
+                                            <x-admin.button variant="secondary" size="sm" type="submit">Reddet</x-admin.button>
                                         </form>
                                     @endif
                                     @if(($suggestion['can_apply'] ?? false) && $scan)
                                         <form method="post" action="{{ route('admin.competitor-pricing.market.apply', $scan) }}" onsubmit="return confirm('Önerilen fiyat uygulansın mı?')">
                                             @csrf
-                                            <button type="submit" class="admin-btn admin-btn-primary text-xs py-1.5 px-2.5">Uygula</button>
+                                            <x-admin.button variant="primary" size="sm" type="submit">Uygula</x-admin.button>
                                         </form>
                                     @endif
                                 </div>

@@ -10,9 +10,9 @@
             <p>Faz 7: Hazır tema presetleri, ana sayfa dahil bölüm şablonları ve güvenli özel CSS alanıyla vitrinin görünümünü kontrollü şekilde yönetin. İçerikler mevcut Site ayarları bölümlerinden yönetilmeye devam eder.</p>
         </div>
         <div class="admin-dashboard-hero__actions">
-            <a href="{{ route('admin.settings.edit', ['tab' => 'header']) }}" class="admin-btn admin-btn-secondary">Header ayarları</a>
-            <a href="{{ route('admin.settings.edit', ['tab' => 'footer']) }}" class="admin-btn admin-btn-secondary">Footer ayarları</a>
-            <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-btn admin-btn-primary">Mağazayı aç</a>
+            <x-admin.button variant="secondary" :href="route('admin.settings.edit', ['tab' => 'header'])">Header ayarları</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.settings.edit', ['tab' => 'footer'])">Footer ayarları</x-admin.button>
+            <x-admin.button variant="primary" :href="route('home')" target="_blank" rel="noopener">Mağazayı aç</x-admin.button>
         </div>
     </section>
 
@@ -45,7 +45,7 @@
                 @csrf
                 <label class="sr-only" for="theme-backup-name">Yedek adı</label>
                 <input id="theme-backup-name" name="backup_name" type="text" maxlength="80" placeholder="Yedek adı">
-                <button type="submit" class="admin-btn admin-btn-primary">Yedek Al</button>
+                <x-admin.button variant="primary" type="submit">Yedek Al</x-admin.button>
             </form>
         </div>
 
@@ -60,13 +60,13 @@
                         <form method="post" action="{{ route('admin.theme.backup.restore') }}" onsubmit="return confirm('Bu tema yedeği geri yüklenecek. Mevcut tema önce otomatik yedeklenecek. Devam edilsin mi?')">
                             @csrf
                             <input type="hidden" name="backup_id" value="{{ $backup['id'] }}">
-                            <button type="submit" class="admin-btn admin-btn-primary">Geri Yükle</button>
+                            <x-admin.button variant="primary" type="submit">Geri Yükle</x-admin.button>
                         </form>
                         <form method="post" action="{{ route('admin.theme.backup.delete') }}" onsubmit="return confirm('Bu yedek silinsin mi?')">
                             @csrf
                             @method('DELETE')
                             <input type="hidden" name="backup_id" value="{{ $backup['id'] }}">
-                            <button type="submit" class="admin-btn admin-btn-secondary">Sil</button>
+                            <x-admin.button variant="secondary" type="submit">Sil</x-admin.button>
                         </form>
                     </div>
                 </article>
@@ -104,13 +104,13 @@
                             @csrf
                             <input type="hidden" name="preset" value="{{ $presetKey }}">
                             <input type="hidden" name="mode" value="preview">
-                            <button type="submit" class="admin-btn admin-btn-secondary">Önizle</button>
+                            <x-admin.button variant="secondary" type="submit">Önizle</x-admin.button>
                         </form>
                         <form method="post" action="{{ route('admin.theme.preset') }}" onsubmit="return confirm('{{ $preset['name'] }} teması canlıya uygulanacak. Devam edilsin mi?')">
                             @csrf
                             <input type="hidden" name="preset" value="{{ $presetKey }}">
                             <input type="hidden" name="mode" value="publish">
-                            <button type="submit" class="admin-btn admin-btn-primary">Yayınla</button>
+                            <x-admin.button variant="primary" type="submit">Yayınla</x-admin.button>
                         </form>
                     </div>
                 </article>
@@ -145,14 +145,14 @@
                                         <input type="hidden" name="section" value="{{ $sectionKey }}">
                                         <input type="hidden" name="template" value="{{ $templateKey }}">
                                         <input type="hidden" name="mode" value="preview">
-                                        <button type="submit" class="admin-btn admin-btn-secondary">Önizle</button>
+                                        <x-admin.button variant="secondary" type="submit">Önizle</x-admin.button>
                                     </form>
                                     <form method="post" action="{{ route('admin.theme.section-preset') }}" onsubmit="return confirm('{{ $template['name'] }} canlıya uygulanacak. Devam edilsin mi?')">
                                         @csrf
                                         <input type="hidden" name="section" value="{{ $sectionKey }}">
                                         <input type="hidden" name="template" value="{{ $templateKey }}">
                                         <input type="hidden" name="mode" value="publish">
-                                        <button type="submit" class="admin-btn admin-btn-primary">Yayınla</button>
+                                        <x-admin.button variant="primary" type="submit">Yayınla</x-admin.button>
                                     </form>
                                 </div>
                             </article>
@@ -188,9 +188,9 @@
             <div class="admin-theme-code-actions">
                 <p>Yayınlarken mevcut CSS otomatik yedeklenir. Önizleme canlıya yazmadan session içinde çalışır.</p>
                 <div>
-                    <button type="submit" name="mode" value="preview" class="admin-btn admin-btn-secondary">Önizle</button>
-                    <button type="submit" name="mode" value="publish" class="admin-btn admin-btn-primary">Yayınla</button>
-                    <button type="submit" name="mode" value="reset" class="admin-btn admin-btn-secondary" onclick="return confirm('Özel CSS sıfırlanacak ve mevcut CSS yedeklenecek. Devam edilsin mi?')">Sıfırla</button>
+                    <x-admin.button variant="secondary" type="submit" name="mode" value="preview">Önizle</x-admin.button>
+                    <x-admin.button variant="primary" type="submit" name="mode" value="publish">Yayınla</x-admin.button>
+                    <x-admin.button variant="secondary" type="submit" name="mode" value="reset" onclick="return confirm('Özel CSS sıfırlanacak ve mevcut CSS yedeklenecek. Devam edilsin mi?')">Sıfırla</x-admin.button>
                 </div>
             </div>
         </form>
@@ -231,16 +231,16 @@
                 <strong class="text-slate-900">Faz 7 kapsamı:</strong> Ana sayfa görünüm seçenekleri ve ana sayfa bölüm şablonları dahil edildi. Header/Footer içerik düzenlemeleri için yukarıdaki hızlı bağlantıları kullanın.
             </div>
             <div class="flex flex-col gap-2 sm:flex-row">
-                <button type="submit" formaction="{{ route('admin.theme.preview') }}" formmethod="post" class="admin-btn admin-btn-secondary">
+                <x-admin.button variant="secondary" type="submit" formaction="{{ route('admin.theme.preview') }}" formmethod="post">
                     Önizle
-                </button>
-                <button type="submit" class="admin-btn admin-btn-primary">Yayınla</button>
+                </x-admin.button>
+                <x-admin.button variant="primary" type="submit">Yayınla</x-admin.button>
             </div>
         </div>
     </form>
 
     <form method="post" action="{{ route('admin.theme.reset') }}" class="mt-4" onsubmit="return confirm('Tema ayarları varsayılan değerlere döndürülecek. Devam edilsin mi?')">
         @csrf
-        <button type="submit" class="admin-btn admin-btn-secondary">Varsayılana dön</button>
+        <x-admin.button variant="secondary" type="submit">Varsayılana dön</x-admin.button>
     </form>
 @endsection

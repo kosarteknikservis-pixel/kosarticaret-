@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="Eşleştirme merkezi" subtitle="Kategori, marka ve özellik eşleştirmelerini pazaryeri kanallarına göre yönetin">
         <x-slot:actions>
-            <a href="{{ route('admin.integrations.marketplace.mappings.categories', ['channel' => $channelKey]) }}" class="admin-btn admin-btn-primary">Kategori eşleştir</a>
+            <x-admin.button variant="primary" :href="route('admin.integrations.marketplace.mappings.categories', ['channel' => $channelKey])">Kategori eşleştir</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -76,8 +76,8 @@
         <h2 class="text-lg font-semibold text-slate-900 mb-2">Yedekleme & geri yükleme</h2>
         <p class="text-sm text-slate-600 mb-4">Tüm eşleştirmeleri JSON olarak dışa aktarın veya önceki yedeği geri yükleyin.</p>
         <div class="flex flex-wrap gap-3">
-            <a href="{{ route('admin.integrations.marketplace.mappings.export', ['channel' => $channelKey]) }}" class="admin-btn admin-btn-secondary">JSON indir ({{ $channelKey }})</a>
-            <a href="{{ route('admin.integrations.marketplace.mappings.export') }}" class="admin-btn admin-btn-secondary">Tüm kanallar JSON</a>
+            <x-admin.button variant="secondary" :href="route('admin.integrations.marketplace.mappings.export', ['channel' => $channelKey])">JSON indir ({{ $channelKey }})</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.integrations.marketplace.mappings.export')">Tüm kanallar JSON</x-admin.button>
         </div>
         <form method="post" enctype="multipart/form-data" action="{{ route('admin.integrations.marketplace.mappings.import') }}" class="mt-5 space-y-3 border-t border-slate-100 pt-5">
             @csrf
@@ -86,7 +86,7 @@
                 <input type="file" name="json_file" accept=".json,application/json" required class="admin-input">
                 @error('json_file')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
             </div>
-            <button class="admin-btn admin-btn-primary px-5 py-2.5">Geri yükle</button>
+            <x-admin.button variant="primary" type="submit">Geri yükle</x-admin.button>
         </form>
     </section>
 @endsection

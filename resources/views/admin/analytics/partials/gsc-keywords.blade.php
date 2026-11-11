@@ -27,9 +27,9 @@
             </p>
         </div>
         <div class="admin-analytics-gsc__actions">
-            <a href="{{ $gscUrl }}" target="_blank" rel="noopener noreferrer" class="admin-btn admin-btn-secondary">
+            <x-admin.button variant="secondary" :href="$gscUrl" target="_blank" rel="noopener noreferrer">
                 Search Console’da aç
-            </a>
+            </x-admin.button>
         </div>
     </div>
 

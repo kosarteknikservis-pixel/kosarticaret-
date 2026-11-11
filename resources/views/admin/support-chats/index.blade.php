@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="AI sohbetler" subtitle="Destek asistanının müşterilerle yaptığı görüşmeler, cevaplayamadığı sorular ve WhatsApp aktarımları">
         <x-slot:actions>
-            <a href="{{ route('admin.settings.edit', ['tab' => 'integrations']) }}" class="admin-btn admin-btn-secondary">Asistan ayarları</a>
+            <x-admin.button variant="secondary" :href="route('admin.settings.edit', ['tab' => 'integrations'])">Asistan ayarları</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -57,8 +57,10 @@
 
     <div class="flex flex-wrap gap-2 mb-4">
         @foreach(['' => 'Tümü', 'cevapsiz' => 'Cevapsız kalanlar', 'aktarilan' => 'WhatsApp\'a yönlenenler'] as $key => $label)
-            <a href="{{ route('admin.support-chats.index', $key !== '' ? ['filtre' => $key] : []) }}"
-               class="admin-btn {{ $filter === $key ? 'admin-btn-primary' : 'admin-btn-secondary' }}">{{ $label }}</a>
+            <x-admin.button
+                :variant="$filter === $key ? 'primary' : 'secondary'"
+                :href="route('admin.support-chats.index', $key !== '' ? ['filtre' => $key] : [])"
+            >{{ $label }}</x-admin.button>
         @endforeach
     </div>
 

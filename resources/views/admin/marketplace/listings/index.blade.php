@@ -4,7 +4,7 @@
 @section('content')
     <x-admin.page-header title="Listeleme yönetimi" subtitle="Trendyol ürün gönderimi ve durum takibi">
         <x-slot:actions>
-            <a href="{{ route('admin.integrations.marketplace.orders.index') }}" class="admin-btn admin-btn-secondary">Sipariş sync</a>
+            <x-admin.button variant="secondary" :href="route('admin.integrations.marketplace.orders.index')">Sipariş sync</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -32,7 +32,7 @@
             <label class="admin-label">Ürün ara</label>
             <input type="search" name="q" value="{{ $filters['q'] ?? '' }}" class="admin-input" placeholder="Ad, SKU, barkod">
         </div>
-        <button class="admin-btn admin-btn-secondary px-4 py-2.5">Filtrele</button>
+        <x-admin.button variant="secondary" type="submit">Filtrele</x-admin.button>
     </form>
 
     @if($channelKey === 'trendyol' && $readyProducts->isNotEmpty())
@@ -45,7 +45,7 @@
                 <form method="post" action="{{ route('admin.integrations.marketplace.listings.bulk-publish') }}" id="bulk-publish-form">
                     @csrf
                     <input type="hidden" name="channel_key" value="{{ $channelKey }}">
-                    <button type="submit" class="admin-btn admin-btn-primary" onclick="return confirm('Seçili ürünler Trendyol kuyruğuna eklensin mi?')">Seçilileri gönder</button>
+                    <x-admin.button variant="primary" type="submit" onclick="return confirm('Seçili ürünler Trendyol kuyruğuna eklensin mi?')">Seçilileri gönder</x-admin.button>
                 </form>
             </div>
             <div class="overflow-x-auto">
@@ -75,7 +75,7 @@
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         <input type="hidden" name="channel_key" value="{{ $channelKey }}">
-                                        <button class="admin-btn admin-btn-secondary text-xs py-1.5">Gönder</button>
+                                        <x-admin.button variant="secondary" size="sm" type="submit">Gönder</x-admin.button>
                                     </form>
                                 </td>
                             </tr>
@@ -114,9 +114,9 @@
                                     <p class="text-xs text-slate-500 font-mono">{{ $listing->external_sku ?: $listing->product?->sku }}</p>
                                 </td>
                                 <td data-label="Durum">
-                                    <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ $listing->status === 'published' ? 'bg-emerald-50 text-emerald-700' : ($listing->status === 'error' ? 'bg-red-50 text-red-700' : 'bg-slate-100 text-slate-600') }}">
+                                    <x-admin.badge :tone="$listing->status === 'published' ? 'success' : ($listing->status === 'error' ? 'danger' : 'muted')">
                                         {{ $listing->statusLabel() }}
-                                    </span>
+                                    </x-admin.badge>
                                 </td>
                                 <td data-label="Fiyat">{{ $listing->channel_price ? number_format($listing->channel_price, 2, ',', '.').' ₺' : '—' }}</td>
                                 <td data-label="Stok">{{ $listing->channel_stock_limit ?? '—' }}</td>
@@ -126,7 +126,7 @@
                                     @if(in_array($listing->status, ['error', 'rejected', 'draft'], true))
                                         <form method="post" action="{{ route('admin.integrations.marketplace.listings.retry', $listing) }}">
                                             @csrf
-                                            <button class="admin-btn admin-btn-secondary text-xs py-1.5">Yeniden dene</button>
+                                            <x-admin.button variant="secondary" size="sm" type="submit">Yeniden dene</x-admin.button>
                                         </form>
                                     @endif
                                 </td>

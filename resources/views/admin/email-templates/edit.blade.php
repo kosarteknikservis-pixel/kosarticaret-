@@ -46,9 +46,9 @@
         </div>
         <label class="admin-checkbox"><input type="checkbox" name="active" value="1" @checked(old('active', $template->active))> Şablon aktif</label>
         <div class="admin-form-actions">
-            <button class="admin-btn admin-btn-primary px-8 py-2.5">Kaydet</button>
-            <a href="{{ route('admin.email-templates.preview', $template) }}" target="_blank" class="admin-btn admin-btn-secondary px-5 py-2.5">Önizle</a>
-            <a href="{{ route('admin.email-templates.index') }}" class="admin-btn admin-btn-secondary px-5 py-2.5">Listeye dön</a>
+            <x-admin.button variant="primary" type="submit">Kaydet</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.email-templates.preview', $template)" target="_blank">Önizle</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.email-templates.index')">Listeye dön</x-admin.button>
         </div>
     </form>
 @endsection

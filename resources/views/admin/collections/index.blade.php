@@ -5,7 +5,7 @@
 @section('content')
     <x-admin.page-header title="Etiketler" subtitle="Taslak toplama sayfaları. Google’a açık değiller.">
         <x-slot:actions>
-            <a href="{{ route('admin.collections.create') }}" class="admin-btn admin-btn-primary">+ Etiket</a>
+            <x-admin.button variant="primary" :href="route('admin.collections.create')">+ Etiket</x-admin.button>
         </x-slot:actions>
     </x-admin.page-header>
 
@@ -29,11 +29,11 @@
                         </td>
                         <td>
                             @if($collection->status === 'index')
-                                <span class="admin-badge admin-badge-success">Index</span>
+                                <x-admin.badge tone="success">Index</x-admin.badge>
                             @elseif($collection->status === 'noindex')
-                                <span class="admin-badge">Noindex</span>
+                                <x-admin.badge tone="muted">Noindex</x-admin.badge>
                             @else
-                                <span class="admin-badge">Taslak</span>
+                                <x-admin.badge tone="warning">Taslak</x-admin.badge>
                             @endif
                             @if($collection->status === 'index' && $collection->visible_products_count < \App\Models\Collection::MIN_PRODUCTS)
                                 <p class="text-xs text-amber-700 mt-1">6 ürünün altında</p>
@@ -42,8 +42,8 @@
                         <td>{{ $collection->visible_products_count }}</td>
                         <td class="text-sm text-slate-600">{{ $collection->category?->name }}</td>
                         <td class="text-right whitespace-nowrap">
-                            <a href="{{ route('admin.collections.preview', $collection) }}" class="admin-btn admin-btn-secondary">Önizle</a>
-                            <a href="{{ route('admin.collections.edit', $collection) }}" class="admin-btn admin-btn-secondary">Düzenle</a>
+                            <x-admin.button variant="secondary" size="sm" :href="route('admin.collections.preview', $collection)">Önizle</x-admin.button>
+                            <x-admin.button variant="secondary" size="sm" :href="route('admin.collections.edit', $collection)">Düzenle</x-admin.button>
                         </td>
                     </tr>
                 @empty

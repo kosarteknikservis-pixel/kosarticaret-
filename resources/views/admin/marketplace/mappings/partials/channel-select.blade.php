@@ -12,6 +12,6 @@
             <label class="admin-label">Ara</label>
             <input type="search" name="q" value="{{ $search }}" placeholder="İsim ile filtrele…" class="admin-input">
         </div>
-        <button type="submit" class="admin-btn admin-btn-secondary px-4 py-2.5">Filtrele</button>
+        <x-admin.button variant="secondary" type="submit">Filtrele</x-admin.button>
     @endif
 </form>

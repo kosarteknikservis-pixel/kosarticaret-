@@ -141,13 +141,16 @@
                 <div class="rounded-xl border border-slate-200 bg-white p-2 space-y-2 mb-2">
                     <img src="{{ $banner->imageUrl() }}" alt="" class="w-full max-h-28 object-contain rounded-lg bg-slate-50">
                     @if($banner->image)
-                        <button type="submit"
+                        <x-admin.button
+                                variant="danger"
+                                size="sm"
+                                type="submit"
                                 name="remove_image"
                                 value="1"
-                                class="admin-btn admin-btn-danger w-full text-xs py-1.5"
+                                block
                                 onclick="return confirm('Bu bloğun görseli silinsin mi?');">
                             Görseli sil
-                        </button>
+                        </x-admin.button>
                     @endif
                 </div>
             @endif
@@ -180,7 +183,7 @@
 
         <label class="admin-checkbox"><input type="checkbox" name="active" value="1" @checked(old('active', $banner->active ?? true))> Yayında</label>
 
-        <button type="submit" class="admin-btn admin-btn-primary w-full py-2.5">Kaydet</button>
+        <x-admin.button variant="primary" type="submit" block>Kaydet</x-admin.button>
     </form>
 
     @if(!$isNew)

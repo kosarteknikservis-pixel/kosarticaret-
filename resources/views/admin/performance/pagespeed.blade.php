@@ -37,12 +37,12 @@
                 </p>
             </div>
             <div class="admin-pagespeed__hero-actions">
-                <a href="{{ $reportUrl }}" target="_blank" rel="noopener" class="admin-btn admin-btn-secondary">PageSpeed.web.dev</a>
+                <x-admin.button variant="secondary" :href="$reportUrl" target="_blank" rel="noopener">PageSpeed.web.dev</x-admin.button>
                 @if($configured && $auditUrlReady)
                     <form method="post" action="{{ route('admin.performance.pagespeed.run') }}">
                         @csrf
                         <input type="hidden" name="force" value="1">
-                        <button type="submit" class="admin-btn admin-btn-primary">Tüm sayfaları ölç</button>
+                        <x-admin.button variant="primary" type="submit">Tüm sayfaları ölç</x-admin.button>
                     </form>
                 @endif
             </div>
@@ -62,7 +62,7 @@
                         <li>API anahtarı oluşturun</li>
                         <li><a href="{{ route('admin.settings.edit', ['tab' => 'integrations']) }}" class="text-teal-700 font-semibold">Site ayarları → Entegrasyonlar</a> → <strong>Google PageSpeed</strong> alanına yapıştırıp kaydedin</li>
                     </ol>
-                    <a href="{{ route('admin.settings.edit', ['tab' => 'integrations']) }}" class="admin-btn admin-btn-primary mt-4">Entegrasyonlara git</a>
+                    <x-admin.button variant="primary" :href="route('admin.settings.edit', ['tab' => 'integrations'])" class="mt-4">Entegrasyonlara git</x-admin.button>
                 </div>
             </section>
         @endunless
@@ -76,7 +76,7 @@
                         Ölçüm Google’ın sunucularından yapılır; <strong>127.0.0.1</strong> veya <strong>localhost</strong> adresine bağlanamaz.
                         Bu yüzden <code>ERR_CONNECTION_FAILED</code> hatası alırsınız.
                     </p>
-                    <a href="{{ route('admin.settings.edit', ['tab' => 'integrations']) }}" class="admin-btn admin-btn-primary mt-4">Entegrasyonlar → Ölçüm site adresi</a>
+                    <x-admin.button variant="primary" :href="route('admin.settings.edit', ['tab' => 'integrations'])" class="mt-4">Entegrasyonlar → Ölçüm site adresi</x-admin.button>
                 </div>
             </section>
         @endif
@@ -170,7 +170,7 @@
                                                 <input type="hidden" name="page_key" value="{{ $target['key'] }}">
                                                 <input type="hidden" name="strategy" value="{{ $strategy }}">
                                                 <input type="hidden" name="force" value="1">
-                                                <button type="submit" class="admin-btn admin-btn-secondary admin-btn--compact">Ölç</button>
+                                                <x-admin.button variant="secondary" size="sm" type="submit" class="admin-btn--compact">Ölç</x-admin.button>
                                             </form>
                                         </td>
                                     </tr>

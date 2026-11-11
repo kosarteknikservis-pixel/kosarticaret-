@@ -90,8 +90,8 @@
         </section>
 
         <div class="flex flex-wrap items-center gap-3">
-            <button type="submit" class="admin-btn admin-btn-primary px-8 py-2.5">Profili kaydet</button>
-            <a href="{{ route('admin.dashboard') }}" class="admin-btn admin-btn-secondary px-6 py-2.5">Vazgeç</a>
+            <x-admin.button variant="primary" type="submit">Profili kaydet</x-admin.button>
+            <x-admin.button variant="secondary" :href="route('admin.dashboard')">Vazgeç</x-admin.button>
         </div>
     </form>
 @endsection
