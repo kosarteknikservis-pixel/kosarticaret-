@@ -8099,6 +8099,10 @@ body.theme-motion-reduced *::after {
     min-width: 0;
     overflow-wrap: anywhere;
 }
+.shop-checkout-option .text-slate-500 {
+    /* slate-500 on option bg sits at ~4.4:1; slate-600 clears 4.5:1 */
+    color: #475569;
+}
 .shop-checkout-option:hover {
     border-color: #c5d4e8;
     transform: translateY(-1px);
@@ -11669,6 +11673,7 @@ input:focus-visible {
     font-size: 0.93rem;
     line-height: 1.7;
     color: #475569;
+    max-width: 65ch;
 }
 
 .shop-faq__a-inner strong {
