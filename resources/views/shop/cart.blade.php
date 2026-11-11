@@ -104,10 +104,10 @@
             document.querySelectorAll('[data-cart-count]').forEach(el => { el.textContent = data.count; el.classList.toggle('hidden', data.count < 1); });
             if (totalEl && unitPrice) totalEl.textContent = (unitPrice * qty).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺';
         };
-        row.querySelector('[data-cart-qty-minus]')?.addEventListener('click', () => update(Math.max(0, parseInt(input.value, 10) - 1));
-        row.querySelector('[data-cart-qty-plus]')?.addEventListener('click', () => update(Math.min(max, parseInt(input.value, 10) + 1));
+        row.querySelector('[data-cart-qty-minus]')?.addEventListener('click', () => update(Math.max(0, parseInt(input.value, 10) - 1)));
+        row.querySelector('[data-cart-qty-plus]')?.addEventListener('click', () => update(Math.min(max, parseInt(input.value, 10) + 1)));
         row.querySelector('[data-cart-remove]')?.addEventListener('click', () => update(0));
-        input?.addEventListener('change', () => update(Math.min(max, Math.max(1, parseInt(input.value, 10) || 1)));
+        input?.addEventListener('change', () => update(Math.min(max, Math.max(1, parseInt(input.value, 10) || 1))));
     }
 </script>
 @endpush
