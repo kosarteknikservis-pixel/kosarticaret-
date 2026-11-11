@@ -49,15 +49,15 @@
             </aside>
         </div>
 
-        <div class="admin-main">
+        <div class="admin-main min-w-0">
             <header class="admin-topbar">
-                <div class="flex items-center gap-3 min-w-0">
+                <div class="flex items-center gap-3 min-w-0 flex-1">
                     <button type="button" id="admin-sidebar-open" class="admin-sidebar-mobile-trigger lg:hidden p-2 rounded-lg border border-slate-200 hover:bg-slate-50" aria-label="Menü">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
                     </button>
                     <div class="min-w-0">
                         <p class="admin-topbar-eyebrow">Kosar Panel</p>
-                        <h1 class="admin-page-title truncate text-lg lg:text-xl">@yield('title', 'Panel')</h1>
+                        <h1 class="admin-page-title truncate">@yield('title', 'Panel')</h1>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">

@@ -40,11 +40,20 @@
                 </select>
             </div>
             <div>
-                <label class="admin-label">Ödeme</label>
+                <label class="admin-label">Ödeme durumu</label>
                 <select name="payment_status" class="admin-input">
                     <option value="">Tümü</option>
                     @foreach($paymentStatuses as $value => $label)
                         <option value="{{ $value }}" @selected(($filters['payment_status'] ?? '') === $value)>{{ $label }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="admin-label">Ödeme yöntemi</label>
+                <select name="payment_method" class="admin-input">
+                    <option value="">Tümü</option>
+                    @foreach($paymentMethods as $value => $label)
+                        <option value="{{ $value }}" @selected(($filters['payment_method'] ?? '') === $value)>{{ $label }}</option>
                     @endforeach
                 </select>
             </div>
@@ -128,13 +137,18 @@
                             <td data-label="Tarih" class="text-slate-500 text-xs">{{ $o->created_at->format('d.m.Y H:i') }}</td>
                             <td data-label="Tutar" class="font-semibold">{{ number_format($o->total, 2, ',', '.') }} ₺</td>
                             <td data-label="Durum"><span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\OrderStatus::badgeClasses($o->status) }}">{{ \App\Support\OrderStatus::label($o->status) }}</span></td>
-                            <td data-label="Ödeme"><span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\PaymentStatus::badgeClasses($o->payment_status) }}">{{ \App\Support\PaymentStatus::label($o->payment_status) }}</span></td>
+                            <td data-label="Ödeme">
+                                <div class="flex flex-col items-start gap-1">
+                                    <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\PaymentMethod::badgeClasses($o->payment_method) }}">{{ \App\Support\PaymentMethod::displayLabel($o) }}</span>
+                                    <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\PaymentStatus::badgeClasses($o->payment_status) }}">{{ \App\Support\PaymentStatus::label($o->payment_status) }}</span>
+                                </div>
+                            </td>
                             @if(($filters['pending_payment'] ?? '') === '1')
                                 @php($reminderStatus = \App\Support\OrderPaymentReminder::status($o))
                                 <td data-label="Hatırlatma">
                                     <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ \App\Support\OrderPaymentReminder::badgeClasses($reminderStatus['tone']) }}">{{ $reminderStatus['label'] }}</span>
                                     @if($reminderStatus['detail'])
-                                        <p class="text-[11px] text-slate-500 mt-1">{{ $reminderStatus['detail'] }}</p>
+                                        <p class="text-xs text-slate-500 mt-1">{{ $reminderStatus['detail'] }}</p>
                                     @endif
                                 </td>
                             @endif
