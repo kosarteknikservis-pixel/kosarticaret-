@@ -196,8 +196,8 @@
                 @else
                     <form method="post" action="{{ route('checkout.coupon') }}" class="mt-3 flex gap-2">
                         @csrf
-                        <input name="coupon_code" placeholder="KOSAR10" class="shop-input flex-1 uppercase text-sm">
-                        <button type="submit" class="btn-primary shrink-0 px-4 py-2 text-sm">{{ __('shop.apply') }}</button>
+                        <input name="coupon_code" placeholder="KOSAR10" class="shop-input flex-1 uppercase" autocomplete="off" spellcheck="false">
+                        <button type="submit" class="btn-primary shrink-0 px-4 py-2">{{ __('shop.apply') }}</button>
                     </form>
                 @endif
             </div>

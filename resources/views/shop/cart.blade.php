@@ -60,6 +60,12 @@
                             <div class="flex justify-between"><dt class="text-slate-500">{{ __('shop.subtotal') }}</dt><dd class="font-semibold text-slate-900" id="cart-page-subtotal">{{ number_format($subtotal, 2, ',', '.') }} ₺</dd></div>
                         </dl>
                         <p class="mt-3 text-xs text-slate-500 leading-relaxed">{{ __('shop.checkout_estimate_note') }}</p>
+                        @if(app(\App\Services\StoreConfig::class)->paymentEnabled('kapida_odeme'))
+                            <p class="shop-cart-payment-note" role="note">
+                                <span class="shop-cart-payment-note__label">Ödeme</span>
+                                <span class="shop-cart-payment-note__value">Kapıda ödeme mümkün</span>
+                            </p>
+                        @endif
                         @include('shop.partials.pdp-trust')
                         <a href="{{ route('checkout.show') }}" class="mt-6 btn-primary w-full py-3.5 text-center block">{{ __('shop.checkout_cta') }}</a>
                         <a href="{{ route('products.index') }}" class="mt-3 block text-center text-sm font-semibold text-brand-700 hover:text-brand-800">{{ __('shop.continue_shopping') }}</a>
@@ -91,7 +97,10 @@
             if (!data.ok) return;
             if (qty === 0) { row.remove(); if (!document.querySelector('[data-cart-line]')) location.reload(); return; }
             input.value = qty;
-            document.getElementById('cart-page-subtotal')?.textContent = data.subtotal_formatted;
+            const subtotalEl = document.getElementById('cart-page-subtotal');
+            if (subtotalEl) {
+                subtotalEl.textContent = data.subtotal_formatted;
+            }
             document.querySelectorAll('[data-cart-count]').forEach(el => { el.textContent = data.count; el.classList.toggle('hidden', data.count < 1); });
             if (totalEl && unitPrice) totalEl.textContent = (unitPrice * qty).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺';
         };

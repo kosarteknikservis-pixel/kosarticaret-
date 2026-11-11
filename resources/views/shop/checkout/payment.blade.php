@@ -58,7 +58,7 @@
 
             <p class="mt-4 text-slate-600">{{ __('shop.order_number') }}: <strong class="text-brand-700">{{ $order->order_number }}</strong></p>
 
-            <p class="mt-6 text-3xl font-extrabold text-brand-700 tracking-tight">{{ number_format($order->total, 2, ',', '.') }} ₺</p>
+            <p class="mt-6 text-3xl font-semibold text-brand-700 tracking-tight">{{ number_format($order->total, 2, ',', '.') }} ₺</p>
 
             @include('shop.partials.pdp-trust')
 

@@ -5,7 +5,9 @@
     "scripts": {
         "build": "vite build && node scripts/minify-static-assets.mjs",
         "minify:static": "node scripts/minify-static-assets.mjs",
-        "dev": "vite"
+        "dev": "vite",
+        "design:check": "npx --yes @enmera/ai-design-check",
+        "design:check:shop": "npx --yes @enmera/ai-design-check resources/views/shop resources/views/layouts/shop.blade.php resources/views/components/shop"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",

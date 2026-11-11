@@ -296,7 +296,15 @@
                     <button type="button" class="shop-pdp-lightbox__nav shop-pdp-lightbox__nav--next" data-pdp-lightbox-next aria-label="{{ __('shop.lightbox_next') }}">›</button>
                 @endif
                 <figure class="shop-pdp-lightbox__figure">
-                    <img src="" alt="" class="shop-pdp-lightbox__img" id="pdp-lightbox-img">
+                    <img
+                        src="{{ $thumbs->first()['url'] }}"
+                        alt="{{ $thumbs->first()['alt'] }}"
+                        class="shop-pdp-lightbox__img"
+                        id="pdp-lightbox-img"
+                        width="{{ $thumbs->first()['width'] ?? 1200 }}"
+                        height="{{ $thumbs->first()['height'] ?? 1200 }}"
+                        decoding="async"
+                    >
                 </figure>
             </div>
         </dialog>
