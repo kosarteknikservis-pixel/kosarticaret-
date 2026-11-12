@@ -14,6 +14,7 @@ use App\Support\Code128Barcode;
 use App\Support\OrderPaymentReminder;
 use App\Support\OrderShippingLabel;
 use App\Support\OrderStatus;
+use App\Support\PaymentMethod;
 use App\Support\PaymentStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -48,6 +49,10 @@ class OrderController extends Controller
             $query->where('payment_status', $paymentStatus);
         }
 
+        if ($paymentMethod = $request->query('payment_method')) {
+            $query->where('payment_method', $paymentMethod);
+        }
+
         if ($tracking = $request->query('tracking')) {
             $tracking === 'var'
                 ? $query->whereNotNull('shipping_tracking')->where('shipping_tracking', '<>', '')
@@ -78,8 +83,9 @@ class OrderController extends Controller
             'orders' => $query->paginate(20)->withQueryString(),
             'statuses' => OrderStatus::labels(),
             'paymentStatuses' => PaymentStatus::labels(),
+            'paymentMethods' => PaymentMethod::labels(),
             'salesChannels' => config('marketplace.sales_channels', []),
-            'filters' => $request->only(['q', 'status', 'payment_status', 'tracking', 'date_from', 'date_to', 'sales_channel', 'pending_payment']),
+            'filters' => $request->only(['q', 'status', 'payment_status', 'payment_method', 'tracking', 'date_from', 'date_to', 'sales_channel', 'pending_payment']),
             'pendingPaymentCount' => Order::query()->pendingPayment()->websiteChannel()->count(),
         ]);
     }
