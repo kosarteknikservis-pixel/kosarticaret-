@@ -164,9 +164,9 @@ class StoreConfig
 
         $promotions = app(PromotionService::class);
         if ($promotions->kasim2026IsActive()) {
-            $messages[] = 'Kasım kademeli indirim · 30 Kasım’a kadar';
+            $messages[] = 'Sepette kademeli indirim · 30 Kasım 23:59’a kadar';
             foreach (PromotionService::kasim2026Tiers() as $tier) {
-                $messages[] = 'Kasım: '.$tier['label'].' indirim';
+                $messages[] = $tier['label'].' indirim · otomatik';
             }
         }
 

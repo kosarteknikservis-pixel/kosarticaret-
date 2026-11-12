@@ -19,9 +19,9 @@
                 <x-shop.icon name="x" class="w-5 h-5" />
             </button>
 
-            <p class="shop-campaign-popup__eyebrow">Kasım Teknik Günleri</p>
-            <h2 id="shop-campaign-popup-title" class="shop-campaign-popup__title">Kademeli sepet indirimi</h2>
-            <p class="shop-campaign-popup__lead">Sepet tutarınıza göre otomatik uygulanır. 30 Kasım 23:59’a kadar geçerlidir.</p>
+            <p class="shop-campaign-popup__eyebrow">30 Kasım’a kadar</p>
+            <h2 id="shop-campaign-popup-title" class="shop-campaign-popup__title">Sepette kademeli indirim</h2>
+            <p class="shop-campaign-popup__lead">Kod gerekmez. Sepet tutarı eşiği geçince en yüksek kademe otomatik uygulanır; 30 Kasım 23:59’da biter.</p>
 
             <ul class="shop-campaign-popup__tiers">
                 @foreach(\App\Services\PromotionService::kasim2026Tiers() as $tier)
