@@ -39,6 +39,36 @@ on:
         required: true
         type: boolean
         default: false
+      trendyol_kosar_marka:
+        description: 'Trendyol tüm listing markalarını Koşar yap + yeniden gönder (YAVAS)'
+        required: true
+        type: boolean
+        default: false
+      trendyol_brand_audit:
+        description: 'Trendyol canlı brandId / eşleme denetimi'
+        required: true
+        type: boolean
+        default: false
+      trendyol_reupload:
+        description: 'Trendyol listing’leri Koşar ile yeniden yükle + batch doğrula (YAVAS)'
+        required: true
+        type: boolean
+        default: false
+      trendyol_status:
+        description: 'Trendyol listing canlı durum özeti (arşiv/onay/aktif)'
+        required: true
+        type: boolean
+        default: false
+      trendyol_new_barcode_reupload:
+        description: 'Arşiv Trendyol ürünlerini YENİ barkod + Koşar ile create (YAVAS)'
+        required: true
+        type: boolean
+        default: false
+      trendyol_fix_brand_mismatch:
+        description: 'Trendyol Hatalı Marka: başlık/açıklama temizle + revize güncelle (YAVAS)'
+        required: true
+        type: boolean
+        default: false
 
 concurrency:
   group: canliya-gonder
@@ -48,7 +78,7 @@ jobs:
   deploy:
     if: github.event.inputs.onay == 'canli'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
 
     steps:
       - name: Kodu al
@@ -118,14 +148,6 @@ jobs:
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "rm -f ${DEPLOY_PATH}/public_html/robots.txt"
           ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "ln -sfn ../kosar/storage/app/public ${DEPLOY_PATH}/public_html/storage"
 
-      - name: Pazaryeri Hub köprü dosyalarını geri yükle
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-        run: |
-          # Deploy rsync Laravel hub cutover dosyalarını eski commit ile ezebilir.
-          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "if [ -x /root/pazaryeri-bridge-backup/restore.sh ]; then bash /root/pazaryeri-bridge-backup/restore.sh; else echo 'hub-bridge backup yok'; fi"
-
       - name: Sunucuda migrate + önbellek
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -186,7 +208,6 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_02_150000_differentiate_renato_r3001_content.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_03_120000_add_agent_replies_to_support_chat.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_07_170000_create_collections_tables.php && \
-            \$PHP_BIN artisan config:clear && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_08_120000_add_troy_karavan_hidrofor_catalog.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_23_100000_update_su_pompalari_price_band_and_links.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_23_220000_strengthen_hidroforlar_category_seo.php && \
@@ -195,14 +216,55 @@ jobs:
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_28_175000_rewrite_troy_hmj_h_15_description.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_28_180000_prepare_troy_hmj_h_15_for_trendyol.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_28_181000_switch_troy_hmj_h_15_to_sumak_brand.php && \
-            \$PHP_BIN artisan marketplace:publish-product troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli --map-brand || echo 'Trendyol publish uyarisi (eslestirme/API kontrol edin)' && \
-            sleep 8 && \
-            \$PHP_BIN artisan marketplace:diagnose-listing troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli || echo 'Trendyol diagnose uyarisi' && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_100000_prepare_sumak_sdf151_for_trendyol.php && \
             \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_103000_fix_sumak_sdf151_trendyol_readiness.php && \
-            \$PHP_BIN artisan marketplace:publish-product sumak-sdf-151-temiz-su-dalgic-pompa-monofaze-220v-15-hp --map-brand --price=23599 || echo 'SDF151 Trendyol publish uyarisi' && \
-            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_12_120000_seed_kasim_2026_cart_promotions.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_110000_prepare_kaysu_hwd1100s_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_120000_add_or_update_sumak_smj150_24l_hidrofor.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_130000_prepare_kaysu_hmc145_65h_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_140000_prepare_kaysu_2hcp160_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_150000_prepare_sumak_smj220_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_160000_add_troy_hmj15_jet_pump_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_170000_prepare_sumak_smjk100_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_180000_add_sumak_smac600_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_190000_prepare_pedrollo_bc1550n_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_200000_prepare_pedrollo_bcm1050n_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_210000_add_pedrollo_top_multi_ad_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_220000_prepare_kaysu_sp100050_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_230000_add_sumak_sdf152_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_240000_prepare_troy_ts1212h_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_250000_prepare_troy_ts128h_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_260000_add_sumak_stn2000g_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_270000_add_sumak_hd500_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_280000_prepare_winpo_wnp400aw_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_290000_add_sumak_4sdf4_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_300000_add_winpo_wnp400awgf_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_310000_prepare_sumak_sdf500gf_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_320000_prepare_sumak_sdf6a_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_330000_prepare_sumak_sdf6_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_340000_prepare_kaysu_hqbm60_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_350000_prepare_sumak_sm10_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_360000_add_sumak_hd1300_2_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_370000_add_sumak_hd1700_2_for_site_and_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_380000_prepare_sumak_sbrm182p_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_390000_prepare_sumak_sdf102_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_440000_unlock_smj220_trendyol_buybox_barcode.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_29_441000_unlock_sdf500gf_trendyol_buybox_barcode.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_30_100000_n11_banned_words_switch_to_sumak.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_10_30_120000_add_pttavm_marketplace_channel.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_01_150000_add_phone_and_default_address_to_users_table.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_01_151000_add_reminded_at_to_abandoned_carts_table.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_01_152000_create_order_return_requests_table.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_02_100000_add_external_barcode_to_marketplace_listings.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_120000_add_sumak_skld12g_for_site.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_130000_prepare_sumak_skld12g_for_trendyol.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_140000_prepare_sumak_skld12g_other_marketplaces.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_150000_lock_renato_r3001_trendyol_price_8199.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_03_151000_fix_renato_r3001_trendyol_listing_for_price.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_170000_add_sumak_sht50c_purchase_options.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_173500_add_sumak_sht65b_purchase_options.php && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_07_174500_add_sumak_sht65a_purchase_options.php && \
             \$PHP_BIN artisan config:clear && \
+            \$PHP_BIN artisan migrate --force --path=database/migrations/2026_11_12_120000_seed_kasim_2026_cart_promotions.php && \
             \$PHP_BIN artisan seo:fix-utf8-mojibake && \
             \$PHP_BIN artisan cache:clear && \
             \$PHP_BIN artisan cache:forget seo.robots.txt && \
@@ -224,6 +286,72 @@ jobs:
             \$PHP_BIN artisan seo:bulk-run && \
             \$PHP_BIN artisan seo:seed-legal-pages --force && \
             \$PHP_BIN artisan seo:seed-brands --force"
+
+      - name: Trendyol markalarını Koşar yap (opsiyonel)
+        if: github.event.inputs.trendyol_kosar_marka == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-force-brand 'Koşar' --sleep-ms=1500"
+
+      - name: Trendyol marka denetimi (opsiyonel)
+        if: github.event.inputs.trendyol_brand_audit == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-brand-audit --limit=20"
+
+      - name: Trendyol Koşar yeniden yükleme (opsiyonel)
+        if: github.event.inputs.trendyol_reupload == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-reupload --brand='Koşar' --sleep-ms=2000 --batch-wait-ms=2500 --batch-tries=8"
+
+      - name: Trendyol durum özeti (opsiyonel)
+        if: github.event.inputs.trendyol_status == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-status"
+
+      - name: Trendyol yeni barkod + Koşar create (opsiyonel)
+        if: github.event.inputs.trendyol_new_barcode_reupload == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-reupload-new-barcodes --brand='Koşar' --sleep-ms=2200 --batch-wait-ms=2500 --batch-tries=10"
+
+      - name: Trendyol hatalı marka / revize düzelt (opsiyonel)
+        if: github.event.inputs.trendyol_fix_brand_mismatch == 'true'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH}/kosar && \
+            PHP_BIN=\$(command -v php || echo /usr/local/php83/bin/php) && \
+            \$PHP_BIN artisan marketplace:trendyol-fix-brand-mismatch --sleep-ms=2000 --batch-wait-ms=2500 --batch-tries=8"
 
       - name: Zamanlayıcı (hafif)
         env:
