@@ -162,6 +162,14 @@ class StoreConfig
     {
         $messages = [];
 
+        $promotions = app(PromotionService::class);
+        if ($promotions->kasim2026IsActive()) {
+            $messages[] = 'Kasım kademeli indirim · 30 Kasım’a kadar';
+            foreach (PromotionService::kasim2026Tiers() as $tier) {
+                $messages[] = 'Kasım: '.$tier['label'].' indirim';
+            }
+        }
+
         $freeMin = $this->freeShippingMin();
         if ($freeMin > 0) {
             $messages[] = number_format($freeMin, 0, ',', '.').' TL üzeri kargo bedava';

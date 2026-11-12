@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Services\AnalyticsTracker;
+use App\Services\CartPricingService;
 use App\Services\CartService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CartApiController extends Controller
 {
-    public function __construct(private CartService $cart) {}
+    public function __construct(
+        private CartService $cart,
+        private CartPricingService $pricing,
+    ) {}
 
     public function summary(): JsonResponse
     {
@@ -91,12 +95,20 @@ class CartApiController extends Controller
     /** @return array<string, mixed> */
     private function payload(?string $message = null, bool $ok = true): array
     {
+        $breakdown = $this->pricing->breakdown();
+        $payable = max(0, round($breakdown['subtotal'] - $breakdown['total_discount'], 2));
+
         return [
             'ok' => $ok,
             'message' => $message,
             'count' => $this->cart->count(),
-            'subtotal' => $this->cart->subtotal(),
-            'subtotal_formatted' => number_format($this->cart->subtotal(), 2, ',', '.').' ₺',
+            'subtotal' => $breakdown['subtotal'],
+            'subtotal_formatted' => number_format($breakdown['subtotal'], 2, ',', '.').' ₺',
+            'promotion_discount' => $breakdown['promotion_discount'],
+            'promotion_discount_formatted' => number_format($breakdown['promotion_discount'], 2, ',', '.').' ₺',
+            'promotion_label' => $breakdown['promotion_label'],
+            'payable' => $payable,
+            'payable_formatted' => number_format($payable, 2, ',', '.').' ₺',
             'cart_url' => route('cart.index'),
             'checkout_url' => route('checkout.show'),
         ];

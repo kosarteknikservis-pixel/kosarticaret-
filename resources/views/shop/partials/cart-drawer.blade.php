@@ -18,6 +18,14 @@
                 <span class="text-slate-600">{{ __('shop.subtotal') }}</span>
                 <span id="cart-drawer-subtotal" class="font-bold text-lg text-brand-700">—</span>
             </p>
+            <p id="cart-drawer-promo-row" class="hidden flex justify-between items-center text-sm text-emerald-700">
+                <span id="cart-drawer-promo-label">Kampanya</span>
+                <span id="cart-drawer-promo-discount" class="font-semibold">—</span>
+            </p>
+            <p class="flex justify-between items-center text-sm">
+                <span class="font-semibold text-slate-800">Ödenecek</span>
+                <span id="cart-drawer-payable" class="font-bold text-brand-800">—</span>
+            </p>
             <a href="{{ route('cart.index') }}" class="shop-cart-drawer__secondary">
                 {{ __('shop.cart_view_full') }}
             </a>

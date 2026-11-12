@@ -90,6 +90,29 @@ function kosarApplyCsrfToken(token) {
     const drawer = document.getElementById('cart-drawer');
     const drawerBody = document.getElementById('cart-drawer-body');
     const drawerSubtotal = document.getElementById('cart-drawer-subtotal');
+    const drawerPromoRow = document.getElementById('cart-drawer-promo-row');
+    const drawerPromoLabel = document.getElementById('cart-drawer-promo-label');
+    const drawerPromoDiscount = document.getElementById('cart-drawer-promo-discount');
+    const drawerPayable = document.getElementById('cart-drawer-payable');
+
+    function updateDrawerPricing(data) {
+        if (drawerSubtotal) drawerSubtotal.textContent = data.subtotal_formatted || '—';
+        const promoAmount = Number(data.promotion_discount || 0);
+        if (drawerPromoRow) {
+            drawerPromoRow.classList.toggle('hidden', !(promoAmount > 0));
+        }
+        if (drawerPromoLabel && data.promotion_label) {
+            drawerPromoLabel.textContent = data.promotion_label;
+        }
+        if (drawerPromoDiscount) {
+            drawerPromoDiscount.textContent = promoAmount > 0
+                ? ('-' + (data.promotion_discount_formatted || '0,00 ₺'))
+                : '—';
+        }
+        if (drawerPayable) {
+            drawerPayable.textContent = data.payable_formatted || data.subtotal_formatted || '—';
+        }
+    }
 
     function closeCartDrawer() {
         if (!drawer) return;
@@ -146,7 +169,7 @@ function kosarApplyCsrfToken(token) {
             const data = await fetch('/sepet/ajax/detay', { headers: kosarGetAjaxHeaders(), credentials: 'same-origin' }).then((r) => r.json());
             if (!data.ok) return;
             updateCartBadge(data.count);
-            if (drawerSubtotal) drawerSubtotal.textContent = data.subtotal_formatted;
+            updateDrawerPricing(data);
             if (data.empty) {
                 drawerBody.innerHTML = '<div class="py-12 text-center"><p class="text-slate-500">Sepetiniz boş.</p><a href="/urunler" class="mt-4 inline-block text-sm font-semibold text-brand-700 hover:underline">Alışverişe başla</a></div>';
                 return;
@@ -1499,4 +1522,56 @@ function kosarApplyCsrfToken(token) {
     }, { threshold: 0, rootMargin: '0px' });
 
     observer.observe(actions);
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   KASIM CAMPAIGN POPUP
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+    const root = document.querySelector('[data-campaign-popup]');
+    if (!root) return;
+
+    const storageKey = root.dataset.campaignKey || 'kosar_kasim_2026_popup';
+    try {
+        if (window.localStorage.getItem(storageKey) === '1') return;
+    } catch {
+        /* private mode */
+    }
+
+    const close = () => {
+        root.classList.add('hidden');
+        root.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('overflow-hidden');
+        try {
+            window.localStorage.setItem(storageKey, '1');
+        } catch {
+            /* ignore */
+        }
+    };
+
+    const open = () => {
+        root.classList.remove('hidden');
+        root.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('overflow-hidden');
+        root.querySelector('.shop-campaign-popup__dialog')?.focus();
+    };
+
+    root.querySelectorAll('[data-campaign-close]').forEach((el) => {
+        el.addEventListener('click', (event) => {
+            if (el.tagName === 'A') {
+                close();
+                return;
+            }
+            event.preventDefault();
+            close();
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !root.classList.contains('hidden')) {
+            close();
+        }
+    });
+
+    window.setTimeout(open, 900);
 })();

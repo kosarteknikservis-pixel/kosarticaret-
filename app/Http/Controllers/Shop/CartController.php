@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\AnalyticsTracker;
+use App\Services\CartPricingService;
 use App\Services\CartService;
 use App\Support\Seo;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +15,10 @@ use Illuminate\View\View;
 
 class CartController extends Controller
 {
-    public function __construct(private CartService $cart) {}
+    public function __construct(
+        private CartService $cart,
+        private CartPricingService $pricing,
+    ) {}
 
     public function index(): View
     {
@@ -24,6 +28,7 @@ class CartController extends Controller
             'menuCategories' => Category::menu()->get(),
             'lines' => $this->cart->lines(),
             'subtotal' => $this->cart->subtotal(),
+            'pricing' => $this->pricing->breakdown(),
             'robots' => Seo::ROBOTS_NOINDEX,
         ]);
     }

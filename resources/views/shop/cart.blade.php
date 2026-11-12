@@ -56,8 +56,17 @@
                 <aside class="lg:col-span-1">
                     <div class="shop-panel shop-panel--sticky">
                         <h2 class="shop-panel__title">{{ __('shop.order_summary') }}</h2>
+                        @php
+                            $pricing = $pricing ?? ['promotion_discount' => 0, 'promotion_label' => null, 'subtotal' => $subtotal];
+                            $cartPayable = max(0, round((float) $pricing['subtotal'] - (float) ($pricing['promotion_discount'] ?? 0) - (float) ($pricing['coupon_discount'] ?? 0), 2));
+                        @endphp
                         <dl class="mt-4 space-y-2 text-sm">
-                            <div class="flex justify-between"><dt class="text-slate-500">{{ __('shop.subtotal') }}</dt><dd class="font-semibold text-slate-900" id="cart-page-subtotal">{{ number_format($subtotal, 2, ',', '.') }} ₺</dd></div>
+                            <div class="flex justify-between"><dt class="text-slate-500">{{ __('shop.subtotal') }}</dt><dd class="font-semibold text-slate-900" id="cart-page-subtotal">{{ number_format($pricing['subtotal'] ?? $subtotal, 2, ',', '.') }} ₺</dd></div>
+                            <div id="cart-page-promo-row" class="flex justify-between text-emerald-700{{ ($pricing['promotion_discount'] ?? 0) > 0 ? '' : ' hidden' }}">
+                                <dt id="cart-page-promo-label">{{ $pricing['promotion_label'] ?? 'Kampanya' }}</dt>
+                                <dd class="font-semibold" id="cart-page-promo-discount">-{{ number_format($pricing['promotion_discount'] ?? 0, 2, ',', '.') }} ₺</dd>
+                            </div>
+                            <div class="flex justify-between border-t border-slate-100 pt-2"><dt class="font-semibold text-slate-800">Ödenecek</dt><dd class="font-bold text-brand-800" id="cart-page-payable">{{ number_format($cartPayable, 2, ',', '.') }} ₺</dd></div>
                         </dl>
                         <p class="mt-3 text-xs text-slate-500 leading-relaxed">{{ __('shop.checkout_estimate_note') }}</p>
                         @if(app(\App\Services\StoreConfig::class)->paymentEnabled('kapida_odeme'))
@@ -100,6 +109,23 @@
             const subtotalEl = document.getElementById('cart-page-subtotal');
             if (subtotalEl) {
                 subtotalEl.textContent = data.subtotal_formatted;
+            }
+            const promoRow = document.getElementById('cart-page-promo-row');
+            const promoLabel = document.getElementById('cart-page-promo-label');
+            const promoDiscount = document.getElementById('cart-page-promo-discount');
+            const payableEl = document.getElementById('cart-page-payable');
+            const promoAmount = Number(data.promotion_discount || 0);
+            if (promoRow) {
+                promoRow.classList.toggle('hidden', !(promoAmount > 0));
+            }
+            if (promoLabel && data.promotion_label) {
+                promoLabel.textContent = data.promotion_label;
+            }
+            if (promoDiscount) {
+                promoDiscount.textContent = '-' + (data.promotion_discount_formatted || '0,00 ₺');
+            }
+            if (payableEl && data.payable_formatted) {
+                payableEl.textContent = data.payable_formatted;
             }
             document.querySelectorAll('[data-cart-count]').forEach(el => { el.textContent = data.count; el.classList.toggle('hidden', data.count < 1); });
             if (totalEl && unitPrice) totalEl.textContent = (unitPrice * qty).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺';

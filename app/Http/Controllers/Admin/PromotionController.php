@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Promotion;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class PromotionController extends Controller
@@ -25,6 +26,7 @@ class PromotionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         Promotion::query()->create($this->validated($request));
+        Cache::forget('campaign.kasim_2026.active');
 
         return redirect()->route('admin.promotions.index')->with('success', 'Kampanya eklendi.');
     }
@@ -37,6 +39,7 @@ class PromotionController extends Controller
     public function update(Request $request, Promotion $promotion): RedirectResponse
     {
         $promotion->update($this->validated($request));
+        Cache::forget('campaign.kasim_2026.active');
 
         return redirect()->route('admin.promotions.index')->with('success', 'Kampanya güncellendi.');
     }
@@ -44,6 +47,7 @@ class PromotionController extends Controller
     public function destroy(Promotion $promotion): RedirectResponse
     {
         $promotion->delete();
+        Cache::forget('campaign.kasim_2026.active');
 
         return redirect()->route('admin.promotions.index')->with('success', 'Kampanya silindi.');
     }
