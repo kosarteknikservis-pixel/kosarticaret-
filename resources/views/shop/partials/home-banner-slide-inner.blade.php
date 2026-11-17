@@ -2,7 +2,7 @@
      alt="{{ $banner->displayAlt() }}"
      width="{{ \App\Support\HomeBannerSpec::width() }}"
      height="{{ \App\Support\HomeBannerSpec::height() }}"
-     @if($srcset = $banner->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 767px) 100vw, 80rem" @endif
+     @if($srcset = $banner->imageSrcset()) srcset="{{ $srcset }}" sizes="(max-width: 767px) 100vw, (max-width: 1279px) 70vw, 852px" @endif
      @if($index === 0) loading="eager" fetchpriority="high" @else loading="lazy" @endif
      decoding="async"
      class="shop-banner-slide__img">

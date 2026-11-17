@@ -238,3 +238,12 @@ Pencere: 21 gün. Kaynak günlük: `CALISMA-GUNLUGU.md`. Aşağıdaki ilk kayıt
 - **Sonuç:** canlı 200. Canonical `https://kosarticaret.com/kategoriler/hidrofor-sistemleri/hidroforlar`. H1 «Hidrofor Fiyatları». Meta fiyat sinyali. SSS’de tek daire/1 HP sorusu. Depo/jet satırı ve hidrofor grubu CTA görünür.
 
 
+
+## 2026-11-17 · ana sayfa PageSpeed (onaylı canlı)
+
+- **Sayfa:** `/` (https://kosarticaret.com/). Slug/H1/canonical değişmedi.
+- **Ne değişti:** hero encode + `banner`/`banner-sm` srcset/preload; Urbanist self-host; GTM/Meta Pixel çerez kabulü sonrası; carousel touch 44px; cookie ghost kontrast; storage cache htaccess. Nginx 1y cache ayrı not.
+- **Baz:** PSI mobil ~59, LCP 16.7s, görsel fırsatı ~3570 KiB (17 Kas 2026 rapor).
+- **Yayın:** SSH seçici paket (GitHub Actions bu turda değil). Yedek `pre-psi-20261117-144609`.
+- **Ölçüm:** PSI mobil yeniden çalıştırılacak (LCP / image / unused JS).
+- **Sonuç (yayın anı):** optimize banner-sm 200 (40190 byte); Google Fonts yok; preload imagesrcset var.

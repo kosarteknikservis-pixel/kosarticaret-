@@ -58,3 +58,7 @@ Akış kimliği sayfa metni değildir. Onaydan sonra uygulanırsa bu dondurmayı
 5. sumak pompa — 23 Eki canlı ilk 10’da yok; marka işi kategori diliminden sonra.
 
 Malzeme bekleyen ürün değerleri: `raporlar/icerik/MALZEME-ISTEK.md`.
+
+## 17 Kas 2026 · ana sayfa PSI performans (kod)
+
+Canlıya SSH ile gitti. Sayfa: `/` (ana sayfa). H1/canonical/slug yok. Hero WebP optimize + banner-sm srcset, Urbanist self-host, GTM/Meta çerez sonrası, touch/kontrast. Ölçüm: PSI mobil lab yeniden (hedef LCP). Yedek: `backups/pre-psi-20261117-144609`. Ayrıntı `docs/accept/live-psi-deploy-20261117.md`.

@@ -148,7 +148,7 @@ class HomeBanner extends Model
         return null;
     }
 
-    public function imageSrcset(array $variants = ['banner' => 1440]): ?string
+    public function imageSrcset(array $variants = ['banner-sm' => 800, 'banner' => 1440]): ?string
     {
         if ($this->image) {
             return PublicAssetUrl::srcset($this->image, $variants);
@@ -193,7 +193,8 @@ class HomeBanner extends Model
             return filled($this->displayTitle()) || filled($this->subtitle);
         }
 
-        return filled($this->title) || filled($this->subtitle) || filled($this->cta_text);
+        // Tam grafik banner/slider: yalnız gerçek metin varsa overlay (cta tek başına alt içeriği örtmesin)
+        return filled($this->title) || filled($this->subtitle);
     }
 
     public function targetUrl(): ?string

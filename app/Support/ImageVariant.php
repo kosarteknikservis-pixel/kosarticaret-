@@ -18,7 +18,9 @@ final class ImageVariant
         'category-card' => ['w' => 720, 'h' => 405, 'mode' => 'cover', 'quality' => 82],
         'brand-logo' => ['w' => 360, 'h' => 144, 'mode' => 'contain-transparent', 'quality' => 82],
         'site-logo' => ['w' => 420, 'h' => 120, 'mode' => 'contain-transparent', 'quality' => 82],
-        'banner' => ['w' => 1440, 'h' => 520, 'mode' => 'max', 'quality' => 84],
+        /* max: oranı korur, 16:9 kaynağı 520 yüksekliğe zorlayıp kırpmaz */
+        'banner' => ['w' => 1600, 'h' => 900, 'mode' => 'max', 'quality' => 80],
+        'banner-sm' => ['w' => 800, 'h' => 450, 'mode' => 'max', 'quality' => 78],
         'blog-card' => ['w' => 960, 'h' => 540, 'mode' => 'cover', 'quality' => 82],
         'blog-og' => ['w' => 1200, 'h' => 675, 'mode' => 'cover', 'quality' => 82],
     ];
@@ -30,7 +32,7 @@ final class ImageVariant
         'category' => ['w' => 1400, 'h' => 788, 'quality' => 84],
         'brand' => ['w' => 720, 'h' => 288, 'quality' => 84],
         'site-logo' => ['w' => 640, 'h' => 220, 'quality' => 84],
-        'banner' => ['w' => 1920, 'h' => 900, 'quality' => 84],
+        'banner' => ['w' => 1600, 'h' => 900, 'quality' => 78],
         'blog' => ['w' => 1400, 'h' => 788, 'quality' => 84],
     ];
 
@@ -54,7 +56,7 @@ final class ImageVariant
             'category' => ['category-card'],
             'brand' => ['brand-logo'],
             'site-logo' => ['site-logo'],
-            'banner' => ['banner'],
+            'banner' => ['banner', 'banner-sm'],
             'blog' => ['blog-card', 'blog-og'],
             default => [],
         };

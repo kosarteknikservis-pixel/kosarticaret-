@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php $gtmId = \App\Models\SiteSetting::get('google_tag_manager_id'); @endphp
-    @if(filled($gtmId))
-        <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer',@json($gtmId));</script>
-        <!-- End Google Tag Manager -->
-    @endif
+    {{-- GTM + Meta Pixel: head’de anlık yükleme yok — çerez kabulü / idle (aşağıda) --}}
     @include('shop.partials.meta-pixel')
     <script>
         window.dataLayer = window.dataLayer || [];
+        window.KosarGtmId = @json(filled($gtmId) ? $gtmId : null);
+        window.kosarLoadGtm = function () {
+            const i = window.KosarGtmId;
+            if (!i || window.KosarGtmLoaded) {
+                return;
+            }
+            window.KosarGtmLoaded = true;
+            window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            const f = document.getElementsByTagName('script')[0];
+            const j = document.createElement('script');
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i;
+            f.parentNode.insertBefore(j, f);
+        };
         window.kosarMetaFromGa4 = function (eventName, payload) {
             const items = Array.isArray(payload.items) ? payload.items : [];
             const contentIds = [];
@@ -98,8 +104,12 @@
         $themeCustomCss = \App\Support\ThemeSettings::customCss();
     @endphp
     <style>:root{ {!! $themeStyle !!} }</style>
+    <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/urbanist-latin-ext-wght.woff2') }}" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/urbanist-latin-wght.woff2') }}" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/plus-jakarta-sans-latin-ext-wght.woff2') }}" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="{{ asset('fonts/plus-jakarta-sans-latin-wght.woff2') }}" crossorigin>
+    {{-- Urbanist self-host (Google Fonts stylesheet kaldırıldı — render-blocking) --}}
+    {{-- Vite app.css: Blade’deki Tailwind utility’ler (hidden/flex/md:…) için gerekli --}}
     @vite(['resources/css/app.css'])
     @php
         $shopCssFull = public_path('css/shop.css');
@@ -140,17 +150,19 @@
         <div class="bg-amber-500 text-amber-950 text-center text-xs py-2 px-4 font-medium">{{ __('shop.preview_banner') }}
             <form method="post" action="{{ route('admin.preview.stop') }}" class="inline ml-2">@csrf<button type="submit" class="underline">Kapat</button></form>
         </div>
-    @else
-        @include('shop.partials.promo-ticker')
     @endif
 
     @include('shop.partials.header')
     @include('shop.partials.mobile-nav')
-    @include('shop.partials.auth-modal')
     @include('shop.partials.campaign-popup')
 
     @include('shop.partials.cart-drawer')
-    <div id="shop-toast" class="hidden fixed bottom-24 right-4 z-[60] rounded-xl bg-brand-800 text-white text-sm px-4 py-3 shadow-xl max-w-xs" role="status"></div>
+    <div id="shop-toast"
+         class="shop-toast"
+         role="status"
+         aria-live="polite"
+         aria-atomic="true"
+         hidden></div>
 
     @if(session('success'))
         <div class="shop-container shop-flash-wrap">
@@ -176,26 +188,58 @@
     </main>
 
     @include('shop.partials.footer')
+    @include('shop.partials.mobile-bottom-bar')
 
     @php
         $wa = \App\Models\SiteSetting::get('contact_whatsapp', config('kosar.contact.whatsapp'));
+        $waDigits = $wa ? preg_replace('/\D/', '', (string) $wa) : '';
+        $phoneRaw = (string) \App\Models\SiteSetting::get('contact_phone', config('kosar.contact.phone'));
+        $phoneDigits = preg_replace('/\D/', '', $phoneRaw);
+        if (str_starts_with($phoneDigits, '0')) {
+            $phoneDigits = substr($phoneDigits, 1);
+        }
+        if ($phoneDigits !== '' && ! str_starts_with($phoneDigits, '90')) {
+            $phoneDigits = '90'.$phoneDigits;
+        }
         $waFloatingEnabled = \App\Models\SiteSetting::get('floating_whatsapp_enabled', '1') === '1';
         $scrollTopEnabled = \App\Models\SiteSetting::get('scroll_top_enabled', '1') === '1';
         $supportChatEnabled = \App\Support\SupportAssistantConfig::isEnabled();
-        $showFloatDock = ($wa && $waFloatingEnabled) || $scrollTopEnabled || $supportChatEnabled;
+        $showWaSticky = $waDigits !== '' && $waFloatingEnabled;
+        $showCallSticky = $phoneDigits !== '';
+        $showFloatDock = $scrollTopEnabled || $supportChatEnabled;
     @endphp
-    @if($showFloatDock)
-    <div class="shop-float-dock" data-float-dock aria-hidden="false">
-        @if($wa && $waFloatingEnabled)
-            <a href="https://wa.me/{{ preg_replace('/\D/', '', $wa) }}" target="_blank" rel="noopener"
-               class="shop-wa-float"
-               aria-label="WhatsApp">
-                <span class="shop-wa-float__icon" aria-hidden="true">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                </span>
-            </a>
-        @endif
+    {{-- Aqua .sticky-whatsapp / .sticky-call: masaüstü kenar sekmeleri, mobilde alt bar üstü yan yana --}}
+    @if($showWaSticky)
+        <a href="https://wa.me/{{ $waDigits }}"
+           target="_blank"
+           rel="noopener"
+           class="shop-contact-sticky shop-contact-sticky--wa"
+           aria-label="WhatsApp Destek"
+           data-wa-sticky>
+            <span class="shop-contact-sticky__icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M16.004 4C9.377 4 4 9.373 4 15.996c0 2.11.55 4.17 1.596 5.986L4.05 27.95l6.115-1.603A11.94 11.94 0 0 0 16.004 28C22.63 28 28 22.627 28 16.004 28 9.373 22.63 4 16.004 4zm6.95 17.02c-.29.816-1.69 1.548-2.35 1.64-.63.09-1.43.128-2.31-.145-.53-.165-1.21-.39-2.08-.76-3.66-1.58-6.05-5.27-6.23-5.51-.18-.25-1.46-1.94-1.46-3.7 0-1.76.92-2.62 1.25-2.98.33-.36.72-.45.96-.45h.69c.22 0 .52-.08.81.62.3.72 1.01 2.48 1.1 2.66.09.18.15.39.03.62-.12.24-.18.39-.36.6-.18.21-.38.47-.54.63-.18.18-.36.37-.155.72.21.36.93 1.53 2 2.48 1.38 1.22 2.54 1.6 2.9 1.78.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.1.99 2.46 1.17.36.18.6.27.69.42.09.15.09.87-.2 1.69z"/>
+                </svg>
+            </span>
+            <span class="shop-contact-sticky__label">WhatsApp</span>
+        </a>
+    @endif
+    @if($showCallSticky)
+        <a href="tel:+{{ $phoneDigits }}"
+           class="shop-contact-sticky shop-contact-sticky--call"
+           aria-label="Bizi Arayın"
+           data-call-sticky>
+            <span class="shop-contact-sticky__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c1.2.34 1.99.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+            </span>
+            <span class="shop-contact-sticky__label">Bizi Arayın</span>
+        </a>
+    @endif
 
+    @if($showFloatDock)
+    <div class="shop-float-dock{{ ($showWaSticky || $showCallSticky) ? ' shop-float-dock--above-contact' : '' }}" data-float-dock aria-hidden="false">
         @if($supportChatEnabled)
             @php
                 $supportChatJsVer = @filemtime(public_path('js/support-chat.js')) ?: time();
@@ -471,7 +515,39 @@
                 }).catch(() => {});
             };
 
+            const loadMarketingTags = () => {
+                if (typeof window.kosarLoadGtm === 'function') {
+                    window.kosarLoadGtm();
+                }
+                if (typeof window.kosarLoadMetaPixel === 'function') {
+                    window.kosarLoadMetaPixel();
+                }
+            };
+
+            const scheduleMarketingAfterConsent = () => {
+                let consent = null;
+                try {
+                    consent = localStorage.getItem('kosar-cerez-onay');
+                } catch (e) {}
+
+                if (consent === 'rejected') {
+                    return;
+                }
+
+                if (consent === 'accepted') {
+                    runIdle(loadMarketingTags, 4500);
+                    return;
+                }
+
+                window.addEventListener('kosar:cookie-preference', (event) => {
+                    if (event?.detail?.value === 'accepted') {
+                        runIdle(loadMarketingTags, 1200);
+                    }
+                });
+            };
+
             scheduleAnalytics();
+            scheduleMarketingAfterConsent();
             runIdle(ping, 8000);
             window.setInterval(ping, 60000);
             document.addEventListener('visibilitychange', () => {
