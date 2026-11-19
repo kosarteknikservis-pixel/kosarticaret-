@@ -154,13 +154,15 @@ $backupIndex = [];
 
 foreach ($manifest['ops'] as $op) {
     $table = $op['table'];
-    $id = (int) $op['id'];
     $slug = $op['slug'];
     $field = $op['field'];
-    $row = DB::table($table)->where('id', $id)->first();
+    // Prefer slug match (local vs live IDs may differ); keep manifest id as reference only.
+    $row = DB::table($table)->where('slug', $slug)->first();
+    $id = $row ? (int) $row->id : (int) $op['id'];
     $entry = [
         'table' => $table,
         'id' => $id,
+        'manifest_id' => (int) $op['id'],
         'slug' => $slug,
         'field' => $field,
         'status' => null,
@@ -173,12 +175,8 @@ foreach ($manifest['ops'] as $op) {
         $report['rows'][] = $entry;
         continue;
     }
-    if (($row->slug ?? null) !== $slug) {
-        $entry['status'] = 'slug_mismatch';
-        $entry['live_slug'] = $row->slug ?? null;
-        $report['summary']['diverged']++;
-        $report['rows'][] = $entry;
-        continue;
+    if ((int) $op['id'] !== (int) $row->id) {
+        $entry['id_remapped_from_manifest'] = (int) $op['id'];
     }
 
     $before = (string) ($row->{$field} ?? '');
