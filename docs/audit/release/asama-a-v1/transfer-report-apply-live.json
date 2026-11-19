@@ -1,0 +1,403 @@
+{
+    "package": "asama-a-v1",
+    "mode": "apply",
+    "ran_at": "2026-11-19T06:15:45+00:00",
+    "rows": [
+        {
+            "table": "blog_posts",
+            "id": 40,
+            "manifest_id": 40,
+            "slug": "kosar-vantilator-modelleri-rehberi",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/sanayi-vantilator-marka-karsilastirma",
+                    "to": "\/blog\/sanayi-tipi-vantilator-secimi-rehberi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                },
+                {
+                    "from": "\/blog\/vantilator-is-guvenligi-kurulum",
+                    "to": null,
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "bytes_before": 8798,
+            "bytes_after": 8746
+        },
+        {
+            "table": "blog_posts",
+            "id": 88,
+            "manifest_id": 96,
+            "slug": "salyangoz-pompa-rehberi",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/tarimsal-sulama-pompasi-secimi",
+                    "to": "\/blog\/tarimsal-sulama-pompasi-secimi-rehberi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 96,
+            "bytes_before": 2861,
+            "bytes_after": 2869
+        },
+        {
+            "table": "blog_posts",
+            "id": 134,
+            "manifest_id": 139,
+            "slug": "sirkulasyon-sistemi-tasarimi-pompa-egrisi-dengeleme",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/pompa-debi-ve-basma-yuksekligi-hesabi",
+                    "to": "\/blog\/pompa-debi-basma-yuksekligi-hesabi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 139,
+            "bytes_before": 12515,
+            "bytes_after": 12512
+        },
+        {
+            "table": "blog_posts",
+            "id": 136,
+            "manifest_id": 141,
+            "slug": "sirkulasyon-pompa-egrisi-nasil-okunur",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/pompa-debi-ve-basma-yuksekligi-hesabi",
+                    "to": "\/blog\/pompa-debi-basma-yuksekligi-hesabi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 141,
+            "bytes_before": 6895,
+            "bytes_after": 6892
+        },
+        {
+            "table": "blog_posts",
+            "id": 206,
+            "manifest_id": 207,
+            "slug": "santrifuj-pompa-kavitasyon-belirtileri-onleme",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/pompa-debi-ve-basma-yuksekligi-hesabi",
+                    "to": "\/blog\/pompa-debi-basma-yuksekligi-hesabi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 207,
+            "bytes_before": 4932,
+            "bytes_after": 4929
+        },
+        {
+            "table": "blog_posts",
+            "id": 207,
+            "manifest_id": 208,
+            "slug": "santrifuj-pompa-kisa-cevrim-start-stop",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/hidrofor-start-stop-salinimi-tank-presostat",
+                    "to": "\/blog\/hidrofor-start-stop-salinimi-kisa-cevrim",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                },
+                {
+                    "from": "\/blog\/hidrofor-tank-presostat-isletme-sistemi",
+                    "to": "\/blog\/hidrofor-tank-presostat-sistem-tasarimi",
+                    "result": "would_apply",
+                    "replacements": 3,
+                    "from_count_before": 3
+                },
+                {
+                    "from": "\/blog\/presostat-histerezis-ayari-start-stop",
+                    "to": "\/blog\/hidrofor-presostat-histerezis-set-noktalari",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 208,
+            "bytes_before": 4535,
+            "bytes_after": 4538
+        },
+        {
+            "table": "blog_posts",
+            "id": 208,
+            "manifest_id": 209,
+            "slug": "santrifuj-pompa-debi-dususu-teshis",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/hidrofor-tank-presostat-isletme-sistemi",
+                    "to": "\/blog\/hidrofor-tank-presostat-sistem-tasarimi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 209,
+            "bytes_before": 4221,
+            "bytes_after": 4221
+        },
+        {
+            "table": "blog_posts",
+            "id": 210,
+            "manifest_id": 211,
+            "slug": "santrifuj-pompa-basinc-dususu-calism-noktasi",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/hidrofor-tank-presostat-isletme-sistemi",
+                    "to": "\/blog\/hidrofor-tank-presostat-sistem-tasarimi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                },
+                {
+                    "from": "\/blog\/pompa-debi-ve-basma-yuksekligi-hesabi",
+                    "to": "\/blog\/pompa-debi-basma-yuksekligi-hesabi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 211,
+            "bytes_before": 3971,
+            "bytes_after": 3968
+        },
+        {
+            "table": "blog_posts",
+            "id": 213,
+            "manifest_id": 214,
+            "slug": "santrifuj-pompa-bakim-disiplini-periyodik-kontrol",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/hidrofor-tank-presostat-isletme-sistemi",
+                    "to": "\/blog\/hidrofor-tank-presostat-sistem-tasarimi",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 214,
+            "bytes_before": 4298,
+            "bytes_after": 4298
+        },
+        {
+            "table": "blog_posts",
+            "id": 214,
+            "manifest_id": 215,
+            "slug": "kademeli-pompa-isletme-sistemi",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/yangin-pompa-sistemi-tasarimi",
+                    "to": "\/blog\/yangin-pompasi-nedir-nasil-secilir",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 215,
+            "bytes_before": 8889,
+            "bytes_after": 8894
+        },
+        {
+            "table": "blog_posts",
+            "id": 217,
+            "manifest_id": 218,
+            "slug": "kademeli-pompa-debi-dususu-teshis",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/kategoriler\/su-pompalari\/kademeli-pompalar\/monoblok-yatay-kademeli-pompalar",
+                    "to": "\/kategoriler\/su-pompalari\/kademeli-pompalar\/monoblok-yatay-kademeli",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 218,
+            "bytes_before": 4341,
+            "bytes_after": 4332
+        },
+        {
+            "table": "blog_posts",
+            "id": 219,
+            "manifest_id": 220,
+            "slug": "kademeli-pompa-kisa-cevrim-start-stop",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/hidrofor-start-stop-salinimi-kisa-cevrim-teshis",
+                    "to": "\/blog\/hidrofor-start-stop-salinimi-kisa-cevrim",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                },
+                {
+                    "from": "\/blog\/yangin-pompa-sistemi-tasarimi",
+                    "to": "\/blog\/yangin-pompasi-nedir-nasil-secilir",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 220,
+            "bytes_before": 3816,
+            "bytes_after": 3814
+        },
+        {
+            "table": "blog_posts",
+            "id": 220,
+            "manifest_id": 221,
+            "slug": "kademeli-pompa-yuksek-basinc-hat-isletme",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/yangin-pompa-by-pass-hatti-isletme",
+                    "to": null,
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                },
+                {
+                    "from": "\/blog\/yangin-pompa-sistemi-tasarimi",
+                    "to": "\/blog\/yangin-pompasi-nedir-nasil-secilir",
+                    "result": "would_apply",
+                    "replacements": 2,
+                    "from_count_before": 2
+                }
+            ],
+            "id_remapped_from_manifest": 221,
+            "bytes_before": 4350,
+            "bytes_after": 4305
+        },
+        {
+            "table": "blog_posts",
+            "id": 223,
+            "manifest_id": 224,
+            "slug": "kademeli-pompa-bakim-disiplini-periyodik-kontrol",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/yangin-pompa-bakim-test-periyodu",
+                    "to": null,
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 224,
+            "bytes_before": 4052,
+            "bytes_after": 3999
+        },
+        {
+            "table": "blog_posts",
+            "id": 229,
+            "manifest_id": 230,
+            "slug": "jet-pompa-kisa-cevrim-start-stop",
+            "field": "content",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/blog\/hidrofor-start-stop-salinimi-kisa-cevrim-teshis",
+                    "to": "\/blog\/hidrofor-start-stop-salinimi-kisa-cevrim",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 230,
+            "bytes_before": 2956,
+            "bytes_after": 2949
+        },
+        {
+            "table": "products",
+            "id": 2751,
+            "manifest_id": 2750,
+            "slug": "troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+            "field": "description",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/marka\/Sumak",
+                    "to": "\/marka\/sumak",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 2750,
+            "bytes_before": 2612,
+            "bytes_after": 2612
+        },
+        {
+            "table": "products",
+            "id": 2752,
+            "manifest_id": 2751,
+            "slug": "troy-hmj-15-dokum-govdeli-jet-pompa-1-hp-49-mss-4-m3-h",
+            "field": "description",
+            "status": "applied",
+            "replacements": [
+                {
+                    "from": "\/marka\/Sumak",
+                    "to": "\/marka\/sumak",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                },
+                {
+                    "from": "\/urun\/Sumak-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+                    "to": "\/urun\/troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+                    "result": "would_apply",
+                    "replacements": 1,
+                    "from_count_before": 1
+                }
+            ],
+            "id_remapped_from_manifest": 2751,
+            "bytes_before": 1626,
+            "bytes_after": 1625
+        }
+    ],
+    "summary": {
+        "apply_ready": 17,
+        "already_done": 0,
+        "diverged": 0,
+        "missing_record": 0,
+        "would_change_fields": 17
+    },
+    "backup_dir": "\/home\/admin\/domains\/kosarticaret.com\/kosar\/docs\/audit\/release\/asama-a-v1\/backups\/20261119-061545"
+}

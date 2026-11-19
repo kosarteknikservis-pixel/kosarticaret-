@@ -1,0 +1,425 @@
+{
+  "checked_at": "2026-11-19T09:16:47+0300",
+  "content_links": [
+    {
+      "source": "/blog/kosar-vantilator-modelleri-rehberi",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/sanayi-vantilator-marka-karsilastirma",
+          "to": "/blog/sanayi-tipi-vantilator-secimi-rehberi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        },
+        {
+          "from": "/blog/vantilator-is-guvenligi-kurulum",
+          "to": null,
+          "from_present": false,
+          "to_present": null,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/salyangoz-pompa-rehberi",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/tarimsal-sulama-pompasi-secimi",
+          "to": "/blog/tarimsal-sulama-pompasi-secimi-rehberi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/sirkulasyon-sistemi-tasarimi-pompa-egrisi-dengeleme",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/pompa-debi-ve-basma-yuksekligi-hesabi",
+          "to": "/blog/pompa-debi-basma-yuksekligi-hesabi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/sirkulasyon-pompa-egrisi-nasil-okunur",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/pompa-debi-ve-basma-yuksekligi-hesabi",
+          "to": "/blog/pompa-debi-basma-yuksekligi-hesabi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/santrifuj-pompa-kavitasyon-belirtileri-onleme",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/pompa-debi-ve-basma-yuksekligi-hesabi",
+          "to": "/blog/pompa-debi-basma-yuksekligi-hesabi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/santrifuj-pompa-kisa-cevrim-start-stop",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/hidrofor-start-stop-salinimi-tank-presostat",
+          "to": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        },
+        {
+          "from": "/blog/hidrofor-tank-presostat-isletme-sistemi",
+          "to": "/blog/hidrofor-tank-presostat-sistem-tasarimi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        },
+        {
+          "from": "/blog/presostat-histerezis-ayari-start-stop",
+          "to": "/blog/hidrofor-presostat-histerezis-set-noktalari",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/santrifuj-pompa-debi-dususu-teshis",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/hidrofor-tank-presostat-isletme-sistemi",
+          "to": "/blog/hidrofor-tank-presostat-sistem-tasarimi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/santrifuj-pompa-basinc-dususu-calism-noktasi",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/hidrofor-tank-presostat-isletme-sistemi",
+          "to": "/blog/hidrofor-tank-presostat-sistem-tasarimi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        },
+        {
+          "from": "/blog/pompa-debi-ve-basma-yuksekligi-hesabi",
+          "to": "/blog/pompa-debi-basma-yuksekligi-hesabi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/santrifuj-pompa-bakim-disiplini-periyodik-kontrol",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/hidrofor-tank-presostat-isletme-sistemi",
+          "to": "/blog/hidrofor-tank-presostat-sistem-tasarimi",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/kademeli-pompa-isletme-sistemi",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/yangin-pompa-sistemi-tasarimi",
+          "to": "/blog/yangin-pompasi-nedir-nasil-secilir",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/kademeli-pompa-debi-dususu-teshis",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/kategoriler/su-pompalari/kademeli-pompalar/monoblok-yatay-kademeli-pompalar",
+          "to": "/kategoriler/su-pompalari/kademeli-pompalar/monoblok-yatay-kademeli",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/kademeli-pompa-kisa-cevrim-start-stop",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim-teshis",
+          "to": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        },
+        {
+          "from": "/blog/yangin-pompa-sistemi-tasarimi",
+          "to": "/blog/yangin-pompasi-nedir-nasil-secilir",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/kademeli-pompa-yuksek-basinc-hat-isletme",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/yangin-pompa-by-pass-hatti-isletme",
+          "to": null,
+          "from_present": false,
+          "to_present": null,
+          "ok": true
+        },
+        {
+          "from": "/blog/yangin-pompa-sistemi-tasarimi",
+          "to": "/blog/yangin-pompasi-nedir-nasil-secilir",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/kademeli-pompa-bakim-disiplini-periyodik-kontrol",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/yangin-pompa-bakim-test-periyodu",
+          "to": null,
+          "from_present": false,
+          "to_present": null,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/blog/jet-pompa-kisa-cevrim-start-stop",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim-teshis",
+          "to": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/urun/troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/marka/Sumak",
+          "to": "/marka/sumak",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "source": "/urun/troy-hmj-15-dokum-govdeli-jet-pompa-1-hp-49-mss-4-m3-h",
+      "http": 200,
+      "checks": [
+        {
+          "from": "/marka/Sumak",
+          "to": "/marka/sumak",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        },
+        {
+          "from": "/urun/Sumak-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+          "to": "/urun/troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+          "from_present": false,
+          "to_present": true,
+          "ok": true
+        }
+      ]
+    }
+  ],
+  "legacy_404": [
+    {
+      "path": "/kategori/yedek-parca",
+      "status": 404,
+      "ok": true,
+      "has_text": true,
+      "has_search": true,
+      "has_contact": true,
+      "no_meta_refresh": true
+    },
+    {
+      "path": "/urun-kategori/yedek-parca",
+      "status": 404,
+      "ok": true,
+      "has_text": true,
+      "has_search": true,
+      "has_contact": true,
+      "no_meta_refresh": true
+    },
+    {
+      "path": "/kategoriler/yedek-parca-ve-aksesuarlar",
+      "status": 404,
+      "ok": true,
+      "has_text": true,
+      "has_search": true,
+      "has_contact": true,
+      "no_meta_refresh": true
+    },
+    {
+      "path": "/kategori/genlesme-tanklari",
+      "status": 404,
+      "ok": true,
+      "has_text": true,
+      "has_search": true,
+      "has_contact": true,
+      "no_meta_refresh": true
+    },
+    {
+      "path": "/urun-kategori/bahce-yapi-market/genlesme-tanklari",
+      "status": 404,
+      "ok": true,
+      "has_text": true,
+      "has_search": true,
+      "has_contact": true,
+      "no_meta_refresh": true
+    },
+    {
+      "path": "/urun/alarko-wsd25-17-kirli-ve-atik-su-dalgic-1-5-hp",
+      "status": 404,
+      "ok": true,
+      "has_text": true,
+      "has_search": true,
+      "has_contact": true,
+      "no_meta_refresh": true
+    }
+  ],
+  "sort": [
+    {
+      "path": "/kategoriler/su-pompalari?sirala=fiyat-artan",
+      "status": 301,
+      "location": "https://kosarticaret.com/kategoriler/su-pompalari?siralama=fiyat-artan",
+      "ok": true
+    },
+    {
+      "path": "/kategoriler/su-pompalari?sirala=uydurma&page=2",
+      "status": 301,
+      "location": "https://kosarticaret.com/kategoriler/su-pompalari?page=2",
+      "ok": true
+    },
+    {
+      "path": "/kategoriler/su-pompalari?sirala=isim&siralama=fiyat-azalan&marka=sumak",
+      "status": 301,
+      "location": "https://kosarticaret.com/kategoriler/su-pompalari?siralama=fiyat-azalan&marka=sumak",
+      "ok": true
+    },
+    {
+      "path": "/kategoriler/su-pompalari",
+      "status": 200,
+      "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+      "canonical": "https://kosarticaret.com/kategoriler/su-pompalari",
+      "ok": true
+    },
+    {
+      "path": "/kategoriler/su-pompalari?siralama=fiyat-artan",
+      "status": 200,
+      "robots": "noindex, follow",
+      "canonical": "https://kosarticaret.com/kategoriler/su-pompalari",
+      "ok": true
+    }
+  ],
+  "regression": [
+    {
+      "path": "/kategori/dalgic-pompalar",
+      "status": 301,
+      "location": "https://kosarticaret.com/kategoriler/su-pompalari/dalgic-pompalar",
+      "ok": true
+    },
+    {
+      "path": "/kategoriler/su-pompalari",
+      "status": 200,
+      "final": "https://kosarticaret.com/kategoriler/su-pompalari",
+      "ok": true
+    },
+    {
+      "path": "/kategoriler/hidrofor-sistemleri",
+      "status": 200,
+      "final": "https://kosarticaret.com/kategoriler/hidrofor-sistemleri",
+      "ok": true
+    },
+    {
+      "path": "/kategoriler/su-pompalari/dalgic-pompalar/kirli-su-dalgic-pompa",
+      "status": 200,
+      "final": "https://kosarticaret.com/kategoriler/su-pompalari/dalgic-pompalar/kirli-su-dalgic-pompa",
+      "ok": true
+    },
+    {
+      "path": "/marka/sumak",
+      "status": 200,
+      "final": "https://kosarticaret.com/marka/sumak",
+      "ok": true
+    },
+    {
+      "path": "/urun/troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+      "status": 200,
+      "final": "https://kosarticaret.com/urun/troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+      "ok": true
+    },
+    {
+      "path": "/ara?q=pompa",
+      "status": 200,
+      "final": "https://kosarticaret.com/ara?q=pompa",
+      "ok": true
+    },
+    {
+      "path": "/iletisim",
+      "status": 200,
+      "final": "https://kosarticaret.com/iletisim",
+      "ok": true
+    }
+  ],
+  "summary": {
+    "content_checks_ok": 24,
+    "content_checks_fail": 0,
+    "legacy_404_ok": 6,
+    "legacy_404_total": 6,
+    "sort_ok": 5,
+    "sort_total": 5,
+    "regression_ok": 8,
+    "regression_total": 8
+  }
+}

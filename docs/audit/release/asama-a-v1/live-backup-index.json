@@ -1,0 +1,24 @@
+{
+    "package": "asama-a-v1",
+    "backed_up_at": "2026-11-19T06:15:45+00:00",
+    "files": [
+        "blog_posts-40-content.json",
+        "blog_posts-88-content.json",
+        "blog_posts-134-content.json",
+        "blog_posts-136-content.json",
+        "blog_posts-206-content.json",
+        "blog_posts-207-content.json",
+        "blog_posts-208-content.json",
+        "blog_posts-210-content.json",
+        "blog_posts-213-content.json",
+        "blog_posts-214-content.json",
+        "blog_posts-217-content.json",
+        "blog_posts-219-content.json",
+        "blog_posts-220-content.json",
+        "blog_posts-223-content.json",
+        "blog_posts-229-content.json",
+        "products-2751-description.json",
+        "products-2752-description.json"
+    ],
+    "rollback_command": "php scripts\/asama-a-content-transfer.php --rollback=\/home\/admin\/domains\/kosarticaret.com\/kosar\/docs\/audit\/release\/asama-a-v1\/backups\/20261119-061545"
+}
