@@ -18,6 +18,10 @@ class CollectionController extends Controller
             return $redirect;
         }
 
+        if ($redirect = CatalogPaginationSeo::redirectLegacySortParam($request)) {
+            return $redirect;
+        }
+
         abort_unless($collection->isPublic(), 404);
 
         return view('shop.collections.show', $pages->data($request, $collection));

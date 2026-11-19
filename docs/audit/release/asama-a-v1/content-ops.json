@@ -1,0 +1,185 @@
+{
+  "package": "asama-a-v1",
+  "prepared_at": "2026-11-19",
+  "mode": "field_level_href_rewrite_only",
+  "note": "Toplu DB kopyası yok. Yalnız listedeki id+slug kayıtlarında, yalnız content/description alanlarında exact href rewrite/unwrap.",
+  "ops": [
+    {
+      "table": "blog_posts",
+      "id": 40,
+      "slug": "kosar-vantilator-modelleri-rehberi",
+      "field": "content",
+      "source_url": "/blog/kosar-vantilator-modelleri-rehberi",
+      "replacements": [
+        { "from": "/blog/sanayi-vantilator-marka-karsilastirma", "to": "/blog/sanayi-tipi-vantilator-secimi-rehberi", "covers_finding": 6 },
+        { "from": "/blog/vantilator-is-guvenligi-kurulum", "to": null, "covers_finding": 8 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 96,
+      "slug": "salyangoz-pompa-rehberi",
+      "field": "content",
+      "source_url": "/blog/salyangoz-pompa-rehberi",
+      "replacements": [
+        { "from": "/blog/tarimsal-sulama-pompasi-secimi", "to": "/blog/tarimsal-sulama-pompasi-secimi-rehberi", "covers_finding": 7 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 139,
+      "slug": "sirkulasyon-sistemi-tasarimi-pompa-egrisi-dengeleme",
+      "field": "content",
+      "source_url": "/blog/sirkulasyon-sistemi-tasarimi-pompa-egrisi-dengeleme",
+      "replacements": [
+        { "from": "/blog/pompa-debi-ve-basma-yuksekligi-hesabi", "to": "/blog/pompa-debi-basma-yuksekligi-hesabi", "covers_finding": 4 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 141,
+      "slug": "sirkulasyon-pompa-egrisi-nasil-okunur",
+      "field": "content",
+      "source_url": "/blog/sirkulasyon-pompa-egrisi-nasil-okunur",
+      "replacements": [
+        { "from": "/blog/pompa-debi-ve-basma-yuksekligi-hesabi", "to": "/blog/pompa-debi-basma-yuksekligi-hesabi", "covers_finding": 4 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 207,
+      "slug": "santrifuj-pompa-kavitasyon-belirtileri-onleme",
+      "field": "content",
+      "source_url": "/blog/santrifuj-pompa-kavitasyon-belirtileri-onleme",
+      "replacements": [
+        { "from": "/blog/pompa-debi-ve-basma-yuksekligi-hesabi", "to": "/blog/pompa-debi-basma-yuksekligi-hesabi", "covers_finding": 4 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 208,
+      "slug": "santrifuj-pompa-kisa-cevrim-start-stop",
+      "field": "content",
+      "source_url": "/blog/santrifuj-pompa-kisa-cevrim-start-stop",
+      "replacements": [
+        { "from": "/blog/hidrofor-start-stop-salinimi-tank-presostat", "to": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim", "covers_finding": 2 },
+        { "from": "/blog/hidrofor-tank-presostat-isletme-sistemi", "to": "/blog/hidrofor-tank-presostat-sistem-tasarimi", "covers_finding": 3 },
+        { "from": "/blog/presostat-histerezis-ayari-start-stop", "to": "/blog/hidrofor-presostat-histerezis-set-noktalari", "covers_finding": 5 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 209,
+      "slug": "santrifuj-pompa-debi-dususu-teshis",
+      "field": "content",
+      "source_url": "/blog/santrifuj-pompa-debi-dususu-teshis",
+      "replacements": [
+        { "from": "/blog/hidrofor-tank-presostat-isletme-sistemi", "to": "/blog/hidrofor-tank-presostat-sistem-tasarimi", "covers_finding": 3 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 211,
+      "slug": "santrifuj-pompa-basinc-dususu-calism-noktasi",
+      "field": "content",
+      "source_url": "/blog/santrifuj-pompa-basinc-dususu-calism-noktasi",
+      "replacements": [
+        { "from": "/blog/hidrofor-tank-presostat-isletme-sistemi", "to": "/blog/hidrofor-tank-presostat-sistem-tasarimi", "covers_finding": 3 },
+        { "from": "/blog/pompa-debi-ve-basma-yuksekligi-hesabi", "to": "/blog/pompa-debi-basma-yuksekligi-hesabi", "covers_finding": 4 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 214,
+      "slug": "santrifuj-pompa-bakim-disiplini-periyodik-kontrol",
+      "field": "content",
+      "source_url": "/blog/santrifuj-pompa-bakim-disiplini-periyodik-kontrol",
+      "replacements": [
+        { "from": "/blog/hidrofor-tank-presostat-isletme-sistemi", "to": "/blog/hidrofor-tank-presostat-sistem-tasarimi", "covers_finding": 3 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 215,
+      "slug": "kademeli-pompa-isletme-sistemi",
+      "field": "content",
+      "source_url": "/blog/kademeli-pompa-isletme-sistemi",
+      "replacements": [
+        { "from": "/blog/yangin-pompa-sistemi-tasarimi", "to": "/blog/yangin-pompasi-nedir-nasil-secilir", "covers_finding": 11 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 218,
+      "slug": "kademeli-pompa-debi-dususu-teshis",
+      "field": "content",
+      "source_url": "/blog/kademeli-pompa-debi-dususu-teshis",
+      "replacements": [
+        { "from": "/kategoriler/su-pompalari/kademeli-pompalar/monoblok-yatay-kademeli-pompalar", "to": "/kategoriler/su-pompalari/kademeli-pompalar/monoblok-yatay-kademeli", "covers_finding": 12 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 220,
+      "slug": "kademeli-pompa-kisa-cevrim-start-stop",
+      "field": "content",
+      "source_url": "/blog/kademeli-pompa-kisa-cevrim-start-stop",
+      "replacements": [
+        { "from": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim-teshis", "to": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim", "covers_finding": 1 },
+        { "from": "/blog/yangin-pompa-sistemi-tasarimi", "to": "/blog/yangin-pompasi-nedir-nasil-secilir", "covers_finding": 11 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 221,
+      "slug": "kademeli-pompa-yuksek-basinc-hat-isletme",
+      "field": "content",
+      "source_url": "/blog/kademeli-pompa-yuksek-basinc-hat-isletme",
+      "replacements": [
+        { "from": "/blog/yangin-pompa-by-pass-hatti-isletme", "to": null, "covers_finding": 10 },
+        { "from": "/blog/yangin-pompa-sistemi-tasarimi", "to": "/blog/yangin-pompasi-nedir-nasil-secilir", "covers_finding": 11 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 224,
+      "slug": "kademeli-pompa-bakim-disiplini-periyodik-kontrol",
+      "field": "content",
+      "source_url": "/blog/kademeli-pompa-bakim-disiplini-periyodik-kontrol",
+      "replacements": [
+        { "from": "/blog/yangin-pompa-bakim-test-periyodu", "to": null, "covers_finding": 9 }
+      ]
+    },
+    {
+      "table": "blog_posts",
+      "id": 230,
+      "slug": "jet-pompa-kisa-cevrim-start-stop",
+      "field": "content",
+      "source_url": "/blog/jet-pompa-kisa-cevrim-start-stop",
+      "replacements": [
+        { "from": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim-teshis", "to": "/blog/hidrofor-start-stop-salinimi-kisa-cevrim", "covers_finding": 1 }
+      ]
+    },
+    {
+      "table": "products",
+      "id": 2750,
+      "slug": "troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+      "field": "description",
+      "source_url": "/urun/troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli",
+      "replacements": [
+        { "from": "/marka/Sumak", "to": "/marka/sumak", "covers_finding": 14 }
+      ]
+    },
+    {
+      "table": "products",
+      "id": 2751,
+      "slug": "troy-hmj-15-dokum-govdeli-jet-pompa-1-hp-49-mss-4-m3-h",
+      "field": "description",
+      "source_url": "/urun/troy-hmj-15-dokum-govdeli-jet-pompa-1-hp-49-mss-4-m3-h",
+      "replacements": [
+        { "from": "/marka/Sumak", "to": "/marka/sumak", "covers_finding": 14 },
+        { "from": "/urun/Sumak-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli", "to": "/urun/troy-hmj-h-15-hidrofor-4-kat-4-daire-24-litre-kure-tankli", "covers_finding": 15 }
+      ]
+    }
+  ]
+}

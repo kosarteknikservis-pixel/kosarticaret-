@@ -28,6 +28,10 @@ class ProductController extends Controller
             return $redirect;
         }
 
+        if ($redirect = CatalogPaginationSeo::redirectLegacySortParam($request)) {
+            return $redirect;
+        }
+
         $query = CatalogQuery::products()->with('brand', 'categories');
         CatalogQuery::apply($request, $query);
 

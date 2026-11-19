@@ -6,6 +6,8 @@
  *
  * Not: /kategori/* ve /urun-kategori/* önce LegacyRedirectResolver tarafından çözülür;
  * buradaki kayıtlar yalnızca resolver null döndüğünde devreye girer (yedek / tutarlılık).
+ *
+ * yedek-parca / genlesme-tanklari / Alarko WSD → legacy_redirects.not_found (404).
  */
 return [
     '/blog/en-iyi-hidrofor-markalari-2024' => '/blog/en-iyi-hidrofor-markalari-2026',
@@ -16,20 +18,14 @@ return [
     '/en-uygun-hidroforu-nasil-secersiniz/' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
 
     // Eski WooCommerce kategori URL'leri (www subdomain + trailing slash)
-    '/urun-kategori/yedek-parca' => '/urunler',
-    '/urun-kategori/yedek-parca/' => '/urunler',
     '/urun-kategori/bahce-yapi-market/dalgic-pompa/drenaj-dalgic-pompalari' => '/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
     '/urun-kategori/bahce-yapi-market/dalgic-pompa/drenaj-dalgic-pompalari/' => '/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
-    '/urun-kategori/bahce-yapi-market/genlesme-tanklari' => '/kategoriler/hidrofor-sistemleri',
-    '/urun-kategori/bahce-yapi-market/genlesme-tanklari/' => '/kategoriler/hidrofor-sistemleri',
 
     // kosar.net.tr'den gelen /kategori/ URL'leri (kanonik tam yol — zincir yok)
     '/kategori/hidroforlar' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
-    '/kategori/genlesme-tanklari' => '/kategoriler/hidrofor-sistemleri',
     '/kategori/yangin-hidroforlari' => '/kategoriler/su-pompalari/ozel-amacli-pompalar/yangin-pompalari',
     '/kategori/dalgic-pompalar' => '/kategoriler/su-pompalari/dalgic-pompalar',
     '/kategori/sirkulasyon-pompalari' => '/kategoriler/su-pompalari/sirkulasyon-pompalari',
-    '/kategori/yedek-parca' => '/urunler',
 
     // Eski WooCommerce mağaza kökleri (404 → 301; alt yollar resolver'da)
     '/magaza' => '/kategoriler',

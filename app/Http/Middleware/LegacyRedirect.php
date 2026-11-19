@@ -20,6 +20,16 @@ class LegacyRedirect
             $path = rtrim($path, '/');
         }
 
+        $gone = config('legacy_redirects.gone', []);
+        if (is_array($gone) && in_array($path, $gone, true)) {
+            abort(410);
+        }
+
+        $notFound = config('legacy_redirects.not_found', []);
+        if (is_array($notFound) && in_array($path, $notFound, true)) {
+            abort(404);
+        }
+
         $target = LegacyRedirectResolver::resolve($request);
 
         if ($target === null) {

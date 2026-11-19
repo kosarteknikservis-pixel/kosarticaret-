@@ -98,11 +98,34 @@ return [
         '/blog/jet-pompa-mi-dalgic-pompa-mi' => '/blog/jet-pompa-mi-dalgic-pompa-mi-farki',
     ],
 
+    /**
+     * Doğrulanmış kalıcı kaldırma → 410. Şu an boş: yedek/genleşme/Alarko için
+     * products/categories/slug_redirects kayıtlarında soft-delete veya inactive kanıt yok.
+     *
+     * @var list<string>
+     */
+    'gone' => [
+    ],
+
+    /**
+     * Yanlış 301 zincirini kes: eşdeğer sayfa yok ve kalıcı kaldırma kanıtı yok → düz 404.
+     * Middleware resolve'dan önce abort(404). Yalnız listedeki tam path'ler.
+     *
+     * @var list<string>
+     */
+    'not_found' => [
+        '/kategori/yedek-parca',
+        '/urun-kategori/yedek-parca',
+        '/kategoriler/yedek-parca-ve-aksesuarlar',
+        '/kategori/genlesme-tanklari',
+        '/urun-kategori/bahce-yapi-market/genlesme-tanklari',
+        '/urun/alarko-wsd25-17-kirli-ve-atik-su-dalgic-1-5-hp',
+    ],
+
     'category_aliases' => [
         'dalgic-pompalar' => 'su-pompalari/dalgic-pompalar',
-        'yedek-parca' => 'yedek-parca-ve-aksesuarlar',
+        // yedek-parca / genlesme-tanklari: not_found (yanlış hub/ölü path 301 yok)
         'hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
-        'genlesme-tanklari' => 'hidrofor-sistemleri',
         'yangin-hidroforlari' => 'su-pompalari/ozel-amacli-pompalar/yangin-pompalari',
         'sirkulasyon-pompalari' => 'su-pompalari/sirkulasyon-pompalari',
     ],
@@ -166,6 +189,7 @@ return [
         'bahce-yapi-market/dalgic-pompa/temiz-su-dalgic-pompalari' => 'su-pompalari/dalgic-pompalar/temiz-su-dalgic-pompasi',
         'bahce-yapi-market/hidroforlar' => 'hidrofor-sistemleri/hidroforlar',
         'bahce-yapi-market/hidroforlar/frekans-kontrollu-hidrofor' => 'hidrofor-sistemleri/hidroforlar',
+        // bahce-yapi-market/genlesme-tanklari → not_found (hub 301 yok)
         'bahce-yapi-market/su-pompasi/havuz-pompasi' => 'su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi',
         'bahce-yapi-market/su-pompalari/havuz-pompasi' => 'su-pompalari/ozel-amacli-pompalar/on-filtreli-havuz-pompasi',
         'bahce-yapi-market/su-pompasi/paslanmaz-govdeli-su-pompalari' => 'su-pompalari/santrifuj-pompalar/paslanmaz-pompalar-kimyasal',
@@ -174,7 +198,6 @@ return [
         'dalgic-pompa/drenaj-dalgic-pompasi' => 'su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',
         'su-pompasi/yatay-kademeli-pompalar' => 'su-pompalari/kademeli-pompalar/yatay-kademeli-pompalar',
         'genel' => '/urunler',
-        'hidrofor-aksesuarlari/genlesme-tanki' => 'hidrofor-sistemleri',
         'hidroforlar/ev-tipi-hidrofor' => 'hidrofor-sistemleri/ev-tipi-hidroforlar',
         'sirkulasyon-pompasi' => 'su-pompalari/sirkulasyon-pompalari',
         'su-pompalari/santrifuj-pompalar' => 'su-pompalari/santrifuj-pompalar',

@@ -227,4 +227,29 @@ class LegacyRedirectTest extends TestCase
         $this->get('/kategoriler/su-pompalari/dalgic-pompalar/solar-dc-dalgic-pompalar')
             ->assertRedirect('/kategoriler/su-pompalari/dalgic-pompalar');
     }
+
+    public function test_unverified_legacy_paths_return_not_found_not_wrong_redirect(): void
+    {
+        foreach ([
+            '/kategori/yedek-parca',
+            '/urun-kategori/yedek-parca',
+            '/kategoriler/yedek-parca-ve-aksesuarlar',
+            '/kategori/genlesme-tanklari',
+            '/urun-kategori/bahce-yapi-market/genlesme-tanklari',
+            '/urun/alarko-wsd25-17-kirli-ve-atik-su-dalgic-1-5-hp',
+        ] as $path) {
+            try {
+                $this->withoutExceptionHandling()->get($path);
+                $this->fail('Expected 404 HttpException for '.$path);
+            } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+                $this->assertSame(404, $e->getStatusCode(), $path);
+            }
+        }
+    }
+
+    public function test_unrelated_legacy_category_alias_still_redirects(): void
+    {
+        $this->get('/kategori/dalgic-pompalar')
+            ->assertRedirect('/kategoriler/su-pompalari/dalgic-pompalar');
+    }
 }

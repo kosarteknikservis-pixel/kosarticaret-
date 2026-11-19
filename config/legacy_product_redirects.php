@@ -8,7 +8,7 @@
 return [
   '/urun/10-mm-soketli-sinyal-lmb-yesil-sari-kirmizi' => '/urunler',
   '/urun/42-tv-aski-aparati' => '/urunler',
-  '/urun/alarko-wsd25-17-kirli-ve-atik-su-dalgic-1-5-hp' => '/urunler',
+  // Alarko WSD25: eşdeğer ürün yok; kalıcı kaldırma kanıtı yok → legacy_redirects.not_found (404)
   '/urun/anten-fisi-disi' => '/urunler',
   '/urun/bakalit-komutator' => '/urunler',
   '/urun/camasir-makinasi-rezistansi-220v-8-5o-1950-w-19-5-cm' => '/urunler',

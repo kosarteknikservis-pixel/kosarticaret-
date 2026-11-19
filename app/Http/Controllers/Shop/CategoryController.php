@@ -58,6 +58,10 @@ class CategoryController extends Controller
             return $redirect;
         }
 
+        if ($redirect = CatalogPaginationSeo::redirectLegacySortParam($request)) {
+            return $redirect;
+        }
+
         $query = CatalogQuery::products()
             ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
             ->with('brand');
