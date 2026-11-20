@@ -14767,6 +14767,9 @@ input:focus-visible,
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
 }
+.shop-need-strip__list > li {
+    flex: 0 0 auto;
+}
 .shop-need-strip__link {
     display: inline-flex;
     align-items: center;
@@ -14781,6 +14784,7 @@ input:focus-visible,
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
+    flex-shrink: 0;
     transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 .shop-need-strip__link:hover {
