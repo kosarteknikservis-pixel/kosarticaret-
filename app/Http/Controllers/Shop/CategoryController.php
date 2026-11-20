@@ -65,7 +65,8 @@ class CategoryController extends Controller
         $query = CatalogQuery::products()
             ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
             ->with('brand');
-        CatalogQuery::apply($request, $query);
+        // Kategori pin’leri yalnız bu show + varsayılan sıralamada; global featured değişmez.
+        CatalogQuery::apply($request, $query, $category);
 
         $breadcrumbs = CategoryBreadcrumbs::for($category);
 

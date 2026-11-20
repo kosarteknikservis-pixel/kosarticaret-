@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CatalogPaginationSeo
 {
     /** @var list<string> */
-    public const FILTER_QUERY_KEYS = ['q', 'marka', 'min', 'max', 'siralama'];
+    public const FILTER_QUERY_KEYS = ['q', 'marka', 'min', 'max', 'siralama', 'voltaj'];
 
     /** @var list<string> */
     public const SORT_VALUES = ['fiyat-artan', 'fiyat-azalan', 'isim'];
