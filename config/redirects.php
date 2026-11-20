@@ -16,11 +16,6 @@ return [
     '/hidrofor-pompasi' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
     '/en-uygun-hidroforu-nasil-secersiniz' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
     '/en-uygun-hidroforu-nasil-secersiniz/' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
-    // Eşdeğer 200 hedefler (2026-11-20 hidrofor paket) — homepage yok.
-    '/marka/Sumak' => '/marka/sumak',
-    '/kategoriler/su-pompalari/jet-pompalar' => '/kategoriler/su-pompalari/jet-pompalar-derinden-emisli',
-    '/blog/presostat-histerezis-ayari-start-stop' => '/blog/hidrofor-presostat-histerezis-set-noktalari',
-    '/blog/hidrofor-start-stop-salinimi-tank-presostat' => '/blog/hidrofor-start-stop-salinimi-kisa-cevrim',
 
     // Eski WooCommerce kategori URL'leri (www subdomain + trailing slash)
     '/urun-kategori/bahce-yapi-market/dalgic-pompa/drenaj-dalgic-pompalari' => '/kategoriler/su-pompalari/dalgic-pompalar/drenaj-dalgic-pompa',

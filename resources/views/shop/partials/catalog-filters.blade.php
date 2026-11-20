@@ -3,12 +3,11 @@
         || request()->filled('min')
         || request()->filled('max')
         || request()->boolean('stokta')
-        || request()->filled('siralama')
-        || request()->filled('voltaj');
+        || request()->filled('siralama');
 @endphp
 
 <form method="get" action="{{ request()->url() }}" class="shop-filter-panel" data-clean-get>
-    @foreach(request()->except(['marka', 'min', 'max', 'stokta', 'siralama', 'voltaj', 'page']) as $key => $value)
+    @foreach(request()->except(['marka', 'min', 'max', 'stokta', 'siralama', 'page']) as $key => $value)
         @if(is_array($value))
             @foreach($value as $v)
                 <input type="hidden" name="{{ $key }}[]" value="{{ $v }}">
@@ -47,17 +46,6 @@
         <input type="checkbox" name="stokta" value="1" @checked(request()->boolean('stokta')) class="rounded border-slate-300 text-brand-700 focus:ring-brand-500/30">
         <span class="font-medium text-slate-700">{{ __('shop.filter_in_stock') }}</span>
     </label>
-
-    {{-- Voltaj: yalnız specs.Voltaj dolu net 220/380; ?voltaj= noindex. 230/400 birleştirilmez. --}}
-    <div class="shop-filter-field">
-        <label for="catalog-filter-voltaj">{{ __('shop.filter_voltage') }}</label>
-        <select id="catalog-filter-voltaj" name="voltaj" class="shop-filter-control">
-            <option value="">{{ __('shop.filter_voltage_all') }}</option>
-            <option value="220" @selected(request('voltaj') === '220')>220 V</option>
-            <option value="380" @selected(request('voltaj') === '380')>380 V</option>
-        </select>
-        <p class="shop-filter-hint text-xs text-slate-500 mt-1.5 leading-snug">{{ __('shop.filter_voltage_hint') }}</p>
-    </div>
 
     <div class="shop-filter-field">
         <label>{{ __('shop.sort') }}</label>

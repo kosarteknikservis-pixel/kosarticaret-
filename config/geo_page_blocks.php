@@ -9,8 +9,10 @@ return [
         'hidrofor-sistemleri' => [
             'short_answer' => 'Hidrofor sistemi, şebeke basıncının yetersiz kaldığı ev, apartman ve işletmelerde pompa + basınç tankı + otomatik kontrol ile sabit su basıncı sağlayan paket çözümdür. Doğru seçim kat sayısı, eşzamanlı musluk sayısı ve su kaynağına göre yapılır.',
             'price_band' => [
+                'from' => 2500,
+                'to' => 120000,
                 'currency' => 'TRY',
-                'note' => 'Güncel hidrofor fiyatlarını ürünler üzerinden inceleyebilirsiniz. Motor gücü, tank hacmi ve markaya göre değişir.',
+                'note' => 'Ev tipi paketlerden çok pompalı apartman gruplarına kadar; motor gücü, tank hacmi ve markaya göre değişir.',
             ],
             'guide_cta' => [
                 'label' => 'Detaylı hidrofor fiyat rehberi (2026)',
@@ -93,19 +95,25 @@ return [
         ],
 
         'hidrofor-sistemleri/hidroforlar' => [
-            'short_answer' => 'Hidrofor, pompa + basınç tankı + otomatik kontrolden oluşan hazır sistemdir; şebeke veya depo basıncı yetmediğinde musluklarda sabit basınç sağlar. Seçim kullanım yoğunluğu, debi, basma ve kurulum koşullarına göredir; güncel fiyat ürün kartındadır.',
+            'short_answer' => 'Hidrofor, pompa + basınç tankı + otomatik kontrolden oluşan hazır sistemdir; şebeke veya depo basıncı yetmediğinde musluklarda sabit basınç sağlar. Ev tipi paketler bu katalogda yaklaşık 6.500 TL bandından başlar; orta boy apartman sistemleri on binlerce TL’ye çıkar. Seçim kat, daire ve debiye göredir.',
             'price_band' => [
+                'from' => 2500,
+                'to' => 90000,
                 'currency' => 'TRY',
-                'note' => 'Güncel hidrofor fiyatlarını ürünler üzerinden inceleyebilirsiniz. Çok pompalı / yedek pompalı ihtiyaç için hidrofor grubu kategorisine bakın.',
+                'note' => 'Ev tipi vitrin modelleri yaklaşık 6.500 TL’den; güçlü paket ve tek pompalı bina sistemleri üst banda. Çok pompalı / yedek pompalı ihtiyaç ayrı kategoride.',
+            ],
+            'guide_cta' => [
+                'label' => 'Çok daire / yedek pompa: hidrofor grubu',
+                'url' => '/kategoriler/hidrofor-sistemleri/hidrofor-grubu',
             ],
             'selection_table' => [
                 'title' => 'Hidrofor tipi hızlı seçim',
-                'headers' => ['İhtiyaç', 'Tip', 'Not'],
+                'headers' => ['İhtiyaç', 'Tip', 'Tipik güç'],
                 'rows' => [
-                    ['Müstakil / düşük yoğunluk', 'Ev tipi paket', 'Hazır pompa + tank paketleri'],
-                    ['Değişken debi / enerji odaklı kontrol', 'Frekans kontrollü sistem', 'Frekans kontrolü ayrı bir özelliktir; yalnızca “güçlü paket” demek değildir'],
-                    ['Depo veya sığ kuyu emişi', 'Jet pompa', 'Jet pompa tek başına komple hidrofor paketi olmayabilir; tank ve otomasyon ayrıca gerekir'],
-                    ['Yoğun eşzamanlı kullanım / yedek pompa', 'Hidrofor grubu', 'Çok pompalı sistemler'],
+                    ['1–2 kat müstakil', 'Ev tipi paket', '0,5–1,1 kW'],
+                    ['3–6 kat apartman', 'Frekans / güçlü paket', '1,5–2,2 kW'],
+                    ['Depo veya sığ kuyu emişi', 'Jet pompalı paket', 'Kendinden emişli'],
+                    ['Yoğun eşzamanlı kullanım', 'Hidrofor grubu', 'Çok pompalı'],
                 ],
             ],
         ],
@@ -113,8 +121,10 @@ return [
         'hidrofor-sistemleri/ev-tipi-hidroforlar' => [
             'short_answer' => 'Ev tipi hidrofor, müstakil ev, villa ve küçük apartmanlarda musluk basıncını yükseltmek için kullanılan kompakt pompa + tank paketidir. Tipik seçim 0,5–1,1 kW motor ve 24–50 L tank ile yapılır; bahçe sulaması eklenecekse debi ihtiyacı ayrıca hesaplanır.',
             'price_band' => [
+                'from' => 2500,
+                'to' => 25000,
                 'currency' => 'TRY',
-                'note' => 'Güncel ev tipi hidrofor fiyatlarını ürünler üzerinden inceleyebilirsiniz. Marka ve tank hacmine göre değişir.',
+                'note' => 'Kompakt paketlerden villa tipi güçlü modellere; marka ve tank hacmine göre değişir.',
             ],
             'guide_cta' => [
                 'label' => 'Ev tipi hidrofor fiyat ve seçim rehberi',
@@ -416,18 +426,20 @@ return [
         ],
 
         'hidrofor-fiyatlari-2026-ev-apartman' => [
-            'short_answer' => 'Hidrofor maliyetini kW, tank hacmi, pompa sayısı, frekans invertörü ve marka belirler. Ev tipi paketler daha düşüktür; apartman ve çok pompalı gruplar üst banda çıkar. Güncel tutar ürün sayfasındadır.',
+            'short_answer' => 'Apartman hidrofor fiyatları 2026’da orta boy paketlerde on binlerce TL’den başlar; çok pompalı gruplarda yüz bin TL bandına çıkabilir. Ev tipi paketler daha düşüktür. Fiyatı kW, tank hacmi, pompa sayısı, frekans invertörü ve marka belirler; güncel tutar ürün sayfasındadır.',
             'price_band' => [
+                'from' => 2500,
+                'to' => 120000,
                 'currency' => 'TRY',
-                'note' => 'Güncel hidrofor fiyatlarını ürünler üzerinden inceleyebilirsiniz. Montaj, elektrik ve boru maliyeti fiyata dahil değildir.',
+                'note' => 'Montaj, elektrik ve boru maliyeti fiyata dahil değildir.',
             ],
             'selection_table' => [
-                'title' => 'Ev ve apartman hidrofor maliyet segmentleri',
-                'headers' => ['Segment', 'Tipik kullanım', 'Maliyet yönü'],
+                'title' => 'Ev ve apartman hidrofor fiyat segmentleri',
+                'headers' => ['Segment', 'Tipik kullanım', 'Fiyat orientasyonu'],
                 'rows' => [
-                    ['Ev tipi paket', '1 daire / müstakil', 'Daha düşük bant'],
-                    ['Apartman paket / frekans', '3–6 kat', 'Orta bant'],
-                    ['Apartman / site grubu', 'Çok daire', 'Üst bant'],
+                    ['Ev tipi paket', '1 daire / müstakil', '2.500–15.000 TL'],
+                    ['Apartman paket / frekans', '3–6 kat', '15.000–45.000 TL'],
+                    ['Apartman / site grubu', 'Çok daire', '25.000–120.000 TL+'],
                 ],
             ],
             'guide_cta' => [
@@ -553,8 +565,10 @@ return [
         'kac-katli-binaya-hangi-hidrofor' => [
             'short_answer' => '3 katlı müstakil ve küçük apartmanlarda ev tipi paket hidrofor (0,5–1,1 kW); 5–6 katta frekans kontrollü veya 1,5–2,2 kW grup; 10 kat ve üzeri site yapılarında çok pompalı hidrofor grubu gerekir. Kesin seçim daire sayısı ve debi hesabı ile yapılır.',
             'price_band' => [
+                'from' => 2500,
+                'to' => 120000,
                 'currency' => 'TRY',
-                'note' => 'Güncel hidrofor fiyatlarını ürünler üzerinden inceleyebilirsiniz. Kat ve daire arttıkça motor gücü, tank ve pompa sayısı artar.',
+                'note' => 'Kat ve daire arttıkça motor gücü, tank ve pompa sayısı artar.',
             ],
             'selection_table' => [
                 'title' => 'Kat sayısına göre hidrofor tipi',
@@ -564,10 +578,6 @@ return [
                     ['3–6 kat', 'Frekans / grup', '1,5–2,2 kW · 50–100 L'],
                     ['7–10+ kat', 'Hidrofor grubu', 'Çok pompalı · 3 kW+'],
                 ],
-            ],
-            'guide_cta' => [
-                'label' => 'Kat ve daireye göre hidrofor modelleri',
-                'url' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
             ],
         ],
 

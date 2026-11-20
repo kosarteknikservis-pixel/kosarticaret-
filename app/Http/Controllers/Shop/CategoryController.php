@@ -65,8 +65,7 @@ class CategoryController extends Controller
         $query = CatalogQuery::products()
             ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
             ->with('brand');
-        // Kategori pin’leri yalnız bu show + varsayılan sıralamada; global featured değişmez.
-        CatalogQuery::apply($request, $query, $category);
+        CatalogQuery::apply($request, $query);
 
         $breadcrumbs = CategoryBreadcrumbs::for($category);
 
@@ -84,17 +83,6 @@ class CategoryController extends Controller
         $hubCategories = InternalLinking::crossSellCategories($category)
             ->reject(fn (Category $related) => $siblingCategories->contains('id', $related->id))
             ->values();
-
-        $needIntents = $landing['need_intents'] ?? null;
-        $excludeSlugs = collect($needIntents['exclude_slugs'] ?? [])->filter()->values();
-        if ($excludeSlugs->isNotEmpty()) {
-            $siblingCategories = $siblingCategories
-                ->reject(fn (Category $related) => $excludeSlugs->contains($related->slug))
-                ->values();
-            $hubCategories = $hubCategories
-                ->reject(fn (Category $related) => $excludeSlugs->contains($related->slug))
-                ->values();
-        }
 
         $products = $query->paginate(12)->withQueryString();
         if ($products->currentPage() > 1 && $products->isEmpty() && $products->total() > 0) {
@@ -119,7 +107,6 @@ class CategoryController extends Controller
             'subcategories' => $category->activeChildren,
             'siblingCategories' => $siblingCategories,
             'hubCategories' => $hubCategories,
-            'needIntents' => $needIntents,
             'relatedGuides' => InternalLinking::blogGuidesForCategory($category),
             'geo' => $landing['geo'],
             'metaTitle' => ($category->meta_title ?: $category->name).($products->currentPage() > 1 ? ' – Sayfa '.$products->currentPage() : ''),

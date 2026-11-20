@@ -16,9 +16,6 @@
     if (request()->boolean('stokta')) {
         $chips[] = ['label' => __('shop.filter_in_stock'), 'remove' => request()->except('stokta', 'page')];
     }
-    if (request()->filled('voltaj') && in_array(request('voltaj'), ['220', '380'], true)) {
-        $chips[] = ['label' => request('voltaj').' V', 'remove' => request()->except('voltaj', 'page')];
-    }
     if (request()->filled('siralama')) {
         $sortLabels = [
             'fiyat-artan' => __('shop.sort_price_asc'),
