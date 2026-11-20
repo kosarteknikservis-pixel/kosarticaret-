@@ -20,41 +20,48 @@
     'needIntents' => null,
 ])
 
+@php
+    $hasNeedIntents = ! empty($needIntents['items']);
+    $heroSubtitle = filled($subtitle) ? $subtitle : null;
+    $geoShortUsedAbove = false;
+    if ($heroSubtitle === null && ! empty($geo['short_answer'])) {
+        $heroSubtitle = $geo['short_answer'];
+        $geoShortUsedAbove = true;
+    }
+@endphp
+
 <div class="shop-page shop-page--catalog">
 @if($breadcrumbs)
     @include('shop.partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 @endif
 
-<x-shop.page-hero :title="$title" :subtitle="$subtitle" />
+<x-shop.page-hero :title="$title" :subtitle="$heroSubtitle" />
 
-@if(!empty($geo))
-    <x-shop.geo-block :geo="$geo" />
-@endif
+<div class="shop-catalog-nav">
+    @if($hasNeedIntents)
+        <x-shop.category-need-strip
+            :items="$needIntents['items']"
+            :label="$needIntents['label'] ?? null"
+        />
+    @endif
 
-@if(!empty($needIntents['items']))
-    <x-shop.category-need-strip
-        :items="$needIntents['items']"
-        :label="$needIntents['label'] ?? null"
-    />
-@endif
-
-<x-shop.category-trust-strip :items="$trustPoints" />
-
-<x-shop.category-subnav :categories="$subcategories" :label="$subnavLabel" />
-@if(!empty($needIntents['items']))
-    {{-- İhtiyaç şeridi varken kardeş + hub tek satırda; tekrarlayan slug’lar controller’da elendi --}}
-    <x-shop.category-subnav
-        :categories="($relatedCategories ?? collect())->concat($hubCategories ?? collect())->unique('id')->values()"
-        :label="$relatedCategoriesLabel ?: __('shop.related_brands_helpers')"
-        heading
-    />
-@else
-    <x-shop.category-subnav :categories="$relatedCategories" :label="$relatedCategoriesLabel" heading />
-    <x-shop.category-subnav :categories="$hubCategories" :label="$hubCategoriesLabel" heading />
-@endif
+    <x-shop.category-subnav :categories="$subcategories" :label="$subnavLabel" />
+    @if($hasNeedIntents)
+        {{-- İhtiyaç şeridi varken kardeş + hub tek satırda; tekrarlayan slug’lar controller’da elendi --}}
+        <x-shop.category-subnav
+            :categories="($relatedCategories ?? collect())->concat($hubCategories ?? collect())->unique('id')->values()"
+            :label="$relatedCategoriesLabel ?: __('shop.related_brands_helpers')"
+            heading
+        />
+    @else
+        <x-shop.category-subnav :categories="$relatedCategories" :label="$relatedCategoriesLabel" heading />
+        <x-shop.category-subnav :categories="$hubCategories" :label="$hubCategoriesLabel" heading />
+    @endif
+</div>
 
 <div class="shop-catalog-grid">
-    <div id="filter-drawer-overlay" class="fixed inset-0 z-50 hidden lg:hidden bg-slate-900/40 backdrop-blur-sm" aria-hidden="true">
+    {{-- Aqua leftBlock ~1050px’de açılır; 1040 ve altında mobil Filtreleme --}}
+    <div id="filter-drawer-overlay" class="shop-filter-drawer-host fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm" aria-hidden="true">
         <aside id="filter-drawer-panel" class="absolute left-0 top-0 h-full w-[min(100%,20rem)] bg-white shadow-2xl overflow-y-auto p-4 translate-x-[-100%]">
             <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                 <span class="font-bold text-slate-900">{{ __('shop.filters') }}</span>
@@ -66,7 +73,7 @@
         </aside>
     </div>
 
-    <aside class="shop-catalog-sidebar hidden lg:block">
+    <aside class="shop-catalog-sidebar">
         <div class="sticky top-28">
             @include('shop.partials.catalog-filters', ['brands' => $brands])
         </div>
@@ -122,10 +129,15 @@
     </div>
 </div>
 
+<div class="shop-catalog-after">
 @if(filled($intro))
     <section class="shop-catalog-intro shop-reveal" aria-label="{{ __('shop.tab_description') }}">
         <x-shop.rich-content :content="$intro" />
     </section>
+@endif
+
+@if(!empty($geo))
+    <x-shop.geo-block :geo="$geo" :omit-short-answer="$geoShortUsedAbove" />
 @endif
 
 @if(filled($buyingGuide))
@@ -151,4 +163,7 @@
 @if(!empty($faq))
     <x-shop.faq :items="$faq" />
 @endif
+
+<x-shop.category-trust-strip :items="$trustPoints" />
+</div>
 </div>

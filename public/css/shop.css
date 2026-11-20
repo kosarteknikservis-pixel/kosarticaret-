@@ -1220,10 +1220,22 @@ body.theme-motion-reduced *::after {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+/* Masaüstü kenar sekmeleri (WA/Ara 46px) H1, link ve kartları örtmesin */
+@media (min-width: 1024px) {
+    :root {
+        --shop-contact-sticky-w: 46px;
+        --shop-edge-tab-gap: 12px;
+        --shop-edge-safe: calc(var(--shop-contact-sticky-w) + var(--shop-edge-tab-gap));
+    }
+    .shop-container {
+        padding-left: max(1rem, var(--shop-edge-safe));
+        padding-right: max(1rem, var(--shop-edge-safe));
+    }
+}
 @media (min-width: 1042px) {
     .shop-container {
-        padding-left: 2rem;
-        padding-right: 2rem;
+        padding-left: max(2rem, var(--shop-edge-safe));
+        padding-right: max(2rem, var(--shop-edge-safe));
     }
 }
 
@@ -12742,6 +12754,7 @@ input:focus-visible,
 :root {
     --shop-contact-sticky-h: 46px;
     --shop-contact-sticky-gap: 10px;
+    --shop-contact-sticky-w: 46px;
 }
 .shop-contact-sticky {
     position: fixed;
@@ -12755,6 +12768,8 @@ input:focus-visible,
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     box-sizing: border-box;
+    /* İçerik tıklanabilir kalsın; sekme yalnızca kendi kutusunda */
+    pointer-events: auto;
 }
 .shop-contact-sticky__icon {
     display: grid;
@@ -14432,6 +14447,32 @@ input:focus-visible,
     to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Catalog: üst navigasyon (ihtiyac / alt kategori) kompakt ── */
+.shop-catalog-nav {
+    margin: 0.35rem 0 0.85rem;
+}
+.shop-catalog-nav .shop-need-strip,
+.shop-catalog-nav .shop-category-subnav {
+    margin-top: 0.35rem;
+    margin-bottom: 0.5rem;
+}
+.shop-catalog-nav .shop-category-subnav + .shop-category-subnav {
+    margin-top: 0.15rem;
+}
+.shop-catalog-after {
+    margin-top: 0.5rem;
+}
+.shop-catalog-after .shop-geo-block {
+    margin-top: 2rem;
+}
+.shop-catalog-after .shop-category-trust {
+    margin-top: 2rem;
+    margin-bottom: 0.25rem;
+}
+.shop-catalog-after .shop-catalog-intro {
+    margin-top: 2.5rem;
+}
+
 /* ── GEO block (kısa cevap + fiyat bandı + seçim tablosu) ── */
 .shop-geo-block {
     margin-top: 1.25rem;
@@ -14440,6 +14481,27 @@ input:focus-visible,
     border-radius: var(--kosar-radius-lg);
     border: 1px solid rgb(191 219 254 / 0.9);
     background: linear-gradient(180deg, rgb(239 246 255 / 0.95) 0%, #fff 100%);
+}
+.shop-geo-block__price--note-only {
+    padding-top: 0;
+    border-top: none;
+    margin-bottom: 0.75rem;
+}
+.shop-geo-block__answer + .shop-geo-block__price--note-only,
+.shop-geo-block__answer + .shop-geo-block__price {
+    padding-top: 1rem;
+    border-top: 1px solid rgb(226 232 240 / 0.9);
+}
+.shop-geo-block__price + .shop-geo-block__cta,
+.shop-geo-block__price--note-only + .shop-geo-block__cta {
+    margin-top: 0.75rem;
+}
+.shop-geo-block__cta + .shop-geo-block__table-wrap,
+.shop-geo-block__price + .shop-geo-block__table-wrap,
+.shop-geo-block__price--note-only + .shop-geo-block__table-wrap,
+.shop-geo-block__answer + .shop-geo-block__table-wrap {
+    padding-top: 1rem;
+    border-top: 1px solid rgb(226 232 240 / 0.9);
 }
 .shop-geo-block__label {
     font-size: 0.75rem;
@@ -14500,6 +14562,13 @@ input:focus-visible,
 .shop-geo-block__table-wrap {
     padding-top: 1rem;
     border-top: 1px solid rgb(226 232 240 / 0.9);
+}
+.shop-geo-block > .shop-geo-block__table-wrap:first-child,
+.shop-geo-block > .shop-geo-block__cta:first-child,
+.shop-geo-block > .shop-geo-block__price--note-only:first-child {
+    padding-top: 0;
+    border-top: none;
+    margin-top: 0;
 }
 .shop-geo-block__table-title {
     font-size: 1.0625rem;
@@ -14767,9 +14836,6 @@ input:focus-visible,
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
 }
-.shop-need-strip__list > li {
-    flex: 0 0 auto;
-}
 .shop-need-strip__link {
     display: inline-flex;
     align-items: center;
@@ -14784,7 +14850,6 @@ input:focus-visible,
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
-    flex-shrink: 0;
     transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 .shop-need-strip__link:hover {
@@ -15384,11 +15449,20 @@ input:focus-visible,
 /* Alt bar yalnız ≤767 — body boşluğu aynı eşik; 768–1023’te Aqua gibi bar yok */
 @media (max-width: 767px) {
     body.shop-body {
-        /* Alt bar + mobil iletişim şeridi + boşluk — form/sipariş son satırları örtülmesin */
+        /* Alt bar + mobil iletişim şeridi + boşluk — ürün/kart/sayfalama örtülmesin */
         padding-bottom: calc(
             var(--shop-bottom-bar-h, 3.375rem)
             + var(--shop-contact-sticky-h, 46px)
-            + 18px
+            + 24px
+            + env(safe-area-inset-bottom, 0px)
+        );
+    }
+    .shop-page--catalog .shop-pagination,
+    .shop-page--catalog .shop-catalog-after {
+        scroll-margin-bottom: calc(
+            var(--shop-bottom-bar-h, 3.375rem)
+            + var(--shop-contact-sticky-h, 46px)
+            + 28px
             + env(safe-area-inset-bottom, 0px)
         );
     }
@@ -16289,11 +16363,11 @@ a.kfooter__contact:hover .kfooter__contact-icon {
     }
 }
 
-/* Catalog @≥1024: Aqua ticiContainer 1352 — yan padding kalkınca kart ~347 */
+/* Catalog @≥1024: Aqua ticiContainer; kenar sekmeleri için minimum güvenli boşluk */
 @media (min-width: 1024px) {
     .shop-main:has(.shop-catalog-grid) {
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: var(--shop-edge-safe, 3.625rem);
+        padding-right: var(--shop-edge-safe, 3.625rem);
     }
     .shop-catalog-sidebar {
         padding-right: 0;
