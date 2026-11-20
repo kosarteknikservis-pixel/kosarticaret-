@@ -7,7 +7,17 @@ use Illuminate\Support\Str;
 
 final class CategoryLandingPresenter
 {
-    /** @return array{h1: ?string, subtitle: ?string, buying_guide: ?string, faq: list<array{q: string, a: string}>, trust: list<array{icon: string, label: string}>, geo: ?array} */
+    /**
+     * @return array{
+     *   h1: ?string,
+     *   subtitle: ?string,
+     *   buying_guide: ?string,
+     *   faq: list<array{q: string, a: string}>,
+     *   trust: list<array{icon: string, label: string}>,
+     *   geo: ?array,
+     *   need_intents: ?array{label: ?string, items: list<array{label: string, href: string}>, exclude_slugs: list<string>}
+     * }
+     */
     public static function for(Category $category): array
     {
         $path = $category->nestedSlugPath();
@@ -40,6 +50,49 @@ final class CategoryLandingPresenter
             'faq' => $faq,
             'trust' => is_array($trust) ? $trust : [],
             'geo' => GeoPageBlocks::forCategory($path),
+            'need_intents' => self::needIntentsForPath($path),
+        ];
+    }
+
+    /**
+     * @return ?array{label: ?string, items: list<array{label: string, href: string}>, exclude_slugs: list<string>}
+     */
+    private static function needIntentsForPath(string $path): ?array
+    {
+        $config = config("category_need_intents.{$path}");
+        if (! is_array($config) || empty($config['items']) || ! is_array($config['items'])) {
+            return null;
+        }
+
+        $items = [];
+        foreach ($config['items'] as $item) {
+            if (! is_array($item)) {
+                continue;
+            }
+            $label = trim((string) ($item['label'] ?? ''));
+            $href = trim((string) ($item['href'] ?? ''));
+            if ($label === '' || $href === '' || ! str_starts_with($href, '/')) {
+                continue;
+            }
+            $items[] = ['label' => $label, 'href' => $href];
+        }
+
+        if ($items === []) {
+            return null;
+        }
+
+        $exclude = [];
+        foreach (($config['exclude_slugs'] ?? []) as $slug) {
+            $slug = trim((string) $slug);
+            if ($slug !== '') {
+                $exclude[] = $slug;
+            }
+        }
+
+        return [
+            'label' => filled($config['label'] ?? null) ? trim((string) $config['label']) : null,
+            'items' => $items,
+            'exclude_slugs' => $exclude,
         ];
     }
 

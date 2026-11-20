@@ -13,9 +13,10 @@
         :trust-points="$trustPoints ?? []"
         :subcategories="$subcategories ?? collect()"
         :related-categories="$siblingCategories ?? collect()"
-        :related-categories-label="__('shop.sibling_categories')"
+        :related-categories-label="!empty($needIntents['items'] ?? null) ? __('shop.related_brands_helpers') : __('shop.sibling_categories')"
         :hub-categories="$hubCategories ?? collect()"
         :hub-categories-label="__('shop.cross_sell_categories')"
+        :need-intents="$needIntents ?? null"
         :related-guides="$relatedGuides ?? collect()"
         :geo="$geo ?? null"
     />

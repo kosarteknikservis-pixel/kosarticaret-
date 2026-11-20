@@ -263,6 +263,8 @@ return [
     'related_posts' => 'İlgili yazılar',
     'sibling_categories' => 'Aynı gruptaki kategoriler',
     'cross_sell_categories' => 'Tamamlayıcı ürün grupları',
+    'need_strip_label' => 'İhtiyacınıza göre',
+    'related_brands_helpers' => 'Marka ve yardımcı ürünler',
     'brand_categories' => 'Bu markanın kategorileri',
     'pdp_hub_title' => 'Seçim ve ilgili kategoriler',
     'pdp_hub_guide' => 'Seçim rehberi: :category',

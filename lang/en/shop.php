@@ -263,6 +263,8 @@ return [
     'related_posts' => 'Related articles',
     'sibling_categories' => 'Categories in the same group',
     'cross_sell_categories' => 'Complementary product groups',
+    'need_strip_label' => 'Start by need',
+    'related_brands_helpers' => 'Brands and related products',
     'brand_categories' => 'Categories for this brand',
     'pdp_hub_title' => 'Selection and related categories',
     'pdp_hub_guide' => 'Buying guide: :category',

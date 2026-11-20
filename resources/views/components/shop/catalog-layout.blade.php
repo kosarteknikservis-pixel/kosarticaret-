@@ -17,6 +17,7 @@
     'hubCategoriesLabel' => null,
     'relatedGuides' => collect(),
     'geo' => null,
+    'needIntents' => null,
 ])
 
 <div class="shop-page shop-page--catalog">
@@ -30,11 +31,27 @@
     <x-shop.geo-block :geo="$geo" />
 @endif
 
+@if(!empty($needIntents['items']))
+    <x-shop.category-need-strip
+        :items="$needIntents['items']"
+        :label="$needIntents['label'] ?? null"
+    />
+@endif
+
 <x-shop.category-trust-strip :items="$trustPoints" />
 
 <x-shop.category-subnav :categories="$subcategories" :label="$subnavLabel" />
-<x-shop.category-subnav :categories="$relatedCategories" :label="$relatedCategoriesLabel" heading />
-<x-shop.category-subnav :categories="$hubCategories" :label="$hubCategoriesLabel" heading />
+@if(!empty($needIntents['items']))
+    {{-- İhtiyaç şeridi varken kardeş + hub tek satırda; tekrarlayan slug’lar controller’da elendi --}}
+    <x-shop.category-subnav
+        :categories="($relatedCategories ?? collect())->concat($hubCategories ?? collect())->unique('id')->values()"
+        :label="$relatedCategoriesLabel ?: __('shop.related_brands_helpers')"
+        heading
+    />
+@else
+    <x-shop.category-subnav :categories="$relatedCategories" :label="$relatedCategoriesLabel" heading />
+    <x-shop.category-subnav :categories="$hubCategories" :label="$hubCategoriesLabel" heading />
+@endif
 
 <div class="shop-catalog-grid">
     <div id="filter-drawer-overlay" class="fixed inset-0 z-50 hidden lg:hidden bg-slate-900/40 backdrop-blur-sm" aria-hidden="true">

@@ -93,23 +93,19 @@ return [
         ],
 
         'hidrofor-sistemleri/hidroforlar' => [
-            'short_answer' => 'Hidrofor, pompa + basınç tankı + otomatik kontrolden oluşan hazır sistemdir; şebeke veya depo basıncı yetmediğinde musluklarda sabit basınç sağlar. Seçim kat, daire ve debiye göredir; güncel fiyat ürün kartındadır.',
+            'short_answer' => 'Hidrofor, pompa + basınç tankı + otomatik kontrolden oluşan hazır sistemdir; şebeke veya depo basıncı yetmediğinde musluklarda sabit basınç sağlar. Seçim kullanım yoğunluğu, debi, basma ve kurulum koşullarına göredir; güncel fiyat ürün kartındadır.',
             'price_band' => [
                 'currency' => 'TRY',
                 'note' => 'Güncel hidrofor fiyatlarını ürünler üzerinden inceleyebilirsiniz. Çok pompalı / yedek pompalı ihtiyaç için hidrofor grubu kategorisine bakın.',
             ],
-            'guide_cta' => [
-                'label' => 'Çok daire / yedek pompa: hidrofor grubu',
-                'url' => '/kategoriler/hidrofor-sistemleri/hidrofor-grubu',
-            ],
             'selection_table' => [
                 'title' => 'Hidrofor tipi hızlı seçim',
-                'headers' => ['İhtiyaç', 'Tip', 'Tipik güç'],
+                'headers' => ['İhtiyaç', 'Tip', 'Not'],
                 'rows' => [
-                    ['1–2 kat müstakil', 'Ev tipi paket', '0,5–1,1 kW'],
-                    ['3–6 kat apartman', 'Frekans / güçlü paket', '1,5–2,2 kW'],
-                    ['Depo veya sığ kuyu emişi', 'Jet pompalı paket', 'Kendinden emişli'],
-                    ['Yoğun eşzamanlı kullanım', 'Hidrofor grubu', 'Çok pompalı'],
+                    ['Müstakil / düşük yoğunluk', 'Ev tipi paket', 'Hazır pompa + tank paketleri'],
+                    ['Değişken debi / enerji odaklı kontrol', 'Frekans kontrollü sistem', 'Frekans kontrolü ayrı bir özelliktir; yalnızca “güçlü paket” demek değildir'],
+                    ['Depo veya sığ kuyu emişi', 'Jet pompa', 'Jet pompa tek başına komple hidrofor paketi olmayabilir; tank ve otomasyon ayrıca gerekir'],
+                    ['Yoğun eşzamanlı kullanım / yedek pompa', 'Hidrofor grubu', 'Çok pompalı sistemler'],
                 ],
             ],
         ],
