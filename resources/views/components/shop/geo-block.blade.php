@@ -11,9 +11,11 @@
         @php($band = $geo['price_band'])
         <div class="shop-geo-block__price">
             <p class="shop-geo-block__label">{{ __('shop.geo_price_band_label') }}</p>
-            <p class="shop-geo-block__price-value">
-                {{ number_format($band['from'], 0, ',', '.') }}–{{ number_format($band['to'], 0, ',', '.') }} {{ $band['currency'] }}
-            </p>
+            @if(isset($band['from'], $band['to']))
+                <p class="shop-geo-block__price-value">
+                    {{ number_format($band['from'], 0, ',', '.') }}–{{ number_format($band['to'], 0, ',', '.') }} {{ $band['currency'] }}
+                </p>
+            @endif
             @if(filled($band['note'] ?? null))
                 <p class="shop-geo-block__price-note">{{ $band['note'] }}</p>
             @endif

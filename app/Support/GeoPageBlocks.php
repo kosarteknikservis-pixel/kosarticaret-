@@ -36,13 +36,21 @@ final class GeoPageBlocks
         ];
 
         $priceBand = $block['price_band'] ?? null;
-        if (is_array($priceBand) && isset($priceBand['from'], $priceBand['to'])) {
-            $normalized['price_band'] = [
-                'from' => (int) $priceBand['from'],
-                'to' => (int) $priceBand['to'],
-                'currency' => (string) ($priceBand['currency'] ?? 'TRY'),
-                'note' => trim((string) ($priceBand['note'] ?? '')),
-            ];
+        if (is_array($priceBand)) {
+            $note = trim((string) ($priceBand['note'] ?? ''));
+            $hasRange = isset($priceBand['from'], $priceBand['to']);
+            // Sayisal bant yoksa yalniz dogrulanmis not gosterilebilir (yanlis sabit fiyat iddiasi onlenir).
+            if ($hasRange || $note !== '') {
+                $normalizedBand = [
+                    'currency' => (string) ($priceBand['currency'] ?? 'TRY'),
+                    'note' => $note,
+                ];
+                if ($hasRange) {
+                    $normalizedBand['from'] = (int) $priceBand['from'];
+                    $normalizedBand['to'] = (int) $priceBand['to'];
+                }
+                $normalized['price_band'] = $normalizedBand;
+            }
         }
 
         $table = $block['selection_table'] ?? null;

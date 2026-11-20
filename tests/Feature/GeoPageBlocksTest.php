@@ -17,6 +17,18 @@ class GeoPageBlocksTest extends TestCase
         $this->assertSame('Kaç katlı binaya hangi hidrofor tipi?', $geo['selection_table']['title']);
     }
 
+    public function test_hidroforlar_price_band_is_note_only_without_static_range(): void
+    {
+        $geo = GeoPageBlocks::forCategory('hidrofor-sistemleri/hidroforlar');
+
+        $this->assertNotNull($geo);
+        $this->assertArrayHasKey('price_band', $geo);
+        $this->assertArrayNotHasKey('from', $geo['price_band']);
+        $this->assertArrayNotHasKey('to', $geo['price_band']);
+        $this->assertStringContainsString('ürünler üzerinden', $geo['price_band']['note']);
+        $this->assertStringNotContainsString('6.500', $geo['short_answer']);
+    }
+
     public function test_resolves_g1_category_brand_and_blog_blocks(): void
     {
         $this->assertNotNull(GeoPageBlocks::forCategory('hidrofor-sistemleri/hidroforlar'));

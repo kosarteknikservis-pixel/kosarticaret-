@@ -57,7 +57,13 @@
 
         @if(!empty($commercialLink['href']) && !empty($commercialLink['label']))
             <aside class="shop-article-catalog shop-reveal" aria-label="{{ $commercialLink['label'] }}">
-                <a class="shop-article-catalog__link" href="{{ $commercialLink['href'] }}">
+                <a
+                    class="shop-article-catalog__link"
+                    href="{{ $commercialLink['href'] }}"
+                    data-analytics-event="blog_catalog_cta"
+                    data-blog-slug="{{ $post->slug }}"
+                    data-catalog-path="{{ $commercialLink['href'] }}"
+                >
                     <span class="shop-article-catalog__text">
                         <span class="shop-article-catalog__kicker">Modeller ve fiyatlar</span>
                         <span class="shop-article-catalog__label">{{ $commercialLink['label'] }}</span>
@@ -65,6 +71,37 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
                 </a>
             </aside>
+            <script>
+            (() => {
+                const link = document.querySelector('[data-analytics-event="blog_catalog_cta"]');
+                if (!link || link.dataset.analyticsBound === '1') {
+                    return;
+                }
+                link.dataset.analyticsBound = '1';
+                link.addEventListener('click', () => {
+                    const blogSlug = link.getAttribute('data-blog-slug') || '';
+                    const catalogPath = link.getAttribute('data-catalog-path') || '';
+                    // Tek yol: GTM varsa yalnız dataLayer; yoksa doğrudan gtag. İkisi birden yok.
+                    try {
+                        if (window.KosarGtmId || window.KosarGtmLoaded) {
+                            window.dataLayer = window.dataLayer || [];
+                            window.dataLayer.push({
+                                event: 'blog_catalog_cta',
+                                blog_slug: blogSlug,
+                                catalog_path: catalogPath,
+                            });
+                            return;
+                        }
+                        if (typeof window.gtag === 'function') {
+                            window.gtag('event', 'blog_catalog_cta', {
+                                blog_slug: blogSlug,
+                                catalog_path: catalogPath,
+                            });
+                        }
+                    } catch (e) {}
+                }, { once: true, passive: true });
+            })();
+            </script>
         @endif
 
         @if(!empty($geo))

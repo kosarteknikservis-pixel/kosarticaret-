@@ -21,6 +21,31 @@ return [
         'href' => '/kategoriler/hidrofor-sistemleri/hidrofor-grubu',
         'label' => 'Hidrofor grupları',
     ],
+    // Organik oturum top hidrofor blogları — konuyla uyumlu katalog CTA (title/H1 değişmez).
+    'hidrofor-kurulumu-montaj-rehberi' => [
+        'href' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+        'label' => 'Montaja hazır hidrofor modelleri',
+    ],
+    'kuyu-suyu-hidrofor-baglanti-rehberi' => [
+        'href' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+        'label' => 'Kuyu ve depo için hidrofor paketleri',
+    ],
+    'kac-katli-binaya-hangi-hidrofor' => [
+        'href' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+        'label' => 'Kat ve daireye göre hidrofor modelleri',
+    ],
+    'hidrofor-surekli-calisyor-sebepler-cozum' => [
+        'href' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+        'label' => 'Yedek / değişim hidrofor modelleri',
+    ],
+    'hidrofor-tank-membran-omru-ve-ariza-belirtileri' => [
+        'href' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+        'label' => 'Tanklı hidrofor modellerini incele',
+    ],
+    'en-iyi-hidrofor-markalari-2026' => [
+        'href' => '/kategoriler/hidrofor-sistemleri/hidroforlar',
+        'label' => 'Hidrofor marka modelleri ve fiyatlar',
+    ],
     'jet-pompa-fiyatlari-2026-rehberi' => [
         'href' => '/kategoriler/su-pompalari/jet-pompalar-derinden-emisli',
         'label' => 'Jet pompalar',
